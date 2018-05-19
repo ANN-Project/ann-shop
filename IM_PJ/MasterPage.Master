@@ -1,0 +1,189 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="MasterPage.master.cs" Inherits="IM_PJ.MasterPage" %>
+
+<%@ Register Assembly="Telerik.Web.UI" Namespace="Telerik.Web.UI" TagPrefix="telerik" %>
+<!DOCTYPE html>
+<html>
+<head runat="server">
+    <title>ANN - Thời trang giá sỉ</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=yes">
+    <meta name="format-detection" content="telephone=no">
+    <link rel="stylesheet" href="/App_Themes/Ann/css/style.css" media="all">
+    <link rel="stylesheet" href="/App_Themes/Ann/css/style-P.css" media="all">
+    <link href="/App_Themes/NewUI/js/sweet/sweet-alert.css" rel="stylesheet" type="text/css" />
+    <link href="/App_Themes/NewUI/js/select2/select2.css" rel="stylesheet" />
+    <script src="/App_Themes/Ann/js/jquery-1.9.1.min.js"></script>
+
+    <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>
+</head>
+<body class="menuin">
+    <form id="form12" runat="server" enctype="multipart/form-data">
+        <asp:ScriptManager runat="server" ID="scr">
+        </asp:ScriptManager>
+        <div>
+            <header id="header">
+                <a href="javascript:;" class="nav-toggle open">
+                    <img src="/App_Themes/Ann/image/icon-menu.png" alt="">
+                </a>
+                <nav class="" id="main-nav">
+                    <ul class="nav-ul">
+                        <asp:Literal ID="ltrMenu" runat="server"></asp:Literal>
+                    </ul>
+                </nav>
+                <div class="hd-left">
+                    <div class="search-box">
+                        <asp:TextBox runat="server" CssClass="form-control" placeholder="Tìm khách hàng" ID="txtsearchcustomer"></asp:TextBox>
+                    </div>
+                </div>
+                <div class="hd-right">
+                    <div class="user-action">
+                        <asp:Literal ID="ltruserInfor" runat="server"></asp:Literal>
+                    </div>
+                </div>
+            </header>
+            <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+            </asp:ContentPlaceHolder>
+            <footer id="footer">
+            </footer>
+
+            <a href="javascript:;" class="scroll-top-link" id="scroll-top"><i class="fa fa-angle-up"></i></a>
+            <script src="/App_Themes/Ann/js/bootstrap.min.js"></script>
+            <script src="/App_Themes/Ann/js/bootstrap-table/bootstrap-table.js"></script>
+            <script src="/App_Themes/Ann/js/chartjs.min.js"></script>
+            <script src="/App_Themes/NewUI/js/sweet/sweet-alert.js" type="text/javascript"></script>
+            <script src="/App_Themes/NewUI/js/select2/select2.min.js"></script>
+            <script src="/App_Themes/Ann/js/master.js"></script>
+            
+            <script type="text/javascript">
+
+                $('#txtsearchcustomer').keydown(function (event) {
+                    if (event.which === 13) {
+                        var value = $("#txtsearchcustomer").val();
+                        if (!isBlank(value)) {
+                            window.location.assign("/danh-sach-khach-hang?s=" + value + "&id=0&by=0&p=0");
+                        }
+                        event.preventDefault();
+                        return false;
+                    }
+                });
+
+                $(document).ready(function () {
+                    LoadSelect();
+                });
+                function LoadSelect() {
+                    $(".select2").select2({
+                        templateResult: formatState,
+                        templateSelection: formatState
+                    });
+                    function formatState(opt) {
+                        if (!opt.id) {
+                            return opt.text;
+                        }
+                        var optimage = $(opt.element).data('image');
+                        if (!optimage) {
+                            return opt.text;
+                        } else {
+                            var $opt = $(
+                                '<span>' + opt.text + '</span>'
+                            );
+                            return $opt;
+                        }
+                    };
+                }
+
+
+                $('.form-filter input').keyup(function (e) {
+                    var $input = $(this),
+                        inputContent = $input.val().toLowerCase(),
+                        //            inputContent1 = $('.form-filter input').eq(0).val().toLowerCase(),
+                        //            inputContent2 = $('.form-filter input').eq(1).val().toLowerCase(),
+                        //            inputContent3 = $('.form-filter input').eq(2).val().toLowerCase(),
+                        column = $('.form-filter input').index($input),
+                        $table = $('#table-student'),
+                        $rows = $table.find('tbody tr');
+
+                    var $filteredRows = $rows.filter(function () {
+                        var value = $(this).find('td').eq(column).text().toLowerCase();
+                        //            var value1 = $(this).find('td').eq(0).text().toLowerCase();
+                        //            var value2 = $(this).find('td').eq(1).text().toLowerCase();
+                        //            var value3 = $(this).find('td').eq(2).text().toLowerCase();
+
+                        if (value.indexOf(inputContent) > -1) {
+                            $(this).show();
+                        } else {
+                            $(this).hide();
+                        }
+
+
+                    });
+
+
+                    /* Clean no-result if exist */
+                    /* Prepend no-result */
+                    if ($table.find('tbody tr:visible').length === 0) {
+                        $table.find('tbody').prepend($('<tr class="no-result text-center"><td colspan="3">No result found</td></tr>'));
+                    } else {
+                        $table.find('tbody .no-result').remove();
+                    }
+                });
+
+                //    jQuery(document).ready(function(){
+                //        new WOW().init();
+                //    });
+                function OnClientFileSelected(sender, args) {
+                    if ($telerik.isIE) return;
+                    else {
+                        truncateName(args);
+                        //var file = args.get_fileInputField().files.item(args.get_rowIndex());
+                        var file = args.get_fileInputField().files.item(0);
+                        showThumbnail(file, args);
+                    }
+                }
+
+
+                function truncateName(args) {
+                    var $span = $(".ruUploadProgress", args.get_row());
+                    var text = $span.text();
+                    if (text.length > 23) {
+                        var newString = text.substring(0, 23) + '...';
+                        $span.text(newString);
+                    }
+                }
+
+                function showThumbnail(file, args) {
+
+                    var image = document.createElement("img");
+
+                    image.file = file;
+                    image.className = "ab img-responsive";
+
+                    var $row = $(args.get_row());
+                    $row.parent().className = "row ruInputs list-unstyled";
+                    $row.append(image);
+
+
+                    var reader = new FileReader();
+                    reader.onload = (function (aImg) {
+                        return function (e) {
+                            aImg.src = e.target.result;
+                        };
+                    }(image));
+                    var ret = reader.readAsDataURL(file);
+                    var canvas = document.createElement("canvas");
+
+                    ctx = canvas.getContext("2d");
+                    image.onload = function () {
+                        ctx.drawImage(image, 100, 100);
+                    };
+
+                }
+                function isBlank(str) {
+                    return (!str || /^\s*$/.test(str));
+                }
+
+            </script>
+        </div>
+    </form>
+</body>
+</html>

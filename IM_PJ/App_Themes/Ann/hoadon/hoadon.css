@@ -1,0 +1,148 @@
+﻿.hoadon {
+    font-size: 15px;
+    color: black;
+}
+
+.refund {
+    text-align: center;
+    font-size: 40px;
+    padding-bottom: 25px;
+}
+
+    .hoadon .ct {
+        padding-bottom: 10px;
+    }
+
+    .hoadon .ct-title {
+        font-weight: 500;
+        color: black;
+        display: inline-block;
+        vertical-align: top;
+    }
+
+    .hoadon .ct-detail {
+        display: inline-block;
+        vertical-align: top;
+    }
+
+    .hoadon .head {
+        margin-bottom: 20px;
+    }
+
+        .hoadon .head .logo {
+            background-color: #ffffff;
+            text-align: center;
+            margin-top: 5px;
+            margin-bottom: 20px;
+        }
+
+            .hoadon .head .logo .img {
+                padding: 5px;
+            }
+
+    .hoadon .table-1 {
+        margin-bottom: 40px;
+    }
+
+        .hoadon .table-1 table {
+            word-break: break-word;
+            border-collapse: collapse;
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            color: black;
+        }
+
+            .hoadon .table-1 table .col-left {
+                width: 40%;
+            }
+
+            .hoadon .table-1 table th,
+            .hoadon .table-1 table td {
+                padding: 5px 10px;
+                border: 1px solid black;
+            }
+
+                .hoadon .table-1 table th:nth-child(1),
+                .hoadon .table-1 table td:nth-child(1) {
+                    color: black;
+                    font-weight: 600;
+                }
+
+                .hoadon .table-1 table th:nth-child(2),
+                .hoadon .table-1 table td:nth-child(2) {
+                    text-align: left;
+                    font-weight: 400;
+                }
+
+    .hoadon .table-2 {
+        margin-bottom: 40px;
+    }
+
+        .hoadon .table-2 table {
+            border-collapse: collapse;
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            color: black;
+            word-break: break-word;
+        }
+
+            .hoadon .table-2 table col.stt {
+                width: 4%;
+            }
+
+            .hoadon .table-2 table col.sanpham {
+                width: 40%;
+            }
+
+            .hoadon .table-2 table col.soluong {
+                width: 14%;
+            }
+
+            .hoadon .table-2 table col.gia {
+                width: 14%;
+            }
+
+            .hoadon .table-2 table col.tong {
+                width: 20%;
+            }
+            .hoadon .table-2 table col.phi {
+                width: 8%;
+            }
+
+            .hoadon .table-2 table th,
+            .hoadon .table-2 table td {
+                padding: 5px 10px;
+                border: 1px solid black;
+                text-align: left;
+            }
+
+                .hoadon .table-2 table th:nth-child(1),
+                .hoadon .table-2 table td:nth-child(1) {
+                    text-align: center;
+                }
+
+            .hoadon .table-2 table th {
+                background-color: #f8f8f8;
+                font-weight: 600;
+                color: black;
+                text-transform: uppercase;
+                vertical-align: middle;
+            }
+
+            .hoadon .table-2 table td:nth-child(1) {
+                font-weight: 500;
+            }
+
+            .hoadon .table-2 table td[colspan="4"] {
+                text-align: right;
+            }
+
+            .hoadon .table-2 table td[colspan="5"] {
+                text-align: right;
+            }
+
+            .hoadon .table-2 table td.strong {
+                font-weight: 600;
+            }

@@ -1,0 +1,489 @@
+﻿using IM_PJ.Controllers;
+using IM_PJ.Models;
+using MB.Extensions;
+using NHST.Bussiness;
+using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.Drawing.Imaging;
+using System.IO;
+using System.Linq;
+using System.Net;
+using System.Text;
+using System.Text.RegularExpressions;
+using System.Web;
+using System.Web.Script.Serialization;
+using System.Web.Services;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+
+namespace IM_PJ
+{
+    public partial class quan_ly_nhap_kho : System.Web.UI.Page
+    {
+        protected void Page_Load(object sender, EventArgs e)
+        {
+            if (!IsPostBack)
+            {
+                //Session["userLoginSystem"] = "admin";
+                if (Session["userLoginSystem"] != null)
+                {
+                    string username = Session["userLoginSystem"].ToString();
+                    var acc = AccountController.GetByUsername(username);
+                    if (acc != null)
+                    {
+                        //if (acc.RoleID == 0)
+                        //{
+
+                        //}
+                        //else if (acc.RoleID == 1)
+                        //{
+
+                        //}
+                        //else
+                        //{
+                        //    Response.Redirect("/trang-chu");
+                        //}
+                    }
+                }
+                else
+                {
+                    Response.Redirect("/dang-nhap");
+                }
+                LoadData();
+            }
+        }
+        public void LoadData()
+        {
+            var supplier = SupplierController.GetAllWithIsHidden(false);
+            StringBuilder html = new StringBuilder();
+            //html.Append("<select id=\"supplierList\" class=\"select2 form-control\" style=\"width: 20%; float: left; margin-right: 10px\">");
+            html.Append("<select id=\"supplierList\" class=\"form-control\" style=\"width: 20%; float: left; margin-right: 10px\">");
+            html.Append("<option value=\"0\">Tất cả nhà cung cấp</option>");
+            if (supplier.Count > 0)
+            {
+                foreach (var s in supplier)
+                {
+                    html.Append("<option value=\"" + s.ID + "\">" + s.SupplierName + "</option>");
+                }
+            }
+            html.Append("</select>");
+            ltrSupplier.Text = html.ToString();
+        }
+
+        [WebMethod]
+        public static string getProduct(string textsearch, int typeinout)
+        {
+            List<ProductGetOut> ps = new List<ProductGetOut>();
+            string username = HttpContext.Current.Session["userLoginSystem"].ToString();
+            var acc = AccountController.GetByUsername(username);
+            if (acc != null)
+            {
+                int AgentID = Convert.ToInt32(acc.AgentID);
+                if (typeinout == 1)
+                {
+
+                    var products = ProductController.GetByTextSearchIsHidden(textsearch.Trim(), false);
+                    if (products.Count > 0)
+                    {
+                        foreach (var item in products)
+                        {
+                            var productvariable = ProductVariableController.GetProductID(item.ID);
+                            if (productvariable.Count > 0)
+                            {
+                                foreach (var pv in productvariable)
+                                {
+                                    double total = PJUtils.TotalProductQuantityInstock(AgentID, pv.SKU);
+                                    var variables = ProductVariableValueController.GetByProductVariableID(pv.ID);
+                                    if (variables.Count > 0)
+                                    {
+                                        string variablename = "";
+                                        string variablevalue = "";
+                                        string variable = "";
+
+                                        foreach (var v in variables)
+                                        {
+                                            variable += v.VariableName.Trim() + ":" + v.VariableValue.Trim() + "|";
+                                            variablename += v.VariableName.Trim() + "|";
+                                            variablevalue += v.VariableValue.Trim() + "|";
+                                        }
+
+                                        ProductGetOut p = new ProductGetOut();
+                                        p.ID = pv.ID;
+                                        p.ProductName = item.ProductTitle;
+                                        p.ProductVariable = variable;
+                                        p.ProductVariableName = variablename;
+                                        p.ProductVariableValue = variablevalue;
+                                        p.ProductType = 2;
+                                        p.ProductImage = "<img src=\"" + pv.Image + "\" alt=\"\" style=\"width: 150px\" />";
+                                        p.ProductImageOrigin = pv.Image;
+                                        p.SKU = pv.SKU.Trim().ToUpper();
+                                        int supplierID = 0;
+                                        if (pv.SupplierID != null)
+                                            supplierID = pv.SupplierID.ToString().ToInt(0);
+                                        p.SupplierID = supplierID;
+                                        string supplierName = "";
+                                        if (!string.IsNullOrEmpty(pv.SupplierName))
+                                            supplierName = pv.SupplierName;
+                                        p.SupplierName = supplierName;
+                                        p.WarehouseQuantity = string.Format("{0:N0}", total);
+                                        ps.Add(p);
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                string variablename = "";
+                                string variablevalue = "";
+                                string variable = "";
+
+                                ProductGetOut p = new ProductGetOut();
+                                p.ID = item.ID;
+                                p.ProductName = item.ProductTitle;
+                                p.ProductVariable = variable;
+                                p.ProductVariableName = variablename;
+                                p.ProductVariableValue = variablevalue;
+                                p.ProductType = 1;
+                                var img = ProductImageController.GetFirstByProductID(item.ID);
+                                if (img != null)
+                                {
+                                    p.ProductImage = "<img src=\"" + img.ProductImage + "\" alt=\"\" style=\"width: 50px\"  />";
+                                    p.ProductImageOrigin = img.ProductImage;
+                                }
+                                else
+                                {
+                                    p.ProductImage = "";
+                                    p.ProductImageOrigin = "";
+                                }
+                                double total = PJUtils.TotalProductQuantityInstock(AgentID, item.ProductSKU);
+                                p.WarehouseQuantity = string.Format("{0:N0}", total);
+                                p.SKU = item.ProductSKU.Trim().ToUpper();
+                                int supplierID = 0;
+                                if (item.SupplierID != null)
+                                    supplierID = item.SupplierID.ToString().ToInt(0);
+                                p.SupplierID = supplierID;
+                                string supplierName = "";
+                                if (!string.IsNullOrEmpty(item.SupplierName))
+                                    supplierName = item.SupplierName;
+                                p.SupplierName = supplierName;
+                                ps.Add(p);
+                            }
+                        }
+                    }
+                }
+                else
+                {
+
+                    var products = ProductController.GetBySKU(textsearch);
+                    if (products != null)
+                    {
+                        var productvariable = ProductVariableController.GetProductID(products.ID);
+                        if (productvariable.Count > 0)
+                        {
+                            foreach (var pv in productvariable)
+                            {
+                                var variables = ProductVariableValueController.GetByProductVariableID(pv.ID);
+                                if (variables.Count > 0)
+                                {
+                                    string variablename = "";
+                                    string variablevalue = "";
+                                    string variable = "";
+
+                                    foreach (var v in variables)
+                                    {
+                                        variable += v.VariableName.Trim() + ":" + v.VariableValue.Trim() + "|";
+                                        variablename += v.VariableName.Trim() + "|";
+                                        variablevalue += v.VariableValue.Trim() + "|";
+                                    }
+
+                                    ProductGetOut p = new ProductGetOut();
+                                    p.ID = pv.ID;
+                                    p.ProductName = products.ProductTitle;
+                                    p.ProductVariable = variable;
+                                    p.ProductVariableName = variablename;
+                                    p.ProductVariableValue = variablevalue;
+                                    p.ProductType = 2;
+                                    p.ProductImage = "<img src=\"" + pv.Image + "\" alt=\"\" style=\"width: 150px\"  />";
+                                    p.ProductImageOrigin = pv.Image;
+                                    p.SKU = pv.SKU.Trim().ToUpper();
+                                    int supplierID = 0;
+                                    if (pv.SupplierID != null)
+                                        supplierID = pv.SupplierID.ToString().ToInt(0);
+                                    p.SupplierID = supplierID;
+                                    string supplierName = "";
+                                    if (!string.IsNullOrEmpty(pv.SupplierName))
+                                        supplierName = pv.SupplierName;
+                                    p.SupplierName = supplierName;
+                                    double total = PJUtils.TotalProductQuantityInstock(AgentID, pv.SKU);
+                                    p.WarehouseQuantity = string.Format("{0:N0}", total);
+                                    ps.Add(p);
+                                }
+                            }
+                        }
+                        else
+                        {
+                            string variablename = "";
+                            string variablevalue = "";
+                            string variable = "";
+                            ProductGetOut p = new ProductGetOut();
+                            p.ID = products.ID;
+                            p.ProductName = products.ProductTitle;
+                            p.ProductVariable = variable;
+                            p.ProductVariableName = variablename;
+                            p.ProductVariableValue = variablevalue;
+                            p.ProductType = 1;
+                            var img = ProductImageController.GetFirstByProductID(products.ID);
+                            if (img != null)
+                            {
+                                p.ProductImage = "<img src=\"" + img.ProductImage + "\" alt=\"\" style=\"width: 50px\"  />";
+                                p.ProductImageOrigin = img.ProductImage;
+                            }
+                            else
+                            {
+                                p.ProductImage = "";
+                                p.ProductImageOrigin = "";
+                            }
+                            p.SKU = products.ProductSKU.Trim().ToUpper();
+                            int supplierID = 0;
+                            if (products.SupplierID != null)
+                                supplierID = products.SupplierID.ToString().ToInt(0);
+                            p.SupplierID = supplierID;
+                            string supplierName = "";
+                            if (!string.IsNullOrEmpty(products.SupplierName))
+                                supplierName = products.SupplierName;
+                            p.SupplierName = supplierName;
+                            double total = PJUtils.TotalProductQuantityInstock(AgentID, products.ProductSKU);
+                            p.WarehouseQuantity = string.Format("{0:N0}", total);
+                            ps.Add(p);
+                        }
+                    }
+                    else
+                    {
+
+                        var productvariable = ProductVariableController.GetAllBySKU(textsearch);
+
+                        if (productvariable != null)
+                        {
+                            foreach (var value in productvariable)
+                            {
+                                var variables = ProductVariableValueController.GetByProductVariableID(value.ID);
+
+                                if (variables.Count > 0)
+                                {
+                                    string variablename = "";
+                                    string variablevalue = "";
+                                    string variable = "";
+
+                                    foreach (var v in variables)
+                                    {
+                                        variable += v.VariableName + ":" + v.VariableValue + "|";
+                                        variablename += v.VariableName + "|";
+                                        variablevalue += v.VariableValue + "|";
+                                    }
+
+                                    ProductGetOut p = new ProductGetOut();
+                                    p.ID = value.ID;
+                                    var product = ProductController.GetByID(Convert.ToInt32(value.ProductID));
+                                    if (product != null)
+                                        p.ProductName = product.ProductTitle;
+                                    p.ProductVariable = variable;
+                                    p.ProductVariableName = variablename;
+                                    p.ProductVariableValue = variablevalue;
+                                    p.ProductType = 2;
+                                    p.ProductImage = "<img src=\"" + value.Image + "\" alt=\"\" style=\"width:50px;\" />";
+                                    p.ProductImageOrigin = value.Image;
+                                    p.SKU = value.SKU.Trim().ToUpper();
+                                    int supplierID = 0;
+                                    if (value.SupplierID != null)
+                                        supplierID = value.SupplierID.ToString().ToInt(0);
+                                    p.SupplierID = supplierID;
+                                    string supplierName = "";
+                                    if (!string.IsNullOrEmpty(value.SupplierName))
+                                        supplierName = value.SupplierName;
+                                    p.SupplierName = supplierName;
+                                    double total = PJUtils.TotalProductQuantityInstock(AgentID, value.SKU);
+                                    p.WarehouseQuantity = string.Format("{0:N0}", total);
+                                    ps.Add(p);
+                                }
+                            }
+
+                        }
+                    }
+                }
+            }
+            JavaScriptSerializer serializer = new JavaScriptSerializer();
+            return serializer.Serialize(ps);
+        }
+
+        public class ProductGetOut
+        {
+            public int ID { get; set; }
+            public string ProductName { get; set; }
+            public string ProductVariable { get; set; }
+            public string ProductVariableName { get; set; }
+            public string ProductVariableValue { get; set; }
+            public int ProductType { get; set; }
+            public string ProductImage { get; set; }
+            public string ProductImageOrigin { get; set; }
+            public string SKU { get; set; }
+            public int SupplierID { get; set; }
+            public string SupplierName { get; set; }
+            public string WarehouseQuantity { get; set; }
+        }
+
+        protected void btnImport_Click(object sender, EventArgs e)
+        {
+            DateTime currentDate = DateTime.Now;
+            string username = Session["userLoginSystem"].ToString();
+            var acc = AccountController.GetByUsername(username);
+            if (acc != null)
+            {
+              
+                    int AgentID = Convert.ToInt32(acc.AgentID);
+                    string list = hdfvalue.Value;
+                    string note = hdfNote.Value;
+                    string jsonurl = "";
+                    string[] items = list.Split(';');
+                    if (items.Length - 1 > 0)
+                    {
+                        int SessionInOutID = SessionInOutController.Insert(currentDate, note, AgentID, 1, currentDate, username).ToInt(0);
+                        if (SessionInOutID > 0)
+                        {
+                            for (int i = 0; i < items.Length - 1; i++)
+                            {
+                                //list += id + "," + sku + "," + producttype + "," + productnariablename + "," + productvariablevalue + "," + quantity + "|";
+                                var item = items[i];
+                                string[] itemValue = item.Split(',');
+                                int ID = itemValue[0].ToInt();
+                                string SKU = itemValue[1];
+                                int producttype = itemValue[2].ToInt();
+                                string ProductVariableName = itemValue[3];
+                                string ProductVariableValue = itemValue[4];
+                                double Quantity = Convert.ToDouble(itemValue[5]);
+                                string ProductName = itemValue[6];
+                                string ProductImageOrigin = itemValue[7];
+                                string ProductVariable = itemValue[8];
+                                var productV = ProductVariableController.GetByID(ID);
+                                string parentSKU = "";
+                                parentSKU = productV.ParentSKU;
+                                if (producttype == 1)
+                                {
+                                    ProductController.UpdateStockStatus(parentSKU, 1, false, currentDate, username);
+                                    InOutProductVariableController.Insert(AgentID, ID, 0, "", "", Quantity, 0, 1, false, 1, note, 0,
+                                        SessionInOutID, 1, ProductName, SKU, ProductImageOrigin, ProductVariable, currentDate, username, 0, ID);
+                                }
+                                else
+                                {
+                                    int parentID = 0;
+                                    if (productV != null)
+                                        if (!string.IsNullOrEmpty(parentSKU))
+                                        {
+                                            var product = ProductController.GetBySKU(parentSKU);
+                                            if (product != null)
+                                                parentID = product.ID;
+                                        }
+                                    InOutProductVariableController.Insert(AgentID, 0, ID, ProductVariableName, ProductVariableValue, Quantity, 0, 1,
+                                        false, 2, note, 0, SessionInOutID, 1, ProductName, SKU, ProductImageOrigin, ProductVariable, currentDate, username, 0,
+                                        parentID);
+                                }
+                                ProductVariableController.UpdateStockStatus(ID, 1, false, currentDate, username);
+
+                                double total = PJUtils.TotalProductQuantityInstock(AgentID, itemValue[1]);
+
+
+                                if (i == items.Length - 2)
+                                {
+                                    jsonurl += "{\"id\":\"" + itemValue[0] + "\"," + "\"stock\":\"" + total + "\"}]";
+                                }
+                                else
+                                {
+                                    jsonurl += "[{\"id\":\"" + itemValue[0] + "\"," + "\"stock\":\"" + total + "\"},";
+
+                                }
+                            }
+
+                        }
+
+                        var domain = WhiteDomainController.GetAll();
+                        if (domain != null)
+                        {
+                            foreach (var item in domain)
+                            {
+                                var httpWebRequest = (HttpWebRequest)WebRequest.Create("" + item.Domain + "");
+                                httpWebRequest.ContentType = "application/json";
+                                httpWebRequest.Method = "POST";
+
+                                using (var streamWriter = new StreamWriter(httpWebRequest.GetRequestStream()))
+                                {
+                                    string json = "{\"key\":\"asdasdasd\"," +
+                                                  "\"list_stock\":"+jsonurl+"}";
+
+                                    streamWriter.Write(json);
+                                    streamWriter.Flush();
+                                    streamWriter.Close();
+                                }
+
+                                var httpResponse = (HttpWebResponse)httpWebRequest.GetResponse();
+                                using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
+                                {
+                                    var result = streamReader.ReadToEnd();
+                                }
+                            }
+                        }
+
+                        string barcode = "";
+                        string productPrint = "";
+                        string barcodeIMG = "";
+
+                        string[] value = hdfBarcode.Value.Split(';');
+                        if (value.Count() > 1)
+                        {
+                            productPrint += "<div class=\"qcode\">";
+                            for (int i = 0; i < value.Length - 1; i++)
+                            {
+
+                                string[] list2 = value[i].Split(',');
+                                int quantity = list2[1].ToInt();
+
+
+                                for (int j = 0; j < quantity; j++)
+                                {
+
+                                    barcode = list2[0];
+                                    //string QRIMG = PJUtils.GenQRCode(barcode);
+                                    barcodeIMG = "/Uploads/Images/" + barcode + ".Png";
+                                    System.Drawing.Image barCode = PJUtils.MakeBarcodeImage(barcode, 2, true);
+
+                                    barCode.Save(HttpContext.Current.Server.MapPath("~" + barcodeIMG + ""), ImageFormat.Png);
+                                    productPrint += "<div class=\"item\">";
+                                    productPrint += "<div class=\"img\"><img src =\"" + barcodeIMG + "\" alt=\"\"></div>";
+                                    productPrint += "<div><h1>" + barcode + "</h1></div>";
+                                    productPrint += "</div>";
+                                    //productPrint += "<div style=\"padding-bottom:7px\">";
+                                    //productPrint += "<div style=\"padding-bottom:7px;width: 189px;height: 70px;text-align:center;\"><img alt\"barcode\" src=\"" + barcodeIMG + "\" />" + barcode + "</div>";
+                                    //productPrint += "<span style=\"text-align:center;margin-top: -5px;\">" + barcode + "</span>";
+                                    //productPrint += "";
+                                    // OrderController.UpdateQRCodeIMGQRCodeIMGBarcode(order.ID, barcode, QRIMG, barcodeIMG);
+                                }
+
+                                //ProductImageController.Insert(1, barcodeIMG, false, DateTime.Now, "admin");
+                            }
+                            productPrint += "</div>";
+                            string html = "";
+                            html += productPrint;
+                            ltrprint.Text = html;
+                            PJUtils.ShowMessageBoxSwAlertCallFunction("Nhập hàng thành công", "s", true, "printPhieuchi()", Page);
+                            //PJUtils.ShowMessageBoxSwAlert("Nhập hàng thành công", "s", true, Page);
+
+
+                        }
+                        else
+                        {
+                            PJUtils.ShowMessageBoxSwAlert("Nhập hàng thành công", "s", true, Page);
+                        }
+                    }
+                
+            }
+        }
+    }
+}
