@@ -12,7 +12,7 @@ namespace IM_PJ.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class tbl_OrderDetail
+    public partial class tbl_OrderDetail1
     {
         public int ID { get; set; }
         public Nullable<int> AgentID { get; set; }
@@ -22,9 +22,9 @@ namespace IM_PJ.Models
         public Nullable<int> ProductVariableID { get; set; }
         public string ProductVariableDescrition { get; set; }
         public Nullable<double> Quantity { get; set; }
-        public Nullable<double> Price { get; set; }
+        public string Price { get; set; }
         public Nullable<int> Status { get; set; }
-        public Nullable<double> DiscountPrice { get; set; }
+        public string DiscountPrice { get; set; }
         public Nullable<int> ProductType { get; set; }
         public Nullable<System.DateTime> CreatedDate { get; set; }
         public string CreatedBy { get; set; }

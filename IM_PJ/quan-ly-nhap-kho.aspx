@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Nhập kho" Language="C#" MasterPageFile="~/MasterPage.Master" AutoEventWireup="true" CodeBehind="quan-ly-nhap-kho.aspx.cs" Inherits="IM_PJ.quan_ly_nhap_kho" %>
+﻿<%@ Page Title="Nhập kho sản phẩm" Language="C#" MasterPageFile="~/MasterPage.Master" AutoEventWireup="true" CodeBehind="quan-ly-nhap-kho.aspx.cs" Inherits="IM_PJ.quan_ly_nhap_kho" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
     <style>
@@ -32,76 +32,47 @@
                 <div class="col-md-12">
                     <div class="panel panelborderheading">
                         <div class="panel-heading clear">
-                            <h3 class="page-title left not-margin-bot">Nhập sản phẩm</h3>
+                            <h3 class="page-title left not-margin-bot">Nhập kho sản phẩm</h3>
                         </div>
                         <div class="panel-body">
                             <div class="form-row">
-                                <input type="text" id="txtSearch" class="form-control" placeholder="Nhập tên sản phẩm hoặc mã SKU"
-                                    style="width: 40%; float: left; margin-right: 10px" />
+                                <input type="text" id="txtSearch" class="form-control" placeholder="Nhập tên sản phẩm hoặc mã sản phẩm (F3)" style="width: 40%; float: left; margin-right: 10px" />
                                 <select id="typeinout" class="form-control" style="width: 20%; float: left; margin-right: 10px">
-                                    <option value="2">Mã SKU</option>
+                                    <option value="2">Mã sản phẩm</option>
                                     <option value="1">Tên sản phẩm</option>
                                 </select>
                                 <asp:Literal ID="ltrSupplier" runat="server"></asp:Literal>
-                                <a href="javascript:;" class="btn primary-btn fw-btn not-fullwidth" style="margin-right: 10px"
-                                    onclick="searchProduct()">Tìm sản phẩm</a>
-
+                                <a href="javascript:;" class="btn primary-btn fw-btn not-fullwidth" style="margin-right: 10px" onclick="searchProduct()"><i class="fa fa-search" aria-hidden="true"></i> Tìm</a>
                             </div>
                             <div class="form-row">
                             </div>
                             <div class="form-row">
                                 <h3 class="no-margin float-left">Kết quả tìm kiếm: <span class="result-numsearch"></span></h3>
-                                <div class="float-right excute-in"><a href="javascript:;" class="btn primary-btn fw-btn not-fullwidth" onclick="show_messageorder('')">Nhập hàng</a></div>
+                                <div class="float-right excute-in"><a href="javascript:;" class="btn primary-btn fw-btn not-fullwidth" onclick="noteImportStock()">Nhập kho</a></div>
                             </div>
                             <div class="form-row" style="border: solid 1px #ccc; padding: 10px;">
-                                <table class="table table-checkable table-product">
+                                <table class="table table-checkable table-product import-stock">
                                     <thead>
                                         <tr>
-                                            <th>
-                                                <input type="checkbox" id="check-all" onchange="check_all()" /></th>
-                                            <th>Ảnh</th>
-                                            <th>Tên sản phẩm</th>
-                                            <th>SKU</th>
-                                            <th>Nhà cung cấp</th>
-                                            <th>Thuộc tính</th>
-                                            <th>Kho</th>
-                                            <th>Số lượng</th>
-                                            <th>Thao tác</th>
+                                            <th class="select-column">
+                                                <input type="checkbox" id="check-all" onchange="check_all()" /> In
+                                            </th>
+                                            <th class="image-column">Ảnh</th>
+                                            <th class="name-column">Sản phẩm</th>
+                                            <th class="sku-column">Mã</th>
+                                            <th class="variable-column">Thuộc tính</th>
+                                            <th class="supplier-column">Nhà cung cấp</th>
+                                            <th class="stock-column">Kho</th>
+                                            <th class="quantity-column">Số lượng</th>
+                                            <th class="trash-column"></th>
                                         </tr>
                                     </thead>
                                     <tbody class="content-product">
-                                        <%--<tr class="product-result" data-sku="CS001" data-type="1" data-productid="2">
-                                            <td>
-                                                <img src="/App_Themes/Ann/image/sp_demo.png" alt="" style="width: 50px" /></td>
-                                            <td>Áo thun nam cá sấu Adidas</td>
-                                            <td>CS001</td>
-                                            <td>Color:Xanh rêu|Size:XXXL</td>
-                                            <td>
-                                                <input type="number" min="0" class="in-quanlity" value="0" /></td>
-                                        </tr>
-                                        <tr class="product-result" data-sku="CS001" data-type="1" data-productid="2">
-                                            <td>
-                                                <img src="/App_Themes/Ann/image/sp_demo.png" alt="" style="width: 50px" /></td>
-                                            <td>Áo thun nam cá sấu Adidas</td>
-                                            <td>CS001</td>
-                                            <td>Color:Xanh rêu|Size:XXXL</td>
-                                            <td>
-                                                <input type="number" min="0" class="in-quanlity" value="0" /></td>
-                                        </tr>
-                                        <tr class="product-result" data-sku="CS001" data-type="1" data-productid="2">
-                                            <td>
-                                                <img src="/App_Themes/Ann/image/sp_demo.png" alt="" style="width: 50px" /></td>
-                                            <td>Áo thun nam cá sấu Adidas</td>
-                                            <td>CS001</td>
-                                            <td>Color:Xanh rêu|Size:XXXL</td>
-                                            <td>
-                                                <input type="number" min="0" class="in-quanlity" value="0" /></td>
-                                        </tr>--%>
                                     </tbody>
                                 </table>
                             </div>
                             <div class="form-row excute-in">
-                                <div class="float-right"><a href="javascript:;" class="btn primary-btn fw-btn not-fullwidth" onclick="show_messageorder('')">Nhập hàng</a></div>
+                                <div class="float-right"><a href="javascript:;" class="btn primary-btn fw-btn not-fullwidth" onclick="noteImportStock()">Nhập kho</a></div>
                             </div>
                         </div>
                     </div>
@@ -116,21 +87,21 @@
             <asp:Literal ID="ltrprint" runat="server"></asp:Literal>
         </div>
     </main>
+
     <script type="text/javascript">
-        $(document).ready(function () {
 
-            $('input.in-quanlity').keyup(function (e) {
-                if (e.which == 40) { // down 
-                    $(this).closest('tr').next().find('td:eq(' + $(this).closest('td').index() + ')').find('input.in-quanlity').focus();
-
-                } else if (e.which == 38) { // up
-                    $(this).closest('tr').prev().find('td:eq(' + $(this).closest('td').index() + ')').find('input.in-quanlity').focus();
-                }
-            });
+        $(document).keydown(function(e) {
+            if (e.which == 114) { //F3 Search Product
+                $("#txtSearch").focus();
+                return false;
+            }
         });
-    </script>
 
-    <script type="text/javascript">
+        // focus to searchProduct input when page on ready
+        $(document).ready(function () {
+            $("#txtSearch").focus();
+        });
+
         $('#txtSearch').keydown(function (event) {
             if (event.which === 13) {
                 searchProduct();
@@ -139,52 +110,10 @@
             }
         });
 
-        function printPhieuchi() {
-            //var html = "";
-            //html += "<div class=\"print\">";
-            //html += "     <div class=\"logo\"><img src=\"App_Themes/Ann/image/logo.png\" alt=\"\" /></div>";
-            //html += "     <div class=\"bill-row text-align-center\">K4C Bửu Long, Phường 15, Quận 10, TP. HCM</div>";
-            //html += "     <div class=\"bill-row text-align-center\"><h1>Hóa đơn bán hàng</h1></div>";
-            //html += "     <div class=\"bill-row text-align-right\"><p>Ngày: 13/12/2017 11:15</p></div>";
-            //html += "     <div class=\"product-list\">";
-            //html += "         <div class=\"product-row border-bot-solid\">";
-            //html += "             <div class=\"row-content\">";
-            //html += "                 <div class=\"p-variable text-align-center\"><strong>Loại</strong></div>";
-            //html += "                 <div class=\"p-amount text-align-center\"><strong>Số lượng</strong></div>";
-            //html += "                 <div class=\"p-price text-align-right\"><strong>Đơn giá</strong></div>";
-            //html += "             </div>";
-            //html += "         </div>";
-            //html += "         <div class=\"product-row font-size-13\">";
-            //html += "             <div class=\"row-header\"><strong>Áo khoác cặp Adidas 07</strong></div>";
-            //html += "             <div class=\"row-content\">";
-            //html += "                 <div class=\"p-variable text-align-right\">Color:Xanh rêu, Size:XXL</div>";
-            //html += "                 <div class=\"p-amount text-align-center\">7</div>";
-            //html += "                 <div class=\"p-price text-align-right\">595,000</div>";
-            //html += "             </div>";
-            //html += "         </div>";
-            //html += "         <div class=\"product-row font-size-12\">";
-            //html += "             <div class=\"row-header\"><strong class=\"\">Áo khoác cặp Adidas 07</strong></div>";
-            //html += "             <div class=\"row-content\">";
-            //html += "                 <div class=\"p-variable text-align-right\">Color:Xanh rêu, Size:XXL</div>";
-            //html += "                 <div class=\"p-amount text-align-center\">7</div>";
-            //html += "                 <div class=\"p-price text-align-right\">595,000</div>";
-            //html += "             </div>";
-            //html += "         </div>";
-            //html += "     </div>";
-            //html += "     <div class=\"total\">";
-            //html += "         <div class=\"row-content\">";
-            //html += "             <div class=\"p-variable text-align-right\"><strong>Tổng cộng</strong></div>";
-            //html += "             <div class=\"p-amount text-align-center\"><strong>7</strong></div>";
-            //html += "             <div class=\"p-price text-align-right\"><strong>595,000</strong></div>";
-            //html += "         </div>";
-            //html += "     </div>";
-            //html += "     <div class=\"thanks-full\"><i>Cám ơn quý khách - Hẹn gặp lại</i></div>";
-            //html += "</div>";
-
-            //$("#printcontent").html(html);
-
+        function printBarcode() {
             printDiv('printcontent');
         }
+
         function printDiv(divid) {
             var divToPrint = document.getElementById('' + divid + '');
             var newWin = window.open('', 'Print-Window');
@@ -194,20 +123,9 @@
             setTimeout(function () { newWin.close(); }, 10);
         }
 
-        //function check_all()
-        //{
-        //    $("#check-all").change(function () {
-        //        $("input:checkbox").prop('checked', $(this).prop("checked"));
-        //    });
-        //}
-
-
-
         $("#check-all").change(function () {
             $(".check-popup").prop('checked', $(this).prop("checked"));
         });
-
-
 
         function check() {
             var temp = 0;
@@ -263,11 +181,11 @@
                                             html += "   <td>" + item.ProductImage + "";
                                             html += "   <td>" + item.ProductName + "</td>";
                                             html += "   <td>" + item.SKU + "</td>";
-                                            html += "   <td>" + item.SupplierName + "</td>";
                                             html += "   <td>" + item.ProductVariable + "</td>";
+                                            html += "   <td>" + item.SupplierName + "</td>";
                                             html += "   <td>" + item.WarehouseQuantity + "</td>";
-                                            html += "   <td><input type=\"text\" min=\"1\" class=\"form-control in-quanlity\" style=\"width: 40%;margin: 0 auto;\" value=\"1\" /></td>";
-                                            html += "   <td><a href=\"javascript:;\" onclick=\"deleteRow($(this))\">Xóa</a></td>";
+                                            html += "   <td><input type=\"text\" class=\"form-control in-quanlity\" onkeyup=\"pressKeyQuantiy($(this))\" value=\"1\" /></td>";
+                                            html += "   <td class=\"trash-column\"><a href=\"javascript:;\" onclick=\"deleteRow($(this))\"><i class=\"fa fa-trash\"></i></a></td>";
                                             html += "</tr>";
                                         }
                                         else {
@@ -289,15 +207,15 @@
                                 else {
                                     if (check == false) {
                                         html += "<tr class=\"product-result\" data-productimageorigin=\"" + item.ProductImageOrigin + "\" data-productvariable=\"" + item.ProductVariable + "\" data-productname=\"" + item.ProductName + "\" data-sku=\"" + item.SKU + "\" data-producttype=\"" + item.ProductType + "\" data-id=\"" + item.ID + "\" data-productnariablename=\"" + item.ProductVariableName + "\" data-productvariablevalue =\"" + item.ProductVariableValue + "\">";
-                                        html += " <td><input type=\"checkbox\" class=\"check-popup\" onchange=\"check()\"  /></td>";
+                                        html += " <td><input type=\"checkbox\" class=\"check-popup\" onchange=\"check()\" /></td>";
                                         html += "   <td>" + item.ProductImage + "";
                                         html += "   <td>" + item.ProductName + "</td>";
                                         html += "   <td>" + item.SKU + "</td>";
-                                        html += "   <td>" + item.SupplierName + "</td>";
                                         html += "   <td>" + item.ProductVariable + "</td>";
+                                        html += "   <td>" + item.SupplierName + "</td>";
                                         html += "   <td>" + item.WarehouseQuantity + "</td>";
-                                        html += "   <td><input type=\"text\" min=\"1\" class=\"form-control in-quanlity\" style=\"width: 40%;margin: 0 auto;\" value=\"1\" /></td>";
-                                        html += "   <td><a href=\"javascript:;\" onclick=\"deleteRow($(this))\">Xóa</a></td>";
+                                        html += "   <td><input type=\"text\" class=\"form-control in-quanlity\" onkeyup=\"pressKeyQuantiy($(this))\" value=\"1\" /></td>";
+                                        html += "   <td class=\"trash-column\"><a href=\"javascript:;\" onclick=\"deleteRow($(this))\"><i class=\"fa fa-trash\"></i></a></td>";
                                         html += "</tr>";
                                     }
                                     else {
@@ -313,7 +231,7 @@
                                     count++;
                                 }
                             }
-                            $(".content-product").append(html);
+                            $(".content-product").prepend(html);
                             $("#txtSearch").val("");
                             if (count > 0) {
                                 $(".excute-in").show();
@@ -323,16 +241,39 @@
                             swal('Thông báo', 'Không tìm thấy sản phẩm', 'error');
                         }
                     },
-                    //error: function (xmlhttprequest, textstatus, errorthrow) {
-                    //    alert('lỗi');
-                    //}
+                    error: function (xmlhttprequest, textstatus, errorthrow) {
+                        alert('lỗi');
+                    }
                 });
             }
             else {
                 alert('Vui lòng nhập nội dung tìm kiếm');
             }
-
         }
+
+        // change quantity of product
+        function checkQuantiy(obj) {
+            var current = obj.val();
+            if (current == 0 || current == "" || current == null) {
+                obj.val("1");
+            }
+        }
+
+        function pressKeyQuantiy(e) {
+            $(".in-quanlity").keydown(function (e) {
+                if (e.which == 40 || e.which == 13)
+                {
+                    // press down 
+                    $(this).closest('tr').next().find('td:eq(' + $(this).closest('td').index() + ')').find(".in-quanlity").focus().select();
+                }
+                else if (e.which == 38) 
+                {
+                    // press up
+                    $(this).closest('tr').prev().find('td:eq(' + $(this).closest('td').index() + ')').find(".in-quanlity").focus().select();
+                } 
+            });
+        }
+
         function deleteRow(obj) {
             var c = confirm('Bạn muốn xóa sản phẩm này?');
             if (c) {
@@ -342,6 +283,7 @@
                 }
             }
         }
+
         function inProduct() {
             if ($(".product-result").length > 0) {
                 var note = $("#txtnote").val();
@@ -373,48 +315,16 @@
                 alert("Vui lòng nhập sản phẩm");
             }
         }
-        function show_messageorder(content) {
-            var obj = $('body');
-            $(obj).css('overflow', 'hidden');
-            $(obj).attr('onkeydown', 'keyclose_ms(event)');
-            var bg = "<div id='bg_popup'></div>";
-            var fr = "<div id='pupip' class=\"columns-container1\"><div class=\"container\" id=\"columns\"><div class='row'>" +
-                "  <div class=\"center_column col-xs-12 col-sm-5\" id=\"popup_content\"><a style='cursor:pointer;right:5px;' onclick='close_popup_ms()' class='close_message'></a>";
-            fr += "     <div class=\"changeavatar\">";
-            fr += content;
-            fr += "         <label class=\"lbl-popup\">Nội dung nhập hàng</label>";
-            fr += "         <textarea id=\"txtnote\" class=\"form-control\"/>";
-            fr += "         <div class=\"clearfix\"></div>";
-            fr += "         <div class=\"clearfix\"></div>";
-            fr += "         <div class=\"btn-content\">";
-            fr += "             <a class=\"btn primary-btn fw-btn not-fullwidth\" style=\"padding:10px 30px;float:right;margin:10px 0\" href=\"javascript:;\" onclick=\"inProduct()\" >Xác nhận</a>";
-            fr += "         </div>";
-            fr += "     </div>";
-            fr += "   </div>";
-            fr += "</div></div></div>";
-            $(bg).appendTo($(obj)).show().animate({ "opacity": 0.7 }, 800);
-            $(fr).appendTo($(obj));
-            setTimeout(function () {
-                $('#pupip').show().animate({ "opacity": 1, "top": 20 + "%" }, 200);
-                $("#bg_popup").attr("onclick", "close_popup_ms()");
-            }, 1000);
-        }
-        function keyclose_ms(e) {
-            if (e.keyCode == 27) {
-                close_popup_ms();
-            }
-        }
-        function close_popup_ms() {
-            $("#pupip").animate({ "opacity": 0 }, 400);
-            $("#bg_popup").animate({ "opacity": 0 }, 400);
-            setTimeout(function () {
-                $("#pupip").remove();
-                $(".zoomContainer").remove();
-                $("#bg_popup").remove();
-                $('body').css('overflow', 'auto').attr('onkeydown', '');
-            }, 500);
-        }
 
-
+        function noteImportStock() {
+            fr = "<div class=\"form-row\">";
+            fr += "    <label class=\"lbl-popup\">Nội dung nhập hàng</label>";
+            fr += "    <textarea id=\"txtnote\" class=\"form-control\" placeholder=\"Có thể để trống\"/>";
+            fr += "</div>";
+            fr += "<div class=\"btn-content\">";
+            fr += "    <a class=\"btn primary-btn fw-btn float-right-btn not-fullwidth\" href=\"javascript:;\" onclick=\"inProduct()\" >Xác nhận</a>";
+            fr += "</div>";
+            showPopup(fr);
+        }
     </script>
 </asp:Content>

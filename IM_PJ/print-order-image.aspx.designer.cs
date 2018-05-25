@@ -10,7 +10,7 @@
 namespace IM_PJ {
     
     
-    public partial class print_invoice {
+    public partial class print_order_image {
         
         /// <summary>
         /// ltrPrintInvoice control.

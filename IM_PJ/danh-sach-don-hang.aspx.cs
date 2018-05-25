@@ -53,8 +53,6 @@ namespace IM_PJ
         }
         public void LoadData()
         {
-
-
             string username = Session["userLoginSystem"].ToString();
             var acc = AccountController.GetByUsername(username);
             if (acc != null)
@@ -164,111 +162,6 @@ namespace IM_PJ
                 ddlCreateBy.DataBind();
             }
         }
-        #region Print
-        [WebMethod]
-        public static string getOrder(int ID)
-        {
-            JavaScriptSerializer serializer = new JavaScriptSerializer();
-            string username = HttpContext.Current.Session["userLoginSystem"].ToString();
-            var acc = AccountController.GetByUsername(username);
-            if (acc != null)
-            {
-                int AgentID = Convert.ToInt32(acc.AgentID);
-                var agent = AgentController.GetByID(AgentID);
-                if (agent != null)
-                {
-
-                }
-                //List<GetOutOrder> go = new List<GetOutOrder>();
-                GetOutOrder getOrder = new GetOutOrder();
-                var order = OrderController.GetByID(ID);
-                if (order != null)
-                {
-                    var orderdetail = OrderDetailController.GetByOrderID(order.ID);
-                    if (orderdetail != null)
-                    {
-
-                        getOrder.ListAgent += agent.AgentAddress + "|";
-                        getOrder.ListAgent += agent.AgentPhone;
-                        getOrder.TotalNotDiscount = Convert.ToInt32(order.TotalPriceNotDiscount);
-                        getOrder.DiscountPerProduct = Convert.ToInt32(order.DiscountPerProduct);
-                        getOrder.FeeShipping = Convert.ToInt32(order.FeeShipping);
-                        getOrder.ID = order.ID;
-                        getOrder.CustomerName = order.CustomerName;
-                        getOrder.CustomerPhone = order.CustomerPhone;
-                        //getOrder.CustomerEmail = order.CustomerEmail;
-                        //getOrder.CustomerAddress = order.CustomerAddress;
-                        getOrder.TotalPrice = string.Format("{0:N0}", Convert.ToDouble(order.TotalPrice));
-                        //getOrder.GuestPaid = order.GuestPaid;
-                        getOrder.CreatedBy = order.CreatedBy;
-                        getOrder.CreateDate = string.Format("{0:dd/MM/yyyy}", order.CreatedDate);
-                        getOrder.OrderNote = order.OrderNote;
-
-                        getOrder.DateDone = string.Format("{0:dd/MM/yyyy}", order.DateDone);
-                        getOrder.OrderType = order.OrderType.ToString();
-                        int k = 0;
-                        for (int i = 0; i < orderdetail.Count; i++)
-                        {
-                            getOrder.TotalProduct += Convert.ToInt32(orderdetail[i].Quantity);
-                            k += Convert.ToInt32(orderdetail[i].Quantity);
-                            getOrder.ProductQuantity += Convert.ToInt32(orderdetail[i].Quantity);
-                            getOrder.ListProduct += orderdetail[i].SKU + ";";
-                            var product = ProductVariableController.GetByID(orderdetail[i].ProductVariableID.Value);
-                            if (product != null)
-                            {
-                                var pro = ProductController.GetByID(Convert.ToInt32(product.ProductID));
-                                if (pro != null)
-                                {
-                                    getOrder.ListProduct += pro.ProductTitle + ";";
-                                }
-                            }
-                            else
-                            {
-                                var product_simple = ProductController.GetByID(orderdetail[i].ProductID.Value);
-                                if (product_simple != null)
-                                {
-                                    getOrder.ListProduct += product_simple.ProductTitle + ";";
-                                }
-
-                            }
-                            getOrder.ListProduct += orderdetail[i].ProductVariableDescrition + ";" + orderdetail[i].Quantity + ";" + orderdetail[i].Price + "*";
-                        }
-                        getOrder.PriceSCK = Convert.ToInt32(order.TotalPriceNotDiscount) - (Convert.ToInt32(order.DiscountPerProduct) * k);
-                        //go.Add(getOrder);
-                    }
-                }
-
-                return serializer.Serialize(getOrder);
-            }
-            return serializer.Serialize(null);
-        }
-
-        public class GetOutOrder
-        {
-            public int ID { get; set; }
-            public string CustomerName { get; set; }
-            public string CustomerPhone { get; set; }
-            public string CustomerAddress { get; set; }
-            public string CustomerEmail { get; set; }
-            public string TotalPrice { get; set; }
-            public string GuestPaid { get; set; }
-            public string CreateDate { get; set; }
-
-            public string DateDone { get; set; }
-            public string OrderType { get; set; }
-            public string ListProduct { get; set; }
-            public string ListAgent { get; set; }
-            public int ProductQuantity { get; set; }
-            public int TotalNotDiscount { get; set; }
-            public int DiscountPerProduct { get; set; }
-            public int FeeShipping { get; set; }
-            public string CreatedBy { get; set; }
-            public string OrderNote { get; set; }
-            public int TotalProduct { get; set; }
-
-            public int PriceSCK { get; set; }
-        }
-        #endregion
         #region Paging
         public void pagingall(List<tbl_Order> acs)
         {
@@ -317,7 +210,7 @@ namespace IM_PJ
                     string datedone = string.Format("{0:dd/MM/yyyy}", item.DateDone);
                     html.Append("   <td>" + datedone + "</td>");
                     html.Append("   <td>");
-                    html.Append("       <a href=\"javascript:;\" onclick=\"printInvoice(" + item.ID + ")\" class=\"btn primary-btn h45-btn\">In</a>");
+                    html.Append("       <a href=\"/print-invoice.aspx?id=" + item.ID + "\" target=\"_blank\" class=\"btn primary-btn h45-btn\"><i class=\"fa fa-print\" aria-hidden=\"true\"></i> In</a>");
                     html.Append("   </td>");
                     html.Append("</tr>");
                 }

@@ -42,7 +42,6 @@
                             <table class="table table-checkable table-product">
                                 <tbody>
                                     <tr>
-                                        <%--<th>ID</th>--%>
                                         <th>Tên</th>
                                         <th>Nick</th>
                                         <th>Phone</th>
@@ -50,7 +49,6 @@
                                         <th>Facebook</th>
                                         <th>Tỉnh thành</th>
                                         <th>Số sản phẩm đã mua</th>
-                                        <%--<th>Email</th>--%>
                                         <th>Nhân viên phục vụ</th>
                                         <th>Nhóm khách hàng</th>
                                         <th>Ngày tạo</th>

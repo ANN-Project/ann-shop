@@ -1458,25 +1458,9 @@ textarea.form-control{
     }
     .table > thead > tr > th{
         border-right: 0 none;
-        &:nth-child(1){
-            text-align: center;
-        }
-        &:nth-child(2){
-            text-align: center;
-            border-left: 0 none;
-        }
-        &:nth-child(3){
-            border-left: 0 none;
-        }
     }
     .table > tbody > tr > td{
         border: 0 none;
-        &:nth-child(1){
-            text-align: center;
-        }
-        &:nth-child(2){
-            text-align: center;
-        }
     }
 }
 .naplan-cont{
@@ -1676,11 +1660,10 @@ textarea.form-control{
             color: #fff;
             height: 55px;
             vertical-align: middle;
-            padding: 15px;
-            text-align: right;
+            padding: 15px 5px;
             &:first-child{
                 text-align: left;
-                padding: 5px 20px;
+                padding: 5px 15px;
             }
             .checklb{
                 .ip-avata{
@@ -1701,13 +1684,12 @@ textarea.form-control{
             
             height: 40px;
             background-color: #fff;
-            border-bottom: solid 1px #e1e1e1;
-            vertical-align: top;
-            text-align: right;
-            padding: 15px;
+            vertical-align: middle;
+            text-align: left;
+            padding: 15px 5px;
             &:first-child{
-                text-align: left;
                 border-left: solid 1px #e1e1e1;
+                padding-left: 15px;
             }
             &:last-child{
                 border-right: solid 1px #e1e1e1;

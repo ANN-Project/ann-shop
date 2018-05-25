@@ -428,9 +428,7 @@ namespace IM_PJ
                     bool IsHidden = false;
                     int WayIn = 1;
 
-                    double DiscountPerProduct = 0;
-                    if (!string.IsNullOrEmpty(hdfDiscountAmount.Value))
-                        DiscountPerProduct = Convert.ToDouble(hdfDiscountAmount.Value);
+                    double DiscountPerProduct = Convert.ToDouble(pDiscount.Value);
 
                     double TotalDiscount = Convert.ToDouble(pDiscount.Value) * Convert.ToDouble(hdfTotalQuantity.Value);
                     string FeeShipping = pFeeShip.Value.ToString();
@@ -485,10 +483,10 @@ namespace IM_PJ
                                 string ProductName = itemValue[6];
                                 string ProductImageOrigin = itemValue[7];
                                 string ProductVariable = itemValue[8];
-                                string Price = itemValue[9];
+                                double Price = Convert.ToDouble(itemValue[9]);
                                 string ProductVariableSave = itemValue[10];
 
-                                OrderDetailController.Insert(AgentID, OrderID, SKU, ProductID, ProductVariableID, ProductVariableSave, Quantity, Price, 1, "0",
+                                OrderDetailController.Insert(AgentID, OrderID, SKU, ProductID, ProductVariableID, ProductVariableSave, Quantity, Price, 1, 0,
                                     producttype, currentDate, username, true);
 
 
@@ -511,7 +509,7 @@ namespace IM_PJ
                                             1,
                                             false,
                                             1,
-                                            "Lech kho khi ban POS",
+                                            "Nhập kho bị lệch khi bán POS",
                                             OrderID,
                                             0,
                                             3,
@@ -525,7 +523,7 @@ namespace IM_PJ
                                             parentID);
                                     }
 
-                                    InOutProductVariableController.Insert(AgentID, ID, 0, "", "", Quantity, 0, 2, false, 1, "POS", OrderID,
+                                    InOutProductVariableController.Insert(AgentID, ID, 0, "", "", Quantity, 0, 2, false, 1, "Xuất kho bánPOS", OrderID,
                                         0, 3, ProductName, SKU, ProductImageOrigin, ProductVariable, currentDate, username, 0, parentID);
                                 }
                                 else
@@ -559,7 +557,7 @@ namespace IM_PJ
                                             1,
                                             false,
                                             2,
-                                            "Lech kho khi ban POS",
+                                            "Nhập kho bị lệch khi bán POS",
                                             OrderID,
                                             0,
                                             3,
@@ -574,7 +572,7 @@ namespace IM_PJ
                                     }
 
                                     InOutProductVariableController.Insert(AgentID, 0, ID, ProductVariableName, ProductVariableValue, Quantity, 0, 2,
-                                        false, 2, "POS", OrderID, 0, 3, ProductName, SKU, ProductImageOrigin, ProductVariable,
+                                        false, 2, "Xuất kho bán POS", OrderID, 0, 3, ProductName, SKU, ProductImageOrigin, ProductVariable,
                                         currentDate, username, 0, parentID);
                                 }
 
@@ -773,7 +771,7 @@ namespace IM_PJ
 
                         html += "</div>";
                         ltrprint.Text = html;
-                        PJUtils.ShowMessageBoxSwAlertCallFunction("Tạo mới đơn hàng thành công", "s", true, "printInvoice()", Page);
+                        PJUtils.ShowMessageBoxSwAlertCallFunction("Tạo mới đơn hàng thành công", "s", true, "printInvoice(" + OrderID + ")", Page);
                     }
 
                 }

@@ -1,8 +1,26 @@
 ﻿.hoadon {
-    font-size: 15px;
-    color: black;
+    font-size: 11px;
+    color: #000;
+    margin-right: 3px;
 }
-
+.info {
+    font-size: 14px;
+    margin-top: 10px;
+}
+.merge-alert {
+    font-weight: normal;
+    font-style: italic;
+    font-size: 18px;
+}
+img {
+    width: 60%!important;
+    margin: auto;
+}
+h1 {
+    margin-bottom: 10px!important;
+    font-size: 22px!important;
+    text-align: center;
+}
 .refund {
     text-align: center;
     font-size: 40px;
@@ -26,22 +44,18 @@
     }
 
     .hoadon .head {
-        margin-bottom: 20px;
+        margin-bottom: 15px;
     }
 
         .hoadon .head .logo {
             background-color: #ffffff;
             text-align: center;
-            margin-top: 5px;
-            margin-bottom: 20px;
+            margin-top: 0;
         }
 
-            .hoadon .head .logo .img {
-                padding: 5px;
-            }
-
     .hoadon .table-1 {
-        margin-bottom: 40px;
+        margin-bottom: 10px;
+        font-size: 13px;
     }
 
         .hoadon .table-1 table {
@@ -61,6 +75,8 @@
             .hoadon .table-1 table td {
                 padding: 5px 10px;
                 border: 1px solid black;
+                border-right: none;
+                border-left: none;
             }
 
                 .hoadon .table-1 table th:nth-child(1),
@@ -76,7 +92,7 @@
                 }
 
     .hoadon .table-2 {
-        margin-bottom: 40px;
+        margin-bottom: 10px;
     }
 
         .hoadon .table-2 table {
@@ -89,32 +105,31 @@
         }
 
             .hoadon .table-2 table col.stt {
-                width: 4%;
+                width: 10%;
             }
 
             .hoadon .table-2 table col.sanpham {
-                width: 40%;
+                width: 36%;
             }
 
             .hoadon .table-2 table col.soluong {
-                width: 14%;
+                width: 10%;
             }
 
             .hoadon .table-2 table col.gia {
-                width: 14%;
+                width: 20%;
             }
 
             .hoadon .table-2 table col.tong {
-                width: 20%;
-            }
-            .hoadon .table-2 table col.phi {
-                width: 8%;
+                width: 24%;
             }
 
             .hoadon .table-2 table th,
             .hoadon .table-2 table td {
-                padding: 5px 10px;
+                padding: 3px;
                 border: 1px solid black;
+                border-left: none;
+                border-right: none;
                 text-align: left;
             }
 
@@ -125,9 +140,7 @@
 
             .hoadon .table-2 table th {
                 background-color: #f8f8f8;
-                font-weight: 600;
                 color: black;
-                text-transform: uppercase;
                 vertical-align: middle;
             }
 

@@ -1146,20 +1146,9 @@ textarea.form-control {
 
 .week-info .table > thead > tr > th {
   border-right: 0 none; }
-  .week-info .table > thead > tr > th:nth-child(1) {
-    text-align: center; }
-  .week-info .table > thead > tr > th:nth-child(2) {
-    text-align: center;
-    border-left: 0 none; }
-  .week-info .table > thead > tr > th:nth-child(3) {
-    border-left: 0 none; }
 
 .week-info .table > tbody > tr > td {
   border: 0 none; }
-  .week-info .table > tbody > tr > td:nth-child(1) {
-    text-align: center; }
-  .week-info .table > tbody > tr > td:nth-child(2) {
-    text-align: center; }
 
 .naplan-cont .caption {
   background-color: #78909c;
@@ -1301,11 +1290,10 @@ textarea.form-control {
   color: #fff;
   height: 55px;
   vertical-align: middle;
-  padding: 15px;
-  text-align: right; }
+  padding: 15px 5px; }
   .table > tbody > tr > th:first-child {
     text-align: left;
-    padding: 5px 20px; }
+    padding: 5px 15px; }
   .table > tbody > tr > th .checklb .ip-avata:before, .table > tbody > tr > th .radiolb .ip-avata:before {
     @inlcude transition(0s); }
   .table > tbody > tr > th .checklb input:checked + .ip-avata, .table > tbody > tr > th .radiolb input:checked + .ip-avata {
@@ -1316,13 +1304,12 @@ textarea.form-control {
 .table > tbody > tr > td {
   height: 40px;
   background-color: #fff;
-  border-bottom: solid 1px #e1e1e1;
-  vertical-align: top;
-  text-align: right;
-  padding: 15px; }
+  vertical-align: middle;
+  text-align: left;
+  padding: 15px 5px; }
   .table > tbody > tr > td:first-child {
-    text-align: left;
-    border-left: solid 1px #e1e1e1; }
+    border-left: solid 1px #e1e1e1;
+    padding-left: 15px; }
   .table > tbody > tr > td:last-child {
     border-right: solid 1px #e1e1e1; }
   .table > tbody > tr > td a {

@@ -1,4 +1,68 @@
-﻿.width-100 {
+﻿.import-stock .select-column {
+    width: 4%;
+}
+.import-stock .image-column {
+    width: 12%;
+}
+.import-stock .name-column {
+    width: 20%;
+}
+.import-stock .sku-column {
+    width: 12%;
+}
+.import-stock .supplier-column {
+    width: 13%;
+}
+.import-stock .variable-column {
+    width: 17%;
+}
+.import-stock .stock-column {
+    width: 7%;
+}
+.import-stock .quantity-column {
+    width: 8%;
+}
+.import-stock .trash-column {
+    width: 6%;
+    text-align: center;
+}
+
+.select-column {
+    width: 4%;
+    text-align: right!important;
+}
+.nick-column {
+    width: 17%;
+    text-align: left!important;
+}
+.name-column {
+    width: 18%;
+    text-align: left!important;
+}
+.phone-column {
+    width: 11%;
+    text-align: left!important;
+}
+.zalo-column {
+    width: 11%;
+    text-align: left!important;
+}
+.facebook-column {
+    width: 8%;
+    text-align: left!important;
+}
+.address-column {
+    width: 20%;
+    text-align: left!important;
+}
+.province-column {
+    width: 11%;
+    text-align: left!important;
+}
+.print-invoice-merged {
+    margin-left: 15px;
+}
+.width-100 {
     width: 100%;
 }
 .clear-btn {
@@ -83,23 +147,20 @@ img {
     float: left;
     width: 100%;
 }
-
+.btn-content {
+    text-align: right;
+}
+.float-right-btn {
+    float: right;
+}
 .row-left {
     float: left;
-    width: 15%;
+    width: 20%;
 }
 
 .row-right {
     float: left;
-    width: 85%;
-}
-
-.table > thead > tr > th, .table > tbody > tr > th:first-child, .table > tbody > tr > th {
-    text-align: center;
-}
-
-.table > tbody > tr > td {
-    text-align: left;
+    width: 80%;
 }
 
 .page-title.not-margin-bot {
@@ -519,7 +580,7 @@ a.btn_popup_back {
 }
 
 .fjx {
-    width: calc(100% - 60px);
+    width: calc(100% - 80px);
     float: left;
 }
 /* Hoang Anh them vao */
@@ -641,7 +702,7 @@ body {
 
         #main-nav .nav-ul > li > a {
             padding: 5px 5px;
-            line-height: 30px;
+            line-height: 25px;
         }
 
             #main-nav .nav-ul > li > a:hover {
@@ -665,11 +726,6 @@ body {
     font-size: 14px;
 }
 
-.table > tbody > tr > td {
-    height: 40px;
-    padding: 15px 5px;
-}
-
 .pagination {
     margin: 10px 0 0 0;
 }
@@ -679,12 +735,6 @@ body {
     background: #fff;
     overflow-y: initial;
     padding: 5px;
-}
-
-.table > tbody > tr > td {
-    border-bottom: none;
-    border-top: none;
-    vertical-align: middle;
 }
 
 .totalpriceorder {

@@ -307,14 +307,14 @@ namespace IM_PJ
                             double Quantity = Convert.ToDouble(p.Quantity);
                             string ProductName = p.ProductName;
                             string ProductImageOrigin = p.ProductImageOrigin;
-                            string ProductPrice = p.Price.ToString();
+                            double ProductPrice = p.Price;
                             string ProductVariableSave = p.ProductVariableDescription;
 
 
                             if (ExcuteStatus == 2 && PaymentStatus == 3)
                             {
                                 OrderDetailController.Insert(AgentID, OrderID, SKU, ProductID, ProductVariableID, ProductVariableSave, Quantity,
-                                ProductPrice, 1, "0", producttype, currentDate, CreatedBy, true);
+                                ProductPrice, 1, 0, producttype, currentDate, CreatedBy, true);
                                 if (producttype == 1)
                                 {
                                     InOutProductVariableController.Insert(AgentID, ProductID, 0, "", "", Quantity, 0, 2, false, 1, "", OrderID,
@@ -340,7 +340,7 @@ namespace IM_PJ
                             else
                             {
                                 OrderDetailController.Insert(AgentID, OrderID, SKU, ProductID, ProductVariableID, ProductVariableSave, Quantity,
-                                ProductPrice, 1, "0", producttype, currentDate, CreatedBy, false);
+                                ProductPrice, 1, 0, producttype, currentDate, CreatedBy, false);
                             }
                         }
                     }
@@ -478,7 +478,7 @@ namespace IM_PJ
         [ScriptMethod(UseHttpGet = false, ResponseFormat = ResponseFormat.Json)]
         public void InserOrderDetail(string AgentAPIID, string AgentAPICode, int OrderID, int ID, string SKU, int ProductType,
             string ProductVariableName, string ProductVariableValue, double Quantity, string ProductName, string ProductImageOrigin,
-            string ProductPrice, string ProductVariableSave, int ExcuteStatus, int PaymentStatus, string CreatedBy)
+            double ProductPrice, string ProductVariableSave, int ExcuteStatus, int PaymentStatus, string CreatedBy)
         {
             var rs = new ResponseClass();
             DateTime currentDate = DateTime.Now;
@@ -502,7 +502,7 @@ namespace IM_PJ
                 if (ExcuteStatus == 2 && PaymentStatus == 3)
                 {
                     OrderDetailController.Insert(AgentID, OrderID, SKU, ProductID, ProductVariableID, ProductVariableSave, Quantity,
-                    ProductPrice, 1, "0", ProductType, currentDate, CreatedBy, true);
+                    ProductPrice, 1, 0, ProductType, currentDate, CreatedBy, true);
                     if (ProductType == 1)
                     {
                         InOutProductVariableController.Insert(AgentID, ProductID, 0, "", "", Quantity, 0, 2, false, 1, "", OrderID,
@@ -528,7 +528,7 @@ namespace IM_PJ
                 else
                 {
                     OrderDetailController.Insert(AgentID, OrderID, SKU, ProductID, ProductVariableID, ProductVariableSave, Quantity,
-                    ProductPrice, 1, "0", ProductType, currentDate, CreatedBy, false);
+                    ProductPrice, 1, 0, ProductType, currentDate, CreatedBy, false);
                 }
                 rs.Code = APIUtils.GetResponseCode(APIUtils.ResponseCode.SUCCESS);
                 rs.Status = APIUtils.ResponseMessage.Success.ToString();

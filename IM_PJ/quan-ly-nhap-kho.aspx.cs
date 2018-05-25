@@ -25,39 +25,39 @@ namespace IM_PJ
         {
             if (!IsPostBack)
             {
-                //Session["userLoginSystem"] = "admin";
                 if (Session["userLoginSystem"] != null)
                 {
                     string username = Session["userLoginSystem"].ToString();
                     var acc = AccountController.GetByUsername(username);
                     if (acc != null)
                     {
-                        //if (acc.RoleID == 0)
-                        //{
+                        if (acc.RoleID == 0)
+                        {
 
-                        //}
-                        //else if (acc.RoleID == 1)
-                        //{
+                        }
+                        else if (acc.RoleID == 2)
+                        {
 
-                        //}
-                        //else
-                        //{
-                        //    Response.Redirect("/trang-chu");
-                        //}
+                        }
+                        else
+                        {
+                            Response.Redirect("/trang-chu");
+                        }
+                        LoadData();
                     }
                 }
                 else
                 {
                     Response.Redirect("/dang-nhap");
                 }
-                LoadData();
+                
             }
         }
         public void LoadData()
         {
             var supplier = SupplierController.GetAllWithIsHidden(false);
             StringBuilder html = new StringBuilder();
-            //html.Append("<select id=\"supplierList\" class=\"select2 form-control\" style=\"width: 20%; float: left; margin-right: 10px\">");
+
             html.Append("<select id=\"supplierList\" class=\"form-control\" style=\"width: 20%; float: left; margin-right: 10px\">");
             html.Append("<option value=\"0\">Tất cả nhà cung cấp</option>");
             if (supplier.Count > 0)
@@ -82,7 +82,6 @@ namespace IM_PJ
                 int AgentID = Convert.ToInt32(acc.AgentID);
                 if (typeinout == 1)
                 {
-
                     var products = ProductController.GetByTextSearchIsHidden(textsearch.Trim(), false);
                     if (products.Count > 0)
                     {
@@ -103,7 +102,7 @@ namespace IM_PJ
 
                                         foreach (var v in variables)
                                         {
-                                            variable += v.VariableName.Trim() + ":" + v.VariableValue.Trim() + "|";
+                                            variable += v.VariableName.Trim() + ": " + v.VariableValue.Trim() + "|";
                                             variablename += v.VariableName.Trim() + "|";
                                             variablevalue += v.VariableValue.Trim() + "|";
                                         }
@@ -115,7 +114,14 @@ namespace IM_PJ
                                         p.ProductVariableName = variablename;
                                         p.ProductVariableValue = variablevalue;
                                         p.ProductType = 2;
-                                        p.ProductImage = "<img src=\"" + pv.Image + "\" alt=\"\" style=\"width: 150px\" />";
+                                        if (p.ProductImage == null)
+                                        {
+                                            p.ProductImage = "<img src=\"" + pv.Image + "\" />";
+                                        }
+                                        else
+                                        {
+                                            p.ProductImage = "<img src=\"/App_Themes/Ann/image/placeholder.png\" />";
+                                        }
                                         p.ProductImageOrigin = pv.Image;
                                         p.SKU = pv.SKU.Trim().ToUpper();
                                         int supplierID = 0;
@@ -144,15 +150,16 @@ namespace IM_PJ
                                 p.ProductVariableName = variablename;
                                 p.ProductVariableValue = variablevalue;
                                 p.ProductType = 1;
+
                                 var img = ProductImageController.GetFirstByProductID(item.ID);
                                 if (img != null)
                                 {
-                                    p.ProductImage = "<img src=\"" + img.ProductImage + "\" alt=\"\" style=\"width: 50px\"  />";
+                                    p.ProductImage = "<img src=\"" + img.ProductImage + "\"  />";
                                     p.ProductImageOrigin = img.ProductImage;
                                 }
                                 else
                                 {
-                                    p.ProductImage = "";
+                                    p.ProductImage = "<img src=\"/App_Themes/Ann/image/placeholder.png\" />";
                                     p.ProductImageOrigin = "";
                                 }
                                 double total = PJUtils.TotalProductQuantityInstock(AgentID, item.ProductSKU);
@@ -191,7 +198,7 @@ namespace IM_PJ
 
                                     foreach (var v in variables)
                                     {
-                                        variable += v.VariableName.Trim() + ":" + v.VariableValue.Trim() + "|";
+                                        variable += v.VariableName.Trim() + ": " + v.VariableValue.Trim() + "|";
                                         variablename += v.VariableName.Trim() + "|";
                                         variablevalue += v.VariableValue.Trim() + "|";
                                     }
@@ -203,7 +210,14 @@ namespace IM_PJ
                                     p.ProductVariableName = variablename;
                                     p.ProductVariableValue = variablevalue;
                                     p.ProductType = 2;
-                                    p.ProductImage = "<img src=\"" + pv.Image + "\" alt=\"\" style=\"width: 150px\"  />";
+                                    if (p.ProductImage == null)
+                                    {
+                                        p.ProductImage = "<img src=\"" + pv.Image + "\" />";
+                                    }
+                                    else
+                                    {
+                                        p.ProductImage = "<img src=\"/App_Themes/Ann/image/placeholder.png\" />";
+                                    }
                                     p.ProductImageOrigin = pv.Image;
                                     p.SKU = pv.SKU.Trim().ToUpper();
                                     int supplierID = 0;
@@ -235,12 +249,12 @@ namespace IM_PJ
                             var img = ProductImageController.GetFirstByProductID(products.ID);
                             if (img != null)
                             {
-                                p.ProductImage = "<img src=\"" + img.ProductImage + "\" alt=\"\" style=\"width: 50px\"  />";
+                                p.ProductImage = "<img src=\"" + img.ProductImage + "\" />";
                                 p.ProductImageOrigin = img.ProductImage;
                             }
                             else
                             {
-                                p.ProductImage = "";
+                                p.ProductImage = "<img src=\"/App_Themes/Ann/image/placeholder.png\" />";
                                 p.ProductImageOrigin = "";
                             }
                             p.SKU = products.ProductSKU.Trim().ToUpper();
@@ -276,7 +290,7 @@ namespace IM_PJ
 
                                     foreach (var v in variables)
                                     {
-                                        variable += v.VariableName + ":" + v.VariableValue + "|";
+                                        variable += v.VariableName + ": " + v.VariableValue + "|";
                                         variablename += v.VariableName + "|";
                                         variablevalue += v.VariableValue + "|";
                                     }
@@ -290,7 +304,14 @@ namespace IM_PJ
                                     p.ProductVariableName = variablename;
                                     p.ProductVariableValue = variablevalue;
                                     p.ProductType = 2;
-                                    p.ProductImage = "<img src=\"" + value.Image + "\" alt=\"\" style=\"width:50px;\" />";
+                                    if (p.ProductImage == null)
+                                    {
+                                        p.ProductImage = "<img src=\"" + value.Image + "\" />";
+                                    }
+                                    else
+                                    {
+                                        p.ProductImage = "<img src=\"/App_Themes/Ann/image/placeholder.png\" />";
+                                    }
                                     p.ProductImageOrigin = value.Image;
                                     p.SKU = value.SKU.Trim().ToUpper();
                                     int supplierID = 0;
@@ -338,151 +359,138 @@ namespace IM_PJ
             var acc = AccountController.GetByUsername(username);
             if (acc != null)
             {
-              
-                    int AgentID = Convert.ToInt32(acc.AgentID);
-                    string list = hdfvalue.Value;
-                    string note = hdfNote.Value;
-                    string jsonurl = "";
-                    string[] items = list.Split(';');
-                    if (items.Length - 1 > 0)
+                int AgentID = Convert.ToInt32(acc.AgentID);
+                string list = hdfvalue.Value;
+                string note = "Nhập kho bằng chức năng nhập kho";
+                if(hdfNote.Value != "")
+                {
+                    note = hdfNote.Value;
+                }
+                string jsonurl = "";
+                string[] items = list.Split(';');
+                if (items.Length - 1 > 0)
+                {
+                    int SessionInOutID = SessionInOutController.Insert(currentDate, note, AgentID, 1, currentDate, username).ToInt(0);
+                    if (SessionInOutID > 0)
                     {
-                        int SessionInOutID = SessionInOutController.Insert(currentDate, note, AgentID, 1, currentDate, username).ToInt(0);
-                        if (SessionInOutID > 0)
+                        for (int i = 0; i < items.Length - 1; i++)
                         {
-                            for (int i = 0; i < items.Length - 1; i++)
+                            var item = items[i];
+                            string[] itemValue = item.Split(',');
+                            int ID = itemValue[0].ToInt();
+                            string SKU = itemValue[1];
+                            int producttype = itemValue[2].ToInt();
+                            string ProductVariableName = itemValue[3];
+                            string ProductVariableValue = itemValue[4];
+                            double Quantity = Convert.ToDouble(itemValue[5]);
+                            string ProductName = itemValue[6];
+                            string ProductImageOrigin = itemValue[7];
+                            string ProductVariable = itemValue[8];
+                            var productV = ProductVariableController.GetByID(ID);
+                            string parentSKU = "";
+                            parentSKU = productV.ParentSKU;
+                            if (producttype == 1)
                             {
-                                //list += id + "," + sku + "," + producttype + "," + productnariablename + "," + productvariablevalue + "," + quantity + "|";
-                                var item = items[i];
-                                string[] itemValue = item.Split(',');
-                                int ID = itemValue[0].ToInt();
-                                string SKU = itemValue[1];
-                                int producttype = itemValue[2].ToInt();
-                                string ProductVariableName = itemValue[3];
-                                string ProductVariableValue = itemValue[4];
-                                double Quantity = Convert.ToDouble(itemValue[5]);
-                                string ProductName = itemValue[6];
-                                string ProductImageOrigin = itemValue[7];
-                                string ProductVariable = itemValue[8];
-                                var productV = ProductVariableController.GetByID(ID);
-                                string parentSKU = "";
-                                parentSKU = productV.ParentSKU;
-                                if (producttype == 1)
-                                {
-                                    ProductController.UpdateStockStatus(parentSKU, 1, false, currentDate, username);
-                                    InOutProductVariableController.Insert(AgentID, ID, 0, "", "", Quantity, 0, 1, false, 1, note, 0,
-                                        SessionInOutID, 1, ProductName, SKU, ProductImageOrigin, ProductVariable, currentDate, username, 0, ID);
-                                }
-                                else
-                                {
-                                    int parentID = 0;
-                                    if (productV != null)
-                                        if (!string.IsNullOrEmpty(parentSKU))
-                                        {
-                                            var product = ProductController.GetBySKU(parentSKU);
-                                            if (product != null)
-                                                parentID = product.ID;
-                                        }
-                                    InOutProductVariableController.Insert(AgentID, 0, ID, ProductVariableName, ProductVariableValue, Quantity, 0, 1,
-                                        false, 2, note, 0, SessionInOutID, 1, ProductName, SKU, ProductImageOrigin, ProductVariable, currentDate, username, 0,
-                                        parentID);
-                                }
-                                ProductVariableController.UpdateStockStatus(ID, 1, false, currentDate, username);
-
-                                double total = PJUtils.TotalProductQuantityInstock(AgentID, itemValue[1]);
-
-
-                                if (i == items.Length - 2)
-                                {
-                                    jsonurl += "{\"id\":\"" + itemValue[0] + "\"," + "\"stock\":\"" + total + "\"}]";
-                                }
-                                else
-                                {
-                                    jsonurl += "[{\"id\":\"" + itemValue[0] + "\"," + "\"stock\":\"" + total + "\"},";
-
-                                }
+                                ProductController.UpdateStockStatus(parentSKU, 1, false, currentDate, username);
+                                InOutProductVariableController.Insert(AgentID, ID, 0, "", "", Quantity, 0, 1, false, 1, note, 0,
+                                    SessionInOutID, 1, ProductName, SKU, ProductImageOrigin, ProductVariable, currentDate, username, 0, ID);
                             }
-
-                        }
-
-                        var domain = WhiteDomainController.GetAll();
-                        if (domain != null)
-                        {
-                            foreach (var item in domain)
+                            else
                             {
-                                var httpWebRequest = (HttpWebRequest)WebRequest.Create("" + item.Domain + "");
-                                httpWebRequest.ContentType = "application/json";
-                                httpWebRequest.Method = "POST";
-
-                                using (var streamWriter = new StreamWriter(httpWebRequest.GetRequestStream()))
-                                {
-                                    string json = "{\"key\":\"asdasdasd\"," +
-                                                  "\"list_stock\":"+jsonurl+"}";
-
-                                    streamWriter.Write(json);
-                                    streamWriter.Flush();
-                                    streamWriter.Close();
-                                }
-
-                                var httpResponse = (HttpWebResponse)httpWebRequest.GetResponse();
-                                using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
-                                {
-                                    var result = streamReader.ReadToEnd();
-                                }
+                                int parentID = 0;
+                                if (productV != null)
+                                    if (!string.IsNullOrEmpty(parentSKU))
+                                    {
+                                        var product = ProductController.GetBySKU(parentSKU);
+                                        if (product != null)
+                                            parentID = product.ID;
+                                    }
+                                InOutProductVariableController.Insert(AgentID, 0, ID, ProductVariableName, ProductVariableValue, Quantity, 0, 1,
+                                    false, 2, note, 0, SessionInOutID, 1, ProductName, SKU, ProductImageOrigin, ProductVariable, currentDate, username, 0,
+                                    parentID);
                             }
-                        }
+                            ProductVariableController.UpdateStockStatus(ID, 1, false, currentDate, username);
 
-                        string barcode = "";
-                        string productPrint = "";
-                        string barcodeIMG = "";
+                            double total = PJUtils.TotalProductQuantityInstock(AgentID, itemValue[1]);
 
-                        string[] value = hdfBarcode.Value.Split(';');
-                        if (value.Count() > 1)
-                        {
-                            productPrint += "<div class=\"qcode\">";
-                            for (int i = 0; i < value.Length - 1; i++)
+                            if (i == items.Length - 2)
                             {
-
-                                string[] list2 = value[i].Split(',');
-                                int quantity = list2[1].ToInt();
-
-
-                                for (int j = 0; j < quantity; j++)
-                                {
-
-                                    barcode = list2[0];
-                                    //string QRIMG = PJUtils.GenQRCode(barcode);
-                                    barcodeIMG = "/Uploads/Images/" + barcode + ".Png";
-                                    System.Drawing.Image barCode = PJUtils.MakeBarcodeImage(barcode, 2, true);
-
-                                    barCode.Save(HttpContext.Current.Server.MapPath("~" + barcodeIMG + ""), ImageFormat.Png);
-                                    productPrint += "<div class=\"item\">";
-                                    productPrint += "<div class=\"img\"><img src =\"" + barcodeIMG + "\" alt=\"\"></div>";
-                                    productPrint += "<div><h1>" + barcode + "</h1></div>";
-                                    productPrint += "</div>";
-                                    //productPrint += "<div style=\"padding-bottom:7px\">";
-                                    //productPrint += "<div style=\"padding-bottom:7px;width: 189px;height: 70px;text-align:center;\"><img alt\"barcode\" src=\"" + barcodeIMG + "\" />" + barcode + "</div>";
-                                    //productPrint += "<span style=\"text-align:center;margin-top: -5px;\">" + barcode + "</span>";
-                                    //productPrint += "";
-                                    // OrderController.UpdateQRCodeIMGQRCodeIMGBarcode(order.ID, barcode, QRIMG, barcodeIMG);
-                                }
-
-                                //ProductImageController.Insert(1, barcodeIMG, false, DateTime.Now, "admin");
+                                jsonurl += "{\"id\":\"" + itemValue[0] + "\"," + "\"stock\":\"" + total + "\"}]";
                             }
-                            productPrint += "</div>";
-                            string html = "";
-                            html += productPrint;
-                            ltrprint.Text = html;
-                            PJUtils.ShowMessageBoxSwAlertCallFunction("Nhập hàng thành công", "s", true, "printPhieuchi()", Page);
-                            //PJUtils.ShowMessageBoxSwAlert("Nhập hàng thành công", "s", true, Page);
+                            else
+                            {
+                                jsonurl += "[{\"id\":\"" + itemValue[0] + "\"," + "\"stock\":\"" + total + "\"},";
 
-
-                        }
-                        else
-                        {
-                            PJUtils.ShowMessageBoxSwAlert("Nhập hàng thành công", "s", true, Page);
+                            }
                         }
                     }
-                
+
+                    var domain = WhiteDomainController.GetAll();
+                    if (domain != null)
+                    {
+                        foreach (var item in domain)
+                        {
+                            var httpWebRequest = (HttpWebRequest)WebRequest.Create("" + item.Domain + "");
+                            httpWebRequest.ContentType = "application/json";
+                            httpWebRequest.Method = "POST";
+
+                            using (var streamWriter = new StreamWriter(httpWebRequest.GetRequestStream()))
+                            {
+                                string json = "{\"key\":\"asdasdasd\"," +
+                                                "\"list_stock\":"+jsonurl+"}";
+
+                                streamWriter.Write(json);
+                                streamWriter.Flush();
+                                streamWriter.Close();
+                            }
+
+                            var httpResponse = (HttpWebResponse)httpWebRequest.GetResponse();
+                            using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
+                            {
+                                var result = streamReader.ReadToEnd();
+                            }
+                        }
+                    }
+
+                    string barcode = "";
+                    string productPrint = "";
+                    string barcodeIMG = "";
+
+                    string[] value = hdfBarcode.Value.Split(';');
+                    if (value.Count() > 1)
+                    {
+                        productPrint += "<div class=\"qcode\">";
+                        for (int i = 0; i < value.Length - 1; i++)
+                        {
+
+                            string[] list2 = value[i].Split(',');
+                            int quantity = list2[1].ToInt();
+
+
+                            for (int j = 0; j < quantity; j++)
+                            {
+                                barcode = list2[0];
+                                barcodeIMG = "/Uploads/Images/" + barcode + ".Png";
+                                System.Drawing.Image barCode = PJUtils.MakeBarcodeImage(barcode, 2, true);
+
+                                barCode.Save(HttpContext.Current.Server.MapPath("~" + barcodeIMG + ""), ImageFormat.Png);
+                                productPrint += "<div class=\"item\">";
+                                productPrint += "<div class=\"img\"><img src =\"" + barcodeIMG + "\"></div>";
+                                productPrint += "<div><h1>" + barcode + "</h1></div>";
+                                productPrint += "</div>";
+                            }
+                        }
+                        productPrint += "</div>";
+                        string html = "";
+                        html += productPrint;
+                        ltrprint.Text = html;
+                        PJUtils.ShowMessageBoxSwAlertCallFunction("Nhập kho thành công", "s", true, "printBarcode()", Page);
+                    }
+                    else
+                    {
+                        PJUtils.ShowMessageBoxSwAlert("Nhập kho thành công", "s", true, Page);
+                    }
+                }
             }
         }
     }

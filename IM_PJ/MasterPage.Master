@@ -13,7 +13,7 @@
     <link href="/App_Themes/NewUI/js/sweet/sweet-alert.css" rel="stylesheet" type="text/css" />
     <link href="/App_Themes/NewUI/js/select2/select2.css" rel="stylesheet" />
     <script src="/App_Themes/Ann/js/jquery-1.9.1.min.js"></script>
-
+    <script src="/App_Themes/Ann/js/popup.js"></script>
     <asp:ContentPlaceHolder ID="head" runat="server">
     </asp:ContentPlaceHolder>
 </head>
@@ -96,18 +96,12 @@
                 $('.form-filter input').keyup(function (e) {
                     var $input = $(this),
                         inputContent = $input.val().toLowerCase(),
-                        //            inputContent1 = $('.form-filter input').eq(0).val().toLowerCase(),
-                        //            inputContent2 = $('.form-filter input').eq(1).val().toLowerCase(),
-                        //            inputContent3 = $('.form-filter input').eq(2).val().toLowerCase(),
                         column = $('.form-filter input').index($input),
                         $table = $('#table-student'),
                         $rows = $table.find('tbody tr');
 
                     var $filteredRows = $rows.filter(function () {
                         var value = $(this).find('td').eq(column).text().toLowerCase();
-                        //            var value1 = $(this).find('td').eq(0).text().toLowerCase();
-                        //            var value2 = $(this).find('td').eq(1).text().toLowerCase();
-                        //            var value3 = $(this).find('td').eq(2).text().toLowerCase();
 
                         if (value.indexOf(inputContent) > -1) {
                             $(this).show();
@@ -128,9 +122,6 @@
                     }
                 });
 
-                //    jQuery(document).ready(function(){
-                //        new WOW().init();
-                //    });
                 function OnClientFileSelected(sender, args) {
                     if ($telerik.isIE) return;
                     else {
@@ -140,7 +131,6 @@
                         showThumbnail(file, args);
                     }
                 }
-
 
                 function truncateName(args) {
                     var $span = $(".ruUploadProgress", args.get_row());

@@ -21,7 +21,6 @@ namespace IM_PJ
         {
             if (!IsPostBack)
             {
-                //Session["userLoginSystem"] = "admin";
                 if (Session["userLoginSystem"] != null)
                 {
                     string username = Session["userLoginSystem"].ToString();
@@ -445,12 +444,6 @@ namespace IM_PJ
             public double Giabansi { get; set; }
             public string stringGiabansi { get; set; }
         }
-
-        protected void btnImport_Click(object sender, EventArgs e)
-        {
-
-        }
-
         protected void btnOrder_Click(object sender, EventArgs e)
         {
             DateTime currentDate = DateTime.Now;
@@ -504,9 +497,7 @@ namespace IM_PJ
                     int PaymentType = hdfPaymentType.Value.ToInt(1);
                     int ShippingType = hdfShippingType.Value.ToInt(1);
 
-                    double DiscountPerProduct = 0;
-                    if (!string.IsNullOrEmpty(hdfDiscountAmount.Value))
-                        DiscountPerProduct = Convert.ToDouble(hdfDiscountAmount.Value);
+                    double DiscountPerProduct = Convert.ToDouble(pDiscount.Value);
 
                     double TotalDiscount = Convert.ToDouble(pDiscount.Value) * Convert.ToDouble(hdfTotalQuantity.Value);
                     string FeeShipping = pFeeShip.Value.ToString();
@@ -526,8 +517,7 @@ namespace IM_PJ
                         "", totalPrice, totalPriceNotDiscount, PaymentStatus, ExcuteStatus, IsHidden, WayIn, currentDate, username, Convert.ToDouble(pDiscount.Value),
                         TotalDiscount, FeeShipping, PaymentType, ShippingType, datedone, GuestPaid, GuestChange);
                     int OrderID = ret.ID;
-                    string productPrint = "";
-                    string Print = "";
+
                     double totalQuantity = 0;
                     if (OrderID > 0)
                     {
@@ -570,43 +560,94 @@ namespace IM_PJ
                                 string ProductName = itemValue[6];
                                 string ProductImageOrigin = itemValue[7];
                                 string ProductVariable = itemValue[8];
-                                string Price = itemValue[9];
+                                double Price = Convert.ToDouble(itemValue[9]);
                                 string ProductVariableSave = itemValue[10];
 
+                                OrderDetailController.Insert(AgentID, OrderID, SKU, ProductID, ProductVariableID, ProductVariableSave, Quantity, Price, 1, 0,
+                                    producttype, currentDate, username, true);
 
-                                if (ExcuteStatus == 2 && PaymentStatus == 3)
+                                if (producttype == 1)
                                 {
-                                    OrderDetailController.Insert(AgentID, OrderID, SKU, ProductID, ProductVariableID, ProductVariableSave, Quantity, Price, 1, "0",
-                                        producttype, currentDate, username, true);
-                                    if (producttype == 1)
+                                    double _Total = PJUtils.TotalProductQuantityInstock(AgentID, SKU);
+
+                                    if (_Total < Quantity)
                                     {
-                                        InOutProductVariableController.Insert(AgentID, 0, ID, "", "", Quantity, 0, 2, false, 2, "Xuất khi tạo đơn hàng", OrderID,
-                                            0, 3, ProductName, SKU, ProductImageOrigin, ProductVariable, currentDate, username, 0, parentID);
+                                        double _InputStock = Quantity - _Total;
+
+                                        InOutProductVariableController.Insert(
+                                            AgentID,
+                                            ID,
+                                            0,
+                                            "",
+                                            "",
+                                            _InputStock,
+                                            0,
+                                            1,
+                                            false,
+                                            1,
+                                            "Nhập kho bị lệch khi tạo đơn",
+                                            OrderID,
+                                            0,
+                                            3,
+                                            ProductName,
+                                            SKU,
+                                            ProductImageOrigin,
+                                            ProductVariable,
+                                            currentDate,
+                                            username,
+                                            0,
+                                            parentID);
                                     }
-                                    else
-                                    {
-                                       
-                                        string parentSKU = "";
-                                        var productV = ProductVariableController.GetByID(ID);
-                                        if (productV != null)
-                                            parentSKU = productV.ParentSKU;
-                                        if (!string.IsNullOrEmpty(parentSKU))
-                                        {
-                                            var product = ProductController.GetBySKU(parentSKU);
-                                            if (product != null)
-                                                parentID = product.ID;
-                                        }
-                                        InOutProductVariableController.Insert(AgentID, 0, ID, ProductVariableName, ProductVariableValue, Quantity, 0, 2,
-                                            false, 2, "Xuất khi tạo đơn hàng", OrderID, 0, 3, ProductName, SKU, ProductImageOrigin, ProductVariable,
-                                            currentDate, username, 0, parentID);
-                                    }
+                                    InOutProductVariableController.Insert(AgentID, ID, 0, "", "", Quantity, 0, 2, false, 2, "Xuất kho khi tạo đơn", OrderID,
+                                        0, 3, ProductName, SKU, ProductImageOrigin, ProductVariable, currentDate, username, 0, parentID);
                                 }
                                 else
                                 {
-                                    OrderDetailController.Insert(AgentID, OrderID, SKU, ProductID, ProductVariableID, ProductVariableSave, Quantity, Price, 1, "0",
-                                        producttype, currentDate, username, true);
-                                    InOutProductVariableController.Insert(AgentID, 0, ID, "", "", Quantity, 0, 2, false, 2, "Xuất khi tạo đơn hàng", OrderID,
-                                            0, 3, ProductName, SKU, ProductImageOrigin, ProductVariable, currentDate, username, 0, parentID);
+                                    string parentSKU = "";
+                                    var productV = ProductVariableController.GetByID(ID);
+                                    if (productV != null)
+                                        parentSKU = productV.ParentSKU;
+                                    if (!string.IsNullOrEmpty(parentSKU))
+                                    {
+                                        var product = ProductController.GetBySKU(parentSKU);
+                                        if (product != null)
+                                            parentID = product.ID;
+                                    }
+
+                                    double _Total = PJUtils.TotalProductQuantityInstock(AgentID, SKU);
+
+                                    if (_Total < Quantity)
+                                    {
+                                        double _InputStock = Quantity - _Total;
+
+                                        InOutProductVariableController.Insert(
+                                            AgentID,
+                                            0,
+                                            ID,
+                                            ProductVariableName,
+                                            ProductVariableValue,
+                                            _InputStock,
+                                            0,
+                                            1,
+                                            false,
+                                            2,
+                                            "Nhập kho bị lệch khi tạo đơn",
+                                            OrderID,
+                                            0,
+                                            3,
+                                            ProductName,
+                                            SKU,
+                                            ProductImageOrigin,
+                                            ProductVariable,
+                                            currentDate,
+                                            username,
+                                            0,
+                                            parentID);
+                                    }
+
+                                    InOutProductVariableController.Insert(AgentID, 0, ID, ProductVariableName, ProductVariableValue, Quantity, 0, 2,
+                                        false, 2, "Xuất kho khi tạo đơn", OrderID, 0, 3, ProductName, SKU, ProductImageOrigin, ProductVariable,
+                                        currentDate, username, 0, parentID);
                                 }
                                 totalQuantity += Quantity;
 

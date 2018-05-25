@@ -2,6 +2,7 @@
 
 <%@ Register Assembly="Telerik.Web.UI" Namespace="Telerik.Web.UI" TagPrefix="telerik" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
+    <script src="/App_Themes/Ann/js/search-customer.js"></script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <asp:Panel ID="parent" runat="server">
@@ -296,280 +297,6 @@
                 }
             });
 
-            // get highest customer discount
-            function getCustomerDiscount(custID) {
-                $.ajax({
-                    type: "POST",
-                    url: "/pos.aspx/getCustomerDiscount",
-                    data: "{ID:'" + custID + "'}",
-                    contentType: "application/json; charset=utf-8",
-                    dataType: "json",
-                    success: function(msg) {
-                        var data = msg.d;
-                        if (data != 0) {
-                            $(".discount-info").html("<strong>Khách hàng được chiết khấu: " + formatThousands(data, ",") + " vnđ/sản phẩm.</strong>").show();
-                            $("#<%=hdfIsDiscount.ClientID%>").val("1");
-                            $("#<%=hdfDiscountAmount.ClientID%>").val(data);
-                            $(".subtotal").removeClass("hide");
-                            $(".discount").removeClass("hide");
-                        } else {
-                            $(".discount-info").hide();
-                            $("#<%=hdfIsDiscount.ClientID%>").val("0");
-                            $("#<%=hdfDiscountAmount.ClientID%>").val("0");
-                        }
-                        getAllPrice();
-                    },
-                    error: function(xmlhttprequest, textstatus, errorthrow) {
-                        alert('lỗi');
-                    }
-                });
-            }
-
-            // view Customer detail by click button
-            function viewCustomerDetail(custID) {
-                $.ajax({
-                    type: "POST",
-                    url: "/pos.aspx/getCustomerDetail",
-                    data: "{ID:'" + custID + "'}",
-                    contentType: "application/json; charset=utf-8",
-                    dataType: "json",
-                    success: function(msg) {
-                        if (msg.d != "null") {
-                            $("#<%=hdfCheckCustomer.ClientID%>").val("1");
-                            var alldata = JSON.parse(msg.d);
-
-                            var data = alldata.Customer;
-                            var dataDiscout = alldata.AllDiscount;
-                            var jsonDate = data.CreatedDate;
-                            var dateString = jsonDate.substr(6);
-                            var currentTime = new Date(parseInt(dateString));
-                            var month = currentTime.getMonth() + 1;
-                            var day = currentTime.getDate();
-                            var year = currentTime.getFullYear();
-                            var date = day + "/" + month + "/" + year;
-                            var html = "";
-                            html += "<div class=\"responsive-table\">";
-                            html += "<table class=\"table table-checkable table-product\">";
-                            html += "   <thead>";
-                            html += "       <tr>";
-                            html += "           <td style=\"width:25%;\">Khách hàng:</td>";
-                            html += "           <td>" + data.CustomerName + "</td>";
-                            html += "       </tr>";
-                            html += "       <tr>";
-                            html += "           <td style=\"width:25%;\">Nick đặt hàng:</td>";
-                            html += "           <td>" + data.Nick + "</td>";
-                            html += "       </tr>";
-                            html += "       <tr>";
-                            html += "           <td style=\"width:25%;\">Điện thoại</td>";
-                            html += "           <td>" + data.CustomerPhone + "</td>";
-                            html += "       </tr>";
-                            html += "       <tr>";
-                            html += "           <td style=\"width:25%;\">Địa chỉ</td>";
-                            html += "           <td>" + data.CustomerAddress + "</td>";
-                            html += "       </tr>";
-                            html += "       <tr>";
-                            html += "           <td style=\"width:25%;\">Email</td>";
-                            html += "           <td>" + data.CustomerEmail + "</td>";
-                            html += "       </tr>";
-                            html += "       <tr>";
-                            html += "           <td style=\"width:25%;\">Zalo</td>";
-                            html += "           <td>" + data.Zalo + "</td>";
-                            html += "       </tr>";
-                            html += "       <tr>";
-                            html += "           <td style=\"width:25%;\">Facebook</td>";
-                            html += "           <td>" + data.Facebook + "</td>";
-                            html += "       </tr>";
-                            html += "       <tr>";
-                            html += "           <td style=\"width:25%;\">Nhân viên phục vụ</td>";
-                            html += "           <td>" + data.CreatedBy + "</td>";
-                            html += "       </tr>";
-                            html += "       <tr>";
-                            html += "           <td style=\"width:25%;\">Ngày tạo</td>";
-                            html += "           <td>" + date + "</td>";
-                            html += "       </tr>";
-                            html += "   </thead>";
-                            html += "</table>";
-                            html += "</div>";
-
-                            var htmlDiscount = "";
-                            if (dataDiscout.length > 0) {
-                                htmlDiscount += "<div class=\"responsive-table\">";
-                                htmlDiscount += "<table class=\"table table-checkable table-product\">";
-                                htmlDiscount += "       <tr>";
-                                htmlDiscount += "           <td><strong>Tên nhóm</strong></td>";
-                                htmlDiscount += "           <td><strong>Chiết khấu</strong></td>";
-                                htmlDiscount += "       </tr>";
-                                for (var i = 0; i < dataDiscout.length; i++) {
-                                    htmlDiscount += "       <tr>";
-                                    htmlDiscount += "           <td>" + dataDiscout[i].DiscountName + "</td>";
-                                    htmlDiscount += "           <td>" + formatThousands(dataDiscout[i].DiscountAmount, ",") + " vnđ/sản phẩm</td>";
-                                    htmlDiscount += "       </tr>";
-                                }
-                                htmlDiscount += "</table>";
-                                htmlDiscount += "</div>";
-                            } else {
-                                htmlDiscount += "<div class=\"responsive-table\">";
-                                htmlDiscount += "<table class=\"table table-checkable table-product\">";
-                                htmlDiscount += "       <tr>";
-                                htmlDiscount += "           <td><strong>Hiện tại khách hàng chưa được chiết khấu</strong></td>";
-                                htmlDiscount += "       </tr>";
-                                htmlDiscount += "</table>";
-                                htmlDiscount += "</div>";
-                            }
-
-                            showPopup(html + htmlDiscount);
-                        }
-                    },
-                    error: function(xmlhttprequest, textstatus, errorthrow) {
-                        //alert('lỗi 1');
-                    }
-                });
-            }
-
-            // search Customer by name, nick, phone, zalo, facebook
-            function searchCustomer() {
-                var html = "";
-                html += "<div class=\"form-group\">";
-                html += "<label>Tìm khách hàng: </label>";
-                html += "<input id=\"txtSearchCustomer\" class=\"form-control fjx\"></input>";
-                html += "<a href=\"javascript: ;\" class=\"btn link- btn\" style=\"background-color:#f87703;float:right;color:#fff;\" onclick=\"showCustomerList()\">Tìm</a>";
-                html += "</div>";
-                html += "<div class=\"form-group findcust hide\">";
-                html += "<div class=\"listcust\">";
-                html += "</div>";
-                html += "</div>";
-                showPopup(html);
-                $("#txtSearchCustomer").focus();
-                $('#txtSearchCustomer').keydown(function(event) {
-                    if (event.which === 13) {
-                        showCustomerList();
-                        event.preventDefault();
-                        return false;
-                    }
-                });
-            }
-
-            // show customer list after search SKU
-            function showCustomerList() {
-                var textsearch = $("#txtSearchCustomer").val();
-                if (!isBlank(textsearch)) {
-                    $.ajax({
-                        type: "POST",
-                        url: "/pos.aspx/searchCustomerByText",
-                        data: "{textsearch:'" + textsearch + "'}",
-                        contentType: "application/json; charset=utf-8",
-                        dataType: "json",
-                        success: function(msg) {
-                            var count = 0;
-                            var data = JSON.parse(msg.d);
-                            if (data.length > 0) {
-                                var html = "";
-                                var listGet = "";
-                                html += ("<table class=\"table table-checkable table-product\">");
-                                html += ("<thead>");
-                                html += ("<tr>");
-                                html += ("<td class=\"select-column\">Chọn</td>");
-                                html += ("<td class=\"nick-column\">Nick</td>");
-                                html += ("<td class=\"name-column\">Họ tên</td>");
-                                html += ("<td class=\"phone-column\">Điện thoại</td>");
-                                html += ("<td class=\"zalo-column\">Zalo</td>");
-                                html += ("<td class=\"facebook-column\">Facebook</td>");
-                                html += ("<td class=\"address-column\">Địa chỉ</td>");
-                                html += ("<td class=\"province-column\">Tỉnh thành</td>");
-                                html += ("</tr>");
-                                html += ("</thead>");
-                                html += ("<tbody>");
-                                for (var i = 0; i < data.length; i++) {
-                                    var item = data[i];
-                                    html += ("<tr class=\"search-popup\" id=\"search-key\";>");
-                                    html += ("<td>");
-                                    html += ("<input id=\"" + item.ID + "\" name=\"cust\" type=\"radio\" class=\"check-popup select-column\"  />");
-                                    html += ("</td>");
-
-                                    if (!isBlank(item.Nick)) {
-                                        html += ("<td class=\"nick nick-column\">" + item.Nick + "</td>");
-                                    } else {
-                                        html += ("<td class=\"nick nick-column\"></td>");
-                                    }
-                                    html += ("<td class=\"name name-column\">" + item.CustomerName + "</td>");
-                                    html += ("<td class=\"phone phone-column\">" + item.CustomerPhone + "</td>");
-                                    html += ("<td class=\"id\" style=\"display:none\">" + item.ID + "</td>");
-                                    if (!isBlank(item.Zalo)) {
-                                        html += ("<td class=\"zalo zalo-column\">" + item.Zalo + "</td>");
-                                    } else {
-                                        html += ("<td></td>");
-                                    }
-                                    if (!isBlank(item.Facebook)) {
-                                        html += ("<td class=\"facebook\" data-value=\"" + item.Facebook + "\"><a class=\"link\" href=\"" + item.Facebook + "\" target=\"_blank\">Xem</a></td>");
-                                    } else {
-                                        html += ("<td></td>");
-                                    }
-                                    if (!isBlank(item.CustomerAddress)) {
-                                        html += ("<td class=\"address address-column\">" + item.CustomerAddress + "</td>");
-                                    } else {
-                                        html += ("<td></td>");
-                                    }
-                                    if (!isBlank(item.Province)) {
-                                        html += ("<td class=\"province province-column\">" + item.Province + "</td>");
-                                    } else {
-                                        html += ("<td></td>");
-                                    }
-                                    html += ("</tr>");
-                                }
-                                html += ("</tbody>");
-                                html += ("</table>");
-                                html += ("<div>");
-                                html += ("<a href=\"javascript: ;\" class=\"btn link- btn\" style=\"background-color:#f87703;float:right;color:#fff;\" onclick=\"selectCustomer()\">Chọn</a>");
-                                html += ("</div >");
-                                $("#txtSearchCustomer").val("");
-                                $(".listcust").html(html);
-                                $(".findcust").removeClass('hide').addClass('show');
-                            } else {
-                                alert('Không tìm thấy khách hàng');
-                            }
-                        },
-                        error: function(xmlhttprequest, textstatus, errorthrow) {
-                            alert('lỗi');
-                        }
-                    });
-                } else {
-                    alert('Vui lòng nhập nội dung tìm kiếm');
-                }
-            }
-
-            // select a customer after show list
-            function selectCustomer() {
-                $(".search-popup").each(function() {
-                    if ($(this).find(".check-popup").is(':checked')) {
-                        var phone = $(this).find("td.phone").html();
-                        var name = $(this).find("td.name").html();
-                        var nick = $(this).find("td.nick").html();
-                        var address = $(this).find("td.address").html();
-                        var id = $(this).find("td.id").html();
-                        $("#<%=txtPhone.ClientID%>").val(phone).prop('disabled', true);
-                        $("#<%=txtFullname.ClientID%>").val(name).prop('disabled', true);
-                        $("#<%=txtNick.ClientID%>").val(nick).prop('disabled', true);
-                        $("#<%=txtAddress.ClientID%>").val(address).prop('disabled', true);
-                        $(".view-detail").html("<a href=\"javascript:;\" class=\"btn primary-btn fw-btn not-fullwidth\" onclick=\"viewCustomerDetail('" + id + "')\">Xem chi tiết</a><a href=\"javascript:;\" class=\"btn primary-btn fw-btn not-fullwidth clear-btn\" onclick=\"clearCustomerDetail()\">Bỏ qua</a>").show();
-                        getCustomerDiscount(id);
-                    }
-                });
-                closePopup();
-            }
-
-            // clear customer detail
-            function clearCustomerDetail() {
-                $("#<%=txtPhone.ClientID%>").val("").prop('disabled', false);
-                $("#<%= txtFullname.ClientID%>").val("").prop('disabled', false);
-                $("#<%= txtNick.ClientID%>").val("").prop('disabled', false);
-                $("#<%= txtAddress.ClientID%>").val("").prop('disabled', false);
-                $(".view-detail").html("").hide();
-                $(".discount-info").html("").hide();
-                $("#<%= txtFullname.ClientID%>").focus();
-                getAllPrice();
-            }
-            // end Customer
-
             // search return order
             function searchReturnOrder() {
                 var phone = $("#<%=txtPhone.ClientID%>").val();
@@ -697,21 +424,10 @@
             }
 
             // print invoice after submit order
-            function printInvoice() {
+            function printInvoice(id) {
                 clearCustomerDetail();
-                printDiv('printcontent');
-            }
-
-            // print div invoice
-            function printDiv(divid) {
-                var divToPrint = document.getElementById('' + divid + '');
-                var newWin = window.open('', 'Print-Window');
-                newWin.document.open();
-                newWin.document.write('<html><head><link rel="stylesheet" href="/App_Themes/Ann/hoadon/hoadon.css" type="text/css"/><link rel="stylesheet" href="/App_Themes/Ann/barcode/style.css" type="text/css"/><link rel="stylesheet" href="/App_Themes/Ann/css/responsive.css" type="text/css"/></head><body onload="window.print()">' + divToPrint.innerHTML + '</body></html>');
-                newWin.document.close();
-                setTimeout(function() {
-                    newWin.close();
-                }, 10);
+                var url = "/print-invoice.aspx?id=" + id;
+                window.open(url);
             }
 
             // pay order on click button
@@ -856,7 +572,7 @@
                                         html += "   <td class=\"price-item gia-san-pham\" data-price=\"" + item.Giabansi + "\">" + item.stringGiabansi + "</td>";
                                     }
 
-                                    html += "   <td class=\"quantity-item\"><input type=\"text\" min=\"0\"  class=\"form-control in-quanlity\" value=\"1\"  onkeyup=\"checkQuantiy($(this))\" onkeypress='return event.charCode >= 48 && event.charCode <= 57'/></td>";
+                                    html += "   <td class=\"quantity-item\"><input type=\"text\" class=\"form-control in-quanlity\" value=\"1\" onkeyup=\"checkQuantiy($(this))\" onkeypress='return event.charCode >= 48 && event.charCode <= 57'/></td>";
 
                                     html += "<td class=\"total-item totalprice-view\">" + formatThousands(parseFloat(item.Giabansi), '.') + "</td>";
                                     html += "   <td class=\"trash-item\"><a href=\"javascript:;\" class=\"link-btn\" onclick=\"deleteRow($(this))\"><i class=\"fa fa-trash\"></i></a></td>";
@@ -997,13 +713,9 @@
                                             }
 
                                             var t = 0;
-                                            //if (list2[j] > item.QuantityInstock) {
-                                            //    html += "   <td class=\"quantity-item\"><input type=\"text\" min=\"0\"  class=\"form-control in-quanlity\" value=\"" + item.QuantityInstock + "\"  onkeyup=\"checkQuantiy($(this))\" onkeypress='return event.charCode >= 48 && event.charCode <= 57'/></td>";
-                                            //    t = parseFloat(item.QuantityInstock) * parseFloat(item.Giabansi);
-                                            //} else {
-                                                html += "   <td class=\"quantity-item\"><input type=\"text\" min=\"0\"  class=\"form-control in-quanlity\" value=\"" + list2[j] + "\"  onkeyup=\"checkQuantiy($(this))\" onkeypress='return event.charCode >= 48 && event.charCode <= 57'/></td>";
+
+                                            html += "   <td class=\"quantity-item\"><input type=\"text\" class=\"form-control in-quanlity\" value=\"" + list2[j] + "\" onkeyup=\"checkQuantiy($(this))\" onkeypress='return event.charCode >= 48 && event.charCode <= 57'/></td>";
                                                 t = parseFloat(list2[j]) * parseFloat(item.Giabansi);
-                                            //}
 
                                             html += "<td class=\"total-item totalprice-view\">" + formatThousands(t, '.') + "</td>";
 
@@ -1093,15 +805,10 @@
 
             // change quantity of product
             function checkQuantiy(obj) {
-                //var instock = parseFloat(obj.parent().parent().attr("data-quantityinstock"));
-                //var currentVal = parseFloat(obj.val());
-                //var check = true;
-                //if (currentVal == 0) {
-                //    obj.val("1");
-                //} else if (currentVal > instock) {
-                //    obj.val("");
-                //    obj.val(instock);
-                //}
+                var current = obj.val();
+                if (current == 0 || current == "" || current == null) {
+                    obj.val("1");
+                }
                 getAllPrice();
             }
 
@@ -1268,36 +975,6 @@
                     });
                     getAllPrice();
                 }
-            }
-
-            // show popup
-            function showPopup(content) {
-                var obj = $('body');
-                $(obj).attr('onkeydown', 'keyclose_ms(event)');
-                var bg = "<div id='bg_popup'></div>";
-                var fr = "<div id='pupip' class=\"columns-container1\"><div class=\"container\" id=\"columns\"><div class='row'><div class=\"center_column col-xs-12 col-sm-8\" id=\"popup_content\"><a onclick='closePopup()' class='close_message'></a>";
-                fr += "     <div class=\"changeavatar\">";
-                fr += content;
-                fr += "     </div>";
-                fr += "   </div>";
-                fr += "</div></div></div>";
-                $(bg).appendTo($(obj)).show().animate({
-                    "opacity": 0.7
-                }, 0);
-                $(fr).appendTo($(obj));
-            }
-
-            // close popup when press escape
-            function keyclose_ms(e) {
-                if (e.keyCode == 27) {
-                    closePopup();
-                }
-            }
-
-            // close popup
-            function closePopup() {
-                $("#pupip").remove();
-                $("#bg_popup").remove();
             }
 
             // press key

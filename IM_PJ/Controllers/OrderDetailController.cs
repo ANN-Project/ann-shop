@@ -11,7 +11,7 @@ namespace IM_PJ.Controllers
     {
         #region CRUD
         public static string Insert(int AgentID, int OrderID, string SKU, int ProductID, int ProductVariableID, string ProductVariableDescrition, double Quantity,
-            string Price, int Status, string DiscountPrice, int ProductType, DateTime CreatedDate, string CreatedBy, bool IsCount)
+            double Price, int Status, double DiscountPrice, int ProductType, DateTime CreatedDate, string CreatedBy, bool IsCount)
         {
             using (var dbe = new inventorymanagementEntities())
             {
@@ -23,7 +23,7 @@ namespace IM_PJ.Controllers
                 ui.ProductVariableID = ProductVariableID;
                 ui.ProductVariableDescrition = ProductVariableDescrition;
                 ui.Quantity = Quantity;
-                ui.Price = Price;
+                ui.Price = Convert.ToDouble(Price);
                 ui.Status = Status;
                 ui.DiscountPrice = DiscountPrice;
                 ui.ProductType = ProductType;
@@ -126,6 +126,15 @@ namespace IM_PJ.Controllers
             {
                 List<tbl_OrderDetail> ags = new List<tbl_OrderDetail>();
                 ags = dbe.tbl_OrderDetail.Where(o => o.OrderID == OrderID).OrderByDescending(o => o.ID).ToList();
+                return ags;
+            }
+        }
+        public static List<tbl_OrderDetail> GetByIDSortBySKU(int OrderID)
+        {
+            using (var dbe = new inventorymanagementEntities())
+            {
+                List<tbl_OrderDetail> ags = new List<tbl_OrderDetail>();
+                ags = dbe.tbl_OrderDetail.Where(o => o.OrderID == OrderID).OrderBy(o => o.SKU).ThenByDescending(o => o.Price).ToList();
                 return ags;
             }
         }

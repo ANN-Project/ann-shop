@@ -355,9 +355,9 @@
           <Property Name="ProductVariableID" Type="int" />
           <Property Name="ProductVariableDescrition" Type="nvarchar(max)" />
           <Property Name="Quantity" Type="float" />
-          <Property Name="Price" Type="nvarchar(max)" />
+          <Property Name="Price" Type="float" />
           <Property Name="Status" Type="int" />
-          <Property Name="DiscountPrice" Type="nvarchar(max)" />
+          <Property Name="DiscountPrice" Type="float" />
           <Property Name="ProductType" Type="int" />
           <Property Name="CreatedDate" Type="datetime" />
           <Property Name="CreatedBy" Type="nvarchar(max)" />
@@ -722,7 +722,6 @@ warning 6002: The table/view 'inventorymanagement.dbo.View_ProductList' does not
           <EntitySet Name="tbl_MovePro" EntityType="inventorymanagementModel.tbl_MovePro" />
           <EntitySet Name="tbl_MoveProdDetail" EntityType="inventorymanagementModel.tbl_MoveProdDetail" />
           <EntitySet Name="tbl_Order" EntityType="inventorymanagementModel.tbl_Order" />
-          <EntitySet Name="tbl_OrderDetail" EntityType="inventorymanagementModel.tbl_OrderDetail" />
           <EntitySet Name="tbl_OrderReturnGood" EntityType="inventorymanagementModel.tbl_OrderReturnGood" />
           <EntitySet Name="tbl_Product" EntityType="inventorymanagementModel.tbl_Product" />
           <EntitySet Name="tbl_ProductImage" EntityType="inventorymanagementModel.tbl_ProductImage" />
@@ -739,6 +738,7 @@ warning 6002: The table/view 'inventorymanagement.dbo.View_ProductList' does not
           <EntitySet Name="tbl_VariableValue" EntityType="inventorymanagementModel.tbl_VariableValue" />
           <EntitySet Name="tbl_WhiteDomain" EntityType="inventorymanagementModel.tbl_WhiteDomain" />
           <EntitySet Name="View_ProductList" EntityType="inventorymanagementModel.View_ProductList" />
+          <EntitySet Name="tbl_OrderDetail" EntityType="inventorymanagementModel.tbl_OrderDetail" />
         </EntityContainer>
         <EntityType Name="tbl_Account">
           <Key>
@@ -1078,28 +1078,6 @@ warning 6002: The table/view 'inventorymanagement.dbo.View_ProductList' does not
           <Property Name="DateDone" Type="DateTime" Precision="3" />
           <Property Name="RefundsGoodsID" Type="Int32" />
         </EntityType>
-        <EntityType Name="tbl_OrderDetail">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="AgentID" Type="Int32" />
-          <Property Name="OrderID" Type="Int32" />
-          <Property Name="SKU" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="ProductID" Type="Int32" />
-          <Property Name="ProductVariableID" Type="Int32" />
-          <Property Name="ProductVariableDescrition" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="Quantity" Type="Double" />
-          <Property Name="Price" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="Status" Type="Int32" />
-          <Property Name="DiscountPrice" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="ProductType" Type="Int32" />
-          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
-          <Property Name="CreatedBy" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
-          <Property Name="ModifiedBy" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="IsCount" Type="Boolean" />
-        </EntityType>
         <EntityType Name="tbl_OrderReturnGood">
           <Key>
             <PropertyRef Name="ID" />
@@ -1374,6 +1352,28 @@ warning 6002: The table/view 'inventorymanagement.dbo.View_ProductList' does not
           <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
           <Property Name="ModifiedBy" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="anhsanpham" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="tbl_OrderDetail">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AgentID" Type="Int32" />
+          <Property Name="OrderID" Type="Int32" />
+          <Property Name="SKU" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ProductID" Type="Int32" />
+          <Property Name="ProductVariableID" Type="Int32" />
+          <Property Name="ProductVariableDescrition" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Quantity" Type="Double" />
+          <Property Name="Price" Type="Double" />
+          <Property Name="Status" Type="Int32" />
+          <Property Name="DiscountPrice" Type="Double" />
+          <Property Name="ProductType" Type="Int32" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="CreatedBy" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="IsCount" Type="Boolean" />
         </EntityType>
         </Schema>
     </edmx:ConceptualModels>
@@ -1738,29 +1738,6 @@ warning 6002: The table/view 'inventorymanagement.dbo.View_ProductList' does not
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="tbl_OrderDetail">
-            <EntityTypeMapping TypeName="inventorymanagementModel.tbl_OrderDetail">
-              <MappingFragment StoreEntitySet="tbl_OrderDetail">
-                <ScalarProperty Name="IsCount" ColumnName="IsCount" />
-                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
-                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
-                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
-                <ScalarProperty Name="ProductType" ColumnName="ProductType" />
-                <ScalarProperty Name="DiscountPrice" ColumnName="DiscountPrice" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
-                <ScalarProperty Name="Price" ColumnName="Price" />
-                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
-                <ScalarProperty Name="ProductVariableDescrition" ColumnName="ProductVariableDescrition" />
-                <ScalarProperty Name="ProductVariableID" ColumnName="ProductVariableID" />
-                <ScalarProperty Name="ProductID" ColumnName="ProductID" />
-                <ScalarProperty Name="SKU" ColumnName="SKU" />
-                <ScalarProperty Name="OrderID" ColumnName="OrderID" />
-                <ScalarProperty Name="AgentID" ColumnName="AgentID" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="tbl_OrderReturnGood">
             <EntityTypeMapping TypeName="inventorymanagementModel.tbl_OrderReturnGood">
               <MappingFragment StoreEntitySet="tbl_OrderReturnGood">
@@ -2048,6 +2025,29 @@ warning 6002: The table/view 'inventorymanagement.dbo.View_ProductList' does not
                 <ScalarProperty Name="ProductSKU" ColumnName="ProductSKU" />
                 <ScalarProperty Name="ProductTitle" ColumnName="ProductTitle" />
                 <ScalarProperty Name="CategoryID" ColumnName="CategoryID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_OrderDetail">
+            <EntityTypeMapping TypeName="inventorymanagementModel.tbl_OrderDetail">
+              <MappingFragment StoreEntitySet="tbl_OrderDetail">
+                <ScalarProperty Name="IsCount" ColumnName="IsCount" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="ProductType" ColumnName="ProductType" />
+                <ScalarProperty Name="DiscountPrice" ColumnName="DiscountPrice" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="ProductVariableDescrition" ColumnName="ProductVariableDescrition" />
+                <ScalarProperty Name="ProductVariableID" ColumnName="ProductVariableID" />
+                <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+                <ScalarProperty Name="SKU" ColumnName="SKU" />
+                <ScalarProperty Name="OrderID" ColumnName="OrderID" />
+                <ScalarProperty Name="AgentID" ColumnName="AgentID" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>

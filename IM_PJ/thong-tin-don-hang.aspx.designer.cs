@@ -31,6 +31,15 @@ namespace IM_PJ {
         protected global::System.Web.UI.WebControls.Literal ltrOrderID;
         
         /// <summary>
+        /// ltrOrderType control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Literal ltrOrderType;
+        
+        /// <summary>
         /// ltrCreateBy control.
         /// </summary>
         /// <remarks>
@@ -56,15 +65,6 @@ namespace IM_PJ {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Literal ltrDateDone;
-        
-        /// <summary>
-        /// ltrOrderType control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal ltrOrderType;
         
         /// <summary>
         /// ltrOrderQuantity control.
@@ -101,6 +101,15 @@ namespace IM_PJ {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Literal ltrOrderNote;
+        
+        /// <summary>
+        /// ltrPrint control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Literal ltrPrint;
         
         /// <summary>
         /// RequiredFieldValidator1 control.
@@ -569,24 +578,6 @@ namespace IM_PJ {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.HiddenField hdfcheckR;
-        
-        /// <summary>
-        /// ltrprint control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal ltrprint;
-        
-        /// <summary>
-        /// ltrPrintOrder control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal ltrPrintOrder;
         
         /// <summary>
         /// rAjax control.

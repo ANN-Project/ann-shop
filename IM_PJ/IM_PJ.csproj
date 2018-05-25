@@ -364,6 +364,7 @@
     <Content Include="App_Themes\NewUI\js\waves\waves.js" />
     <Content Include="App_Themes\NewUI\js\waves\waves.min.js" />
     <Content Include="bao-cao.aspx" />
+    <Content Include="print-order-image.aspx" />
     <Content Include="print-invoice.aspx" />
     <Content Include="cai-dat.aspx" />
     <Content Include="chi-tiet-chiet-khau.aspx" />
@@ -471,6 +472,8 @@
     <Content Include="App_Data\RadUploadTemp\RadUploadTestFile" />
     <Content Include="ClassDiagram1.cd" />
     <Content Include="ClassDiagram2.cd" />
+    <Content Include="ClassDiagram3.cd" />
+    <Content Include="ClassDiagram4.cd" />
     <None Include="compilerconfig.json" />
     <None Include="compilerconfig.json.defaults">
       <DependentUpon>compilerconfig.json</DependentUpon>
@@ -716,6 +719,16 @@
     </Compile>
     <Compile Include="bao-cao.aspx.designer.cs">
       <DependentUpon>bao-cao.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\tbl_OrderDetail1.cs">
+      <DependentUpon>IMModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="print-order-image.aspx.cs">
+      <DependentUpon>print-order-image.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="print-order-image.aspx.designer.cs">
+      <DependentUpon>print-order-image.aspx</DependentUpon>
     </Compile>
     <Compile Include="print-invoice.aspx.cs">
       <DependentUpon>print-invoice.aspx</DependentUpon>
