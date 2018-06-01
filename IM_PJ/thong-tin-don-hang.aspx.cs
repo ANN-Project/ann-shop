@@ -806,7 +806,24 @@ namespace IM_PJ
                                     {
                                         //cộng vô kho
                                         double quantitynew = quantityOld - Quantity;
-                                        StockManagerController.Insert(AgentID, ID, 0, "", "", quantitynew, 0, 1, false, 1, "Nhập kho khi giảm số lượng trong sửa đơn", OrderID, 0, 4, ProductName, SKU, ProductImageOrigin, ProductVariable, currentDate, username, 0, parentID);
+                                        StockManagerController.Insert(
+                                            new tbl_StockManager {
+                                                AgentID = AgentID,
+                                                ProductID = ID,
+                                                ProductVariableID = 0,
+                                                Quantity = quantitynew,
+                                                QuantityCurrent = 0,
+                                                Type = 1,
+                                                NoteID = "Nhập kho khi giảm số lượng trong sửa đơn",
+                                                OrderID = OrderID,
+                                                Status = 4,
+                                                SKU = SKU,
+                                                CreatedDate = currentDate,
+                                                CreatedBy = username,
+                                                MoveProID = 0,
+                                                ParentID = parentID,
+
+                                            });
                                     }
                                     else if (quantityOld < Quantity)
                                     {
@@ -821,32 +838,42 @@ namespace IM_PJ
                                             double _InputStock = quantitynew - _Total;
 
                                             StockManagerController.Insert(
-                                                AgentID,
-                                                ID,
-                                                0,
-                                                "",
-                                                "",
-                                                _InputStock,
-                                                0,
-                                                1,
-                                                false,
-                                                1,
-                                                "Nhập kho bị lệch khi sửa đơn",
-                                                OrderID,
-                                                0,
-                                                3,
-                                                ProductName,
-                                                SKU,
-                                                ProductImageOrigin,
-                                                ProductVariable,
-                                                currentDate,
-                                                username,
-                                                0,
-                                                parentID);
+                                                new tbl_StockManager {
+                                                    AgentID = AgentID,
+                                                    ProductID = ID,
+                                                    ProductVariableID = 0,
+                                                    Quantity = _InputStock,
+                                                    QuantityCurrent = 0,
+                                                    Type = 1,
+                                                    NoteID = "Nhập kho bị lệch khi sửa đơn",
+                                                    OrderID = OrderID,
+                                                    Status = 3,
+                                                    SKU = SKU,
+                                                    CreatedDate = currentDate,
+                                                    CreatedBy = username,
+                                                    MoveProID = 0,
+                                                    ParentID = parentID,
+                                                });
                                         }
 
                                         //trừ tiếp trong kho
-                                        StockManagerController.Insert(AgentID, ID, 0, "", "", quantitynew, 0, 2, false, 1, "Xuất kho khi tăng số lượng trong sửa đơn", OrderID, 0, 3, ProductName, SKU, ProductImageOrigin, ProductVariable, currentDate, username, 0, parentID);
+                                        StockManagerController.Insert(
+                                            new tbl_StockManager {
+                                                AgentID = AgentID,
+                                                ProductID = ID,
+                                                ProductVariableID = 0,
+                                                Quantity = quantitynew,
+                                                QuantityCurrent = 0,
+                                                Type = 2,
+                                                NoteID = "Xuất kho khi tăng số lượng trong sửa đơn",
+                                                OrderID = OrderID,
+                                                Status = 3,
+                                                SKU = SKU,
+                                                CreatedDate = currentDate,
+                                                CreatedBy = username,
+                                                MoveProID = 0,
+                                                ParentID = parentID,
+                                            });
                                     }
                                 }
                                 else
@@ -865,7 +892,23 @@ namespace IM_PJ
                                     {
                                         //cộng vô kho
                                         double quantitynew = quantityOld - Quantity;
-                                        StockManagerController.Insert(AgentID, 0, ID, ProductVariableName, ProductVariableValue, quantitynew, 0, 1, false, 2, "Nhập kho khi giảm số lượng trong sửa đơn", OrderID, 0, 4, ProductName, SKU, ProductImageOrigin, ProductVariable, currentDate, username, 0, parentID);
+                                        StockManagerController.Insert(
+                                            new tbl_StockManager {
+                                                AgentID = AgentID,
+                                                ProductID = 0,
+                                                ProductVariableID = ID,
+                                                Quantity = quantitynew,
+                                                QuantityCurrent = 0,
+                                                Type = 1,
+                                                NoteID = "Nhập kho khi giảm số lượng trong sửa đơn",
+                                                OrderID = OrderID,
+                                                Status = 4,
+                                                SKU = SKU,
+                                                CreatedDate = currentDate,
+                                                CreatedBy = username,
+                                                MoveProID = 0,
+                                                ParentID = parentID,
+                                            });
                                     }
                                     else if (quantityOld < Quantity)
                                     {
@@ -880,32 +923,42 @@ namespace IM_PJ
                                             double _InputStock = quantitynew - _Total;
 
                                             StockManagerController.Insert(
-                                                AgentID,
-                                                0,
-                                                ID,
-                                                ProductVariableName,
-                                                ProductVariableValue,
-                                                _InputStock,
-                                                0,
-                                                1,
-                                                false,
-                                                2,
-                                                "Nhập kho bị lệch khi sửa đơn",
-                                                OrderID,
-                                                0,
-                                                3,
-                                                ProductName,
-                                                SKU,
-                                                ProductImageOrigin,
-                                                ProductVariable,
-                                                currentDate,
-                                                username,
-                                                0,
-                                                parentID);
+                                                new tbl_StockManager {
+                                                    AgentID = AgentID,
+                                                    ProductID = 0,
+                                                    ProductVariableID = ID,
+                                                    Quantity = _InputStock,
+                                                    QuantityCurrent = 0,
+                                                    Type = 1,
+                                                    NoteID = "Nhập kho bị lệch khi sửa đơn",
+                                                    OrderID = OrderID,
+                                                    Status = 3,
+                                                    SKU = SKU,
+                                                    CreatedDate = currentDate,
+                                                    CreatedBy = username,
+                                                    MoveProID = 0,
+                                                    ParentID = parentID,
+                                                });
                                         }
 
                                         //trừ tiếp trong kho
-                                        StockManagerController.Insert(AgentID, 0, ID, ProductVariableName, ProductVariableValue, quantitynew, 0, 2, false, 2, "Xuất kho khi tăng số lượng trong sửa đơn", OrderID, 0, 3, ProductName, SKU, ProductImageOrigin, ProductVariable, currentDate, username, 0, parentID);
+                                        StockManagerController.Insert(
+                                            new tbl_StockManager {
+                                                AgentID = AgentID,
+                                                ProductID = 0,
+                                                ProductVariableID = ID,
+                                                Quantity = quantitynew,
+                                                QuantityCurrent = 0,
+                                                Type = 2,
+                                                NoteID = "Xuất kho khi tăng số lượng trong sửa đơn",
+                                                OrderID = OrderID,
+                                                Status = 3,
+                                                SKU = SKU,
+                                                CreatedDate = currentDate,
+                                                CreatedBy = username,
+                                                MoveProID = 0,
+                                                ParentID = parentID,
+                                            });
                                     }
                                 }
                             }
@@ -920,30 +973,40 @@ namespace IM_PJ
                                         double _InputStock = Quantity - _Total;
 
                                         StockManagerController.Insert(
-                                            AgentID,
-                                            ID,
-                                            0,
-                                            "",
-                                            "",
-                                            _InputStock,
-                                            0,
-                                            1,
-                                            false,
-                                            1,
-                                            "Nhập kho bị lệch khi sửa đơn",
-                                            OrderID,
-                                            0,
-                                            3,
-                                            ProductName,
-                                            SKU,
-                                            ProductImageOrigin,
-                                            ProductVariable,
-                                            currentDate,
-                                            username,
-                                            0,
-                                            parentID);
+                                            new tbl_StockManager {
+                                                AgentID = AgentID,
+                                                ProductID = ID,
+                                                ProductVariableID = 0,
+                                                Quantity = _InputStock,
+                                                QuantityCurrent = 0,
+                                                Type = 1,
+                                                NoteID = "Nhập kho bị lệch khi sửa đơn",
+                                                OrderID = OrderID,
+                                                Status = 3,
+                                                SKU = SKU,
+                                                CreatedDate = currentDate,
+                                                CreatedBy = username,
+                                                MoveProID = 0,
+                                                ParentID = parentID,
+                                            });
                                     }
-                                    StockManagerController.Insert(AgentID, ID, 0, "", "", Quantity, 0, 2, false, 1, "Xuất kho thêm mới sản phẩm khi sửa đơn", OrderID, 0, 3, ProductName, SKU, ProductImageOrigin, ProductVariable, currentDate, username, 0, ID);
+                                    StockManagerController.Insert(
+                                        new tbl_StockManager {
+                                            AgentID = AgentID,
+                                            ProductID = ID,
+                                            ProductVariableID = 0,
+                                            Quantity = Quantity,
+                                            QuantityCurrent = 0,
+                                            Type = 2,
+                                            NoteID = "Xuất kho thêm mới sản phẩm khi sửa đơn",
+                                            OrderID = OrderID,
+                                            Status = 3,
+                                            SKU = SKU,
+                                            CreatedDate = currentDate,
+                                            CreatedBy = username,
+                                            MoveProID = 0,
+                                            ParentID = ID,
+                                        });
                                 }
                                 else
                                 {

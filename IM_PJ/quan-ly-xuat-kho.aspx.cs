@@ -431,8 +431,23 @@ namespace IM_PJ
                                 string ProductVariable = itemValue[8];
                                 if (producttype == 1)
                                 {
-                                    StockManagerController.Insert(AgentID, ID, 0, "", "", Quantity, 0, 2, false, 1, note, 0,
-                                        SessionInOutID, 2, ProductName, SKU, ProductImageOrigin, ProductVariable, currentDate, username, 0, ID);
+                                    StockManagerController.Insert(
+                                        new tbl_StockManager {
+                                            AgentID = AgentID,
+                                            ProductID = ID,
+                                            ProductVariableID = 0,
+                                            Quantity = Quantity,
+                                            QuantityCurrent = 0,
+                                            Type = 2,
+                                            NoteID = note,
+                                            OrderID = 0,
+                                            Status = 2,
+                                            SKU = SKU,
+                                            CreatedDate = currentDate,
+                                            CreatedBy = username,
+                                            MoveProID = 0,
+                                            ParentID = ID,
+                                        });
                                 }
                                 else
                                 {
@@ -447,9 +462,23 @@ namespace IM_PJ
                                         if (product != null)
                                             parentID = product.ID;
                                     }
-                                    StockManagerController.Insert(AgentID, 0, ID, ProductVariableName, ProductVariableValue, Quantity, 0, 2,
-                                        false, 2, note, 0, SessionInOutID, 2, ProductName, SKU, ProductImageOrigin, ProductVariable, currentDate, username, 0,
-                                        parentID);
+                                    StockManagerController.Insert(
+                                        new tbl_StockManager {
+                                            AgentID = AgentID,
+                                            ProductID = 0,
+                                            ProductVariableID = ID,
+                                            Quantity = Quantity,
+                                            QuantityCurrent = 0,
+                                            Type = 2,
+                                            NoteID = note,
+                                            OrderID = 0,
+                                            Status = 2,
+                                            SKU = SKU,
+                                            CreatedDate = currentDate,
+                                            CreatedBy = username,
+                                            MoveProID = 0,
+                                            ParentID = parentID,
+                                        });
                                 }
                             }
                             PJUtils.ShowMessageBoxSwAlert("Xuất kho thành công", "s", true, Page);

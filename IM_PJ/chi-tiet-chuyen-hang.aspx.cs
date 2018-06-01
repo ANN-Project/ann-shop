@@ -644,18 +644,48 @@ namespace IM_PJ
                                                 {
                                                     //công vô kho
                                                     double quantitynew = quantityOld - Quantity;
-                                                    StockManagerController.Insert(AgentID, ID, 0, "", "", quantitynew, 0, 1, false, 1,
-                                                        note, 0,
-                                                    0, 6, ProductName, SKU, ProductImageOrigin, ProductVariable, currentDate, username, mpID, ID);
+                                                    StockManagerController.Insert(
+                                                        new tbl_StockManager {
+                                                            AgentID = AgentID,
+                                                            ProductID = ID,
+                                                            ProductVariableID = 0,
+                                                            Quantity = quantitynew,
+                                                            QuantityCurrent = 0,
+                                                            Type = 1,
+                                                            NoteID = note,
+                                                            OrderID = 0,
+                                                            Status = 6,
+                                                            SKU = SKU,
+                                                            CreatedDate = currentDate,
+                                                            CreatedBy = username,
+                                                            MoveProID = mpID,
+                                                            ParentID = ID,
+                                                        });
+
                                                     MoveProDetailController.UpdateQuantitySend(mpdid, quantitynew, currentDate, username);
                                                 }
                                                 else if (quantityOld < Quantity)
                                                 {
                                                     //trừ tiếp trong kho
                                                     double quantitynew = Quantity - quantityOld;
-                                                    StockManagerController.Insert(AgentID, ID, 0, "", "", quantitynew, 0, 2, false, 1,
-                                                        note, 0,
-                                                    0, 5, ProductName, SKU, ProductImageOrigin, ProductVariable, currentDate, username, mpID, ID);
+                                                    StockManagerController.Insert(
+                                                        new tbl_StockManager {
+                                                            AgentID = AgentID,
+                                                            ProductID = ID,
+                                                            ProductVariableID = 0,
+                                                            Quantity = quantitynew,
+                                                            QuantityCurrent = 0,
+                                                            Type = 2,
+                                                            NoteID = note,
+                                                            OrderID = 0,
+                                                            Status = 5,
+                                                            SKU = SKU,
+                                                            CreatedDate = currentDate,
+                                                            CreatedBy = username,
+                                                            MoveProID = mpID,
+                                                            ParentID = ID,
+                                                        });
+
                                                     MoveProDetailController.UpdateQuantitySend(mpdid, quantitynew, currentDate, username);
                                                 }
 
@@ -677,17 +707,45 @@ namespace IM_PJ
                                                 {
                                                     //công vô kho
                                                     double quantitynew = quantityOld - Quantity;
-                                                    StockManagerController.Insert(AgentID, 0, ID, ProductVariableName, ProductVariableValue, quantitynew, 0, 1,
-                                                   false, 2, note, 0, 0, 6, ProductName, SKU, ProductImageOrigin, ProductVariable,
-                                                   currentDate, username, mpID, parentID);
+                                                    StockManagerController.Insert(
+                                                        new tbl_StockManager {
+                                                            AgentID = AgentID,
+                                                            ProductID = 0,
+                                                            ProductVariableID = ID,
+                                                            Quantity = quantitynew,
+                                                            QuantityCurrent = 0,
+                                                            Type = 1,
+                                                            NoteID = note,
+                                                            OrderID = 0,
+                                                            Status = 6,
+                                                            SKU = SKU,
+                                                            CreatedDate = currentDate,
+                                                            CreatedBy = username,
+                                                            MoveProID = mpID,
+                                                            ParentID = parentID,
+                                                        });
                                                 }
                                                 else if (quantityOld < Quantity)
                                                 {
                                                     //trừ tiếp trong kho
                                                     double quantitynew = Quantity - quantityOld;
-                                                    StockManagerController.Insert(AgentID, 0, ID, ProductVariableName, ProductVariableValue, quantitynew, 0, 2,
-                                                   false, 2, note, 0, 0, 5, ProductName, SKU, ProductImageOrigin,
-                                                   ProductVariable, currentDate, username, mpID, parentID);
+                                                    StockManagerController.Insert(
+                                                        new tbl_StockManager {
+                                                            AgentID = AgentID,
+                                                            ProductID = 0,
+                                                            ProductVariableID = ID,
+                                                            Quantity = quantitynew,
+                                                            QuantityCurrent = 0,
+                                                            Type = 2,
+                                                            NoteID = note,
+                                                            OrderID = 0,
+                                                            Status = 5,
+                                                            SKU = SKU,
+                                                            CreatedDate = currentDate,
+                                                            CreatedBy = username,
+                                                            MoveProID = mpID,
+                                                            ParentID = parentID,
+                                                        });
                                                     MoveProDetailController.UpdateQuantitySend(mpdid, quantitynew, currentDate, username);
                                                 }
 
@@ -699,8 +757,23 @@ namespace IM_PJ
                                             {
                                                 if (producttype == 1)
                                                 {
-                                                    StockManagerController.Insert(AgentID, ID, 0, "", "", Quantity, 0, 2, false, 1, note, 0,
-                                                    0, 5, ProductName, SKU, ProductImageOrigin, ProductVariable, currentDate, username, mpID, ID);
+                                                    StockManagerController.Insert(
+                                                        new tbl_StockManager {
+                                                            AgentID = AgentID,
+                                                            ProductID = ID,
+                                                            ProductVariableID = 0,
+                                                            Quantity = Quantity,
+                                                            QuantityCurrent = 0,
+                                                            Type = 2,
+                                                            NoteID = note,
+                                                            OrderID = 0,
+                                                            Status = 5,
+                                                            SKU = SKU,
+                                                            CreatedDate = currentDate,
+                                                            CreatedBy = username,
+                                                            MoveProID = mpID,
+                                                            ParentID = ID,
+                                                        });
 
                                                 }
                                                 else
@@ -716,9 +789,23 @@ namespace IM_PJ
                                                         if (product != null)
                                                             parentID = product.ID;
                                                     }
-                                                    StockManagerController.Insert(AgentID, 0, ID, ProductVariableName, ProductVariableValue, Quantity, 0, 2,
-                                                    false, 2, note, 0, 0, 5, ProductName, SKU, ProductImageOrigin, ProductVariable, currentDate, username,
-                                                    mpID, parentID);
+                                                    StockManagerController.Insert(
+                                                        new tbl_StockManager {
+                                                            AgentID = AgentID,
+                                                            ProductID = 0,
+                                                            ProductVariableID = ID,
+                                                            Quantity = Quantity,
+                                                            QuantityCurrent = 0,
+                                                            Type = 2,
+                                                            NoteID = note,
+                                                            OrderID = 0,
+                                                            Status = 5,
+                                                            SKU = SKU,
+                                                            CreatedDate = currentDate,
+                                                            CreatedBy = username,
+                                                            MoveProID = mpID,
+                                                            ParentID = parentID,
+                                                        });
                                                 }
                                                 MoveProDetailController.UpdateIscount(mpdid, true, currentDate, username);
                                             }
@@ -740,8 +827,24 @@ namespace IM_PJ
 
                                         if (moveProStatus == 2)
                                         {
-                                            StockManagerController.Insert(AgentID, ID, 0, "", "", Quantity, 0, 2, false, 1, note, 0,
-                                            0, 5, ProductName, SKU, ProductImageOrigin, ProductVariable, currentDate, username, mpID, ID);
+                                            StockManagerController.Insert(
+                                                new tbl_StockManager {
+                                                    AgentID = AgentID,
+                                                    ProductID = ID,
+                                                    ProductVariableID = 0,
+                                                    Quantity = Quantity,
+                                                    QuantityCurrent = 0,
+                                                    Type = 2,
+                                                    NoteID = note,
+                                                    OrderID = 0,
+                                                    Status = 5,
+                                                    SKU = SKU,
+                                                    CreatedDate = currentDate,
+                                                    CreatedBy = username,
+                                                    MoveProID = mpID,
+                                                    ParentID = ID,
+                                                });
+
                                             MoveProDetailController.Insert(mpID, SKU, ID, 0, producttype, ProductVariable, Quantity, 0, "", supplierID,
                                             supplierName, "", "", ProductName, ProductImageOrigin, true, currentDate, username);
                                         }
@@ -775,8 +878,24 @@ namespace IM_PJ
                                                 if (product != null)
                                                     parentID = product.ID;
                                             }
-                                            StockManagerController.Insert(AgentID, 0, ID, ProductVariableName, ProductVariableValue, Quantity, 0, 2,
-                                            false, 2, note, 0, 0, 5, ProductName, SKU, ProductImageOrigin, ProductVariable, currentDate, username, mpID, parentID);
+                                            StockManagerController.Insert(
+                                                new tbl_StockManager {
+                                                    AgentID = AgentID,
+                                                    ProductID = 0,
+                                                    ProductVariableID = ID,
+                                                    Quantity = Quantity,
+                                                    QuantityCurrent = 0,
+                                                    Type = 2,
+                                                    NoteID = note,
+                                                    OrderID = 0,
+                                                    Status = 5,
+                                                    SKU = SKU,
+                                                    CreatedDate = currentDate,
+                                                    CreatedBy = username,
+                                                    MoveProID = mpID,
+                                                    ParentID = parentID,
+                                                });
+
                                             MoveProDetailController.Insert(mpID, SKU, 0, ID, producttype, ProductVariable, Quantity, 0, "", supplierID,
                                             supplierName, ProductVariableName, ProductVariableValue, ProductName, ProductImageOrigin, true, currentDate, username);
                                         }
@@ -817,10 +936,23 @@ namespace IM_PJ
                             {
                                 if (mpd.ProductType == 1)
                                 {
-                                    StockManagerController.Insert(AgentID, ID, 0, mpd.ProductVariableName, mpd.ProductVariableValue,
-                                        Convert.ToDouble(mpd.QuantiySend), 0, 1, false, 1, "Nhập lại sản phẩm khi xóa khỏi đợt chuyển hàng", 0, 0, 6,
-                                        mpd.ProductName, mpd.SKU, mpd.ProductImage, mpd.ProductVariableDescription, currentDate, username,
-                                        Convert.ToInt32(mpd.MoveProID), ID);
+                                    StockManagerController.Insert(
+                                        new tbl_StockManager {
+                                            AgentID = AgentID,
+                                            ProductID = ID,
+                                            ProductVariableID = 0,
+                                            Quantity = Convert.ToDouble(mpd.QuantiySend),
+                                            QuantityCurrent = 0,
+                                            Type = 1,
+                                            NoteID = "Nhập lại sản phẩm khi xóa khỏi đợt chuyển hàng",
+                                            OrderID = 0,
+                                            Status = 6,
+                                            SKU = mpd.SKU,
+                                            CreatedDate = currentDate,
+                                            CreatedBy = username,
+                                            MoveProID = Convert.ToInt32(mpd.MoveProID),
+                                            ParentID = ID,
+                                        });
                                 }
                                 else
                                 {
@@ -835,10 +967,23 @@ namespace IM_PJ
                                         if (product != null)
                                             parentID = product.ID;
                                     }
-                                    StockManagerController.Insert(AgentID, 0, ID, mpd.ProductVariableName, mpd.ProductVariableValue,
-                                        Convert.ToDouble(mpd.QuantiySend), 0, 1, false, 2, "Nhập lại sản phẩm khi xóa khỏi đợt chuyển hàng", 0, 0, 6,
-                                        mpd.ProductName, mpd.SKU, mpd.ProductImage, mpd.ProductVariableDescription, currentDate, username,
-                                        Convert.ToInt32(mpd.MoveProID), parentID);
+                                    StockManagerController.Insert(
+                                        new tbl_StockManager {
+                                            AgentID = AgentID,
+                                            ProductID = 0,
+                                            ProductVariableID = ID,
+                                            Quantity = Convert.ToDouble(mpd.QuantiySend),
+                                            QuantityCurrent = 0,
+                                            Type = 1,
+                                            NoteID = "Nhập lại sản phẩm khi xóa khỏi đợt chuyển hàng",
+                                            OrderID = 0,
+                                            Status = 6,
+                                            SKU = mpd.SKU,
+                                            CreatedDate = currentDate,
+                                            CreatedBy = username,
+                                            MoveProID = Convert.ToInt32(mpd.MoveProID),
+                                            ParentID = parentID,
+                                        });
                                 }
                             }
                             MoveProDetailController.Delete(ID);

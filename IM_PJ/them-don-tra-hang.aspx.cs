@@ -407,8 +407,23 @@ namespace IM_PJ
                                                         var ProductImage = ProductImageController.GetFirstByProductID(product.ID);
                                                         if (ProductImage != null)
                                                             ProductImageOrigin = ProductImage.ProductImage;
-                                                        StockManagerController.Insert(AgentID, productID, 0, "", "", quantity, 0, 1, false, 1,
-                                                        note, orderID, 0, typeRe, ProductName, sku, ProductImageOrigin, "", currentDate, username, 0, productID);
+                                                        StockManagerController.Insert(
+                                                            new tbl_StockManager {
+                                                                AgentID = AgentID,
+                                                                ProductID = productID,
+                                                                ProductVariableID = 0,
+                                                                Quantity = quantity,
+                                                                QuantityCurrent = 0,
+                                                                Type = 1,
+                                                                NoteID = note,
+                                                                OrderID = orderID,
+                                                                Status = typeRe,
+                                                                SKU = sku,
+                                                                CreatedDate = currentDate,
+                                                                CreatedBy = username,
+                                                                MoveProID = 0,
+                                                                ParentID = productID,
+                                                            });
                                                     }
                                                 }
                                                 else
@@ -446,9 +461,23 @@ namespace IM_PJ
                                                     }
 
 
-                                                    StockManagerController.Insert(AgentID, 0, ID, ProductVariableName,
-                                                        ProductVariableValue, quantity, 0, 1, false, 2, note, orderID, 0, typeRe, ProductName, sku,
-                                                        ProductImageOrigin, ProductVariable, currentDate, username, 0, parentID);
+                                                    StockManagerController.Insert(
+                                                        new tbl_StockManager {
+                                                            AgentID = AgentID,
+                                                            ProductID = 0,
+                                                            ProductVariableID = ID,
+                                                            Quantity = quantity,
+                                                            QuantityCurrent = 0,
+                                                            Type = 1,
+                                                            NoteID = note,
+                                                            OrderID = orderID,
+                                                            Status = typeRe,
+                                                            SKU = sku,
+                                                            CreatedDate = currentDate,
+                                                            CreatedBy = username,
+                                                            MoveProID = 0,
+                                                            ParentID = parentID,
+                                                        });
                                                 }
                                             }
                                         }
