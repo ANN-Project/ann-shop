@@ -227,7 +227,6 @@ namespace IM_PJ.Controllers
             sql += " LEFT OUTER JOIN tbl_Product as p ON p.ProductSKU = v.ParentSKU ";            
             sql += " where SKU = '"+SKU+"'";
             var reader = (IDataReader)SqlHelper.ExecuteDataReader(sql);
-            int i = 1;
             while (reader.Read())
             {
                 var entity = new ProductVariableSQL();               

@@ -42,7 +42,6 @@ namespace IM_PJ
         public void LoadData()
         {
             int id = Request.QueryString["id"].ToInt(0);
-            string s = "";
             List<tbl_VariableValue> a = new List<tbl_VariableValue>();
             a = VariableValueController.GetByVariableID(id);
             if(a != null)

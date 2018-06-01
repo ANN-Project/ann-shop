@@ -63,7 +63,6 @@ namespace IM_PJ
             {
                 rToDate.SelectedDate = Convert.ToDateTime(todate);
             }
-            int donhangban = 0;
             int donhangtra = 0;
             int tongvondonhangban = 0;
             int tongdonhang = 0;

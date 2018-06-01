@@ -1340,7 +1340,6 @@ namespace NHST.Bussiness
             if (ps.Count > 0)
             {
                 double quantity_pIn = 0;
-                double quantity_pOut = 0;
 
                 var ps_in = ps.Where(p => p.Type == 1).ToList();
                 if (ps_in.Count > 0)

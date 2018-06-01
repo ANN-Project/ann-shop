@@ -151,7 +151,6 @@ namespace IM_PJ
                                         string variablename = "";
                                         string variablevalue = "";
                                         string variable = "";
-                                        string variablesave = "";
 
                                         double mainstock = PJUtils.TotalProductQuantityInstock(1, SKU);
 
@@ -195,7 +194,6 @@ namespace IM_PJ
                                         string variablename = "";
                                         string variablevalue = "";
                                         string variable = "";
-                                        string variablesave = "";
 
                                         string[] vs = productVariableDescription.Split('|');
                                         if (vs.Length - 1 > 0)
