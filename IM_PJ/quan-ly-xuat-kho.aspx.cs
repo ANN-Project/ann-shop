@@ -87,7 +87,7 @@ namespace IM_PJ
                                 foreach (var pv in productvariable)
                                 {
                                     string SKU = pv.SKU.Trim().ToUpper();
-                                    var check = InOutProductVariableController.GetBySKU(AgentID, SKU);
+                                    var check = StockManagerController.GetBySKU(AgentID, SKU);
                                     if (check.Count > 0)
                                     {
                                         double total = PJUtils.TotalProductQuantityInstock(AgentID, SKU);
@@ -143,7 +143,7 @@ namespace IM_PJ
                             else
                             {
                                 string SKU = item.ProductSKU.Trim().ToUpper();
-                                var check = InOutProductVariableController.GetBySKU(AgentID, SKU);
+                                var check = StockManagerController.GetBySKU(AgentID, SKU);
                                 if (check.Count > 0)
                                 {
                                     double total = PJUtils.TotalProductQuantityInstock(AgentID, SKU);
@@ -202,7 +202,7 @@ namespace IM_PJ
                             foreach (var pv in productvariable)
                             {
                                 string SKU = pv.SKU.Trim().ToUpper();
-                                var check = InOutProductVariableController.GetBySKU(AgentID, SKU);
+                                var check = StockManagerController.GetBySKU(AgentID, SKU);
                                 if (check.Count > 0)
                                 {
                                     double total = PJUtils.TotalProductQuantityInstock(AgentID, SKU);
@@ -260,7 +260,7 @@ namespace IM_PJ
                         else
                         {
                             string SKU = products.ProductSKU.Trim().ToUpper();
-                            var check = InOutProductVariableController.GetBySKU(AgentID, SKU);
+                            var check = StockManagerController.GetBySKU(AgentID, SKU);
                             if (check.Count > 0)
                             {
                                 double total = PJUtils.TotalProductQuantityInstock(AgentID, SKU);
@@ -313,7 +313,7 @@ namespace IM_PJ
                             foreach (var value in productvariable)
                             {
                                 string SKU = value.SKU.Trim().ToUpper();
-                                var check = InOutProductVariableController.GetBySKU(AgentID, SKU);
+                                var check = StockManagerController.GetBySKU(AgentID, SKU);
                                 if (check.Count > 0)
                                 {
                                     double total = PJUtils.TotalProductQuantityInstock(AgentID, SKU);
@@ -431,7 +431,7 @@ namespace IM_PJ
                                 string ProductVariable = itemValue[8];
                                 if (producttype == 1)
                                 {
-                                    InOutProductVariableController.Insert(AgentID, ID, 0, "", "", Quantity, 0, 2, false, 1, note, 0,
+                                    StockManagerController.Insert(AgentID, ID, 0, "", "", Quantity, 0, 2, false, 1, note, 0,
                                         SessionInOutID, 2, ProductName, SKU, ProductImageOrigin, ProductVariable, currentDate, username, 0, ID);
                                 }
                                 else
@@ -447,7 +447,7 @@ namespace IM_PJ
                                         if (product != null)
                                             parentID = product.ID;
                                     }
-                                    InOutProductVariableController.Insert(AgentID, 0, ID, ProductVariableName, ProductVariableValue, Quantity, 0, 2,
+                                    StockManagerController.Insert(AgentID, 0, ID, ProductVariableName, ProductVariableValue, Quantity, 0, 2,
                                         false, 2, note, 0, SessionInOutID, 2, ProductName, SKU, ProductImageOrigin, ProductVariable, currentDate, username, 0,
                                         parentID);
                                 }

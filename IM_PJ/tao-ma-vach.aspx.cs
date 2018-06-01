@@ -70,7 +70,7 @@ namespace IM_PJ
                         foreach (var pv in productvariable)
                         {
                             string SKU = pv.SKU.Trim().ToUpper();
-                            var check = InOutProductVariableController.GetBySKU(AgentID, SKU);
+                            var check = StockManagerController.GetBySKU(AgentID, SKU);
                             if (check.Count > 0)
                             {
                                 double total = PJUtils.TotalProductQuantityInstock(AgentID, SKU);
@@ -120,7 +120,7 @@ namespace IM_PJ
                     else
                     {
                         string SKU = product.ProductSKU.Trim().ToUpper();
-                        var check = InOutProductVariableController.GetBySKU(AgentID, SKU);
+                        var check = StockManagerController.GetBySKU(AgentID, SKU);
                         if (check.Count > 0)
                         {
                             double total = PJUtils.TotalProductQuantityInstock(AgentID, SKU);
@@ -171,7 +171,7 @@ namespace IM_PJ
                         {
 
                             string SKU = value.SKU.Trim().ToUpper();
-                            var check = InOutProductVariableController.GetBySKU(AgentID, SKU);
+                            var check = StockManagerController.GetBySKU(AgentID, SKU);
                             if (check.Count > 0)
                             {
                                 double total = PJUtils.TotalProductQuantityInstock(AgentID, SKU);

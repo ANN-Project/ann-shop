@@ -806,7 +806,7 @@ namespace IM_PJ
                                     {
                                         //cộng vô kho
                                         double quantitynew = quantityOld - Quantity;
-                                        InOutProductVariableController.Insert(AgentID, ID, 0, "", "", quantitynew, 0, 1, false, 1, "Nhập kho khi giảm số lượng trong sửa đơn", OrderID, 0, 4, ProductName, SKU, ProductImageOrigin, ProductVariable, currentDate, username, 0, parentID);
+                                        StockManagerController.Insert(AgentID, ID, 0, "", "", quantitynew, 0, 1, false, 1, "Nhập kho khi giảm số lượng trong sửa đơn", OrderID, 0, 4, ProductName, SKU, ProductImageOrigin, ProductVariable, currentDate, username, 0, parentID);
                                     }
                                     else if (quantityOld < Quantity)
                                     {
@@ -820,7 +820,7 @@ namespace IM_PJ
                                         {
                                             double _InputStock = quantitynew - _Total;
 
-                                            InOutProductVariableController.Insert(
+                                            StockManagerController.Insert(
                                                 AgentID,
                                                 ID,
                                                 0,
@@ -846,7 +846,7 @@ namespace IM_PJ
                                         }
 
                                         //trừ tiếp trong kho
-                                        InOutProductVariableController.Insert(AgentID, ID, 0, "", "", quantitynew, 0, 2, false, 1, "Xuất kho khi tăng số lượng trong sửa đơn", OrderID, 0, 3, ProductName, SKU, ProductImageOrigin, ProductVariable, currentDate, username, 0, parentID);
+                                        StockManagerController.Insert(AgentID, ID, 0, "", "", quantitynew, 0, 2, false, 1, "Xuất kho khi tăng số lượng trong sửa đơn", OrderID, 0, 3, ProductName, SKU, ProductImageOrigin, ProductVariable, currentDate, username, 0, parentID);
                                     }
                                 }
                                 else
@@ -865,7 +865,7 @@ namespace IM_PJ
                                     {
                                         //cộng vô kho
                                         double quantitynew = quantityOld - Quantity;
-                                        InOutProductVariableController.Insert(AgentID, 0, ID, ProductVariableName, ProductVariableValue, quantitynew, 0, 1, false, 2, "Nhập kho khi giảm số lượng trong sửa đơn", OrderID, 0, 4, ProductName, SKU, ProductImageOrigin, ProductVariable, currentDate, username, 0, parentID);
+                                        StockManagerController.Insert(AgentID, 0, ID, ProductVariableName, ProductVariableValue, quantitynew, 0, 1, false, 2, "Nhập kho khi giảm số lượng trong sửa đơn", OrderID, 0, 4, ProductName, SKU, ProductImageOrigin, ProductVariable, currentDate, username, 0, parentID);
                                     }
                                     else if (quantityOld < Quantity)
                                     {
@@ -879,7 +879,7 @@ namespace IM_PJ
                                         {
                                             double _InputStock = quantitynew - _Total;
 
-                                            InOutProductVariableController.Insert(
+                                            StockManagerController.Insert(
                                                 AgentID,
                                                 0,
                                                 ID,
@@ -905,7 +905,7 @@ namespace IM_PJ
                                         }
 
                                         //trừ tiếp trong kho
-                                        InOutProductVariableController.Insert(AgentID, 0, ID, ProductVariableName, ProductVariableValue, quantitynew, 0, 2, false, 2, "Xuất kho khi tăng số lượng trong sửa đơn", OrderID, 0, 3, ProductName, SKU, ProductImageOrigin, ProductVariable, currentDate, username, 0, parentID);
+                                        StockManagerController.Insert(AgentID, 0, ID, ProductVariableName, ProductVariableValue, quantitynew, 0, 2, false, 2, "Xuất kho khi tăng số lượng trong sửa đơn", OrderID, 0, 3, ProductName, SKU, ProductImageOrigin, ProductVariable, currentDate, username, 0, parentID);
                                     }
                                 }
                             }
@@ -919,7 +919,7 @@ namespace IM_PJ
                                     {
                                         double _InputStock = Quantity - _Total;
 
-                                        InOutProductVariableController.Insert(
+                                        StockManagerController.Insert(
                                             AgentID,
                                             ID,
                                             0,
@@ -943,7 +943,7 @@ namespace IM_PJ
                                             0,
                                             parentID);
                                     }
-                                    InOutProductVariableController.Insert(AgentID, ID, 0, "", "", Quantity, 0, 2, false, 1, "Xuất kho thêm mới sản phẩm khi sửa đơn", OrderID, 0, 3, ProductName, SKU, ProductImageOrigin, ProductVariable, currentDate, username, 0, ID);
+                                    StockManagerController.Insert(AgentID, ID, 0, "", "", Quantity, 0, 2, false, 1, "Xuất kho thêm mới sản phẩm khi sửa đơn", OrderID, 0, 3, ProductName, SKU, ProductImageOrigin, ProductVariable, currentDate, username, 0, ID);
                                 }
                                 else
                                 {
@@ -964,7 +964,7 @@ namespace IM_PJ
                                     {
                                         double _InputStock = Quantity - _Total;
 
-                                        InOutProductVariableController.Insert(
+                                        StockManagerController.Insert(
                                             AgentID,
                                             0,
                                             ID,
@@ -988,7 +988,7 @@ namespace IM_PJ
                                             0,
                                             parentID);
                                     }
-                                    InOutProductVariableController.Insert(AgentID, 0, ID, ProductVariableName, ProductVariableValue, Quantity, 0, 2,
+                                    StockManagerController.Insert(AgentID, 0, ID, ProductVariableName, ProductVariableValue, Quantity, 0, 2,
                                         false, 2, "Xuất kho thêm mới sản phẩm khi sửa đơn", OrderID, 0, 3, ProductName, SKU,
                                         ProductImageOrigin, ProductVariable, currentDate, username, 0, parentID);
                                 }
@@ -1012,7 +1012,7 @@ namespace IM_PJ
                             {
                                 double _InputStock = Quantity - _Total;
 
-                                InOutProductVariableController.Insert(
+                                StockManagerController.Insert(
                                     AgentID,
                                     ID,
                                     0,
@@ -1036,7 +1036,7 @@ namespace IM_PJ
                                     0,
                                     parentID);
                             }
-                            InOutProductVariableController.Insert(AgentID, ID, 0, "", "", Quantity, 0, 2, false, 1, "Xuất kho khi thêm sản phẩm mới trong sửa đơn", OrderID,
+                            StockManagerController.Insert(AgentID, ID, 0, "", "", Quantity, 0, 2, false, 1, "Xuất kho khi thêm sản phẩm mới trong sửa đơn", OrderID,
                                 0, 3, ProductName, SKU, ProductImageOrigin, ProductVariable, currentDate, username, 0, ID);
                         }
                         else
@@ -1057,7 +1057,7 @@ namespace IM_PJ
                             {
                                 double _InputStock = Quantity - _Total;
 
-                                InOutProductVariableController.Insert(
+                                StockManagerController.Insert(
                                     AgentID,
                                     0,
                                     ID,
@@ -1082,7 +1082,7 @@ namespace IM_PJ
                                     parentID);
                             }
 
-                            InOutProductVariableController.Insert(AgentID, 0, ID, ProductVariableName, ProductVariableValue, Quantity, 0, 2,
+                            StockManagerController.Insert(AgentID, 0, ID, ProductVariableName, ProductVariableValue, Quantity, 0, 2,
                                 false, 2, "Xuất kho khi thêm sản phẩm mới trong sửa đơn", OrderID, 0, 3, ProductName, SKU, ProductImageOrigin, ProductVariable, currentDate,
                                 username, 0, parentID);
                         }
@@ -1120,13 +1120,13 @@ namespace IM_PJ
                         var parent = ProductVariableController.GetBySKU(ordersku);
                         if (parent != null)
                         {
-                            var t = InOutProductVariableController.Insert(AgentID, Convert.ToInt32(parent.ProductID), 0, productvariablename, productvariablevalue, quantitynew, 0, 1, false, 1, "Nhập kho khi xóa sản phẩm trong sửa đơn", OrderID, 0, 10, productname, ordersku, productimage, productvariable, currentDate, username, 0, Convert.ToInt32(parent.ProductID));
+                            var t = StockManagerController.Insert(AgentID, Convert.ToInt32(parent.ProductID), 0, productvariablename, productvariablevalue, quantitynew, 0, 1, false, 1, "Nhập kho khi xóa sản phẩm trong sửa đơn", OrderID, 0, 10, productname, ordersku, productimage, productvariable, currentDate, username, 0, Convert.ToInt32(parent.ProductID));
                             //updateOrder(listitem, OrderID);
                             return serializer.Serialize(t);
                         }
                         else
                         {
-                            var t = InOutProductVariableController.Insert(AgentID, 0, id, productvariablename, productvariablevalue, quantitynew, 0, 1, false, 1, "Nhập kho khi xóa sản phẩm trong sửa đơn", OrderID, 0, 10, productname, ordersku, productimage, productvariable, currentDate, username, 0, Convert.ToInt32(id));
+                            var t = StockManagerController.Insert(AgentID, 0, id, productvariablename, productvariablevalue, quantitynew, 0, 1, false, 1, "Nhập kho khi xóa sản phẩm trong sửa đơn", OrderID, 0, 10, productname, ordersku, productimage, productvariable, currentDate, username, 0, Convert.ToInt32(id));
                             //updateOrder(listitem, OrderID);
                             return serializer.Serialize(t);
                         }
@@ -1288,7 +1288,7 @@ namespace IM_PJ
                                                         {
                                                             //cộng vô kho
                                                             double quantitynew = quantityOld - Quantity;
-                                                            InOutProductVariableController.Insert(AgentID, ID, 0, "", "", quantitynew, 0, 1, false, 1, "Nhập kho khi giảm số lượng trong sửa đơn", OrderID, 0, 4, ProductName, SKU, ProductImageOrigin, ProductVariable, currentDate, username, 0, parentID);
+                                                            StockManagerController.Insert(AgentID, ID, 0, "", "", quantitynew, 0, 1, false, 1, "Nhập kho khi giảm số lượng trong sửa đơn", OrderID, 0, 4, ProductName, SKU, ProductImageOrigin, ProductVariable, currentDate, username, 0, parentID);
                                                         }
                                                         else if (quantityOld < Quantity)
                                                         {
@@ -1302,7 +1302,7 @@ namespace IM_PJ
                                                             {
                                                                 double _InputStock = quantitynew - _Total;
 
-                                                                InOutProductVariableController.Insert(
+                                                                StockManagerController.Insert(
                                                                     AgentID,
                                                                     ID,
                                                                     0,
@@ -1328,7 +1328,7 @@ namespace IM_PJ
                                                             }
 
                                                             //trừ tiếp trong kho
-                                                            InOutProductVariableController.Insert(AgentID, ID, 0, "", "", quantitynew, 0, 2, false, 1, "Xuất kho khi tăng số lượng trong sửa đơn", OrderID, 0, 3, ProductName, SKU, ProductImageOrigin, ProductVariable, currentDate, username, 0, parentID);
+                                                            StockManagerController.Insert(AgentID, ID, 0, "", "", quantitynew, 0, 2, false, 1, "Xuất kho khi tăng số lượng trong sửa đơn", OrderID, 0, 3, ProductName, SKU, ProductImageOrigin, ProductVariable, currentDate, username, 0, parentID);
                                                         }
                                                     }
                                                     else
@@ -1347,7 +1347,7 @@ namespace IM_PJ
                                                         {
                                                             //cộng vô kho
                                                             double quantitynew = quantityOld - Quantity;
-                                                            InOutProductVariableController.Insert(AgentID, 0, ID, ProductVariableName, ProductVariableValue, quantitynew, 0, 1, false, 2, "Nhập kho khi giảm số lượng trong sửa đơn", OrderID, 0, 4, ProductName, SKU, ProductImageOrigin, ProductVariable, currentDate, username, 0, parentID);
+                                                            StockManagerController.Insert(AgentID, 0, ID, ProductVariableName, ProductVariableValue, quantitynew, 0, 1, false, 2, "Nhập kho khi giảm số lượng trong sửa đơn", OrderID, 0, 4, ProductName, SKU, ProductImageOrigin, ProductVariable, currentDate, username, 0, parentID);
                                                         }
                                                         else if (quantityOld < Quantity)
                                                         {
@@ -1361,7 +1361,7 @@ namespace IM_PJ
                                                             {
                                                                 double _InputStock = quantitynew - _Total;
 
-                                                                InOutProductVariableController.Insert(
+                                                                StockManagerController.Insert(
                                                                     AgentID,
                                                                     0,
                                                                     ID,
@@ -1387,7 +1387,7 @@ namespace IM_PJ
                                                             }
 
                                                             //trừ tiếp trong kho
-                                                            InOutProductVariableController.Insert(AgentID, 0, ID, ProductVariableName, ProductVariableValue, quantitynew, 0, 2, false, 2, "Xuất kho khi tăng số lượng trong sửa đơn", OrderID, 0, 3, ProductName, SKU, ProductImageOrigin, ProductVariable, currentDate, username, 0, parentID);
+                                                            StockManagerController.Insert(AgentID, 0, ID, ProductVariableName, ProductVariableValue, quantitynew, 0, 2, false, 2, "Xuất kho khi tăng số lượng trong sửa đơn", OrderID, 0, 3, ProductName, SKU, ProductImageOrigin, ProductVariable, currentDate, username, 0, parentID);
                                                         }
                                                     }
                                                 }
@@ -1401,7 +1401,7 @@ namespace IM_PJ
                                                         {
                                                             double _InputStock = Quantity - _Total;
 
-                                                            InOutProductVariableController.Insert(
+                                                            StockManagerController.Insert(
                                                                 AgentID,
                                                                 ID,
                                                                 0,
@@ -1425,7 +1425,7 @@ namespace IM_PJ
                                                                 0,
                                                                 parentID);
                                                         }
-                                                        InOutProductVariableController.Insert(AgentID, ID, 0, "", "", Quantity, 0, 2, false, 1, "Xuất kho thêm mới sản phẩm khi sửa đơn", OrderID, 0, 3, ProductName, SKU, ProductImageOrigin, ProductVariable, currentDate, username, 0, ID);
+                                                        StockManagerController.Insert(AgentID, ID, 0, "", "", Quantity, 0, 2, false, 1, "Xuất kho thêm mới sản phẩm khi sửa đơn", OrderID, 0, 3, ProductName, SKU, ProductImageOrigin, ProductVariable, currentDate, username, 0, ID);
                                                     }
                                                     else
                                                     {
@@ -1446,7 +1446,7 @@ namespace IM_PJ
                                                         {
                                                             double _InputStock = Quantity - _Total;
 
-                                                            InOutProductVariableController.Insert(
+                                                            StockManagerController.Insert(
                                                                 AgentID,
                                                                 0,
                                                                 ID,
@@ -1470,7 +1470,7 @@ namespace IM_PJ
                                                                 0,
                                                                 parentID);
                                                         }
-                                                        InOutProductVariableController.Insert(AgentID, 0, ID, ProductVariableName, ProductVariableValue, Quantity, 0, 2,
+                                                        StockManagerController.Insert(AgentID, 0, ID, ProductVariableName, ProductVariableValue, Quantity, 0, 2,
                                                             false, 2, "Xuất kho thêm mới sản phẩm khi sửa đơn", OrderID, 0, 3, ProductName, SKU,
                                                             ProductImageOrigin, ProductVariable, currentDate, username, 0, parentID);
                                                     }
@@ -1494,7 +1494,7 @@ namespace IM_PJ
                                                 {
                                                     double _InputStock = Quantity - _Total;
 
-                                                    InOutProductVariableController.Insert(
+                                                    StockManagerController.Insert(
                                                         AgentID,
                                                         ID,
                                                         0,
@@ -1518,7 +1518,7 @@ namespace IM_PJ
                                                         0,
                                                         parentID);
                                                 }
-                                                InOutProductVariableController.Insert(AgentID, ID, 0, "", "", Quantity, 0, 2, false, 1, "Xuất kho khi thêm sản phẩm mới trong sửa đơn", OrderID,
+                                                StockManagerController.Insert(AgentID, ID, 0, "", "", Quantity, 0, 2, false, 1, "Xuất kho khi thêm sản phẩm mới trong sửa đơn", OrderID,
                                                     0, 3, ProductName, SKU, ProductImageOrigin, ProductVariable, currentDate, username, 0, ID);
                                             }
                                             else
@@ -1539,7 +1539,7 @@ namespace IM_PJ
                                                 {
                                                     double _InputStock = Quantity - _Total;
 
-                                                    InOutProductVariableController.Insert(
+                                                    StockManagerController.Insert(
                                                         AgentID,
                                                         0,
                                                         ID,
@@ -1564,7 +1564,7 @@ namespace IM_PJ
                                                         parentID);
                                                 }
 
-                                                InOutProductVariableController.Insert(AgentID, 0, ID, ProductVariableName, ProductVariableValue, Quantity, 0, 2,
+                                                StockManagerController.Insert(AgentID, 0, ID, ProductVariableName, ProductVariableValue, Quantity, 0, 2,
                                                     false, 2, "Xuất kho khi thêm sản phẩm mới trong sửa đơn", OrderID, 0, 3, ProductName, SKU, ProductImageOrigin, ProductVariable, currentDate,
                                                     username, 0, parentID);
                                             }

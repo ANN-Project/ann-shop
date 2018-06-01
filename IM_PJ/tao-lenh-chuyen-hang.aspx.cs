@@ -112,7 +112,7 @@ namespace IM_PJ
                                 foreach (var pv in productvariable)
                                 {
                                     string SKU = pv.SKU.Trim().ToUpper();
-                                    var check = InOutProductVariableController.GetBySKU(AgentID, SKU);
+                                    var check = StockManagerController.GetBySKU(AgentID, SKU);
                                     if (check.Count > 0)
                                     {
                                         double total = PJUtils.TotalProductQuantityInstock(AgentID, SKU);
@@ -161,7 +161,7 @@ namespace IM_PJ
                             else
                             {
                                 string SKU = item.ProductSKU.Trim().ToUpper();
-                                var check = InOutProductVariableController.GetBySKU(AgentID, SKU);
+                                var check = StockManagerController.GetBySKU(AgentID, SKU);
                                 if (check.Count > 0)
                                 {
                                     double total = PJUtils.TotalProductQuantityInstock(AgentID, SKU);
@@ -219,7 +219,7 @@ namespace IM_PJ
                             foreach (var pv in productvariable)
                             {
                                 string SKU = pv.SKU.Trim().ToUpper();
-                                var check = InOutProductVariableController.GetBySKU(AgentID, SKU);
+                                var check = StockManagerController.GetBySKU(AgentID, SKU);
                                 if (check.Count > 0)
                                 {
                                     double total = PJUtils.TotalProductQuantityInstock(AgentID, SKU);
@@ -270,7 +270,7 @@ namespace IM_PJ
                         else
                         {
                             string SKU = products.ProductSKU.Trim().ToUpper();
-                            var check = InOutProductVariableController.GetBySKU(AgentID, SKU);
+                            var check = StockManagerController.GetBySKU(AgentID, SKU);
                             if (check.Count > 0)
                             {
                                 double total = PJUtils.TotalProductQuantityInstock(AgentID, SKU);
@@ -322,7 +322,7 @@ namespace IM_PJ
                         if (productvariable != null)
                         {
                             string SKU = productvariable.SKU.Trim().ToUpper();
-                            var check = InOutProductVariableController.GetBySKU(AgentID, SKU);
+                            var check = StockManagerController.GetBySKU(AgentID, SKU);
                             if (check.Count > 0)
                             {
                                 double total = PJUtils.TotalProductQuantityInstock(AgentID, SKU);
@@ -459,8 +459,23 @@ namespace IM_PJ
 
                                     if (moveProStatus == 2)
                                     {
-                                        InOutProductVariableController.Insert(AgentID, ID, 0, "", "", Quantity, 0, 2, false, 1, note, 0,
-                                        0, 5, ProductName, SKU, ProductImageOrigin, ProductVariable, currentDate, username, moveProID, ID);
+                                        StockManagerController.Insert(
+                                            new tbl_StockManager {
+                                                AgentID = AgentID,
+                                                ProductID = ID,
+                                                ProductVariableID = 0,
+                                                Quantity = Quantity,
+                                                QuantityCurrent = 0,
+                                                Type = 2,
+                                                NoteID = note,
+                                                OrderID = 0,
+                                                Status = 5,
+                                                SKU = SKU,
+                                                CreatedDate = currentDate,
+                                                CreatedBy = username,
+                                                MoveProID = moveProID,
+                                                ParentID = ID
+                                            });
                                         MoveProDetailController.Insert(moveProID, SKU, ID, 0, producttype, ProductVariable, Quantity, 0, "", supplierID,
                                         supplierName, "", "", ProductName, ProductImageOrigin, true, currentDate, username);
                                     }
@@ -493,8 +508,23 @@ namespace IM_PJ
 
                                     if (moveProStatus == 2)
                                     {
-                                        InOutProductVariableController.Insert(AgentID, 0, ID, ProductVariableName, ProductVariableValue, Quantity, 0, 2,
-                                        false, 2, note, 0, 0, 5, ProductName, SKU, ProductImageOrigin, ProductVariable, currentDate, username, moveProID, parentID);
+                                        StockManagerController.Insert(
+                                            new tbl_StockManager {
+                                                AgentID = AgentID,
+                                                ProductID = 0,
+                                                ProductVariableID = ID,
+                                                Quantity = Quantity,
+                                                QuantityCurrent = 0,
+                                                Type = 2,
+                                                NoteID = note,
+                                                OrderID = 0,
+                                                Status = 5,
+                                                SKU = SKU,
+                                                CreatedDate = currentDate,
+                                                CreatedBy = username,
+                                                MoveProID = moveProID,
+                                                ParentID = parentID,
+                                            });
                                         MoveProDetailController.Insert(moveProID, SKU, 0, ID, producttype, ProductVariable, Quantity, 0, "", supplierID,
                                         supplierName, ProductVariableName, ProductVariableValue, ProductName, ProductImageOrigin, true, currentDate, username);
                                     }
@@ -528,12 +558,12 @@ namespace IM_PJ
                         //        string ProductVariable = itemValue[8];
                         //        if (producttype == 1)
                         //        {
-                        //            InOutProductVariableController.Insert(AgentID, ID, 0, "", "", Quantity, 0, 2, false, 1, note, 0,
+                        //            StockManagerController.Insert(AgentID, ID, 0, "", "", Quantity, 0, 2, false, 1, note, 0,
                         //                SessionInOutID, 2, ProductName, SKU, ProductImageOrigin, ProductVariable, currentDate, username);
                         //        }
                         //        else
                         //        {
-                        //            InOutProductVariableController.Insert(AgentID, 0, ID, ProductVariableName, ProductVariableValue, Quantity, 0, 2,
+                        //            StockManagerController.Insert(AgentID, 0, ID, ProductVariableName, ProductVariableValue, Quantity, 0, 2,
                         //                false, 2, note, 0, SessionInOutID, 2, ProductName, SKU, ProductImageOrigin, ProductVariable, currentDate, username);
                         //        }
                         //    }

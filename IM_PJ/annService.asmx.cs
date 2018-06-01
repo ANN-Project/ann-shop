@@ -317,8 +317,23 @@ namespace IM_PJ
                                 ProductPrice, 1, 0, producttype, currentDate, CreatedBy, true);
                                 if (producttype == 1)
                                 {
-                                    InOutProductVariableController.Insert(AgentID, ProductID, 0, "", "", Quantity, 0, 2, false, 1, "", OrderID,
-                                        0, 3, ProductName, SKU, ProductImageOrigin, ProductVariableSave, currentDate, CreatedBy, 0, ProductID);
+                                    StockManagerController.Insert(
+                                        new tbl_StockManager() {
+                                            AgentID = AgentID,
+                                            ProductID = ProductID,
+                                            ProductVariableID = 0,
+                                            Quantity = Quantity,
+                                            QuantityCurrent = 0,
+                                            Type = 2,
+                                            NoteID = String.Empty,
+                                            OrderID = OrderID,
+                                            Status = 3,
+                                            SKU = SKU,
+                                            CreatedDate = currentDate,
+                                            CreatedBy = CreatedBy,
+                                            MoveProID = 0,
+                                            ParentID = ProductID
+                                        });
                                 }
                                 else
                                 {
@@ -333,8 +348,23 @@ namespace IM_PJ
                                         if (product != null)
                                             parentID = product.ID;
                                     }
-                                    InOutProductVariableController.Insert(AgentID, 0, ProductVariableID, ProductVariableName, ProductVariableValue, Quantity, 0, 2,
-                                        false, 2, "", OrderID, 0, 3, ProductName, SKU, ProductImageOrigin, ProductVariableSave, currentDate, CreatedBy, 0, parentID);
+                                    StockManagerController.Insert(
+                                        new tbl_StockManager {
+                                            AgentID = AgentID,
+                                            ProductID = 0,
+                                            ProductVariableID = ProductVariableID,
+                                            Quantity = Quantity,
+                                            QuantityCurrent = 0,
+                                            Type = 2,
+                                            NoteID = String.Empty,
+                                            OrderID = OrderID,
+                                            Status = 3,
+                                            SKU = SKU,
+                                            CreatedDate = currentDate,
+                                            CreatedBy = CreatedBy,
+                                            MoveProID = 0,
+                                            ParentID = parentID,
+                                        });
                                 }
                             }
                             else
@@ -505,8 +535,23 @@ namespace IM_PJ
                     ProductPrice, 1, 0, ProductType, currentDate, CreatedBy, true);
                     if (ProductType == 1)
                     {
-                        InOutProductVariableController.Insert(AgentID, ProductID, 0, "", "", Quantity, 0, 2, false, 1, "", OrderID,
-                            0, 3, ProductName, SKU, ProductImageOrigin, ProductVariableSave, currentDate, CreatedBy, 0, ProductID);
+                        StockManagerController.Insert(
+                            new tbl_StockManager {
+                                AgentID = AgentID,
+                                ProductID = ProductID,
+                                ProductVariableID = 0,
+                                Quantity = Quantity,
+                                QuantityCurrent = 0,
+                                Type = 2,
+                                NoteID = String.Empty,
+                                OrderID = OrderID,
+                                Status = 3,
+                                SKU = SKU,
+                                CreatedDate = currentDate,
+                                CreatedBy = CreatedBy,
+                                MoveProID = 0,
+                                ParentID = ProductID
+                            });
                     }
                     else
                     {
@@ -521,8 +566,23 @@ namespace IM_PJ
                             if (product != null)
                                 parentID = product.ID;
                         }
-                        InOutProductVariableController.Insert(AgentID, 0, ProductVariableID, ProductVariableName, ProductVariableValue, Quantity, 0, 2,
-                            false, 2, "", OrderID, 0, 3, ProductName, SKU, ProductImageOrigin, ProductVariableSave, currentDate, CreatedBy, 0, parentID);
+                        StockManagerController.Insert(
+                            new tbl_StockManager {
+                                AgentID = AgentID,
+                                ProductID = 0,
+                                ProductVariableID = ProductVariableID,
+                                Quantity = Quantity,
+                                QuantityCurrent = 0,
+                                Type = 2,
+                                NoteID = String.Empty,
+                                OrderID = OrderID,
+                                Status = 3,
+                                SKU = SKU,
+                                CreatedDate = currentDate,
+                                CreatedBy = CreatedBy,
+                                MoveProID = 0,
+                                ParentID = parentID
+                            });
                     }
                 }
                 else

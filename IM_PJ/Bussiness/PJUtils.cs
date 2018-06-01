@@ -1336,7 +1336,7 @@ namespace NHST.Bussiness
         public static double ProductQuantityInstock(int AgentID, string SKU)
         {
             double currentQuantity = 0;
-            var ps = InOutProductVariableController.GetBySKU(AgentID, SKU);
+            var ps = StockManagerController.GetBySKU(AgentID, SKU);
             if (ps.Count > 0)
             {
                 double quantity_pIn = 0;
@@ -1357,7 +1357,7 @@ namespace NHST.Bussiness
         public static double ProductQuantityOutstock(int AgentID, string SKU)
         {
             double currentQuantity = 0;
-            var ps = InOutProductVariableController.GetBySKU(AgentID, SKU);
+            var ps = StockManagerController.GetBySKU(AgentID, SKU);
             if (ps.Count > 0)
             {
                 double quantity_pOut = 0;
@@ -1376,7 +1376,7 @@ namespace NHST.Bussiness
         public static double TotalProductQuantityInstock(int AgentID, string SKU)
         {
             double currentQuantity = 0;
-            var ps = InOutProductVariableController.GetBySKU(AgentID, SKU);
+            var ps = StockManagerController.GetBySKU(AgentID, SKU);
             if (ps.Count > 0)
             {
                 double quantity_pIn = 0;
@@ -1409,7 +1409,7 @@ namespace NHST.Bussiness
         public static double TotalProductQuantityInstockBySKU(string SKU)
         {
             double currentQuantity = 0;
-            var ps = InOutProductVariableController.GetBySKU(SKU);
+            var ps = StockManagerController.GetBySKU(SKU);
             if (ps.Count > 0)
             {
                 double quantity_pIn = 0;

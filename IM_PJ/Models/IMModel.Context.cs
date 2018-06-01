@@ -39,7 +39,6 @@ namespace IM_PJ.Models
         public virtual DbSet<tbl_Discount> tbl_Discount { get; set; }
         public virtual DbSet<tbl_DiscountCustomer> tbl_DiscountCustomer { get; set; }
         public virtual DbSet<tbl_DiscountGroup> tbl_DiscountGroup { get; set; }
-        public virtual DbSet<tbl_InOutProductVariable> tbl_InOutProductVariable { get; set; }
         public virtual DbSet<tbl_LinkImnage> tbl_LinkImnage { get; set; }
         public virtual DbSet<tbl_MovePro> tbl_MovePro { get; set; }
         public virtual DbSet<tbl_MoveProdDetail> tbl_MoveProdDetail { get; set; }
@@ -61,5 +60,6 @@ namespace IM_PJ.Models
         public virtual DbSet<tbl_WhiteDomain> tbl_WhiteDomain { get; set; }
         public virtual DbSet<View_ProductList> View_ProductList { get; set; }
         public virtual DbSet<tbl_OrderDetail> tbl_OrderDetail { get; set; }
+        public virtual DbSet<tbl_StockManager> tbl_StockManager { get; set; }
     }
 }

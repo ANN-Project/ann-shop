@@ -720,7 +720,7 @@
     <Compile Include="bao-cao.aspx.designer.cs">
       <DependentUpon>bao-cao.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Models\tbl_OrderDetail1.cs">
+    <Compile Include="Models\tbl_StockManager.cs">
       <DependentUpon>IMModel.tt</DependentUpon>
     </Compile>
     <Compile Include="print-order-image.aspx.cs">
@@ -1058,9 +1058,6 @@
       <DependentUpon>IMModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\tbl_DiscountGroup.cs">
-      <DependentUpon>IMModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\tbl_InOutProductVariable.cs">
       <DependentUpon>IMModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\tbl_LinkImnage.cs">

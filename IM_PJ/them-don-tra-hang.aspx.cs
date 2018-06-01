@@ -407,7 +407,7 @@ namespace IM_PJ
                                                         var ProductImage = ProductImageController.GetFirstByProductID(product.ID);
                                                         if (ProductImage != null)
                                                             ProductImageOrigin = ProductImage.ProductImage;
-                                                        InOutProductVariableController.Insert(AgentID, productID, 0, "", "", quantity, 0, 1, false, 1,
+                                                        StockManagerController.Insert(AgentID, productID, 0, "", "", quantity, 0, 1, false, 1,
                                                         note, orderID, 0, typeRe, ProductName, sku, ProductImageOrigin, "", currentDate, username, 0, productID);
                                                     }
                                                 }
@@ -446,7 +446,7 @@ namespace IM_PJ
                                                     }
 
 
-                                                    InOutProductVariableController.Insert(AgentID, 0, ID, ProductVariableName,
+                                                    StockManagerController.Insert(AgentID, 0, ID, ProductVariableName,
                                                         ProductVariableValue, quantity, 0, 1, false, 2, note, orderID, 0, typeRe, ProductName, sku,
                                                         ProductImageOrigin, ProductVariable, currentDate, username, 0, parentID);
                                                 }

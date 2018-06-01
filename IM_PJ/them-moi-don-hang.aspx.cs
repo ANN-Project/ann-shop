@@ -475,7 +475,7 @@ namespace IM_PJ
                                     {
                                         double _InputStock = Quantity - _Total;
 
-                                        InOutProductVariableController.Insert(
+                                        StockManagerController.Insert(
                                             AgentID,
                                             ID,
                                             0,
@@ -499,7 +499,7 @@ namespace IM_PJ
                                             0,
                                             parentID);
                                     }
-                                    InOutProductVariableController.Insert(AgentID, ID, 0, "", "", Quantity, 0, 2, false, 2, "Xuất kho khi tạo đơn", OrderID,
+                                    StockManagerController.Insert(AgentID, ID, 0, "", "", Quantity, 0, 2, false, 2, "Xuất kho khi tạo đơn", OrderID,
                                         0, 3, ProductName, SKU, ProductImageOrigin, ProductVariable, currentDate, username, 0, parentID);
                                 }
                                 else
@@ -521,7 +521,7 @@ namespace IM_PJ
                                     {
                                         double _InputStock = Quantity - _Total;
 
-                                        InOutProductVariableController.Insert(
+                                        StockManagerController.Insert(
                                             AgentID,
                                             0,
                                             ID,
@@ -546,7 +546,7 @@ namespace IM_PJ
                                             parentID);
                                     }
 
-                                    InOutProductVariableController.Insert(AgentID, 0, ID, ProductVariableName, ProductVariableValue, Quantity, 0, 2,
+                                    StockManagerController.Insert(AgentID, 0, ID, ProductVariableName, ProductVariableValue, Quantity, 0, 2,
                                         false, 2, "Xuất kho khi tạo đơn", OrderID, 0, 3, ProductName, SKU, ProductImageOrigin, ProductVariable,
                                         currentDate, username, 0, parentID);
                                 }

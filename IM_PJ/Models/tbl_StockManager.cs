@@ -12,31 +12,23 @@ namespace IM_PJ.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class tbl_InOutProductVariable
+    public partial class tbl_StockManager
     {
         public int ID { get; set; }
         public Nullable<int> AgentID { get; set; }
         public Nullable<int> ProductID { get; set; }
         public Nullable<int> ProductVariableID { get; set; }
-        public string ProductVariableName { get; set; }
-        public string ProductVariableValue { get; set; }
         public Nullable<double> Quantity { get; set; }
         public Nullable<double> QuantityCurrent { get; set; }
         public Nullable<int> Type { get; set; }
-        public Nullable<bool> IsHidden { get; set; }
         public Nullable<System.DateTime> CreatedDate { get; set; }
         public string CreatedBy { get; set; }
         public Nullable<System.DateTime> ModifiedDate { get; set; }
         public string ModifiedBy { get; set; }
-        public Nullable<int> ProductType { get; set; }
-        public string Note { get; set; }
+        public string NoteID { get; set; }
         public Nullable<int> OrderID { get; set; }
-        public Nullable<int> SessionInOutID { get; set; }
         public Nullable<int> Status { get; set; }
-        public string ProductName { get; set; }
         public string SKU { get; set; }
-        public string ProductImage { get; set; }
-        public string ProductVariable { get; set; }
         public Nullable<int> MoveProID { get; set; }
         public Nullable<int> ParentID { get; set; }
     }

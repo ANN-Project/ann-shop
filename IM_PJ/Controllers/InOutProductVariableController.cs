@@ -7,71 +7,51 @@ using System.Web;
 
 namespace IM_PJ.Controllers
 {
-    public class InOutProductVariableController
+    public class StockManagerController
     {
         #region CRUD
-        public static string Insert(int AgentID, int ProductID, int ProductVariableID, string ProductVariableName, string ProductVariableValue, double Quantity,
-            double QuantityCurrent, int Type, bool IsHidden, int ProductType, string Note, int OrderID, int SessionInOutID, int Status,
-            string ProductName, string SKU, string ProductImage, string ProductVariable, DateTime CreatedDate, string CreatedBy,int MoveProID,
-            int ParentID)
+        public static string Insert(tbl_StockManager stock)
         {
             using (var dbe = new inventorymanagementEntities())
             {
-                tbl_InOutProductVariable ui = new tbl_InOutProductVariable();
-                ui.AgentID = AgentID;
-                ui.ProductID = ProductID;
-                ui.ProductVariableID = ProductVariableID;
-                ui.ProductVariableName = ProductVariableName;
-                ui.ProductVariableValue = ProductVariableValue;
-                ui.Quantity = Quantity;
-                ui.QuantityCurrent = QuantityCurrent;
-                ui.Type = Type;
-                ui.IsHidden = IsHidden;
-                ui.ProductType = ProductType;
-                ui.Note = Note;
-                ui.OrderID = OrderID;
-                ui.SessionInOutID = SessionInOutID;
-                ui.Status = Status;
-                ui.ProductName = ProductName;
-                ui.SKU = SKU;
-                ui.ProductImage = ProductImage;
-                ui.ProductVariable = ProductVariable;
-                ui.ParentID = ParentID;
-                ui.CreatedDate = CreatedDate;
-                ui.CreatedBy = CreatedBy;
-                ui.MoveProID = MoveProID;
-                dbe.tbl_InOutProductVariable.Add(ui);
+                tbl_StockManager ui = new tbl_StockManager();
+                ui.AgentID = stock.AgentID;
+                ui.ProductID = stock.ProductID;
+                ui.ProductVariableID = stock.ProductVariableID;
+                ui.Quantity = stock.Quantity;
+                ui.QuantityCurrent = stock.QuantityCurrent;
+                ui.Type = stock.Type;
+                ui.NoteID = stock.NoteID;
+                ui.OrderID = stock.OrderID;
+                ui.Status = stock.Status;
+                ui.SKU = stock.SKU;
+                ui.ParentID = stock.ParentID;
+                ui.CreatedDate = stock.CreatedDate;
+                ui.CreatedBy = stock.CreatedBy;
+                ui.MoveProID = stock.MoveProID;
+                dbe.tbl_StockManager.Add(ui);
                 int kq = dbe.SaveChanges();
                 return kq.ToString();
             }
         }
-        public static string Update(int ID, int AgentID, int ProductVariableID, string ProductVariableName, string ProductVariableValue, double Quantity,
-            double QuantityCurrent, int Type, bool IsHidden, string Note, int OrderID, int SessionInOutID, int Status,
-            string ProductName, string SKU, string ProductImage, string ProductVariable, DateTime ModifiedDate, string ModifiedBy)
+        public static string Update(tbl_StockManager stock)
         {
             using (var dbe = new inventorymanagementEntities())
             {
-                tbl_InOutProductVariable ui = dbe.tbl_InOutProductVariable.Where(a => a.ID == ID).SingleOrDefault();
+                tbl_StockManager ui = dbe.tbl_StockManager.Where(a => a.ID == stock.ID).SingleOrDefault();
                 if (ui != null)
                 {
-                    ui.AgentID = AgentID;
-                    ui.ProductVariableID = ProductVariableID;
-                    ui.ProductVariableName = ProductVariableName;
-                    ui.ProductVariableValue = ProductVariableValue;
-                    ui.Quantity = Quantity;
-                    ui.QuantityCurrent = QuantityCurrent;
-                    ui.Type = Type;
-                    ui.IsHidden = IsHidden;
-                    ui.Note = Note;
-                    ui.OrderID = OrderID;
-                    ui.SessionInOutID = SessionInOutID;
-                    ui.Status = Status;
-                    ui.ProductName = ProductName;
-                    ui.SKU = SKU;
-                    ui.ProductImage = ProductImage;
-                    ui.ProductVariable = ProductVariable;
-                    ui.ModifiedBy = ModifiedBy;
-                    ui.ModifiedDate = ModifiedDate;
+                    ui.AgentID = stock.AgentID;
+                    ui.ProductVariableID = stock.ProductVariableID;
+                    ui.Quantity = stock.Quantity;
+                    ui.QuantityCurrent = stock.QuantityCurrent;
+                    ui.Type = stock.Type;
+                    ui.NoteID = stock.NoteID;
+                    ui.OrderID = stock.OrderID;
+                    ui.Status = stock.Status;
+                    ui.SKU = stock.SKU;
+                    ui.ModifiedBy = stock.ModifiedBy;
+                    ui.ModifiedDate = stock.ModifiedDate;
                     int kq = dbe.SaveChanges();
                     return kq.ToString();
                 }
@@ -81,11 +61,11 @@ namespace IM_PJ.Controllers
         }
         #endregion
         #region Select
-        public static tbl_InOutProductVariable GetByID(int ID)
+        public static tbl_StockManager GetByID(int ID)
         {
             using (var dbe = new inventorymanagementEntities())
             {
-                tbl_InOutProductVariable ai = dbe.tbl_InOutProductVariable.Where(a => a.ID == ID).SingleOrDefault();
+                tbl_StockManager ai = dbe.tbl_StockManager.Where(a => a.ID == ID).SingleOrDefault();
                 if (ai != null)
                 {
                     return ai;
@@ -94,40 +74,40 @@ namespace IM_PJ.Controllers
 
             }
         }
-        public static List<tbl_InOutProductVariable> GetAll()
+        public static List<tbl_StockManager> GetAll()
         {
             using (var dbe = new inventorymanagementEntities())
             {
-                List<tbl_InOutProductVariable> ags = new List<tbl_InOutProductVariable>();
-                ags = dbe.tbl_InOutProductVariable.ToList();
+                List<tbl_StockManager> ags = new List<tbl_StockManager>();
+                ags = dbe.tbl_StockManager.ToList();
                 return ags;
             }
         }
-        public static List<tbl_InOutProductVariable> GetByProductName(int AgentID,string ProductName)
+        public static List<tbl_StockManager> GetByProductName(int AgentID,string ProductName)
         {
             using (var dbe = new inventorymanagementEntities())
             {
-                List<tbl_InOutProductVariable> ags = new List<tbl_InOutProductVariable>();
-                ags = dbe.tbl_InOutProductVariable.Where(i => i.AgentID == AgentID && i.ProductName.Contains(ProductName)).ToList();
+                List<tbl_StockManager> ags = new List<tbl_StockManager>();
+                ags = dbe.tbl_StockManager.Where(i => i.AgentID == AgentID && i.ProductName.Contains(ProductName)).ToList();
                 return ags;
             }
         }
-        public static List<tbl_InOutProductVariable> GetBySKU(int AgentID, string SKU)
+        public static List<tbl_StockManager> GetBySKU(int AgentID, string SKU)
         {
             using (var dbe = new inventorymanagementEntities())
             {
-                List<tbl_InOutProductVariable> ags = new List<tbl_InOutProductVariable>();
-                ags = dbe.tbl_InOutProductVariable.Where(i => i.AgentID == AgentID && i.SKU == SKU).ToList();
+                List<tbl_StockManager> ags = new List<tbl_StockManager>();
+                ags = dbe.tbl_StockManager.Where(i => i.AgentID == AgentID && i.SKU == SKU).ToList();
                 return ags;
             }
         }
 
-        public static List<tbl_InOutProductVariable> GetBySKU(string SKU)
+        public static List<tbl_StockManager> GetBySKU(string SKU)
         {
             using (var dbe = new inventorymanagementEntities())
             {
-                List<tbl_InOutProductVariable> ags = new List<tbl_InOutProductVariable>();
-                ags = dbe.tbl_InOutProductVariable.Where(i => i.SKU == SKU).ToList();
+                List<tbl_StockManager> ags = new List<tbl_StockManager>();
+                ags = dbe.tbl_StockManager.Where(i => i.SKU == SKU).ToList();
                 return ags;
             }
         }
