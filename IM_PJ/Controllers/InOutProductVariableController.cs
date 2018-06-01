@@ -83,15 +83,15 @@ namespace IM_PJ.Controllers
                 return ags;
             }
         }
-        public static List<tbl_StockManager> GetByProductName(int AgentID,string ProductName)
-        {
-            using (var dbe = new inventorymanagementEntities())
-            {
-                List<tbl_StockManager> ags = new List<tbl_StockManager>();
-                ags = dbe.tbl_StockManager.Where(i => i.AgentID == AgentID && i.ProductName.Contains(ProductName)).ToList();
-                return ags;
-            }
-        }
+        //public static List<tbl_StockManager> GetByProductName(int AgentID,string ProductName)
+        //{
+        //    using (var dbe = new inventorymanagementEntities())
+        //    {
+        //        List<tbl_StockManager> ags = new List<tbl_StockManager>();
+        //        ags = dbe.tbl_StockManager.Where(i => i.AgentID == AgentID && i.ProductName.Contains(ProductName)).ToList();
+        //        return ags;
+        //    }
+        //}
         public static List<tbl_StockManager> GetBySKU(int AgentID, string SKU)
         {
             using (var dbe = new inventorymanagementEntities())

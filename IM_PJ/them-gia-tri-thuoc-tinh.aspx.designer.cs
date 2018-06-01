@@ -13,15 +13,6 @@ namespace IM_PJ {
     public partial class them_gia_tri_thuoc_tinh {
         
         /// <summary>
-        /// Parent control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel Parent;
-        
-        /// <summary>
         /// lblError control.
         /// </summary>
         /// <remarks>
