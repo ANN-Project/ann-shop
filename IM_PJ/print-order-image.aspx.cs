@@ -33,7 +33,7 @@ namespace IM_PJ
         }
         public void printItemList(ref int ID, ref double TotalQuantity, ref double TotalOrder, ref string Print)
         {
-            var orderdetails = OrderDetailController.GetByIDSortBySKU(ID);
+            var orderdetails = OrderDetailController.GetByOrderID(ID);
             if (orderdetails.Count > 0)
             {
                 int t = 0;

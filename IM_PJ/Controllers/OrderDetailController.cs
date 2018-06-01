@@ -73,13 +73,6 @@ namespace IM_PJ.Controllers
                 var od = dbe.tbl_OrderDetail.ToList();
                 if (ui != null)
                 {
-                    //for (int i = 0; i < od.Count; i++)
-                    //{
-                    //    if(od[i].ID == ui.ID)
-                    //    {
-                    //        od.Remove(ui);
-                    //    }
-                    //}
                     dbe.tbl_OrderDetail.Remove(ui);
                     int kq = dbe.SaveChanges();
                     return kq.ToString();
@@ -125,7 +118,7 @@ namespace IM_PJ.Controllers
             using (var dbe = new inventorymanagementEntities())
             {
                 List<tbl_OrderDetail> ags = new List<tbl_OrderDetail>();
-                ags = dbe.tbl_OrderDetail.Where(o => o.OrderID == OrderID).OrderByDescending(o => o.ID).ToList();
+                ags = dbe.tbl_OrderDetail.Where(o => o.OrderID == OrderID).ToList();
                 return ags;
             }
         }

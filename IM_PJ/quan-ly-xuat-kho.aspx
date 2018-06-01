@@ -1,30 +1,4 @@
-﻿<%@ Page Title="Quản lý xuất kho" Language="C#" MasterPageFile="~/MasterPage.Master" AutoEventWireup="true" CodeBehind="quan-ly-xuat-kho.aspx.cs" Inherits="IM_PJ.quan_ly_xuat_kho" %>
-
-<asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
-    <style>
-        .select2-container--default .select2-selection--single .select2-selection__rendered {
-            line-height: 40px;
-            height: 40px;
-        }
-
-        .select2-container .select2-selection--single {
-            appearance: none;
-            -webkit-appearance: none;
-            -moz-appearance: none;
-            -ms-appearance: none;
-            -o-appearance: none;
-            height: 40px;
-            float: left;
-            border: solid 1px #eee;
-            width: 100%;
-            background: url(/App_Themes/Ann/image/icon-select.png) no-repeat right 15px center;
-        }
-        .select2-container--default .select2-selection--single .select2-selection__arrow b
-        {
-            border-style:none;
-        }
-    </style>
-</asp:Content>
+﻿<%@ Page Title="Xuất kho sản phẩm" Language="C#" MasterPageFile="~/MasterPage.Master" AutoEventWireup="true" CodeBehind="quan-ly-xuat-kho.aspx.cs" Inherits="IM_PJ.quan_ly_xuat_kho" %>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <main id="main-wrap">
         <div class="container">
@@ -32,76 +6,46 @@
                 <div class="col-md-12">
                     <div class="panel panelborderheading">
                         <div class="panel-heading clear">
-                            <h3 class="page-title left not-margin-bot">Xuất sản phẩm</h3>
+                            <h3 class="page-title left not-margin-bot">Xuất kho sản phẩm</h3>
                         </div>
                         <div class="panel-body">
                             <div class="form-row">
-                                <input type="text" id="txtSearch" class="form-control" placeholder="Nhập tên sản phẩm hoặc mã SKU"
-                                    style="width: 40%; float: left; margin-right: 10px" />
+                                <input type="text" id="txtSearch" class="form-control" placeholder="Nhập tên sản phẩm hoặc mã sản phẩm (F3)" style="width: 40%; float: left; margin-right: 10px" />
                                 <select id="typeinout" class="form-control" style="width: 20%; float: left; margin-right: 10px">
-                                    <option value="2">Mã SKU</option>
+                                    <option value="2">Mã sản phẩm</option>
                                     <option value="1">Tên sản phẩm</option>
                                 </select>
                                 <asp:Literal ID="ltrSupplier" runat="server"></asp:Literal>
-                                <a href="javascript:;" class="btn primary-btn fw-btn not-fullwidth" style="margin-right: 10px"
-                                    onclick="searchProduct()">Tìm sản phẩm</a>
+                                <a href="javascript:;" class="btn primary-btn fw-btn not-fullwidth" style="margin-right: 10px" onclick="searchProduct()"><i class="fa fa-search" aria-hidden="true"></i> Tìm</a>
                             </div>
                             <div class="form-row">
                             </div>
                             <div class="form-row">
                                 <h3 class="no-margin float-left">Kết quả tìm kiếm: <span class="result-numsearch"></span></h3>
                                 <div class="float-right excute-in">
-                                    <a href="javascript:;" class="btn primary-btn fw-btn not-fullwidth"
-                                        onclick="show_messageorder('')">Xuất hàng</a>
+                                    <a href="javascript:;" class="btn primary-btn fw-btn not-fullwidth" onclick="noteExportStock()">Xuất kho</a>
                                 </div>
                             </div>
                             <div class="form-row" style="border: solid 1px #ccc; padding: 10px;">
-                                <table class="table table-checkable table-product">
+                                <table class="table table-checkable table-product import-stock">
                                     <thead>
                                         <tr>
-                                            <th>Ảnh</th>
-                                            <th>Tên sản phẩm</th>
-                                            <th>SKU</th>
-                                            <th>Nhà cung cấp</th>
-                                            <th>Thuộc tính</th>
-                                            <th>Số lượng trong kho</th>
-                                            <th>Số lượng</th>
-                                            <th>Thao tác</th>
+                                            <th class="image-column">Ảnh</th>
+                                            <th class="name-column">Sản phẩm</th>
+                                            <th class="sku-column">Mã</th>
+                                            <th class="variable-column">Thuộc tính</th>
+                                            <th class="supplier-column">Nhà cung cấp</th>
+                                            <th class="stock-column">Kho</th>
+                                            <th class="quantity-column">Số lượng</th>
+                                            <th class="trash-column"></th>
                                         </tr>
                                     </thead>
                                     <tbody class="content-product">
-                                        <%--<tr class="product-result" data-sku="CS001" data-type="1" data-productid="2">
-                                            <td>
-                                                <img src="/App_Themes/Ann/image/sp_demo.png" alt="" style="width: 50px" /></td>
-                                            <td>Áo thun nam cá sấu Adidas</td>
-                                            <td>CS001</td>
-                                            <td>Color:Xanh rêu|Size:XXXL</td>
-                                            <td>
-                                                <input type="number" min="0" class="in-quanlity" value="0" /></td>
-                                        </tr>
-                                        <tr class="product-result" data-sku="CS001" data-type="1" data-productid="2">
-                                            <td>
-                                                <img src="/App_Themes/Ann/image/sp_demo.png" alt="" style="width: 50px" /></td>
-                                            <td>Áo thun nam cá sấu Adidas</td>
-                                            <td>CS001</td>
-                                            <td>Color:Xanh rêu|Size:XXXL</td>
-                                            <td>
-                                                <input type="number" min="0" class="in-quanlity" value="0" /></td>
-                                        </tr>
-                                        <tr class="product-result" data-sku="CS001" data-type="1" data-productid="2">
-                                            <td>
-                                                <img src="/App_Themes/Ann/image/sp_demo.png" alt="" style="width: 50px" /></td>
-                                            <td>Áo thun nam cá sấu Adidas</td>
-                                            <td>CS001</td>
-                                            <td>Color:Xanh rêu|Size:XXXL</td>
-                                            <td>
-                                                <input type="number" min="0" class="in-quanlity" value="0" /></td>
-                                        </tr>--%>
                                     </tbody>
                                 </table>
                             </div>
                             <div class="form-row excute-in">
-                                <div class="float-right"><a href="javascript:;" class="btn primary-btn fw-btn not-fullwidth" onclick="show_messageorder('')">Xuất hàng</a></div>
+                                <div class="float-right"><a href="javascript:;" class="btn primary-btn fw-btn not-fullwidth" onclick="noteExportStock()">Xuất kho</a></div>
                             </div>
                         </div>
                     </div>
@@ -113,6 +57,18 @@
         <asp:Button ID="btnImport" runat="server" OnClick="btnImport_Click" Style="display: none" />
     </main>
     <script type="text/javascript">
+        $(document).keydown(function (e) {
+            if (e.which == 114) { //F3 Search Product
+                $("#txtSearch").focus();
+                return false;
+            }
+        });
+
+        // focus to searchProduct input when page on ready
+        $(document).ready(function () {
+            $("#txtSearch").focus();
+        });
+
         $('#txtSearch').keydown(function (event) {
             if (event.which === 13) {
                 searchProduct();
@@ -159,9 +115,8 @@
                                             html += "   <td>" + item.SupplierName + "</td>";
                                             html += "   <td>" + item.ProductVariable + "</td>";
                                             html += "   <td>" + item.QuantityInstockString + "</td>";
-                                            //html += "   <td style=\"width:30%;\"><input type=\"number\" min=\"0\" max=\"" + item.QuantityInstock + "\" class=\"form-control in-quanlity\" style=\"width: 40%;margin: 0 auto;\" value=\"0\" onkeyup=\"checkQuantiy($(this))\" /></td>";
-                                            html += "   <td style=\"width:20%;\"><input type=\"text\" min=\"0\" max=\"" + item.QuantityInstock + "\" class=\"form-control in-quanlity\" style=\"width: 40%;margin: 0 auto;\" value=\"1\"  onkeyup=\"checkQuantiy($(this))\" onkeypress='return event.charCode >= 48 && event.charCode <= 57'/></td>";
-                                            html += "   <td><a href=\"javascript:;\" onclick=\"deleteRow($(this))\">Xóa</a></td>";
+                                            html += "   <td><input type=\"text\" max=\"" + item.QuantityInstock + "\" class=\"form-control in-quanlity\" value=\"1\" onkeyup=\"pressKeyQuantity($(this))\" onkeypress='return event.charCode >= 48 && event.charCode <= 57'/></td>";
+                                            html += "   <td class=\"trash-column\"><a href=\"javascript:;\" onclick=\"deleteRow($(this))\"><i class=\"fa fa-trash\"></i></a></td>";
                                             html += "</tr>";
                                         }
                                         else {
@@ -190,9 +145,8 @@
                                         html += "   <td>" + item.SupplierName + "</td>";
                                         html += "   <td>" + item.ProductVariable + "</td>";
                                         html += "   <td>" + item.QuantityInstockString + "</td>";
-                                        //html += "   <td style=\"width:30%;\"><input type=\"number\" min=\"0\" max=\"" + item.QuantityInstock + "\" class=\"form-control in-quanlity\" style=\"width: 40%;margin: 0 auto;\" value=\"0\" onkeyup=\"checkQuantiy($(this))\" /></td>";
-                                        html += "   <td style=\"width:20%;\"><input type=\"text\" min=\"0\" max=\"" + item.QuantityInstock + "\" class=\"form-control in-quanlity\" style=\"width: 40%;margin: 0 auto;\" value=\"1\"  onkeyup=\"checkQuantiy($(this))\" onkeypress='return event.charCode >= 48 && event.charCode <= 57'/></td>";
-                                        html += "   <td><a href=\"javascript:;\" onclick=\"deleteRow($(this))\">Xóa</a></td>";
+                                        html += "   <td><input type=\"text\" max=\"" + item.QuantityInstock + "\" class=\"form-control in-quanlity\" value=\"1\" onkeyup=\"pressKeyQuantity($(this))\" onkeypress='return event.charCode >= 48 && event.charCode <= 57'/></td>";
+                                        html += "   <td class=\"trash-column\"><a href=\"javascript:;\" onclick=\"deleteRow($(this))\"><i class=\"fa fa-trash\"></i></a></td>";
                                         html += "</tr>";
                                     }
                                     else {
@@ -228,8 +182,8 @@
             else {
                 alert('Vui lòng nhập nội dung tìm kiếm');
             }
-
         }
+
         function deleteRow(obj) {
             var c = confirm('Bạn muốn xóa sản phẩm này?');
             if (c) {
@@ -239,6 +193,7 @@
                 }
             }
         }
+
         function inProduct() {
             if ($(".product-result").length > 0) {
                 var note = $("#txtnote").val();
@@ -272,56 +227,44 @@
                 alert("Vui lòng nhập sản phẩm");
             }
         }
-        function show_messageorder(content) {
-            var obj = $('body');
-            $(obj).css('overflow', 'hidden');
-            $(obj).attr('onkeydown', 'keyclose_ms(event)');
-            var bg = "<div id='bg_popup'></div>";
-            var fr = "<div id='pupip' class=\"columns-container1\"><div class=\"container\" id=\"columns\"><div class='row'>" +
-                     "  <div class=\"center_column col-xs-12 col-sm-5\" id=\"popup_content\"><a style='cursor:pointer;right:5px;' onclick='close_popup_ms()' class='close_message'></a>";
-            fr += "     <div class=\"changeavatar\">";
-            fr += content;
-            fr += "         <label class=\"lbl-popup\">Nội dung nhập hàng</label>";
-            fr += "         <textarea id=\"txtnote\" class=\"form-control\"/>";
-            fr += "         <div class=\"clearfix\"></div>";
-            fr += "         <div class=\"clearfix\"></div>";
-            fr += "         <div class=\"btn-content\">";
-            fr += "             <a class=\"btn primary-btn fw-btn not-fullwidth\" style=\"padding:10px 30px;float:right;margin:10px 0\" href=\"javascript:;\" onclick=\"inProduct()\" >Xác nhận</a>";
-            fr += "         </div>";
-            fr += "     </div>";
-            fr += "   </div>";
-            fr += "</div></div></div>";
-            $(bg).appendTo($(obj)).show().animate({ "opacity": 0.7 }, 800);
-            $(fr).appendTo($(obj));
-            setTimeout(function () {
-                $('#pupip').show().animate({ "opacity": 1, "top": 20 + "%" }, 200);
-                $("#bg_popup").attr("onclick", "close_popup_ms()");
-            }, 1000);
+
+        function noteExportStock() {
+            fr = "<div class=\"form-row\">";
+            fr += "    <label class=\"lbl-popup\">Nội dung xuất kho</label>";
+            fr += "    <textarea id=\"txtnote\" class=\"form-control\" placeholder=\"Có thể để trống\"/>";
+            fr += "</div>";
+            fr += "<div class=\"btn-content\">";
+            fr += "    <a class=\"btn primary-btn fw-btn float-right-btn not-fullwidth\" href=\"javascript:;\" onclick=\"inProduct()\" >Xác nhận</a>";
+            fr += "</div>";
+            showPopup(fr);
         }
-        function keyclose_ms(e) {
-            if (e.keyCode == 27) {
-                close_popup_ms();
-            }
-        }
-        function close_popup_ms() {
-            $("#pupip").animate({ "opacity": 0 }, 400);
-            $("#bg_popup").animate({ "opacity": 0 }, 400);
-            setTimeout(function () {
-                $("#pupip").remove();
-                $(".zoomContainer").remove();
-                $("#bg_popup").remove();
-                $('body').css('overflow', 'auto').attr('onkeydown', '');
-            }, 500);
-        }
+
         function checkQuantiy(obj) {
             var instock = parseFloat(obj.parent().parent().attr("data-quantityinstock"));
-            var currentVal = parseFloat(obj.val());
+            var current = parseFloat(obj.val());
             var check = true;
-            if (currentVal > instock) {
-                obj.val("");
+            if (current > instock) {
                 obj.val(instock);
             }
+            if (current == 0 || current == "" || current == null) {
+                obj.val("1");
+            }
         }
+
+        function pressKeyQuantity(e) {
+            $(".in-quanlity").keydown(function (e) {
+                if (e.which == 40 || e.which == 13) {
+                    // press down 
+                    $(this).closest('tr').next().find('td:eq(' + $(this).closest('td').index() + ')').find(".in-quanlity").focus().select();
+                }
+                else if (e.which == 38) {
+                    // press up
+                    $(this).closest('tr').prev().find('td:eq(' + $(this).closest('td').index() + ')').find(".in-quanlity").focus().select();
+                }
+            });
+            checkQuantiy(e);
+        }
+
         function keypress(e) {
             var keypressed = null;
             if (window.event) {

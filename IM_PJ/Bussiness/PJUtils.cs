@@ -580,16 +580,9 @@ namespace NHST.Bussiness
         public static string IsHiddenStatus(bool IsHidden)
         {
             string ret = "";
-            if (IsHidden != null)
+            if (IsHidden == true)
             {
-                if (IsHidden == true)
-                {
-                    ret = "<input type=\"checkbox\" disabled=\"disabled\" checked=\"checked\" />";
-                }
-                else
-                {
-                    ret = "<input type=\"checkbox\" disabled=\"disabled\"/>";
-                }
+                ret = "<input type=\"checkbox\" disabled=\"disabled\" checked=\"checked\" />";
             }
             else
             {

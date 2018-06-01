@@ -1,30 +1,4 @@
 ﻿<%@ Page Title="Nhập kho sản phẩm" Language="C#" MasterPageFile="~/MasterPage.Master" AutoEventWireup="true" CodeBehind="quan-ly-nhap-kho.aspx.cs" Inherits="IM_PJ.quan_ly_nhap_kho" %>
-
-<asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
-    <style>
-        .select2-container--default .select2-selection--single .select2-selection__rendered {
-            line-height: 40px;
-            height: 40px;
-        }
-
-        .select2-container .select2-selection--single {
-            appearance: none;
-            -webkit-appearance: none;
-            -moz-appearance: none;
-            -ms-appearance: none;
-            -o-appearance: none;
-            height: 40px;
-            float: left;
-            border: solid 1px #eee;
-            width: 100%;
-            background: url(/App_Themes/Ann/image/icon-select.png) no-repeat right 15px center;
-        }
-
-        .select2-container--default .select2-selection--single .select2-selection__arrow b {
-            border-style: none;
-        }
-    </style>
-</asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <main id="main-wrap">
         <div class="container">
@@ -55,7 +29,7 @@
                                     <thead>
                                         <tr>
                                             <th class="select-column">
-                                                <input type="checkbox" id="check-all" onchange="check_all()" /> In
+                                                <input type="checkbox" id="check-all" onchange="check_all()" />
                                             </th>
                                             <th class="image-column">Ảnh</th>
                                             <th class="name-column">Sản phẩm</th>
@@ -184,7 +158,7 @@
                                             html += "   <td>" + item.ProductVariable + "</td>";
                                             html += "   <td>" + item.SupplierName + "</td>";
                                             html += "   <td>" + item.WarehouseQuantity + "</td>";
-                                            html += "   <td><input type=\"text\" class=\"form-control in-quanlity\" onkeyup=\"pressKeyQuantiy($(this))\" value=\"1\" /></td>";
+                                            html += "   <td><input type=\"text\" class=\"form-control in-quanlity\" onkeyup=\"pressKeyQuantity($(this))\" value=\"1\" /></td>";
                                             html += "   <td class=\"trash-column\"><a href=\"javascript:;\" onclick=\"deleteRow($(this))\"><i class=\"fa fa-trash\"></i></a></td>";
                                             html += "</tr>";
                                         }
@@ -214,7 +188,7 @@
                                         html += "   <td>" + item.ProductVariable + "</td>";
                                         html += "   <td>" + item.SupplierName + "</td>";
                                         html += "   <td>" + item.WarehouseQuantity + "</td>";
-                                        html += "   <td><input type=\"text\" class=\"form-control in-quanlity\" onkeyup=\"pressKeyQuantiy($(this))\" value=\"1\" /></td>";
+                                        html += "   <td><input type=\"text\" class=\"form-control in-quanlity\" onkeyup=\"pressKeyQuantity($(this))\" value=\"1\" /></td>";
                                         html += "   <td class=\"trash-column\"><a href=\"javascript:;\" onclick=\"deleteRow($(this))\"><i class=\"fa fa-trash\"></i></a></td>";
                                         html += "</tr>";
                                     }
@@ -259,7 +233,7 @@
             }
         }
 
-        function pressKeyQuantiy(e) {
+        function pressKeyQuantity(e) {
             $(".in-quanlity").keydown(function (e) {
                 if (e.which == 40 || e.which == 13)
                 {
@@ -272,6 +246,7 @@
                     $(this).closest('tr').prev().find('td:eq(' + $(this).closest('td').index() + ')').find(".in-quanlity").focus().select();
                 } 
             });
+            checkQuantiy(e);
         }
 
         function deleteRow(obj) {
@@ -318,7 +293,7 @@
 
         function noteImportStock() {
             fr = "<div class=\"form-row\">";
-            fr += "    <label class=\"lbl-popup\">Nội dung nhập hàng</label>";
+            fr += "    <label class=\"lbl-popup\">Nội dung nhập kho</label>";
             fr += "    <textarea id=\"txtnote\" class=\"form-control\" placeholder=\"Có thể để trống\"/>";
             fr += "</div>";
             fr += "<div class=\"btn-content\">";

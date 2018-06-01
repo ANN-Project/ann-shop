@@ -137,10 +137,6 @@ namespace IM_PJ
                                 int ProductVariableID = Convert.ToInt32(item.ProductVariableID);
 
                                 string SKU = item.SKU;
-                                double Giabansi = 0;
-                                double Giabanle = 0;
-                                string stringGiabansi = "";
-                                string stringGiabanle = "";
                                 double QuantityInstock = 0;
                                 string ProductImageOrigin = "";
                                 string ProductVariable = "";

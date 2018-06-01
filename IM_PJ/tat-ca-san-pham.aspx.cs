@@ -76,7 +76,6 @@ namespace IM_PJ
             a = ProductController.GetAllSql(categoryID, s);
             if (type == 3)
             {
-                //a = a.Where(p => p.StockStatus == type).ToList();
                 a = a.Where(p => p.TotalProductInstockQuantityIn == 0).ToList();
             }
             if (type == 1)
@@ -87,20 +86,6 @@ namespace IM_PJ
             {
                 a = a.Where(p => p.TotalProductInstockQuantityLeft == 0 && p.TotalProductInstockQuantityIn > 0).ToList();
             }
-
-            //if (type == 1)
-            //{
-            //    a = a.Where(p => p.StockStatus == 1).ToList();
-            //}
-            //else if (type == 2)
-            //{
-            //    a = a.Where(p => p.StockStatus == 2).ToList();
-            //}
-            //else if(type == 3)
-            //{
-            //    a = a.Where(p => p.StockStatus == 3).ToList();
-            //}
-            //a = ProductController.View_GetByCategoryID(s, categoryID);
             pagingall(a);
         }
         #region Paging
@@ -138,31 +123,28 @@ namespace IM_PJ
                 {
                     var item = acs[i];
                     html.Append("<tr>");
-                    html.Append("   <td><img href=\"/xem-san-pham.aspx?id=" + item.ID + "\" target=\"_blank\" class=\"anhsanpham\" src=\"" + item.ProductImage + "\" alt=\"\"/></td>");
-                    html.Append("   <td> <a class=\"link\" href=\"/xem-san-pham.aspx?id=" + item.ID + "\">" + item.ProductTitle + "</a></td>");
+                    html.Append("   <td><a href=\"/xem-san-pham.aspx?id=" + item.ID + "\"><img src=\"" + item.ProductImage + "\"/></a></td>");
+                    html.Append("   <td><a href=\"/xem-san-pham.aspx?id=" + item.ID + "\">" + item.ProductTitle + "</a></td>");
                     html.Append("   <td>" + item.ProductSKU + "</td>");
                     html.Append("   <td>" + string.Format("{0:N0}", item.RegularPrice) + "</td>");
                     if (k == "ok")
                     {
                         html.Append("   <td>" + string.Format("{0:N0}", item.CostOfGood) + "</td>");
                     }
-
-
                     html.Append("   <td>" + string.Format("{0:N0}", item.RetailPrice) + "</td>");
                     html.Append("   <td>" + string.Format("{0:N0}", item.TotalProductInstockQuantityLeft) + "</td>");
-                    html.Append("   <td>" + /*PJUtils.ShowStockStatus(item.StockStatus)*/  item.ProductInstockStatus + "</td>");
+                    html.Append("   <td>" + item.ProductInstockStatus + "</td>");
                     html.Append("   <td>" + item.CategoryName + "</td>");
                     string date = string.Format("{0:dd/MM/yyyy}", item.CreatedDate);
                     html.Append("   <td>" + date + "</td>");
                     html.Append("   <td>");
-                    //html.Append("       <a href=\"/xem-san-pham.aspx?id=" + item.ID + "\" class=\"btn primary-btn h45-btn\">Xem</a>");
                     html.Append("       <a href=\"/danh-sach-anh-san-pham.aspx?id=" + item.ID + "\" class=\"btn primary-btn h45-btn\">Upload Ảnh</a>");
                     if (item.ProductStyle == 2)
                     {
-                        html.Append("       <a href=\"/thuoc-tinh-san-pham.aspx?id=" + item.ID + "\" class=\"btn primary-btn h45-btn\">Thuộc tính</a>");
+                        html.Append(" <a href=\"/thuoc-tinh-san-pham.aspx?id=" + item.ID + "\" class=\"btn primary-btn h45-btn\">Thuộc tính</a>");
                     }
 
-                    html.Append("   </td>");
+                    html.Append("  </td>");
                     html.Append("</tr>");
                 }
             }

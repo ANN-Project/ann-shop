@@ -198,20 +198,17 @@ namespace IM_PJ.Controllers
             {
                 int quantityIn = reader["InProduct"].ToString().ToInt(0);
                 int quantityOut = reader["OutProduct"].ToString().ToInt(0);
-                //int quantityLeft = reader["leftProduct"].ToString().ToInt(0);
                 int quantityLeft = quantityIn - quantityOut;
                 int stockstatus = reader["StockStatus"].ToString().ToInt(0);
                 var entity = new ProductSQL();
                 if (reader["ID"] != DBNull.Value)
                     entity.ID = reader["ID"].ToString().ToInt(0);
-                if (reader["anhsanpham"] != DBNull.Value)
-                    entity.ProductImage = reader["anhsanpham"].ToString();
+                if (reader["ProductImage"] != DBNull.Value)
+                    entity.ProductImage = reader["ProductImage"].ToString();
                 if (reader["ProductTitle"] != DBNull.Value)
                     entity.ProductTitle = reader["ProductTitle"].ToString();
                 if (reader["ProductSKU"] != DBNull.Value)
                     entity.ProductSKU = reader["ProductSKU"].ToString();
-                //if (reader["StockStatus"] != DBNull.Value)
-                //entity.StockStatus = reader["StockStatus"].ToString().ToInt(0);
                 if (quantityIn > 0)
                 {
                     if (quantityLeft > 0)
@@ -230,18 +227,6 @@ namespace IM_PJ.Controllers
                     entity.ProductInstockStatus = "<span class=\"bg-yellow\">Đang nhập kho</span>";
                     entity.StockStatus = 3;
                 }
-                //if (stockstatus != 3)
-                //{
-                //    if (quantityLeft > 0)
-                //        entity.ProductInstockStatus = "Còn hàng";
-                //    else
-                //        entity.ProductInstockStatus = "Hết hàng";
-                //}
-                //else
-                //{
-                //    entity.ProductInstockStatus = "Đang chờ nhập hàng";
-                //    quantityIn = -1;
-                //}
 
                 entity.TotalProductInstockQuantityIn = quantityIn;
                 entity.TotalProductInstockQuantityOut = quantityOut;

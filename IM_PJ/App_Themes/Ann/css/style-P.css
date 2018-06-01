@@ -1,11 +1,11 @@
 ﻿.import-stock .select-column {
-    width: 4%;
+    width: 3%;
 }
 .import-stock .image-column {
-    width: 12%;
+    width: 11%;
 }
 .import-stock .name-column {
-    width: 20%;
+    width: 22%;
 }
 .import-stock .sku-column {
     width: 12%;
@@ -87,13 +87,10 @@
     font-size: 18px!important;
 }
 .order-item-header {
-    width: 20px;
+    width: 35px;
 }
 .order-item {
-    width: 25px;
-    text-align: center!important;
-    font-size: 16px;
-    font-weight: bold;
+    width: 35px;
 }
 .image-item {
     width: 70px;

@@ -23,7 +23,6 @@ namespace IM_PJ
         {
             if (!IsPostBack)
             {
-                //Session["userLoginSystem"] = "admin";
                 if (Session["userLoginSystem"] != null)
                 {
                     string username = Session["userLoginSystem"].ToString();
@@ -322,7 +321,7 @@ namespace IM_PJ
                             html += "   <td class=\"variable-item\">" + ProductVariable + "</td>";
                             html += "   <td class=\"price-item gia-san-pham\" data-price=\"" + ItemPrice + "\">" + string.Format("{0:N0}", ItemPrice) + "</td>";
                             html += "   <td class=\"quantity-item soluong\">" + QuantityInstockString + "</td>";
-                            html += "   <td class=\"quantity-item\"><input data-quantity=\"" + item.Quantity + "\" value=\"" + item.Quantity + "\" type=\"text\" min=\"0\" max=\"" + QuantityInstock + "\" class=\"form-control in-quanlity\" value=\"1\" onkeyup=\"checkQuantiy1($(this))\" onkeypress='return event.charCode >= 48 && event.charCode <= 57'/></td>";
+                            html += "   <td class=\"quantity-item\"><input data-quantity=\"" + item.Quantity + "\" value=\"" + item.Quantity + "\" type=\"text\" max=\"" + QuantityInstock + "\" class=\"form-control in-quanlity\" value=\"1\" onkeyup=\"checkQuantiy($(this))\" onkeypress='return event.charCode >= 48 && event.charCode <= 57'/></td>";
                             int k = Convert.ToInt32(ItemPrice) * Convert.ToInt32(item.Quantity);
                             html += "<td class=\"total-item totalprice-view\">" + string.Format("{0:N0}", k) + "</td>";
                             html += "   <td class=\"trash-item\"><a href=\"javascript:;\" class=\"link-btn\" onclick=\"deleteRow($(this))\"><i class=\"fa fa-trash\"></i></a>    </td>";
@@ -387,7 +386,7 @@ namespace IM_PJ
         }
 
         [WebMethod]
-        public static string getProduct(string textsearch)
+        public static string getProduct(string textsearch, int gettotal)
         {
             List<ProductGetOut> ps = new List<ProductGetOut>();
             string username = HttpContext.Current.Session["userLoginSystem"].ToString();
@@ -395,98 +394,54 @@ namespace IM_PJ
             if (acc != null)
             {
                 int AgentID = Convert.ToInt32(acc.AgentID);
-                var products = ProductController.GetByTextSearchIsHidden(textsearch.Trim(), false);
-                if (products.Count > 0)
+                var product = ProductController.GetBySKU(textsearch.Trim());
+
+                // Kiểm tra sản phẩm có trong table Product không?
+                if (product != null) // Nếu sản phẩm có trong table Product thì...
                 {
-                    foreach (var product in products)
+                    var productvariable = ProductVariableController.GetProductID(product.ID);
+
+                    // Kiểm tra sản phẩm cha là variable hay simple?
+                    if (productvariable.Count > 0) // Nếu sản phẩm cha là variable thì...
                     {
-                        var productvariable = ProductVariableController.GetProductID(product.ID);
-                        if (productvariable.Count > 0)
+                        foreach (var pv in productvariable)
                         {
-                            foreach (var pv in productvariable)
+                            string SKU = pv.SKU.Trim().ToUpper();
+
+                            var variables = ProductVariableValueController.GetByProductVariableID(pv.ID);
+
+                            if (variables.Count > 0)
                             {
-                                string SKU = pv.SKU.Trim().ToUpper();
-                                var check = InOutProductVariableController.GetBySKU(AgentID, SKU);
-                                if (check.Count > 0)
-                                {
-                                    double total = PJUtils.TotalProductQuantityInstock(AgentID, SKU);
-                                    var variables = ProductVariableValueController.GetByProductVariableID(pv.ID);
-                                    if (variables.Count > 0)
-                                    {
-                                        string variablename = "";
-                                        string variablevalue = "";
-                                        string variable = "";
-                                        string variablesave = "";
-                                        foreach (var v in variables)
-                                        {
-                                            variable += v.VariableName.Trim() + ": " + v.VariableValue.Trim() + "<br/>";
-                                            variablesave += v.VariableName.Trim() + ": " + v.VariableValue.Trim() + "|";
-                                            variablename += v.VariableName.Trim() + "|";
-                                            variablevalue += v.VariableValue.Trim() + "|";
-                                        }
-                                        var mainstock = PJUtils.TotalProductQuantityInstock(1, SKU);
-                                        ProductGetOut p = new ProductGetOut();
-                                        p.ID = pv.ID;
-                                        p.ProductName = product.ProductTitle;
-                                        p.ProductVariable = variable;
-                                        p.ProductVariableSave = variablesave;
-                                        p.ProductVariableName = variablename;
-
-                                        p.ProductVariableValue = variablevalue;
-                                        p.ProductType = 2;
-
-                                        if (p.ProductImage == null)
-                                        {
-                                            p.ProductImage = "<img src=\"" + pv.Image + "\" />";
-                                        }
-                                        else
-                                        {
-                                            p.ProductImage = "<img src=\"/App_Themes/Ann/image/placeholder.png\" />";
-                                        }
-
-                                        p.ProductImageOrigin = pv.Image;
-                                        p.QuantityMainInstock = mainstock;
-                                        p.QuantityMainInstockString = string.Format("{0:N0}", mainstock);
-                                        p.QuantityInstock = total;
-                                        p.QuantityInstockString = string.Format("{0:N0}", total);
-                                        p.SKU = SKU;
-                                        p.Giabansi = Convert.ToDouble(pv.Regular_Price);
-                                        p.stringGiabansi = string.Format("{0:N0}", pv.Regular_Price);
-                                        p.Giabanle = Convert.ToDouble(pv.RetailPrice);
-                                        p.stringGiabanle = string.Format("{0:N0}", pv.RetailPrice);
-                                        ps.Add(p);
-                                    }
-                                }
-
-                            }
-                        }
-                        else
-                        {
-                            string SKU = product.ProductSKU.Trim().ToUpper();
-                            var check = InOutProductVariableController.GetBySKU(AgentID, SKU);
-                            if (check.Count > 0)
-                            {
-                                double total = PJUtils.TotalProductQuantityInstock(AgentID, SKU);
                                 string variablename = "";
                                 string variablevalue = "";
                                 string variable = "";
-
-                                double mainstock = PJUtils.TotalProductQuantityInstock(1, SKU);
+                                string variablesave = "";
+                                foreach (var v in variables)
+                                {
+                                    variable += v.VariableName.Trim() + ": " + v.VariableValue.Trim() + "<br/>";
+                                    variablesave += v.VariableName.Trim() + ": " + v.VariableValue.Trim() + "|";
+                                    variablename += v.VariableName.Trim() + "|";
+                                    variablevalue += v.VariableValue.Trim() + "|";
+                                }
 
                                 ProductGetOut p = new ProductGetOut();
-                                p.ID = product.ID;
+                                p.ID = pv.ID;
                                 p.ProductName = product.ProductTitle;
                                 p.ProductVariable = variable;
-                                p.ProductVariableSave = "";
+                                p.ProductVariableSave = variablesave;
                                 p.ProductVariableName = variablename;
                                 p.ProductVariableValue = variablevalue;
-                                p.ProductType = 1;
+                                p.ProductType = 2;
 
-                                var img = ProductImageController.GetFirstByProductID(product.ID);
-                                if (img != null)
+                                if (!string.IsNullOrEmpty(pv.Image))
                                 {
-                                    p.ProductImage = "<img src=\"" + img.ProductImage + "\" />";
-                                    p.ProductImageOrigin = img.ProductImage;
+                                    p.ProductImage = "<img src=\"" + pv.Image + "\" />";
+                                    p.ProductImageOrigin = pv.Image;
+                                }
+                                else if (!string.IsNullOrEmpty(product.ProductImage))
+                                {
+                                    p.ProductImage = "<img src=\"" + product.ProductImage + "\" />";
+                                    p.ProductImageOrigin = product.ProductImage;
                                 }
                                 else
                                 {
@@ -494,194 +449,136 @@ namespace IM_PJ
                                     p.ProductImageOrigin = "";
                                 }
 
-                                p.SKU = SKU;
-                                p.QuantityMainInstock = mainstock;
-                                p.QuantityMainInstockString = string.Format("{0:N0}", mainstock);
-                                p.QuantityInstock = total;
-                                p.QuantityInstockString = string.Format("{0:N0}", total);
-                                p.Giabansi = Convert.ToDouble(product.Regular_Price);
-                                p.stringGiabansi = string.Format("{0:N0}", product.Regular_Price);
-                                p.Giabanle = Convert.ToDouble(product.Retail_Price);
-                                p.stringGiabanle = string.Format("{0:N0}", product.Retail_Price);
-                                ps.Add(p);
-                            }
-                        }
-                    }
-                }
-                else
-                {
-                    var product = ProductController.GetBySKU(textsearch.Trim());
-                    if (product != null)
-                    {
-                        var productvariable = ProductVariableController.GetProductID(product.ID);
-                        if (productvariable.Count > 0)
-                        {
-                            foreach (var pv in productvariable)
-                            {
-                                string SKU = pv.SKU.Trim().ToUpper();
-                                var check = InOutProductVariableController.GetBySKU(AgentID, SKU);
-                                if (check.Count > 0)
+                                if (gettotal == 1)
                                 {
                                     double total = PJUtils.TotalProductQuantityInstock(AgentID, SKU);
-                                    var variables = ProductVariableValueController.GetByProductVariableID(pv.ID);
-                                    if (variables.Count > 0)
-                                    {
-                                        string variablename = "";
-                                        string variablevalue = "";
-                                        string variable = "";
-                                        string variablesave = "";
-                                        foreach (var v in variables)
-                                        {
-                                            variable += v.VariableName.Trim() + ": " + v.VariableValue.Trim() + "<br/>";
-                                            variablesave += v.VariableName.Trim() + ": " + v.VariableValue.Trim() + "|";
-                                            variablename += v.VariableName.Trim() + "|";
-                                            variablevalue += v.VariableValue.Trim() + "|";
-                                        }
-                                        var mainstock = PJUtils.TotalProductQuantityInstock(1, SKU);
-                                        ProductGetOut p = new ProductGetOut();
-                                        p.ID = pv.ID;
-                                        p.ProductName = product.ProductTitle;
-                                        p.ProductVariable = variable;
-                                        p.ProductVariableSave = variablesave;
-                                        p.ProductVariableName = variablename;
-
-                                        p.ProductVariableValue = variablevalue;
-                                        p.ProductType = 2;
-
-                                        if (p.ProductImage == null)
-                                        {
-                                            p.ProductImage = "<img src=\"" + pv.Image + "\" />";
-                                        }
-                                        else
-                                        {
-                                            p.ProductImage = "<img src=\"/App_Themes/Ann/image/placeholder.png\" />";
-                                        }
-
-                                        p.ProductImageOrigin = pv.Image;
-                                        p.QuantityMainInstock = mainstock;
-                                        p.QuantityMainInstockString = string.Format("{0:N0}", mainstock);
-                                        p.QuantityInstock = total;
-                                        p.QuantityInstockString = string.Format("{0:N0}", total);
-                                        p.SKU = SKU;
-                                        p.Giabansi = Convert.ToDouble(pv.Regular_Price);
-                                        p.stringGiabansi = string.Format("{0:N0}", pv.Regular_Price);
-                                        p.Giabanle = Convert.ToDouble(pv.RetailPrice);
-                                        p.stringGiabanle = string.Format("{0:N0}", pv.RetailPrice);
-                                        ps.Add(p);
-                                    }
-                                }
-
-                            }
-                        }
-                        else
-                        {
-                            string SKU = product.ProductSKU.Trim().ToUpper();
-                            var check = InOutProductVariableController.GetBySKU(AgentID, SKU);
-                            if (check.Count > 0)
-                            {
-                                double total = PJUtils.TotalProductQuantityInstock(AgentID, SKU);
-                                string variablename = "";
-                                string variablevalue = "";
-                                string variable = "";
-
-                                double mainstock = PJUtils.TotalProductQuantityInstock(1, SKU);
-
-                                ProductGetOut p = new ProductGetOut();
-                                p.ID = product.ID;
-                                p.ProductName = product.ProductTitle;
-                                p.ProductVariable = variable;
-                                p.ProductVariableSave = "";
-                                p.ProductVariableName = variablename;
-                                p.ProductVariableValue = variablevalue;
-                                p.ProductType = 1;
-
-                                var img = ProductImageController.GetFirstByProductID(product.ID);
-                                if (img != null)
-                                {
-                                    p.ProductImage = "<img src=\"" + img.ProductImage + "\"  />";
-                                    p.ProductImageOrigin = img.ProductImage;
-                                }
-                                else
-                                {
-                                    p.ProductImage = "<img src=\"/App_Themes/Ann/image/placeholder.png\" />";
-                                    p.ProductImageOrigin = "";
-                                }
-
-                                p.SKU = SKU;
-                                p.QuantityMainInstock = mainstock;
-                                p.QuantityMainInstockString = string.Format("{0:N0}", mainstock);
-                                p.QuantityInstock = total;
-                                p.QuantityInstockString = string.Format("{0:N0}", total);
-                                p.Giabansi = Convert.ToDouble(product.Regular_Price);
-                                p.stringGiabansi = string.Format("{0:N0}", product.Regular_Price);
-                                p.Giabanle = Convert.ToDouble(product.Retail_Price);
-                                p.stringGiabanle = string.Format("{0:N0}", product.Retail_Price);
-                                ps.Add(p);
-                            }
-
-                        }
-                    }
-                    else
-                    {
-                        var productvariable = ProductVariableController.GetBySKU(textsearch);
-                        if (productvariable != null)
-                        {
-                            string SKU = productvariable.SKU.Trim().ToUpper();
-                            var check = InOutProductVariableController.GetBySKU(AgentID, SKU);
-                            if (check.Count > 0)
-                            {
-                                double total = PJUtils.TotalProductQuantityInstock(AgentID, SKU);
-                                var variables = ProductVariableValueController.GetByProductVariableID(productvariable.ID);
-
-                                if (variables.Count > 0)
-                                {
-                                    string variablename = "";
-                                    string variablevalue = "";
-                                    string variable = "";
-                                    string variablesave = "";
-
-                                    foreach (var v in variables)
-                                    {
-                                        variable += v.VariableName + ": " + v.VariableValue + "<br/>";
-                                        variablesave += v.VariableName.Trim() + ": " + v.VariableValue.Trim() + "|";
-                                        variablename += v.VariableName + "|";
-                                        variablevalue += v.VariableValue + "|";
-                                    }
-                                    double mainstock = PJUtils.TotalProductQuantityInstock(1, SKU);
-
-                                    ProductGetOut p = new ProductGetOut();
-                                    p.ID = productvariable.ID;
-                                    var product1 = ProductController.GetByID(Convert.ToInt32(productvariable.ProductID));
-                                    if (product1 != null)
-                                        p.ProductName = product1.ProductTitle;
-                                    p.ProductVariable = variable;
-                                    p.ProductVariableSave = variablesave;
-                                    p.ProductVariableName = variablename;
-                                    p.ProductVariableValue = variablevalue;
-                                    p.ProductType = 2;
-                                    
-                                    if (p.ProductImage == null)
-                                    {
-                                        p.ProductImage = "<img src=\"" + productvariable.Image + "\" />";
-                                    }
-                                    else
-                                    {
-                                        p.ProductImage = "<img src=\"/App_Themes/Ann/image/placeholder.png\" />";
-                                    }
-
-                                    p.ProductImageOrigin = productvariable.Image;
-                                    p.SKU = productvariable.SKU.Trim().ToUpper();
+                                    var mainstock = PJUtils.TotalProductQuantityInstock(1, SKU);
                                     p.QuantityMainInstock = mainstock;
                                     p.QuantityMainInstockString = string.Format("{0:N0}", mainstock);
                                     p.QuantityInstock = total;
                                     p.QuantityInstockString = string.Format("{0:N0}", total);
-                                    p.Giabansi = Convert.ToDouble(productvariable.Regular_Price);
-                                    p.stringGiabansi = string.Format("{0:N0}", productvariable.Regular_Price);
-                                    p.Giabanle = Convert.ToDouble(productvariable.RetailPrice);
-                                    p.stringGiabanle = string.Format("{0:N0}", productvariable.RetailPrice);
-                                    ps.Add(p);
                                 }
+
+                                p.SKU = SKU;
+                                p.Giabansi = Convert.ToDouble(pv.Regular_Price);
+                                p.stringGiabansi = string.Format("{0:N0}", pv.Regular_Price);
+                                p.Giabanle = Convert.ToDouble(pv.RetailPrice);
+                                p.stringGiabanle = string.Format("{0:N0}", pv.RetailPrice);
+                                ps.Add(p);
                             }
+                        }
+                    }
+                    else // Nếu sản phẩm cha là simple thì...
+                    {
+                        string SKU = product.ProductSKU.Trim().ToUpper();
+                        double total = PJUtils.TotalProductQuantityInstock(AgentID, SKU);
+                        double mainstock = PJUtils.TotalProductQuantityInstock(1, SKU);
+
+                        ProductGetOut p = new ProductGetOut();
+                        p.ID = product.ID;
+                        p.ProductName = product.ProductTitle;
+                        p.ProductVariable = "";
+                        p.ProductVariableSave = "";
+                        p.ProductVariableName = "";
+                        p.ProductVariableValue = "";
+                        p.ProductType = 1;
+
+                        var img = ProductImageController.GetFirstByProductID(product.ID);
+                        if (!string.IsNullOrEmpty(product.ProductImage))
+                        {
+                            p.ProductImage = "<img src=\"" + product.ProductImage + "\" />";
+                            p.ProductImageOrigin = product.ProductImage;
+                        }
+                        else if (img.ProductImage != null)
+                        {
+                            p.ProductImage = "<img src=\"" + img.ProductImage + "\" />";
+                            p.ProductImageOrigin = img.ProductImage;
+                        }
+                        else
+                        {
+                            p.ProductImage = "<img src=\"/App_Themes/Ann/image/placeholder.png\" />";
+                            p.ProductImageOrigin = "";
+                        }
+
+                        p.SKU = SKU;
+                        p.QuantityMainInstock = mainstock;
+                        p.QuantityMainInstockString = string.Format("{0:N0}", mainstock);
+                        p.QuantityInstock = total;
+                        p.QuantityInstockString = string.Format("{0:N0}", total);
+                        p.Giabansi = Convert.ToDouble(product.Regular_Price);
+                        p.stringGiabansi = string.Format("{0:N0}", product.Regular_Price);
+                        p.Giabanle = Convert.ToDouble(product.Retail_Price);
+                        p.stringGiabanle = string.Format("{0:N0}", product.Retail_Price);
+                        ps.Add(p);
+                    }
+                }
+                else // Nếu không nằm trong table Product thì...
+                {
+                    var productvariable = ProductVariableController.GetBySKU(textsearch);
+
+                    // Nếu sản phẩm là con (nằm trong table ProductVariable) thì...
+                    if (productvariable != null)
+                    {
+                        string SKU = productvariable.SKU.Trim().ToUpper();
+                        double total = PJUtils.TotalProductQuantityInstock(AgentID, SKU);
+
+                        var variables = ProductVariableValueController.GetByProductVariableID(productvariable.ID);
+
+                        if (variables.Count > 0)
+                        {
+                            string variablename = "";
+                            string variablevalue = "";
+                            string variable = "";
+                            string variablesave = "";
+
+                            foreach (var v in variables)
+                            {
+                                variable += v.VariableName + ": " + v.VariableValue + "<br/>";
+                                variablesave += v.VariableName.Trim() + ": " + v.VariableValue.Trim() + "|";
+                                variablename += v.VariableName + "|";
+                                variablevalue += v.VariableValue + "|";
+                            }
+                            double mainstock = PJUtils.TotalProductQuantityInstock(1, SKU);
+
+                            ProductGetOut p = new ProductGetOut();
+                            p.ID = productvariable.ID;
+
+                            var _product = ProductController.GetByID(Convert.ToInt32(productvariable.ProductID));
+                            if (_product != null)
+                                p.ProductName = _product.ProductTitle;
+
+                            p.ProductVariable = variable;
+                            p.ProductVariableSave = variablesave;
+                            p.ProductVariableName = variablename;
+                            p.ProductVariableValue = variablevalue;
+                            p.ProductType = 2;
+
+                            if (!string.IsNullOrEmpty(productvariable.Image))
+                            {
+                                p.ProductImage = "<img src=\"" + productvariable.Image + "\" />";
+                                p.ProductImageOrigin = productvariable.Image;
+                            }
+                            else if (!string.IsNullOrEmpty(_product.ProductImage))
+                            {
+                                p.ProductImage = "<img src=\"" + _product.ProductImage + "\" />";
+                                p.ProductImageOrigin = _product.ProductImage;
+                            }
+                            else
+                            {
+                                p.ProductImage = "<img src=\"/App_Themes/Ann/image/placeholder.png\" />";
+                                p.ProductImageOrigin = "";
+                            }
+
+                            p.SKU = SKU;
+                            p.QuantityMainInstock = mainstock;
+                            p.QuantityMainInstockString = string.Format("{0:N0}", mainstock);
+                            p.QuantityInstock = total;
+                            p.QuantityInstockString = string.Format("{0:N0}", total);
+                            p.Giabansi = Convert.ToDouble(productvariable.Regular_Price);
+                            p.stringGiabansi = string.Format("{0:N0}", productvariable.Regular_Price);
+                            p.Giabanle = Convert.ToDouble(productvariable.Regular_Price);
+                            p.stringGiabanle = string.Format("{0:N0}", productvariable.Regular_Price);
+                            ps.Add(p);
                         }
                     }
                 }
@@ -841,20 +738,366 @@ namespace IM_PJ
             public string stringGiabansi { get; set; }
         }
 
-        protected void btnImport_Click(object sender, EventArgs e)
-        {
-
-        }
-
-
         [WebMethod]
-        public static string Delete(string list)
+        public static void updateOrder(string listitem, int orderid)
+        {
+            DateTime currentDate = DateTime.Now;
+            string username = HttpContext.Current.Session["userLoginSystem"].ToString();
+            var acc = AccountController.GetByUsername(username);
+
+            var AgentID = Convert.ToInt32(acc.AgentID);
+            int OrderID = orderid;
+
+            string[] items = listitem.Split(';');
+            if (items.Length - 1 > 0)
+            {
+                for (int i = 0; i < items.Length - 1; i++)
+                {
+                    var item = items[i];
+                    string[] itemValue = item.Split(',');
+
+                    int ProductID = 0;
+                    int ProductVariableID = 0;
+
+                    int ID = itemValue[0].ToInt();
+                    int parentID = 0;
+                    var parent = ProductVariableController.GetByID(ID);
+                    if (parent != null)
+                    {
+                        parentID = Convert.ToInt32(parent.ProductID);
+                    }
+                    string SKU = itemValue[1];
+                    int producttype = itemValue[2].ToInt();
+                    if (producttype == 1)
+                    {
+                        ProductID = ID;
+                        ProductVariableID = 0;
+                    }
+                    else
+                    {
+                        ProductID = 0;
+                        ProductVariableID = ID;
+                    }
+
+                    string ProductVariableName = itemValue[3];
+                    string ProductVariableValue = itemValue[4];
+                    double Quantity = Convert.ToDouble(itemValue[5]);
+                    string ProductName = itemValue[6];
+                    string ProductImageOrigin = itemValue[7];
+                    string ProductVariable = itemValue[8];
+                    double Price = Convert.ToDouble(itemValue[9]);
+                    string ProductVariableSave = itemValue[10];
+                    int OrderDetailID = itemValue[11].ToInt(0);
+                    // kiểm tra sản phẩm này đã có trong đơn chưa?
+                    // nếu sản phẩm này có trong đơn có rồi thì chỉnh sửa
+                    if (OrderDetailID > 0)
+                    {
+                        var od = OrderDetailController.GetByID(OrderDetailID);
+
+                        if (od != null)
+                        {
+                            // 
+                            if (od.IsCount == true)
+                            {
+                                double quantityOld = Convert.ToDouble(od.Quantity);
+                                if (producttype == 1)
+                                {
+                                    if (quantityOld > Quantity)
+                                    {
+                                        //cộng vô kho
+                                        double quantitynew = quantityOld - Quantity;
+                                        InOutProductVariableController.Insert(AgentID, ID, 0, "", "", quantitynew, 0, 1, false, 1, "Nhập kho khi giảm số lượng trong sửa đơn", OrderID, 0, 4, ProductName, SKU, ProductImageOrigin, ProductVariable, currentDate, username, 0, parentID);
+                                    }
+                                    else if (quantityOld < Quantity)
+                                    {
+                                        // tính số lượng kho cần xuất thêm
+                                        double quantitynew = Quantity - quantityOld;
+
+                                        // nếu số lượng kho cần xuất thêm > số lượng kho hiện tại => tạo lệnh nhập kho bị lệch
+                                        double _Total = PJUtils.TotalProductQuantityInstock(AgentID, SKU);
+
+                                        if (_Total < quantitynew)
+                                        {
+                                            double _InputStock = quantitynew - _Total;
+
+                                            InOutProductVariableController.Insert(
+                                                AgentID,
+                                                ID,
+                                                0,
+                                                "",
+                                                "",
+                                                _InputStock,
+                                                0,
+                                                1,
+                                                false,
+                                                1,
+                                                "Nhập kho bị lệch khi sửa đơn",
+                                                OrderID,
+                                                0,
+                                                3,
+                                                ProductName,
+                                                SKU,
+                                                ProductImageOrigin,
+                                                ProductVariable,
+                                                currentDate,
+                                                username,
+                                                0,
+                                                parentID);
+                                        }
+
+                                        //trừ tiếp trong kho
+                                        InOutProductVariableController.Insert(AgentID, ID, 0, "", "", quantitynew, 0, 2, false, 1, "Xuất kho khi tăng số lượng trong sửa đơn", OrderID, 0, 3, ProductName, SKU, ProductImageOrigin, ProductVariable, currentDate, username, 0, parentID);
+                                    }
+                                }
+                                else
+                                {
+                                    string parentSKU = "";
+                                    var productV = ProductVariableController.GetByID(ID);
+                                    if (productV != null)
+                                        parentSKU = productV.ParentSKU;
+                                    if (!string.IsNullOrEmpty(parentSKU))
+                                    {
+                                        var product = ProductController.GetBySKU(parentSKU);
+                                        if (product != null)
+                                            parentID = product.ID;
+                                    }
+                                    if (quantityOld > Quantity)
+                                    {
+                                        //cộng vô kho
+                                        double quantitynew = quantityOld - Quantity;
+                                        InOutProductVariableController.Insert(AgentID, 0, ID, ProductVariableName, ProductVariableValue, quantitynew, 0, 1, false, 2, "Nhập kho khi giảm số lượng trong sửa đơn", OrderID, 0, 4, ProductName, SKU, ProductImageOrigin, ProductVariable, currentDate, username, 0, parentID);
+                                    }
+                                    else if (quantityOld < Quantity)
+                                    {
+                                        // tính số lượng kho cần xuất thêm
+                                        double quantitynew = Quantity - quantityOld;
+
+                                        // nếu số lượng kho cần xuất thêm > số lượng kho hiện tại => tạo lệnh nhập kho bị lệch
+                                        double _Total = PJUtils.TotalProductQuantityInstock(AgentID, SKU);
+
+                                        if (_Total < quantitynew)
+                                        {
+                                            double _InputStock = quantitynew - _Total;
+
+                                            InOutProductVariableController.Insert(
+                                                AgentID,
+                                                0,
+                                                ID,
+                                                ProductVariableName,
+                                                ProductVariableValue,
+                                                _InputStock,
+                                                0,
+                                                1,
+                                                false,
+                                                2,
+                                                "Nhập kho bị lệch khi sửa đơn",
+                                                OrderID,
+                                                0,
+                                                3,
+                                                ProductName,
+                                                SKU,
+                                                ProductImageOrigin,
+                                                ProductVariable,
+                                                currentDate,
+                                                username,
+                                                0,
+                                                parentID);
+                                        }
+
+                                        //trừ tiếp trong kho
+                                        InOutProductVariableController.Insert(AgentID, 0, ID, ProductVariableName, ProductVariableValue, quantitynew, 0, 2, false, 2, "Xuất kho khi tăng số lượng trong sửa đơn", OrderID, 0, 3, ProductName, SKU, ProductImageOrigin, ProductVariable, currentDate, username, 0, parentID);
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                if (producttype == 1)
+                                {
+                                    double _Total = PJUtils.TotalProductQuantityInstock(AgentID, SKU);
+
+                                    if (_Total < Quantity)
+                                    {
+                                        double _InputStock = Quantity - _Total;
+
+                                        InOutProductVariableController.Insert(
+                                            AgentID,
+                                            ID,
+                                            0,
+                                            "",
+                                            "",
+                                            _InputStock,
+                                            0,
+                                            1,
+                                            false,
+                                            1,
+                                            "Nhập kho bị lệch khi sửa đơn",
+                                            OrderID,
+                                            0,
+                                            3,
+                                            ProductName,
+                                            SKU,
+                                            ProductImageOrigin,
+                                            ProductVariable,
+                                            currentDate,
+                                            username,
+                                            0,
+                                            parentID);
+                                    }
+                                    InOutProductVariableController.Insert(AgentID, ID, 0, "", "", Quantity, 0, 2, false, 1, "Xuất kho thêm mới sản phẩm khi sửa đơn", OrderID, 0, 3, ProductName, SKU, ProductImageOrigin, ProductVariable, currentDate, username, 0, ID);
+                                }
+                                else
+                                {
+                                    string parentSKU = "";
+                                    var productV = ProductVariableController.GetByID(ID);
+                                    if (productV != null)
+                                        parentSKU = productV.ParentSKU;
+                                    if (!string.IsNullOrEmpty(parentSKU))
+                                    {
+                                        var product = ProductController.GetBySKU(parentSKU);
+                                        if (product != null)
+                                            parentID = product.ID;
+                                    }
+
+                                    double _Total = PJUtils.TotalProductQuantityInstock(AgentID, SKU);
+
+                                    if (_Total < Quantity)
+                                    {
+                                        double _InputStock = Quantity - _Total;
+
+                                        InOutProductVariableController.Insert(
+                                            AgentID,
+                                            0,
+                                            ID,
+                                            ProductVariableName,
+                                            ProductVariableValue,
+                                            _InputStock,
+                                            0,
+                                            1,
+                                            false,
+                                            2,
+                                            "Nhập kho bị lệch khi sửa đơn",
+                                            OrderID,
+                                            0,
+                                            3,
+                                            ProductName,
+                                            SKU,
+                                            ProductImageOrigin,
+                                            ProductVariable,
+                                            currentDate,
+                                            username,
+                                            0,
+                                            parentID);
+                                    }
+                                    InOutProductVariableController.Insert(AgentID, 0, ID, ProductVariableName, ProductVariableValue, Quantity, 0, 2,
+                                        false, 2, "Xuất kho thêm mới sản phẩm khi sửa đơn", OrderID, 0, 3, ProductName, SKU,
+                                        ProductImageOrigin, ProductVariable, currentDate, username, 0, parentID);
+                                }
+                                OrderDetailController.UpdateIsCount(OrderDetailID, true);
+                            }
+
+                            // cập nhật số lượng sản phẩm trong đơn hàng
+                            OrderDetailController.UpdateQuantity(OrderDetailID, Quantity, currentDate, username);
+                        }
+                    }
+                    // nếu sản phẩm này chưa có trong đơn thì thêm vào
+                    else
+                    {
+                        OrderDetailController.Insert(AgentID, OrderID, SKU, ProductID, ProductVariableID, ProductVariableSave, Quantity, Price, 1, 0,
+                                producttype, currentDate, username, true);
+                        if (producttype == 1)
+                        {
+                            double _Total = PJUtils.TotalProductQuantityInstock(AgentID, SKU);
+
+                            if (_Total < Quantity)
+                            {
+                                double _InputStock = Quantity - _Total;
+
+                                InOutProductVariableController.Insert(
+                                    AgentID,
+                                    ID,
+                                    0,
+                                    "",
+                                    "",
+                                    _InputStock,
+                                    0,
+                                    1,
+                                    false,
+                                    1,
+                                    "Nhập kho bị lệch khi sửa đơn",
+                                    OrderID,
+                                    0,
+                                    3,
+                                    ProductName,
+                                    SKU,
+                                    ProductImageOrigin,
+                                    ProductVariable,
+                                    currentDate,
+                                    username,
+                                    0,
+                                    parentID);
+                            }
+                            InOutProductVariableController.Insert(AgentID, ID, 0, "", "", Quantity, 0, 2, false, 1, "Xuất kho khi thêm sản phẩm mới trong sửa đơn", OrderID,
+                                0, 3, ProductName, SKU, ProductImageOrigin, ProductVariable, currentDate, username, 0, ID);
+                        }
+                        else
+                        {
+                            string parentSKU = "";
+                            var productV = ProductVariableController.GetByID(ID);
+                            if (productV != null)
+                                parentSKU = productV.ParentSKU;
+                            if (!string.IsNullOrEmpty(parentSKU))
+                            {
+                                var product = ProductController.GetBySKU(parentSKU);
+                                if (product != null)
+                                    parentID = product.ID;
+                            }
+                            double _Total = PJUtils.TotalProductQuantityInstock(AgentID, SKU);
+
+                            if (_Total < Quantity)
+                            {
+                                double _InputStock = Quantity - _Total;
+
+                                InOutProductVariableController.Insert(
+                                    AgentID,
+                                    0,
+                                    ID,
+                                    ProductVariableName,
+                                    ProductVariableValue,
+                                    _InputStock,
+                                    0,
+                                    1,
+                                    false,
+                                    2,
+                                    "Nhập kho bị lệch khi sửa đơn",
+                                    OrderID,
+                                    0,
+                                    3,
+                                    ProductName,
+                                    SKU,
+                                    ProductImageOrigin,
+                                    ProductVariable,
+                                    currentDate,
+                                    username,
+                                    0,
+                                    parentID);
+                            }
+
+                            InOutProductVariableController.Insert(AgentID, 0, ID, ProductVariableName, ProductVariableValue, Quantity, 0, 2,
+                                false, 2, "Xuất kho khi thêm sản phẩm mới trong sửa đơn", OrderID, 0, 3, ProductName, SKU, ProductImageOrigin, ProductVariable, currentDate,
+                                username, 0, parentID);
+                        }
+                    }
+                }
+            }
+        }
+        [WebMethod]
+        public static string Delete(string listdel, string listitem)
         {
             JavaScriptSerializer serializer = new JavaScriptSerializer();
             DateTime currentDate = DateTime.Now;
             string username = HttpContext.Current.Session["userLoginSystem"].ToString();
             var acc = AccountController.GetByUsername(username);
-            string[] listdelete = list.Split(';');
+            string[] listdelete = listdel.Split(';');
             if (listdelete != null)
             {
                 for (int i = 0; i < listdelete.Length - 1; i++)
@@ -862,8 +1105,8 @@ namespace IM_PJ
                     string[] ld = listdelete[i].Split('*');
                     if (ld != null)
                     {
-                        int agentid = Convert.ToInt32(acc.AgentID);
-                        int orderid = ld[0].ToInt();
+                        int AgentID = Convert.ToInt32(acc.AgentID);
+                        int OrderID = ld[0].ToInt();
                         string ordersku = ld[1];
                         double quantitynew = ld[2].ToInt();
                         string productvariablename = ld[3];
@@ -872,20 +1115,19 @@ namespace IM_PJ
                         string productname = ld[6];
                         string productvariable = ld[7];
                         int id = ld[8].ToInt();
-                        string ord = OrderDetailController.Delete(orderid, ordersku);
-
+                        string ord = OrderDetailController.Delete(OrderID, ordersku);
 
                         var parent = ProductVariableController.GetBySKU(ordersku);
                         if (parent != null)
                         {
-                            var t = InOutProductVariableController.Insert(agentid, 0, 0, productvariablename, productvariablevalue, quantitynew, 0, 1, false, 1, "Nhập kho khi xóa sản phẩm trong sửa đơn", orderid,
-                        0, 10, productname, ordersku, productimage, productvariable, currentDate, username, 0, Convert.ToInt32(parent.ProductID));
+                            var t = InOutProductVariableController.Insert(AgentID, Convert.ToInt32(parent.ProductID), 0, productvariablename, productvariablevalue, quantitynew, 0, 1, false, 1, "Nhập kho khi xóa sản phẩm trong sửa đơn", OrderID, 0, 10, productname, ordersku, productimage, productvariable, currentDate, username, 0, Convert.ToInt32(parent.ProductID));
+                            //updateOrder(listitem, OrderID);
                             return serializer.Serialize(t);
                         }
                         else
                         {
-                            var t = InOutProductVariableController.Insert(agentid, 0, 0, productvariablename, productvariablevalue, quantitynew, 0, 1, false, 1, "Nhập kho khi xóa sản phẩm trong sửa đơn", orderid,
-                        0, 10, productname, ordersku, productimage, productvariable, currentDate, username, 0, Convert.ToInt32(id));
+                            var t = InOutProductVariableController.Insert(AgentID, 0, id, productvariablename, productvariablevalue, quantitynew, 0, 1, false, 1, "Nhập kho khi xóa sản phẩm trong sửa đơn", OrderID, 0, 10, productname, ordersku, productimage, productvariable, currentDate, username, 0, Convert.ToInt32(id));
+                            //updateOrder(listitem, OrderID);
                             return serializer.Serialize(t);
                         }
 

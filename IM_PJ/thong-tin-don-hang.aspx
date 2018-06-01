@@ -194,7 +194,6 @@
                                 <div class="right totalproductQuantity">
                                     <asp:Literal ID="ltrProductQuantity" runat="server"></asp:Literal>
                                 </div>
-
                             </div>
                             <div class="post-row clear">
                                 <div class="left">Thành tiền</div>
@@ -202,7 +201,6 @@
                                     <asp:Literal ID="ltrTotalNotDiscount" runat="server"></asp:Literal>
                                 </div>
                             </div>
-
                             <div class="post-row clear">
                                 <div class="left">Chiết khấu</div>
                                 <div class="right totalDiscount">
@@ -234,8 +232,7 @@
                                 </div>
                             </div>
                             <div class="post-row clear returnorder hide">
-                                <div class="left">
-                                    Đơn hàng trả
+                                <div class="left">Đơn hàng trả
                                     <a href="javascript:;" class="find3 hide" style="text-decoration: underline; float: right; font-size: 12px; font-style: italic; padding-left: 10px;" onclick="searchReturnOrder()">(Tìm đơn khác)</a>
                                     <a href="javascript:;" class="find3 hide" style="text-decoration: underline; float: right; font-size: 12px; font-style: italic; padding-left: 10px;" onclick="deleteReturnOrder()">(Bỏ qua)</a>
                                     <a href="javascript:;" class="find2 hide" style="text-decoration: underline; float: right; font-size: 12px; font-style: italic; padding-left: 10px;"></a>
@@ -420,7 +417,7 @@
     <telerik:RadScriptBlock ID="sc" runat="server">
         <script type="text/javascript">
             // order of item list
-            var orderItem = 0;
+            var orderItem = $(".product-result").length;
 
             // search Product by SKU
             $("#txtSearch").keydown(function(event) {
@@ -442,7 +439,7 @@
                 $(window).off('beforeunload');
             }
 
-            $(window).bind('beforeunload', function(e) {
+            $(window).bind('beforeunload', function (e) {
                 if ($("#payall").hasClass("payall-clicked")) {
                     e = null;
                 } else {
@@ -792,6 +789,14 @@
                 }
             }
 
+            // reindex item order
+            function reIndex() {
+                var item = $(".order-item");
+                for (var i = 0; i < item.length; i++) {
+                    $(".order-item:eq(" + i + ")").html(i + 1);
+                }
+            }
+
             // search product by SKU
             function searchProduct() {
                 var textsearch = $("#txtSearch").val();
@@ -800,11 +805,10 @@
                     $.ajax({
                         type: "POST",
                         url: "/thong-tin-don-hang.aspx/getProduct",
-                        data: "{textsearch:'" + textsearch + "'}",
+                        data: "{textsearch:'" + textsearch + "', gettotal: 0 }",
                         contentType: "application/json; charset=utf-8",
                         dataType: "json",
                         success: function(msg) {
-                            var count = 0;
                             var data = JSON.parse(msg.d);
 
                             if (data.length > 1) {
@@ -833,7 +837,7 @@
                                     html += ("<td class=\"name-item\">" + item.ProductName + "</td>");
                                     html += ("<td class=\"sku-item key\">" + item.SKU + "</td>");
                                     html += ("<td class=\"variable-item\">" + item.ProductVariable + "</td>");
-                                    html += ("<td class=\"quantity-item\"><input class=\"quantity\" type=\"text\" min=\"1\" value=\"1\"></td>");
+                                    html += ("<td class=\"quantity-item\"><input class=\"quantity\" type=\"text\" value=\"1\"></td>");
                                     html += ("</tr>");
                                 }
                                 html += ("</table>");
@@ -877,7 +881,7 @@
                                     }
 
                                     html += "   <td class=\"quantity-item\">" + item.QuantityInstockString + "</td>";
-                                    html += "   <td class=\"quantity-item\"><input type=\"text\" min=\"1\" class=\"form-control in-quanlity\" value=\"1\" onkeyup=\"checkQuantiy($(this))\" onkeypress='return event.charCode >= 48 && event.charCode <= 57'/></td>";
+                                    html += "   <td class=\"quantity-item\"><input type=\"text\" class=\"form-control in-quanlity\" value=\"1\" onkeyup=\"checkQuantiy($(this))\" onkeypress='return event.charCode >= 48 && event.charCode <= 57'/></td>";
                                     var t = parseFloat(item.Giabansi);
 
                                     html += "<td class=\"total-item totalprice-view\">" + formatThousands(t, '.') + "</td>";
@@ -889,32 +893,24 @@
                                         if (sku == existedSKU) {
                                             var quantityinstock = parseFloat($(this).attr("data-quantityinstock"));
                                             var quantityCurrent = parseFloat($(this).find(".in-quanlity").val());
+
                                             var newquantity = quantityCurrent + 1;
-                                            if (newquantity <= quantityinstock) {
-                                                $(this).find(".in-quanlity").val(newquantity);
-                                                var price = parseFloat(newquantity) * parseFloat(item.Giabansi);
-                                                $(this).find(".totalprice-view").html(formatThousands(price, '.'));
-                                                getAllPrice();
-                                            } else {
-                                                $(this).find(".in-quanlity").val(quantityinstock);
-                                                var a = parseFloat(list2[j]);
-                                                var price = parseFloat(quantityinstock) * parseFloat(item.Giabansi);
-                                                $(this).find(".totalprice-view").html(formatThousands(price, '.'));
-                                                getAllPrice();
-                                            }
+                                            $(this).find(".in-quanlity").val(newquantity);
+
+                                            var price = parseFloat(newquantity) * parseFloat(item.Giabansi);
+                                            $(this).find(".totalprice-view").html(formatThousands(price, '.'));
+
+                                            getAllPrice();
                                         }
                                     });
                                 }
-                                count++;
 
                                 $(".content-product").prepend(html);
                                 $("#txtSearch").val("");
-                                if (count > 0) {
-                                    $(".excute-in").show();
-                                }
                                 getAllPrice();
                             } else {
-                                alert('Không tìm thấy sản phẩm');
+                                alert("Không tìm thấy sản phẩm");
+                                $("#txtSearch").select();
                             }
                         },
                         error: function(xmlhttprequest, textstatus, errorthrow) {
@@ -922,7 +918,7 @@
                         }
                     });
                 } else {
-                    alert('Vui lòng nhập nội dung tìm kiếm');
+                    alert("Hãy nhập mã sản phẩm");
                 }
             }
 
@@ -972,7 +968,6 @@
                 $("#txtSearch").focus();
             }
 
-
             // get product when select multi variable
             function GetProduct(list, list2) {
                 var textsearch = $("#<%=hdfListSearch.ClientID%>").val();
@@ -980,11 +975,10 @@
                 $.ajax({
                     type: "POST",
                     url: "/thong-tin-don-hang.aspx/getProduct",
-                    data: "{textsearch:'" + textsearch + "'}",
+                    data: "{textsearch:'" + textsearch + "', gettotal: 1 }",
                     contentType: "application/json; charset=utf-8",
                     dataType: "json",
                     success: function(msg) {
-                        var count = 0;
                         var data = JSON.parse(msg.d);
                         if (data.length > 0) {
                             var html = "";
@@ -1030,7 +1024,7 @@
                                             var t = 0;
                                             html += "   <td class=\"quantity-item soluong\">" + item.QuantityInstockString + "</td>";
 
-                                            html += "   <td class=\"quantity-item\"><input type=\"text\" min=\"1\" class=\"form-control in-quanlity\" value=\"" + list2[j] + "\" onkeyup=\"checkQuantiy($(this))\" onkeypress='return event.charCode >= 48 && event.charCode <= 57'/></td>";
+                                            html += "   <td class=\"quantity-item\"><input type=\"text\" class=\"form-control in-quanlity\" value=\"" + list2[j] + "\" onkeyup=\"checkQuantiy($(this))\" onkeypress='return event.charCode >= 48 && event.charCode <= 57'/></td>";
                                             t = parseFloat(list2[j]) * parseFloat(item.Giabansi);
 
                                             html += "<td class=\"total-item totalprice-view\">" + formatThousands(t, '.') + "</td>";
@@ -1045,36 +1039,25 @@
                                                     var quantityInstock = $(this).find(".soluong").html();
                                                     var vl1 = parseFloat(quantityInstock.replace(/\,/g, ''));
                                                     var soluong = vl1 - parseFloat(list2[j]);
+
                                                     var newquantity = quantityCurrent + parseInt(list2[j]);
-                                                    if (newquantity <= quantityinstock) {
-                                                        $(this).find(".in-quanlity").val(newquantity);
-                                                        //$(this).find(".soluong").html(soluong);
-                                                        var price = parseFloat(newquantity) * parseFloat(item.Giabansi);
-                                                        $(this).find(".totalprice-view").html(formatThousands(price, '.'));
-                                                        getAllPrice();
-                                                    } else {
-                                                        $(this).find(".in-quanlity").val(quantityinstock);
-                                                        var a = parseFloat(list2[j]);
-                                                        //$(this).find(".soluong").html(0);
-                                                        var price = parseFloat(quantityinstock) * parseFloat(item.Giabansi);
-                                                        $(this).find(".totalprice-view").html(formatThousands(price, '.'));
-                                                        getAllPrice();
-                                                    }
+                                                    $(this).find(".in-quanlity").val(newquantity);
+
+                                                    var price = parseFloat(newquantity) * parseFloat(item.Giabansi);
+                                                    $(this).find(".totalprice-view").html(formatThousands(price, '.'));
+
+                                                    getAllPrice();
                                                 }
                                             });
                                         }
-                                        count++;
                                     }
                                 }
                             }
                             $(".content-product").prepend(html);
                             $("#txtSearch").val("");
-                            if (count > 0) {
-                                $(".excute-in").show();
-                            }
                             getAllPrice();
                         } else {
-                            alert('Không tìm thấy sản phẩm');
+                            alert("Không tìm thấy sản phẩm");
                         }
                     },
                     error: function(xmlhttprequest, textstatus, errorthrow) {
@@ -1093,7 +1076,6 @@
 
                 var c = confirm('Bạn muốn xóa sản phẩm này?');
                 if (c) {
-                    obj.parent().parent().remove();
                     var orderid = obj.parent().parent().attr("data-orderdetailid");
                     if (orderid > 0) {
                         var productnariablename = obj.parent().parent().attr("data-productnariablename");
@@ -1103,61 +1085,45 @@
                         var productvariablesave = obj.parent().parent().attr("data-productvariablesave");
                         var id = obj.parent().parent().attr("data-id");
                         list += obj.parent().parent().attr("data-orderdetailid") + "*" + obj.parent().parent().attr("data-sku") + "*" + obj.parent().parent().find(".in-quanlity").val() + "*" + productnariablename + "*" + productvariablevalue + "*" + productimageorigin + "*" + productname + "*" + productvariablesave + "*" + id + ";";
-                        if ($(".product-result").length == 0) {
-                            $(".excute-in").hide();
-                        }
                     }
+                    obj.parent().parent().remove();
                 }
 
                 if (!isBlank(list)) {
-                    $.ajax({
-                        type: "POST",
-                        url: "/thong-tin-don-hang.aspx/Delete",
-                        data: "{list:'" + list + "'}",
-                        contentType: "application/json; charset=utf-8",
-                        dataType: "json",
-                        success: function(msg) {
-                            var count = 0;
-                            var data = JSON.parse(msg.d);
-                            if (data != null) {
-                                swal("Xóa sản phẩm thành công");
-                                getAllPrice();
-                            }
-                        }
-                    })
-                }
-            }
-
-            // change in a row of list
-            function inProduct() {
-                if ($(".product-result").length > 0) {
-                    var note = $("#txtnote").val();
-                    var list = "";
-                    var count = 0;
-                    $(".product-result").each(function() {
+                    var listitem = "";
+                    $(".product-result").each(function () {
+                        var orderDetailID = $(this).attr("data-orderdetailid");
                         var id = $(this).attr("data-id");
                         var sku = $(this).attr("data-sku");
                         var producttype = $(this).attr("data-producttype");
                         var productnariablename = $(this).attr("data-productnariablename");
                         var productvariablevalue = $(this).attr("data-productvariablevalue");
-                        var quantity = $(this).find(".in-quanlity").val();
                         var productname = $(this).attr("data-productname");
                         var productimageorigin = $(this).attr("data-productimageorigin");
                         var productvariable = $(this).attr("data-productvariable");
+                        var price = $(this).find(".gia-san-pham").attr("data-price");
                         var productvariablesave = $(this).attr("data-productvariablesave");
+                        var quantity = parseFloat($(this).find(".in-quanlity").val());
+                        var quantityInstock = parseFloat($(this).attr("data-quantityinstock"));
+
                         if (quantity > 0) {
-                            list += id + "," + sku + "," + producttype + "," + productnariablename + "," + productvariablevalue + "," + quantity + "," + productname + "," + productimageorigin + "," + productvariablesave + "," + productvariablesave + ";";
-                            count++;
+
+                            listitem += id + "," + sku + "," + producttype + "," + productnariablename + "," + productvariablevalue + "," + quantity + "," +
+                                productname + "," + productimageorigin + "," + productvariablesave + "," + price + "," + productvariablesave + "," +
+                                orderDetailID + ";";
                         }
                     });
-                    if (count > 0) {
-
-                    } else {
-                        alert('Vui lòng nhập số lượng để xuất kho');
-                    }
-                } else {
-                    alert("Vui lòng nhập sản phẩm");
+                    $.ajax({
+                        type: "POST",
+                        url: "/thong-tin-don-hang.aspx/Delete",
+                        data: "{listdel:'" + list + "', listitem:'" + listitem + "'}",
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        success: function(msg) {
+                        }
+                    })
                 }
+                getAllPrice();
             }
 
             // change quantity of product
@@ -1282,6 +1248,7 @@
                         $(".priceafterchietkhau").html(formatThousands(0, ','));
                     }
                 }
+                reIndex();
             }
 
             // check empty

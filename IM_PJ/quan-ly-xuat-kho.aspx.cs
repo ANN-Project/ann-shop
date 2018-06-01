@@ -21,7 +21,6 @@ namespace IM_PJ
         {
             if (!IsPostBack)
             {
-                //Session["userLoginSystem"] = "admin";
                 if (Session["userLoginSystem"] != null)
                 {
                     string username = Session["userLoginSystem"].ToString();
@@ -53,7 +52,6 @@ namespace IM_PJ
         {
             var supplier = SupplierController.GetAllWithIsHidden(false);
             StringBuilder html = new StringBuilder();
-            //html.Append("<select id=\"supplierList\" class=\"select2 form-control\" style=\"width: 20%; float: left; margin-right: 10px\">");
             html.Append("<select id=\"supplierList\" class=\"form-control\" style=\"width: 20%; float: left; margin-right: 10px\">");
             html.Append("<option value=\"0\">Tất cả nhà cung cấp</option>");
             if (supplier.Count > 0)
@@ -104,7 +102,7 @@ namespace IM_PJ
 
                                                 foreach (var v in variables)
                                                 {
-                                                    variable += v.VariableName.Trim() + ":" + v.VariableValue.Trim() + "|";
+                                                    variable += v.VariableName.Trim() + ": " + v.VariableValue.Trim() + "|";
                                                     variablename += v.VariableName.Trim() + "|";
                                                     variablevalue += v.VariableValue.Trim() + "|";
                                                 }
@@ -116,7 +114,14 @@ namespace IM_PJ
                                                 p.ProductVariableName = variablename;
                                                 p.ProductVariableValue = variablevalue;
                                                 p.ProductType = 2;
-                                                p.ProductImage = "<img src=\"" + pv.Image + "\" alt=\"\" style=\"width: 50px\" />";
+                                                if (pv.Image != null)
+                                                {
+                                                    p.ProductImage = "<img src=\"" + pv.Image + "\" />";
+                                                }
+                                                else
+                                                {
+                                                    p.ProductImage = "<img src=\"/App_Themes/Ann/image/placeholder.png\" />";
+                                                }
                                                 p.ProductImageOrigin = pv.Image;
                                                 p.QuantityInstock = total;
                                                 p.QuantityInstockString = string.Format("{0:N0}", total);
@@ -155,15 +160,16 @@ namespace IM_PJ
                                         p.ProductVariableName = variablename;
                                         p.ProductVariableValue = variablevalue;
                                         p.ProductType = 1;
+
                                         var img = ProductImageController.GetFirstByProductID(item.ID);
                                         if (img != null)
                                         {
-                                            p.ProductImage = "<img src=\"" + img.ProductImage + "\" alt=\"\" style=\"width: 50px\"  />";
+                                            p.ProductImage = "<img src=\"" + img.ProductImage + "\"  />";
                                             p.ProductImageOrigin = img.ProductImage;
                                         }
                                         else
                                         {
-                                            p.ProductImage = "";
+                                            p.ProductImage = "<img src=\"/App_Themes/Ann/image/placeholder.png\" />";
                                             p.ProductImageOrigin = "";
                                         }
                                         p.QuantityInstock = total;
@@ -212,7 +218,7 @@ namespace IM_PJ
 
                                             foreach (var v in variables)
                                             {
-                                                variable += v.VariableName.Trim() + ":" + v.VariableValue.Trim() + "|";
+                                                variable += v.VariableName.Trim() + ": " + v.VariableValue.Trim() + "|";
                                                 variablename += v.VariableName.Trim() + "|";
                                                 variablevalue += v.VariableValue.Trim() + "|";
                                             }
@@ -224,7 +230,14 @@ namespace IM_PJ
                                             p.ProductVariableName = variablename;
                                             p.ProductVariableValue = variablevalue;
                                             p.ProductType = 2;
-                                            p.ProductImage = "<img src=\"" + pv.Image + "\" alt=\"\" style=\"width: 50px\"  />";
+                                            if (pv.Image != null)
+                                            {
+                                                p.ProductImage = "<img src=\"" + pv.Image + "\" />";
+                                            }
+                                            else
+                                            {
+                                                p.ProductImage = "<img src=\"/App_Themes/Ann/image/placeholder.png\" />";
+                                            }
                                             p.ProductImageOrigin = pv.Image;
                                             p.QuantityInstock = total;
                                             p.QuantityInstockString = string.Format("{0:N0}", total);
@@ -267,12 +280,12 @@ namespace IM_PJ
                                     var img = ProductImageController.GetFirstByProductID(products.ID);
                                     if (img != null)
                                     {
-                                        p.ProductImage = "<img src=\"" + img.ProductImage + "\" alt=\"\" style=\"width: 50px\"  />";
+                                        p.ProductImage = "<img src=\"" + img.ProductImage + "\" />";
                                         p.ProductImageOrigin = img.ProductImage;
                                     }
                                     else
                                     {
-                                        p.ProductImage = "";
+                                        p.ProductImage = "<img src=\"/App_Themes/Ann/image/placeholder.png\" />";
                                         p.ProductImageOrigin = "";
                                     }
                                     p.SKU = SKU;
@@ -294,7 +307,6 @@ namespace IM_PJ
                     }
                     else
                     {
-
                         var productvariable = ProductVariableController.GetAllBySKU(textsearch);
                         if (productvariable != null)
                         {
@@ -331,7 +343,14 @@ namespace IM_PJ
                                             p.ProductVariableName = variablename;
                                             p.ProductVariableValue = variablevalue;
                                             p.ProductType = 2;
-                                            p.ProductImage = "<img src=\"" + value.Image + "\" alt=\"\" style=\"width:50px;\" />";
+                                            if (p.ProductImage == null)
+                                            {
+                                                p.ProductImage = "<img src=\"" + value.Image + "\" />";
+                                            }
+                                            else
+                                            {
+                                                p.ProductImage = "<img src=\"/App_Themes/Ann/image/placeholder.png\" />";
+                                            }
                                             p.ProductImageOrigin = value.Image;
                                             p.SKU = value.SKU.Trim().ToUpper();
                                             p.QuantityInstock = total;
@@ -386,7 +405,11 @@ namespace IM_PJ
                 {
                     int AgentID = Convert.ToInt32(acc.AgentID);
                     string list = hdfvalue.Value;
-                    string note = hdfNote.Value;
+                    string note = "Xuất kho bằng chức năng xuất kho";
+                    if (hdfNote.Value != "")
+                    {
+                        note = hdfNote.Value;
+                    }
                     string[] items = list.Split(';');
                     if (items.Length - 1 > 0)
                     {
@@ -395,7 +418,6 @@ namespace IM_PJ
                         {
                             for (int i = 0; i < items.Length - 1; i++)
                             {
-                                //list += id + "," + sku + "," + producttype + "," + productnariablename + "," + productvariablevalue + "," + quantity + "|";
                                 var item = items[i];
                                 string[] itemValue = item.Split(',');
                                 int ID = itemValue[0].ToInt();
@@ -430,7 +452,7 @@ namespace IM_PJ
                                         parentID);
                                 }
                             }
-                            PJUtils.ShowMessageBoxSwAlert("Xuất hàng thành công", "s", true, Page);
+                            PJUtils.ShowMessageBoxSwAlert("Xuất kho thành công", "s", true, Page);
                         }
                     }
                 }

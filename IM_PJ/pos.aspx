@@ -505,7 +505,6 @@
                         contentType: "application/json; charset=utf-8",
                         dataType: "json",
                         success: function(msg) {
-                            var count = 0;
                             var data = JSON.parse(msg.d);
                             if (data.length > 1) {
                                 var html = "";
@@ -531,7 +530,7 @@
                                     html += ("<td class=\"name-item\">" + item.ProductName + "</td>");
                                     html += ("<td class=\"sku-item key\">" + item.SKU + "</td>");
                                     html += ("<td class=\"variable-item\">" + item.ProductVariable + "</td>");
-                                    html += ("<td class=\"quantity-item\"><input class=\"quantity\" type=\"text\" min=\"1\"  style=\"width: 100%;\" value=\"1\"></td>");
+                                    html += ("<td class=\"quantity-item\"><input class=\"quantity\" type=\"text\" value=\"1\"></td>");
                                     html += ("</tr>");
                                 }
                                 html += ("</table>");
@@ -584,26 +583,23 @@
                                             var quantityinstock = parseFloat($(this).attr("data-quantityinstock"));
                                             var quantityCurrent = parseFloat($(this).find(".in-quanlity").val());
                                             var newquantity = quantityCurrent + 1;
-                                            if (newquantity <= quantityinstock) {
-                                                $(this).find(".in-quanlity").val(newquantity);
-                                                var price = parseFloat(newquantity) * parseFloat(item.Giabansi);
-                                                $(this).find(".totalprice-view").html(formatThousands(price, '.'));
-                                                getAllPrice();
-                                            }
+                                            
+                                            $(this).find(".in-quanlity").val(newquantity);
 
+                                            var price = parseFloat(newquantity) * parseFloat(item.Giabansi);
+                                            $(this).find(".totalprice-view").html(formatThousands(price, '.'));
+
+                                            getAllPrice();
                                         }
                                     });
                                 }
-                                count++;
 
                                 $(".content-product").append(html);
                                 $("#txtSearch").val("");
-                                if (count > 0) {
-                                    $(".excute-in").show();
-                                }
                                 getAllPrice();
                             } else {
-                                alert('Không tìm thấy sản phẩm');
+                                alert("Không tìm thấy sản phẩm");
+                                $("#txtSearch").select();
                             }
                         },
                         error: function(xmlhttprequest, textstatus, errorthrow) {
@@ -611,9 +607,8 @@
                         }
                     });
                 } else {
-                    alert('Vui lòng nhập nội dung tìm kiếm');
+                    alert("Vui lòng nhập nội dung tìm kiếm");
                 }
-
             }
 
             // select all variable product
@@ -673,8 +668,8 @@
                     data: "{textsearch:'" + textsearch + "'}",
                     contentType: "application/json; charset=utf-8",
                     dataType: "json",
-                    success: function(msg) {
-                        var count = 0;
+                    success: function (msg) {
+
                         var data = JSON.parse(msg.d);
                         if (data.length > 0) {
                             var html = "";
@@ -691,6 +686,7 @@
                                                 check = true;
                                             }
                                         });
+
                                         if (check == false) {
                                             html += "<tr class=\"product-result\" data-giabansi=\"" + item.Giabansi + "\" data-giabanle=\"" + item.Giabanle + "\" " +
                                                 "data-quantityinstock=\"" + item.QuantityInstock + "\" data-productimageorigin=\"" + item.ProductImageOrigin + "\" " +
@@ -733,22 +729,18 @@
                                                     var price = parseFloat(newquantity) * parseFloat(item.Giabansi);
                                                     $(this).find(".totalprice-view").html(formatThousands(price, '.'));
                                                     getAllPrice();
-
                                                 }
                                             });
                                         }
-                                        count++;
                                     }
                                 }
                             }
                             $(".content-product").append(html);
                             $("#txtSearch").val("");
-                            if (count > 0) {
-                                $(".excute-in").show();
-                            }
                             getAllPrice();
                         } else {
-                            alert('Không tìm thấy sản phẩm');
+                            alert("Không tìm thấy sản phẩm");
+                            $("#txtSearch").select();
                         }
                     },
                     error: function(xmlhttprequest, textstatus, errorthrow) {
@@ -763,43 +755,8 @@
                 var c = confirm('Bạn muốn xóa sản phẩm này?');
                 if (c) {
                     obj.parent().parent().remove();
-                    if ($(".product-result").length == 0) {
-                        $(".excute-in").hide();
-
-                    }
                     getAllPrice();
-                }
-            }
-
-            // change in a row of list
-            function inProduct() {
-                if ($(".product-result").length > 0) {
-                    var note = $("#txtnote").val();
-                    var list = "";
-                    var count = 0;
-                    $(".product-result").each(function() {
-                        var id = $(this).attr("data-id");
-                        var sku = $(this).attr("data-sku");
-                        var producttype = $(this).attr("data-producttype");
-                        var productnariablename = $(this).attr("data-productnariablename");
-                        var productvariablevalue = $(this).attr("data-productvariablevalue");
-                        var quantity = $(this).find(".in-quanlity").val();
-                        var productname = $(this).attr("data-productname");
-                        var productimageorigin = $(this).attr("data-productimageorigin");
-                        var productvariable = $(this).attr("data-productvariable");
-                        var productvariablesave = $(this).attr("data-productvariablesave");
-                        if (quantity > 0) {
-                            list += id + "," + sku + "," + producttype + "," + productnariablename + "," + productvariablevalue + "," + quantity + "," + productname + "," + productimageorigin + "," + productvariablesave + "," + productvariablesave + ";";
-                            count++;
-                        }
-                    });
-                    if (count > 0) {
-
-                    } else {
-                        alert('Vui lòng nhập số lượng để xuất kho!');
-                    }
-                } else {
-                    alert("Vui lòng nhập sản phẩm!");
+                    $("#txtSearch").focus();
                 }
             }
 
