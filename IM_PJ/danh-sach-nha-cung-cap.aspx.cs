@@ -44,7 +44,7 @@ namespace IM_PJ
             string s = "";
             if (Request.QueryString["s"] != null)
                 s = Request.QueryString["s"];
-            txtAgentName.Text = s;
+            //txtAgentName.Text = s;
             var orders = SupplierController.GetAll(s);
             if (orders.Count > 0)
             {
@@ -240,12 +240,12 @@ namespace IM_PJ
         }
         #endregion
 
-        protected void btnSearch_Click(object sender, EventArgs e)
-        {
-            string search = txtAgentName.Text;
+        //protected void btnSearch_Click(object sender, EventArgs e)
+        //{
+        //    string search = txtAgentName.Text;
            
-                Response.Redirect("/danh-sach-nha-cung-cap?s=" + search + "");
+        //        Response.Redirect("/danh-sach-nha-cung-cap?s=" + search + "");
             
-        }
+        //}
     }
 }

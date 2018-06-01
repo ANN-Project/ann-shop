@@ -247,11 +247,11 @@ namespace IM_PJ
             string search = txtAgentName.Text;
             if (!string.IsNullOrEmpty(search))
             {
-                Response.Redirect("/danh-sach-giam-gia?s=" + search + "");
+                Response.Redirect("/danh-sach-nhom-khach-hang?s=" + search + "");
             }
             else
             {
-                Response.Redirect("/danh-sach-giam-gia");
+                Response.Redirect("/danh-sach-nhom-khach-hang");
             }
         }
         public class danhmuccon1

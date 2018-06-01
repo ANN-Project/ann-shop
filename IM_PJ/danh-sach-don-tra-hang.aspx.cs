@@ -56,7 +56,7 @@ namespace IM_PJ
         {
             var AgentName = AgentController.GetAllWithIsHidden(false);
             ddlAgentName.Items.Clear();
-            ddlAgentName.Items.Insert(0, new ListItem("-- Tất cả danh mục --", "0"));
+            ddlAgentName.Items.Insert(0, new ListItem("Tất cả chi nhánh", "0"));
             if (AgentName.Count > 0)
             {
                 foreach (var p in AgentName)
@@ -74,7 +74,7 @@ namespace IM_PJ
         {
             var CreateBy = AccountController.GetAllNotSearch();
             ddlCreateBy.Items.Clear();
-            ddlCreateBy.Items.Insert(0, new ListItem("-- Danh sách nhân viên --", "0"));
+            ddlCreateBy.Items.Insert(0, new ListItem("Nhân viên", "0"));
             if (CreateBy.Count > 0)
             {
                 foreach (var p in CreateBy)
@@ -159,9 +159,8 @@ namespace IM_PJ
                 {
                     var item = acs[i];
                     html.Append("<tr>");
-                    html.Append("   <td style=\"text-align:center\"><a class=\"link\"  href=\"/thong-tin-tra-hang.aspx?id=" + item.ID + "\">" + item.ID + "</a></td>");
-                    //html.Append("   <td>" + item.AgentName + "</td>");
-                    html.Append("   <td><a class=\"link\" href=\"/thong-tin-tra-hang.aspx?id=" + item.ID + "\">" + item.CustomerName + "</a></td>");
+                    html.Append("   <td><a href=\"/thong-tin-tra-hang.aspx?id=" + item.ID + "\">" + item.ID + "</a></td>");
+                    html.Append("   <td><a href=\"/thong-tin-tra-hang.aspx?id=" + item.ID + "\">" + item.CustomerName + "</a></td>");
                     html.Append("   <td>" + item.CustomerPhone + "</td>");
                     html.Append("   <td>" + string.Format("{0:N0}", Convert.ToDouble(item.TotalQuantity)) + "</td>");
                     html.Append("   <td>" + string.Format("{0:N0}", Convert.ToDouble(item.TotalRefundFee)) + "</td>");
@@ -171,8 +170,7 @@ namespace IM_PJ
                     html.Append("   <td>" + item.CreatedBy + "</td>");
                     html.Append("   <td>" + date + "</td>");
                     html.Append("   <td>");
-                    //html.Append("       <a href=\"/thong-tin-tra-hang.aspx?id=" + item.ID + "\" class=\"btn primary-btn h45-btn\">Chi tiết</a>");
-                    html.Append("       <a href=\"javascript:;\" onclick=\"printOrder(" + item.ID + ")\" class=\"btn primary-btn h45-btn\">In</a>");
+                    html.Append("       <a href=\"javascript:;\" onclick=\"printOrder(" + item.ID + ")\" class=\"btn primary-btn h45-btn\"><i class=\"fa fa-print\" aria-hidden=\"true\"></i></a>");
                     html.Append("   </td>");
                     html.Append("</tr>");
                 }

@@ -107,7 +107,7 @@
                             </div>
                             <div class="form-row">                                
                                 <asp:Button ID="btnLogin" runat="server" CssClass="btn primary-btn fw-btn not-fullwidth" Text="Tạo mới" OnClick="btnLogin_Click" />
-                                <a href="/danh-sach-giam-gia" class="btn primary-btn fw-btn not-fullwidth">Trở về</a>
+                                <a href="/danh-sach-nhom-khach-hang" class="btn primary-btn fw-btn not-fullwidth">Trở về</a>
                             </div>
                         </div>
                     </div>

@@ -206,20 +206,6 @@
                                     </telerik:RadNumericTextBox>
                                 </div>
                             </div>
-                            <%--<div class="form-row">
-                                <div class="row-left">
-                                    Ảnh sản phẩm
-                                </div>
-                                <div class="row-right">
-                                    <telerik:RadAsyncUpload Skin="Metro" runat="server" ID="hinhDaiDien" ChunkSize="0"
-                                        Localization-Select="Chọn ảnh" AllowedFileExtensions=".jpeg,.jpg,.png"
-                                        MultipleFileSelection="Disabled" OnClientFileSelected="OnClientFileSelected">
-                                    </telerik:RadAsyncUpload>
-                                    <asp:Image runat="server" ID="imgDaiDien" Width="200" />
-                                    <asp:HiddenField runat="server" ID="listImg" ClientIDMode="Static" />
-                                    <div class="hidImage"></div>
-                                </div>
-                            </div>--%>
                             <div class="form-row">
                                 <div class="row-left">
                                     Ảnh sản phẩm
@@ -277,54 +263,7 @@
 
                                     <div class="variableselect" style="float: left; width: 100%">
                                         <span id="selectvariabletitle">Các thuộc tính đã chọn: 
-                                            <a href="javascript:;" onclick="generateVariable()" id="generateVariable"
-                                                class="btn primary-btn fw-btn not-fullwidth">Thiết lập thuộc tính</a></span>
-                                        <%--<div class="variable-select">
-                                            <div class="variablename" data-name="Color" data-id="1">
-                                                <strong>Color:</strong>
-                                            </div>
-                                            <div class="variablevalue">
-                                                <div class="variablevalue-item" data-valueid="1" data-valuename="xanh">
-                                                    <span class="v-value">Xanh </span>
-                                                    <a href="javascript:;" class="btn primary-btn fw-btn not-fullwidth v-delete">Xóa</a>
-                                                </div>
-                                                <div class="variablevalue-item" data-valueid="2" data-valuename="Đỏ">
-                                                    <span class="v-value">Đỏ</span>
-                                                    <a href="javascript:;" class="btn primary-btn fw-btn not-fullwidth v-delete">Xóa</a>
-                                                </div>
-                                                <div class="variablevalue-item" data-valueid="3" data-valuename="xanh">
-                                                    <span class="v-value">Vàng</span>
-                                                    <a href="javascript:;" class="btn primary-btn fw-btn not-fullwidth v-delete">Xóa</a>
-                                                </div>
-                                                <div class="variablevalue-item" data-valueid="4" data-valuename="xanh">
-                                                    <span class="v-value">Trắng</span>
-                                                    <a href="javascript:;" class="btn primary-btn fw-btn not-fullwidth v-delete">Xóa</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="variable-select">
-                                            <div class="variablename" data-name="Color" data-id="1">
-                                                <strong>Size:</strong>
-                                            </div>
-                                            <div class="variablevalue">
-                                                <div class="variablevalue-item" data-valueid="1" data-valuename="xanh">
-                                                    <span class="v-value">XXL </span>
-                                                    <a href="javascript:;" class="btn primary-btn fw-btn not-fullwidth v-delete">Xóa</a>
-                                                </div>
-                                                <div class="variablevalue-item" data-valueid="2" data-valuename="Đỏ">
-                                                    <span class="v-value">XL</span>
-                                                    <a href="javascript:;" class="btn primary-btn fw-btn not-fullwidth v-delete">Xóa</a>
-                                                </div>
-                                                <div class="variablevalue-item" data-valueid="3" data-valuename="xanh">
-                                                    <span class="v-value">Vàng</span>
-                                                    <a href="javascript:;" class="btn primary-btn fw-btn not-fullwidth v-delete">Xóa</a>
-                                                </div>
-                                                <div class="variablevalue-item" data-valueid="4" data-valuename="xanh">
-                                                    <span class="v-value">Trắng</span>
-                                                    <a href="javascript:;" class="btn primary-btn fw-btn not-fullwidth v-delete">Xóa</a>
-                                                </div>
-                                            </div>
-                                        </div>--%>
+                                            <a href="javascript:;" onclick="generateVariable()" id="generateVariable" class="btn primary-btn fw-btn not-fullwidth">Thiết lập thuộc tính</a></span>
                                     </div>
                                     <div class="numbertype" style="float: left; width: 100%; display: none">
                                         <span id="settype">Thêm nhanh: 
@@ -383,78 +322,14 @@
                                             </div>
                                         </div>
                                         <div class="list-item-genred">
-                                            <%--<div class="item-var-gen" data-name-id="1|2" data-value-id="1|2" data-name-text="Color|Size|"
-                                                data-value-text="Xanh|XXL|">
-                                                <div class="form-row">
-                                                    <div class="row-left">
-                                                        Thông tin
-                                                    </div>
-                                                    <div class="row-right">
-                                                        <p><strong>Color: Xanh </strong></p>
-                                                        <p><strong>Size: XXL </strong></p>
-                                                    </div>
-                                                </div>
-                                                <div class="form-row">
-                                                    <div class="row-left">
-                                                        SKU
-                                                    </div>
-                                                    <div class="row-right">
-                                                        <input type="text" class="form-control productvariablesku" />
-                                                    </div>
-                                                </div>
-                                                <div class="form-row">
-                                                    <div class="row-left">
-                                                        Regular Price
-                                                    </div>
-                                                    <div class="row-right">
-                                                        <input class="form-control regularprice" type="number" min="0" />
-                                                    </div>
-                                                </div>
-                                                <div class="form-row">
-                                                    <div class="row-left">
-                                                        Cost of good
-                                                    </div>
-                                                    <div class="row-right">
-                                                        <input class="form-control costofgood" type="number" min="0" />
-                                                    </div>
-                                                </div>
-                                                <div class="form-row">
-                                                    <div class="row-left">
-                                                        Retail price
-                                                    </div>
-                                                    <div class="row-right">
-                                                        <input class="form-control retailprice" type="number" min="0" />
-                                                    </div>
-                                                </div>
-                                                <div class="form-row">
-                                                    <div class="row-left">
-                                                        <a href="javascript:;" class="btn primary-btn fw-btn not-fullwidth">Xóa</a>
-                                                    </div>
-                                                    <div class="row-right">
-                                                    </div>
-                                                </div>
-                                            </div>--%>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <%-- <div class="form-row" style="border: solid 1px #ccc; padding: 10px;">
-                                <div class="form-row">
-                                    <h3 class="no-margin">Thuộc tính sản phẩm</h3>
-                                </div>
-                                <asp:Literal ID="ltrVariable" runat="server"></asp:Literal>
-                                <div class="form-row">
-                                    <a href="javascript:;" onclick="addVariable()" class="btn primary-btn fw-btn not-fullwidth">Thêm thuộc tính</a>
-                                </div>
-                                <div class="form-row variable-selected">
-                                </div>
-                            </div>--%>
                             <div class="form-row">
-                                <%--<a href="javascript:;" class="btn primary-btn fw-btn not-fullwidth" onclick="AddNewProduct()">Tạo mới sản phẩm</a>--%>
                                 <a href="javascript:;" class="btn primary-btn fw-btn not-fullwidth" onclick="addNewProduct()">Tạo mới</a>
                                 <asp:Button ID="btnLogin" runat="server" CssClass="btn primary-btn fw-btn not-fullwidth" Text="Tạo mới" OnClick="btnLogin_Click" Style="display: none" />
                                 <asp:Literal ID="ltrBack" runat="server"></asp:Literal>
-                                <%--<a href="/quan-ly-dai-ly" class="btn primary-btn fw-btn not-fullwidth">Quay về danh sách</a>--%>
                             </div>
                         </div>
                     </div>

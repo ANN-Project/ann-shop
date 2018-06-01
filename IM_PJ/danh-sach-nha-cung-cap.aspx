@@ -8,30 +8,19 @@
                 <div class="col-md-12">
                     <h3 class="page-title left">Danh sách nhà cung cấp</h3>
                     <div class="right above-list-btn">
-                        <a href="/them-moi-nha-cung-cap" class="h45-btn btn" style="background-color: #ff3f4c">Thêm mới</a>
+                        <a href="/them-moi-nha-cung-cap" class="h45-btn primary-btn btn">Thêm mới</a>
                     </div>
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-12">
-                    <div class="filter-above-wrap clear">
-                        <div class="right">
-                            <div class="filter-control right">
-                                <asp:TextBox ID="txtAgentName" runat="server" CssClass="form-control" placeholder="Nhập tên nhà cung cấp để tìm"
-                                    Width="210px"></asp:TextBox>
-                                <a href="javascript:;" onclick="searchAgent()" class="btn primary-btn h45-btn"><i class="fa fa-search"></i></a>
-                                <asp:Button ID="btnSearch" runat="server" CssClass="btn primary-btn h45-btn" OnClick="btnSearch_Click" Style="display: none" />
-                            </div>
-                        </div>
-                    </div>
                     <div class="panel-table clear">
                         <div class="responsive-table">
                             <table class="table table-checkable table-product">
                                 <tbody>
                                     <tr>
-                                        <%--<th>ID</th>--%>
-                                        <th>Tên</th>
-                                        <th>Phone</th>                                        
+                                        <th>Tên nhà cung cấp</th>
+                                        <th>Điện thoại</th>                                        
                                         <th>Ẩn</th>
                                         <th>Ngày tạo</th>
                                         <th>Thao tác</th>
@@ -50,9 +39,9 @@
             </div>
         </div>
         <script type="text/javascript">
-            function searchAgent() {
+            <%--function searchAgent() {
                 $("#<%= btnSearch.ClientID%>").click();
-            }
+            }--%>
         </script>
     </main>
 

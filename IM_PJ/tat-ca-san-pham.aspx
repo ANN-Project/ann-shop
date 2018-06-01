@@ -17,12 +17,12 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="filter-above-wrap clear">
-                        <div class="right">
-                            <div class="filter-control">
-                                <div class="col-md-4">
+                        <div class="filter-control">
+                            <div class="row">
+                                <div class="col-md-5">
                                     <asp:TextBox ID="txtSearchProduct" runat="server" CssClass="form-control" placeholder="Tìm sản phẩm"></asp:TextBox>
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-3">
                                     <asp:DropDownList ID="ddlCategory" runat="server" CssClass="form-control"></asp:DropDownList>
                                 </div>
                                 <div class="col-md-3">
@@ -64,7 +64,7 @@
                                         <th class="stock-status-column">Trạng thái</th>
                                         <th class="category-column">Danh mục</th>
                                         <th class="date-column">Ngày tạo</th>
-                                        <th class="action-column">Thao tác</th>
+                                        <th class="action-column"></th>
                                     </tr>
                                     <asp:Literal ID="ltrList" runat="server" EnableViewState="false"></asp:Literal>
                                 </tbody>

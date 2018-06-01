@@ -64,7 +64,6 @@ namespace IM_PJ
                     lblEmail.Text = acc.Email;
                     ddlRole.SelectedValue = acc.RoleID.ToString();
                     ddlStatus.SelectedValue = acc.Status.ToString();
-                    ltrBack.Text = "<a href=\"/quan-ly-nhan-vien?agentid=" + agentID + "\" class=\"btn primary-btn fw-btn not-fullwidth\">Trở về</a>";
                     var ai = AccountInfoController.GetByUserID(UID);
                     if (ai != null)
                     {
@@ -79,7 +78,7 @@ namespace IM_PJ
             }
         }
 
-        protected void btnLogin_Click(object sender, EventArgs e)
+        protected void btnSubmit_Click(object sender, EventArgs e)
         {
             DateTime currentDate = DateTime.Now;
             int agentID = Convert.ToInt32(ViewState["agentid"]);

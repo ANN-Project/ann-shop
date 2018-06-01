@@ -48,7 +48,7 @@ namespace IM_PJ
         {
             var agent = AgentController.GetAllWithIsHidden(false);
             ddlAgent.Items.Clear();
-            ddlAgent.Items.Insert(0, new ListItem("-- Tất cả đại lý --", "0"));
+            ddlAgent.Items.Insert(0, new ListItem("Tất cả đại lý", "0"));
             if (agent.Count > 0)
             {
                 foreach (var p in agent)

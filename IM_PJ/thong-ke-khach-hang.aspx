@@ -50,17 +50,10 @@
                             <table class="table table-checkable table-product">
                                 <tbody>
                                     <tr>
-                                        <%--<th>ID</th>--%>
-                                        <%--<th>Tên</th>--%>
-                                        <th>Phone</th>
+                                        <th>Điện thoại</th>
                                         <th>Email</th>
                                         <th>Địa chỉ</th>
-                                        <%--<th>Email</th>--%>
-                                      <%--  <th>Nhân viên phục vụ</th>
-                                        <th>Nhóm khách hàng</th>--%>
                                         <th>Ngày tạo</th>
-                                      <%--  <th>Ẩn</th>
-                                        <th>Thao tác</th>--%>
                                     </tr>
                                     <asp:Literal ID="ltrList" runat="server" EnableViewState="false"></asp:Literal>
                                 </tbody>

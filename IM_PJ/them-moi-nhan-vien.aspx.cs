@@ -49,14 +49,13 @@ namespace IM_PJ
         public void LoadData()
         {
             int agentID = Request.QueryString["agentid"].ToInt(0);
-            ltrBack.Text = "<a href=\"/tat-ca-nhan-vien\" class=\"btn primary-btn fw-btn not-fullwidth\">Trở về</a>";
         }
 
         public void LoadAgent()
         {
             var agent = AgentController.GetAll("");
             ddlAgent.Items.Clear();
-            ddlAgent.Items.Insert(0, new ListItem("-- Chọn chi nhánh --", "0"));
+            ddlAgent.Items.Insert(0, new ListItem("Chọn chi nhánh", "0"));
             if (agent.Count > 0)
             {
                 foreach (var p in agent)
@@ -67,7 +66,7 @@ namespace IM_PJ
                 ddlAgent.DataBind();
             }
         }
-        protected void btnLogin_Click(object sender, EventArgs e)
+        protected void btnSubmit_Click(object sender, EventArgs e)
         {
             DateTime currentDate = DateTime.Now;
             int agentID = ddlAgent.SelectedValue.ToInt();
@@ -145,7 +144,7 @@ namespace IM_PJ
                                Convert.ToDateTime(rBirthday.SelectedDate), Email, txtPhone.Text.Trim(), txtAddress.Text, currentDate, username_current);
                             if (idai == "1")
                             {
-                                PJUtils.ShowMessageBoxSwAlert("Tạo mới thành công", "s", true, Page);
+                                PJUtils.ShowMessageBoxSwAlert("Tạo mới nhân viên thành công", "s", true, Page);
                             }
                         }
                     }

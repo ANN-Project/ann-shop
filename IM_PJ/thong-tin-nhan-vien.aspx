@@ -1,9 +1,6 @@
 ﻿<%@ Page Title="Thông tin nhân viên" Language="C#" MasterPageFile="~/MasterPage.Master" AutoEventWireup="true" CodeBehind="thong-tin-nhan-vien.aspx.cs" Inherits="IM_PJ.thong_tin_nhan_vien" %>
-
 <%@ Register Assembly="Telerik.Web.UI" Namespace="Telerik.Web.UI" TagPrefix="telerik" %>
 
-<asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
-</asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <main id="main-wrap">
         <div class="container">
@@ -19,11 +16,10 @@
                             </div>
                             <div class="form-row">
                                 <div class="row-left">
-                                    Tên đăng nhập
+                                    Tài khoản
                                 </div>
                                 <div class="row-right">
                                     <asp:Label ID="lblUsername" runat="server" CssClass="form-control"></asp:Label>
-                                    <%--<asp:TextBox ID="txtUsername" runat="server" CssClass="form-control" placeholder="Tên đăng nhập"></asp:TextBox>--%>
                                 </div>
                             </div>
                             <div class="form-row">
@@ -32,14 +28,12 @@
                                 </div>
                                 <div class="row-right">
                                     <asp:Label ID="lblEmail" runat="server" CssClass="form-control" ></asp:Label>
-                                    <%--<asp:TextBox ID="txtEmail" runat="server" CssClass="form-control" placeholder="Email"></asp:TextBox>--%>
                                 </div>
                             </div>
                             <div class="form-row">
                                 <div class="row-left">
                                     Họ tên
-                                    <asp:RequiredFieldValidator ID="RequiredFieldValidator2" runat="server" ControlToValidate="txtFullname" ForeColor="Red"
-                                        ErrorMessage="(*)" Display="Dynamic" SetFocusOnError="true"></asp:RequiredFieldValidator>
+                                    <asp:RequiredFieldValidator ID="RequiredFieldValidator2" runat="server" ControlToValidate="txtFullname" ForeColor="Red" ErrorMessage="(*)" Display="Dynamic" SetFocusOnError="true"></asp:RequiredFieldValidator>
                                 </div>
                                 <div class="row-right">
                                     <asp:TextBox ID="txtFullname" runat="server" CssClass="form-control" placeholder="Họ tên"></asp:TextBox>
@@ -47,10 +41,10 @@
                             </div>
                             <div class="form-row">
                                 <div class="row-left">
-                                    Số Đt
+                                    Điện thoại
                                 </div>
                                 <div class="row-right">
-                                    <asp:TextBox ID="txtPhone" runat="server" CssClass="form-control" placeholder="Số đt"></asp:TextBox>
+                                    <asp:TextBox ID="txtPhone" runat="server" CssClass="form-control" placeholder="Số điện thoại"></asp:TextBox>
                                 </div>
                             </div>
                             
@@ -76,13 +70,10 @@
                             <div class="form-row">
                                 <div class="row-left">
                                     Ngày sinh 
-                                    <asp:RequiredFieldValidator ID="RequiredFieldValidator3" runat="server" ControlToValidate="rBirthday"
-                                        ErrorMessage="(*)"
-                                        Display="Dynamic" ForeColor="Red" SetFocusOnError="true"></asp:RequiredFieldValidator>
+                                    <asp:RequiredFieldValidator ID="RequiredFieldValidator3" runat="server" ControlToValidate="rBirthday" ErrorMessage="(*)" Display="Dynamic" ForeColor="Red" SetFocusOnError="true"></asp:RequiredFieldValidator>
                                 </div>
                                 <div class="row-right">
-                                    <telerik:RadDateTimePicker RenderMode="Lightweight" ID="rBirthday" ShowPopupOnFocus="true" Width="100%" runat="server"
-                                        DateInput-CssClass="radPreventDecorate" placeholder="Ngày sinh" CssClass="date" DateInput-EmptyMessage="Ngày sinh">
+                                    <telerik:RadDateTimePicker RenderMode="Lightweight" ID="rBirthday" ShowPopupOnFocus="true" Width="100%" runat="server" DateInput-CssClass="radPreventDecorate" placeholder="Ngày sinh" CssClass="date" DateInput-EmptyMessage="Ngày sinh">
                                         <DateInput DisplayDateFormat="dd/MM/yyyy" runat="server">
                                         </DateInput>
                                     </telerik:RadDateTimePicker>
@@ -91,7 +82,7 @@
                             <asp:Panel ID="pnAdmin" runat="server" Visible="false">
                                 <div class="form-row">
                                     <div class="row-left">
-                                        Quyền                                    
+                                        Nhóm nhân viên                                    
                                     </div>
                                     <div class="row-right">
                                         <asp:DropDownList ID="ddlRole" runat="server" CssClass="form-control">
@@ -116,8 +107,6 @@
                             <div class="form-row">
                                 <div class="row-left">
                                     Mật khẩu
-                                    <%--<asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" ControlToValidate="txtPassword" ForeColor="Red" SetFocusOnError="true"
-                                        ErrorMessage="(*)" Display="Dynamic"></asp:RequiredFieldValidator>--%>
                                 </div>
                                 <div class="row-right">
                                     <asp:TextBox ID="txtPassword" runat="server" CssClass="form-control" placeholder="Mật khẩu" TextMode="Password"></asp:TextBox>
@@ -126,19 +115,16 @@
                             <div class="form-row">
                                 <div class="row-left">
                                     Xác nhận mật khẩu
-                                    <%--<asp:RequiredFieldValidator ID="RequiredFieldValidator5" runat="server" ControlToValidate="txtConfirmPassword" ForeColor="Red" SetFocusOnError="true"
-                                        ErrorMessage="(*)" Display="Dynamic"></asp:RequiredFieldValidator>
-                                    <asp:CompareValidator ID="cp" runat="server" ControlToCompare="txtPassword" ControlToValidate="txtConfirmPassword"
-                                        ForeColor="Red" ErrorMessage="(không trùng với mật khẩu)" Display="Dynamic" SetFocusOnError="true"></asp:CompareValidator>--%>
                                 </div>
                                 <div class="row-right">
                                     <asp:TextBox ID="txtConfirmPassword" runat="server" CssClass="form-control" placeholder="Xác nhận mật khẩu" TextMode="Password"></asp:TextBox>
-                                    <div class="clear mar-top-3">
-                                        <asp:Button ID="btnLogin" runat="server" CssClass="btn primary-btn fw-btn not-fullwidth" Text="Cập nhật"
-                                            OnClick="btnLogin_Click" />
-                                        <asp:Literal ID="ltrBack" runat="server"></asp:Literal>
-                                        <%--<a href="/quan-ly-dai-ly" class="btn primary-btn fw-btn not-fullwidth">Quay về danh sách</a>--%>
-                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="row-left">
+                                </div>
+                                <div class="row-right">
+                                    <asp:Button ID="btnSubmit" runat="server" CssClass="btn primary-btn fw-btn not-fullwidth" Text="Cập nhật" OnClick="btnSubmit_Click" />
                                 </div>
                             </div>
                         </div>

@@ -156,7 +156,6 @@
                                     <div class="clear mar-top-3">
                                         <asp:Button ID="btnLogin" runat="server" CssClass="btn primary-btn fw-btn not-fullwidth" Text="Tạo mới" OnClick="btnLogin_Click" />
                                         <asp:Literal ID="ltrBack" runat="server"></asp:Literal>
-                                        <%--<a href="/quan-ly-dai-ly" class="btn primary-btn fw-btn not-fullwidth">Quay về danh sách</a>--%>
                                     </div>
                                 </div>
                             </div>

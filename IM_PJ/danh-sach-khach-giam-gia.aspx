@@ -21,7 +21,7 @@
                                     <asp:DropDownList ID="ddlCustomer" runat="server" CssClass="form-control customerlist select2" Width="50%" Height="40px">
                                     </asp:DropDownList>
                                     <asp:Button ID="btnLogin" runat="server" CssClass="btn primary-btn fw-btn not-fullwidth" Text="Add" OnClick="btnLogin_Click" />
-                                    <a href="/danh-sach-giam-gia" class="btn primary-btn fw-btn not-fullwidth">Trở về</a>
+                                    <a href="/danh-sach-nhom-khach-hang" class="btn primary-btn fw-btn not-fullwidth">Trở về</a>
                                 </div>
                             </div>
                         </div>

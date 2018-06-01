@@ -13,7 +13,7 @@ using System.Web.UI.WebControls;
 
 namespace IM_PJ
 {
-    public partial class danh_sach_giam_gia : System.Web.UI.Page
+    public partial class danh_sach_nhom_khach_hang : System.Web.UI.Page
     {
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -44,8 +44,9 @@ namespace IM_PJ
             string s = "";
             if (Request.QueryString["s"] != null)
                 s = Request.QueryString["s"];
+            //txtAgentName.Text = s;
+
             string username = Session["userLoginSystem"].ToString();
-            txtAgentName.Text = s;
             var acc = AccountController.GetByUsername(username);
             if (acc != null)
             {
@@ -247,18 +248,18 @@ namespace IM_PJ
         }
         #endregion
 
-        protected void btnSearch_Click(object sender, EventArgs e)
-        {
-            string search = txtAgentName.Text;
-            if (!string.IsNullOrEmpty(search))
-            {
-                Response.Redirect("/danh-sach-giam-gia?s=" + search + "");
-            }
-            else
-            {
-                Response.Redirect("/danh-sach-giam-gia");
-            }
-        }
+        //protected void btnSearch_Click(object sender, EventArgs e)
+        //{
+        //    string search = txtAgentName.Text;
+        //    if (!string.IsNullOrEmpty(search))
+        //    {
+        //        Response.Redirect("/danh-sach-nhom-khach-hang?s=" + search + "");
+        //    }
+        //    else
+        //    {
+        //        Response.Redirect("/danh-sach-nhom-khach-hang");
+        //    }
+        //}
         public class danhmuccon1
         {
             public tbl_Category cate1 { get; set; }

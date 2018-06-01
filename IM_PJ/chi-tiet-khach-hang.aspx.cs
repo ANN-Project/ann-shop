@@ -47,7 +47,7 @@ namespace IM_PJ
         {
             var pro = ProvinceController.GetAll();
             ddlProvince.Items.Clear();
-            ddlProvince.Items.Insert(0, new ListItem("-- Chưa xác định --", "0"));
+            ddlProvince.Items.Insert(0, new ListItem("Chọn tỉnh thành", "0"));
             if (pro.Count > 0)
             {
                 foreach (var p in pro)
@@ -63,7 +63,7 @@ namespace IM_PJ
         {
             var agent = AccountController.GetAllNotSearch();
             ddlUser.Items.Clear();
-            ddlUser.Items.Insert(0, new ListItem("-- Chọn nhân viên phụ trách --", "0"));
+            ddlUser.Items.Insert(0, new ListItem("Chọn nhân viên phụ trách", "0"));
             if (agent.Count > 0)
             {
                 foreach (var p in agent)
@@ -103,7 +103,7 @@ namespace IM_PJ
             }
         }
 
-        protected void btnLogin_Click(object sender, EventArgs e)
+        protected void btnSubmit_Click(object sender, EventArgs e)
         {
             string username = Session["userLoginSystem"].ToString();
             var acc = AccountController.GetByUsername(username);
@@ -119,7 +119,7 @@ namespace IM_PJ
                         {
                             CustomerController.Update(id, txtCustomerName.Text, d.CustomerPhone, txtSupplierAddress.Text, txtSupplierEmail.Text, 0, 1,
                        ddlUser.SelectedItem.ToString(), DateTime.Now, username, chkIsHidden.Checked, txtZalo.Text, txtFacebook.Text, txtNote.Text, ddlProvince.SelectedValue,txtNick.Text);
-                            PJUtils.ShowMessageBoxSwAlert("Cập nhật thành công", "s", true, Page);
+                            PJUtils.ShowMessageBoxSwAlert("Cập nhật khách hàng thành công", "s", true, Page);
                         }
                     }
                 }

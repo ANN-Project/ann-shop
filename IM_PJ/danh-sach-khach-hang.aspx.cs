@@ -51,7 +51,7 @@ namespace IM_PJ
         {
             var pro = ProvinceController.GetAll();
             ddlProvince.Items.Clear();
-            ddlProvince.Items.Insert(0, new ListItem("-- Chưa xác định --", "0"));
+            ddlProvince.Items.Insert(0, new ListItem("Tỉnh thành", "0"));
             if (pro.Count > 0)
             {
                 foreach (var p in pro)
@@ -131,27 +131,11 @@ namespace IM_PJ
 
 
         }
-
-        //public void LoadDiscount()
-        //{
-        //    var CreateBy = DiscountGroupController.GetAll("");
-        //    ddlDiscount.Items.Clear();
-        //    ddlDiscount.Items.Insert(0, new ListItem("-- Danh sách nhóm khác hàng --", "0"));
-        //    if (CreateBy.Count > 0)
-        //    {
-        //        foreach (var p in CreateBy)
-        //        {
-        //            ListItem listitem = new ListItem(p.DiscountName, p.ID.ToString());
-        //            ddlDiscount.Items.Add(listitem);
-        //        }
-        //        ddlDiscount.DataBind();
-        //    }
-        //}
         public void LoadCreatedBy(int AgentID)
         {
             var CreateBy = AccountController.GetAllNotSearch();
             ddlCreateBy.Items.Clear();
-            ddlCreateBy.Items.Insert(0, new ListItem("-- Danh sách nhân viên --", "0"));
+            ddlCreateBy.Items.Insert(0, new ListItem("Nhân viên phụ trách", "0"));
             if (CreateBy.Count > 0)
             {
                 foreach (var p in CreateBy)
@@ -204,7 +188,7 @@ namespace IM_PJ
                             }
                         }
                     }
-                    html.Append("   <td><a class=\"link\" href=\"/chi-tiet-khach-hang?id=" + item.ID + "\">" + item.CustomerName + "</a></td>");
+                    html.Append("   <td><a href=\"/chi-tiet-khach-hang?id=" + item.ID + "\">" + item.CustomerName + "</a></td>");
                     html.Append("   <td>" + item.Nick + "</td>");
                     html.Append("   <td>" + item.CustomerPhone + "</td>");
                     html.Append("   <td>" + item.Zalo + "</td>");
@@ -261,7 +245,7 @@ namespace IM_PJ
 
                     html.Append("   <td>");
 
-                    html.Append("       <a href=\"/chi-tiet-don-hang?id=" + item.ID + "\" class=\"btn primary-btn h45-btn\">Đơn hàng</a>");
+                    html.Append("       <a href=\"/chi-tiet-don-hang?id=" + item.ID + "\" title=\"Xem đơn hàng\" class=\"btn primary-btn h45-btn\"><i class=\"fa fa-shopping-cart\" aria-hidden=\"true\"></i></a>");
                     html.Append("   </td>");
                     html.Append("</tr>");
                 }

@@ -85,7 +85,7 @@ namespace IM_PJ
             if (Request.QueryString["s"] != null)
             {
                 string s = Request.QueryString["s"];
-                txtAgentName.Text = s;
+                //txtAgentName.Text = s;
                 a = CategoryController.GetBySearchLevel(s,0);
             }
             else
@@ -144,7 +144,7 @@ namespace IM_PJ
                     html.Append("</tr>");
                 }
             }
-            ltrList.Text = html.ToString();
+            //ltrList.Text = html.ToString();
         }
         public static Int32 GetIntFromQueryString(String key)
         {
@@ -285,18 +285,5 @@ namespace IM_PJ
             return output.ToString();
         }
         #endregion
-
-        protected void btnSearch_Click(object sender, EventArgs e)
-        {
-            string search = txtAgentName.Text;
-            if (!string.IsNullOrEmpty(search))
-            {
-                Response.Redirect("/quan-ly-dai-ly?s=" + search + "");
-            }
-            else
-            {
-                Response.Redirect("/quan-ly-dai-ly");
-            }
-        }
     }
 }

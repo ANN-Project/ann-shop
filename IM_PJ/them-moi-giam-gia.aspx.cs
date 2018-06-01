@@ -51,7 +51,7 @@ namespace IM_PJ
                     DiscountGroupController.Insert(txtDiscountName.Text, Convert.ToDouble(pDiscountAmount.Value),
                         Convert.ToDouble(pDiscountAmountPercent.Value), pDiscountNote.Content, chkIsHidden.Checked, DateTime.Now, username, 
                         Convert.ToDouble(rRefundGoods.Value), Convert.ToDouble(pNumOfDateToChangeProduct.Value), Convert.ToDouble(pNumOfProductCanChange.Value));
-                    Response.Redirect("/danh-sach-giam-gia.aspx");
+                    Response.Redirect("/danh-sach-nhom-khach-hang.aspx");
                     //PJUtils.ShowMessageBoxSwAlert("Tạo mới thành công", "s", true, Page);
                 }
             }

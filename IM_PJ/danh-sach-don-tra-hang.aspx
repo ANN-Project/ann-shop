@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Danh sách đơn trả hàng" Language="C#" MasterPageFile="~/MasterPage.Master" AutoEventWireup="true" CodeBehind="danh-sach-don-tra-hang.aspx.cs" Inherits="IM_PJ.danh_sach_don_tra_hang" %>
+﻿<%@ Page Title="Danh sách đổi trả hàng" Language="C#" MasterPageFile="~/MasterPage.Master" AutoEventWireup="true" CodeBehind="danh-sach-don-tra-hang.aspx.cs" Inherits="IM_PJ.danh_sach_don_tra_hang" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
@@ -7,50 +7,60 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
-                    <h3 class="page-title left">Danh sách đơn hàng</h3>
+                    <h3 class="page-title left">Danh sách đổi trả hàng</h3>
                     <div class="right above-list-btn">
-                        <a href="/them-don-tra-hang" class="h45-btn btn" style="background-color: #ff3f4c; float: right;">Thêm mới</a>
+                        <a href="/them-don-tra-hang" class="h45-btn primary-btn btn">Thêm mới</a>
                     </div>
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-12">
                     <div class="filter-above-wrap clear">
-                        <div class="right">
-                            <div class="filter-control">
-                                <asp:TextBox ID="txtAgentName" runat="server" CssClass="form-control" placeholder="Nhập tên tên sản phẩm / số đt khách để tìm"
-                                    Width="210px"></asp:TextBox>
-                                <asp:DropDownList ID="ddlAgentName" runat="server" CssClass="form-control"></asp:DropDownList>
-                                <asp:DropDownList ID="ddlStatus" runat="server" CssClass="form-control">
-                                    <asp:ListItem Value="0">Trạng thái</asp:ListItem>
-                                    <asp:ListItem Value="1">Chưa trả tiền</asp:ListItem>
-                                    <asp:ListItem Value="2">Đã trả tiền</asp:ListItem>
-                                </asp:DropDownList>
-
-                                <asp:DropDownList ID="ddlCreateBy" runat="server" CssClass="form-control create hide"></asp:DropDownList>
-
-                                <a href="javascript:;" onclick="searchAgent()" class="btn primary-btn h45-btn"><i class="fa fa-search"></i></a>
-                                <asp:Button ID="btnSearch" runat="server" CssClass="btn primary-btn h45-btn" OnClick="btnSearch_Click" Style="display: none" />
-
+                        <div class="filter-control">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <asp:TextBox ID="txtAgentName" runat="server" CssClass="form-control" placeholder="Tìm đơn hàng"></asp:TextBox>
+                                </div>
+                                <div class="col-md-3">
+                                    <asp:DropDownList ID="ddlAgentName" runat="server" CssClass="form-control"></asp:DropDownList>
+                                </div>
+                                <div class="col-md-3">
+                                    <asp:DropDownList ID="ddlStatus" runat="server" CssClass="form-control">
+                                        <asp:ListItem Value="0">Trạng thái</asp:ListItem>
+                                        <asp:ListItem Value="1">Chưa trừ tiền</asp:ListItem>
+                                        <asp:ListItem Value="2">Đã trừ tiền</asp:ListItem>
+                                    </asp:DropDownList>
+                                </div>
+                                <div class="col-md-2">
+                                    <asp:DropDownList ID="ddlCreateBy" runat="server" CssClass="form-control create hide"></asp:DropDownList>
+                                </div>
+                                <div class="col-md-1">
+                                    <a href="javascript:;" onclick="searchAgent()" class="btn primary-btn h45-btn"><i class="fa fa-search"></i></a>
+                                    <asp:Button ID="btnSearch" runat="server" CssClass="btn primary-btn h45-btn" OnClick="btnSearch_Click" Style="display: none" />
+                                </div>
                             </div>
                         </div>
                     </div>
                     <div class="panel-table clear">
+                        <div class="panel-footer clear">
+                            <div class="pagination">
+                                <%this.DisplayHtmlStringPaging1();%>
+                            </div>
+                        </div>
                         <div class="responsive-table">
                             <table class="table table-checkable table-product">
                                 <tbody>
                                     <tr>
-                                        <th>ID</th>
-                                        <%-- <th>Đại lý</th>--%>
-                                        <th>Tên khách hàng</th>
-                                        <th>Số ĐT</th>
-                                        <th>Số lượng sản phẩm</th>
+                                        <th>Mã</th>
+                                        <th>Khách hàng</th>
+                                        <th>Điện thoại</th>
+                                        <th>Số lượng</th>
                                         <th>Phí đổi hàng</th>
                                         <th>Tổng tiền</th>
                                         <th>Trạng thái</th>
-                                        <th>Nhân viên tạo đơn</th>
+                                        <th>Nhân viên</th>
                                         <th>Ngày tạo</th>
-                                        <th>Thao tác</th>
+                                        <th></th>
                                     </tr>
                                     <asp:Literal ID="ltrList" runat="server" EnableViewState="false"></asp:Literal>
                                 </tbody>

@@ -45,7 +45,7 @@ namespace IM_PJ
         {
             var pro = ProvinceController.GetAll();
             ddlProvince.Items.Clear();
-            ddlProvince.Items.Insert(0, new ListItem("-- Chưa xác định --", "0"));
+            ddlProvince.Items.Insert(0, new ListItem("Chọn tỉnh thành", "0"));
             if (pro.Count > 0)
             {
                 foreach (var p in pro)
@@ -57,7 +57,7 @@ namespace IM_PJ
             }
         }
        
-        protected void btnLogin_Click(object sender, EventArgs e)
+        protected void btnSubmit_Click(object sender, EventArgs e)
         {
             string username = Session["userLoginSystem"].ToString();
             var acc = AccountController.GetByUsername(username);
@@ -69,7 +69,7 @@ namespace IM_PJ
                     var checkPhone = CustomerController.GetByPhone(phone);
                     if (checkPhone != null)
                     {
-                        lblError.Text = "Số đt đã tồn tại vui lòng chọn số khác.";
+                        lblError.Text = "Số điện thoại đã tồn tại";
                         lblError.Visible = true;
                     }
                     else
@@ -77,9 +77,8 @@ namespace IM_PJ
                         lblError.Visible = false;
                         CustomerController.Insert(txtCustomerName.Text, txtCustomerPhone.Text, txtSupplierAddress.Text, txtSupplierEmail.Text, 0, 1,
                          DateTime.Now, username, chkIsHidden.Checked, txtZalo.Text, txtFacebook.Text, txtNote.Text,ddlProvince.SelectedValue,txtNick.Text);
-                        PJUtils.ShowMessageBoxSwAlert("Tạo mới thành công", "s", true, Page);
+                        PJUtils.ShowMessageBoxSwAlert("Thêm khách hàng thành công", "s", true, Page);
                     }
-
                 }
             }
         }

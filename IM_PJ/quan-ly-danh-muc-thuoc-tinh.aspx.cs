@@ -250,15 +250,6 @@ namespace IM_PJ
 
         protected void btnSearch_Click(object sender, EventArgs e)
         {
-            //string search = txtAgentName.Text;
-            //if (!string.IsNullOrEmpty(search))
-            //{
-            //    Response.Redirect("/danh-sach-giam-gia?s=" + search + "");
-            //}
-            //else
-            //{
-            //    Response.Redirect("/danh-sach-giam-gia");
-            //}
         }
     }
 }

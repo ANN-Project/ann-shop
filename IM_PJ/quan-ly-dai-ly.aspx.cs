@@ -44,7 +44,7 @@ namespace IM_PJ
             if (Request.QueryString["s"] != null)
             {
                 string s = Request.QueryString["s"];
-                txtAgentName.Text = s;
+                //txtAgentName.Text = s;
                 a = AgentController.GetAll(s);
             }
             else
@@ -260,17 +260,17 @@ namespace IM_PJ
         }
         #endregion
 
-        protected void btnSearch_Click(object sender, EventArgs e)
-        {
-            string search = txtAgentName.Text;
-            if (!string.IsNullOrEmpty(search))
-            {
-                Response.Redirect("/quan-ly-dai-ly?s=" + search + "");
-            }
-            else
-            {
-                Response.Redirect("/quan-ly-dai-ly");
-            }
-        }
+        //protected void btnSearch_Click(object sender, EventArgs e)
+        //{
+        //    string search = txtAgentName.Text;
+        //    if (!string.IsNullOrEmpty(search))
+        //    {
+        //        Response.Redirect("/quan-ly-dai-ly?s=" + search + "");
+        //    }
+        //    else
+        //    {
+        //        Response.Redirect("/quan-ly-dai-ly");
+        //    }
+        //}
     }
 }

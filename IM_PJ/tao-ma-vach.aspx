@@ -289,7 +289,7 @@
                             html += "           <td>" + data.Facebook + "</td>";
                             html += "       </tr>";
                             html += "       <tr>";
-                            html += "           <td style=\"width:25%;\">Nhân viên phục vụ</td>";
+                            html += "           <td style=\"width:25%;\">Nhân viên phụ trách</td>";
                             html += "           <td>" + data.CreatedBy + "</td>";
                             html += "       </tr>";
                             html += "       <tr>";

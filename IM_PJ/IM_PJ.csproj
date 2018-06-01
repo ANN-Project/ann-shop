@@ -389,7 +389,7 @@
     <Content Include="danh-sach-chuyen-hang.aspx" />
     <Content Include="danh-sach-don-hang.aspx" />
     <Content Include="danh-sach-don-tra-hang.aspx" />
-    <Content Include="danh-sach-giam-gia.aspx" />
+    <Content Include="danh-sach-nhom-khach-hang.aspx" />
     <Content Include="danh-sach-khach-giam-gia.aspx" />
     <Content Include="danh-sach-khach-hang.aspx" />
     <Content Include="danh-sach-nha-cung-cap.aspx" />
@@ -915,12 +915,12 @@
     <Compile Include="danh-sach-don-tra-hang.aspx.designer.cs">
       <DependentUpon>danh-sach-don-tra-hang.aspx</DependentUpon>
     </Compile>
-    <Compile Include="danh-sach-giam-gia.aspx.cs">
-      <DependentUpon>danh-sach-giam-gia.aspx</DependentUpon>
+    <Compile Include="danh-sach-nhom-khach-hang.aspx.cs">
+      <DependentUpon>danh-sach-nhom-khach-hang.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="danh-sach-giam-gia.aspx.designer.cs">
-      <DependentUpon>danh-sach-giam-gia.aspx</DependentUpon>
+    <Compile Include="danh-sach-nhom-khach-hang.aspx.designer.cs">
+      <DependentUpon>danh-sach-nhom-khach-hang.aspx</DependentUpon>
     </Compile>
     <Compile Include="danh-sach-khach-giam-gia.aspx.cs">
       <DependentUpon>danh-sach-khach-giam-gia.aspx</DependentUpon>

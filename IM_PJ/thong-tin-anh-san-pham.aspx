@@ -36,10 +36,8 @@
                                 <div class="row-right">
                                     <asp:CheckBox ID="chkIsHidden" runat="server" />
                                     <div class="clear">
-                                        <%--<a href="javascript:;" class="btn primary-btn fw-btn not-fullwidth" onclick="AddNewProduct()">Tạo mới sản phẩm</a>--%>
                                         <asp:Button ID="btnLogin" runat="server" CssClass="btn primary-btn fw-btn not-fullwidth" Text="Cập nhật" OnClick="btnLogin_Click" />
                                         <asp:Literal ID="ltrBack" runat="server"></asp:Literal>
-                                        <%--<a href="/quan-ly-dai-ly" class="btn primary-btn fw-btn not-fullwidth">Quay về danh sách</a>--%>
                                     </div>
                                 </div>
                             </div>

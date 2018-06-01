@@ -40,7 +40,7 @@ namespace IM_PJ
                         ltrMenu.Text += "<li><a href=\"/quan-ly-danh-muc-san-pham\"><span class=\"icon-menu icon-product\"></span>Danh mục</a></li>";
                         ltrMenu.Text += "<li><a href=\"/quan-ly-danh-muc-thuoc-tinh\"><span class=\"icon-menu icon-product\"></span>Thuộc tính</a></li>";
                         ltrMenu.Text += "<li><a href=\"/danh-sach-khach-hang\"><span class=\"icon-menu icon-product\"></span>Khách hàng</a></li>";
-                        ltrMenu.Text += "<li><a href=\"/danh-sach-giam-gia\"><span class=\"icon-menu icon-product\"></span>Nhóm khách hàng</a></li>";
+                        ltrMenu.Text += "<li><a href=\"/danh-sach-nhom-khach-hang\"><span class=\"icon-menu icon-product\"></span>Nhóm khách hàng</a></li>";
                         ltrMenu.Text += "<li><a href=\"/tao-ma-vach\"><span class=\"icon-menu icon-product\"></span>In mã vạch</a></li>";
                         ltrMenu.Text += "<li><a href=\"/quan-ly-nhap-kho\"><span class=\"icon-menu icon-product\"></span>Nhập kho</a></li>";
                         ltrMenu.Text += "<li><a href=\"/quan-ly-xuat-kho\"><span class=\"icon-menu icon-product\"></span>Xuất kho</a></li>";

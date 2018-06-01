@@ -17,28 +17,27 @@
                             </div>
                             <div class="form-row">
                                 <div class="row-left">
-                                    Tên khách hàng
-                                    <asp:RequiredFieldValidator ID="rq" runat="server" ControlToValidate="txtCustomerName" ForeColor="Red"
-                                        SetFocusOnError="true" ErrorMessage="(*)" Display="Dynamic"></asp:RequiredFieldValidator>
+                                    Họ tên
+                                    <asp:RequiredFieldValidator ID="rq" runat="server" ControlToValidate="txtCustomerName" ForeColor="Red" SetFocusOnError="true" ErrorMessage="(*)" Display="Dynamic"></asp:RequiredFieldValidator>
                                 </div>
                                 <div class="row-right">
-                                    <asp:TextBox ID="txtCustomerName" runat="server" CssClass="form-control" placeholder="Tên khách hàng"></asp:TextBox>
+                                    <asp:TextBox ID="txtCustomerName" runat="server" CssClass="form-control" placeholder="Họ tên khách hàng"></asp:TextBox>
                                 </div>
                             </div>
                              <div class="form-row">
                                 <div class="row-left">
-                                    Nick
+                                    Nick đặt hàng
                                 </div>
                                 <div class="row-right">
-                                    <asp:TextBox ID="txtNick" runat="server" CssClass="form-control" placeholder="Zalo"></asp:TextBox>
+                                    <asp:TextBox ID="txtNick" runat="server" CssClass="form-control" placeholder="Nick đặt hàng"></asp:TextBox>
                                 </div>
                             </div>
                             <div class="form-row">
                                 <div class="row-left">
-                                    Số đt                                    
+                                    Điện thoại                                   
                                 </div>
                                 <div class="row-right">
-                                    <asp:Label ID="lblCustomerPhone" runat="server" CssClass="form-control"></asp:Label>                                    
+                                    <asp:Label ID="lblCustomerPhone" runat="server" CssClass="form-control" placeholder="Số điện thoại"></asp:Label>                                    
                                 </div>
                             </div>
                             <div class="form-row">
@@ -46,7 +45,7 @@
                                     Zalo
                                 </div>
                                 <div class="row-right">
-                                    <asp:TextBox ID="txtZalo" runat="server" CssClass="form-control" placeholder="Zalo"></asp:TextBox>
+                                    <asp:TextBox ID="txtZalo" runat="server" CssClass="form-control" placeholder="Số điện thoại Zalo"></asp:TextBox>
                                 </div>
                             </div>
                             <div class="form-row">
@@ -54,14 +53,13 @@
                                     Facebook
                                 </div>
                                 <div class="row-right">
-                                    <asp:TextBox ID="txtFacebook" runat="server" CssClass="form-control" placeholder="Facebook"></asp:TextBox>
+                                    <asp:TextBox ID="txtFacebook" runat="server" CssClass="form-control" placeholder="Link Facebook"></asp:TextBox>
                                 </div>
                             </div>
                             <div class="form-row">
                                 <div class="row-left">
                                     Địa chỉ
-                                    <asp:RequiredFieldValidator ID="RequiredFieldValidator2" runat="server" ControlToValidate="txtSupplierAddress" ForeColor="Red"
-                                        SetFocusOnError="true" ErrorMessage="(*)" Display="Dynamic"></asp:RequiredFieldValidator>
+                                    <asp:RequiredFieldValidator ID="RequiredFieldValidator2" runat="server" ControlToValidate="txtSupplierAddress" ForeColor="Red" SetFocusOnError="true" ErrorMessage="(*)" Display="Dynamic"></asp:RequiredFieldValidator>
                                 </div>
                                 <div class="row-right">
                                     <asp:TextBox ID="txtSupplierAddress" runat="server" CssClass="form-control" placeholder="Địa chỉ"></asp:TextBox>
@@ -70,11 +68,6 @@
                             <div class="form-row">
                                 <div class="row-left">
                                     Email
-                                    <%--<asp:RequiredFieldValidator ID="RequiredFieldValidator4" runat="server" ControlToValidate="txtSupplierEmail" ForeColor="Red"
-                                        ErrorMessage="(*)" Display="Dynamic" SetFocusOnError="true"></asp:RequiredFieldValidator>
-                                    <asp:RegularExpressionValidator runat="server" ID="RegularExpressionValidator1" ControlToValidate="txtSupplierEmail" ForeColor="Red"
-                                        ErrorMessage="(Sai định dạng Email)" ValidationExpression="^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$"
-                                        Display="Dynamic" SetFocusOnError="true" />--%>
                                 </div>
                                 <div class="row-right">
                                     <asp:TextBox ID="txtSupplierEmail" runat="server" CssClass="form-control" placeholder="Email"></asp:TextBox>
@@ -85,9 +78,6 @@
                                     Tỉnh thành
                                 </div>
                                 <div class="row-right">
-
-                                    <%--  <select id="ddlProvince" style="margin-bottom: 15px;" runat="server" class="form-control"></select>--%>
-
                                     <asp:DropDownList ID="ddlProvince" runat="server" CssClass="form-control" AutoPostBack="True">
                                     </asp:DropDownList>
                                 </div>
@@ -117,7 +107,7 @@
                                 </div>
                             </div>
                             <div class="form-row">
-                                <asp:Button ID="btnLogin" runat="server" CssClass="btn primary-btn fw-btn not-fullwidth" Text="Cập nhật" OnClick="btnLogin_Click" />
+                                <asp:Button ID="btnSubmit" runat="server" CssClass="btn primary-btn fw-btn not-fullwidth" Text="Cập nhật" OnClick="btnSubmit_Click" />
                                 <a href="/danh-sach-khach-hang" class="btn primary-btn fw-btn not-fullwidth">Trở về</a>
                             </div>
                         </div>
