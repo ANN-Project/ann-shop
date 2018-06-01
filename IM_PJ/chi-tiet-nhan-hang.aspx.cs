@@ -87,12 +87,12 @@ namespace IM_PJ
                         if (mpStatus == 2)
                         {
                             htmlStatus.Append("<option value=\"2\" selected>Đã chuyển</option>");
-                            htmlStatus.Append("<option value=\"3\">Đã xử lý</option>");
+                            htmlStatus.Append("<option value=\"3\">Đã hoàn tất</option>");
                         }
                         else if (mpStatus == 3)
                         {
                             htmlStatus.Append("<option value=\"2\">Đã chuyển</option>");
-                            htmlStatus.Append("<option value=\"3\" selected>Đã xử lý</option>");
+                            htmlStatus.Append("<option value=\"3\" selected>Đã hoàn tất</option>");
                         }
                         htmlStatus.Append("</select>");
                         ltrMoProStatus.Text = htmlStatus.ToString();

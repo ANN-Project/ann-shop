@@ -9,7 +9,7 @@
                 <div class="col-md-12">
                     <h3 class="page-title left">Danh sách đơn hàng</h3>
                     <div class="right above-list-btn">
-                        <a href="/them-moi-don-hang" class="h45-btn btn" style="background-color: #ff3f4c">Thêm mới</a>
+                        <a href="/them-moi-don-hang" class="h45-btn primary-btn btn">Thêm mới</a>
                     </div>
                 </div>
             </div>
@@ -18,16 +18,23 @@
                     <div class="filter-above-wrap clear">
                         <div class="filter-control">
                             <div class="row">
-                                <div class="col-md-6">
-                                    <asp:TextBox ID="txtAgentName" runat="server" CssClass="form-control" placeholder="Nhập tên tên sản phẩm / số đt khách để tìm" Width="100%"></asp:TextBox>
+                                <div class="col-md-5">
+                                    <asp:TextBox ID="txtAgentName" runat="server" CssClass="form-control" placeholder="Tìm đơn hàng"></asp:TextBox>
                                 </div>
                                 <div class="col-md-6">
-                                    <asp:TextBox ID="txtSKU" runat="server" CssClass="form-control" placeholder="Nhập SKU để tìm" Width="100%"></asp:TextBox>
+                                    <asp:TextBox ID="txtSKU" runat="server" CssClass="form-control" placeholder="Tìm sản phẩm"></asp:TextBox>
+                                </div>
+                                <div class="col-md-1">
+                                    
                                 </div>
                             </div>
+                        </div>
+                    </div>
+                    <div class="filter-above-wrap clear">
+                        <div class="filter-control">
                             <div class="row">
                                 <div class="col-md-1">
-                                    <asp:DropDownList ID="ddlOrderType" runat="server" CssClass="form-control wid">
+                                    <asp:DropDownList ID="ddlOrderType" runat="server" CssClass="form-control">
                                         <asp:ListItem Value="0" Text="Loại"></asp:ListItem>
                                         <asp:ListItem Value="1" Text="Lẻ"></asp:ListItem>
                                         <asp:ListItem Value="2" Text="Sỉ"></asp:ListItem>
@@ -35,7 +42,7 @@
                                 </div>
                                 <div class="col-md-2">
                                     <asp:DropDownList ID="ddlPaymentStatus" runat="server" CssClass="form-control">
-                                        <asp:ListItem Value="0" Text="Trạng thái thanh toán"></asp:ListItem>
+                                        <asp:ListItem Value="0" Text="Thanh toán"></asp:ListItem>
                                         <asp:ListItem Value="1" Text="Chưa thanh toán"></asp:ListItem>
                                         <asp:ListItem Value="2" Text="Thanh toán thiếu"></asp:ListItem>
                                         <asp:ListItem Value="3" Text="Đã thanh toán"></asp:ListItem>
@@ -44,14 +51,14 @@
                                 <div class="col-md-2">
                                     <asp:DropDownList ID="ddlExcuteStatus" runat="server" CssClass="form-control">
                                         <asp:ListItem Value="0" Text="Xử lý"></asp:ListItem>
-                                        <asp:ListItem Value="1" Text="Đang chờ xử lý"></asp:ListItem>
-                                        <asp:ListItem Value="2" Text="Đã xử lý"></asp:ListItem>
+                                        <asp:ListItem Value="1" Text="Đang xử lý"></asp:ListItem>
+                                        <asp:ListItem Value="2" Text="Đã hoàn tất"></asp:ListItem>
                                         <asp:ListItem Value="3" Text="Đã hủy"></asp:ListItem>
                                     </asp:DropDownList>
                                 </div>
                                 <div class="col-md-2">
                                     <asp:DropDownList ID="ddlPaymentType" runat="server" CssClass="form-control">
-                                        <asp:ListItem Value="0" Text="Cách thanh toán"></asp:ListItem>
+                                        <asp:ListItem Value="0" Text="Kiểu thanh toán"></asp:ListItem>
                                         <asp:ListItem Value="1" Text="Tiền mặt"></asp:ListItem>
                                         <asp:ListItem Value="2" Text="Chuyển khoản"></asp:ListItem>
                                         <asp:ListItem Value="3" Text="Thu hộ"></asp:ListItem>
@@ -90,16 +97,16 @@
                                         <th>Mã</th>
                                         <th>Loại</th>
                                         <th>Điện thoại</th>
-                                        <th>Tên khách</th>
-                                        <th>Số lượng</th>
+                                        <th>Khách hàng</th>
+                                        <th>Mua</th>
                                         <th>Thanh toán</th>
                                         <th>Xử lý</th>
-                                        <th>Thanh toán</th>
+                                        <th>Kiểu thanh toán</th>
                                         <th>Giao hàng</th>
                                         <th>Tổng tiền</th>
                                         <th>Ngày tạo</th>
                                         <th>Hoàn tất</th>
-                                        <th>Thao tác</th>
+                                        <th></th>
                                     </tr>
                                     <asp:Literal ID="ltrList" runat="server" EnableViewState="false"></asp:Literal>
                                 </tbody>
@@ -113,8 +120,6 @@
                     </div>
                 </div>
             </div>
-        </div>
-        <div id="printInvoice" style="display: none">
         </div>
         <asp:HiddenField ID="hdfcreate" runat="server" />
         <script type="text/javascript">
@@ -135,10 +140,5 @@
                     (d ? '.' + Math.round(d * Math.pow(10, dp || 2)) : '');
             };
         </script>
-        <style>
-            .wid {
-                width: 80px;
-            }
-        </style>
     </main>
 </asp:Content>

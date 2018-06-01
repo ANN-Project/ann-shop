@@ -17,69 +17,6 @@
             </div>
             <div class="row">
                 <div class="col-md-12">
-                  <%--  <div class="filter-above-wrap clear" style="width: 100%;">
-
-                        <div class="filter-control right" style="width: 100%; float: left;">
-
-                            <asp:TextBox ID="txtAgentName" runat="server" CssClass="form-control" placeholder="Nhập tên tên sản phẩm / số đt khách để tìm"
-                                Width="100%"></asp:TextBox>
-
-                            <asp:TextBox ID="txtSKU" runat="server" CssClass="form-control" placeholder="Nhập SKU để tìm"
-                                Width="100%"></asp:TextBox>
-
-
-                            <asp:DropDownList ID="ddlOrderType" runat="server" CssClass="form-control wid">
-                                <asp:ListItem Value="0" Text="Loại"></asp:ListItem>
-                                <asp:ListItem Value="1" Text="Lẻ"></asp:ListItem>
-                                <asp:ListItem Value="2" Text="Sỉ"></asp:ListItem>
-                            </asp:DropDownList>
-
-
-
-                            <asp:DropDownList ID="ddlPaymentStatus" runat="server" CssClass="form-control">
-                                <asp:ListItem Value="0" Text="--Loại thanh toán--"></asp:ListItem>
-                                <asp:ListItem Value="1" Text="Chưa thanh toán"></asp:ListItem>
-                                <asp:ListItem Value="2" Text="Thanh toán thiếu"></asp:ListItem>
-                                <asp:ListItem Value="3" Text="Đã thanh toán"></asp:ListItem>
-                            </asp:DropDownList>
-
-                            <asp:DropDownList ID="ddlExcuteStatus" runat="server" CssClass="form-control">
-                                <asp:ListItem Value="0" Text="--Loại xử lý--"></asp:ListItem>
-                                <asp:ListItem Value="1" Text="Đang chờ xử lý"></asp:ListItem>
-                                <asp:ListItem Value="2" Text="Đã xử lý"></asp:ListItem>
-                            </asp:DropDownList>
-
-
-
-                            <asp:DropDownList ID="ddlPaymentType" runat="server" CssClass="form-control">
-                                <asp:ListItem Value="0" Text="--Phương thức thanh toán--"></asp:ListItem>
-                                <asp:ListItem Value="1" Text="Tiền mặt"></asp:ListItem>
-                                <asp:ListItem Value="2" Text="Chuyển khoản"></asp:ListItem>
-                                <asp:ListItem Value="3" Text="Thu hộ"></asp:ListItem>
-                                <asp:ListItem Value="4" Text="Công nợ"></asp:ListItem>
-                            </asp:DropDownList>
-
-
-
-                            <asp:DropDownList ID="ddlShippingType" runat="server" CssClass="form-control">
-                                <asp:ListItem Value="0" Text="--Phương thức giao hàng--"></asp:ListItem>
-                                <asp:ListItem Value="1" Text="Lấy trực tiếp"></asp:ListItem>
-                                <asp:ListItem Value="2" Text="Chuyển bưu điện"></asp:ListItem>
-                                <asp:ListItem Value="3" Text="Chuyển proship"></asp:ListItem>
-                                <asp:ListItem Value="4" Text="Chuyển xe"></asp:ListItem>
-                            </asp:DropDownList>
-
-
-
-                            <a href="javascript:;" onclick="searchAgent()" class="btn primary-btn h45-btn"><i class="fa fa-search"></i></a>
-                            <asp:Button ID="btnSearch" runat="server" CssClass="btn primary-btn h45-btn" OnClick="btnSearch_Click" Style="display: none" />
-
-
-
-
-                        </div>
-
-                    </div>--%>
                     <div class="panel-table clear">
                         <div class="responsive-table">
                             <table class="table table-checkable table-product">

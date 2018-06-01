@@ -524,8 +524,8 @@ function showOrderStatus() {
     fr += "             <div class=\"row-left\">Trạng thái xử lý:</div>";
     fr += "             <div class=\"row-right\">"
     fr += "                 <select class=\"form-control excute-status\">";
-    fr += "                     <option value=\"1\">Đang chờ xử lý</option>";
-    fr += "                     <option value=\"2\">Đã xử lý</option>";
+    fr += "                     <option value=\"1\">Đang xử lý</option>";
+    fr += "                     <option value=\"2\">Đã hoàn tất</option>";
     fr += "                     <option value=\"3\">Đã hủy</option>";
     fr += "                 </select>";
     fr += "             </div>";

@@ -178,8 +178,8 @@ namespace IM_PJ.Controllers
         {
             var list = new List<ProductSQL>();
             var sql = @"Select p.ProductStyle as ProductStyle, c.CategoryName, p.*, i.quantiyIN as InProduct, o.quantiyIN as OutProduct, (i.quantiyIN - o.quantiyIN) as leftProduct, m.anhsanpham from tbl_product as p";
-            sql += " LEFT OUTER JOIN (select ParentID, sum(quantity) as quantiyIN from tbl_InOutProductVariable where [Type]= 1 group by parentid) as i ON p.ID = i.ParentID ";
-            sql += " LEFT OUTER JOIN (select ParentID, sum(quantity) as quantiyIN from tbl_InOutProductVariable where [Type]= 2 group by parentid) as o ON p.ID = o.ParentID ";
+            sql += " LEFT OUTER JOIN (select ParentID, sum(quantity) as quantiyIN from tbl_StockManager where [Type]= 1 group by parentid) as i ON p.ID = i.ParentID ";
+            sql += " LEFT OUTER JOIN (select ParentID, sum(quantity) as quantiyIN from tbl_StockManager where [Type]= 2 group by parentid) as o ON p.ID = o.ParentID ";
 
             sql += " LEFT OUTER JOIN (SELECT ProductID, MIN(ProductImage) AS anhsanpham FROM dbo.tbl_ProductImage GROUP BY ProductID) AS m ON p.ID = m.ProductID ";
             sql += " LEFT OUTER JOIN (SELECT ID, CategoryName FROM dbo.tbl_Category) AS c ON c.ID = p.CategoryID where 1 = 1 ";
@@ -265,8 +265,8 @@ namespace IM_PJ.Controllers
         {
             var list = new List<ProductSQL>();
             var sql = @"Select p.ProductStyle as ProductStyle, c.CategoryName, p.*, i.quantiyIN as InProduct, o.quantiyIN as OutProduct, (i.quantiyIN - o.quantiyIN) as leftProduct, m.anhsanpham from tbl_product as p";
-            sql += " LEFT OUTER JOIN (select ParentID, sum(quantity) as quantiyIN from tbl_InOutProductVariable where [Type]= 1 group by parentid) as i ON p.ID = i.ParentID ";
-            sql += " LEFT OUTER JOIN (select ParentID, sum(quantity) as quantiyIN from tbl_InOutProductVariable where [Type]= 2 group by parentid) as o ON p.ID = o.ParentID ";
+            sql += " LEFT OUTER JOIN (select ParentID, sum(quantity) as quantiyIN from tbl_StockManager where [Type]= 1 group by parentid) as i ON p.ID = i.ParentID ";
+            sql += " LEFT OUTER JOIN (select ParentID, sum(quantity) as quantiyIN from tbl_StockManager where [Type]= 2 group by parentid) as o ON p.ID = o.ParentID ";
 
             sql += " LEFT OUTER JOIN (SELECT ProductID, MIN(ProductImage) AS anhsanpham FROM dbo.tbl_ProductImage GROUP BY ProductID) AS m ON p.ID = m.ProductID ";
             sql += " LEFT OUTER JOIN (SELECT ID, CategoryName FROM dbo.tbl_Category) AS c ON c.ID = p.CategoryID where 1 = 1 ";
@@ -344,8 +344,8 @@ namespace IM_PJ.Controllers
         {
             var entity = new ProductStock();
             var sql = @"select t.ID,t.SKU,t.ID, d.quantiyIN as InProduct, k.quantiyIN as OutProduct, (d.quantiyIN - k.quantiyIN) as leftProduct from tbl_ProductVariable as t";
-            sql += " left outer join (select  ProductVariableID, sum(quantity) as quantiyIN from tbl_InOutProductVariable where [Type]= 1 group by ProductVariableID) as d ON t.ID = d.ProductVariableID ";
-            sql += " left outer join (select ProductVariableID, sum(quantity) as quantiyIN from tbl_InOutProductVariable where [Type]= 2 group by ProductVariableID) as k ON t.ID = k.ProductVariableID ";
+            sql += " left outer join (select  ProductVariableID, sum(quantity) as quantiyIN from tbl_StockManager where [Type]= 1 group by ProductVariableID) as d ON t.ID = d.ProductVariableID ";
+            sql += " left outer join (select ProductVariableID, sum(quantity) as quantiyIN from tbl_StockManager where [Type]= 2 group by ProductVariableID) as k ON t.ID = k.ProductVariableID ";
             if (ProductVariableID > 0)
             {
                 sql += " Where t.ID = " + ProductVariableID;

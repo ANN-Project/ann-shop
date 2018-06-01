@@ -514,12 +514,11 @@ namespace NHST.Bussiness
             string ret = "";
             if (ExcuteStatus == 1)
             {
-                ret = "<span class=\"bg-yellow\">Đang chờ xử lý</span>";
+                ret = "<span class=\"bg-yellow\">Đang xử lý</span>";
             }
             else if (ExcuteStatus == 2)
             {
-                ret = "<span class=\"bg-blue\">Đã xử lý</span>";
-
+                ret = "<span class=\"bg-blue\">Đã hoàn tất</span>";
             }
             else
             {
@@ -548,15 +547,15 @@ namespace NHST.Bussiness
             string ret = "";
             if (ExcuteStatus == 1)
             {
-                ret = "<span>Đang chờ xử lý</span>";
+                ret = "<span>Đã hoàn tất</span>";
             }
             else if (ExcuteStatus == 2)
             {
-                ret = "<span>Đã xử lý</span>";
+                ret = "<span>Đã hoàn tất</span>";
             }
             else
             {
-                ret = "<span>Đã xử lý</span>";
+                ret = "<span>Đã hoàn tất</span>";
             }
 
             return ret;
@@ -789,7 +788,7 @@ namespace NHST.Bussiness
             }
             else if (status == "2")
             {
-                return "<span class='blue'>Đã xử lý</span>";
+                return "<span class='blue'>Đã hoàn tất</span>";
             }
             else
             {
@@ -844,7 +843,7 @@ namespace NHST.Bussiness
             }
             else
             {
-                return "<span class='bg-blue'>Đã xử lý</span>";
+                return "<span class='bg-blue'>Đã hoàn tất</span>";
             }
         }
         public static List<countries> loadprefix()

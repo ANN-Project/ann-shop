@@ -288,8 +288,8 @@
                                     </div>
                                     <div class="row-right">
                                         <asp:DropDownList ID="ddlExcuteStatus" runat="server" CssClass="form-control">
-                                            <asp:ListItem Value="1" Text="Đang chờ xử lý"></asp:ListItem>
-                                            <asp:ListItem Value="2" Text="Đã xử lý"></asp:ListItem>
+                                            <asp:ListItem Value="1" Text="Đang xử lý"></asp:ListItem>
+                                            <asp:ListItem Value="2" Text="Đã hoàn tất"></asp:ListItem>
                                             <asp:ListItem Value="3" Text="Đã hủy"></asp:ListItem>
                                         </asp:DropDownList>
                                     </div>
@@ -685,84 +685,6 @@
                 } else {
                     $("#<%=btnOrder.ClientID%>").click();
                 }
-            }
-
-            // show popup Order status
-            function showOrderStatus(content) {
-                var obj = $('body');
-                $(obj).attr('onkeydown', 'keyclose_ms(event)');
-                var bg = "<div id='bg_popup'></div>";
-                var fr = "<div id='pupip' class=\"columns-container1\"><div class=\"container\" id=\"columns\"><div class='row'>" +
-                    "  <div class=\"center_column col-xs-12 col-sm-8\" id=\"popup_content\"><a style='cursor:pointer;right:5px;' onclick='close_popup_ms()' class='close_message'></a>";
-                fr += "     <div class=\"changeavatar\">";
-                fr += "         <div class=\"form-row\">";
-                fr += "             <h2>Hoàn tất đơn hàng</h2>";
-                fr += "         </div>";
-                fr += "         <div class=\"form-row\">";
-                fr += "             <div class=\"row-left\" style=\"width:30%;line-height:40px\">Trạng thái thanh toán:</div>";
-                fr += "             <div class=\"row-right\" style=\"width:65%;\">"
-                fr += "                 <select class=\"form-control payment-status\">";
-                fr += "                     <option value=\"1\">Chưa thanh toán</option>";
-                fr += "                     <option value=\"2\">Thanh toán thiếu</option>";
-                fr += "                     <option value=\"3\">Đã thanh toán</option>";
-                fr += "                 </select>";
-                fr += "             </div>";
-                fr += "         </div>";
-                fr += "         <div class=\"form-row\">";
-                fr += "             <div class=\"row-left\" style=\"width:30%;line-height:40px\">Trạng thái xử lý:</div>";
-                fr += "             <div class=\"row-right\" style=\"width:65%;\">"
-                if (content == true) {
-                    fr += "                 <label style=\"line-height:40px;\">Đang chờ xử lý</label>";
-                } else {
-                    fr += "                 <select class=\"form-control excute-status\">";
-                    fr += "                     <option value=\"1\">Đang chờ xử lý</option>";
-                    fr += "                     <option value=\"2\">Đã xử lý</option>";
-                    fr += "                     <option value=\"3\">Đã hủy</option>";
-                    fr += "                 </select>";
-                }
-                fr += "             </div>";
-                fr += "         </div>";
-                fr += "         <div class=\"form-row\">";
-                fr += "             <div class=\"row-left\" style=\"width:30%;line-height:40px\">Phương thức thanh toán:</div>";
-                fr += "             <div class=\"row-right\" style=\"width:65%;\">"
-                fr += "                 <select class=\"form-control payment-type\">";
-                fr += "                     <option value=\"2\">Chuyển khoản</option>";
-                fr += "                     <option value=\"1\">Tiền mặt</option>";
-                fr += "                     <option value=\"3\">Thu hộ</option>";
-                fr += "                     <option value=\"4\">Công nợ</option>";
-                fr += "                 </select>";
-                fr += "             </div>";
-                fr += "         </div>";
-                fr += "         <div class=\"form-row\">";
-                fr += "             <div class=\"row-left\" style=\"width:30%;line-height:40px\">Phương thức giao hàng:</div>";
-                fr += "             <div class=\"row-right\" style=\"width:65%;\">"
-                fr += "                 <select class=\"form-control shipping-type\">";
-                fr += "                     <option value=\"1\">Lấy trực tiếp</option>";
-                fr += "                     <option value=\"2\">Chuyển bưu điện</option>";
-                fr += "                     <option value=\"3\">Chuyển proship</option>";
-                fr += "                     <option value=\"4\">Chuyển xe</option>";
-                fr += "                 </select>";
-                fr += "             </div>";
-                fr += "         </div>";
-                fr += "         <div class=\"clearfix\"></div>";
-                fr += "         <div class=\"clearfix\"></div>";
-                fr += "         <div class=\"btn-content\" style=\"text-align:center;\">";
-                fr += "             <a class=\"btn primary-btn fw-btn not-fullwidth\" style=\"padding:10px 30px;margin:10px 0\" href=\"javascript:;\" onclick=\"insertOrder()\" >Tạo đơn hàng</a>";
-                fr += "         </div>";
-                fr += "     </div>";
-                fr += "   </div>";
-                fr += "</div></div></div>";
-                $(bg).appendTo($(obj)).show().animate({
-                    "opacity": 0.7
-                }, 800);
-                $(fr).appendTo($(obj));
-                setTimeout(function() {
-                    $('#pupip').show().animate({
-                        "opacity": 1,
-                        "top": 20 + "%"
-                    }, 200);
-                    $("#bg_popup").attr("onclick", "close_popup_ms()");
-                }, 1000);
             }
 
             // count guest change

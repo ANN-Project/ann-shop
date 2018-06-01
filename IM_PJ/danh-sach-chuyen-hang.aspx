@@ -27,7 +27,7 @@
                                         <asp:ListItem Value="0" Text="-- Tất cả trạng thái --"></asp:ListItem>
                                         <asp:ListItem Value="1" Text="Chưa chuyển"></asp:ListItem>
                                         <asp:ListItem Value="2" Text="Đã chuyển"></asp:ListItem>
-                                        <asp:ListItem Value="3" Text="Đã xử lý"></asp:ListItem>
+                                        <asp:ListItem Value="3" Text="Đã hoàn tất"></asp:ListItem>
                                     </asp:DropDownList>
                                 </div>
                                 <div class="col-md-1">

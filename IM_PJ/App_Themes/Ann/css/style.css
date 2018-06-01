@@ -1366,7 +1366,6 @@ textarea.form-control {
   margin-bottom: 20px; }
   .filter-above-wrap .filter-control {
     display: block;
-    float: left;
     margin-right: 30px; }
     .filter-above-wrap .filter-control:last-child {
       margin-right: 0; }
