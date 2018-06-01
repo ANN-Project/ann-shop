@@ -52,9 +52,8 @@ namespace IM_PJ
                 if (product != null)
                 {
                     var cate = CategoryController.GetByID(Convert.ToInt32(product.CategoryID));
-                    ltrBack.Text = "<a href=\"/danh-sach-san-pham?categoryid=" + product.CategoryID + "\" class=\"btn primary-btn h45-btn\">Trở về</a>";
                     lblCategoryName.Text = product.ProductTitle;
-                    ltrAddnew.Text = "<a href=\"/them-anh-san-pham?productid=" + productID + "\" class=\"h45-btn btn\" style=\"background-color: #ff3f4c\">Thêm mới</a>";
+                    ltrAddnew.Text = "<a href=\"/them-anh-san-pham?productid=" + productID + "\" class=\"h45-btn primary-btn btn\">Thêm mới</a>";
                 }
                 a = ProductImageController.GetByProductID(productID);
                 pagingall(a);

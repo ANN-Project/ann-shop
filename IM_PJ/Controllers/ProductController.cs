@@ -203,8 +203,15 @@ namespace IM_PJ.Controllers
                 var entity = new ProductSQL();
                 if (reader["ID"] != DBNull.Value)
                     entity.ID = reader["ID"].ToString().ToInt(0);
-                if (reader["ProductImage"] != DBNull.Value)
+                if (!string.IsNullOrEmpty(reader["ProductImage"].ToString()))
+                {
                     entity.ProductImage = reader["ProductImage"].ToString();
+                }
+                else
+                {
+                    entity.ProductImage = "/App_Themes/Ann/image/placeholder.png";
+                }
+                    
                 if (reader["ProductTitle"] != DBNull.Value)
                     entity.ProductTitle = reader["ProductTitle"].ToString();
                 if (reader["ProductSKU"] != DBNull.Value)
@@ -224,7 +231,7 @@ namespace IM_PJ.Controllers
                 }
                 else
                 {
-                    entity.ProductInstockStatus = "<span class=\"bg-yellow\">Đang nhập kho</span>";
+                    entity.ProductInstockStatus = "<span class=\"bg-yellow\">Nhập hàng</span>";
                     entity.StockStatus = 3;
                 }
 
@@ -278,7 +285,6 @@ namespace IM_PJ.Controllers
             {
                 int quantityIn = reader["InProduct"].ToString().ToInt(0);
                 int quantityOut = reader["OutProduct"].ToString().ToInt(0);
-                //int quantityLeft = reader["leftProduct"].ToString().ToInt(0);
                 int quantityLeft = quantityIn - quantityOut;
                 int stockstatus = reader["StockStatus"].ToString().ToInt(0);
                 var entity = new ProductSQL();
@@ -290,8 +296,6 @@ namespace IM_PJ.Controllers
                     entity.ProductTitle = reader["ProductTitle"].ToString();
                 if (reader["ProductSKU"] != DBNull.Value)
                     entity.ProductSKU = reader["ProductSKU"].ToString();
-                //if (reader["StockStatus"] != DBNull.Value)
-                //entity.StockStatus = reader["StockStatus"].ToString().ToInt(0);
                 if (quantityIn > 0)
                 {
                     if (quantityLeft > 0)
@@ -307,21 +311,9 @@ namespace IM_PJ.Controllers
                 }
                 else
                 {
-                    entity.ProductInstockStatus = "<span class=\"bg-yellow\">Đang nhập kho</span>";
+                    entity.ProductInstockStatus = "<span class=\"bg-yellow\">Nhập hàng</span>";
                     entity.StockStatus = 3;
                 }
-                //if (stockstatus != 3)
-                //{
-                //    if (quantityLeft > 0)
-                //        entity.ProductInstockStatus = "Còn hàng";
-                //    else
-                //        entity.ProductInstockStatus = "Hết hàng";
-                //}
-                //else
-                //{
-                //    entity.ProductInstockStatus = "Đang chờ nhập hàng";
-                //    quantityIn = -1;
-                //}
 
                 entity.TotalProductInstockQuantityIn = quantityIn;
                 entity.TotalProductInstockQuantityOut = quantityOut;
@@ -381,12 +373,10 @@ namespace IM_PJ.Controllers
                 }
                 else
                 {
-                    entity.ProductInstockStatus = "<span class=\"bg-yellow\">Đang chờ nhập hàng</span>";
+                    entity.ProductInstockStatus = "<span class=\"bg-yellow\">Nhập hàng</span>";
 
                 }
                 entity.quantityLeft = quantityLeft;
-                //if (reader["leftProduct"] != DBNull.Value)
-                //    entity.quantityLeft = reader["leftProduct"].ToString().ToInt();
             }
             reader.Close();
             return entity;

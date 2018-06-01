@@ -75,34 +75,33 @@ namespace IM_PJ
                     ViewState["ID"] = id;
                     ViewState["cateID"] = p.CategoryID;
                     ViewState["SKU"] = p.ProductSKU;
-                    ltrBack.Text = "<a href=\"/danh-sach-san-pham.aspx?categoryid=" + p.CategoryID + "\" class=\"btn primary-btn fw-btn not-fullwidth\">Trở về</a>";
-                    ltrEdit.Text = "<a href=\"/thong-tin-san-pham.aspx?id=" + p.ID + "\" class=\"btn primary-btn fw-btn not-fullwidth\">Chỉnh sửa</a>";
-                    txtProductTitle.Text = p.ProductTitle;
-                    pContent.Content = p.ProductContent;
+                    ltrEdit1.Text = "<a href=\"/thong-tin-san-pham.aspx?id=" + p.ID + "\" class=\"btn primary-btn fw-btn not-fullwidth\">Chỉnh sửa</a>";
+                    ltrEdit2.Text = "<a href=\"/thong-tin-san-pham.aspx?id=" + p.ID + "\" class=\"btn primary-btn fw-btn not-fullwidth\">Chỉnh sửa</a>";
+                    lbProductTitle.Text = p.ProductTitle;
+                    pContent.Text = p.ProductContent;
                     lblSKU.Text = p.ProductSKU;
-                    var a = ProductController.GetAllSqlView(0, p.ProductSKU);
+                    var a = ProductController.GetAllSql(0, p.ProductSKU);
                     if(a.Count() > 0)
                     {
                         foreach (var item in a)
                         {
-                            pProductStock.Value = item.TotalProductInstockQuantityLeft;
+                            lbProductStock.Text = item.TotalProductInstockQuantityLeft.ToString();
                         }
                     }
                     else
                     {
-                        pProductStock.Value = 0;
+                        lbProductStock.Text = "0";
                     }
                    
                     ddlStockStatus.SelectedValue = p.StockStatus.ToString();
                     chkManageStock.Checked = Convert.ToBoolean(p.ManageStock);
-                    pRegular_Price.Value = p.Regular_Price;
-                    pCostOfGood.Value = p.CostOfGood;
-                    pRetailPrice.Value = p.Retail_Price;
-                    chkIsHidden.Checked = Convert.ToBoolean(p.IsHidden);
+                    lbRegularPrice.Text = string.Format("{0:N0}", p.Regular_Price);
+                    lbpCostOfGood.Text = string.Format("{0:N0}", p.CostOfGood);
+                    lbRetailPrice.Text = string.Format("{0:N0}", p.Retail_Price);
                     ddlSupplier.SelectedValue = p.SupplierID.ToString();
-                    txtMaterials.Text = p.Materials;
-                    pMinimumInventoryLevel.Value = p.MinimumInventoryLevel;
-                    pMaximumInventoryLevel.Value = p.MaximumInventoryLevel;
+                    lbMaterials.Text = p.Materials;
+                    lbpMinimumInventoryLevel.Text = p.MinimumInventoryLevel.ToString();
+                    lbpMaximumInventoryLevel.Text = p.MaximumInventoryLevel.ToString();
 
                     hdfTable.Value = p.ProductStyle.ToString();
                     var ka = ProductVariableController.SearchProductID(p.ID, "");
@@ -155,7 +154,15 @@ namespace IM_PJ
                 {
                     var item = acs[i];
                     html.Append("<tr>");
-                    html.Append("   <td style=\"width:150px;\"><img src=\"" + item.Image + "\" alt=\"\" style=\"width:50%;\" /></td>");
+                    if (!string.IsNullOrEmpty(item.Image))
+                    {
+                        html.Append("   <td><img src=\"" + item.Image + "\"/></td>");
+                    }
+                    else
+                    {
+                        html.Append("   <td><img src=\"/App_Themes/Ann/image/placeholder.png\"/></td>");
+                    }
+
                     string date = string.Format("{0:dd/MM/yyyy}", item.CreatedDate);
                     string ishidden = "";
                     if (item.IsHidden != null)
@@ -167,15 +174,6 @@ namespace IM_PJ
                     {
                         ishidden = PJUtils.IsHiddenStatus(false);
                     }
-                    html.Append("   <td>" + item.SKU + "</td>");
-                   
-                    html.Append("   <td>" + string.Format("{0:N0}", item.Regular_Price) + "</td>");
-                    int k = Convert.ToInt32(ViewState["role"]);
-                    if (k == 0)
-                    {
-                        html.Append("   <td>" + string.Format("{0:N0}", item.CostOfGood) + "</td>");
-                    }
-                    html.Append("   <td>" + string.Format("{0:N0}", item.RetailPrice) + "</td>");
 
                     var value = ProductVariableValueController.GetByProductVariableID(item.ID);
                     if (value != null)
@@ -188,14 +186,26 @@ namespace IM_PJ
                             list += temp.VariableName + "|";
                         }
                         html.Append("</td>");
-
                     }
+
+                    html.Append("   <td>" + item.SKU + "</td>");
+
+                    html.Append("   <td>" + string.Format("{0:N0}", item.Regular_Price) + "</td>");
+
+                    int k = Convert.ToInt32(ViewState["role"]);
+                    if (k == 0)
+                    {
+                        html.Append("   <td>" + string.Format("{0:N0}", item.CostOfGood) + "</td>");
+                    }
+
+                    html.Append("   <td>" + string.Format("{0:N0}", item.RetailPrice) + "</td>");
 
                     var stock = ProductController.GetStock(item.ID);
                     if (stock != null)
                     {
                         html.Append("   <td>" + stock.quantityLeft + "</td>");
                         html.Append("   <td>" + stock.ProductInstockStatus + "</td>");
+
                     }
                     else
                     {
@@ -204,7 +214,11 @@ namespace IM_PJ
                     }
 
                     html.Append("   <td>" + date + "</td>");
-
+                    html.Append("   <td>" + ishidden + "</td>");
+                    html.Append("   <td>");
+                    html.Append("       <a href=\"/thong-tin-thuoc-tinh-san-pham.aspx?id=" + item.ID + "\" title=\"Xem chi tiết\" class=\"btn primary-btn h45-btn\"><i class=\"fa fa-info-circle\" aria-hidden=\"true\"></i></a>");
+                    html.Append("       <a href=\"/gia-tri-thuoc-tinh-san-pham.aspx?productvariableid=" + item.ID + "\" title=\"Xem thuộc tính\" class=\"btn primary-btn h45-btn\"><i class=\"fa fa-file-text-o\" aria-hidden=\"true\"></i></a>");
+                    html.Append("   </td>");
                     html.Append("</tr>");
                 }
             }

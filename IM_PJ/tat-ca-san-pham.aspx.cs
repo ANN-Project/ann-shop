@@ -46,7 +46,7 @@ namespace IM_PJ
         {
             var category = CategoryController.GetAllWithIsHidden(false);
             ddlCategory.Items.Clear();
-            ddlCategory.Items.Insert(0, new ListItem("-- Tất cả danh mục --", "0"));
+            ddlCategory.Items.Insert(0, new ListItem("Tất cả danh mục", "0"));
             if (category.Count > 0)
             {
                 foreach (var p in category)
@@ -69,7 +69,7 @@ namespace IM_PJ
             if (Request.QueryString["categoryid"] != null)
                 categoryID = Request.QueryString["categoryid"].ToInt(0);
 
-            txtAgentName.Text = s;
+            txtSearchProduct.Text = s;
             ddlCategory.SelectedValue = categoryID.ToString();
             ddlType.SelectedValue = type.ToString();
             List<ProductSQL> a = new List<ProductSQL>();
@@ -138,10 +138,10 @@ namespace IM_PJ
                     string date = string.Format("{0:dd/MM/yyyy}", item.CreatedDate);
                     html.Append("   <td>" + date + "</td>");
                     html.Append("   <td>");
-                    html.Append("       <a href=\"/danh-sach-anh-san-pham.aspx?id=" + item.ID + "\" class=\"btn primary-btn h45-btn\">Upload Ảnh</a>");
+                    html.Append("       <a href=\"/danh-sach-anh-san-pham.aspx?id=" + item.ID + "\" title=\"Xem hình ảnh\" class=\"btn primary-btn h45-btn\"><i class=\"fa fa-file-image-o\" aria-hidden=\"true\"></i></a>");
                     if (item.ProductStyle == 2)
                     {
-                        html.Append(" <a href=\"/thuoc-tinh-san-pham.aspx?id=" + item.ID + "\" class=\"btn primary-btn h45-btn\">Thuộc tính</a>");
+                        html.Append(" <a href=\"/thuoc-tinh-san-pham.aspx?id=" + item.ID + "\" title=\"Xem thuộc tính\" class=\"btn primary-btn h45-btn\"><i class=\"fa fa-file-text-o\" aria-hidden=\"true\"></i></a>");
                     }
 
                     html.Append("  </td>");
@@ -292,7 +292,7 @@ namespace IM_PJ
 
         protected void btnSearch_Click(object sender, EventArgs e)
         {
-            string search = txtAgentName.Text;
+            string search = txtSearchProduct.Text;
             Response.Redirect("/tat-ca-san-pham?s=" + search + "&type=" + ddlType.SelectedValue + "&categoryid=" + ddlCategory.SelectedValue + "");
         }
         public class danhmuccon1

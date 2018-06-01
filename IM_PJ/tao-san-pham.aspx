@@ -98,11 +98,7 @@
                                     Danh mục
                                 </div>
                                 <div class="row-right parent">
-
                                     <select id="ddlCategory" date-name="parentID" style="margin-bottom: 15px;" runat="server" class="form-control slparent" data-level="1" onchange="chooseParent($(this))"></select>
-
-                                    <%--<asp:DropDownList ID="ddlCategoryParent" runat="server" CssClass="form-control" AutoPostBack="True">
-                                            </asp:DropDownList>--%>
                                 </div>
                             </div>
 
@@ -119,13 +115,11 @@
 
                             <div class="form-row">
                                 <div class="row-left">
-                                    SKU
-                                    <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" ControlToValidate="txtProductSKU" ForeColor="Red"
-                                        ErrorMessage="(*)" Display="Dynamic" SetFocusOnError="true"></asp:RequiredFieldValidator>
+                                    Mã sản phẩm
+                                    <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" ControlToValidate="txtProductSKU" ForeColor="Red" ErrorMessage="(*)" Display="Dynamic" SetFocusOnError="true"></asp:RequiredFieldValidator>
                                 </div>
                                 <div class="row-right" style="display: inline-flex">
                                     <asp:TextBox ID="txtProductSKU" runat="server" CssClass="form-control" onblur="CheckSKU()" placeholder="SKU"></asp:TextBox>
-                                    <%-- <div><a href="javascript:;" style="margin-left: 16px;" class="btn primary-btn fw-btn not-fullwidth" onclick="CheckSKU()">Kiểm tra</a></div>--%>
                                 </div>
                             </div>
                             <div class="form-row">
@@ -151,29 +145,23 @@
 
                             <div class="form-row" id="Minimum">
                                 <div class="row-left">
-                                    Số lượng tồn kho ít nhất
-                                   
+                                    Tồn kho ít nhất
                                 </div>
                                 <div class="row-right">
-                                    <telerik:RadNumericTextBox runat="server" CssClass="form-control width-notfull" Skin="MetroTouch"
-                                        ID="pMinimumInventoryLevel" MinValue="0" NumberFormat-GroupSizes="3" Width="100%" Value="0" NumberFormat-DecimalDigits="0">
-                                    </telerik:RadNumericTextBox>
+                                    <asp:TextBox type="number" min="0" ID="pMinimumInventoryLevel" runat="server" CssClass="form-control" placeholder="Số lượng tồn kho ít nhất"></asp:TextBox>
                                 </div>
                             </div>
                             <div class="form-row" id="Maximum">
                                 <div class="row-left">
-                                    Số lượng tồn kho nhiều nhất
-                                  
+                                    Tồn kho nhiều nhất
                                 </div>
                                 <div class="row-right">
-                                    <telerik:RadNumericTextBox runat="server" CssClass="form-control width-notfull" Skin="MetroTouch"
-                                        ID="pMaximumInventoryLevel" MinValue="0" NumberFormat-GroupSizes="3" Width="100%" Value="0" NumberFormat-DecimalDigits="0">
-                                    </telerik:RadNumericTextBox>
+                                    <asp:TextBox type="number" min="0" ID="pMaximumInventoryLevel" runat="server" CssClass="form-control" placeholder="Số lượng tồn kho nhiều nhất"></asp:TextBox>
                                 </div>
                             </div>
                             <div class="form-row" id="ManageStock">
                                 <div class="row-left">
-                                    Quản lý trong kho
+                                    Quản lý kho
                                 </div>
                                 <div class="row-right">
                                     <asp:CheckBox ID="chkManageStock" runat="server" Checked="true" />
@@ -192,53 +180,30 @@
                             <div class="form-row">
                                 <div class="row-left">
                                     Giá sỉ
-                                    <asp:RequiredFieldValidator ID="RequiredFieldValidator3" runat="server" ControlToValidate="pRegular_Price" ForeColor="Red"
-                                        ErrorMessage="(*)" Display="Dynamic" SetFocusOnError="true"></asp:RequiredFieldValidator>
+                                    <asp:RequiredFieldValidator ID="RequiredFieldValidator3" runat="server" ControlToValidate="pRegular_Price" ForeColor="Red" ErrorMessage="(*)" Display="Dynamic" SetFocusOnError="true"></asp:RequiredFieldValidator>
                                 </div>
                                 <div class="row-right">
-                                    <telerik:RadNumericTextBox runat="server" CssClass="form-control width-notfull" Skin="MetroTouch"
-                                        ID="pRegular_Price" MinValue="0" NumberFormat-GroupSizes="3" Width="100%" Value="0" NumberFormat-DecimalDigits="0">
-                                    </telerik:RadNumericTextBox>
+                                    <asp:TextBox type="number" min="0" ID="pRegular_Price" runat="server" CssClass="form-control" placeholder="Giá sỉ"></asp:TextBox>
                                 </div>
                             </div>
                             <div class="form-row">
                                 <div class="row-left">
                                     Giá vốn
-                                    <asp:RequiredFieldValidator ID="RequiredFieldValidator4" runat="server" ControlToValidate="pCostOfGood" ForeColor="Red"
-                                        ErrorMessage="(*)" Display="Dynamic" SetFocusOnError="true"></asp:RequiredFieldValidator>
+                                    <asp:RequiredFieldValidator ID="RequiredFieldValidator4" runat="server" ControlToValidate="pCostOfGood" ForeColor="Red" ErrorMessage="(*)" Display="Dynamic" SetFocusOnError="true"></asp:RequiredFieldValidator>
                                 </div>
                                 <div class="row-right">
-                                    <telerik:RadNumericTextBox runat="server" CssClass="form-control width-notfull" Skin="MetroTouch"
-                                        ID="pCostOfGood" MinValue="0" NumberFormat-GroupSizes="3" Width="100%" Value="0" NumberFormat-DecimalDigits="0">
-                                    </telerik:RadNumericTextBox>
+                                    <asp:TextBox type="number" min="0" ID="pCostOfGood" runat="server" CssClass="form-control" placeholder="Giá vốn"></asp:TextBox>
                                 </div>
                             </div>
                             <div class="form-row">
                                 <div class="row-left">
-                                    Giá bán lẻ
-                                    <asp:RequiredFieldValidator ID="RequiredFieldValidator5" runat="server" ControlToValidate="pRetailPrice" ForeColor="Red"
-                                        ErrorMessage="(*)" Display="Dynamic" SetFocusOnError="true"></asp:RequiredFieldValidator>
+                                    Giá lẻ
+                                    <asp:RequiredFieldValidator ID="RequiredFieldValidator5" runat="server" ControlToValidate="pRetailPrice" ForeColor="Red" ErrorMessage="(*)" Display="Dynamic" SetFocusOnError="true"></asp:RequiredFieldValidator>
                                 </div>
                                 <div class="row-right">
-                                    <telerik:RadNumericTextBox runat="server" CssClass="form-control width-notfull" Skin="MetroTouch"
-                                        ID="pRetailPrice" MinValue="0" NumberFormat-GroupSizes="3" Width="100%" Value="0" NumberFormat-DecimalDigits="0">
-                                    </telerik:RadNumericTextBox>
+                                    <asp:TextBox type="number" min="0" ID="pRetailPrice" runat="server" CssClass="form-control" placeholder="Giá lẻ"></asp:TextBox>
                                 </div>
                             </div>
-                            <%--<div class="form-row">
-                                <div class="row-left">
-                                    Ảnh sản phẩm
-                                </div>
-                                <div class="row-right">
-                                    <telerik:RadAsyncUpload Skin="Metro" runat="server" ID="hinhDaiDien" ChunkSize="0"
-                                        Localization-Select="Chọn ảnh" AllowedFileExtensions=".jpeg,.jpg,.png"
-                                        MultipleFileSelection="Disabled" OnClientFileSelected="OnClientFileSelected">
-                                    </telerik:RadAsyncUpload>
-                                    <asp:Image runat="server" ID="imgDaiDien" Width="200" />
-                                    <asp:HiddenField runat="server" ID="listImg" ClientIDMode="Static" />
-                                    <div class="hidImage"></div>
-                                </div>
-                            </div>--%>
                             <div class="form-row">
                                 <div class="row-left">
                                     Ảnh sản phẩm
@@ -296,54 +261,7 @@
 
                                     <div class="variableselect" style="float: left; width: 100%">
                                         <span id="selectvariabletitle">Các thuộc tính đã chọn: 
-                                            <a href="javascript:;" onclick="generateVariable()" id="generateVariable"
-                                                class="btn primary-btn fw-btn not-fullwidth">Thiết lập thuộc tính</a></span>
-                                        <%--<div class="variable-select">
-                                            <div class="variablename" data-name="Color" data-id="1">
-                                                <strong>Color:</strong>
-                                            </div>
-                                            <div class="variablevalue">
-                                                <div class="variablevalue-item" data-valueid="1" data-valuename="xanh">
-                                                    <span class="v-value">Xanh </span>
-                                                    <a href="javascript:;" class="btn primary-btn fw-btn not-fullwidth v-delete">Xóa</a>
-                                                </div>
-                                                <div class="variablevalue-item" data-valueid="2" data-valuename="Đỏ">
-                                                    <span class="v-value">Đỏ</span>
-                                                    <a href="javascript:;" class="btn primary-btn fw-btn not-fullwidth v-delete">Xóa</a>
-                                                </div>
-                                                <div class="variablevalue-item" data-valueid="3" data-valuename="xanh">
-                                                    <span class="v-value">Vàng</span>
-                                                    <a href="javascript:;" class="btn primary-btn fw-btn not-fullwidth v-delete">Xóa</a>
-                                                </div>
-                                                <div class="variablevalue-item" data-valueid="4" data-valuename="xanh">
-                                                    <span class="v-value">Trắng</span>
-                                                    <a href="javascript:;" class="btn primary-btn fw-btn not-fullwidth v-delete">Xóa</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="variable-select">
-                                            <div class="variablename" data-name="Color" data-id="1">
-                                                <strong>Size:</strong>
-                                            </div>
-                                            <div class="variablevalue">
-                                                <div class="variablevalue-item" data-valueid="1" data-valuename="xanh">
-                                                    <span class="v-value">XXL </span>
-                                                    <a href="javascript:;" class="btn primary-btn fw-btn not-fullwidth v-delete">Xóa</a>
-                                                </div>
-                                                <div class="variablevalue-item" data-valueid="2" data-valuename="Đỏ">
-                                                    <span class="v-value">XL</span>
-                                                    <a href="javascript:;" class="btn primary-btn fw-btn not-fullwidth v-delete">Xóa</a>
-                                                </div>
-                                                <div class="variablevalue-item" data-valueid="3" data-valuename="xanh">
-                                                    <span class="v-value">Vàng</span>
-                                                    <a href="javascript:;" class="btn primary-btn fw-btn not-fullwidth v-delete">Xóa</a>
-                                                </div>
-                                                <div class="variablevalue-item" data-valueid="4" data-valuename="xanh">
-                                                    <span class="v-value">Trắng</span>
-                                                    <a href="javascript:;" class="btn primary-btn fw-btn not-fullwidth v-delete">Xóa</a>
-                                                </div>
-                                            </div>
-                                        </div>--%>
+                                            <a href="javascript:;" onclick="generateVariable()" id="generateVariable" class="btn primary-btn fw-btn not-fullwidth">Thiết lập thuộc tính</a></span>
                                     </div>
                                     <div class="numbertype" style="float: left; width: 100%; display: none">
                                         <span id="settype">Thêm nhanh: 
@@ -352,7 +270,7 @@
                                         <br />
                                         <div class="form-row">
                                             <div class="row-left">
-                                                Số lượng tồn kho nhiều nhất:
+                                                Tồn kho nhiều nhất:
                                             </div>
                                             <div class="row-right">
                                                 <input class="form-control maxquantity" type="text" value="0" />
@@ -360,7 +278,7 @@
                                         </div>
                                         <div class="form-row">
                                             <div class="row-left">
-                                                Số lượng tồn kho ít nhất:
+                                                Tồn kho ít nhất:
                                             </div>
                                             <div class="row-right">
                                                 <input class="form-control miniquantity" type="text" value="0" />
@@ -372,8 +290,6 @@
                                                     class="btn primary-btn fw-btn not-fullwidth">Thêm</a>
                                             </div>
                                         </div>
-
-
                                     </div>
                                     <style>
                                         .generat-variable-content {
@@ -402,78 +318,14 @@
                                             </div>
                                         </div>
                                         <div class="list-item-genred">
-                                            <%--<div class="item-var-gen" data-name-id="1|2" data-value-id="1|2" data-name-text="Color|Size|"
-                                                data-value-text="Xanh|XXL|">
-                                                <div class="form-row">
-                                                    <div class="row-left">
-                                                        Thông tin
-                                                    </div>
-                                                    <div class="row-right">
-                                                        <p><strong>Color: Xanh </strong></p>
-                                                        <p><strong>Size: XXL </strong></p>
-                                                    </div>
-                                                </div>
-                                                <div class="form-row">
-                                                    <div class="row-left">
-                                                        SKU
-                                                    </div>
-                                                    <div class="row-right">
-                                                        <input type="text" class="form-control productvariablesku" />
-                                                    </div>
-                                                </div>
-                                                <div class="form-row">
-                                                    <div class="row-left">
-                                                        Regular Price
-                                                    </div>
-                                                    <div class="row-right">
-                                                        <input class="form-control regularprice" type="number" min="0" />
-                                                    </div>
-                                                </div>
-                                                <div class="form-row">
-                                                    <div class="row-left">
-                                                        Cost of good
-                                                    </div>
-                                                    <div class="row-right">
-                                                        <input class="form-control costofgood" type="number" min="0" />
-                                                    </div>
-                                                </div>
-                                                <div class="form-row">
-                                                    <div class="row-left">
-                                                        Retail price
-                                                    </div>
-                                                    <div class="row-right">
-                                                        <input class="form-control retailprice" type="number" min="0" />
-                                                    </div>
-                                                </div>
-                                                <div class="form-row">
-                                                    <div class="row-left">
-                                                        <a href="javascript:;" class="btn primary-btn fw-btn not-fullwidth">Xóa</a>
-                                                    </div>
-                                                    <div class="row-right">
-                                                    </div>
-                                                </div>
-                                            </div>--%>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <%-- <div class="form-row" style="border: solid 1px #ccc; padding: 10px;">
-                                <div class="form-row">
-                                    <h3 class="no-margin">Thuộc tính sản phẩm</h3>
-                                </div>
-                                <asp:Literal ID="ltrVariable" runat="server"></asp:Literal>
-                                <div class="form-row">
-                                    <a href="javascript:;" onclick="addVariable()" class="btn primary-btn fw-btn not-fullwidth">Thêm thuộc tính</a>
-                                </div>
-                                <div class="form-row variable-selected">
-                                </div>
-                            </div>--%>
                             <div class="form-row">
-                                <%--<a href="javascript:;" class="btn primary-btn fw-btn not-fullwidth" onclick="AddNewProduct()">Tạo mới sản phẩm</a>--%>
                                 <a href="javascript:;" class="btn primary-btn fw-btn not-fullwidth" onclick="addNewProduct()">Tạo mới</a>
                                 <asp:Button ID="btnLogin" runat="server" CssClass="btn primary-btn fw-btn not-fullwidth" Text="Tạo mới" OnClick="btnLogin_Click" Style="display: none" />
                                 <asp:Literal ID="ltrBack" runat="server"></asp:Literal>
-                                <%--<a href="/quan-ly-dai-ly" class="btn primary-btn fw-btn not-fullwidth">Quay về danh sách</a>--%>
                             </div>
                         </div>
                     </div>
@@ -564,6 +416,7 @@
                     $("#selectvariabletitle").show();
                 }
             }
+
             function deleteValueInGroup(obj) {
                 var c = confirm('Bạn muốn xóa giá trị này phải không?');
                 if (c == true) {
@@ -579,6 +432,7 @@
                     }
                 }
             }
+
             function deleteGroup(obj) {
                 var c = confirm('Bạn muốn xóa thuộc tính này phải không?');
                 if (c == true) {
@@ -587,7 +441,6 @@
                         $("#selectvariabletitle").hide();
                     }
                 }
-
             }
 
             function chooseParent(obj) {
@@ -641,8 +494,6 @@
                 }
             }
 
-
-
             function setMax() {
                 var value = $(".numbertype").find(".maxquantity").val();
                 var value1 = $(".numbertype").find(".miniquantity").val();
@@ -653,13 +504,11 @@
                 });
             }
 
-
             function generateVariable() {
                 var giasi = $("#<%=pRegular_Price.ClientID%>").val();
                 var giavon = $("#<%=pCostOfGood.ClientID%>").val();
                 var giale = $("#<%=pRetailPrice.ClientID%>").val();
                 var SKU = $("#<%=txtProductSKU.ClientID%>").val();
-
 
                 var checkError = false;
                 if (giasi == 0 || giavon == 0 || giale == 0 || isBlank(SKU)) {
@@ -858,190 +707,6 @@
                 });
                 }
             }
-          <%--  function generateVariable() {
-                var giasi = $("#<%=pRegular_Price.ClientID%>").val();
-                var giavon = $("#<%=pCostOfGood.ClientID%>").val();
-                var giale = $("#<%=pRetailPrice.ClientID%>").val();
-                var SKU = $("#<%=txtProductSKU.ClientID%>").val();
-                if ($(".variablevalue-item").length > 0) {
-                    var parentnameid = "";
-                    var listname = "";
-                    var listname_id = "";
-                    var listvalue = "";
-                    var listvalue_id = "";
-
-                    if ($(".variable-select").length > 0) {
-                        $(".variable-select").each(function () {
-                            parentnameid += $(this).attr("data-name") + ":";
-                            //listname += $(this).attr("data-name") + "|";
-                            //listname_id += $(this).attr("data-id") + "|";
-                            $(this).find(".variablevalue").find(".variablevalue-item").each(function () {
-                                parentnameid += $(this).attr("data-valueid") + "-" + $(this).attr("data-valuename") + ";"
-                                //listvalue += $(this).attr("data-valuename") + "|";
-                                //listvalue_id += $(this).attr("data-valueid") + "|";
-                            });
-                            parentnameid += "|";
-                        });
-                    }
-                    var list = parentnameid.split('|');
-                    if (list.length - 1 > 0) {
-                        if (list.length - 1 > 1) {
-                            var list1 = list[0];
-                            var list2 = list[1];
-
-                            var l1_2ve = list1.split(':');
-                            var l1_ve1 = l1_2ve[0];
-                            var l1_ve2 = l1_2ve[1].split(';');
-
-                            var l1_ve1_2ve = l1_ve1.split('-');
-                            var l1_ve1_name = l1_ve1_2ve[0];
-                            var l1_ve1_value = l1_ve1_2ve[1];
-
-                            var l2_2ve = list2.split(':');
-                            var l2_ve1 = l2_2ve[0];
-                            var l2_ve2 = l2_2ve[1].split(';');
-
-                            var l2_ve1_2ve = l2_ve1.split('-');
-                            var l2_ve1_name = l2_ve1_2ve[0];
-                            var l2_ve1_value = l2_ve1_2ve[1];
-
-                            for (var i = 0; i < l1_ve2.length - 1; i++) {
-                                var item = l1_ve2[i].split('-');
-                                var item_valuename = item[0];
-                                var item_valueid = item[1];
-
-                                for (var j = 0; j < l2_ve2.length - 1; j++) {
-                                    var item1 = l2_ve2[j].split('-');
-                                    var item1_valuename = item1[0];
-                                    var item1_valueid = item1[1];
-                                    var html = "";
-                                    var datavalue = item_valueid + "|" + item1_valueid + "|";
-                                    var check = false;
-                                    $(".item-var-gen").each(function () {
-                                        if ($(this).attr("data-value-id") == datavalue) {
-                                            check = true;
-                                        }
-                                    });
-
-                                    if (check == false) {
-                                        if (l1_ve1_name == "Color") {
-                                            var nameUpload = (item_valueid + item1_valueid).replace(/\,/g, '');
-                                        }
-                                        else {
-                                            var nameUpload = (item1_valueid + item_valueid).replace(/\,/g, '');
-                                        }
-
-                                        html += "<div class=\"item-var-gen\" data-name-id=\"" + l1_ve1_value + "|" + l2_ve1_value
-                                            + "|\" data-value-id=\"" + item_valueid + "|" + item1_valueid
-                                            + "|\" data-name-text=\"" + l1_ve1_name + "|" + l2_ve1_name
-                                            + "|\" data-value-text=\"" + item_valuename + "|" + item1_valuename
-                                            + "\" data-name-value=\"" + l1_ve1_value + ":" + item_valueid + "|" + l2_ve1_value + ":" + item1_valueid + "|\">";
-                                        html += "<div class=\"form-row\">";
-                                        html += "<div class=\"row-left\">Thông tin</div>";
-                                        html += "<div class=\"row-right\">";
-                                        html += "<p><strong>" + l1_ve1_name + ": " + item_valuename + " </strong></p>";
-                                        html += "<p><strong>" + l2_ve1_name + ": " + item1_valuename + " </strong></p>";
-                                        html += "</div>";
-                                        html += "</div>";
-                                        html += "<div class=\"form-row\">";
-                                        html += "<div class=\"row-left\">SKU</div>";
-                                        html += "<div class=\"row-right\"><input type=\"text\" class=\"form-control productvariablesku\" value=\"" + SKU + nameUpload.toUpperCase() + "\" /></div>";
-                                        html += "</div>";
-                                        html += "<div class=\"form-row\">";
-                                        html += "<div class=\"row-left\">Giá sỉ</div>";
-                                        html += "<div class=\"row-right\"><input class=\"form-control regularprice\" type=\"text\" value=\"" + giasi + "\" /> </div>";
-                                        html += "</div>";
-                                        html += "<div class=\"form-row\">";
-                                        html += "<div class=\"row-left\">Giá vốn</div>";
-                                        html += "<div class=\"row-right\"><input class=\"form-control costofgood\" type=\"text\"  value=\"" + giavon + "\" /></div>";
-                                        html += "</div>";
-                                        html += "<div class=\"form-row\">";
-                                        html += "<div class=\"row-left\">Giá bán lẻ</div>";
-                                        html += "<div class=\"row-right\"><input class=\"form-control retailprice\" type=\"text\"  value=\"" + giale + "\" /></div>";
-                                        html += "</div>";
-                                        html += "<div class=\"form-row\">";
-                                        html += "<div class=\"row-left\">Tồn kho nhiều nhất</div>";
-                                        html += "<div class=\"row-right\"><input class=\"form-control maximum\" type=\"text\"  /></div>";
-                                        html += "</div>";
-                                        html += "<div class=\"form-row\">";
-                                        html += "<div class=\"row-left\"><a href=\"javascript:;\" onclick=\"deleteItemGen($(this))\" class=\"btn primary-btn fw-btn not-fullwidth\">Xóa</a></div>";
-                                        html += "<div class=\"row-right\">";
-                                        html += "</div>";
-                                        html += "</div>";
-                                        html += "</div>";
-                                        $(".list-item-genred").append(html);
-                                    }
-                                }
-                            }
-
-                        }
-                        else {
-                            var list1 = list[0];
-                            var l1_2ve = list1.split(':');
-                            var l1_ve1 = l1_2ve[0];
-                            var l1_ve2 = l1_2ve[1].split(';');
-
-                            var l1_ve1_2ve = l1_ve1.split('-');
-                            var l1_ve1_name = l1_ve1_2ve[0];
-                            var l1_ve1_value = l1_ve1_2ve[1];
-
-                            for (var i = 0; i < l1_ve2.length - 1; i++) {
-                                var item = l1_ve2[i].split('-');
-                                var item_valuename = item[0];
-                                var item_valueid = item[1];
-
-
-                                var datavalue = item_valueid + "|";
-                                var check = false;
-
-                                $(".item-var-gen").each(function () {
-                                    if ($(this).attr("data-value-id") == datavalue) {
-                                        check = true;
-                                    }
-                                });
-                                if (check == false) {
-                                    var html = "";
-                                    html += "<div class=\"item-var-gen\" data-name-id=\"" + l1_ve1_value + "|"
-                                        + "\" data-value-id=\"" + item_valueid + "|"
-                                        + "\" data-name-text=\"" + l1_ve1_name + "|"
-                                        + "\" data-value-text=\"" + item_valuename
-                                        + "|\" data-name-value=\"" + l1_ve1_value + ":" + item_valueid + "|\">";
-                                    html += "<div class=\"form-row\">";
-                                    html += "<div class=\"row-left\">Thông tin</div>";
-                                    html += "<div class=\"row-right\">";
-                                    html += "<p><strong>" + l1_ve1_name + ": " + item_valuename + " </strong></p>";
-                                    html += "</div>";
-                                    html += "</div>";
-                                    html += "<div class=\"form-row\">";
-                                    html += "<div class=\"row-left\">SKU</div>";
-                                    html += "<div class=\"row-right\"><input type=\"text\" class=\"form-control productvariablesku\" /></div>";
-                                    html += "</div>";
-                                    html += "<div class=\"form-row\">";
-                                    html += "<div class=\"row-left\">Regular Price</div>";
-                                    html += "<div class=\"row-right\"><input class=\"form-control regularprice\" type=\"number\" min=\"0\" value=\"0\" /></div>";
-                                    html += "</div>";
-                                    html += "<div class=\"form-row\">";
-                                    html += "<div class=\"row-left\">Cost of good</div>";
-                                    html += "<div class=\"row-right\"><input class=\"form-control costofgood\" type=\"number\" min=\"0\" value=\"0\" /></div>";
-                                    html += "</div>";
-                                    html += "<div class=\"form-row\">";
-                                    html += "<div class=\"row-left\">Retail price</div>";
-                                    html += "<div class=\"row-right\"><input class=\"form-control retailprice\" type=\"number\" min=\"0\" value=\"0\" /></div>";
-                                    html += "</div>";
-                                    html += "<div class=\"form-row\">";
-                                    html += "<div class=\"row-left\"><a href=\"javascript:;\" onclick=\"deleteItemGen($(this))\" class=\"btn primary-btn fw-btn not-fullwidth\">Xóa</a></div>";
-                                    html += "<div class=\"row-right\">";
-                                    html += "</div>";
-                                    html += "</div>";
-                                    html += "</div>";
-                                    $(".list-item-genred").append(html);
-                                }
-                            }
-                        }
-                    }
-                    $(".generat-variable-content").show();
-                }
-            }--%>
 
             function imagepreview(input, obj) {
                 if (input.files && input.files[0]) {
@@ -1063,13 +728,13 @@
                 }
             }
 
-
             function deleteItemGen(obj) {
                 var c = confirm("Bạn muốn xóa thuộc tính này?");
                 if (c == true) {
                     obj.parent().parent().parent().remove();
                 }
             }
+
             function deleteAll() {
                 var c = confirm("Bạn muốn xóa tất cả thuộc tính này?");
                 if (c == true) {
@@ -1185,89 +850,6 @@
                 }
 
             }
-
-
-           <%-- function addNewProduct() {
-                var listv = "";
-                var a = $("#<%= hdfsetStyle.ClientID%>").val();
-                if ($(".item-var-gen").length > 0) {
-                    var checkError = false;
-                    $(".item-var-gen").each(function () {
-                        var productvariablesku = $(this).find(".productvariablesku").val();
-                        var regularprice = $(this).find(".regularprice").val();
-                        var costofgood = $(this).find(".costofgood").val();
-                        var retailprice = $(this).find(".retailprice").val();
-                        var image = $(this).find(".productVariableImage").attr("name");
-                        var parent = $("#<%=hdfParentID.ClientID%>").val();
-                        var parentID = "";
-                        if (parent > 0)
-                        {
-                            parentID = parent;
-                        }
-
-                        if (isBlank(productvariablesku) || isBlank(regularprice) || isBlank(costofgood) || isBlank(retailprice) || isBlank(parentID)) {
-                            checkError = true;
-                        }
-                    });
-                    if (checkError == true) {
-                        alert('Vui lòng kiểm tra lại không để thông tin thuộc tính bị rỗng.');
-                    }
-                    else {
-                        if (a == 2) {
-                            $(".item-var-gen").each(function () {
-                                var datanameid = $(this).attr("data-name-id");
-                                var datavalueid = $(this).attr("data-value-id");
-                                var datanametext = $(this).attr("data-name-text");
-                                var datavaluetext = $(this).attr("data-value-text");
-                                var productvariablesku = $(this).find(".productvariablesku").val();
-                                var regularprice = $(this).find(".regularprice").val();
-                                var costofgood = $(this).find(".costofgood").val();
-                                var retailprice = $(this).find(".retailprice").val();
-                                var datanamevalue = $(this).attr("data-name-value");
-                                var image = $(this).find(".productVariableImage").attr("name");
-                                var max = $(this).find(".maximum").val();
-                                var min = $(this).find(".minimum").val();
-                                var StockStatus = $("#ddlStockStatus").val();
-                                if ($(this).find(".managestock").is(':checked')) {
-                                    var checked = true;
-                                }
-                                else {
-                                    var checked = false;
-                                }
-                                if (!isBlank(productvariablesku) && !isBlank(regularprice) && !isBlank(costofgood) && !isBlank(retailprice)) {
-                                    listv += datanameid + ";" + datavalueid + ";" + datanametext + ";" + datavaluetext + ";" + productvariablesku + ";" +
-                                        regularprice.replace(",", "") + ";" + costofgood.replace(",", "") + ";" + retailprice.replace(",", "") + ";" + datanamevalue + ";" + max + ";" + min + ";" + StockStatus + ";" + checked + ",";
-                                }
-                            });
-                        }
-                        else {
-                            $(".item-var-gen").each(function () {
-                                var datanameid = $(this).attr("data-name-id");
-                                var datavalueid = $(this).attr("data-value-id");
-                                var datanametext = $(this).attr("data-name-text");
-                                var datavaluetext = $(this).attr("data-value-text");
-                                var productvariablesku = $(this).find(".productvariablesku").val();
-                                var regularprice = $(this).find(".regularprice").val();
-                                var costofgood = $(this).find(".costofgood").val();
-                                var retailprice = $(this).find(".retailprice").val();
-                                var datanamevalue = $(this).attr("data-name-value");
-                                var image = $(this).find(".productVariableImage").attr("name");
-                                var max = $(this).find(".maximum").val();
-                                var min = $(this).find(".minimum").val();
-                                var StockStatus = $("#ddlStockStatus").val();
-                                if (!isBlank(productvariablesku) && !isBlank(regularprice) && !isBlank(costofgood) && !isBlank(retailprice)) {
-                                    listv += datanameid + ";" + datavalueid + ";" + datanametext + ";" + datavaluetext + ";" + productvariablesku + ";" +
-                                        regularprice.replace(",", "") + ";" + costofgood.replace(",", "") + ";" + retailprice.replace(",", "") + ";" + datanamevalue + ";" + max + ";" + min + ";" + + StockStatus + ",";
-                                }
-                            });
-                        }
-                        $("#<%=hdfVariableListInsert.ClientID%>").val(listv);
-                        $("#<%=btnLogin.ClientID%>").click();
-                    }
-                   
-                }
-               
-            }--%>
 </script>
         <script>
             function isBlank(str) {

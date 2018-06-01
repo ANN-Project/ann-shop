@@ -430,14 +430,11 @@ namespace IM_PJ
                     double GuestPaid = Convert.ToDouble(pGuestPaid.Value);
                     double GuestChange = Convert.ToDouble(totalPrice) - GuestPaid;
 
-
                     var ret = OrderController.InsertOnSystem(AgentID, OrderType, AdditionFee, DisCount, CustomerID, CustomerName, CustomerPhone, CustomerAddress,
                        CustomerEmail, totalPrice, totalPriceNotDiscount, PaymentStatus, ExcuteStatus, IsHidden, WayIn, currentDate, username, DiscountPerProduct,
                        TotalDiscount, FeeShipping, GuestPaid, GuestChange, PaymentType, ShippingType, OrderNote, DateTime.Now);
                     int OrderID = ret.ID;
-                    string productPrint = "";
-                    string Print = "";
-                    double totalQuantity = 0;
+
                     if (OrderID > 0)
                     {
                         string list = hdfListProduct.Value;
@@ -570,202 +567,9 @@ namespace IM_PJ
                                         false, 2, "Xuất kho bán POS", OrderID, 0, 3, ProductName, SKU, ProductImageOrigin, ProductVariable,
                                         currentDate, username, 0, parentID);
                                 }
-
-                                totalQuantity += Quantity;
-
-                                //table2
-                                Print += " <tr>";
-                                Print += "<td>" + (i + 1) + "</td>";
-                                Print += "<td>" + SKU + " - " + ProductName + " - " + ProductVariableSave.Replace("|", ", ") + "</td> ";
-                                Print += "<td>" + Quantity + "</td>";
-                                Print += "<td>" + string.Format("{0:N0}", Convert.ToDouble(Price)) + "</td>";
-
-                                Print += "<td> " + string.Format("{0:N0}", (Convert.ToInt32(Quantity) * Convert.ToInt32(Price))) + "</td>";
-
-                                Print += "</tr>";
-
-                                //table2
                             }
                         }
-
-                        productPrint += " <div class=\"body\">";
-                        productPrint += " <div class=\"table-1\">";
-                        productPrint += " <table>";
-                        productPrint += "<colgroup >";
-                        productPrint += "<col class=\"col-left\"/>";
-                        productPrint += "<col class=\"col-right\"/>";
-                        productPrint += "</colgroup>";
-                        productPrint += " <tbody>";
-                        productPrint += " <tr>";
-                        productPrint += " <td>Mã đơn hàng</td>";
-                        productPrint += " <td>" + OrderID + "</td>";
-                        productPrint += " </tr>";
-                        productPrint += "  <tr>";
-                        productPrint += "  <td>Ngày tạo</td>";
-                        string date = string.Format("{0:dd/MM/yyyy HH:mm}", currentDate);
-                        productPrint += " <td>" + date + "</td>";
-                        productPrint += "</tr>";
-                        productPrint += "<tr>";
-                        productPrint += "<td>Ngày hoàn tất</td>";
-                        if (!string.IsNullOrEmpty(ret.DateDone.ToString()))
-                        {
-                            string datedone = string.Format("{0:dd/MM/yyyy HH:mm}", ret.DateDone);
-                            productPrint += "<td>" + datedone + "</td>";
-                        }
-                        else
-                            productPrint += "<td></td>";
-                        productPrint += " </tr>";
-                        productPrint += " <tr>";
-                        productPrint += "<td>Loại đơn</td>";
-                        if (ret.OrderType == 1)
-                            productPrint += "<td>Đơn lẻ</td>";
-                        if (ret.OrderType == 2)
-                            productPrint += "  <td>Đơn sỉ</td>";
-                        productPrint += "</tr>";
-                        productPrint += " <tr>";
-                        productPrint += " <td>Nhân viên</td>";
-                        productPrint += " <td>" + ret.CreatedBy + "</td>";
-                        productPrint += "</tr>";
-                        productPrint += "<tr>";
-                        productPrint += "  <td>Khách hàng</td>";
-                        productPrint += "  <td>" + ret.CustomerName + "</td>";
-                        productPrint += " </tr>";
-                        productPrint += "<tr>";
-                        productPrint += " <td>Điện thoại</td>";
-                        productPrint += " <td>" + ret.CustomerPhone + "</td>";
-                        productPrint += "</tr>";
-                        productPrint += "<tr>";
-                        productPrint += "   <td>Ghi chú</td>";
-                        productPrint += "<td>" + ret.OrderNote + "</td>";
-                        productPrint += "</tr>";
-                        productPrint += " </tbody>";
-                        productPrint += "</table>";
-                        productPrint += "         </div>";
-
-                        productPrint += "<div class=\"table-2\">";
-                        productPrint += " <table>";
-                        productPrint += " <colgroup>";
-                        productPrint += "<col class=\"stt\" />";
-                        productPrint += "<col class=\"sanpham\" />";
-                        productPrint += "<col class=\"soluong\" />";
-                        productPrint += "<col class=\"gia\" />";
-                        productPrint += "<col class=\"tong\"/>";
-                        productPrint += "</colgroup>";
-                        productPrint += "<thead>";
-                        productPrint += " <th>#</th>";
-                        productPrint += "<th>Sản phẩm</th>";
-                        productPrint += "<th>SL</th>";
-                        productPrint += "<th>Giá</th>";
-                        productPrint += "<th>Tổng</th>";
-                        productPrint += " </thead>";
-                        productPrint += "<tbody>";
-                        productPrint += Print;
-                        productPrint += "<tr>";
-                        productPrint += "<td colspan =\"4\" > Số lượng </td>";
-                        productPrint += "<td>" + totalQuantity + "</td>";
-                        productPrint += "</tr>";
-                        productPrint += " <tr>";
-                        productPrint += " <td colspan =\"4\"> Thành tiền </td>";
-                        productPrint += " <td>" + string.Format("{0:N0}", Convert.ToDouble(ret.TotalPriceNotDiscount)) + "</td>";
-                        productPrint += " </tr>";
-                        if(pDiscount.Value > 0)
-                        {
-                            productPrint += " <tr>";
-                            productPrint += "  <td colspan =\"4\"> Chiết khấu mỗi cái </td>";
-                            productPrint += " <td>" + string.Format("{0:N0}", Convert.ToDouble(pDiscount.Value)) + "</td>";
-                            productPrint += " </tr>";
-                            productPrint += "<tr>";
-                            productPrint += " <td colspan =\"4\" > Sau chiết khấu</ td >";
-                            productPrint += " <td>" + string.Format("{0:N0}", Convert.ToDouble((Convert.ToDouble(ret.TotalPriceNotDiscount) - Convert.ToDouble(ret.TotalDiscount)))) + "</ td >";
-                            productPrint += " </tr>";
-                        }
-
                         
-                        if(Convert.ToDouble(ret.FeeShipping) > 0)
-                        {
-                            productPrint += " <tr>";
-                            productPrint += " <td colspan =\"4\" > Phí vận chuyển</ td >";
-                            productPrint += " <td>" + string.Format("{0:N0}", Convert.ToDouble(ret.FeeShipping)) + "</ td >";
-                            productPrint += " </tr>";
-                        }
-
-                        string refund = HttpContext.Current.Session["refund"].ToString();
-                        if (refund != "1")
-                        {
-                            string[] RefundID = refund.Split('|');
-                            var update = RefundGoodController.UpdateStatus(RefundID[0].ToInt(), acc.Username,2);
-                            var updateor = OrderController.UpdateRefund(OrderID, RefundID[0].ToInt(), acc.Username);
-                            productPrint += " <tr>";
-                            productPrint += " <td colspan =\"4\" > Mã đơn hàng trả</td>";
-                            productPrint += " <td>" + RefundID[0] + "</td>";
-                            productPrint += " </tr>";
-
-                            productPrint += " <tr>";
-                            productPrint += " <td colspan =\"4\" > Tổng tiền còn lại</td>";
-                            productPrint += " <td>" + string.Format("{0:N0}", Convert.ToDouble(hdfTongTienConLai.Value)) + "</ td >";
-                            productPrint += " </tr>";
-                        }
-                        productPrint += " <tr>";
-                        productPrint += "<td class=\"strong\" colspan=\"4\">Tổng cộng</td>";
-                        productPrint += " <td class=\"strong\">" + string.Format("{0:N0}", Convert.ToDouble(totalPrice)) + "</td>";
-                        productPrint += " </tr>";
-                        productPrint += "</tbody>";
-                        productPrint += " </table>";
-                        productPrint += "</div>";
-                        productPrint += "         </div>";
-
-                        HttpContext.Current.Session.Remove("refund");
-                        string address = "K4C Bửu Long, Phường 15, Quận 10, TP. HCM";
-                        string phone = "";
-                        var agent = AgentController.GetByID(AgentID);
-                        if (agent != null)
-                        {
-                            address = agent.AgentAddress;
-                            phone = agent.AgentPhone;
-                        }
-
-                        string dateOrder = string.Format("{0:dd/MM/yyyy HH:mm}", currentDate);
-
-
-                        string html = "";
-
-                        html += "<div class=\"hoadon\">";
-                        html += "<div class=\"all\">";
-                        html += "<div class=\"head\">";
-                        html += "<div class=\"logo\"><div class=\"img\"><img src=\"App_Themes/Ann/image/logo.png\" /></div></div>";
-                        html += "<div class=\"info\">";
-                        html += "<div class=\"ct\">";
-                        html += "<div class=\"ct-title\">Địa chỉ:</div>";
-                        html += "<div class=\"ct-detail\">" + address + "</div>";
-                        html += "<div class=\"ct\">";
-                        html += "<div class=\"ct-title\">Điện thoại/ Zalo:</div>";
-                        html += "<div class=\"ct-detail\">";
-
-                        html += "<a href = \"tel:+\" >" + phone + "</a></div>";
-
-                        html += "<div class=\"ct\">";
-                        html += "<div class=\"ct-title\">Facebook:</div>";
-                        html += "<div class=\"ct-detail\">";
-                        html += "<a href =\"https://facebook.com/bosiquanao.net\" target=\"_blank\" >https://facebook.com/bosiquanao.net</a>";
-                        html += "</div>";
-                        html += "</div>";
-                        html += "<div class=\"ct\">";
-                        html += "<div class=\"ct-title\">Website:</div>";
-                        html += "<div class=\"ct-detail\">";
-                        html += "<a href =\"\">ann.com.vn</a> ";
-                        html += "</div> ";
-                        html += "</div> ";
-                        html += "</div> ";
-                        html += "</div>";
-                        html += "</div>";
-
-                        html += productPrint;
-
-                        html += "<div class=\"footer\"><h1> Cảm ơn quý khách </h ></div> ";
-                        html += "</div>";
-
-                        html += "</div>";
-                        ltrprint.Text = html;
                         PJUtils.ShowMessageBoxSwAlertCallFunction("Tạo mới đơn hàng thành công", "s", true, "printInvoice(" + OrderID + ")", Page);
                     }
 

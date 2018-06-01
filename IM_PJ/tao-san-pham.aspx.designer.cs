@@ -82,7 +82,7 @@ namespace IM_PJ {
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::Telerik.Web.UI.RadNumericTextBox pMinimumInventoryLevel;
+        protected global::System.Web.UI.WebControls.TextBox pMinimumInventoryLevel;
         
         /// <summary>
         /// pMaximumInventoryLevel control.
@@ -91,7 +91,7 @@ namespace IM_PJ {
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::Telerik.Web.UI.RadNumericTextBox pMaximumInventoryLevel;
+        protected global::System.Web.UI.WebControls.TextBox pMaximumInventoryLevel;
         
         /// <summary>
         /// chkManageStock control.
@@ -127,7 +127,7 @@ namespace IM_PJ {
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::Telerik.Web.UI.RadNumericTextBox pRegular_Price;
+        protected global::System.Web.UI.WebControls.TextBox pRegular_Price;
         
         /// <summary>
         /// RequiredFieldValidator4 control.
@@ -145,7 +145,7 @@ namespace IM_PJ {
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::Telerik.Web.UI.RadNumericTextBox pCostOfGood;
+        protected global::System.Web.UI.WebControls.TextBox pCostOfGood;
         
         /// <summary>
         /// RequiredFieldValidator5 control.
@@ -163,7 +163,7 @@ namespace IM_PJ {
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::Telerik.Web.UI.RadNumericTextBox pRetailPrice;
+        protected global::System.Web.UI.WebControls.TextBox pRetailPrice;
         
         /// <summary>
         /// hinhDaiDien control.

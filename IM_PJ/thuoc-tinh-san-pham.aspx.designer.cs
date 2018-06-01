@@ -22,15 +22,6 @@ namespace IM_PJ {
         protected global::System.Web.UI.WebControls.Label lblCategoryName;
         
         /// <summary>
-        /// ltrBack control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal ltrBack;
-        
-        /// <summary>
         /// ltrAddnew control.
         /// </summary>
         /// <remarks>
@@ -40,13 +31,13 @@ namespace IM_PJ {
         protected global::System.Web.UI.WebControls.Literal ltrAddnew;
         
         /// <summary>
-        /// txtAgentName control.
+        /// txtSearchProduct control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtAgentName;
+        protected global::System.Web.UI.WebControls.TextBox txtSearchProduct;
         
         /// <summary>
         /// btnSearch control.

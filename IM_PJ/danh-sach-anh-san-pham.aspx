@@ -9,7 +9,6 @@
                     <h3 class="page-title left">
                         <asp:Label ID="lblCategoryName" runat="server"></asp:Label></h3>
                     <div class="right above-list-btn">
-                        <asp:Literal ID="ltrBack" runat="server"></asp:Literal>
                         <asp:Literal ID="ltrAddnew" runat="server"></asp:Literal>
                     </div>
                 </div>

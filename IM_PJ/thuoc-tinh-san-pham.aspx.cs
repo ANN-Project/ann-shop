@@ -46,13 +46,8 @@ namespace IM_PJ
                     Response.Redirect("/dang-nhap");
                 }
                 LoadData();
-                //LoadDLL();
             }
         }
-        //public void LoadDLL()
-        //{
-        //    var vari = VariableController.GetAll();
-        //}
         public void LoadData()
         {
             string s = "";
@@ -69,9 +64,8 @@ namespace IM_PJ
                 {
                     ViewState["ProductName"] = product.ProductTitle;
                     var cate = CategoryController.GetByID(Convert.ToInt32(product.CategoryID));
-                    ltrBack.Text = "<a href=\"/danh-sach-san-pham?categoryid=" + product.CategoryID + "\" class=\"btn primary-btn h45-btn\">Trở về</a>";
                     lblCategoryName.Text = product.ProductTitle;
-                    ltrAddnew.Text = "<a href=\"/them-thuoc-tinh-san-pham?productid=" + productID + "\" class=\"h45-btn btn\" style=\"background-color: #ff3f4c\">Thêm mới</a>";
+                    ltrAddnew.Text = "<a href=\"/them-thuoc-tinh-san-pham?productid=" + productID + "\" class=\"h45-btn primary-btn btn\">Thêm mới</a>";
                 }
                 a = ProductVariableController.SearchProductID(productID, s);
                 pagingall(a);
@@ -103,7 +97,15 @@ namespace IM_PJ
                 {
                     var item = acs[i];
                     html.Append("<tr>");
-                    html.Append("   <td style=\"width:150px;\"><img src=\"" + item.Image + "\" alt=\"\" style=\"width:50%;\" /></td>");
+                    if (!string.IsNullOrEmpty(item.Image))
+                    {
+                        html.Append("   <td><img src=\"" + item.Image + "\"/></td>");
+                    }
+                    else
+                    {
+                        html.Append("   <td><img src=\"/App_Themes/Ann/image/placeholder.png\"/></td>");
+                    }
+                    
                     string date = string.Format("{0:dd/MM/yyyy}", item.CreatedDate);
                     string ishidden = "";
                     if (item.IsHidden != null)
@@ -115,15 +117,6 @@ namespace IM_PJ
                     {
                         ishidden = PJUtils.IsHiddenStatus(false);
                     }
-                    html.Append("   <td>" + item.SKU + "</td>");
-                   
-                    html.Append("   <td>" + string.Format("{0:N0}", item.Regular_Price) + "</td>");
-                    int k = Convert.ToInt32(ViewState["role"]);
-                    if(k == 0)
-                    {
-                        html.Append("   <td>" + string.Format("{0:N0}", item.CostOfGood) + "</td>");
-                    }
-                    html.Append("   <td>" + string.Format("{0:N0}", item.RetailPrice) + "</td>");
 
                     var value = ProductVariableValueController.GetByProductVariableID(item.ID);
                     if (value != null)
@@ -138,6 +131,18 @@ namespace IM_PJ
                         html.Append("</td>");
                         hdfSearch.Value = list;
                     }
+
+                    html.Append("   <td>" + item.SKU + "</td>");
+
+                    html.Append("   <td>" + string.Format("{0:N0}", item.Regular_Price) + "</td>");
+
+                    int k = Convert.ToInt32(ViewState["role"]);
+                    if(k == 0)
+                    {
+                        html.Append("   <td>" + string.Format("{0:N0}", item.CostOfGood) + "</td>");
+                    }
+
+                    html.Append("   <td>" + string.Format("{0:N0}", item.RetailPrice) + "</td>");
 
                     var stock = ProductController.GetStock(item.ID);
                     if(stock != null)
@@ -155,8 +160,8 @@ namespace IM_PJ
                     html.Append("   <td>" + date + "</td>");
                     html.Append("   <td>" + ishidden + "</td>");
                     html.Append("   <td>");
-                    html.Append("       <a href=\"/thong-tin-thuoc-tinh-san-pham.aspx?id=" + item.ID + "\" class=\"btn primary-btn h45-btn\">Chi tiết</a>");
-                    html.Append("       <a href=\"/gia-tri-thuoc-tinh-san-pham.aspx?productvariableid=" + item.ID + "\" class=\"btn primary-btn h45-btn\">Thuộc tính</a>");
+                    html.Append("       <a href=\"/thong-tin-thuoc-tinh-san-pham.aspx?id=" + item.ID + "\" title=\"Xem chi tiết\" class=\"btn primary-btn h45-btn\"><i class=\"fa fa-info-circle\" aria-hidden=\"true\"></i></a>");
+                    html.Append("       <a href=\"/gia-tri-thuoc-tinh-san-pham.aspx?productvariableid=" + item.ID + "\" title=\"Xem thuộc tính\" class=\"btn primary-btn h45-btn\"><i class=\"fa fa-file-text-o\" aria-hidden=\"true\"></i></a>");
                     html.Append("   </td>");
                     html.Append("</tr>");
                 }
@@ -305,7 +310,7 @@ namespace IM_PJ
 
         protected void btnSearch_Click(object sender, EventArgs e)
         {
-            string search = txtAgentName.Text;
+            string search = txtSearchProduct.Text;
             string id = ViewState["ID"].ToString();
             Response.Redirect("/thuoc-tinh-san-pham?id=" + id + "&s=" + search + "");
 

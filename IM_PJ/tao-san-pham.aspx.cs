@@ -52,7 +52,7 @@ namespace IM_PJ
             if (variablename.Count > 0)
             {
                 ddlVariablename.Items.Clear();
-                ddlVariablename.Items.Insert(0, new ListItem("-- Chọn tên thuộc tính --", "0"));
+                ddlVariablename.Items.Insert(0, new ListItem("Chọn tên thuộc tính", "0"));
                 //ddlPro.Items.Insert(0, "Tỉnh/TP");
                 foreach (var p in variablename)
                 {
@@ -63,13 +63,13 @@ namespace IM_PJ
 
             }
             ddlVariableValue.Items.Clear();
-            ddlVariableValue.Items.Insert(0, new ListItem("-- Chọn giá trị --", "0"));
+            ddlVariableValue.Items.Insert(0, new ListItem("Chọn giá trị", "0"));
         }
 
         public void BindVariableValue(int VariableID)
         {
             ddlVariableValue.Items.Clear();
-            ddlVariableValue.Items.Insert(0, new ListItem("-- Chọn giá trị --", "0"));
+            ddlVariableValue.Items.Insert(0, new ListItem("Chọn giá trị", "0"));
             if (VariableID > 0)
             {
                 var variableValue = VariableValueController.GetByVariableID(VariableID);
@@ -94,7 +94,7 @@ namespace IM_PJ
         {
             var supplier = SupplierController.GetAllWithIsHidden(false);
             ddlSupplier.Items.Clear();
-            ddlSupplier.Items.Insert(0, new ListItem("-- Chọn nhà cung cấp --", "0"));
+            ddlSupplier.Items.Insert(0, new ListItem("Chọn nhà cung cấp", "0"));
             if (supplier.Count > 0)
             {
                 foreach (var p in supplier)
@@ -110,7 +110,7 @@ namespace IM_PJ
         {
             var category = CategoryController.GetAllWithIsHidden(false);
             ddlCategory.Items.Clear();
-            ddlCategory.Items.Insert(0, new ListItem("-- Chọn danh mục --", "0"));
+            ddlCategory.Items.Insert(0, new ListItem("Chọn danh mục sản phẩm", "0"));
             if (category.Count > 0)
             {
                 foreach (var p in category)
@@ -121,59 +121,11 @@ namespace IM_PJ
                 ddlCategory.DataBind();
             }
         }
-        //public void LoadCategoryParent(int ParentID)
-        //{
-
-        //    var category = CategoryController.API_GetByParentID(ParentID);
-        //    ddlCategoryParent.Items.Clear();
-        //    ddlCategoryParent.Items.Insert(0, new ListItem("-- Chọn danh mục --", "0"));
-        //    if (category.Count > 0)
-        //    {
-        //        foreach (var p in category)
-        //        {
-        //            ListItem listitem = new ListItem(p.CategoryName, p.ID.ToString());
-        //            ddlCategoryParent.Items.Add(listitem);
-        //        }
-        //        ddlCategoryParent.DataBind();
-        //    }
-        //}
 
         public void LoadData()
         {
-            int cateid = Request.QueryString["categoryid"].ToInt(0);
-            if (cateid > 0)
-            {
-                ///danh-sach-san-pham.aspx?categoryid=25
-                ltrBack.Text = "<a href=\"/danh-sach-san-pham.aspx?categoryid=" + cateid + "\" class=\"btn primary-btn fw-btn not-fullwidth\">Trở về</a>";
-            }
-
-            //Lấy variable
-            //StringBuilder htmlVariable = new StringBuilder();
-            //var variables = VariableController.GetAllIsHidden(false);
-            //foreach (var v in variables)
-            //{
-            //    htmlVariable.Append("<div class=\"form-row variable-row\">");
-            //    htmlVariable.Append("   <span class=\"row-left variable-name\" data-id=\"" + v.ID + "\" data-name=\"" + v.VariableName + "\">" + v.VariableName + "</span>");
-            //    htmlVariable.Append("   <div class=\"row-right\" data-name=\"" + v.VariableName + "\">");
-            //    htmlVariable.Append("       <select class=\"form-control variable-value\">");
-            //    htmlVariable.Append("           <option value=\"0\">Chọn thuộc tính " + v.VariableName + "</option>");
-            //    var variableValue = VariableValueController.GetByVariableIDIsHidden(v.ID, false);
-            //    if (variableValue.Count > 0)
-            //    {
-            //        foreach (var vl in variableValue)
-            //        {
-            //            htmlVariable.Append("           <option value=\"" + vl.ID + "\">" + vl.VariableValue + "</option>");
-            //        }
-            //    }
-            //    htmlVariable.Append("       </select>");
-            //    htmlVariable.Append("   </div>");
-            //    htmlVariable.Append("</div>");
-            //}
-            //ltrVariable.Text = htmlVariable.ToString();
-
 
         }
-
 
         public static void DeQuyCongTu(int el, int final, string r, List<Variable> listObject)
         {
@@ -269,8 +221,6 @@ namespace IM_PJ
             }
             JavaScriptSerializer serializer = new JavaScriptSerializer();
             return serializer.Serialize(vg);
-
-
         }
 
         [WebMethod]
@@ -294,7 +244,6 @@ namespace IM_PJ
         [WebMethod]
         public static string getParent(int parent)
         {
-            //hdfParentID.Value = parent.ToString();
             List<GetOutCategory> gc = new List<GetOutCategory>();
             if (parent != 0)
             {
@@ -377,15 +326,15 @@ namespace IM_PJ
                         }
                         else
                         {
-                            string ProductTitle = txtProductTitle.Text;
-                            string ProductContent = pContent.Content;
+                            string ProductTitle = txtProductTitle.Text.ToString();
+                            string ProductContent = pContent.Content.ToString();
 
                             double ProductStock = 0;
                             int StockStatus = 3;
                             bool ManageStock = chkManageStock.Checked;
-                            double Regular_Price = Convert.ToDouble(pRegular_Price.Value);
-                            double CostOfGood = Convert.ToDouble(pCostOfGood.Value);
-                            double Retail_Price = Convert.ToDouble(pRetailPrice.Value);
+                            double Regular_Price = Convert.ToDouble(pRegular_Price.Text);
+                            double CostOfGood = Convert.ToDouble(pCostOfGood.Text);
+                            double Retail_Price = Convert.ToDouble(pRetailPrice.Text);
                             int supplierID = ddlSupplier.SelectedValue.ToInt(0);
                             string supplierName = ddlSupplier.SelectedItem.ToString();
                             bool IsHidden = chkIsHidden.Checked;
@@ -394,10 +343,7 @@ namespace IM_PJ
                             {
                                 a = hdfsetStyle.Value.ToInt();
                             }
-                            string kq = ProductController.Insert(cateID, 0, ProductTitle, ProductContent, ProductSKU, ProductStock,
-                                StockStatus, ManageStock, Regular_Price, CostOfGood, Retail_Price, "", 0,
-                                IsHidden, currentDate, username, supplierID, supplierName,
-                                txtMaterials.Text, Convert.ToDouble(pMinimumInventoryLevel.Value), Convert.ToDouble(pMaximumInventoryLevel.Value),a);
+                            string kq = ProductController.Insert(cateID, 0, ProductTitle, ProductContent, ProductSKU, ProductStock, StockStatus, ManageStock, Regular_Price, CostOfGood, Retail_Price, "", 0, IsHidden, currentDate, username, supplierID, supplierName, txtMaterials.Text, Convert.ToDouble(pMinimumInventoryLevel.Text), Convert.ToDouble(pMaximumInventoryLevel.Text),a);
                             if (kq.ToInt(0) > 0)
                             {
                                 int ProductID = kq.ToInt(0);
@@ -449,15 +395,9 @@ namespace IM_PJ
                                         if (kq1.ToInt(0) > 0)
                                         {
                                             ProductVariableID = kq1.ToInt(0);
-                                            //if (datanamevalue.Length - 1 > 0)
-                                            //{
-
-                                            //for (int j = 0; j < datavalueid.Length - 1; j++)
-                                            //{
                                             color = datavalueid[0];
                                             size = datavalueid[1];
                                             string[] Data = datanametext.Split('|');
-                                            //string[] DataID = datanameid.Split('|');
                                             string[] DataValue = datavaluetext.Split('|');
                                             for (int k = 0; k < Data.Length - 2; k++)
                                             {
@@ -467,30 +407,8 @@ namespace IM_PJ
                                                 ProductVariableValueController.Insert(ProductVariableID, productvariablesku, variablevalueID,
                                                         variableName, variableValueName, false, currentDate, username);
                                             }
-                                            //        string variableName = "";
-                                            //        string variableValueName = "";
-                                            //        var variablevalueID = datavalueid[j].ToInt(0);
-                                            //        var variablevalue = VariableValueController.GetByID(variablevalueID);
-                                            //        if (variablevalue != null)
-                                            //        {
-                                            //            variableName = variablevalue.VariableName;
-                                            //            variableValueName = variablevalue.VariableValue;
-                                            //            if (variablevalue.VariableID == 1)
-                                            //            {
-                                            //                color = LeoUtils.ConvertToUnSign(variablevalue.VariableValueText.Trim());
-                                            //            }
-                                            //            else if (variablevalue.VariableID == 2)
-                                            //            {
-                                            //                size = LeoUtils.ConvertToUnSign(variablevalue.VariableValueText.Trim());
-                                            //            }
-                                            //        }
-                                            //        ProductVariableValueController.Insert(ProductVariableID, productvariablesku, variablevalueID,
-                                            //            variableName, variableValueName, false, currentDate, username);
-                                            //    }
-                                            //}
                                         }
                                         ProductVariableController.UpdateColorSize(ProductVariableID, color, size);
-                                        
                                     }
                                    
                                 }
@@ -513,7 +431,6 @@ namespace IM_PJ
                                     }
                                 }
                                 //Phần thêm ảnh cho từng sản phẩm
-                                //Response.Redirect("/tat-ca-san-pham.aspx");
                                 //PJUtils.ShowMessageBoxSwAlert("Tạo mới sản phẩm thành công", "s", true, Page);
                                 Response.Redirect("xem-san-pham.aspx?id=" + kq + "");
                             }

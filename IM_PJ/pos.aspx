@@ -174,9 +174,6 @@
             <asp:HiddenField ID="hdfChietKhau" runat="server" />
             <asp:HiddenField ID="hdfDonHangTra" runat="server" />
             <asp:HiddenField ID="hdfTongTienConLai" runat="server" />
-            <div id="printcontent" style="display: none">
-                <asp:Literal ID="ltrprint" runat="server"></asp:Literal>
-            </div>
         </main>
     </asp:Panel>
     <style>

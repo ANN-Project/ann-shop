@@ -1,4 +1,54 @@
-﻿.import-stock .select-column {
+﻿#ManageStock {
+    margin-bottom: 33px;
+}
+.content-box {
+    max-height: 600px;
+    overflow: auto;
+}
+.content-box img {
+    width: inherit;
+}
+.all-product-table .image-column {
+    width: 13%;
+}
+.all-product-table .name-column {
+    width: 23%;
+}
+.all-product-table .sku-column {
+    width: 6%;
+}
+.all-product-table .wholesale-price-column {
+    width: 6%;
+}
+.all-product-table .retail-price-column {
+    width: 6%;
+}
+.all-product-table .cost-price-column {
+    width: 6%;
+}
+.all-product-table .stock-column {
+    width: 5%;
+}
+.all-product-table .stock-status-column {
+    width: 7%;
+}
+.all-product-table .category-column {
+    width: 14%;
+}
+.all-product-table .date-column {
+    width: 7%;
+}
+.all-product-table .action-column {
+    width: 7%;
+}
+.all-product-table .variable-column {
+    width: 20%;
+}
+.all-product-table .hide-column {
+    width: 5%;
+}
+
+.import-stock .select-column {
     width: 3%;
 }
 .import-stock .image-column {

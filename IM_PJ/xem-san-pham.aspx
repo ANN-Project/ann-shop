@@ -14,22 +14,22 @@
                         </div>
                         <div class="panel-body">
                             <div class="form-row">
+                                <asp:Literal ID="ltrEdit1" runat="server"></asp:Literal>
+                            </div>
+                            <div class="form-row">
                                 <asp:Label ID="lblError" runat="server" Visible="false" ForeColor="Red"></asp:Label>
                             </div>
                             <div class="form-row">
                                 <div class="row-left">
                                     Tên sản phẩm
-                                    <asp:RequiredFieldValidator ID="rq" runat="server" ControlToValidate="txtProductTitle" ForeColor="Red" SetFocusOnError="true"
-                                        ErrorMessage="(*)" Display="Dynamic"></asp:RequiredFieldValidator>
                                 </div>
                                 <div class="row-right">
-                                    <asp:TextBox ID="txtProductTitle" Enabled="false" runat="server" CssClass="form-control" placeholder="Tên sản phẩm"></asp:TextBox>
+                                    <asp:Label ID="lbProductTitle" runat="server" CssClass="form-control"></asp:Label>
                                 </div>
                             </div>
-
                             <div class="form-row">
                                 <div class="row-left">
-                                    SKU                                    
+                                    Mã sản phẩm
                                 </div>
                                 <div class="row-right">
                                     <asp:Label ID="lblSKU" runat="server" CssClass="form-control"></asp:Label>
@@ -40,43 +40,31 @@
                                     Chất liệu                                    
                                 </div>
                                 <div class="row-right">
-                                    <asp:TextBox ID="txtMaterials" runat="server" Enabled="false" CssClass="form-control" placeholder="Chất liệu"></asp:TextBox>
+                                    <asp:Label ID="lbMaterials" runat="server" CssClass="form-control"></asp:Label>
                                 </div>
                             </div>
                             <div class="form-row">
                                 <div class="row-left">
-                                    Số lượng sản phẩm
-                                    <asp:RequiredFieldValidator ID="RequiredFieldValidator2" runat="server" ControlToValidate="pProductStock" ForeColor="Red"
-                                        ErrorMessage="(*)" Display="Dynamic" SetFocusOnError="true"></asp:RequiredFieldValidator>
+                                    Số lượng
                                 </div>
                                 <div class="row-right">
-                                    <telerik:RadNumericTextBox runat="server" CssClass="form-control width-notfull" Skin="MetroTouch"
-                                        ID="pProductStock" Enabled="false" MinValue="0" NumberFormat-GroupSizes="3" Width="100%" NumberFormat-DecimalDigits="0">
-                                    </telerik:RadNumericTextBox>
+                                    <asp:Label ID="lbProductStock" runat="server" CssClass="form-control"></asp:Label>
                                 </div>
                             </div>
                             <div class="form-row">
                                 <div class="row-left">
-                                    Số lượng tồn kho ít nhất
-                                    <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" ControlToValidate="pMinimumInventoryLevel" ForeColor="Red"
-                                        ErrorMessage="(*)" Display="Dynamic" SetFocusOnError="true"></asp:RequiredFieldValidator>
+                                    Tồn kho ít nhất
                                 </div>
                                 <div class="row-right">
-                                    <telerik:RadNumericTextBox runat="server" CssClass="form-control width-notfull" Skin="MetroTouch"
-                                        ID="pMinimumInventoryLevel" Enabled="false" MinValue="0" NumberFormat-GroupSizes="3" Width="100%" NumberFormat-DecimalDigits="0">
-                                    </telerik:RadNumericTextBox>
+                                    <asp:Label ID="lbpMinimumInventoryLevel" runat="server" CssClass="form-control"></asp:Label>
                                 </div>
                             </div>
                             <div class="form-row">
                                 <div class="row-left">
-                                    Số lượng tồn kho nhiều nhất
-                                    <asp:RequiredFieldValidator ID="RequiredFieldValidator6" runat="server" ControlToValidate="pMinimumInventoryLevel" ForeColor="Red"
-                                        ErrorMessage="(*)" Display="Dynamic" SetFocusOnError="true"></asp:RequiredFieldValidator>
+                                    Tồn kho nhiều nhất
                                 </div>
                                 <div class="row-right">
-                                    <telerik:RadNumericTextBox runat="server" CssClass="form-control width-notfull" Skin="MetroTouch"
-                                        ID="pMaximumInventoryLevel" Enabled="false" MinValue="0" NumberFormat-GroupSizes="3" Width="100%" NumberFormat-DecimalDigits="0">
-                                    </telerik:RadNumericTextBox>
+                                    <asp:Label ID="lbpMaximumInventoryLevel" runat="server" CssClass="form-control"></asp:Label>
                                 </div>
                             </div>
                             <div class="form-row">
@@ -101,7 +89,7 @@
                             </div>
                             <div class="form-row">
                                 <div class="row-left">
-                                    Quản lý trong kho
+                                    Quản lý kho
                                 </div>
                                 <div class="row-right">
                                     <asp:CheckBox ID="chkManageStock" runat="server" />
@@ -110,103 +98,72 @@
                             <div class="form-row">
                                 <div class="row-left">
                                     Giá sỉ
-                                    <asp:RequiredFieldValidator ID="RequiredFieldValidator3" runat="server" ControlToValidate="pRegular_Price" ForeColor="Red"
-                                        ErrorMessage="(*)" Display="Dynamic" SetFocusOnError="true"></asp:RequiredFieldValidator>
                                 </div>
                                 <div class="row-right">
-                                    <telerik:RadNumericTextBox runat="server" CssClass="form-control width-notfull" Skin="MetroTouch"
-                                        ID="pRegular_Price" MinValue="0" Enabled="false" NumberFormat-GroupSizes="3" Width="100%" Value="0" NumberFormat-DecimalDigits="0">
-                                    </telerik:RadNumericTextBox>
+                                    <asp:Label ID="lbRegularPrice" runat="server" CssClass="form-control"></asp:Label>
                                 </div>
                             </div>
                              <div class="form-row cost hide">
                                 <div class="row-left">
                                     Giá vốn
-                                    <asp:RequiredFieldValidator ID="RequiredFieldValidator4" runat="server" ControlToValidate="pCostOfGood" ForeColor="Red"
-                                        ErrorMessage="(*)" Display="Dynamic" SetFocusOnError="true"></asp:RequiredFieldValidator>
                                 </div>
                                 <div class="row-right">
-                                    <telerik:RadNumericTextBox runat="server" CssClass="form-control width-notfull" Skin="MetroTouch"
-                                        ID="pCostOfGood" MinValue="0" Enabled="false" NumberFormat-GroupSizes="3" Width="100%" Value="0" NumberFormat-DecimalDigits="0">
-                                    </telerik:RadNumericTextBox>
+                                    <asp:Label ID="lbpCostOfGood" runat="server" CssClass="form-control"></asp:Label>
                                 </div>
                             </div>
                             <div class="form-row">
                                 <div class="row-left">
-                                    Giá bán lẻ
-                                    <asp:RequiredFieldValidator ID="RequiredFieldValidator5" runat="server" ControlToValidate="pRetailPrice" ForeColor="Red"
-                                        ErrorMessage="(*)" Display="Dynamic" SetFocusOnError="true"></asp:RequiredFieldValidator>
+                                    Giá lẻ
                                 </div>
                                 <div class="row-right">
-                                    <telerik:RadNumericTextBox runat="server" CssClass="form-control width-notfull" Skin="MetroTouch"
-                                        ID="pRetailPrice" MinValue="0" Enabled="false" NumberFormat-GroupSizes="3" Width="100%" Value="0" NumberFormat-DecimalDigits="0">
-                                    </telerik:RadNumericTextBox>
+                                    <asp:Label ID="lbRetailPrice" runat="server" CssClass="form-control"></asp:Label>
                                 </div>
                             </div>
-
-                            <%-- <div class="form-row">
-                                <div class="row-left">
-                                    Màu
-                                </div>
-                                <div class="row-right">
-                                    <input class="form-control" />
-                                </div>
-                            </div>--%>
 
                             <div class="form-row">
                                 <div class="row-left">
                                     Nội dung
                                 </div>
                                 <div class="row-right">
-                                    <telerik:RadEditor runat="server" ID="pContent" Width="100%"
-                                        Height="600px" ToolsFile="~/FilesResources/ToolContent.xml" Skin="Metro"
-                                        DialogHandlerUrl="~/Telerik.Web.UI.DialogHandler.axd" AutoResizeHeight="True">
-                                        <ImageManager ViewPaths="~/Uploads/Images" UploadPaths="~/Uploads/Images" DeletePaths="~/Uploads/Images" />
-                                    </telerik:RadEditor>
+                                    <div class="content-box">
+                                        <asp:Literal ID="pContent" runat="server"></asp:Literal>
+                                    </div>
                                 </div>
                             </div>
                             <div class="form-row">
-                                <div class="row-left">
-                                    Ẩn                   
-                                </div>
-                                <div class="row-right">
-                                    <asp:CheckBox ID="chkIsHidden" runat="server" />
-                                </div>
-                            </div>
-
-                            <div class="form-row">
-                                <%--<a href="javascript:;" class="btn primary-btn fw-btn not-fullwidth" onclick="AddNewProduct()">Tạo mới sản phẩm</a>--%>
-                                <asp:Literal ID="ltrBack" runat="server"></asp:Literal>
-                                <asp:Literal ID="ltrEdit" runat="server"></asp:Literal>
-                                <%--<a href="/quan-ly-dai-ly" class="btn primary-btn fw-btn not-fullwidth">Quay về danh sách</a>--%>
+                                <asp:Literal ID="ltrEdit2" runat="server"></asp:Literal>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="row tableview hide">
-                <div class="panel-table clear">
-                    <div class="responsive-table">
-                        <table class="table table-checkable table-product">
-                            <tbody>
-                                <tr>
-                                    <th>Ảnh</th>
-                                    <th>SKU</th>
-                                    <th>Giá sỉ</th>
-                                    <th class="cost hide">Giá vốn</th>
-                                    <th>Giá lẻ</th>
-                                    <th>Thuộc tính</th>
-                                    <th>Kho</th>
-                                    <th>Trạng thái</th>
-                                    <th>Ngày tạo</th>
-                                </tr>
-                                <asp:Literal ID="ltrList" runat="server" EnableViewState="false"></asp:Literal>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="panel-footer clear">
-                        <div class="pagination">
-                            <%this.DisplayHtmlStringPaging1();%>
+                <div class="col-md-12">
+                    <div class="panel-table clear">
+                        <div class="responsive-table">
+                            <table class="table table-checkable table-product all-product-table">
+                                <tbody>
+                                    <tr>
+                                        <th class="image-column">Ảnh</th>
+                                        <th class="variable-column">Thuộc tính</th>
+                                        <th class="sku-column">Mã</th>
+                                        <th class="wholesale-price-column">Giá sỉ</th>
+                                        <th class="cost-price-column cost hide">Giá vốn</th>
+                                        <th class="retail-price-column">Giá lẻ</th>
+                                        <th class="stock-column">Kho</th>
+                                        <th class="stock-status-column">Trạng thái</th>
+                                        <th class="date-column">Ngày tạo</th>
+                                        <th class="hide-column">Ẩn</th>
+                                        <th class="action-column">Thao tác</th>
+                                    </tr>
+                                    <asp:Literal ID="ltrList" runat="server" EnableViewState="false"></asp:Literal>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="panel-footer clear">
+                            <div class="pagination">
+                                <%this.DisplayHtmlStringPaging1();%>
+                            </div>
                         </div>
                     </div>
                 </div>

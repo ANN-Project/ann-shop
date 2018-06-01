@@ -10,7 +10,7 @@
                 <div class="col-md-12">
                     <div class="panel panelborderheading">
                         <div class="panel-heading clear">
-                            <h3 class="page-title left not-margin-bot">Thông tin sản phẩm</h3>
+                            <h3 class="page-title left not-margin-bot">Chỉnh sửa sản phẩm</h3>
                         </div>
                         <div class="panel-body">
                             <div class="form-row">
@@ -26,10 +26,9 @@
                                     <asp:TextBox ID="txtProductTitle" runat="server" CssClass="form-control" placeholder="Tên sản phẩm"></asp:TextBox>
                                 </div>
                             </div>
-
                             <div class="form-row">
                                 <div class="row-left">
-                                    SKU                                    
+                                    Mã sản phẩm                                    
                                 </div>
                                 <div class="row-right">
                                     <asp:Label ID="lblSKU" runat="server" CssClass="form-control"></asp:Label>
@@ -43,38 +42,26 @@
                                     <asp:TextBox ID="txtMaterials" runat="server" CssClass="form-control" placeholder="Chất liệu"></asp:TextBox>
                                 </div>
                             </div>
-                           <%-- <div class="form-row">
-                                <div class="row-left">
-                                    Số lượng sản phẩm
-                                    <asp:RequiredFieldValidator ID="RequiredFieldValidator2" runat="server" ControlToValidate="pProductStock" ForeColor="Red"
-                                        ErrorMessage="(*)" Display="Dynamic" SetFocusOnError="true"></asp:RequiredFieldValidator>
-                                </div>
-                                <div class="row-right">
-                                    <telerik:RadNumericTextBox runat="server" CssClass="form-control width-notfull" Skin="MetroTouch"
-                                        ID="pProductStock" MinValue="0" NumberFormat-GroupSizes="3" Width="100%"  NumberFormat-DecimalDigits="0">
-                                    </telerik:RadNumericTextBox>
-                                </div>
-                            </div>--%>
                             <div class="form-row">
                                 <div class="row-left">
-                                    Số lượng tồn kho ít nhất
+                                    Tồn kho ít nhất
                                     <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" ControlToValidate="pMinimumInventoryLevel" ForeColor="Red"
                                         ErrorMessage="(*)" Display="Dynamic" SetFocusOnError="true"></asp:RequiredFieldValidator>
                                 </div>
                                 <div class="row-right">
-                                    <telerik:RadNumericTextBox runat="server" CssClass="form-control width-notfull" Skin="MetroTouch"
+                                    <telerik:RadNumericTextBox runat="server" CssClass="form-control" Skin="MetroTouch"
                                         ID="pMinimumInventoryLevel" MinValue="0" NumberFormat-GroupSizes="3" Width="100%"  NumberFormat-DecimalDigits="0">
                                     </telerik:RadNumericTextBox>
                                 </div>
                             </div>
                             <div class="form-row">
                                 <div class="row-left">
-                                    Số lượng tồn kho nhiều nhất
+                                    Tồn kho nhiều nhất
                                     <asp:RequiredFieldValidator ID="RequiredFieldValidator6" runat="server" ControlToValidate="pMinimumInventoryLevel" ForeColor="Red"
                                         ErrorMessage="(*)" Display="Dynamic" SetFocusOnError="true"></asp:RequiredFieldValidator>
                                 </div>
                                 <div class="row-right">
-                                    <telerik:RadNumericTextBox runat="server" CssClass="form-control width-notfull" Skin="MetroTouch"
+                                    <telerik:RadNumericTextBox runat="server" CssClass="form-control" Skin="MetroTouch"
                                         ID="pMaximumInventoryLevel" MinValue="0" NumberFormat-GroupSizes="3" Width="100%"  NumberFormat-DecimalDigits="0">
                                     </telerik:RadNumericTextBox>
                                 </div>
@@ -88,20 +75,9 @@
                                     </asp:DropDownList>
                                 </div>
                             </div>
-                           <%-- <div class="form-row">
-                                <div class="row-left">
-                                    Trạng thái                                    
-                                </div>
-                                <div class="row-right">
-                                    <asp:DropDownList ID="ddlStockStatus" runat="server" CssClass="form-control">
-                                        <asp:ListItem Text="Còn hàng" Value="1"></asp:ListItem>
-                                        <asp:ListItem Text="Hết hàng" Value="2"></asp:ListItem>
-                                    </asp:DropDownList>
-                                </div>
-                            </div>--%>
                             <div class="form-row">
                                 <div class="row-left">
-                                    Quản lý trong kho
+                                    Quản lý kho
                                 </div>
                                 <div class="row-right">
                                     <asp:CheckBox ID="chkManageStock" runat="server" />
@@ -114,7 +90,7 @@
                                         ErrorMessage="(*)" Display="Dynamic" SetFocusOnError="true"></asp:RequiredFieldValidator>
                                 </div>
                                 <div class="row-right">
-                                    <telerik:RadNumericTextBox runat="server" CssClass="form-control width-notfull" Skin="MetroTouch"
+                                    <telerik:RadNumericTextBox runat="server" CssClass="form-control" Skin="MetroTouch"
                                         ID="pRegular_Price" MinValue="0" NumberFormat-GroupSizes="3" Width="100%" Value="0" NumberFormat-DecimalDigits="0">
                                     </telerik:RadNumericTextBox>
                                 </div>
@@ -126,45 +102,29 @@
                                         ErrorMessage="(*)" Display="Dynamic" SetFocusOnError="true"></asp:RequiredFieldValidator>
                                 </div>
                                 <div class="row-right">
-                                    <telerik:RadNumericTextBox runat="server" CssClass="form-control width-notfull" Skin="MetroTouch"
+                                    <telerik:RadNumericTextBox runat="server" CssClass="form-control" Skin="MetroTouch"
                                         ID="pCostOfGood" MinValue="0" NumberFormat-GroupSizes="3" Width="100%" Value="0" NumberFormat-DecimalDigits="0">
                                     </telerik:RadNumericTextBox>
                                 </div>
                             </div>
                             <div class="form-row">
                                 <div class="row-left">
-                                    Giá bán lẻ
+                                    Giá lẻ
                                     <asp:RequiredFieldValidator ID="RequiredFieldValidator5" runat="server" ControlToValidate="pRetailPrice" ForeColor="Red"
                                         ErrorMessage="(*)" Display="Dynamic" SetFocusOnError="true"></asp:RequiredFieldValidator>
                                 </div>
                                 <div class="row-right">
-                                    <telerik:RadNumericTextBox runat="server" CssClass="form-control width-notfull" Skin="MetroTouch"
+                                    <telerik:RadNumericTextBox runat="server" CssClass="form-control" Skin="MetroTouch"
                                         ID="pRetailPrice" MinValue="0" NumberFormat-GroupSizes="3" Width="100%" Value="0" NumberFormat-DecimalDigits="0">
                                     </telerik:RadNumericTextBox>
                                 </div>
                             </div>
-                            <%--<div class="form-row">
-                                <div class="row-left">
-                                    Ảnh sản phẩm
-                                </div>
-                                <div class="row-right">
-                                    <telerik:RadAsyncUpload Skin="Metro" runat="server" ID="hinhDaiDien" ChunkSize="0"
-                                        Localization-Select="Chọn ảnh" AllowedFileExtensions=".jpeg,.jpg,.png"
-                                        MultipleFileSelection="Disabled" OnClientFileSelected="OnClientFileSelected">
-                                    </telerik:RadAsyncUpload>
-                                    <asp:Image runat="server" ID="imgDaiDien" Width="200" />
-                                    <asp:HiddenField runat="server" ID="listImg" ClientIDMode="Static" />
-                                    <div class="hidImage"></div>
-                                </div>
-                            </div>--%>
                             <div class="form-row">
                                 <div class="row-left">
                                     Nội dung
                                 </div>
                                 <div class="row-right">
-                                    <telerik:RadEditor runat="server" ID="pContent" Width="100%"
-                                        Height="600px" ToolsFile="~/FilesResources/ToolContent.xml" Skin="Metro"
-                                        DialogHandlerUrl="~/Telerik.Web.UI.DialogHandler.axd" AutoResizeHeight="True">
+                                    <telerik:RadEditor runat="server" ID="pContent" Width="100%" Height="600px" ToolsFile="~/FilesResources/ToolContent.xml" Skin="Metro" DialogHandlerUrl="~/Telerik.Web.UI.DialogHandler.axd" AutoResizeHeight="True">
                                         <ImageManager ViewPaths="~/Uploads/Images" UploadPaths="~/Uploads/Images" DeletePaths="~/Uploads/Images" />
                                     </telerik:RadEditor>
                                 </div>
@@ -177,22 +137,9 @@
                                     <asp:CheckBox ID="chkIsHidden" runat="server" />
                                 </div>
                             </div>
-                            <%-- <div class="form-row" style="border: solid 1px #ccc; padding: 10px;">
-                                <div class="form-row">
-                                    <h3 class="no-margin">Thuộc tính sản phẩm</h3>
-                                </div>
-                                <asp:Literal ID="ltrVariable" runat="server"></asp:Literal>
-                                <div class="form-row">
-                                    <a href="javascript:;" onclick="addVariable()" class="btn primary-btn fw-btn not-fullwidth">Thêm thuộc tính</a>
-                                </div>
-                                <div class="form-row variable-selected">
-                                </div>
-                            </div>--%>
                             <div class="form-row">
-                                <%--<a href="javascript:;" class="btn primary-btn fw-btn not-fullwidth" onclick="AddNewProduct()">Tạo mới sản phẩm</a>--%>
                                 <asp:Button ID="btnLogin" runat="server" CssClass="btn primary-btn fw-btn not-fullwidth" Text="Cập nhật" OnClick="btnLogin_Click" />
                                 <asp:Literal ID="ltrBack" runat="server"></asp:Literal>
-                                <%--<a href="/quan-ly-dai-ly" class="btn primary-btn fw-btn not-fullwidth">Quay về danh sách</a>--%>
                             </div>
                         </div>
                     </div>
@@ -215,6 +162,7 @@
             function isBlank(str) {
                 return (!str || /^\s*$/.test(str));
             }
+
             function AddNewProduct() {
                 if ($(".row-variable-selected").length > 0) {
                     var check = true;
@@ -227,6 +175,7 @@
                     });
                 }
             }
+
             function addVariable() {
                 var variable_selected = "";
                 var valu_list = "";
@@ -285,9 +234,8 @@
                 else {
 
                 }
-
-
             }
+
             function deleterowva(obj) {
                 var c = confirm("Bạn muốn xóa thuộc tính này?");
                 if (c == true) {
@@ -305,45 +253,6 @@
                     $("#<%=hdfTempVariable.ClientID%>").val(newc);
                 }
             }
-            <%--function DelRow(that, link) {
-
-                $(that).parent().parent().remove();
-                var myHidden = $("#<%= listImg.ClientID %>");
-                var tempF = myHidden.value;
-                myHidden.value = tempF.replace(link, '');
-            }
-            (function (global, undefined) {
-                var textBox = null;
-
-                function textBoxLoad(sender) {
-                    textBox = sender;
-                }
-
-                function OpenFileExplorerDialog() {
-                    global.radopen("/Dialogs/Dialog.aspx", "ExplorerWindow");
-                }
-
-                //This function is called from a code declared on the Explorer.aspx page
-                function OnFileSelected(fileSelected) {
-                    if (textBox) {
-                        {
-                            var myHidden = document.getElementById('<%= listImg.ClientID %>');
-                            var tempF = myHidden.value;
-
-                            tempF = tempF + '#' + fileSelected;
-                            myHidden.value = tempF;
-
-                            $('.hidImage').append('<tr><td><img height="100px" src="' + fileSelected + '"/></td><td style="text-align:center"><a class="btn btn-success" onclick="DelRow(this,\'' + fileSelected + '\')">Xóa</a></td></li>');
-                            //alert(fileSelected);
-                            textBox.set_value(fileSelected);
-                        }
-                    }
-                }
-
-                global.OpenFileExplorerDialog = OpenFileExplorerDialog;
-                global.OnFileSelected = OnFileSelected;
-                global.textBoxLoad = textBoxLoad;
-            })(window);--%>
         </script>
     </telerik:RadCodeBlock>
 </asp:Content>

@@ -10,29 +10,27 @@
                     <h3 class="page-title left">Danh sách sản phẩm</h3>
                     <div class="right above-list-btn">
                         <asp:Literal ID="ltrBack" runat="server"></asp:Literal>
-                        <a href="/tao-san-pham" class="h45-btn btn" style="background-color: #ff3f4c">Thêm mới</a>
+                        <a href="/tao-san-pham" class="h45-btn btn primary-btn">Thêm mới</a>
                     </div>
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-12">
                     <div class="filter-above-wrap clear">
-                        <div style="float: right!important">
-                            <div class="filter-control right">
+                        <div class="right">
+                            <div class="filter-control">
                                 <div class="col-md-4">
-                                    <asp:TextBox ID="txtAgentName" runat="server" CssClass="form-control" placeholder="Nhập tên sản phẩm hoặc SKU để tìm"
-                                        Width=""></asp:TextBox>
-
+                                    <asp:TextBox ID="txtSearchProduct" runat="server" CssClass="form-control" placeholder="Tìm sản phẩm"></asp:TextBox>
                                 </div>
                                 <div class="col-md-4">
                                     <asp:DropDownList ID="ddlCategory" runat="server" CssClass="form-control"></asp:DropDownList>
                                 </div>
                                 <div class="col-md-3">
                                     <asp:DropDownList ID="ddlType" runat="server" CssClass="form-control">
-                                        <asp:ListItem Value="0" Text="Tất cả"></asp:ListItem>
+                                        <asp:ListItem Value="0" Text="Trạng thái"></asp:ListItem>
                                         <asp:ListItem Value="1" Text="Còn hàng"></asp:ListItem>
                                         <asp:ListItem Value="2" Text="Hết hàng"></asp:ListItem>
-                                        <asp:ListItem Value="3" Text="Đang chờ nhập hàng"></asp:ListItem>
+                                        <asp:ListItem Value="3" Text="Nhập hàng"></asp:ListItem>
                                     </asp:DropDownList>
                                 </div>
                                 <div class="col-md-1">
@@ -42,27 +40,31 @@
                             </div>
                         </div>
                     </div>
-                    <div class="panel-footer clear" style="height: 55px; padding: 0px 15px;">
-                        <div class="pagination">
-                            <%this.DisplayHtmlStringPaging1();%>
-                        </div>
-                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
                     <div class="panel-table clear">
+                        <div class="panel-footer clear">
+                            <div class="pagination">
+                                <%this.DisplayHtmlStringPaging1();%>
+                            </div>
+                        </div>
                         <div class="responsive-table">
-                            <table class="table table-checkable table-product">
+                            <table class="table table-checkable table-product all-product-table">
                                 <tbody>
                                     <tr>
-                                        <th>Ảnh</th>
-                                        <th>Tên sản phẩm</th>
-                                        <th>SKU</th>
-                                        <th>Giá sỉ</th>
-                                        <th class="cost hide">Giá vốn</th> 
-                                        <th>Giá bán lẻ</th>
-                                        <th>Số lượng</th>
-                                        <th>Kho</th>
-                                        <th>Danh mục</th>
-                                        <th>Ngày tạo</th>
-                                        <th>Thao tác</th>
+                                        <th class="image-column">Ảnh</th>
+                                        <th class="name-column">Sản phẩm</th>
+                                        <th class="sku-column">Mã</th>
+                                        <th class="wholesale-price-column">Giá sỉ</th>
+                                        <th class="cost-price-column cost hide">Giá vốn</th> 
+                                        <th class="retail-price-column">Giá lẻ</th>
+                                        <th class="stock-column">Kho</th>
+                                        <th class="stock-status-column">Trạng thái</th>
+                                        <th class="category-column">Danh mục</th>
+                                        <th class="date-column">Ngày tạo</th>
+                                        <th class="action-column">Thao tác</th>
                                     </tr>
                                     <asp:Literal ID="ltrList" runat="server" EnableViewState="false"></asp:Literal>
                                 </tbody>
