@@ -44,10 +44,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="LeoUtils">
-      <HintPath>..\..\..\..\NhapHangSaiGon\Source\NHSG\NHSG\bin\LeoUtils.dll</HintPath>
+      <HintPath>..\packages\LeoUtils.dll</HintPath>
     </Reference>
     <Reference Include="MB.Extensions">
-      <HintPath>..\..\..\..\NhapHangSaiGon\Source\NHSG\NHSG\bin\MB.Extensions.dll</HintPath>
+      <HintPath>..\packages\MB.Extensions.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.AI.Agent.Intercept, Version=2.0.6.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.ApplicationInsights.Agent.Intercept.2.0.6\lib\net45\Microsoft.AI.Agent.Intercept.dll</HintPath>
@@ -74,7 +74,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.ApplicationBlocks.Data">
-      <HintPath>..\..\..\..\PhongDaiViet\Source\NHST\bin\Microsoft.ApplicationBlocks.Data.dll</HintPath>
+      <HintPath>..\packages\Microsoft.ApplicationBlocks.Data.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.ApplicationInsights, Version=2.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.ApplicationInsights.2.2.0\lib\net45\Microsoft.ApplicationInsights.dll</HintPath>
@@ -86,10 +86,10 @@
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="QRCoder">
-      <HintPath>..\..\..\..\NhapHangSaiGon\Source\NHSG\NHSG\bin\QRCoder.dll</HintPath>
+      <HintPath>..\packages\QRCoder.dll</HintPath>
     </Reference>
     <Reference Include="Supremes">
-      <HintPath>..\..\..\..\PhongDaiViet\Source\NHST\bin\Supremes.dll</HintPath>
+      <HintPath>..\packages\Supremes.dll</HintPath>
     </Reference>
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System" />
@@ -130,13 +130,13 @@
       <HintPath>..\packages\Microsoft.AspNet.Web.Optimization.1.1.3\lib\net40\System.Web.Optimization.dll</HintPath>
     </Reference>
     <Reference Include="Telerik.Web.Design">
-      <HintPath>..\..\..\..\NhapHangSaiGon\Source\NHSG\NHSG\bin\Telerik.Web.Design.dll</HintPath>
+      <HintPath>..\packages\Telerik.Web.Design.dll</HintPath>
     </Reference>
     <Reference Include="Telerik.Web.UI">
-      <HintPath>..\..\..\..\NhapHangSaiGon\Source\NHSG\NHSG\bin\Telerik.Web.UI.dll</HintPath>
+      <HintPath>..\packages\Telerik.Web.UI.dll</HintPath>
     </Reference>
     <Reference Include="Telerik.Web.UI.Skins">
-      <HintPath>..\..\..\..\NhapHangSaiGon\Source\NHSG\NHSG\bin\Telerik.Web.UI.Skins.dll</HintPath>
+      <HintPath>..\packages\Telerik.Web.UI.Skins.dll</HintPath>
     </Reference>
     <Reference Include="WebGrease">
       <Private>True</Private>
@@ -1552,6 +1552,9 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
