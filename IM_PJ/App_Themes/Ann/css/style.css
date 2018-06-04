@@ -423,7 +423,8 @@ textarea.form-control {
   #header .hd-right {
     float: right;
     min-height: 1px;
-    position: relative; }
+    position: absolute;
+    right: 0; }
 
 .nav-toggle {
   position: relative;

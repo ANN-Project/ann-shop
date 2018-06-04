@@ -37,7 +37,9 @@ namespace IM_PJ
 
         public void LoadData()
         {
-            string fromdate = "";
+            DateTime now = DateTime.Now;
+            var start = new DateTime(now.Year, now.Month, 1, 0, 0, 0);
+            string fromdate = start.ToString();
             string todate = "";
 
             if (Request.QueryString["fromdate"] != null)
@@ -49,39 +51,34 @@ namespace IM_PJ
                 todate = Request.QueryString["todate"];
             }
 
-            DateTime now = DateTime.Now;
-            var start = new DateTime(now.Year, now.Month, 1, 0, 0, 0);
-            if (!string.IsNullOrEmpty(fromdate))
-            {
-                rFromDate.SelectedDate = Convert.ToDateTime(fromdate);
-            }
-            else
-            {
-                fromdate = start.ToString();
-            }
+            rFromDate.SelectedDate = Convert.ToDateTime(fromdate);
+
             if (!string.IsNullOrEmpty(todate))
             {
                 rToDate.SelectedDate = Convert.ToDateTime(todate);
+                todate = Convert.ToDateTime(todate).AddHours(24).ToString();
             }
-            int donhangtra = 0;
-            int tongvondonhangban = 0;
-            int tongdonhang = 0;
-            int total = 0;
+            else
+            {
+                rToDate.SelectedDate = now;
+                todate = now.ToString();
+            }
+            
+            int TotalCostOfSales = 0;
+            int TotalNumberOfOrder = 0;
+            int TotalSales = 0;
             int day = 0;
             var od = OrderController.Report(fromdate, todate);
             if (od != null)
             {
-                var o = od.FirstOrDefault();
                 DateTime st = new DateTime();
                 DateTime end = new DateTime();
+
                 if (!string.IsNullOrEmpty(fromdate))
                 {
                     st = Convert.ToDateTime(fromdate);
                 }
-                else
-                {
-                    st = Convert.ToDateTime(o.CreatedDate);
-                }
+
                 if (!string.IsNullOrEmpty(todate))
                 {
                     end = Convert.ToDateTime(todate);
@@ -92,40 +89,43 @@ namespace IM_PJ
                 }
 
                 TimeSpan time = end.Subtract(st);
-                 day = time.Days;
-                int hours = time.Hours;
-                if (hours >= 20)
-                {
-                    day++;
-                }
-                tongdonhang = od.Count();
+                day += time.Days;
+
+                TotalNumberOfOrder = od.Count();
                 foreach (var item in od)
                 {
-                   
-                    total += Convert.ToInt32(item.TotalPrice);
-                    var oddetail = OrderDetailController.GetByOrderID(item.ID);
-                    if (oddetail != null)
+                    TotalSales += Convert.ToInt32(item.TotalPrice);
+                    var orderItems = OrderDetailController.GetByOrderID(item.ID);
+                    if (orderItems != null)
                     {
-                        foreach (var temp in oddetail)
+                        foreach (var t in orderItems)
                         {
-                       
-                            var pr = ProductVariableController.GetBySKU(temp.SKU);
-                            if (pr != null)
+                            var productVariable = ProductVariableController.GetBySKU(t.SKU);
+                            if (productVariable != null)
                             {
-                                tongvondonhangban += Convert.ToInt32(pr.CostOfGood) * Convert.ToInt32(temp.Quantity);
+                                TotalCostOfSales += Convert.ToInt32(productVariable.CostOfGood) * Convert.ToInt32(t.Quantity);
+                            }
+                            else
+                            {
+                                var productSimple = ProductController.GetBySKU(t.SKU);
+                                if (productSimple != null)
+                                {
+                                    TotalCostOfSales += Convert.ToInt32(productSimple.CostOfGood) * Convert.ToInt32(t.Quantity);
+                                }
                             }
                         }
                     }
                 }
             }
 
-            int totalrefund = 0;
+            int TotalRefund = 0;
+            int TotalCostOfRefund = 0;
             var refund = RefundGoodController.TotalRefund(fromdate, todate);
             if (refund.Count() > 0)
             {
                 foreach (var temp in refund)
                 {
-                    totalrefund += Convert.ToInt32(temp.TotalPrice);
+                    TotalRefund += Convert.ToInt32(temp.TotalPrice);
                     var redetail = RefundGoodDetailController.GetByRefundGoodsID(temp.ID);
                     if (redetail.Count() > 0)
                     {
@@ -134,7 +134,7 @@ namespace IM_PJ
                             var pr = ProductVariableController.GetBySKU(vl.SKU);
                             if (pr != null)
                             {
-                                donhangtra += Convert.ToInt32(pr.CostOfGood) * Convert.ToInt32(vl.Quantity);
+                                TotalCostOfRefund += Convert.ToInt32(pr.CostOfGood) * Convert.ToInt32(vl.Quantity);
                             }
                         }
                     }
@@ -142,23 +142,29 @@ namespace IM_PJ
                 }
             }
 
-            int tong = total - totalrefund;
-            int tongvon = tongvondonhangban - donhangtra;
-            int totalperday = (tong - tongvon) / day;
-            int totalperorder = (tong - tongvon) / tongdonhang;
+            int TotalRevenue = TotalSales - TotalRefund;
 
-            ltrList.Text += "<tr>";
-            //ltrList.Text += "<td style=\"text-align:center;\">" + string.Format("{0:N0}", tongvondonhangban) + "</td>";
-            //ltrList.Text += "<td>" + string.Format("{0:N0}", donhangtra) + "</td>";
-            //ltrList.Text += "<td>" + string.Format("{0:N0}", tongvondonhangban - donhangtra) + "</td>";
-            //ltrList.Text += "<td>" + string.Format("{0:N0}", tong) + "</td>";
-           
-            ltrList.Text += "<td>" + string.Format("{0:N0}", tong - tongvon) + "</td>";
+            int TotalCost = TotalCostOfSales - TotalCostOfRefund;
+            
+            int TotalProfit = TotalRevenue - TotalCost;
 
-            ltrList.Text += "<td>" + string.Format("{0:N0}", totalperday) + "</td>";
-            ltrList.Text += "<td>" + string.Format("{0:N0}", totalperorder) + "</td>";
+            int TotalProfitPerDay = TotalProfit / day;
 
-            ltrList.Text += "</tr>";
+            int TotalProfitPerOrder = 0;
+
+            if (TotalNumberOfOrder > 0)
+            {
+                TotalProfitPerOrder = TotalProfit / TotalNumberOfOrder;
+            }
+            
+
+            ltrTotalRevenue.Text = string.Format("{0:N0}", TotalRevenue);
+            ltrTotalCost.Text = string.Format("{0:N0}", TotalCostOfSales);
+            ltrTotalRefund.Text = string.Format("{0:N0}", TotalRefund);
+            ltrTotalProfit.Text += string.Format("{0:N0}", TotalProfit);
+
+            ltrProfitPerDay.Text += string.Format("{0:N0}", TotalProfitPerDay);
+            ltrProfitPerOrder.Text += string.Format("{0:N0}", TotalProfitPerOrder);
 
         }
 

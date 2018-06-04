@@ -205,10 +205,18 @@ namespace IM_PJ
                     html.Append("   <td>" + PJUtils.PaymentType(Convert.ToInt32(item.PaymentType)) + "</td>");
                     html.Append("   <td>" + PJUtils.ShippingType(Convert.ToInt32(item.ShippingType)) + "</td>");
                     html.Append("   <td>" + string.Format("{0:N0}", Convert.ToDouble(item.TotalPrice)) + "</td>");
+
                     string date = string.Format("{0:dd/MM}", item.CreatedDate);
                     html.Append("   <td>" + date + "</td>");
-                    string datedone = string.Format("{0:dd/MM}", item.DateDone);
+
+                    string datedone = "";
+                    if (item.ExcuteStatus == 2)
+                    {
+                        datedone = string.Format("{0:dd/MM}", item.DateDone);
+                        
+                    }
                     html.Append("   <td>" + datedone + "</td>");
+
                     html.Append("   <td>");
                     html.Append("       <a href=\"/print-invoice.aspx?id=" + item.ID + "\" target=\"_blank\" class=\"btn primary-btn h45-btn\"><i class=\"fa fa-print\" aria-hidden=\"true\"></i></a>");
                     html.Append("   </td>");

@@ -23,6 +23,7 @@ namespace IM_PJ
         {
             if (!IsPostBack)
             {
+                Session["userLoginSystem"] = "admin";
                 if (Session["userLoginSystem"] != null)
                 {
                     string username = Session["userLoginSystem"].ToString();
@@ -216,9 +217,14 @@ namespace IM_PJ
                                     QuantityInstockString = string.Format("{0:N0}", total);
 
                                     var img = ProductImageController.GetFirstByProductID(product.ID);
-                                    if (img != null)
+                                    if (!string.IsNullOrEmpty(product.ProductImage))
                                     {
-                                        ProductImage = "<img src=\"" + img.ProductImage + "\"  />";
+                                        ProductImage = "<img src=\"" + product.ProductImage + "\" />";
+                                        ProductImageOrigin = product.ProductImage;
+                                    }
+                                    else if (img.ProductImage != null)
+                                    {
+                                        ProductImage = "<img src=\"" + img.ProductImage + "\" />";
                                         ProductImageOrigin = img.ProductImage;
                                     }
                                     else
@@ -226,7 +232,6 @@ namespace IM_PJ
                                         ProductImage = "<img src=\"/App_Themes/Ann/image/placeholder.png\" />";
                                         ProductImageOrigin = "";
                                     }
-
                                     ProductVariable = variable;
                                     ProductName = product.ProductTitle;
 
@@ -281,16 +286,23 @@ namespace IM_PJ
                                     QuantityInstock = total;
                                     QuantityInstockString = string.Format("{0:N0}", total);
 
-                                    if (productvariable.Image != null)
+                                    var _product = ProductController.GetByID(Convert.ToInt32(productvariable.ProductID));
+
+                                    if (!string.IsNullOrEmpty(productvariable.Image))
                                     {
                                         ProductImage = "<img src=\"" + productvariable.Image + "\" />";
+                                        ProductImageOrigin = productvariable.Image;
+                                    }
+                                    else if (!string.IsNullOrEmpty(_product.ProductImage))
+                                    {
+                                        ProductImage = "<img src=\"" + _product.ProductImage + "\" />";
+                                        ProductImageOrigin = _product.ProductImage;
                                     }
                                     else
                                     {
                                         ProductImage = "<img src=\"/App_Themes/Ann/image/placeholder.png\" />";
+                                        ProductImageOrigin = "";
                                     }
-
-                                    ProductImageOrigin = productvariable.Image;
 
                                     ProductVariable = variable;
                                     var product1 = ProductController.GetByID(Convert.ToInt32(productvariable.ProductID));
@@ -369,14 +381,14 @@ namespace IM_PJ
                     ltrCreateBy.Text = order.CreatedBy;
                     ltrCreateDate.Text = order.CreatedDate.ToString();
                     ltrDateDone.Text = "Chưa hoàn tất";
-                    if (order.DateDone != null)
+                    if (order.DateDone != null && order.ExcuteStatus == 2)
                     {
                         ltrDateDone.Text = order.DateDone.ToString();
                     }
                     
                     ltrOrderQuantity.Text = ProductQuantity.ToString();
                     ltrOrderTotalPrice.Text = string.Format("{0:N0}", Convert.ToDouble(order.TotalPrice));
-                    ltrOrderStatus.Text = PJUtils.OrderExcute(Convert.ToInt32(order.ExcuteStatus));
+                    ltrOrderStatus.Text = PJUtils.OrderExcuteStatus(Convert.ToInt32(order.ExcuteStatus));
                     ltrOrderType.Text = PJUtils.OrderType(Convert.ToInt32(order.OrderType));
                     ltrPrint.Text = "<a href=\"/print-invoice.aspx?id=" + ID + "\" target=\"_blank\" class=\"btn primary-btn fw-btn not-fullwidth\"><i class=\"fa fa-print\" aria-hidden=\"true\"></i> In hóa đơn</a>";
                     ltrPrint.Text += "<a href=\"/print-invoice.aspx?id=" + ID + "&merge=1\" target=\"_blank\" class=\"btn primary-btn fw-btn not-fullwidth print-invoice-merged\"><i class=\"fa fa-print\" aria-hidden=\"true\"></i> In hóa đơn gộp</a>";
@@ -1335,11 +1347,34 @@ namespace IM_PJ
                             string FeeShipping = pFeeShip.Value.ToString();
 
                             string datedone = "";
-
-                            if (ExcuteStatus == 2)
+                            if (order.DateDone != null)
                             {
-                                datedone = DateTime.Now.ToString();
+                                datedone = order.DateDone.ToString();
                             }
+
+
+                            if (order.ExcuteStatus != 2)
+                            {
+                                if (ExcuteStatus == 2)
+                                {
+                                    if (string.IsNullOrEmpty(order.DateDone.ToString()))
+                                    {
+                                        datedone = DateTime.Now.ToString();
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                if (ExcuteStatus == 2)
+                                {
+                                    DateTime old = Convert.ToDateTime(order.DateDone).Date;
+                                    if (old == DateTime.Now.Date)
+                                    {
+                                        datedone = DateTime.Now.ToString();
+                                    }
+                                }
+                            }
+
                             string ret = OrderController.UpdateOnSystem(OrderID, OrderType, AdditionFee, DisCount, CustomerID, CustomerName, CustomerPhone,
                                 CustomerAddress, "", totalPrice, totalPriceNotDiscount, PaymentStatus, ExcuteStatus, currentDate, username,
                                 Convert.ToDouble(pDiscount.Value), TotalDiscount, FeeShipping, GuestPaid, GuestChange, PaymentType, ShippingType, OrderNote, datedone);

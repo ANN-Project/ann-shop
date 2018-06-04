@@ -37,7 +37,9 @@ namespace IM_PJ
 
         public void LoadData()
         {
-            string fromdate = "";
+            DateTime now = DateTime.Now;
+            var start = new DateTime(now.Year, now.Month, 1, 0, 0, 0);
+            string fromdate = start.ToString();
             string todate = "";
 
             if (Request.QueryString["fromdate"] != null)
@@ -49,40 +51,34 @@ namespace IM_PJ
                 todate = Request.QueryString["todate"];
             }
 
-            DateTime now = DateTime.Now;
-            var start = new DateTime(now.Year, now.Month, 1, 0, 0, 0);
+            rFromDate.SelectedDate = Convert.ToDateTime(fromdate);
 
-            if (!string.IsNullOrEmpty(fromdate))
-            {
-                rFromDate.SelectedDate = Convert.ToDateTime(fromdate);
-            }
-            else
-            {
-                fromdate = start.ToString();
-            }
             if (!string.IsNullOrEmpty(todate))
             {
                 rToDate.SelectedDate = Convert.ToDateTime(todate);
+                todate = Convert.ToDateTime(todate).AddHours(24).ToString();
+            }
+            else
+            {
+                rToDate.SelectedDate = now;
+                todate = now.ToString();
             }
 
             int tongdonhang = 0;
             int total = 0;
-            int day = 0;
+            int day = 1;
+
             var od = OrderController.Report(fromdate, todate);
             if (od.Count() > 0)
             {
-
-                var o = od.FirstOrDefault();
                 DateTime st = new DateTime();
                 DateTime end = new DateTime();
+
                 if (!string.IsNullOrEmpty(fromdate))
                 {
                     st = Convert.ToDateTime(fromdate);
                 }
-                else
-                {
-                    st = Convert.ToDateTime(o.CreatedDate);
-                }
+
                 if (!string.IsNullOrEmpty(todate))
                 {
                     end = Convert.ToDateTime(todate);
@@ -93,12 +89,7 @@ namespace IM_PJ
                 }
 
                 TimeSpan time = end.Subtract(st);
-                day = time.Days;
-                int hours = time.Hours;
-                if (hours >= 20)
-                {
-                    day++;
-                }
+                day += time.Days;
 
                 tongdonhang = od.Count();
                 foreach (var item in od)
@@ -119,17 +110,18 @@ namespace IM_PJ
             }
 
             int tong = total - totalrefund;
-            ltrList.Text += "<tr>";
-            ltrList.Text += "<td style=\"text-align:center;\">" + tongdonhang + "</td>";
-            ltrList.Text += "<td style=\"text-align:center;\">" + tongdonhang / day + "</td>";
-            //ltrList.Text += "<td>" + string.Format("{0:N0}", total) + "</td>";
-            //ltrList.Text += "<td>" + string.Format("{0:N0}", totalrefund) + "</td>";
-
-            ltrList.Text += "<td>" + string.Format("{0:N0}", tong) + "</td>";
-            ltrList.Text += "<td>" + string.Format("{0:N0}", tong / day) + "</td>";
-            ltrList.Text += "<td>" + string.Format("{0:N0}", tong / tongdonhang) + "</td>";
-            ltrList.Text += "</tr>";
-
+            ltrTotalNumberOfOrder.Text =  tongdonhang.ToString() + " đơn";
+            ltrNumberOfOrderPerDay.Text = (tongdonhang / day).ToString() + " đơn/ngày";
+            ltrTotalRevenue.Text = string.Format("{0:N0}", tong) + "đ";
+            ltrAverageRevenue.Text = string.Format("{0:N0}", tong / day) + "đ/ngày";
+            if (tongdonhang == 0)
+            {
+                ltrRevenuePerOrder.Text = "0";
+            }
+            else
+            {
+                ltrRevenuePerOrder.Text = string.Format("{0:N0}", tong / tongdonhang) + "đ/đơn";
+            }
         }
         protected void btnSearch_Click(object sender, EventArgs e)
         {
