@@ -180,6 +180,7 @@ namespace IM_PJ.Controllers
                     ui.PaymentType = PaymentType;
                     ui.ShippingType = ShippingType;
                     ui.OrderNote = OrderNote;
+                    ui.DateDone = null;
                     if (DateDone != "")
                     {
                         ui.DateDone = Convert.ToDateTime(DateDone);
@@ -960,9 +961,6 @@ namespace IM_PJ.Controllers
 
         }
 
-
-
-
         public static List<tbl_Order> Report(string fromdate, string todate)
         {
             using (var db = new inventorymanagementEntities())
@@ -975,15 +973,19 @@ namespace IM_PJ.Controllers
                         DateTime fd = Convert.ToDateTime(fromdate);
                         DateTime td = Convert.ToDateTime(todate);
                         or = db.tbl_Order
-                            .Where(r => r.CreatedDate >= fd && r.CreatedDate <= td)
-                            .OrderByDescending(r => r.ID).ToList();
+                            .Where(r => r.DateDone >= fd && r.DateDone < td)
+                            .Where(r => r.ExcuteStatus == 2)
+                            .Where(r => r.PaymentStatus == 3)
+                            .ToList();
                     }
                     else
                     {
                         DateTime fd = Convert.ToDateTime(fromdate);
                         or = db.tbl_Order
                             .Where(r => r.CreatedDate >= fd)
-                            .OrderByDescending(r => r.ID).ToList();
+                            .Where(r => r.ExcuteStatus == 2)
+                            .Where(r => r.PaymentStatus == 3)
+                            .ToList();
                     }
                 }
                 else
@@ -993,11 +995,16 @@ namespace IM_PJ.Controllers
                         DateTime td = Convert.ToDateTime(todate);
                         or = db.tbl_Order
                             .Where(r => r.CreatedDate <= td)
-                            .OrderByDescending(r => r.ID).ToList();
+                            .Where(r => r.ExcuteStatus == 2)
+                            .Where(r => r.PaymentStatus == 3)
+                            .ToList();
                     }
                     else
                     {
-                        or = db.tbl_Order.ToList();
+                        or = db.tbl_Order
+                            .Where(r => r.ExcuteStatus == 2)
+                            .Where(r => r.PaymentStatus == 3)
+                            .ToList();
                     }
                 }
                 return or;

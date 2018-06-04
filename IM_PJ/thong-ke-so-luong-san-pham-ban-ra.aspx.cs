@@ -51,6 +51,7 @@ namespace IM_PJ
 
             DateTime now = DateTime.Now;
             var start = new DateTime(now.Year, now.Month, 1, 0, 0, 0);
+
             if (!string.IsNullOrEmpty(fromdate))
             {
                 rFromDate.SelectedDate = Convert.ToDateTime(fromdate);
@@ -59,9 +60,11 @@ namespace IM_PJ
             {
                 fromdate = start.ToString();
             }
+
             if (!string.IsNullOrEmpty(todate))
             {
                 rToDate.SelectedDate = Convert.ToDateTime(todate);
+                todate = Convert.ToDateTime(todate).AddHours(24).ToString();
             }
 
 
@@ -93,7 +96,7 @@ namespace IM_PJ
             }
 
             ltrList.Text += "<tr>";
-            ltrList.Text += "<td style=\"text-align:center;\">"+tongbanra+"</td>";
+            ltrList.Text += "<td>"+tongbanra+"</td>";
             ltrList.Text += "<td>" + totalrefund + "</td>";
             ltrList.Text += "<td>" + (tongbanra - totalrefund) + "</td>";
           

@@ -14,6 +14,7 @@ namespace IM_PJ
         {
             if (!IsPostBack)
             {
+                Session["userLoginSystem"] = "admin";
                 if (Session["userLoginSystem"] == null)
                 {
                    

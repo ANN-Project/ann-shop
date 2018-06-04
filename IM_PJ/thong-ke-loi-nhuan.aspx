@@ -17,22 +17,20 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="filter-above-wrap clear">
-                        <div style="float: right!important">
-                            <div class="filter-control right">
+                        <div class="filter-control">
+                            <div class="row">
                                 <div class="col-md-5">
                                 </div>
                                 <div class="col-md-3">
                                     <label>Từ ngày</label>
-                                    <telerik:RadDatePicker RenderMode="Lightweight" ID="rFromDate" ShowPopupOnFocus="true" Width="100%" runat="server"
-                                        DateInput-CssClass="radPreventDecorate" MinDate="01/01/1900">
+                                    <telerik:RadDatePicker RenderMode="Lightweight" ID="rFromDate" ShowPopupOnFocus="true" Width="100%" runat="server" DateInput-CssClass="radPreventDecorate" MinDate="01/01/2018">
                                         <DateInput DisplayDateFormat="dd/MM/yyyy" runat="server">
                                         </DateInput>
                                     </telerik:RadDatePicker>
                                 </div>
                                 <div class="col-md-3">
                                     <label>Đến ngày</label>
-                                    <telerik:RadDatePicker RenderMode="Lightweight" ID="rToDate" ShowPopupOnFocus="true" Width="100%" runat="server"
-                                        DateInput-CssClass="radPreventDecorate" MinDate="01/01/1900">
+                                    <telerik:RadDatePicker RenderMode="Lightweight" ID="rToDate" ShowPopupOnFocus="true" Width="100%" runat="server" DateInput-CssClass="radPreventDecorate" MinDate="01/01/2018">
                                         <DateInput DisplayDateFormat="dd/MM/yyyy" runat="server">
                                         </DateInput>
                                     </telerik:RadDatePicker>
@@ -47,22 +45,68 @@
 
                     <div class="panel-table clear">
                         <div class="responsive-table">
-                            <table class="table table-checkable table-product">
-                                <tbody>
-                                    <tr>
-                                       <%-- <th>Tổng giá vốn đơn hàng bán</th>
-                                        <th>Tổng giá vốn đơn hàng đổi trả</th>
-                                        <th>Tổng giá vốn</th>
-                                        <th>Tổng doanh thu</th>--%>
-                                        <th>Tổng lợi nhuận</th>
-                                        <th>Lợi nhuận trung bình mỗi ngày</th>
-                                         <th>Lợi nhuận trung bình mỗi đơn hàng</th>
-                                    </tr>
-                                    <asp:Literal ID="ltrList" runat="server" EnableViewState="false"></asp:Literal>
-                                </tbody>
-                            </table>
+                            <div class="row">
+                            <div class="col-md-2">
+                                <div class="report-column">
+                                    <div class="report-label">
+                                        Tổng doanh thu:
+                                    </div>
+                                    <div class="report-value">
+                                        <asp:Literal ID="ltrTotalRevenue" runat="server" EnableViewState="false"></asp:Literal>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="report-column">
+                                    <div class="report-label">
+                                        Tổng giá vốn:
+                                    </div>
+                                    <div class="report-value">
+                                        <asp:Literal ID="ltrTotalCost" runat="server" EnableViewState="false"></asp:Literal>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="report-column">
+                                    <div class="report-label">
+                                        Tổng trả hàng:
+                                    </div>
+                                    <div class="report-value">
+                                        <asp:Literal ID="ltrTotalRefund" runat="server" EnableViewState="false"></asp:Literal>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="report-column">
+                                    <div class="report-label">
+                                        Tổng lợi nhuận:
+                                    </div>
+                                    <div class="report-value">
+                                        <asp:Literal ID="ltrTotalProfit" runat="server" EnableViewState="false"></asp:Literal>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="report-column">
+                                    <div class="report-label">
+                                        Lợi nhuận mỗi ngày:
+                                    </div>
+                                    <div class="report-value">
+                                        <asp:Literal ID="ltrProfitPerDay" runat="server" EnableViewState="false"></asp:Literal>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="report-column">
+                                    <div class="report-label">
+                                        Lợi nhuận mỗi đơn hàng:
+                                    </div>
+                                    <div class="report-value">
+                                        <asp:Literal ID="ltrProfitPerOrder" runat="server" EnableViewState="false"></asp:Literal>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-
                     </div>
                 </div>
             </div>

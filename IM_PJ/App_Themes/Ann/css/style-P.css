@@ -1,4 +1,20 @@
-﻿#ManageStock {
+﻿.report-column {
+    background: #fff;
+}
+.report-column .report-label {
+    background: #78909c;
+    color: #fff;
+    padding: 15px;
+}
+.report-column .report-value {
+    padding: 15px;
+    font-size: 16px;
+    font-weight: bold;
+}
+.relative {
+    position: relative!important;
+}
+#ManageStock {
     margin-bottom: 33px;
 }
 .content-box {
@@ -673,7 +689,11 @@ body {
         box-shadow: 0px 0px 20px 0px rgba(138,138,138,0.5);
     }
 }
-
+@media (max-width: 480px) {
+    #header .hd-left {
+        margin-left: 25px;
+    }
+}
 #header {
     padding: 0 10px;
 }

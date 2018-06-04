@@ -518,7 +518,7 @@ namespace NHST.Bussiness
             }
             else if (ExcuteStatus == 2)
             {
-                ret = "<span class=\"bg-blue\">Đã hoàn tất</span>";
+                ret = "<span class=\"bg-green\">Đã hoàn tất</span>";
             }
             else
             {
@@ -547,15 +547,15 @@ namespace NHST.Bussiness
             string ret = "";
             if (ExcuteStatus == 1)
             {
-                ret = "<span>Đã hoàn tất</span>";
+                ret = "<span>Đang xử lý</span>";
             }
             else if (ExcuteStatus == 2)
             {
                 ret = "<span>Đã hoàn tất</span>";
             }
-            else
+            else if (ExcuteStatus == 3)
             {
-                ret = "<span>Đã hoàn tất</span>";
+                ret = "<span>Đã hủy</span>";
             }
 
             return ret;
