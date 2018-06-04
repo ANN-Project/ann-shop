@@ -406,6 +406,8 @@
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="SQL\IndexStockManager.sql" />
+    <Content Include="SQL\TriggerStockManager.sql" />
     <Content Include="them-chiet-khau.aspx" />
     <Content Include="them-danh-muc.aspx" />
     <Content Include="them-moi-nhan-vien.aspx" />
@@ -833,7 +835,7 @@
     <Compile Include="Controllers\DiscountController.cs" />
     <Compile Include="Controllers\DiscountCustomerController.cs" />
     <Compile Include="Controllers\DiscountGroupController.cs" />
-    <Compile Include="Controllers\InOutProductVariableController.cs" />
+    <Compile Include="Controllers\StockManagerController.cs" />
     <Compile Include="Controllers\LinkImnageController.cs" />
     <Compile Include="Controllers\MoveProController.cs" />
     <Compile Include="Controllers\MoveProDetailController.cs" />
