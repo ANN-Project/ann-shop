@@ -1,9 +1,10 @@
 ﻿using IM_PJ.Models;
-using NHST.Bussiness;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Web;
+using WebUI.Business;
 
 namespace IM_PJ.Controllers
 {
@@ -109,6 +110,86 @@ namespace IM_PJ.Controllers
                 List<tbl_StockManager> ags = new List<tbl_StockManager>();
                 ags = dbe.tbl_StockManager.Where(i => i.SKU == SKU).ToList();
                 return ags;
+            }
+        }
+
+        public static tbl_StockManager GetStockID(Nullable<int> productID = null, Nullable<int> productVariableID = null) {
+            tbl_StockManager stock = new tbl_StockManager();
+            bool exists = false;
+            String sql = String.Empty;
+
+            sql += " SELECT TOP 1 ";
+            sql += "         ID ";
+            sql += " ,       AgentID ";
+            sql += " ,       ProductID ";
+            sql += " ,       ProductVariableID ";
+            sql += " ,       Quantity ";
+            sql += " ,       QuantityCurrent ";
+            sql += " ,       Type ";
+            sql += " FROM ";
+            sql += "         tbl_StockManager ";
+            sql += " WHERE ";
+            sql += "         1 = 1 ";
+
+            if (productID != null)
+            {
+                sql += "         AND ProductID = " + productID.Value.ToString();
+            }
+
+            if (productVariableID != null)
+            {
+                sql += "         AND ProductVariableID = " + productVariableID.Value.ToString();
+            }
+
+            sql += " ORDER BY ";
+            sql += "     CreatedDate DESC ";
+
+            var reader = (IDataReader)SqlHelper.ExecuteDataReader(sql);
+
+            while (reader.Read()) {
+                exists = true;
+
+                stock.ID = Convert.ToInt32(reader["ID"]);
+
+                if(reader["AgentID"] != DBNull.Value) {
+                    stock.AgentID = Convert.ToInt32(reader["AgentID"]);
+                }
+
+                if (reader["ProductID"] != DBNull.Value)
+                {
+                    stock.ProductID = Convert.ToInt32(reader["ProductID"]);
+                }
+
+                if (reader["ProductVariableID"] != DBNull.Value)
+                {
+                    stock.ProductVariableID = Convert.ToInt32(reader["ProductVariableID"]);
+                }
+
+                if (reader["Quantity"] != DBNull.Value)
+                {
+                    stock.Quantity = Convert.ToDouble(reader["Quantity"]);
+                }
+
+                if (reader["QuantityCurrent"] != DBNull.Value)
+                {
+                    stock.QuantityCurrent = Convert.ToDouble(reader["QuantityCurrent"]);
+                }
+
+                if (reader["Type"] != DBNull.Value)
+                {
+                    stock.Type = Convert.ToInt32(reader["Type"]);
+                }
+            }
+
+            reader.Close();
+
+            if (exists)
+            {
+                return stock;
+            }
+            else
+            {
+                return null;
             }
         }
         #endregion

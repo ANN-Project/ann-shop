@@ -177,32 +177,118 @@ namespace IM_PJ.Controllers
         public static List<ProductSQL> GetAllSql(int categoryID, string textsearch)
         {
             var list = new List<ProductSQL>();
-            var sql = @"Select p.ProductStyle as ProductStyle, c.CategoryName, p.*, i.quantiyIN as InProduct, o.quantiyIN as OutProduct, (i.quantiyIN - o.quantiyIN) as leftProduct, m.anhsanpham from tbl_product as p";
-            sql += " LEFT OUTER JOIN (select ParentID, sum(quantity) as quantiyIN from tbl_StockManager where [Type]= 1 group by parentid) as i ON p.ID = i.ParentID ";
-            sql += " LEFT OUTER JOIN (select ParentID, sum(quantity) as quantiyIN from tbl_StockManager where [Type]= 2 group by parentid) as o ON p.ID = o.ParentID ";
+            String sql = String.Empty;
 
-            sql += " LEFT OUTER JOIN (SELECT ProductID, MIN(ProductImage) AS anhsanpham FROM dbo.tbl_ProductImage GROUP BY ProductID) AS m ON p.ID = m.ProductID ";
-            sql += " LEFT OUTER JOIN (SELECT ID, CategoryName FROM dbo.tbl_Category) AS c ON c.ID = p.CategoryID where 1 = 1 ";
+            sql += " BEGIN ";
+            sql += "  ";
+            sql += "     SELECT ";
+            sql += "             PRD.* ";
+            sql += "     INTO #Product ";
+            sql += "     FROM ";
+            sql += "             tbl_product AS PRD ";
+            sql += "     WHERE ";
+            sql += "             1 = 1 ";
+
             if (!string.IsNullOrEmpty(textsearch))
             {
-                sql += " And (p.ProductSKU like N'%" + textsearch + "%' OR p.ProductTitle like N'%" + textsearch + "%')";
+                sql += " AND (PRD.ProductSKU like N'%" + textsearch + "%' OR PRD.ProductTitle like N'%" + textsearch + "%')";
             }
+
             if (categoryID > 0)
             {
-                sql += " AND categoryID = " + categoryID;
+                sql += " AND PRD.CategoryID = " + categoryID;
             }
-            sql += " Order By p.ID asc";
+
+            sql += "     ORDER BY ";
+            sql += "             PRD.ID ";
+            sql += "     ; ";
+            sql += "  ";
+            sql += "     CREATE INDEX [ID_PROCDUCT] ON #Product([ID]) ";
+            sql += "  ";
+            sql += "     SELECT ";
+            sql += "             STM.ProductID ";
+            sql += "     ,       STM.Quantity ";
+            sql += "     ,       STM.QuantityCurrent ";
+            sql += "     ,       STM.Type ";
+            sql += "     ,       STM.CreatedDate ";
+            sql += "     INTO #StockProduct ";
+            sql += "     FROM ";
+            sql += "             #Product AS PRD ";
+            sql += "     INNER JOIN tbl_StockManager AS STM ";
+            sql += "         ON  PRD.ID = STM.ProductID ";
+            sql += "     ORDER BY ";
+            sql += "             STM.ProductID ";
+            sql += "     ,       STM.CreatedDate ";
+            sql += "     ; ";
+            sql += "  ";
+            sql += "     CREATE INDEX [ID_PROCDUCT] ON #StockProduct( ";
+            sql += "             [ProductID] ASC ";
+            sql += "     ,       [CreatedDate] DESC ";
+            sql += "     ) ";
+            sql += "  ";
+            sql += "     SELECT ";
+            sql += "             STP.ProductID ";
+            sql += "     ,       ( ";
+            sql += "                 CASE STP.Type ";
+            sql += "                     WHEN 1 ";
+            sql += "                         THEN STP.QuantityCurrent + STP.Quantity ";
+            sql += "                     WHEN 2 ";
+            sql += "                         THEN STP.QuantityCurrent - STP.Quantity ";
+            sql += "                     ELSE ";
+            sql += "                         0 ";
+            sql += "                 END ";
+            sql += "             ) AS QuantityLeft ";
+            sql += "     INTO #ProductQuantity ";
+            sql += "     FROM ";
+            sql += "             #StockProduct AS STP ";
+            sql += "     INNER JOIN ( ";
+            sql += "             SELECT ";
+            sql += "                     ProductID ";
+            sql += "             ,       MAX(CreatedDate) AS CreatedDate ";
+            sql += "             FROM ";
+            sql += "                     #StockProduct ";
+            sql += "             GROUP BY ";
+            sql += "                     ProductID ";
+            sql += "         ) AS SPM ";
+            sql += "         ON  STP.ProductID = SPM.ProductID ";
+            sql += "         AND STP.CreatedDate = SPM.CreatedDate ";
+            sql += "     ; ";
+            sql += "  ";
+            sql += "     CREATE INDEX [ID_PROCDUCT] ON #ProductQuantity([ProductID]) ";
+            sql += "  ";
+            sql += "     SELECT ";
+            sql += "             p.ProductStyle AS ProductStyle ";
+            sql += "     ,       c.CategoryName ";
+            sql += "     ,       p.* ";
+            sql += "     ,       PRQ.QuantityLeft ";
+            sql += "     FROM ";
+            sql += "             #Product AS p ";
+            sql += "     LEFT JOIN #ProductQuantity AS PRQ ";
+            sql += "         ON  p.ID = PRQ.ProductID ";
+            sql += "     LEFT JOIN ( ";
+            sql += "             SELECT ";
+            sql += "                     ID ";
+            sql += "             ,       CategoryName ";
+            sql += "             FROM ";
+            sql += "                     dbo.tbl_Category ";
+            sql += "     ) AS c ";
+            sql += "     ON c.ID = p.CategoryID ";
+            sql += "     ORDER BY ";
+            sql += "             p.ID ";
+            sql += "     ; ";
+            sql += "  ";
+            sql += " END ";
+
             var reader = (IDataReader)SqlHelper.ExecuteDataReader(sql);
-            int i = 1;
+
             while (reader.Read())
             {
-                int quantityIn = reader["InProduct"].ToString().ToInt(0);
-                int quantityOut = reader["OutProduct"].ToString().ToInt(0);
-                int quantityLeft = quantityIn - quantityOut;
-                int stockstatus = reader["StockStatus"].ToString().ToInt(0);
+                double quantityLeft = 0;
+
                 var entity = new ProductSQL();
-                if (reader["ID"] != DBNull.Value)
-                    entity.ID = reader["ID"].ToString().ToInt(0);
+
+                entity.ID = Convert.ToInt32(reader["ID"]);
+
                 if (!string.IsNullOrEmpty(reader["ProductImage"].ToString()))
                 {
                     entity.ProductImage = reader["ProductImage"].ToString();
@@ -211,13 +297,17 @@ namespace IM_PJ.Controllers
                 {
                     entity.ProductImage = "/App_Themes/Ann/image/placeholder.png";
                 }
-                    
+
                 if (reader["ProductTitle"] != DBNull.Value)
                     entity.ProductTitle = reader["ProductTitle"].ToString();
                 if (reader["ProductSKU"] != DBNull.Value)
                     entity.ProductSKU = reader["ProductSKU"].ToString();
-                if (quantityIn > 0)
+
+
+                if (reader["QuantityLeft"] != DBNull.Value)
                 {
+                    quantityLeft = Convert.ToDouble(reader["QuantityLeft"]);
+
                     if (quantityLeft > 0)
                     {
                         entity.ProductInstockStatus = "<span class=\"bg-green\">Còn hàng</span>";
@@ -235,8 +325,6 @@ namespace IM_PJ.Controllers
                     entity.StockStatus = 3;
                 }
 
-                entity.TotalProductInstockQuantityIn = quantityIn;
-                entity.TotalProductInstockQuantityOut = quantityOut;
                 entity.TotalProductInstockQuantityLeft = quantityLeft;
                 if (reader["Regular_Price"] != DBNull.Value)
                     entity.RegularPrice = Convert.ToDouble(reader["Regular_Price"].ToString());
@@ -254,7 +342,7 @@ namespace IM_PJ.Controllers
                     entity.ProductContent = reader["ProductContent"].ToString();
                 if (reader["ProductStyle"] != DBNull.Value)
                     entity.ProductStyle = reader["ProductStyle"].ToString().ToInt(0);
-                i++;
+
                 list.Add(entity);
             }
             reader.Close();
