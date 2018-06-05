@@ -1374,33 +1374,37 @@ namespace NHST.Bussiness
         public static double TotalProductQuantityInstock(int AgentID, string SKU)
         {
             double currentQuantity = 0;
-            var ps = StockManagerController.GetBySKU(AgentID, SKU);
-            if (ps.Count > 0)
-            {
-                double quantity_pIn = 0;
-                double quantity_pOut = 0;
+            var ps = StockManagerController.GetBySKU(AgentID, SKU).OrderByDescending(x => x.CreatedDate).First();
 
-                var ps_in = ps.Where(p => p.Type == 1).ToList();
-                if (ps_in.Count > 0)
+            if (ps != null)
+            {
+                double quantity = 0;
+                double quantityCurrent = 0;
+
+                if (ps.Quantity.HasValue)
                 {
-                    foreach (var p in ps_in)
-                    {
-                        quantity_pIn += Convert.ToDouble(p.Quantity);
-                    }
+                    quantity = ps.Quantity.Value;
                 }
-                var ps_out = ps.Where(p => p.Type == 2).ToList();
-                if (ps_out.Count > 0)
+
+                if (ps.QuantityCurrent.HasValue)
                 {
-                    foreach (var p in ps_out)
-                    {
-                        quantity_pOut += Convert.ToDouble(p.Quantity);
-                    }
+                    quantityCurrent = ps.QuantityCurrent.Value;
                 }
-                if (quantity_pIn > quantity_pOut)
+
+                switch (ps.Type)
                 {
-                    currentQuantity = quantity_pIn - quantity_pOut;
+                    case 1:
+                        currentQuantity = quantityCurrent + quantity;
+                        break;
+                    case 2:
+                        currentQuantity = quantityCurrent - quantity;
+                        break;
+                    default:
+                        currentQuantity = 0;
+                        break;
                 }
             }
+
             return currentQuantity;
         }
 
