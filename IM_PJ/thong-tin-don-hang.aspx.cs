@@ -1191,82 +1191,68 @@ namespace IM_PJ
             }
         }
         [WebMethod]
-        public static string Delete(string listdel, string listitem)
+        public static void Delete(List<tbl_OrderDetail> listOrderDetail)
         {
-            JavaScriptSerializer serializer = new JavaScriptSerializer();
             DateTime currentDate = DateTime.Now;
             string username = HttpContext.Current.Session["userLoginSystem"].ToString();
             var acc = AccountController.GetByUsername(username);
-            string[] listdelete = listdel.Split(';');
-            if (listdelete != null)
+            if (listOrderDetail != null && listOrderDetail.Count > 0)
             {
-                for (int i = 0; i < listdelete.Length - 1; i++)
+                foreach (var orderDetail in listOrderDetail)
                 {
-                    string[] ld = listdelete[i].Split('*');
-                    if (ld != null)
+                    int AgentID = Convert.ToInt32(acc.AgentID);
+                    int OrderID = orderDetail.ID;
+                    string OrderSKU = orderDetail.SKU;
+                    int ProductID = orderDetail.ProductID.Value;
+                    double quantitynew = orderDetail.Quantity.Value;
+                    string ord = OrderDetailController.Delete(OrderID, OrderSKU);
+
+                    var parent = ProductVariableController.GetBySKU(OrderSKU);
+
+                    if (parent != null)
                     {
-                        int AgentID = Convert.ToInt32(acc.AgentID);
-                        int OrderID = ld[0].ToInt();
-                        string ordersku = ld[1];
-                        double quantitynew = ld[2].ToInt();
-                        string productvariablename = ld[3];
-                        string productvariablevalue = ld[4];
-                        string productimage = ld[5];
-                        string productname = ld[6];
-                        string productvariable = ld[7];
-                        int id = ld[8].ToInt();
-                        string ord = OrderDetailController.Delete(OrderID, ordersku);
-
-                        var parent = ProductVariableController.GetBySKU(ordersku);
-                        if (parent != null)
-                        {
-                            var t = StockManagerController.Insert(
-                                new tbl_StockManager {
-                                    AgentID = AgentID,
-                                    ProductID = Convert.ToInt32(parent.ProductID),
-                                    ProductVariableID = 0,
-                                    Quantity = quantitynew,
-                                    QuantityCurrent = 0,
-                                    Type = 1,
-                                    NoteID = "Nhập kho khi xóa sản phẩm trong sửa đơn",
-                                    OrderID = OrderID,
-                                    Status = 10,
-                                    SKU = ordersku,
-                                    CreatedDate = currentDate,
-                                    CreatedBy = username,
-                                    MoveProID = 0,
-                                    ParentID = Convert.ToInt32(parent.ProductID),
-                                });
-                            //updateOrder(listitem, OrderID);
-                            return serializer.Serialize(t);
-                        }
-                        else
-                        {
-                            var t = StockManagerController.Insert(
-                                new tbl_StockManager {
-                                    AgentID = AgentID,
-                                    ProductID = 0,
-                                    ProductVariableID = id,
-                                    Quantity = quantitynew,
-                                    QuantityCurrent = 0,
-                                    Type = 1,
-                                    NoteID = "Nhập kho khi xóa sản phẩm trong sửa đơn",
-                                    OrderID = OrderID,
-                                    Status = 10,
-                                    SKU = ordersku,
-                                    CreatedDate = currentDate,
-                                    CreatedBy = username,
-                                    MoveProID = 0,
-                                    ParentID = Convert.ToInt32(id),
-                                });
-                            //updateOrder(listitem, OrderID);
-                            return serializer.Serialize(t);
-                        }
-
+                        var t = StockManagerController.Insert(
+                            new tbl_StockManager
+                            {
+                                AgentID = AgentID,
+                                ProductID = 0,
+                                ProductVariableID = ProductID,
+                                Quantity = quantitynew,
+                                QuantityCurrent = 0,
+                                Type = 1,
+                                NoteID = "Nhập kho khi xóa sản phẩm trong sửa đơn",
+                                OrderID = OrderID,
+                                Status = 10,
+                                SKU = OrderSKU,
+                                CreatedDate = currentDate,
+                                CreatedBy = username,
+                                MoveProID = 0,
+                                ParentID = parent.ProductID
+                            });
+                    }
+                    else
+                    {
+                        var t = StockManagerController.Insert(
+                            new tbl_StockManager
+                            {
+                                AgentID = AgentID,
+                                ProductID = ProductID,
+                                ProductVariableID = 0,
+                                Quantity = quantitynew,
+                                QuantityCurrent = 0,
+                                Type = 1,
+                                NoteID = "Nhập kho khi xóa sản phẩm trong sửa đơn",
+                                OrderID = OrderID,
+                                Status = 10,
+                                SKU = OrderSKU,
+                                CreatedDate = currentDate,
+                                CreatedBy = username,
+                                MoveProID = 0,
+                                ParentID = ProductID
+                            });
                     }
                 }
             }
-            return serializer.Serialize(null);
         }
 
         protected void btnOrder_Click(object sender, EventArgs e)

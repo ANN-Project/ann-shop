@@ -416,6 +416,23 @@
     </telerik:RadAjaxManager>
     <telerik:RadScriptBlock ID="sc" runat="server">
         <script type="text/javascript">
+            // OrderDetailModel
+            class OrderDetailModel {
+                constructor(ID, SKU, ProductID, Quantity) {
+                    this.ID = ID
+                    this.SKU = SKU,
+                    this.ProductID = ProductID,
+                    this.Quantity = Quantity
+                }
+
+                stringJSON() {
+                    return JSON.stringify(this);
+                }
+            }
+
+            // orders detail remove
+            var listOrderDetail = [];
+
             // order of item list
             var orderItem = $(".product-result").length;
 
@@ -683,6 +700,32 @@
                 if (isBlank(phone) || isBlank(fullname)) {
                     alert("Vui lòng nhập thông tin khách hàng!");
                 } else {
+                    if (listOrderDetail.length > 0) {
+                        let getDataJSON = function () {
+                            let stringJSON = "{listOrderDetail: [";
+
+                            for (index in listOrderDetail) {
+                                if (index == 0) {
+                                    stringJSON += listOrderDetail[index].stringJSON();
+                                } else {
+                                    stringJSON += ", " + listOrderDetail[index].stringJSON();
+                                }
+                            }
+
+                            stringJSON += "]}";
+
+                            return stringJSON;
+                        };
+
+                        $.ajax({
+                            type: "POST",
+                            url: "/thong-tin-don-hang.aspx/Delete",
+                            data: getDataJSON(),
+                            contentType: "application/json; charset=utf-8",
+                            dataType: "json"
+                        })
+                    }
+
                     $("#<%=btnOrder.ClientID%>").click();
                 }
             }
@@ -990,62 +1033,26 @@
 
             // remove product form list
             function deleteRow(obj) {
-                if ($("#<%=hdfDelete.ClientID%>").val() == "") {
-                    var list = "";
-                } else {
-                    var list = $("#<%=hdfDelete.ClientID%>").val();
-                }
-
                 var c = confirm('Bạn muốn xóa sản phẩm này?');
+
                 if (c) {
-                    var orderid = obj.parent().parent().attr("data-orderdetailid");
-                    if (orderid > 0) {
-                        var productnariablename = obj.parent().parent().attr("data-productnariablename");
-                        var productvariablevalue = obj.parent().parent().attr("data-productvariablevalue");
-                        var productimageorigin = obj.parent().parent().attr("data-productimageorigin");
-                        var productname = obj.parent().parent().attr("data-productname");
-                        var productvariablesave = obj.parent().parent().attr("data-productvariablesave");
-                        var id = obj.parent().parent().attr("data-id");
-                        list += obj.parent().parent().attr("data-orderdetailid") + "*" + obj.parent().parent().attr("data-sku") + "*" + obj.parent().parent().find(".in-quanlity").val() + "*" + productnariablename + "*" + productvariablevalue + "*" + productimageorigin + "*" + productname + "*" + productvariablesave + "*" + id + ";";
+                    var row = obj.parent().parent();
+
+                    if (row.attr("data-orderdetailid") > 0) {
+                        var order = new OrderDetailModel(
+                            ID = row.attr("data-orderdetailid"),
+                            SKU = row.attr("data-sku"),
+                            ProductID = row.attr("data-id"),
+                            Quantity = row.find(".in-quanlity").val());
+                        
+                        listOrderDetail.push(order);
                     }
-                    obj.parent().parent().remove();
+
+                    row.remove();
                 }
 
-                if (!isBlank(list)) {
-                    var listitem = "";
-                    $(".product-result").each(function () {
-                        var orderDetailID = $(this).attr("data-orderdetailid");
-                        var id = $(this).attr("data-id");
-                        var sku = $(this).attr("data-sku");
-                        var producttype = $(this).attr("data-producttype");
-                        var productnariablename = $(this).attr("data-productnariablename");
-                        var productvariablevalue = $(this).attr("data-productvariablevalue");
-                        var productname = $(this).attr("data-productname");
-                        var productimageorigin = $(this).attr("data-productimageorigin");
-                        var productvariable = $(this).attr("data-productvariable");
-                        var price = $(this).find(".gia-san-pham").attr("data-price");
-                        var productvariablesave = $(this).attr("data-productvariablesave");
-                        var quantity = parseFloat($(this).find(".in-quanlity").val());
-                        var quantityInstock = parseFloat($(this).attr("data-quantityinstock"));
-
-                        if (quantity > 0) {
-
-                            listitem += id + "," + sku + "," + producttype + "," + productnariablename + "," + productvariablevalue + "," + quantity + "," +
-                                productname + "," + productimageorigin + "," + productvariablesave + "," + price + "," + productvariablesave + "," +
-                                orderDetailID + ";";
-                        }
-                    });
-                    $.ajax({
-                        type: "POST",
-                        url: "/thong-tin-don-hang.aspx/Delete",
-                        data: "{listdel:'" + list + "', listitem:'" + listitem + "'}",
-                        contentType: "application/json; charset=utf-8",
-                        dataType: "json",
-                        success: function(msg) {
-                        }
-                    })
-                }
                 getAllPrice();
+
             }
 
             // change quantity of product
