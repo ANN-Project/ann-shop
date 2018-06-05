@@ -814,6 +814,10 @@
                             } else if (data.length == 1) {
 
                                 var item = data[0];
+
+                                // update stock which removed
+                                updateTemplateStock(item);
+
                                 var sku = item.SKU;
                                 var check = false;
                                 $(".product-result").each(function() {
@@ -951,6 +955,10 @@
                                 var key = list[j];
                                 for (var i = 0; i < data.length; i++) {
                                     var item = data[i];
+
+                                    // update stock which removed
+                                    updateTemplateStock(item);
+
                                     var sku = item.SKU;
                                     var check = false;
                                     if (key == sku) {
@@ -1054,6 +1062,15 @@
                 getAllPrice();
 
             }
+
+            // update stock which removed
+            function updateTemplateStock(orderServer){
+                listOrderDetail.forEach(function (orderClient) {
+                    if (orderClient.ID = orderServer.ID) {
+                        orderServer.QuantityInstockString = (Number(orderServer.QuantityInstockString) + Number(orderClient.Quantity)).toString();
+                    }
+                });
+            };
 
             // change quantity of product
             function checkQuantiy(obj) {
