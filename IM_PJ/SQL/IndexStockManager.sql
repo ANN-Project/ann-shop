@@ -1,4 +1,4 @@
-CREATE INDEX [ID_StockManager] ON tbl_StockManager
+﻿CREATE INDEX [ID_StockManager] ON tbl_StockManager
 (
     [ID]
     , [AgentID]
