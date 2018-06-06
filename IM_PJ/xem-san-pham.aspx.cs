@@ -103,6 +103,11 @@ namespace IM_PJ
                     lbpMinimumInventoryLevel.Text = p.MinimumInventoryLevel.ToString();
                     lbpMaximumInventoryLevel.Text = p.MaximumInventoryLevel.ToString();
 
+                    if (p.ProductImage != null)
+                    {
+                        ProductThumbnail.ImageUrl = p.ProductImage;
+                    }
+
                     hdfTable.Value = p.ProductStyle.ToString();
                     var ka = ProductVariableController.SearchProductID(p.ID, "");
                     if (ka != null)

@@ -206,16 +206,16 @@
                             </div>
                             <div class="form-row">
                                 <div class="row-left">
-                                    Ảnh sản phẩm
+                                    Ảnh đại diện
                                 </div>
                                 <div class="row-right">
-                                    <telerik:RadAsyncUpload Skin="Metro" runat="server" ID="hinhDaiDien" ChunkSize="0"
+                                    <telerik:RadAsyncUpload Skin="Metro" runat="server" ID="ProductThumbnailImage" ChunkSize="0"
                                         Localization-Select="Chọn ảnh" AllowedFileExtensions=".jpeg,.jpg,.png"
-                                        MultipleFileSelection="Automatic" OnClientFileSelected="OnClientFileSelected1">
+                                        MultipleFileSelection="Disabled" OnClientFileSelected="OnClientFileSelected1" MaxFileInputsCount="1">
                                     </telerik:RadAsyncUpload>
-                                    <asp:Image runat="server" ID="imgDaiDien" Width="200" />
-                                    <asp:HiddenField runat="server" ID="listImg" ClientIDMode="Static" />
-                                    <div class="hidImage"></div>
+                                    <asp:Image runat="server" ID="ProductThumbnail" Width="200" />
+                                    <asp:HiddenField runat="server" ID="ListProductThumbnail" ClientIDMode="Static" />
+                                    <div class="hidProductThumbnail"></div>
                                 </div>
                             </div>
                             <div class="form-row">
@@ -228,6 +228,20 @@
                                         DialogHandlerUrl="~/Telerik.Web.UI.DialogHandler.axd" AutoResizeHeight="True">
                                         <ImageManager ViewPaths="~/Uploads/Images" UploadPaths="~/Uploads/Images" DeletePaths="~/Uploads/Images" />
                                     </telerik:RadEditor>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="row-left">
+                                    Thư viện ảnh
+                                </div>
+                                <div class="row-right">
+                                    <telerik:RadAsyncUpload Skin="Metro" runat="server" ID="hinhDaiDien" ChunkSize="0"
+                                        Localization-Select="Chọn ảnh" AllowedFileExtensions=".jpeg,.jpg,.png"
+                                        MultipleFileSelection="Automatic" OnClientFileSelected="OnClientFileSelected1">
+                                    </telerik:RadAsyncUpload>
+                                    <asp:Image runat="server" ID="imgDaiDien" Width="200" />
+                                    <asp:HiddenField runat="server" ID="listImg" ClientIDMode="Static" />
+                                    <div class="hidImage"></div>
                                 </div>
                             </div>
                             <div class="form-row">
@@ -481,12 +495,16 @@
                 var vl = $("#ddlProductStyle").val();
                 $("#<%=hdfsetStyle.ClientID%>").val(vl);
                 if (vl == 2) {
-                    $("#Minimum").hide(1);
-                    $("#Maximum").hide(1);
-                    $("#ManageStock").hide(1);
+                    $("#Minimum").hide();
+                    $("#Maximum").hide();
+                    $("#<%=pMaximumInventoryLevel.ClientID%>").val(0);
+                    $("#<%=pMinimumInventoryLevel.ClientID%>").val(0);
+                    $("#ManageStock").hide();
                     $(".variable").show();
                 }
                 else {
+                    $("#<%=pMaximumInventoryLevel.ClientID%>").val("");
+                    $("#<%=pMinimumInventoryLevel.ClientID%>").val("");
                     $("#Minimum").show();
                     $("#Maximum").show();
                     $("#ManageStock").show();

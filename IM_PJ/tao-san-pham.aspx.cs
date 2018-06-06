@@ -343,7 +343,25 @@ namespace IM_PJ
                             {
                                 a = hdfsetStyle.Value.ToInt();
                             }
-                            string kq = ProductController.Insert(cateID, 0, ProductTitle, ProductContent, ProductSKU, ProductStock, StockStatus, ManageStock, Regular_Price, CostOfGood, Retail_Price, "", 0, IsHidden, currentDate, username, supplierID, supplierName, txtMaterials.Text, Convert.ToDouble(pMinimumInventoryLevel.Text), Convert.ToDouble(pMaximumInventoryLevel.Text),a);
+
+                            //Phần thêm ảnh đại diện sản phẩm
+                            string path = "/Uploads/Images/";
+                            string ProductImage = "";
+                            if (ProductThumbnailImage.UploadedFiles.Count > 0)
+                            {
+                                foreach (UploadedFile f in ProductThumbnailImage.UploadedFiles)
+                                {
+                                    var o = path + Guid.NewGuid() + f.GetExtension();
+                                    try
+                                    {
+                                        f.SaveAs(Server.MapPath(o));
+                                        ProductImage = o;
+                                    }
+                                    catch { }
+                                }
+                            }
+
+                            string kq = ProductController.Insert(cateID, 0, ProductTitle, ProductContent, ProductSKU, ProductStock, StockStatus, ManageStock, Regular_Price, CostOfGood, Retail_Price, ProductImage, 0, IsHidden, currentDate, username, supplierID, supplierName, txtMaterials.Text, Convert.ToDouble(pMinimumInventoryLevel.Text), Convert.ToDouble(pMaximumInventoryLevel.Text), a);
                             if (kq.ToInt(0) > 0)
                             {
                                 int ProductID = kq.ToInt(0);
@@ -410,17 +428,15 @@ namespace IM_PJ
                                         }
                                         ProductVariableController.UpdateColorSize(ProductVariableID, color, size);
                                     }
-                                   
                                 }
 
-                                //Phần thêm ảnh sản phẩm
-                                string duongdan = "/Uploads/Images/";
+                                //Phần thêm thư viện ảnh sản phẩm
                                 string IMG = "";
                                 if (hinhDaiDien.UploadedFiles.Count > 0)
                                 {
                                     foreach (UploadedFile f in hinhDaiDien.UploadedFiles)
                                     {
-                                        var o = duongdan + Guid.NewGuid() + f.GetExtension();
+                                        var o = path + Guid.NewGuid() + f.GetExtension();
                                         try
                                         {
                                             f.SaveAs(Server.MapPath(o));
@@ -430,7 +446,7 @@ namespace IM_PJ
                                         catch { }
                                     }
                                 }
-                                //Phần thêm ảnh cho từng sản phẩm
+
                                 //PJUtils.ShowMessageBoxSwAlert("Tạo mới sản phẩm thành công", "s", true, Page);
                                 Response.Redirect("xem-san-pham.aspx?id=" + kq + "");
                             }

@@ -166,6 +166,42 @@ namespace IM_PJ {
         protected global::System.Web.UI.WebControls.TextBox pRetailPrice;
         
         /// <summary>
+        /// ProductThumbnailImage control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::Telerik.Web.UI.RadAsyncUpload ProductThumbnailImage;
+        
+        /// <summary>
+        /// ProductThumbnail control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Image ProductThumbnail;
+        
+        /// <summary>
+        /// ListProductThumbnail control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField ListProductThumbnail;
+        
+        /// <summary>
+        /// pContent control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::Telerik.Web.UI.RadEditor pContent;
+        
+        /// <summary>
         /// hinhDaiDien control.
         /// </summary>
         /// <remarks>
@@ -191,15 +227,6 @@ namespace IM_PJ {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.HiddenField listImg;
-        
-        /// <summary>
-        /// pContent control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::Telerik.Web.UI.RadEditor pContent;
         
         /// <summary>
         /// chkIsHidden control.

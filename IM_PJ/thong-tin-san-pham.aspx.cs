@@ -11,7 +11,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using Telerik.Web.UI;
-
+using System.IO;
 namespace IM_PJ
 {
     public partial class thong_tin_san_pham : System.Web.UI.Page
@@ -89,6 +89,11 @@ namespace IM_PJ
                     txtMaterials.Text = p.Materials;
                     pMinimumInventoryLevel.Value = p.MinimumInventoryLevel;
                     pMaximumInventoryLevel.Value = p.MaximumInventoryLevel;
+                    if(p.ProductImage != null)
+                    {
+                        ListProductThumbnail.Value = p.ProductImage;
+                        ProductThumbnail.ImageUrl = p.ProductImage;
+                    }
                 }
             }
         }
@@ -115,13 +120,40 @@ namespace IM_PJ
                         double CostOfGood = Convert.ToDouble(pCostOfGood.Value);
                         double Retail_Price = Convert.ToDouble(pRetailPrice.Value);
                         bool IsHidden = chkIsHidden.Checked;
+
+                        //Phần thêm ảnh đại diện sản phẩm
+                        string path = "/Uploads/Images/";
+                        string ProductImage = ListProductThumbnail.Value;
+                        if (ProductThumbnailImage.UploadedFiles.Count > 0)
+                        {
+                            foreach (UploadedFile f in ProductThumbnailImage.UploadedFiles)
+                            {
+                                var o = path + Guid.NewGuid() + f.GetExtension();
+                                try
+                                {
+                                    f.SaveAs(Server.MapPath(o));
+                                    ProductImage = o;
+                                }
+                                catch { }
+                            }
+                        }
+
+                        if(ProductImage != ListProductThumbnail.Value)
+                        {
+                            if (File.Exists(Server.MapPath(ListProductThumbnail.Value)))
+                            {
+                                File.Delete(Server.MapPath(ListProductThumbnail.Value));
+                            }
+                        }
+
                         string kq = ProductController.Update(id, cateID, 0, ProductTitle, ProductContent, ProductSKU, ProductStock,
-                            StockStatus, ManageStock, Regular_Price, CostOfGood, Retail_Price, "", 0,
+                            StockStatus, ManageStock, Regular_Price, CostOfGood, Retail_Price, ProductImage, 0,
                             IsHidden, DateTime.Now, username, ddlSupplier.SelectedValue.ToInt(0), ddlSupplier.SelectedItem.ToString(),
                             txtMaterials.Text, Convert.ToDouble(pMinimumInventoryLevel.Value), Convert.ToDouble(pMaximumInventoryLevel.Value));
                         if (kq.ToInt(0) > 0)
                         {
-                            PJUtils.ShowMessageBoxSwAlert("Cập nhật sản phẩm thành công", "s", true, Page);
+                            //PJUtils.ShowMessageBoxSwAlert("Cập nhật sản phẩm thành công", "s", true, Page);
+                            Response.Redirect("thong-tin-san-pham.aspx?id=" + id + "");
                         }
                     }
                 }

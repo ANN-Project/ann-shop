@@ -114,15 +114,25 @@ namespace IM_PJ
                                         p.ProductVariableName = variablename;
                                         p.ProductVariableValue = variablevalue;
                                         p.ProductType = 2;
-                                        if (p.ProductImage == null)
+
+                                        var product = ProductController.GetBySKU(pv.ParentSKU);
+
+                                        if (!string.IsNullOrEmpty(pv.Image))
                                         {
                                             p.ProductImage = "<img src=\"" + pv.Image + "\" />";
+                                            p.ProductImageOrigin = pv.Image;
+                                        }
+                                        else if (!string.IsNullOrEmpty(product.ProductImage))
+                                        {
+                                            p.ProductImage = "<img src=\"" + product.ProductImage + "\" />";
+                                            p.ProductImageOrigin = product.ProductImage;
                                         }
                                         else
                                         {
                                             p.ProductImage = "<img src=\"/App_Themes/Ann/image/placeholder.png\" />";
+                                            p.ProductImageOrigin = "";
                                         }
-                                        p.ProductImageOrigin = pv.Image;
+
                                         p.SKU = pv.SKU.Trim().ToUpper();
                                         int supplierID = 0;
                                         if (pv.SupplierID != null)
@@ -210,15 +220,25 @@ namespace IM_PJ
                                     p.ProductVariableName = variablename;
                                     p.ProductVariableValue = variablevalue;
                                     p.ProductType = 2;
-                                    if (p.ProductImage == null)
+
+                                    var product = ProductController.GetBySKU(pv.ParentSKU);
+
+                                    if (!string.IsNullOrEmpty(pv.Image))
                                     {
                                         p.ProductImage = "<img src=\"" + pv.Image + "\" />";
+                                        p.ProductImageOrigin = pv.Image;
+                                    }
+                                    else if (!string.IsNullOrEmpty(product.ProductImage))
+                                    {
+                                        p.ProductImage = "<img src=\"" + product.ProductImage + "\" />";
+                                        p.ProductImageOrigin = product.ProductImage;
                                     }
                                     else
                                     {
                                         p.ProductImage = "<img src=\"/App_Themes/Ann/image/placeholder.png\" />";
+                                        p.ProductImageOrigin = "";
                                     }
-                                    p.ProductImageOrigin = pv.Image;
+
                                     p.SKU = pv.SKU.Trim().ToUpper();
                                     int supplierID = 0;
                                     if (pv.SupplierID != null)
@@ -247,7 +267,13 @@ namespace IM_PJ
                             p.ProductVariableValue = variablevalue;
                             p.ProductType = 1;
                             var img = ProductImageController.GetFirstByProductID(products.ID);
-                            if (img != null)
+
+                            if (!string.IsNullOrEmpty(products.ProductImage))
+                            {
+                                p.ProductImage = "<img src=\"" + products.ProductImage + "\" />";
+                                p.ProductImageOrigin = products.ProductImage;
+                            }
+                            else if (img.ProductImage != null)
                             {
                                 p.ProductImage = "<img src=\"" + img.ProductImage + "\" />";
                                 p.ProductImageOrigin = img.ProductImage;
@@ -257,6 +283,7 @@ namespace IM_PJ
                                 p.ProductImage = "<img src=\"/App_Themes/Ann/image/placeholder.png\" />";
                                 p.ProductImageOrigin = "";
                             }
+
                             p.SKU = products.ProductSKU.Trim().ToUpper();
                             int supplierID = 0;
                             if (products.SupplierID != null)
@@ -304,15 +331,23 @@ namespace IM_PJ
                                     p.ProductVariableName = variablename;
                                     p.ProductVariableValue = variablevalue;
                                     p.ProductType = 2;
-                                    if (p.ProductImage == null)
+
+                                    if (!string.IsNullOrEmpty(value.Image))
                                     {
                                         p.ProductImage = "<img src=\"" + value.Image + "\" />";
+                                        p.ProductImageOrigin = value.Image;
+                                    }
+                                    else if (!string.IsNullOrEmpty(product.ProductImage))
+                                    {
+                                        p.ProductImage = "<img src=\"" + product.ProductImage + "\" />";
+                                        p.ProductImageOrigin = product.ProductImage;
                                     }
                                     else
                                     {
                                         p.ProductImage = "<img src=\"/App_Themes/Ann/image/placeholder.png\" />";
+                                        p.ProductImageOrigin = "";
                                     }
-                                    p.ProductImageOrigin = value.Image;
+
                                     p.SKU = value.SKU.Trim().ToUpper();
                                     int supplierID = 0;
                                     if (value.SupplierID != null)

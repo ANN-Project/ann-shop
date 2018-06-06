@@ -119,7 +119,14 @@
                                     <asp:Label ID="lbRetailPrice" runat="server" CssClass="form-control"></asp:Label>
                                 </div>
                             </div>
-
+                            <div class="form-row">
+                                <div class="row-left">
+                                    Ảnh đại diện
+                                </div>
+                                <div class="row-right">
+                                    <asp:Image runat="server" ID="ProductThumbnail" Width="200" />
+                                </div>
+                            </div>
                             <div class="form-row">
                                 <div class="row-left">
                                     Nội dung

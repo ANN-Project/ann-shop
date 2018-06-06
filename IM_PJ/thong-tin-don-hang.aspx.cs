@@ -1383,8 +1383,8 @@ namespace IM_PJ
                                         int ProductVariableID = 0;
 
                                         int ID = itemValue[0].ToInt();
-                                        int parentID = 0;
-                                        var parent = ProductVariableController.GetByID(ID);
+                                        int parentID = ID;
+                                        var parent = ProductVariableController.GetBySKU(itemValue[1].ToString());
                                         if (parent != null)
                                         {
                                             parentID = Convert.ToInt32(parent.ProductID);

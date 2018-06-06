@@ -1374,7 +1374,7 @@ namespace NHST.Bussiness
         public static double TotalProductQuantityInstock(int AgentID, string SKU)
         {
             double currentQuantity = 0;
-            var ps = StockManagerController.GetBySKU(AgentID, SKU).OrderByDescending(x => x.CreatedDate).First();
+            var ps = StockManagerController.GetBySKU(AgentID, SKU).OrderByDescending(x => x.CreatedDate).FirstOrDefault();
 
             if (ps != null)
             {

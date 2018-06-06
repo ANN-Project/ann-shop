@@ -121,6 +121,20 @@
                             </div>
                             <div class="form-row">
                                 <div class="row-left">
+                                    Ảnh đại diện
+                                </div>
+                                <div class="row-right">
+                                    <telerik:RadAsyncUpload Skin="Metro" runat="server" ID="ProductThumbnailImage" ChunkSize="0"
+                                        Localization-Select="Chọn ảnh" AllowedFileExtensions=".jpeg,.jpg,.png"
+                                        MultipleFileSelection="Disabled" OnClientFileSelected="OnClientFileSelected1" MaxFileInputsCount="1"  OnClientFileUploadRemoved="OnClientFileUploadRemoved">
+                                    </telerik:RadAsyncUpload>
+                                    <asp:Image runat="server" ID="ProductThumbnail" Width="200" />
+                                    <asp:HiddenField runat="server" ID="ListProductThumbnail" ClientIDMode="Static" />
+                                    <div class="hidProductThumbnail"></div>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="row-left">
                                     Nội dung
                                 </div>
                                 <div class="row-right">
@@ -253,6 +267,21 @@
                     $("#<%=hdfTempVariable.ClientID%>").val(newc);
                 }
             }
+
+            function OnClientFileSelected1(sender, args) {
+                if ($telerik.isIE) return;
+                else {
+                    truncateName(args);
+                    var file = args.get_fileInputField().files.item(args.get_rowIndex());
+                    showThumbnail(file, args);
+                    $("#<%= ProductThumbnail.ClientID %>").hide();
+                }
+            }
+
+            function OnClientFileUploadRemoved(sender, args) {
+                    $("#<%= ProductThumbnail.ClientID %>").show();
+            }
+
         </script>
     </telerik:RadCodeBlock>
 </asp:Content>
