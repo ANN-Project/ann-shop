@@ -364,6 +364,9 @@
     <Content Include="App_Themes\NewUI\js\waves\waves.js" />
     <Content Include="App_Themes\NewUI\js\waves\waves.min.js" />
     <Content Include="bao-cao.aspx" />
+    <Content Include="chi-tiet-nha-xe.aspx" />
+    <Content Include="chi-tiet-noi-den-nha-xe.aspx" />
+    <Content Include="danh-sach-nha-xe.aspx" />
     <Content Include="print-order-image.aspx" />
     <Content Include="print-invoice.aspx" />
     <Content Include="cai-dat.aspx" />
@@ -406,11 +409,14 @@
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="SQL\01CREATE_TABLE_TransportCompany.sql" />
     <Content Include="SQL\IndexStockManager.sql" />
     <Content Include="SQL\TriggerStockManager.sql" />
     <Content Include="them-chiet-khau.aspx" />
     <Content Include="them-danh-muc.aspx" />
+    <Content Include="them-moi-nha-xe.aspx" />
     <Content Include="them-moi-nhan-vien.aspx" />
+    <Content Include="them-moi-noi-den-nha-xe.aspx" />
     <Content Include="thong-ke-phi-van-chuyen.aspx" />
     <Content Include="xem-san-pham.aspx" />
     <EntityDeploy Include="Models\IMModel.edmx">
@@ -722,9 +728,32 @@
     <Compile Include="bao-cao.aspx.designer.cs">
       <DependentUpon>bao-cao.aspx</DependentUpon>
     </Compile>
+    <Compile Include="chi-tiet-nha-xe.aspx.cs">
+      <DependentUpon>chi-tiet-nha-xe.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="chi-tiet-nha-xe.aspx.designer.cs">
+      <DependentUpon>chi-tiet-nha-xe.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="chi-tiet-noi-den-nha-xe.aspx.cs">
+      <DependentUpon>chi-tiet-noi-den-nha-xe.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="chi-tiet-noi-den-nha-xe.aspx.designer.cs">
+      <DependentUpon>chi-tiet-noi-den-nha-xe.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Controllers\TransportCompanyController.cs" />
+    <Compile Include="danh-sach-nha-xe.aspx.cs">
+      <DependentUpon>danh-sach-nha-xe.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="danh-sach-nha-xe.aspx.designer.cs">
+      <DependentUpon>danh-sach-nha-xe.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Models\tbl_StockManager.cs">
       <DependentUpon>IMModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\tbl_TransportCompany.cs" />
     <Compile Include="print-order-image.aspx.cs">
       <DependentUpon>print-order-image.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -1344,12 +1373,26 @@
     <Compile Include="them-moi-nha-cung-cap.aspx.designer.cs">
       <DependentUpon>them-moi-nha-cung-cap.aspx</DependentUpon>
     </Compile>
+    <Compile Include="them-moi-nha-xe.aspx.cs">
+      <DependentUpon>them-moi-nha-xe.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="them-moi-nha-xe.aspx.designer.cs">
+      <DependentUpon>them-moi-nha-xe.aspx</DependentUpon>
+    </Compile>
     <Compile Include="them-moi-nhan-vien.aspx.cs">
       <DependentUpon>them-moi-nhan-vien.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="them-moi-nhan-vien.aspx.designer.cs">
       <DependentUpon>them-moi-nhan-vien.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="them-moi-noi-den-nha-xe.aspx.cs">
+      <DependentUpon>them-moi-noi-den-nha-xe.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="them-moi-noi-den-nha-xe.aspx.designer.cs">
+      <DependentUpon>them-moi-noi-den-nha-xe.aspx</DependentUpon>
     </Compile>
     <Compile Include="them-moi-thuoc-tinh.aspx.cs">
       <DependentUpon>them-moi-thuoc-tinh.aspx</DependentUpon>

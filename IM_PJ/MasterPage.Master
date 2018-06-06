@@ -57,6 +57,16 @@
             
             <script type="text/javascript">
 
+                function screenClass() {
+                    if ($(window).innerWidth() < 480) {
+                        $('.nav-toggle').removeClass('open');
+                        $('body').removeClass('menuin');
+                    }
+                }
+
+                // Fire.
+                screenClass();
+
                 $('#txtsearchcustomer').keydown(function (event) {
                     if (event.which === 13) {
                         var value = $("#txtsearchcustomer").val();
