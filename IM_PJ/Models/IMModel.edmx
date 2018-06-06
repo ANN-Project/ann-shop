@@ -551,7 +551,7 @@
           <Property Name="NoteID" Type="nvarchar(max)" />
           <Property Name="OrderID" Type="int" />
           <Property Name="Status" Type="int" />
-          <Property Name="SKU" Type="nvarchar(max)" />
+          <Property Name="SKU" Type="nvarchar" MaxLength="30" />
           <Property Name="MoveProID" Type="int" />
           <Property Name="ParentID" Type="int" />
         </EntityType>
@@ -566,6 +566,26 @@
           <Property Name="SupplierAddress" Type="nvarchar(max)" />
           <Property Name="SupplierEmail" Type="nvarchar(max)" />
           <Property Name="IsHidden" Type="bit" />
+          <Property Name="CreatedDate" Type="datetime" />
+          <Property Name="CreatedBy" Type="nvarchar(max)" />
+          <Property Name="ModifiedDate" Type="datetime" />
+          <Property Name="ModifiedBy" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="tbl_TransportCompany">
+          <Key>
+            <PropertyRef Name="ID" />
+            <PropertyRef Name="SubID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="SubID" Type="int" Nullable="false" />
+          <Property Name="CompanyName" Type="nvarchar(max)" />
+          <Property Name="CompanyPhone" Type="nvarchar(max)" />
+          <Property Name="CompanyAddress" Type="nvarchar(max)" />
+          <Property Name="ShipTo" Type="nvarchar(max)" />
+          <Property Name="Address" Type="nvarchar(max)" />
+          <Property Name="Prepay" Type="bit" Nullable="false" />
+          <Property Name="COD" Type="bit" Nullable="false" />
+          <Property Name="Note" Type="nvarchar(max)" />
           <Property Name="CreatedDate" Type="datetime" />
           <Property Name="CreatedBy" Type="nvarchar(max)" />
           <Property Name="ModifiedDate" Type="datetime" />
@@ -667,6 +687,7 @@ warning 6002: The table/view 'inventorymanagement.dbo.View_ProductList' does not
           <EntitySet Name="tbl_SessionInOu" EntityType="Self.tbl_SessionInOu" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tbl_StockManager" EntityType="Self.tbl_StockManager" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tbl_Supplier" EntityType="Self.tbl_Supplier" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_TransportCompany" EntityType="Self.tbl_TransportCompany" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tbl_Variable" EntityType="Self.tbl_Variable" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tbl_VariableValue" EntityType="Self.tbl_VariableValue" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tbl_WhiteDomain" EntityType="Self.tbl_WhiteDomain" Schema="dbo" store:Type="Tables" />
@@ -731,6 +752,7 @@ warning 6002: The table/view 'inventorymanagement.dbo.View_ProductList' does not
           <EntitySet Name="View_ProductList" EntityType="inventorymanagementModel.View_ProductList" />
           <EntitySet Name="tbl_OrderDetail" EntityType="inventorymanagementModel.tbl_OrderDetail" />
           <EntitySet Name="tbl_StockManager" EntityType="inventorymanagementModel.tbl_StockManager" />
+          <EntitySet Name="tbl_TransportCompany" EntityType="inventorymanagementModel.tbl_TransportCompany" />
         </EntityContainer>
         <EntityType Name="tbl_Account">
           <Key>
@@ -1355,9 +1377,29 @@ warning 6002: The table/view 'inventorymanagement.dbo.View_ProductList' does not
           <Property Name="NoteID" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="OrderID" Type="Int32" />
           <Property Name="Status" Type="Int32" />
-          <Property Name="SKU" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="SKU" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
           <Property Name="MoveProID" Type="Int32" />
           <Property Name="ParentID" Type="Int32" />
+        </EntityType>
+        <EntityType Name="tbl_TransportCompany">
+          <Key>
+            <PropertyRef Name="ID" />
+            <PropertyRef Name="SubID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="SubID" Type="Int32" Nullable="false" />
+          <Property Name="CompanyName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CompanyPhone" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CompanyAddress" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ShipTo" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Address" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Prepay" Type="Boolean" Nullable="false" />
+          <Property Name="COD" Type="Boolean" Nullable="false" />
+          <Property Name="Note" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="CreatedBy" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
         </Schema>
     </edmx:ConceptualModels>
@@ -2024,6 +2066,26 @@ warning 6002: The table/view 'inventorymanagement.dbo.View_ProductList' does not
                 <ScalarProperty Name="ProductVariableID" ColumnName="ProductVariableID" />
                 <ScalarProperty Name="ProductID" ColumnName="ProductID" />
                 <ScalarProperty Name="AgentID" ColumnName="AgentID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_TransportCompany">
+            <EntityTypeMapping TypeName="inventorymanagementModel.tbl_TransportCompany">
+              <MappingFragment StoreEntitySet="tbl_TransportCompany">
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="Note" ColumnName="Note" />
+                <ScalarProperty Name="COD" ColumnName="COD" />
+                <ScalarProperty Name="Prepay" ColumnName="Prepay" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="ShipTo" ColumnName="ShipTo" />
+                <ScalarProperty Name="CompanyAddress" ColumnName="CompanyAddress" />
+                <ScalarProperty Name="CompanyPhone" ColumnName="CompanyPhone" />
+                <ScalarProperty Name="CompanyName" ColumnName="CompanyName" />
+                <ScalarProperty Name="SubID" ColumnName="SubID" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
