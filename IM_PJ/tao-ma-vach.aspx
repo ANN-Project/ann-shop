@@ -21,24 +21,24 @@
                         <div class="panel-post">
                             <div class="post-above clear">
                                 <div class="search-box left" style="width: 96%;">
-                                    <input type="text" id="txtSearch" class="form-control" placeholder="SKU">
+                                    <input type="text" id="txtSearch" class="form-control" placeholder="SKU (F3)">
                                 </div>
                                 <div class="right">
                                     <a href="javascript:;" class="link-btn" onclick="Show_popup_search()"><i class="fa fa-search"></i></a>
                                 </div>
                             </div>
-                            <div class="post-body search-product-content clear fix">
-                                <table class="table table-checkable table-product custom-font-size-12">
+                            <div class="post-body search-product-content clear">
+                                <table class="table table-checkable table-product import-stock">
                                     <thead>
                                         <tr>
-                                            <th>Ảnh</th>
-                                            <th>Sản phẩm</th>
-                                            <th>Mã</th>
-                                            <th>Thuộc tính</th>
-                                            <th>Giá sỉ</th>
-                                            <th>Kho</th>
-                                            <th>Số lượng in</th>
-                                            <th></th>
+                                            <th class="image-column">Ảnh</th>
+                                            <th class="name-column">Sản phẩm</th>
+                                            <th class="sku-column">Mã</th>
+                                            <th class="variable-column">Thuộc tính</th>
+                                            <th class="price-column">Giá sỉ</th>
+                                            <th class="stock-column">Kho</th>
+                                            <th class="quantity-column">Số lượng in</th>
+                                            <th class="trash-column"></th>
                                         </tr>
                                     </thead>
                                     <tbody class="content-product">
@@ -46,25 +46,17 @@
                                 </table>
                             </div>
                             <div class="post-table-links clear">
-                                <a href="javascript:;" class="btn link-btn" style="background-color: #f87703; float: right" onclick="payall()">In</a>
+                                <a href="javascript:;" style="background-color: #f87703; float: right;" class="btn primary-btn link-btn" onclick="payall()">In mã vạch (F1)</a>
+                                <a href="javascript:;" style="background-color: #ffad00; float: right;" class="btn primary-btn link-btn" onclick="quickInput()">Nhập nhanh số lượng (F2)</a>
                                 <asp:Button ID="btnOrder" runat="server" OnClick="btnOrder_Click" Style="display: none" />
                             </div>
                         </div>
                     </div>
-
                 </div>
             </div>
 
-            <asp:HiddenField ID="hdfCheckCustomer" runat="server" Value="0" />
-            <asp:HiddenField ID="hdfOrderType" runat="server" />
-            <asp:HiddenField ID="hdfTotalPrice" runat="server" />
-            <asp:HiddenField ID="hdfTotalPriceNotDiscount" runat="server" />
             <asp:HiddenField ID="hdfListProduct" runat="server" />
-            <asp:HiddenField ID="hdfIsDiscount" runat="server" />
-            <asp:HiddenField ID="hdfDiscountAmount" runat="server" />
-            <asp:HiddenField ID="hdfTotalPriceNotDiscountNotFee" runat="server" />
             <asp:HiddenField ID="hdfListSearch" runat="server" />
-            <asp:HiddenField ID="hdfTotalQuantity" runat="server" />
             <asp:HiddenField ID="hdfcheck" runat="server" />
             <div id="printcontent" style="display: none">
                 <asp:Literal ID="ltrprint" runat="server"></asp:Literal>
@@ -73,10 +65,8 @@
     </asp:Panel>
     <style>
         .search-product-content {
-            height: 500px;
+            min-height: 300px;
             background: #fff;
-            overflow-y: scroll;
-            padding: 5px;
         }
 
         #popup_content2 {
@@ -86,8 +76,6 @@
             top: 15%;
             z-index: 9999;
             left: 0;
-            /* margin-left: -340px; */
-            /*border-radius: 10px; */
             -moz-border-radius: 10px;
             -webkit-border-radius: 10px;
             width: 45%;
@@ -98,12 +86,32 @@
     </style>
   
         <script type="text/javascript">
-            // end
 
-            function printPhieuchi() {
-              
+            // key press F1 - F3
+            $(document).keydown(function(e) {
+                if (e.which == 112) { //F1 Print Barcode
+                    payall();
+                    return false;
+                }
+                if (e.which == 113) { //F2 Quick Input
+                    quickInput();
+                    return false;
+                }
+                if (e.which == 114) { //F3 Search Product
+                    $("#txtSearch").focus();
+                    return false;
+                }
+            });
+
+            // focus to searchProduct input when page on ready
+            $(document).ready(function () {
+                $("#txtSearch").focus();
+            });
+
+            function printBarcode() {
                 printDiv('printcontent');
             }
+
             function printDiv(divid) {
                 var divToPrint = document.getElementById('' + divid + '');
                 var newWin = window.open('', 'Print-Window');
@@ -112,38 +120,6 @@
                 newWin.document.close();
                 setTimeout(function () { newWin.close(); }, 10);
             }
-
-
-            function check_all() {
-                if ($('#check-all').is(":checked")) {
-                    $(".check-popup").prop('checked', true);
-                }
-                else {
-                    $(".check-popup").prop('checked', false);
-                }
-
-            }
-            function check(obj) {
-                var temp = 0;
-                var temp2 = 0;
-                $(".search-popup").each(function () {
-                    if ($(this).find(".check-popup").is(':checked')) {
-                        temp++;
-                    }
-                    else {
-                        temp2++;
-                    }
-                    if (temp2 > 0) {
-                        obj.parent().parent().parent().find("#check-all").prop('checked', false);
-                    }
-                    else {
-                        obj.parent().parent().parent().find("#check-all").prop('checked', true);
-                        //$("#check-all").prop('checked', true);
-                    }
-                });
-            }
-
-
 
             $('#txtSearch').keydown(function (event) {
                 if (event.which === 13) {
@@ -154,7 +130,37 @@
                 }
             });
 
+            // quick input quantity
+            function quickInput() {
+                if ($(".product-result").length == 0) {
+                    alert("Hãy nhập sản phẩm!");
+                    $("#txtSearch").focus();
+                } else {
+                    var html = "";
+                    html += "<div class=\"form-row\">";
+                    html += "<label>Nhập nhanh số lượng cho mỗi sản phẩm: </label>";
+                    html += "<input ID=\"txtQuickInput\" class=\"form-control fjx\"></input>";
+                    html += "<a href=\"javascript:;\" class=\"btn primary-btn float-right-btn link-btn\" onclick=\"submitQuickInput()\"><i class=\"fa fa-search\" aria-hidden=\"true\"></i> Tìm</a>";
+                    html += "</div>";
+                    showPopup(html);
+                    $("#txtQuickInput").focus();
+                    $('#txtQuickInput').keydown(function (event) {
+                        if (event.which === 13) {
+                            submitQuickInput();
+                            event.preventDefault();
+                            return false;
+                        }
+                    });
+                }
+            }
 
+            function submitQuickInput() {
+                var quantity = $("#txtQuickInput").val();
+                $(".product-result").each(function () {
+                    $(this).find(".in-quanlity").val(quantity);
+                });
+                closePopup();
+            }
 
             //N.A
             function GetProduct(list, list2) {
@@ -232,6 +238,34 @@
                     }
                 });
             }
+
+            // select all variable product
+            function check_all() {
+                if ($('#check-all').is(":checked")) {
+                    $(".check-popup").prop('checked', true);
+                } else {
+                    $(".check-popup").prop('checked', false);
+                }
+            }
+
+            // checkbox a variable product
+            function check(obj) {
+                var temp = 0;
+                var temp2 = 0;
+                $(".search-popup").each(function () {
+                    if ($(this).find(".check-popup").is(':checked')) {
+                        temp++;
+                    } else {
+                        temp2++;
+                    }
+                    if (temp2 > 0) {
+                        obj.parent().parent().parent().find("#check-all").prop('checked', false);
+                    } else {
+                        obj.parent().parent().parent().find("#check-all").prop('checked', true);
+                    }
+                });
+            }
+
             function Show_popup_search() {
                 var textsearch = $("#txtSearch").val();
                 $("#<%=hdfListSearch.ClientID%>").val(textsearch);
@@ -249,16 +283,16 @@
                             if (data.length > 1) {
                                 var html = "";
                                 var listGet = "";
-                                html += ("<table class=\"table table-checkable table-product\">");
+                                html += ("<table class=\"table table-checkable table-product import-stock\">");
                                 html += ("<tr>");
-                                html += ("<td>");
+                                html += ("<td class=\"select-column\">");
                                 html += ("<input type=\"checkbox\" id=\"check-all\"onchange=\"check_all()\"/>");
                                 html += ("</td>");
-                                html += ("<td>Ảnh</td>");
-                                html += ("<td>Sản phẩm</td>");
-                                html += ("<td>Mã</td>");
-                                html += ("<td>Thuộc tính</td>");
-                                html += ("<td>Số lượng</td>");
+                                html += ("<td class=\"image-column\">Ảnh</td>");
+                                html += ("<td class=\"name-column\">Sản phẩm</td>");
+                                html += ("<td class=\"sku-column\">Mã</td>");
+                                html += ("<td class=\"variable-column\">Thuộc tính</td>");
+                                html += ("<td class=\"quantity-column\">Số lượng</td>");
                                 html += ("</tr>");
                                 for (var i = 0; i < data.length; i++) {
                                     var item = data[i];
@@ -275,10 +309,10 @@
                                 }
                                 html += ("</table>");
                                 html += ("<div>");
-                                html += ("<a href=\"javascript:;\" class=\"btn link-btn\" onclick=\"Submitproduct()\">Chọn</a>");
+                                html += ("<a href=\"javascript:;\" class=\"btn primary-btn link-btn\" onclick=\"Submitproduct()\">Chọn</a>");
                                 html += ("</div >");
                                 $("#txtSearch").val("");
-                                search_detail(html);
+                                showPopup(html);
                             }
                             else if (data.length == 1) {
 
@@ -329,6 +363,7 @@
                             }
                             else {
                                 alert('Không tìm thấy sản phẩm');
+                                $("#txtSearch").select();
                             }
                         },
                         error: function (xmlhttprequest, textstatus, errorthrow) {
@@ -340,40 +375,6 @@
                     alert('Vui lòng nhập nội dung tìm kiếm');
                 }
 
-            }
-
-            function search_detail(content) {
-                var obj = $('body');
-                //$(obj).css('overflow', 'hidden');
-                $(obj).attr('onkeydown', 'keyclose_ms(event)');
-                var bg = "<div id='bg_popup1' style='opacity: 0.7;position: fixed;width: 100%;height: 100%;background-color: #333;opacity: 0.7;filter: alpha(opacity=70);left: 0px;top: 0px;z-index: 9999;opacity: 0;filter: alpha(opacity=0);opacity: 0.7;'></div>";
-                var fr = "<div id='pupip1' class=\"columns-container1\"><div class=\"container\" id=\"columns\"><div class='row'>" +
-                    "  <div class=\"center_column col-xs-12 col-sm-5\" id=\"popup_content\"><a style='cursor:pointer;right:5px;' onclick='close_popup_ms1()' class='close_message'></a>";
-                fr += "     <div class=\"changeavatar\">";
-
-
-                fr += content;
-
-                fr += "     </div>";
-                fr += "   </div>";
-                fr += "</div></div></div>";
-                $(bg).appendTo($(obj)).show().animate({ "opacity": 0.7 }, 800);
-                $(fr).appendTo($(obj));
-                setTimeout(function () {
-                    $('#pupip1').show().animate({ "opacity": 1, "top": 20 + "%" }, 200);
-                    $("#bg_popup1").attr("onclick", "close_popup_ms1()");
-                }, 1000);
-            }
-
-            function close_popup_ms1() {
-                $("#pupip1").animate({ "opacity": 0 }, 400);
-                $("#bg_popup1").animate({ "opacity": 0 }, 400);
-                setTimeout(function () {
-                    $("#pupip1").remove();
-                    $(".zoomContainer1").remove();
-                    $("#bg_popup1").remove();
-                    $('body').css('overflow', 'auto').attr('onkeydown', '');
-                }, 500);
             }
 
             function Submitproduct() {
@@ -390,8 +391,8 @@
                 var item = list.split("*");
                 var item2 = value.split("*");
                 GetProduct(item, item2);
-                $("#pupip1").remove();
-                $("#bg_popup1").remove();
+                closePopup();
+                $("#txtSearch").focus();
             }
             //End
 
@@ -473,7 +474,6 @@
                 if ($(".product-result").length > 0) {
                     var list = "";
 
-                    var ordertype = $(".customer-type").val();
                     $(".product-result").each(function () {
                         var id = $(this).attr("data-id");
                         var sku = $(this).attr("data-sku");
@@ -482,7 +482,6 @@
                             list += id + "," + sku + "," + quantity + ";";
                         }
                     });
-                    $("#<%=hdfOrderType.ClientID %>").val(ordertype);
                     $("#<%=hdfListProduct.ClientID%>").val(list);
                     $("#<%=btnOrder.ClientID%>").click();
                 }
@@ -534,84 +533,6 @@
                 }
             }
 
-            function show_detail(content, discountinfo) {
-                var obj = $('body');
-                //$(obj).css('overflow', 'hidden');
-                $(obj).attr('onkeydown', 'keyclose_ms(event)');
-                var bg = "<div id='bg_popup'></div>";
-                var fr = "<div id='pupip' class=\"columns-container1\"><div class=\"container\" id=\"columns\"><div class='row'>" +
-                    "  <div class=\"center_column col-xs-12 col-sm-5\" id=\"popup_content\"><a style='cursor:pointer;right:5px;' onclick='close_popup_ms()' class='close_message'></a>";
-                fr += "     <div class=\"changeavatar\">";
-
-                fr += "         <label class=\"lbl-popup\" style=\"font-size:18px;\">Thông tin khách hàng</label>";
-                fr += content;
-                fr += "         <label class=\"lbl-popup\" style=\"font-size:18px;margin:10px 0 5px 0\">Các chiết khấu của khách</label>";
-                fr += discountinfo;
-                fr += "     </div>";
-                fr += "   </div>";
-                fr += "</div></div></div>";
-                $(bg).appendTo($(obj)).show().animate({ "opacity": 0.7 }, 800);
-                $(fr).appendTo($(obj));
-                setTimeout(function () {
-                    $('#pupip').show().animate({ "opacity": 1, "top": 20 + "%" }, 200);
-                    $("#bg_popup").attr("onclick", "close_popup_ms()");
-                }, 1000);
-            }
-            function show_messageorder(content) {
-                var obj = $('body');
-                //$(obj).css('overflow', 'hidden');
-                $(obj).attr('onkeydown', 'keyclose_ms(event)');
-                var bg = "<div id='bg_popup'></div>";
-                var fr = "<div id='pupip' class=\"columns-container1\"><div class=\"container\" id=\"columns\"><div class='row'>" +
-                    "  <div class=\"center_column col-xs-12 col-sm-5\" id=\"popup_content\"><a style='cursor:pointer;right:5px;' onclick='close_popup_ms()' class='close_message'></a>";
-                fr += "     <div class=\"changeavatar\">";
-                fr += content;
-                fr += "         <label class=\"lbl-popup\">Nội dung nhập hàng</label>";
-                fr += "         <textarea id=\"txtnote\" class=\"form-control\"/>";
-                fr += "         <div class=\"clearfix\"></div>";
-                fr += "         <div class=\"clearfix\"></div>";
-                fr += "         <div class=\"btn-content\">";
-                fr += "             <a class=\"btn primary-btn fw-btn not-fullwidth\" style=\"padding:10px 30px;float:right;margin:10px 0\" href=\"javascript:;\" onclick=\"inProduct()\" >Xác nhận</a>";
-                fr += "         </div>";
-                fr += "     </div>";
-                fr += "   </div>";
-                fr += "</div></div></div>";
-                $(bg).appendTo($(obj)).show().animate({ "opacity": 0.7 }, 800);
-                $(fr).appendTo($(obj));
-                setTimeout(function () {
-                    $('#pupip').show().animate({ "opacity": 1, "top": 20 + "%" }, 200);
-                    $("#bg_popup").attr("onclick", "close_popup_ms()");
-                }, 1000);
-            }
-            function keyclose_ms(e) {
-                if (e.keyCode == 27) {
-                    close_popup_ms();
-                }
-            }
-            function close_popup_ms() {
-                $("#pupip").animate({ "opacity": 0 }, 400);
-                $("#bg_popup").animate({ "opacity": 0 }, 400);
-                setTimeout(function () {
-                    $("#pupip").remove();
-                    $(".zoomContainer").remove();
-                    $("#bg_popup").remove();
-                    $('body').css('overflow', 'auto').attr('onkeydown', '');
-                }, 500);
-            }
-            function checkQuantiy(obj) {
-                var instock = parseFloat(obj.parent().parent().attr("data-quantityinstock"));
-                var currentVal = parseFloat(obj.val());
-                var check = true;
-                if (currentVal == 0) {
-                    obj.val("1");
-                }
-                else if (currentVal > instock) {
-                    obj.val("");
-                    obj.val(instock);
-                }
-
-            }
-
             function keypress(e) {
                 var keypressed = null;
                 if (window.event) {
@@ -627,6 +548,7 @@
                     return false;
                 }
             }
+
             var formatThousands = function (n, dp) {
                 var s = '' + (Math.floor(n)), d = n % 1, i = s.length, r = '';
                 while ((i -= 3) > 0) { r = ',' + s.substr(i, 3) + r; }

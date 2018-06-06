@@ -40,42 +40,6 @@ namespace IM_PJ {
         protected global::System.Web.UI.WebControls.Button btnOrder;
         
         /// <summary>
-        /// hdfCheckCustomer control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.HiddenField hdfCheckCustomer;
-        
-        /// <summary>
-        /// hdfOrderType control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.HiddenField hdfOrderType;
-        
-        /// <summary>
-        /// hdfTotalPrice control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.HiddenField hdfTotalPrice;
-        
-        /// <summary>
-        /// hdfTotalPriceNotDiscount control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.HiddenField hdfTotalPriceNotDiscount;
-        
-        /// <summary>
         /// hdfListProduct control.
         /// </summary>
         /// <remarks>
@@ -85,33 +49,6 @@ namespace IM_PJ {
         protected global::System.Web.UI.WebControls.HiddenField hdfListProduct;
         
         /// <summary>
-        /// hdfIsDiscount control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.HiddenField hdfIsDiscount;
-        
-        /// <summary>
-        /// hdfDiscountAmount control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.HiddenField hdfDiscountAmount;
-        
-        /// <summary>
-        /// hdfTotalPriceNotDiscountNotFee control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.HiddenField hdfTotalPriceNotDiscountNotFee;
-        
-        /// <summary>
         /// hdfListSearch control.
         /// </summary>
         /// <remarks>
@@ -119,15 +56,6 @@ namespace IM_PJ {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.HiddenField hdfListSearch;
-        
-        /// <summary>
-        /// hdfTotalQuantity control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.HiddenField hdfTotalQuantity;
         
         /// <summary>
         /// hdfcheck control.

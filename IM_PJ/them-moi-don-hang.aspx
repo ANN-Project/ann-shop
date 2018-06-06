@@ -629,7 +629,7 @@ function searchProduct() {
                     }
                     html += ("</table>");
                     html += ("<div>");
-                    html += ("<a href=\"javascript: ;\" class=\"btn link- btn\" style=\"background-color:#f87703;float:right;color:#fff;\" onclick=\"selectProduct()\">Chọn</a>");
+                    html += ("<a href=\"javascript: ;\" class=\"btn link-btn\" style=\"background-color:#f87703;float:right;color:#fff;\" onclick=\"selectProduct()\">Chọn</a>");
                     html += ("</div >");
                     $("#txtSearch").val("");
                     showPopup(html);

@@ -290,7 +290,6 @@ namespace IM_PJ
                   
                     string[] list2 = list[i].Split(',');
                     int quantity = list2[2].ToInt();
-                    //productPrint += "<div style=\"width:12%\">";
                     for (int j = 0; j < quantity; j++)
                     {
                         barcode = list2[1];
@@ -301,25 +300,16 @@ namespace IM_PJ
                         barCode.Save(HttpContext.Current.Server.MapPath("" + barcodeIMG + ""), ImageFormat.Png);
                        
                         productPrint += "<div class=\"item\">";
-                        productPrint += "<div class=\"img\"><img src =\"" + barcodeIMG + "\" alt=\"\"></div>";
+                        productPrint += "<div class=\"img\"><img src =\"" + barcodeIMG + "\"></div>";
                         productPrint += "<div><h1>" + barcode + "</h1></div>";
                         productPrint += "</div>";
-
-                        //productPrint += "<div style=\"padding-bottom:7px\">";
-                        //productPrint += "<div style=\"padding-bottom:7px;width: 189px;height: 70px;text-align:center;\"><img alt\"barcode\" src=\"" + barcodeIMG + "\" />" + barcode + "</div>";
-                        //productPrint += "<span style=\"text-align:center;margin-top: -5px;\">" + barcode + "</span>";
-                        //productPrint += "";
-                        // OrderController.UpdateQRCodeIMGQRCodeIMGBarcode(order.ID, barcode, QRIMG, barcodeIMG);
                     }
-                  
-                    //productPrint += "</div>";
-                    //ProductImageController.Insert(1, barcodeIMG, false, DateTime.Now, "admin");
                 }
                 productPrint += "</div>";
                 string html = "";
                 html += productPrint;
                 ltrprint.Text = html;
-                PJUtils.ShowMessageBoxSwAlertCallFunction("In mã vạch thành công", "s", true, "printPhieuchi()", Page);
+                PJUtils.ShowMessageBoxSwAlertCallFunction("Bấm OK để in mã vạch", "s", true, "printBarcode()", Page);
             }
         }
     }
