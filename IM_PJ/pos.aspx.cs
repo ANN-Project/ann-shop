@@ -364,10 +364,6 @@ namespace IM_PJ
             public string ProvinceName { get; set; }
             public List<DiscountCustomerGet> AllDiscount { get; set; }
         }
-        protected void btnImport_Click(object sender, EventArgs e)
-        {
-
-        }
 
         protected void btnOrder_Click(object sender, EventArgs e)
         {
@@ -482,34 +478,8 @@ namespace IM_PJ
                                 OrderDetailController.Insert(AgentID, OrderID, SKU, ProductID, ProductVariableID, ProductVariableSave, Quantity, Price, 1, 0,
                                     producttype, currentDate, username, true);
 
-
                                 if (producttype == 1)
                                 {
-                                    double _Total = PJUtils.TotalProductQuantityInstock(AgentID, SKU);
-
-                                    if (_Total < Quantity)
-                                    {
-                                        double _InputStock = Quantity - _Total;
-
-                                        StockManagerController.Insert(
-                                            new tbl_StockManager {
-                                                AgentID = AgentID,
-                                                ProductID = ID,
-                                                ProductVariableID = 0,
-                                                Quantity = _InputStock,
-                                                QuantityCurrent = 0,
-                                                Type = 1,
-                                                NoteID = "Nhập kho bị lệch khi bán POS",
-                                                OrderID = OrderID,
-                                                Status = 3,
-                                                SKU = SKU,
-                                                CreatedDate = currentDate,
-                                                CreatedBy = username,
-                                                MoveProID = 0,
-                                                ParentID = parentID
-                                            });
-                                    }
-
                                     StockManagerController.Insert(
                                         new tbl_StockManager {
                                             AgentID = AgentID,
@@ -540,31 +510,6 @@ namespace IM_PJ
                                         var product = ProductController.GetBySKU(parentSKU);
                                         if (product != null)
                                             parentID = product.ID;
-                                    }
-
-                                    double _Total = PJUtils.TotalProductQuantityInstock(AgentID, SKU);
-
-                                    if (_Total < Quantity)
-                                    {
-                                        double _InputStock = Quantity - _Total;
-
-                                        StockManagerController.Insert(
-                                            new tbl_StockManager {
-                                                AgentID = AgentID,
-                                                ProductID = 0,
-                                                ProductVariableID = ID,
-                                                Quantity = _InputStock,
-                                                QuantityCurrent = 0,
-                                                Type = 1,
-                                                NoteID = "Nhập kho bị lệch khi bán POS",
-                                                OrderID = OrderID,
-                                                Status = 3,
-                                                SKU = SKU,
-                                                CreatedDate = currentDate,
-                                                CreatedBy = username,
-                                                MoveProID = 0,
-                                                ParentID = parentID
-                                            });
                                     }
 
                                     StockManagerController.Insert(

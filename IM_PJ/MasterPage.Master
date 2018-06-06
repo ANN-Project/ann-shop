@@ -58,7 +58,7 @@
             <script type="text/javascript">
 
                 function screenClass() {
-                    if ($(window).innerWidth() < 480) {
+                    if ($(window).innerWidth() < 769) {
                         $('.nav-toggle').removeClass('open');
                         $('body').removeClass('menuin');
                     }

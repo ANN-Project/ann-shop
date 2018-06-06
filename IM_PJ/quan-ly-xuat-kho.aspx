@@ -11,10 +11,6 @@
                         <div class="panel-body">
                             <div class="form-row">
                                 <input type="text" id="txtSearch" class="form-control" placeholder="Nhập tên sản phẩm hoặc mã sản phẩm (F3)" style="width: 40%; float: left; margin-right: 10px" />
-                                <select id="typeinout" class="form-control" style="width: 20%; float: left; margin-right: 10px">
-                                    <option value="2">Mã sản phẩm</option>
-                                    <option value="1">Tên sản phẩm</option>
-                                </select>
                                 <asp:Literal ID="ltrSupplier" runat="server"></asp:Literal>
                                 <a href="javascript:;" class="btn primary-btn fw-btn not-fullwidth" style="margin-right: 10px" onclick="searchProduct()"><i class="fa fa-search" aria-hidden="true"></i> Tìm</a>
                             </div>
@@ -79,17 +75,15 @@
 
         function searchProduct() {
             var textsearch = $("#txtSearch").val();
-            var typeinout = $("#typeinout").val();
             var supplier = $("#supplierList").val();
             if (!isBlank(textsearch)) {
                 $.ajax({
                     type: "POST",
                     url: "/quan-ly-xuat-kho.aspx/getProduct",
-                    data: "{textsearch:'" + textsearch + "',typeinout:'" + typeinout + "'}",
+                    data: "{textsearch:'" + textsearch + "'}",
                     contentType: "application/json; charset=utf-8",
                     dataType: "json",
                     success: function (msg) {
-                        var count = 0;
                         var data = JSON.parse(msg.d);
                         if (data.length > 0) {
                             var html = "";
@@ -129,7 +123,6 @@
                                                 }
                                             });
                                         }
-                                        count++;
                                     }
                                     else {
                                         alert('Không tìm thấy sản phẩm');
@@ -159,15 +152,10 @@
                                             }
                                         });
                                     }
-                                    count++;
                                 }
-                                
                             }
                             $(".content-product").append(html);
                             $("#txtSearch").val("");
-                            if (count > 0) {
-                                $(".excute-in").show();
-                            }
                         }
                         else
                         {
