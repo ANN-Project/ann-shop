@@ -41,7 +41,6 @@ namespace IM_PJ
                     Response.Redirect("/dang-nhap");
                 }
                 LoadSupplier();
-                LoadData();
                 LoadPDW();
                 LoadCategory();
             }
@@ -53,7 +52,6 @@ namespace IM_PJ
             {
                 ddlVariablename.Items.Clear();
                 ddlVariablename.Items.Insert(0, new ListItem("Chọn tên thuộc tính", "0"));
-                //ddlPro.Items.Insert(0, "Tỉnh/TP");
                 foreach (var p in variablename)
                 {
                     ListItem listitem = new ListItem(p.VariableName, p.ID.ToString());
@@ -81,7 +79,6 @@ namespace IM_PJ
                         ddlVariableValue.Items.Add(listitem);
                     }
                 }
-                //ddlVariableValue.DataSource = VariableValueController.GetByVariableID(VariableID);
                 ddlVariableValue.DataBind();
             }
         }
@@ -120,11 +117,6 @@ namespace IM_PJ
                 }
                 ddlCategory.DataBind();
             }
-        }
-
-        public void LoadData()
-        {
-
         }
 
         public static void DeQuyCongTu(int el, int final, string r, List<Variable> listObject)

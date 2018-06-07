@@ -320,6 +320,30 @@
                                         </asp:DropDownList>
                                     </div>
                                 </div>
+                                <div class="form-row transport-company">
+                                    <div class="row-left">
+                                        Chành xe
+                                    </div>
+                                    <div class="row-right">
+                                        <asp:DropDownList ID="ddlTransportCompanyID" DataTextField="TransportCompanyID" DataValueField="ID" AppendDataBoundItems="True" AutoPostBack="True" OnSelectedIndexChanged="ddlTransportCompanyID_SelectedIndexChanged" runat="server" CssClass="form-control"></asp:DropDownList>
+                                    </div>
+                                </div>
+                                <div class="form-row transport-company">
+                                    <div class="row-left">
+                                        Nơi nhận
+                                    </div>
+                                    <div class="row-right">
+                                        <asp:DropDownList ID="ddlTransportCompanySubID" DataTextField="TransportCompanySubID" DataValueField="ID" AppendDataBoundItems="True" AutoPostBack="false" runat="server" CssClass="form-control"></asp:DropDownList>
+                                    </div>
+                                </div>
+                                <div class="form-row shipping-code hide">
+                                    <div class="row-left">
+                                        Mã vận đơn
+                                    </div>
+                                    <div class="row-right">
+                                        <asp:TextBox ID="txtShippingCode" runat="server" CssClass="form-control" placeholder="Nhập mã vận đơn Bưu điện - Proship"></asp:TextBox>
+                                    </div>
+                                </div>
                                 <div class="form-row">
                                     <div class="row-left">
                                         Ghi chú đơn hàng
@@ -445,11 +469,57 @@
                 }
             });
 
-            // add class full width for txtFacebook if it's null
-            if ($("input[id$='_txtFacebook']").val() == "") {
-                $("input[id$='_txtFacebook']").parent().addClass("width-100");
-            }
-            
+            $(document).ready(function () {
+
+                // hide shipping code
+
+                if ($("#<%=ddlShippingType.ClientID%>").find(":selected").val() == 1) {
+                    $(".transport-company").addClass("hide");
+                }
+                if ($("#<%=ddlShippingType.ClientID%>").find(":selected").val() == 2 || $("#<%=ddlShippingType.ClientID%>").find(":selected").val() == 3) {
+                    $(".shipping-code").removeClass("hide");
+                    $(".transport-company").addClass("hide");
+                }
+
+                if ($("#<%=ddlShippingType.ClientID%>").find(":selected").val() == 4) {
+                    $(".transport-company").removeClass("hide");
+                }
+
+                $("#<%=ddlShippingType.ClientID%>").change(function () {
+                    var selected = $(this).find(":selected").val();
+                    switch(selected) {
+                        case "1":
+                            $(".shipping-code").addClass("hide");
+                            $(".transport-company").addClass("hide");
+                            $("#<%=txtShippingCode.ClientID%>").val(0);
+                            $("#<%=ddlTransportCompanyID.ClientID%>").val(0);
+                            $("#<%=ddlTransportCompanySubID.ClientID%>").val(0);
+                            break;
+                        case "2":
+                            $(".shipping-code").removeClass("hide");
+                            $(".transport-company").addClass("hide");
+                            $("#<%=ddlTransportCompanyID.ClientID%>").val(0);
+                            $("#<%=ddlTransportCompanySubID.ClientID%>").val(0);
+                            break;
+                        case "3":
+                            $(".shipping-code").removeClass("hide");
+                            $(".transport-company").addClass("hide");
+                            $("#<%=ddlTransportCompanyID.ClientID%>").val(0);
+                            $("#<%=ddlTransportCompanySubID.ClientID%>").val(0);
+                            break;
+                        case "4":
+                            $(".shipping-code").addClass("hide");
+                            $(".transport-company").removeClass("hide");
+                            $("#<%=txtShippingCode.ClientID%>").val(0);
+                            break;
+                    }
+                });
+
+                // add class full width for txtFacebook if it's null
+                if ($("input[id$='_txtFacebook']").val() == "") {
+                    $("input[id$='_txtFacebook']").parent().addClass("width-100");
+                }
+            });
 
             // check data before close page or refresh page
             function stopNavigate(event) {
