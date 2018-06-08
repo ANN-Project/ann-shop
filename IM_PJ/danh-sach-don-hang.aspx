@@ -72,6 +72,7 @@
                                         <asp:ListItem Value="2" Text="Chuyển bưu điện"></asp:ListItem>
                                         <asp:ListItem Value="3" Text="Chuyển proship"></asp:ListItem>
                                         <asp:ListItem Value="4" Text="Chuyển xe"></asp:ListItem>
+                                        <asp:ListItem Value="5" Text="Nhân viên giao"></asp:ListItem>
                                     </asp:DropDownList>
                                 </div>
                                 <div class="col-md-2">

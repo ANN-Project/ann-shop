@@ -317,24 +317,31 @@
                                             <asp:ListItem Value="2" Text="Chuyển bưu điện"></asp:ListItem>
                                             <asp:ListItem Value="3" Text="Chuyển proship"></asp:ListItem>
                                             <asp:ListItem Value="4" Text="Chuyển xe"></asp:ListItem>
+                                            <asp:ListItem Value="5" Text="Nhân viên giao hàng"></asp:ListItem>
                                         </asp:DropDownList>
                                     </div>
                                 </div>
                                 <div class="form-row transport-company">
-                                    <div class="row-left">
-                                        Chành xe
-                                    </div>
-                                    <div class="row-right">
-                                        <asp:DropDownList ID="ddlTransportCompanyID" DataTextField="TransportCompanyID" DataValueField="ID" AppendDataBoundItems="True" AutoPostBack="True" OnSelectedIndexChanged="ddlTransportCompanyID_SelectedIndexChanged" runat="server" CssClass="form-control"></asp:DropDownList>
-                                    </div>
-                                </div>
-                                <div class="form-row transport-company">
-                                    <div class="row-left">
-                                        Nơi nhận
-                                    </div>
-                                    <div class="row-right">
-                                        <asp:DropDownList ID="ddlTransportCompanySubID" DataTextField="TransportCompanySubID" DataValueField="ID" AppendDataBoundItems="True" AutoPostBack="false" runat="server" CssClass="form-control"></asp:DropDownList>
-                                    </div>
+                                    <asp:UpdatePanel ID="up" runat="server">
+                                        <ContentTemplate>
+                                            <div class="form-row">
+                                                <div class="row-left">
+                                                    Chành xe
+                                                </div>
+                                                <div class="row-right">
+                                                    <asp:DropDownList ID="ddlTransportCompanyID" DataTextField="TransportCompanyID" DataValueField="ID" AppendDataBoundItems="True" AutoPostBack="True" OnSelectedIndexChanged="ddlTransportCompanyID_SelectedIndexChanged" runat="server" CssClass="form-control"></asp:DropDownList>
+                                                </div>
+                                            </div>
+                                            <div class="form-row">
+                                                <div class="row-left">
+                                                    Nơi nhận
+                                                </div>
+                                                <div class="row-right">
+                                                    <asp:DropDownList ID="ddlTransportCompanySubID" DataTextField="TransportCompanySubID" DataValueField="ID" AppendDataBoundItems="True" AutoPostBack="false" runat="server" CssClass="form-control"></asp:DropDownList>
+                                                </div>
+                                            </div>
+                                        </ContentTemplate>
+                                    </asp:UpdatePanel>
                                 </div>
                                 <div class="form-row shipping-code hide">
                                     <div class="row-left">
@@ -491,7 +498,7 @@
                         case "1":
                             $(".shipping-code").addClass("hide");
                             $(".transport-company").addClass("hide");
-                            $("#<%=txtShippingCode.ClientID%>").val(0);
+                            $("#<%=txtShippingCode.ClientID%>").val("");
                             $("#<%=ddlTransportCompanyID.ClientID%>").val(0);
                             $("#<%=ddlTransportCompanySubID.ClientID%>").val(0);
                             break;
@@ -510,7 +517,14 @@
                         case "4":
                             $(".shipping-code").addClass("hide");
                             $(".transport-company").removeClass("hide");
-                            $("#<%=txtShippingCode.ClientID%>").val(0);
+                            $("#<%=txtShippingCode.ClientID%>").val("");
+                            break;
+                        case "5":
+                            $(".shipping-code").addClass("hide");
+                            $(".transport-company").addClass("hide");
+                            $("#<%=txtShippingCode.ClientID%>").val("");
+                            $("#<%=ddlTransportCompanyID.ClientID%>").val(0);
+                            $("#<%=ddlTransportCompanySubID.ClientID%>").val(0);
                             break;
                     }
                 });

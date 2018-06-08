@@ -41,21 +41,21 @@
                             </div>
                         </div>
                         <div class="responsive-table">
-                            <table class="table table-checkable table-product">
+                            <table class="table table-checkable table-product table-customer">
                                 <tbody>
                                     <tr>
-                                        <th>Họ tên</th>
-                                        <th>Nick</th>
-                                        <th>Điện thoại</th>
-                                        <th>Zalo</th>
-                                        <th>Facebook</th>
-                                        <th>Tỉnh thành</th>
-                                        <th>Đã mua</th>
-                                        <th>Nhân viên</th>
-                                        <th>Nhóm</th>
-                                        <th>Ngày tạo</th>
-                                        <th>Ẩn</th>
-                                        <th></th>
+                                        <th class="image-column">Ảnh</th>
+                                        <th class="name-column">Họ tên</th>
+                                        <th class="nick-column">Nick</th>
+                                        <th class="phone-column">Điện thoại</th>
+                                        <th class="zalo-column">Zalo</th>
+                                        <th class="facebook-column">FB</th>
+                                        <th class="province-column">Tỉnh</th>
+                                        <th class="buy-column">Đã mua</th>
+                                        <th class="staff-column">Nhân viên</th>
+                                        <th class="group-column">Nhóm</th>
+                                        <th class="date-column">Ngày tạo</th>
+                                        <th class="action-column"></th>
                                     </tr>
                                     <asp:Literal ID="ltrList" runat="server" EnableViewState="false"></asp:Literal>
                                 </tbody>

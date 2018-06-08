@@ -42,7 +42,6 @@ namespace IM_PJ
                 }
 
                 LoadData();
-                //LoadDiscount();
                 LoadProvince();
             }
         }
@@ -65,15 +64,12 @@ namespace IM_PJ
         public void LoadData()
         {
             string s = "";
-            //int id = 0;
             int by = 0;
             string createby = "";
             int p = 0;
 
             if (Request.QueryString["s"] != null)
                 s = Request.QueryString["s"];
-            //if (Request.QueryString["id"] != null)
-            //id = Request.QueryString["id"].ToInt();
             if (Request.QueryString["by"] != null)
                 by = Request.QueryString["by"].ToInt();
             if (Request.QueryString["p"] != null)
@@ -86,10 +82,8 @@ namespace IM_PJ
             }
 
             txtAgentName.Text = s;
-            //ddlDiscount.SelectedValue = id.ToString();
             ddlCreateBy.SelectedValue = by.ToString();
             ddlProvince.SelectedValue = p.ToString();
-            //var orders = CustomerController.GetAll(s);
             List<CustomerOut> get = new List<CustomerOut>();
 
             var orders = CustomerController.GetKH(s, createby, p);
@@ -188,6 +182,7 @@ namespace IM_PJ
                             }
                         }
                     }
+                    html.Append("   <td><a href=\"/chi-tiet-khach-hang?id=" + item.ID + "\"><img src=\"" + item.Avatar + "\"/></a></td>");
                     html.Append("   <td><a href=\"/chi-tiet-khach-hang?id=" + item.ID + "\">" + item.CustomerName + "</a></td>");
                     html.Append("   <td>" + item.Nick + "</td>");
                     html.Append("   <td>" + item.CustomerPhone + "</td>");
@@ -241,11 +236,10 @@ namespace IM_PJ
                     {
                         ishidden = PJUtils.IsHiddenStatus(false);
                     }
-                    html.Append("   <td>" + ishidden + "</td>");
 
                     html.Append("   <td>");
 
-                    html.Append("       <a href=\"/chi-tiet-don-hang?id=" + item.ID + "\" title=\"Xem đơn hàng\" class=\"btn primary-btn h45-btn\"><i class=\"fa fa-shopping-cart\" aria-hidden=\"true\"></i></a>");
+                    html.Append("       <a href=\"/danh-sach-don-hang?s=" + item.CustomerPhone + "\" title=\"Xem đơn hàng\" class=\"btn primary-btn h45-btn\"><i class=\"fa fa-shopping-cart\" aria-hidden=\"true\"></i></a>");
                     html.Append("   </td>");
                     html.Append("</tr>");
                 }

@@ -10,6 +10,8 @@
     body {
         font-size: 17px;
         font-family: sans-serif;
+        margin-left: 0;
+        margin-top: 0;
     }
     p {
         line-height: 1.5;
@@ -18,8 +20,8 @@
     }
     .table {
         display: block;
-        width: 200mm;
-        height: 78mm;
+        width: 190mm;
+        height: 79mm;
         position: relative;
         border-right: dashed 2px #000;
         border-left: dashed 2px #000;
@@ -34,7 +36,7 @@
         position: absolute;
         top: 0;
         right: 3mm;
-        width: 70mm;
+        width: 100mm;
         text-align: right;
     }
     .bottom-left {
@@ -47,7 +49,7 @@
         position: absolute;
         bottom: 0;
         right: 3mm;
-        width: 115mm;
+        width: 120mm;
     }
     .cod {
         font-size: 19px;
@@ -74,7 +76,8 @@
     }
     .img {
         margin-top: 5px;
-        width: 60%;
+        margin-bottom: 10px;
+        width: 45%;
     }
     @media print { 
         body {

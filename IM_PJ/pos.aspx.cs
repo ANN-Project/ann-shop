@@ -358,7 +358,6 @@ namespace IM_PJ
         }
         public class CustomerInfoWithDiscount
         {
-
             public tbl_Customer Customer { get; set; }
             public string CreatedDate { get; set; }
             public string ProvinceName { get; set; }

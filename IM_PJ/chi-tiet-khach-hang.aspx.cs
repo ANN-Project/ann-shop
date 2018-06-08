@@ -11,6 +11,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using Telerik.Web.UI;
+using System.IO;
 
 namespace IM_PJ
 {
@@ -37,6 +38,7 @@ namespace IM_PJ
 
                     Response.Redirect("/dang-nhap");
                 }
+                LoadTransportCompany();
                 LoadData();
                 LoadDLL();
                 LoadProvince();
@@ -57,6 +59,47 @@ namespace IM_PJ
                 }
                 ddlProvince.DataBind();
             }
+        }
+
+        public void LoadTransportCompany()
+        {
+            var TransportCompany = TransportCompanyController.GetTransportCompany();
+            ddlTransportCompanyID.Items.Clear();
+            ddlTransportCompanyID.Items.Insert(0, new ListItem("Chọn chành xe", "0"));
+            if (TransportCompany.Count > 0)
+            {
+                foreach (var p in TransportCompany)
+                {
+                    ListItem listitem = new ListItem(p.CompanyName, p.ID.ToString());
+                    ddlTransportCompanyID.Items.Add(listitem);
+                }
+                ddlTransportCompanyID.DataBind();
+            }
+        }
+
+        public void LoadTransportCompanySubID(int ID = 0)
+        {
+            ddlTransportCompanySubID.Items.Clear();
+            ddlTransportCompanySubID.Items.Insert(0, new ListItem("Chọn nơi nhận", "0"));
+            if (ID > 0)
+            {
+                var ShipTo = TransportCompanyController.GetReceivePlace(ID); ;
+
+                if (ShipTo.Count > 0)
+                {
+                    foreach (var p in ShipTo)
+                    {
+                        ListItem listitem = new ListItem(p.ShipTo, p.SubID.ToString());
+                        ddlTransportCompanySubID.Items.Add(listitem);
+                    }
+                }
+                ddlTransportCompanySubID.DataBind();
+            }
+        }
+
+        protected void ddlTransportCompanyID_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            LoadTransportCompanySubID(ddlTransportCompanyID.SelectedValue.ToInt(0));
         }
 
         public void LoadDLL()
@@ -87,13 +130,22 @@ namespace IM_PJ
                     txtCustomerName.Text = d.CustomerName;
                     lblCustomerPhone.Text = d.CustomerPhone;
                     txtSupplierAddress.Text = d.CustomerAddress;
-                    txtSupplierEmail.Text = d.CustomerEmail;
                     txtNick.Text = d.Nick;
                     chkIsHidden.Checked = Convert.ToBoolean(d.IsHidden);
                     txtZalo.Text = d.Zalo;
                     txtFacebook.Text = d.Facebook;
                     if (!string.IsNullOrEmpty(d.ProvinceID.ToString()))
                         ddlProvince.SelectedValue = d.ProvinceID.ToString();
+
+                    LoadTransportCompanySubID(Convert.ToInt32(d.TransportCompanyID));
+                    ddlPaymentType.SelectedValue = d.PaymentType.ToString();
+                    ddlShippingType.SelectedValue = d.ShippingType.ToString();
+                    ddlTransportCompanyID.SelectedValue = d.TransportCompanyID.ToString();
+                    ddlTransportCompanySubID.SelectedValue = d.TransportCompanySubID.ToString();
+
+                    AvatarThumbnail.ImageUrl = d.Avatar;
+                    ListAvatarImage.Value = d.Avatar;
+
                     int UID = 0;
                     var acc = AccountController.GetByUsername(d.CreatedBy);
                     if (acc != null)
@@ -117,8 +169,37 @@ namespace IM_PJ
                         var d = CustomerController.GetByID(id);
                         if (d != null)
                         {
-                            CustomerController.Update(id, txtCustomerName.Text, d.CustomerPhone, txtSupplierAddress.Text, txtSupplierEmail.Text, 0, 1,
-                       ddlUser.SelectedItem.ToString(), DateTime.Now, username, chkIsHidden.Checked, txtZalo.Text, txtFacebook.Text, txtNote.Text, ddlProvince.SelectedValue,txtNick.Text);
+                            //Phần thêm ảnh đại diện khách hàng
+                            string path = "/Uploads/Avatars/";
+                            string Avatar = ListAvatarImage.Value;
+                            if (UploadAvatarImage.UploadedFiles.Count > 0)
+                            {
+                                foreach (UploadedFile f in UploadAvatarImage.UploadedFiles)
+                                {
+                                    var o = path + Guid.NewGuid() + f.GetExtension();
+                                    try
+                                    {
+                                        f.SaveAs(Server.MapPath(o));
+                                        Avatar = o;
+                                    }
+                                    catch { }
+                                }
+                            }
+
+                            if (Avatar != ListAvatarImage.Value)
+                            {
+                                if (File.Exists(Server.MapPath(ListAvatarImage.Value)))
+                                {
+                                    File.Delete(Server.MapPath(ListAvatarImage.Value));
+                                }
+                            }
+
+                            int PaymentType = ddlPaymentType.SelectedValue.ToInt(0);
+                            int ShippingType = ddlShippingType.SelectedValue.ToInt(0);
+                            int TransportCompanyID = ddlTransportCompanyID.SelectedValue.ToInt(0);
+                            int TransportCompanySubID = ddlTransportCompanySubID.SelectedValue.ToInt(0);
+
+                            CustomerController.Update(id, txtCustomerName.Text, d.CustomerPhone, txtSupplierAddress.Text, "", 0, 1, ddlUser.SelectedItem.ToString(), DateTime.Now, username, chkIsHidden.Checked, txtZalo.Text, txtFacebook.Text, txtNote.Text, ddlProvince.SelectedValue, txtNick.Text, Avatar, ShippingType, PaymentType, TransportCompanyID, TransportCompanySubID);
                             PJUtils.ShowMessageBoxSwAlert("Cập nhật khách hàng thành công", "s", true, Page);
                         }
                     }

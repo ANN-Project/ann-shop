@@ -335,6 +335,11 @@ namespace IM_PJ
                     string CustomerAddress = txtAddress.Text.Trim();
                     string Zalo = txtZalo.Text.Trim();
                     string Facebook = txtFacebook.Text.Trim();
+                    int PaymentStatus = hdfPaymentStatus.Value.ToInt(1);
+                    int ExcuteStatus = hdfExcuteStatus.Value.ToInt(1);
+                    int PaymentType = hdfPaymentType.Value.ToInt(1);
+                    int ShippingType = hdfShippingType.Value.ToInt(1);
+
                     if (checkCustomer == 0)
                     {
                         var checkphone = CustomerController.GetByPhone(CustomerPhone);
@@ -344,7 +349,7 @@ namespace IM_PJ
                         }
                         else
                         {
-                            string kq = CustomerController.Insert(CustomerName, CustomerPhone, CustomerAddress, "", 0, 0, currentDate, username, false, Zalo, Facebook, "","", Nick);
+                            string kq = CustomerController.Insert(CustomerName, CustomerPhone, CustomerAddress, "", 0, 0, currentDate, username, false, Zalo, Facebook, "","", Nick, "", ShippingType, PaymentType);
                             if (kq.ToInt(0) > 0)
                             {
                                 CustomerID = kq.ToInt(0);
@@ -359,12 +364,20 @@ namespace IM_PJ
                             CustomerID = checkphone.ID;
                         }
                     }
+
+                    var Customer = CustomerController.GetByID(CustomerID);
+
+                    int TransportCompanyID = 0;
+                    int TransportCompanySubID = 0;
+                    if (Customer.ShippingType == ShippingType)
+                    {
+                        TransportCompanyID = Convert.ToInt32(Customer.TransportCompanyID);
+                        TransportCompanySubID = Convert.ToInt32(Customer.TransportCompanySubID);
+                    }
+
                     string totalPrice = hdfTotalPrice.Value.ToString();
                     string totalPriceNotDiscount = hdfTotalPriceNotDiscount.Value;
-                    int PaymentStatus = hdfPaymentStatus.Value.ToInt(1);
-                    int ExcuteStatus = hdfExcuteStatus.Value.ToInt(1);
-                    int PaymentType = hdfPaymentType.Value.ToInt(1);
-                    int ShippingType = hdfShippingType.Value.ToInt(1);
+                    
 
                     double DiscountPerProduct = Convert.ToDouble(pDiscount.Value);
 
@@ -382,9 +395,11 @@ namespace IM_PJ
 
                     double GuestPaid = Convert.ToDouble(pGuestPaid.Value);
                     double GuestChange = Convert.ToDouble(totalPrice) - GuestPaid;
+
                     var ret = OrderController.Insert(AgentID, OrderType, AdditionFee, DisCount, CustomerID, CustomerName, CustomerPhone, CustomerAddress,
                         "", totalPrice, totalPriceNotDiscount, PaymentStatus, ExcuteStatus, IsHidden, WayIn, currentDate, username, Convert.ToDouble(pDiscount.Value),
-                        TotalDiscount, FeeShipping, PaymentType, ShippingType, datedone, GuestPaid, GuestChange);
+                        TotalDiscount, FeeShipping, PaymentType, ShippingType, datedone, GuestPaid, GuestChange, TransportCompanyID, TransportCompanySubID);
+
                     int OrderID = ret.ID;
 
                     double totalQuantity = 0;

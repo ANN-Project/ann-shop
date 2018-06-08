@@ -96,7 +96,7 @@ namespace IM_PJ
                 {
                     var item = acs[i];
                     html.Append("<tr>");
-                    html.Append("   <td><img src=\"" + item.anhsanpham + "\" alt=\"\" style=\"width:50px;\"/></td>");
+                    html.Append("   <td><img src=\"" + item.anhsanpham + "\"/></td>");
                     html.Append("   <td>" + item.ProductTitle + "</td>");
                     html.Append("   <td>" + item.ProductSKU + "</td>");
                     html.Append("   <td>" + string.Format("{0:N}", item.Regular_Price) + "</td>");

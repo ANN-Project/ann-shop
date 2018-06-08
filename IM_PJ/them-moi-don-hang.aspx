@@ -549,6 +549,7 @@ function showOrderStatus() {
     fr += "                     <option value=\"2\">Chuyển bưu điện</option>";
     fr += "                     <option value=\"3\">Chuyển proship</option>";
     fr += "                     <option value=\"4\">Chuyển xe</option>";
+    fr += "                     <option value=\"5\">Nhân viên giao hàng</option>";
     fr += "                 </select>";
     fr += "             </div>";
     fr += "         </div>";

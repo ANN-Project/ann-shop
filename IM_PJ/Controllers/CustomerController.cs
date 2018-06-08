@@ -16,7 +16,7 @@ namespace IM_PJ.Controllers
     {
         #region CRUD
         public static string Insert(string CustomerName, string CustomerPhone, string CustomerAddress, string CustomerEmail, int CustomerLevelID, int Status,
-            DateTime CreatedDate, string CreatedBy, bool IsHidden, string Zalo, string Facebook, string Note, string Province, string Nick)
+            DateTime CreatedDate, string CreatedBy, bool IsHidden, string Zalo, string Facebook, string Note, string Province, string Nick, string Avatar = "", int ShippingType = 0, int PaymentType = 0, int TransportCompanyID = 0, int TransportCompanySubID = 0)
         {
             using (var dbe = new inventorymanagementEntities())
             {
@@ -31,6 +31,7 @@ namespace IM_PJ.Controllers
                 ui.CreatedDate = CreatedDate;
                 ui.CreatedBy = CreatedBy;
                 ui.IsHidden = IsHidden;
+
                 if (!string.IsNullOrEmpty(Zalo))
                     ui.Zalo = Zalo;
                 if (!string.IsNullOrEmpty(Facebook))
@@ -39,7 +40,17 @@ namespace IM_PJ.Controllers
                     ui.Note = Note;
                 if (!string.IsNullOrEmpty(Province))
                     ui.ProvinceID = Province.ToInt();
+
                 ui.Nick = Nick;
+
+                if (!string.IsNullOrEmpty(Avatar))
+                    ui.Avatar = Avatar;
+
+                ui.ShippingType = ShippingType;
+                ui.PaymentType = PaymentType;
+                ui.TransportCompanyID = TransportCompanyID;
+                ui.TransportCompanySubID = TransportCompanySubID;
+
                 dbe.tbl_Customer.Add(ui);
                 dbe.SaveChanges();
                 int kq = ui.ID;
@@ -47,7 +58,7 @@ namespace IM_PJ.Controllers
             }
         }
         public static string Update(int ID, string CustomerName, string CustomerPhone, string CustomerAddress, string CustomerEmail, int CustomerLevelID, int Status,
-           string CreatedBy, DateTime ModifiedDate, string ModifiedBy, bool IsHidden, string Zalo, string Facebook, string Note, string Province, string Nick)
+           string CreatedBy, DateTime ModifiedDate, string ModifiedBy, bool IsHidden, string Zalo, string Facebook, string Note, string Province, string Nick, string Avatar, int ShippingType, int PaymentType, int TransportCompanyID, int TransportCompanySubID)
         {
             using (var dbe = new inventorymanagementEntities())
             {
@@ -68,6 +79,11 @@ namespace IM_PJ.Controllers
                     ui.Facebook = Facebook;
                     ui.Note = Note;
                     ui.Nick = Nick;
+                    ui.Avatar = Avatar;
+                    ui.ShippingType = ShippingType;
+                    ui.PaymentType = PaymentType;
+                    ui.TransportCompanyID = TransportCompanyID;
+                    ui.TransportCompanySubID = TransportCompanySubID;
                     if (!string.IsNullOrEmpty(Province))
                         ui.ProvinceID = Province.ToInt();
                     int kq = dbe.SaveChanges();
@@ -186,15 +202,16 @@ namespace IM_PJ.Controllers
             }
         }
 
-        public static List<CustomerOut> Get(string textsearch, int Discount, string by, int Provice)
+        public static List<CustomerOut> Get(string text, int Discount, string by, int Provice)
         {
+            string textsearch = '"' + text + '"';
             var list = new List<CustomerOut>();
             var sql = @"select c.ID, c.CustomerName, c.Nick, c.CustomerPhone, c.Zalo, c.Facebook, c.CreatedBy, c.CreatedDate, dg.DiscountName, dg.ID as DiscountID, c.ProvinceID as Province
                         from tbl_DiscountCustomer dc, tbl_DiscountGroup dg, tbl_Customer c
                         where dc.DiscountGroupID = dg.ID and c.ID = dc.UID";
             if (!string.IsNullOrEmpty(textsearch))
             {
-                sql += " And (c.CustomerName like N'%" + textsearch + "%' OR c.CustomerPhone like N'%" + textsearch + "%'OR c.Facebook like N'%" + textsearch + "%'OR c.Zalo like N'%" + textsearch + "%')";
+                sql += " And (CONTAINS(c.CustomerName,'" + textsearch + "')  OR CONTAINS(c.Nick,'" + textsearch + "') OR c.CustomerPhone like '%" + text + "%' OR c.Facebook like '%" + text + "%' OR c.Zalo like '%" + text + "%')";
             }
             if (Discount > 0)
             {
@@ -232,24 +249,22 @@ namespace IM_PJ.Controllers
                     entity.DiscountName = reader["DiscountName"].ToString();
                 if (reader["Province"] != DBNull.Value)
                     entity.Province = reader["Province"].ToString();
-
-                //if (reader["IsHidden"] != DBNull.Value)
-                //entity.IsHidden = reader["IsHidden"].ToString();
                 list.Add(entity);
             }
             reader.Close();
             return list;
         }
 
-        public static List<CustomerOut> GetKH(string textsearch, string by, int Provice)
+        public static List<CustomerOut> GetKH(string text, string by, int Provice)
         {
+            string textsearch = '"' + text + '"';
             var list = new List<CustomerOut>();
-            var sql = @"select c.ID, c.CustomerName, c.Nick, c.CustomerPhone, c.Zalo, c.Facebook, c.CreatedBy, c.CreatedDate, c.ProvinceID as Province
+            var sql = @"select c.ID, c.CustomerName, c.Nick, c.CustomerPhone, c.Zalo, c.Facebook, c.CreatedBy, c.CreatedDate, c.Avatar, c.ShippingType, c.PaymentType, c.TransportCompanyID, c.TransportCompanySubID, c.ProvinceID as Province
                         from tbl_Customer c
                          WHERE 1 = 1";
             if (!string.IsNullOrEmpty(textsearch))
             {
-                sql += " And (c.CustomerName like N'%" + textsearch + "%' OR c.CustomerPhone like N'%" + textsearch + "%'OR c.Facebook like N'%" + textsearch + "%'OR c.Zalo like N'%" + textsearch + "%')";
+                sql += " And (CONTAINS(c.CustomerName,'" + textsearch + "')  OR CONTAINS(c.Nick,'" + textsearch + "') OR c.CustomerPhone like '%" + text + "%' OR c.Facebook like '%" + text + "%' OR c.Zalo like '%" + text + "%')";
             }
            
             if (Provice > 0)
@@ -282,9 +297,22 @@ namespace IM_PJ.Controllers
                     entity.Nick = reader["Nick"].ToString();
                 if (reader["Province"] != DBNull.Value)
                     entity.Province = reader["Province"].ToString();
-
-                //if (reader["IsHidden"] != DBNull.Value)
-                //entity.IsHidden = reader["IsHidden"].ToString();
+                if (!string.IsNullOrEmpty(reader["Avatar"].ToString()))
+                {
+                    entity.Avatar = reader["Avatar"].ToString();
+                }
+                else
+                {
+                    entity.Avatar = "/Uploads/Avatars/no-avatar.png";
+                }
+                if (reader["ShippingType"] != DBNull.Value)
+                    entity.ShippingType = reader["ShippingType"].ToString().ToInt(0);
+                if (reader["PaymentType"] != DBNull.Value)
+                    entity.PaymentType = reader["PaymentType"].ToString().ToInt(0);
+                if (reader["TransportCompanyID"] != DBNull.Value)
+                    entity.TransportCompanyID = reader["TransportCompanyID"].ToString().ToInt(0);
+                if (reader["TransportCompanySubID"] != DBNull.Value)
+                    entity.TransportCompanySubID = reader["TransportCompanySubID"].ToString().ToInt(0);
                 list.Add(entity);
             }
             reader.Close();
@@ -387,6 +415,11 @@ namespace IM_PJ.Controllers
 
             public string DisID { get; set; }
             public string Nick { get; set; }
+            public string Avatar { get; set; }
+            public int ShippingType { get; set; }
+            public int PaymentType { get; set; }
+            public int TransportCompanyID { get; set; }
+            public int TransportCompanySubID { get; set; }
         }
         #endregion
     }

@@ -23,7 +23,6 @@ namespace IM_PJ
         {
             if (!IsPostBack)
             {
-                Session["userLoginSystem"] = "admin";
                 if (Session["userLoginSystem"] != null)
                 {
                     string username = Session["userLoginSystem"].ToString();
@@ -374,11 +373,9 @@ namespace IM_PJ
                     ddlPaymentType.SelectedValue = paymenttype.ToString();
                     ddlShippingType.SelectedValue = shipping.ToString();
 
-                    BindTransportCompanySubID(TransportCompanyID);
+                    LoadTransportCompanySubID(TransportCompanyID);
                     ddlTransportCompanyID.SelectedValue = TransportCompanyID.ToString();
                     ddlTransportCompanySubID.SelectedValue = TransportCompanySubID.ToString();
-
-                    
 
                     txtShippingCode.Text = order.ShippingCode;
                     txtOrderNote.Text = order.OrderNote;
@@ -405,7 +402,7 @@ namespace IM_PJ
                     ltrPrint.Text = "<a href=\"/print-invoice.aspx?id=" + ID + "\" target=\"_blank\" class=\"btn primary-btn fw-btn not-fullwidth\"><i class=\"fa fa-print\" aria-hidden=\"true\"></i> In hóa đơn</a>";
                     ltrPrint.Text += "<a href=\"/print-invoice.aspx?id=" + ID + "&merge=1\" target=\"_blank\" class=\"btn primary-btn fw-btn not-fullwidth print-invoice-merged\"><i class=\"fa fa-print\" aria-hidden=\"true\"></i> In hóa đơn gộp</a>";
                     ltrPrint.Text += "<a href=\"/print-order-image?id=" + ID + "\" target=\"_blank\" class=\"btn primary-btn fw-btn not-fullwidth print-invoice-merged\"><i class=\"fa fa-picture-o\" aria-hidden=\"true\"></i> Lấy ảnh đơn hàng</a>";
-                    ltrPrint.Text += "<a href=\"/print-shipping-note?id=" + ID + "\" target=\"_blank\" class=\"btn primary-btn fw-btn not-fullwidth print-invoice-merged\"><i class=\"fa fa-sticky-note-o\" aria-hidden=\"true\"></i> In phiếu gửi hàng</a>";
+                    ltrPrint.Text += "<a href=\"/print-shipping-note?id=" + ID + "\" target=\"_blank\" class=\"btn primary-btn fw-btn not-fullwidth print-invoice-merged\"><i class=\"fa fa-file-text-o\" aria-hidden=\"true\"></i> In phiếu gửi hàng</a>";
                 }
             }
         }
@@ -426,7 +423,7 @@ namespace IM_PJ
             }
         }
 
-        public void BindTransportCompanySubID(int ID)
+        public void LoadTransportCompanySubID(int ID)
         {
             ddlTransportCompanySubID.Items.Clear();
             ddlTransportCompanySubID.Items.Insert(0, new ListItem("Chọn nơi nhận", "0"));
@@ -448,7 +445,7 @@ namespace IM_PJ
 
         protected void ddlTransportCompanyID_SelectedIndexChanged(object sender, EventArgs e)
         {
-            BindTransportCompanySubID(ddlTransportCompanyID.SelectedValue.ToInt(0));
+            LoadTransportCompanySubID(ddlTransportCompanyID.SelectedValue.ToInt(0));
         }
 
         [WebMethod]

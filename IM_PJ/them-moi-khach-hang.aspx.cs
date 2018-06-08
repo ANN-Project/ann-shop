@@ -38,6 +38,8 @@ namespace IM_PJ
                     Response.Redirect("/dang-nhap");
                 }
                 LoadProvince();
+                LoadTransportCompany();
+                LoadTransportCompanySubID();
             }
         }
 
@@ -56,7 +58,48 @@ namespace IM_PJ
                 ddlProvince.DataBind();
             }
         }
-       
+
+        public void LoadTransportCompany()
+        {
+            var TransportCompany = TransportCompanyController.GetTransportCompany();
+            ddlTransportCompanyID.Items.Clear();
+            ddlTransportCompanyID.Items.Insert(0, new ListItem("Chọn chành xe", "0"));
+            if (TransportCompany.Count > 0)
+            {
+                foreach (var p in TransportCompany)
+                {
+                    ListItem listitem = new ListItem(p.CompanyName, p.ID.ToString());
+                    ddlTransportCompanyID.Items.Add(listitem);
+                }
+                ddlTransportCompanyID.DataBind();
+            }
+        }
+
+        public void LoadTransportCompanySubID(int ID = 0)
+        {
+            ddlTransportCompanySubID.Items.Clear();
+            ddlTransportCompanySubID.Items.Insert(0, new ListItem("Chọn nơi nhận", "0"));
+            if (ID > 0)
+            {
+                var ShipTo = TransportCompanyController.GetReceivePlace(ID); ;
+
+                if (ShipTo.Count > 0)
+                {
+                    foreach (var p in ShipTo)
+                    {
+                        ListItem listitem = new ListItem(p.ShipTo, p.SubID.ToString());
+                        ddlTransportCompanySubID.Items.Add(listitem);
+                    }
+                }
+                ddlTransportCompanySubID.DataBind();
+            }
+        }
+
+        protected void ddlTransportCompanyID_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            LoadTransportCompanySubID(ddlTransportCompanyID.SelectedValue.ToInt(0));
+        }
+
         protected void btnSubmit_Click(object sender, EventArgs e)
         {
             string username = Session["userLoginSystem"].ToString();
@@ -75,8 +118,31 @@ namespace IM_PJ
                     else
                     {
                         lblError.Visible = false;
-                        CustomerController.Insert(txtCustomerName.Text, txtCustomerPhone.Text, txtSupplierAddress.Text, txtSupplierEmail.Text, 0, 1,
-                         DateTime.Now, username, chkIsHidden.Checked, txtZalo.Text, txtFacebook.Text, txtNote.Text,ddlProvince.SelectedValue,txtNick.Text);
+
+                        //Phần thêm ảnh đại diện khách hàng
+                        string path = "/Uploads/Avatars/";
+                        string Avatar = "";
+                        if (UploadAvatarImage.UploadedFiles.Count > 0)
+                        {
+                            foreach (UploadedFile f in UploadAvatarImage.UploadedFiles)
+                            {
+                                var o = path + Guid.NewGuid() + f.GetExtension();
+                                try
+                                {
+                                    f.SaveAs(Server.MapPath(o));
+                                    Avatar = o;
+                                }
+                                catch { }
+                            }
+                        }
+
+                        int PaymentType = ddlPaymentType.SelectedValue.ToInt(0);
+                        int ShippingType = ddlShippingType.SelectedValue.ToInt(0);
+                        int TransportCompanyID = ddlTransportCompanyID.SelectedValue.ToInt(0);
+                        int TransportCompanySubID = ddlTransportCompanySubID.SelectedValue.ToInt(0);
+
+                        CustomerController.Insert(txtCustomerName.Text, txtCustomerPhone.Text, txtSupplierAddress.Text, "", 0, 1, DateTime.Now, username, false, txtZalo.Text, txtFacebook.Text, txtNote.Text, ddlProvince.SelectedValue, txtNick.Text, Avatar, ShippingType, PaymentType, TransportCompanyID, TransportCompanySubID);
+
                         PJUtils.ShowMessageBoxSwAlert("Thêm khách hàng thành công", "s", true, Page);
                     }
                 }
