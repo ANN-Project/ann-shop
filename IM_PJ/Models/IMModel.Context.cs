@@ -12,8 +12,6 @@ namespace IM_PJ.Models
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
-    using System.Data.Entity.Core.Objects;
-    using System.Linq;
     
     public partial class inventorymanagementEntities : DbContext
     {
@@ -34,6 +32,7 @@ namespace IM_PJ.Models
         public virtual DbSet<tbl_AgentProductVariable> tbl_AgentProductVariable { get; set; }
         public virtual DbSet<tbl_Category> tbl_Category { get; set; }
         public virtual DbSet<tbl_Config> tbl_Config { get; set; }
+        public virtual DbSet<tbl_Customer> tbl_Customer { get; set; }
         public virtual DbSet<tbl_CustomerLevel> tbl_CustomerLevel { get; set; }
         public virtual DbSet<tbl_CheckWarehouse> tbl_CheckWarehouse { get; set; }
         public virtual DbSet<tbl_CheckWarehouseDetail> tbl_CheckWarehouseDetail { get; set; }
@@ -63,6 +62,5 @@ namespace IM_PJ.Models
         public virtual DbSet<tbl_OrderDetail> tbl_OrderDetail { get; set; }
         public virtual DbSet<tbl_StockManager> tbl_StockManager { get; set; }
         public virtual DbSet<tbl_TransportCompany> tbl_TransportCompany { get; set; }
-        public virtual DbSet<tbl_Customer> tbl_Customer { get; set; }
     }
 }

@@ -45,8 +45,5 @@ namespace IM_PJ.Models
         public string OrderNote { get; set; }
         public Nullable<System.DateTime> DateDone { get; set; }
         public Nullable<int> RefundsGoodsID { get; set; }
-        public string ShippingCode { get; set; }
-        public Nullable<int> TransportCompanyID { get; set; }
-        public Nullable<int> TransportCompanySubID { get; set; }
     }
 }

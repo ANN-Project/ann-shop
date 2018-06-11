@@ -31,10 +31,5 @@ namespace IM_PJ.Models
         public string Facebook { get; set; }
         public string Note { get; set; }
         public Nullable<int> ProvinceID { get; set; }
-        public string Avatar { get; set; }
-        public Nullable<int> ShippingType { get; set; }
-        public Nullable<int> PaymentType { get; set; }
-        public Nullable<int> TransportCompanyID { get; set; }
-        public Nullable<int> TransportCompanySubID { get; set; }
     }
 }
