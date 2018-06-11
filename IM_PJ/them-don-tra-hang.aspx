@@ -43,13 +43,13 @@
                                     <asp:TextBox ID="txtAddress" CssClass="form-control" runat="server"></asp:TextBox>
                                 </div>
                                 <div class="form-row">
-                                    Zalo                                   
+                                    Zalo
                                 </div>
                                 <div class="form-row">
                                     <asp:TextBox ID="txtZalo" CssClass="form-control" runat="server"></asp:TextBox>
                                 </div>
                                 <div class="form-row">
-                                    Facebook                                   
+                                    Facebook
                                 </div>
                                 <div class="form-row">
                                     <asp:TextBox ID="txtFacebook" CssClass="form-control" runat="server"></asp:TextBox>
@@ -173,6 +173,50 @@
     </telerik:RadAjaxManager>
     <telerik:RadScriptBlock ID="sc" runat="server">
         <script type="text/javascript">
+            class ProductRefundModel{
+                constructor(OrderID
+                            , OrderDetailID
+                            , RowIndex
+                            , ProductName
+                            , ProductType
+                            , SKU
+                            , Price
+                            , ReducedPrice
+                            , DiscountPerProduct
+                            , QuantityOrder
+                            , QuantityLeft
+                            , QuantityRefund
+                            , ChangeType
+                            , FeeRefund) {
+                    this.OrderID = OrderID;
+                    this.OrderDetailID = OrderDetailID;
+                    this.RowIndex = RowIndex;
+                    this.ProductName = ProductName;
+                    this.ProductType = ProductType;
+                    this.SKU = SKU;
+                    this.Price = Price;
+                    this.ReducedPrice = ReducedPrice;
+                    this.DiscountPerProduct = DiscountPerProduct;
+                    this.QuantityOrder = QuantityOrder;
+                    this.QuantityLeft = QuantityLeft;
+                    this.QuantityRefund = QuantityRefund;
+                    this.ChangeType = ChangeType;
+                    this.FeeRefund = FeeRefund;
+                    this.TotalFeeRefund = QuantityRefund * ReducedPrice;
+                }
+
+                isTarget(OrderID, OrderDetailID, SKU) {
+                    return this.OrderID == OrderID && this.OrderDetailID == OrderDetailID && this.SKU == SKU;
+                }
+
+                canAddOderDetailNew(QuantityRefund) {
+                    return QuantityRefund > this.QuantityLeft
+                }
+            }
+
+            var productRefunds = [];
+            var productDeleteRefunds = [];
+
             $('#txtSearch').keydown(function (event) {
                 if (event.which === 13) {
                     searchProduct();
@@ -180,6 +224,7 @@
                     return false;
                 }
             });
+
             function payall() {
                 if ($(".product-result").length > 0) {
                     var totalCanchange = parseFloat($("#<%=hdfTotalCanchange.ClientID%>").val());
@@ -223,21 +268,28 @@
                     alert('Vui lòng chọn sản phẩm đổi trả');
                 }
             }
+
             function deleteProduct() {
                 var c = confirm("Bạn muốn xóa tất cả sản phẩm?");
                 if (c == true) {
+                    productDeleteRefunds = productRefunds;
+                    productRefunds = [];
+
                     $(".product-result").remove();
+
                     getAllPrice();
                     $(".totalpriceorder").html("0");
                     $(".totalproductQuantity").html("0");
                     $(".totalrefund").html("0");
                 }
             }
+
             function getAllPrice() {
+                let totalprice = 0;
+                let productquantity = 0;
+                let totalRefund = 0;
+
                 if ($(".product-result").length > 0) {
-                    var totalprice = 0;
-                    var productquantity = 0;
-                    var totalRefund = 0;
                     $(".product-result").each(function () {
                         var giadaban = parseFloat($(this).attr("data-giadaban"));
                         var feeRefund = parseFloat($(this).attr("data-RefundFee"));
@@ -261,162 +313,268 @@
                         $(this).find(".thanhtien").html(formatThousands(totalRow, ","));
 
                     });
-
-
-                    $(".totalpriceorder").html(formatThousands(totalprice, ","));
-                    $(".totalproductQuantity").html(formatThousands(productquantity, ","));
-                    $(".totalrefund").html(formatThousands(totalRefund, ","));
-
-                    $("#<%=hdfTotalQuantity.ClientID%>").val(productquantity);
-                    $("#<%=hdfTotalRefund.ClientID%>").val(totalRefund);
-                    $("#<%=hdfTotalPrice.ClientID%>").val(totalprice);
                 }
+
+                $(".totalpriceorder").html(formatThousands(totalprice, ","));
+                $(".totalproductQuantity").html(formatThousands(productquantity, ","));
+                $(".totalrefund").html(formatThousands(totalRefund, ","));
+
+                $("#<%=hdfTotalQuantity.ClientID%>").val(productquantity);
+                $("#<%=hdfTotalRefund.ClientID%>").val(totalRefund);
+                $("#<%=hdfTotalPrice.ClientID%>").val(totalprice);
             }
-            function searchProduct() {
-                var phone = $("#<%=hdfPhone.ClientID%>").val();
-                var sl = 0;
-                var t = $(".product-result").length;
-                var textsearch = $("#txtSearch").val();
-                var list = "";
-                var checkx = false;
-                if (t > 0) {
-                    $(".product-result").each(function () {
-                        var sku = $(this).attr("data-sku");
-                        var orderID = $(this).attr("data-orderID");
-                        var orderDetailID = $(this).attr("data-orderDetailID");
-                        var ProductName = $(this).attr("data-ProductName");
-                        var quantity = parseFloat($(this).find(".soluongcandoi").val());
-                        var Soluongtoida = $(this).attr("data-Soluongtoida");
-                        if (textsearch.toUpperCase() == sku) {
-                            if (quantity < Soluongtoida) {
-                                $("#txtSearch").val("");
-                                var number = quantity + 1;
-                                $(this).find(".soluongcandoi").val(number);
-                                checkx = true;
-                            }
-                            sl++;
-                        }
 
+            function addHtmlProductResult(item) {
+                let html = "";
 
-                        if (quantity > 0) {
-                            list += sku + ";" + orderID + ";" + orderDetailID + ";" + Soluongtoida + ";" + quantity + "|";
-                        }
-                    })
-                }
-                if (isBlank(phone)) {
-                    alert('Vui lòng nhập số điện thoại.');
+                html += "<tr class='product-result' "
+                                + "data-orderID='" + item.OrderID + "' "
+                                + "data-orderDetailID='" + item.OrderDetailID + "' "
+                                + "data-sku='" + item.SKU + "' "
+                                + "data-rowIndex='" + item.RowIndex + "' "
+                                + "data-ProductName='" + item.ProductName + "' "
+                                + "data-ProductType='" + item.ProductType + "' "
+                                + "data-Giagoc='" + item.Price + "' "
+                                + "data-Giadaban='" + item.ReducedPrice + "' "
+                                + "data-TienGiam='" + item.DiscountPerProduct + "' "
+                                + "data-Soluongtoida='" + item.QuantityLeft + "' "
+                                + "data-RefundFee='" + item.FeeRefund + "' >\n";
+                html += "    <td>" + item.OrderID + "</td>\n";
+                html += "    <td>" + item.ProductName + "</td>\n";
+                html += "    <td>" + item.SKU + "</td>\n";
+                html += "    <td class='giagoc' data-giagoc='" + item.Price + "'>" + formatThousands(item.Price) + "</td>\n";
+                if (item.DiscountPerProduct > 0) {
+                    html += "    <td class='giadaban' data-giadaban='" + item.ReducedPrice + "'>\n"
+                    html += "        " + formatThousands(item.ReducedPrice) + "(CK " + formatThousands(item.DiscountPerProduct) + ")\n"
+                    html += "    </td>\n";
                 }
                 else {
-                    var numcanchange = parseFloat($("#<%=hdfTotalCanchange.ClientID%>").val());
-                    if (numcanchange > 0) {
-                        if (checkx == false) {
-                            if (!isBlank(textsearch)) {
-                                $.ajax({
-                                    type: "POST",
-                                    url: "/them-don-tra-hang.aspx/getProduct",
-                                    data: "{textsearch:'" + textsearch + "',phone:'" + phone + "',sl:'" + sl + "',list:'" + list + "'}",
-                                    contentType: "application/json; charset=utf-8",
-                                    dataType: "json",
-                                    success: function (msg) {
-                                        var count = 0;
-                                        var data = JSON.parse(msg.d);
-                                        if (data.length > 0) {
-                                            var html = "";
+                    html += "    <td class='giadaban' data-giadaban='" + item.ReducedPrice + "'>" + formatThousands(item.ReducedPrice) + "</td>\n";
+                }
+                html += "    <td class='slmax' data-slmax='" + item.QuantityOrder + "'>" + formatThousands(item.QuantityOrder) + "</td>\n";
+                html += "    <td class='sltoida' data-sltoida='" + item.QuantityLeft + "'>" + formatThousands(item.QuantityLeft) + "</td>\n";
+                html += "    <td class='slcandoi'>\n";
+                html += "           <input type='text' min='1' max='" + item.QuantityLeft + "' class='form-control soluongcandoi' style='width: 40%;margin: 0 auto;' value='1'  onkeyup='checkQuantiy($(this))' onkeypress='return event.charCode >= 48 && event.charCode <= 57'/>\n";
+                html += "    </td>\n";
+                html += "    <td>\n";
+                html += "           <select class='changeType form-control' onchange='getAllPrice()'>\n";
+                html += "               <option value='1'>Đổi size</option>\n";
+                html += "               <option value='2'>Đổi sản phẩm khác</option>\n";
+                html += "               <option value='3'>Đổi hàng lỗi</option>\n";
+                html += "           </select>\n";
+                html += "    </td>\n";
+                html += "   <td class='phidoihang'>0</td>\n";
+                html += "   <td class='thanhtien' data-thanhtien='" + item.TotalFeeRefund + "'>" + formatThousands(item.TotalFeeRefund) + "</td>\n";
+                html += "   <td><a href='javascript:;' class='link-btn' onclick='deleteRow($(this))'><i class='fa fa-trash'></i></a></td>\n";
+                html += "</tr>\n";
 
-                                            for (var i = 0; i < data.length; i++) {
-                                                var item = data[i];
-                                                var sku = item.SKU;
-                                                var order = item.orderID;
-                                                var check = false;
-                                                $(".product-result").each(function () {
-                                                    var existedSKU = $(this).attr("data-sku");
-                                                    var existedorderID = $(this).attr("data-orderID");
-                                                    if (sku == existedSKU && order == existedorderID) {
-                                                        check = true;
-                                                    }
-                                                });
-                                                if (check == false) {
-                                                    html += "<tr class=\"product-result\" data-sku=\"" + item.SKU + "\" data-orderID=\"" + item.orderID
-                                                        + "\" data-orderDetailID=\"" + item.orderDetailID + "\" data-ProductName=\"" + item.ProductName
-                                                        + "\" data-ProductType=\"" + item.ProductType + "\" data-Giagoc=\"" + item.Giagoc
-                                                        + "\" data-stringGiagoc=\"" + item.stringGiagoc + "\" data-Giadaban=\"" + item.Giadaban
-                                                        + "\" data-stringGiadaban=\"" + item.stringGiadaban + "\" data-TienGiam=\"" + item.TienGiam
-                                                        + "\" data-stringTienGiam=\"" + item.stringTienGiam + "\" data-stringSoluongtoida=\"" + item.stringSoluongtoida
-                                                        + "\" data-Soluongtoida=\"" + item.Soluongtoida + "\" data-RefundFee=\"" + item.RefundFee
-                                                        + "\" data-stringRefundFee=\"" + item.stringRefundFee + "\"  >";
-                                                    html += "   <td>" + item.orderID + "</td>";
-                                                    html += "   <td>" + item.ProductName + "</td>";
-                                                    html += "   <td>" + item.SKU + "</td>";
-                                                    html += "   <td class=\"giagoc\" data-giagoc=\"" + item.Giagoc + "\">" + item.stringGiagoc + "</td>";
-                                                    html += "   <td class=\"giadaban\" data-giadaban=\"" + item.Giadaban + "\">" + item.stringGiadaban + " " + item.stringTienGiam + "</td>";
-                                                    html += "   <td class=\"slmax\" data-soluongmax=\"" + item.soluongmax + "\">" + item.soluongmax + "</td>";
-                                                    html += "   <td class=\"sltoida\" data-soluongtoida=\"" + item.Soluongtoida + "\">" + item.Soluongtoida + "</td>";
-                                                    html += "   <td class=\"slcandoi\"><input type=\"text\" min=\"1\" max=\"" + item.Soluongtoida + "\" class=\"form-control soluongcandoi\" style=\"width: 40%;margin: 0 auto;\" value=\"1\"  onkeyup=\"checkQuantiy($(this))\" onkeypress='return event.charCode >= 48 && event.charCode <= 57'/></td>";
-                                                    html += "   <td><select class=\"changeType form-control\" onchange=\"getAllPrice()\">"
-                                                        + "            <option value=\"1\">Đổi size</option>"
-                                                        + "            <option value=\"2\">Đổi sản phẩm khác</option>"
-                                                        + "            <option value=\"3\">Đổi hàng lỗi</option>"
-                                                        + "        </select>"
-                                                        + "    </td>";
-                                                    html += "   <td class=\"phidoihang\">0</td>";
-                                                    var thanhtien = parseFloat(item.Giadaban) * parseFloat(item.Soluongtoida);
-                                                    html += "   <td class=\"thanhtien\" data-thanhtien=\"" + thanhtien + "\">" + formatThousands(thanhtien, ",") + "</td>";
-                                                    html += "   <td><a href=\"javascript:;\" class=\"link-btn\" onclick=\"deleteRow($(this))\"><i class=\"fa fa-trash\"></i></a></td>";
-                                                    html += "</tr>";
-                                                }
-                                            }
-                                            $(".content-product").append(html);
-                                            $("#txtSearch").val("");
-                                            if (count > 0) {
-                                                $(".excute-in").show();
-                                            }
-                                            getAllPrice();
-                                            if (data.length < sl+1)
-                                            {
-                                                alert('Số lượng sản phẩm đổi trả đã đạt tối đa!');
-                                            }
-                                        }
-                                        else {
-                                            alert('Không tìm thấy sản phẩm');
-                                        }
-                                    },
-                                    error: function (xmlhttprequest, textstatus, errorthrow) {
-                                        alert('lỗi');
+                return html;
+            }
+
+            function searchProduct() {
+                let phone = $("#<%=hdfPhone.ClientID%>").val();
+                let txtSearch = $("#txtSearch").val();
+                let rowIndex = 1;
+                let totalCanChange = $("#<%=hdfTotalCanchange.ClientID%>").val();
+                let totalProductRefund = $(".totalproductQuantity").val();
+                let isProductNew = true; // true when QuantityLeft == QuantityRefund or SKU != txtSearch
+                var product = null;
+
+                if (isBlank(phone)) {
+                    alert('Vui lòng nhập số điện thoại.');
+                    return;
+                }
+
+                if (isBlank(txtSearch)) {
+                    alert('Vui lòng nhập nội dung tìm kiếm');
+                    return;
+                }
+
+                if (totalCanChange <= totalProductRefund) {
+                    alert('Số lượng sản phẩm đổi trả đã đạt tối đa!');
+                    return;
+                }
+
+                if (productRefunds.length > 0) {
+                    for (let i = 0; i < productRefunds.length; i++) {
+                        let item = productRefunds[i];
+
+                        if (item.SKU.toUpperCase() == txtSearch.toUpperCase()) {
+                            if (item.QuantityLeft > item.QuantityRefund) {
+                                item.QuantityRefund += 1;
+
+                                $(".product-result").each(function () {
+                                    let orderID = $(this).attr("data-orderID");
+                                    let orderDetailID = $(this).attr("data-orderDetailID");
+                                    let sku = $(this).attr("data-sku");
+
+                                    if (item.isTarget(orderID, orderDetailID, sku)) {
+                                        $("#txtSearch").val("");
+                                        $(this).find(".soluongcandoi").val(formatThousands(item.QuantityRefund));
+                                        getAllPrice();
+
+                                        return;
                                     }
                                 });
+
+                                isProductNew = false;
+                                break;
+                            } else {
+                                isProductNew = true
+
+                                if (rowIndex <= item.RowIndex) {
+                                    rowIndex = item.RowIndex + 1;
+                                }
                             }
-                            else {
-                                alert('Vui lòng nhập nội dung tìm kiếm');
-                            }
+                        } else {
+                            isProductNew = true;
                         }
                     }
-                    else {
-                        alert('Bạn đã hết hạn đổi trả');
+                }
+
+                if (isProductNew) {
+
+                    productDeleteRefunds.forEach(function (item) {
+                        if (item.SKU.toUpperCase() == txtSearch.toUpperCase()) {
+                            if (product == null) {
+                                product = item;
+                            } else {
+                                if (product.rowIndex > item.RowIndex) {
+                                    product = item;
+                                }
+                            }
+                        }
+                    });
+
+                    if (product != null) {
+                        productDeleteRefunds = productDeleteRefunds.filter(function (item) {
+                            return item.SKU != product.SKU && item.RowIndex != product.RowIndex
+                        });
+
+                        productRefunds.push(product);
+
+                        $(".content-product").append(addHtmlProductResult(product));
+
+                        $("#txtSearch").val("");
+                        if (productRefunds.length > 0) {
+                            $(".excute-in").show();
+                        }
+
+                        getAllPrice();
+
+                    } else {
+                        $.ajax({
+                            type: "POST",
+                            url: "/them-don-tra-hang.aspx/getProduct",
+                            data: "{phone:'" + phone + "', sku:'" + txtSearch + "', rowIndex:" + rowIndex + "}",
+                            contentType: "application/json; charset=utf-8",
+                            dataType: "json",
+                            success: function (msg) {
+                                var data = JSON.parse(msg.d);
+
+                                if (data != null) {
+                                    product = new ProductRefundModel(
+                                        OrderID = data.OrderID
+                                        , OrderDetailID = data.OrderDetailID
+                                        , RowIndex = data.RowIndex
+                                        , ProductName = data.ProductName
+                                        , ProductType = data.ProductType
+                                        , SKU = data.SKU
+                                        , Price = data.Price
+                                        , ReducedPrice = data.ReducedPrice
+                                        , DiscountPerProduct = data.DiscountPerProduct
+                                        , QuantityOrder = data.QuantityOrder
+                                        , QuantityLeft = data.QuantityLeft
+                                        , QuantityRefund = 1
+                                        , ChangeType = data.ChangeType
+                                        , FeeRefund = data.FeeRefund
+                                        );
+
+                                    productRefunds.push(product);
+
+                                    $(".content-product").append(addHtmlProductResult(product));
+
+                                    $("#txtSearch").val("");
+                                    if (productRefunds.length > 0) {
+                                        $(".excute-in").show();
+                                    }
+
+                                    getAllPrice();
+                                }
+                                else {
+                                    alert('Không tìm thấy sản phẩm');
+                                }
+                            },
+                            error: function (jqXHR, textStatus, errorThrown) {
+                                let msg = '';
+
+                                if (jqXHR.status == 500) {
+                                    msg = jqXHR.responseJSON.Message;
+                                } else {
+                                    msg = 'lỗi'
+                                }
+
+                                alert(msg);
+                                return;
+                            }
+                        });
                     }
                 }
             }
+
             function checkQuantiy(obj) {
-                var instock = parseFloat(obj.parent().parent().attr("data-Soluongtoida"));
-                var currentVal = parseFloat(obj.val());
-                var check = true;
-                if (currentVal == 0) {
-                    obj.val("1");
+                let row = obj.parent().parent();
+                let orderID = parseFloat(row.attr("data-orderid"));
+                let orderDetailID = parseFloat(row.attr("data-orderdetailid"));
+                let sku = row.attr("data-sku");
+
+                let currentVal = parseFloat(obj.val());
+
+                if (currentVal < obj.attr("min")) {
+                    currentVal = 1;
                 }
-                else if (currentVal > instock) {
-                    obj.val("");
-                    obj.val(instock);
+                else if (currentVal > obj.attr("max")) {
+                    currentVal = obj.attr("max");
                 }
+
+                obj.val(currentVal);
+                productRefunds.forEach(function (product) {
+                    if (product.isTarget(orderID, orderDetailID, sku)) {
+                        product.QuantityRefund = currentVal;
+                    }
+                });
+
                 getAllPrice();
             }
+
             function deleteRow(obj) {
-                var c = confirm('Bạn muốn xóa sản phẩm này?');
+                let c = confirm('Bạn muốn xóa sản phẩm này?');
+
                 if (c) {
-                    obj.parent().parent().remove();
-                    if ($(".product-result").length == 0) {
+                    let row = obj.parent().parent();
+                    let orderID = parseFloat(row.attr("data-orderid"));
+                    let orderDetailID = parseFloat(row.attr("data-orderdetailid"));
+                    let sku = row.attr("data-sku");
+
+                    productRefunds.forEach(function (product) {
+                        if (product.isTarget(orderID, orderDetailID, sku)) {
+                            product.QuantityRefund = 1; // return default
+                            productDeleteRefunds.push(product);
+                        }
+                    });
+
+                    productRefunds = productRefunds.filter(function (product) {
+                        return !product.isTarget(orderID, orderDetailID, sku);
+                    });
+
+                    row.remove();
+                    getAllPrice();
+
+                    if (productRefunds.length == 0) {
                         $(".excute-in").hide();
 
                     }
-                    getAllPrice();
+
                 }
             }
 
@@ -459,6 +617,7 @@
                     });
                 }
             }
+
             var formatThousands = function (n, dp) {
                 var s = '' + (Math.floor(n)), d = n % 1, i = s.length, r = '';
                 while ((i -= 3) > 0) { r = ',' + s.substr(i, 3) + r; }
