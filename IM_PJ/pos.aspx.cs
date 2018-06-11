@@ -30,13 +30,13 @@ namespace IM_PJ
                     var acc = AccountController.GetByUsername(username);
                     if (acc != null)
                     {
-                        if(acc.RoleID == 0)
+                        if (acc.RoleID == 0)
                         {
 
                         }
                         else if(acc.RoleID == 2)
                         {
-
+                            hdfUsername.Value = acc.Username;
                         }
                         else
                         {
@@ -52,6 +52,18 @@ namespace IM_PJ
                                 list += item.Quantity + "-" + item.DiscountPerProduct + "|";
                             }
                             hdfChietKhau.Value = list;
+                        }
+
+                        // get user list (only role 2) to change user when create order
+                        var CreateBy = AccountController.GetAllByRoleID(2);
+                        if (CreateBy != null)
+                        {
+                            string listUser = "";
+                            foreach (var item in CreateBy)
+                            {
+                                listUser += item.Username + "|";
+                            }
+                            hdfListUser.Value = listUser;
                         }
                     }
                 }
@@ -258,9 +270,9 @@ namespace IM_PJ
         }
 
         [WebMethod]
-        public static string searchCustomerByText(string textsearch)
+        public static string searchCustomerByText(string textsearch, string createdby = "")
         {
-            var customer = CustomerController.Find(textsearch);
+            var customer = CustomerController.Find(textsearch, createdby);
             if (customer != null)
             {
                 JavaScriptSerializer serializer = new JavaScriptSerializer();
@@ -270,7 +282,6 @@ namespace IM_PJ
             {
                 return "0";
             }
-
         }
 
         [WebMethod]
@@ -373,6 +384,11 @@ namespace IM_PJ
             {
                 if (acc.RoleID == 0 || acc.RoleID == 2)
                 {
+                    // change user
+                    if(username != hdfUsername.Value)
+                    {
+                        username = hdfUsername.Value;
+                    }
                     int AgentID = Convert.ToInt32(acc.AgentID);
                     int OrderType = hdfOrderType.Value.ToInt();
                     string AdditionFee = "0";
@@ -383,7 +399,7 @@ namespace IM_PJ
                     string CustomerPhone = txtPhone.Text.Trim();
                     string CustomerName = txtFullname.Text.Trim();
                     string CustomerNick = txtNick.Text.Trim();
-                    string CustomerEmail = txtEmail.Text.Trim();
+                    string CustomerEmail = "";
                     string CustomerAddress = txtAddress.Text.Trim();
                     if (checkCustomer == 0)
                     {
@@ -409,6 +425,7 @@ namespace IM_PJ
                             CustomerID = checkphone.ID;
                         }
                     }
+
                     string totalPrice = hdfTotalPrice.Value.ToString();
                     string totalPriceNotDiscount = hdfTotalPriceNotDiscount.Value;
                     int PaymentStatus = 3;
@@ -499,7 +516,6 @@ namespace IM_PJ
                                 }
                                 else
                                 {
-                                    
                                     string parentSKU = "";
                                     var productV = ProductVariableController.GetByID(ID);
                                     if (productV != null)

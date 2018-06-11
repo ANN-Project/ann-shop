@@ -27,6 +27,7 @@ namespace IM_PJ
                     var acc = AccountController.GetByUsername(username);
                     if (acc != null)
                     {
+                        
                         var dc = DiscountController.GetAll();
                         if (dc != null)
                         {
@@ -53,7 +54,7 @@ namespace IM_PJ
                         }
                         else if (acc.RoleID == 2)
                         {
-
+                            hdfUsername.Value = acc.Username;
                         }
                         else
                         {

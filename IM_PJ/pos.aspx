@@ -12,32 +12,30 @@
                     <div class="col-md-4">
                         <div class="panel panelborderheading">
                             <div class="panel-heading clear">
-                                <h3 class="page-title left not-margin-bot">Thông tin khách hàng</h3>
-                                <a href="javascript:;" class="search-customer" onclick="searchCustomer()"><i class="fa fa-search" aria-hidden="true"></i> Tìm khách hàng (F1)</a>
+                                <h3 class="page-title left not-margin-bot">Khách hàng</h3>
+                                <a href="javascript:;" class="search-customer" onclick="searchCustomer()" title="Tìm khách hàng"><i class="fa fa-search" aria-hidden="true"></i> Tìm (F1)</a>
+                                <a href="javascript:;" class="change-user" onclick="changeUser()" title="Tính tiền giúp nhân viên khác"><i class="fa fa-user" aria-hidden="true"></i></a>
+                                <a href="/danh-sach-don-hang" class="change-user" target="_blank" title="Danh sách đơn hàng"><i class="fa fa-list-ul" aria-hidden="true"></i></a>
+                                
                             </div>
                             <div class="panel-body">
                                 <div class="form-group">
                                     <label>Họ tên</label>
-                                    <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" ControlToValidate="txtFullname" ErrorMessage="(*)"
-                                        ForeColor="Red" Display="Dynamic"></asp:RequiredFieldValidator>
+                                    <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" ControlToValidate="txtFullname" ErrorMessage="(*)" ForeColor="Red" Display="Dynamic"></asp:RequiredFieldValidator>
                                     <asp:TextBox ID="txtFullname" CssClass="form-control" runat="server" placeholder="(F2)"></asp:TextBox>
                                 </div>
                                 <div class="form-group">
                                     <label>Điện thoại</label>
-                                    <asp:RequiredFieldValidator ID="re" runat="server" ControlToValidate="txtPhone" ErrorMessage="(*)"
-                                        ForeColor="Red" Display="Dynamic"></asp:RequiredFieldValidator>
+                                    <asp:RequiredFieldValidator ID="re" runat="server" ControlToValidate="txtPhone" ErrorMessage="(*)" ForeColor="Red" Display="Dynamic"></asp:RequiredFieldValidator>
                                     <asp:TextBox ID="txtPhone" CssClass="form-control" runat="server"></asp:TextBox>
                                 </div>
                                 <div class="form-group">
                                     <label>Nick đặt hàng</label>
                                     <asp:TextBox ID="txtNick" CssClass="form-control" runat="server"></asp:TextBox>
                                 </div>
-                                <div class="form-group" style="display: none">
-                                    <label>Email</label>
-                                    <asp:TextBox ID="txtEmail" CssClass="form-control" runat="server"></asp:TextBox>
-                                </div>
                                 <div class="form-group">
                                     <label>Địa chỉ</label>
+                                    <asp:RequiredFieldValidator ID="RequiredFieldValidator2" runat="server" ControlToValidate="txtAddress" ErrorMessage="(*)" ForeColor="Red" Display="Dynamic"></asp:RequiredFieldValidator>
                                     <asp:TextBox ID="txtAddress" CssClass="form-control" runat="server"></asp:TextBox>
                                 </div>
                                 <div class="form-row view-detail" style="display: none">
@@ -108,10 +106,10 @@
                                 <div class="right totalGuestChange"></div>
                             </div>
                             <div class="post-table-links clear">
-                                <a href="javascript:;" class="btn link-btn" style="background-color: #ffad00" onclick="searchReturnOrder()"><i class="fa fa-refresh"></i> Đổi trả</a>
-                                <a href="javascript:;" class="btn link-btn" style="background-color: #00a2b7" onclick="showShipping()"><i class="fa fa-truck"></i> Vận chuyển</a>
-                                <a href="javascript:;" class="btn link-btn" style="background-color: #453288" onclick="showDiscount()"><i class="fa fa-tag"></i> Chiết khấu</a>
-                                <a href="javascript:;" class="btn link-btn" style="background-color: #f87703;" onclick="payAll()"><i class="fa fa-floppy-o"></i> Thanh toán</a>
+                                <a href="javascript:;" class="btn link-btn" style="background-color: #ffad00" onclick="searchReturnOrder()" title="Nhập đơn hàng đổi trả"><i class="fa fa-refresh"></i> Đổi trả</a>
+                                <a href="javascript:;" class="btn link-btn" style="background-color: #00a2b7" onclick="showShipping()" title="Nhập phí vận chuyển"><i class="fa fa-truck"></i> Vận chuyển</a>
+                                <a href="javascript:;" class="btn link-btn" style="background-color: #453288" onclick="showDiscount()" title="Nhập chiết khấu mỗi cái"><i class="fa fa-tag"></i> Chiết khấu</a>
+                                <a href="javascript:;" class="btn link-btn" style="background-color: #f87703;" onclick="payAll()" title="Hoàn tất đơn hàng"><i class="fa fa-floppy-o"></i> Thanh toán</a>
                                 <asp:Button ID="btnOrder" runat="server" OnClick="btnOrder_Click" Style="display: none" />
                             </div>
                         </div>
@@ -124,12 +122,12 @@
                                 <option value="1">Khách mua lẻ</option>
                             </select>
                             <div class="post-above clear">
-                                <div class="search-box left" style="width: 90%;">
+                                <div class="search-box left" style="width: 80%;">
                                     <input type="text" id="txtSearch" class="form-control" placeholder="SKU (F3)">
                                 </div>
                                 <div class="right">
-                                    <a href="javascript:;" class="link-btn" onclick="searchProduct()"><i class="fa fa-search"></i></a>
-                                    <a href="/quan-ly-nhap-kho" class="link-btn" target="_blank"><i class="fa fa-cube"></i></a>
+                                    <a href="javascript:;" class="link-btn" onclick="searchProduct()" title="Tìm sản phẩm"><i class="fa fa-search"></i></a>
+                                    <a href="/quan-ly-nhap-kho" class="link-btn" target="_blank" title="Nhập kho"><i class="fa fa-cube"></i></a>
                                 </div>
                             </div>
                             <div class="post-body clear">
@@ -141,8 +139,8 @@
                                             <th class="sku-item">Mã</th>
                                             <th class="variable-item">Thuộc tính</th>
                                             <th class="price-item">Giá</th>
-                                            <th class="quantity-item">Số lượng</th>
-                                            <th class="total-item">Thành tiền</th>
+                                            <th class="quantity-item">Mua</th>
+                                            <th class="total-item">Tổng</th>
                                             <th class="trash-item"></th>
                                             <th class="space-item"></th>
                                         </tr>
@@ -159,7 +157,7 @@
                     </div>
                 </div>
             </div>
-
+            <asp:HiddenField ID="hdfUsername" runat="server" />
             <asp:HiddenField ID="hdfCheckCustomer" runat="server" Value="0" />
             <asp:HiddenField ID="hdfOrderType" runat="server" />
             <asp:HiddenField ID="hdfTotalPrice" runat="server" />
@@ -172,6 +170,7 @@
             <asp:HiddenField ID="hdfTotalQuantity" runat="server" />
             <asp:HiddenField ID="hdfcheck" runat="server" />
             <asp:HiddenField ID="hdfChietKhau" runat="server" />
+            <asp:HiddenField ID="hdfListUser" runat="server" />
             <asp:HiddenField ID="hdfDonHangTra" runat="server" />
             <asp:HiddenField ID="hdfTongTienConLai" runat="server" />
         </main>
@@ -294,6 +293,31 @@
                 }
             });
 
+            function changeUser() {
+                var listUser = $("#<%=hdfListUser.ClientID%>").val();
+
+                var list = listUser.split('|');
+                var item = "<select id=\"listUser\" class=\"form-control fjx\">";
+                for (var i = 0; i < list.length - 1; i++) {
+                    item += "<option value=\"" + list[i] + "\">" + list[i] + "</option>";
+                }
+                item += "</select>";
+
+                var html = "";
+                html += "<div class=\"form-group\">";
+                html += "<label>Chọn nhân viên khác: </label>";
+                html += item;
+                html += "<a href=\"javascript: ;\" class=\"btn link-btn\" style=\"background-color:#f87703;float:right;color:#fff;\" onclick=\"setNewUser()\">Chọn</a>";
+                html += "</div>";
+                showPopup(html);
+            }
+
+            function setNewUser() {
+                var selected = $("#listUser").val();
+                $("#<%=hdfUsername.ClientID%>").val(selected);
+                closePopup();
+            }
+
             // search return order
             function searchReturnOrder() {
                 var phone = $("#<%=txtPhone.ClientID%>").val();
@@ -305,7 +329,7 @@
                     html += "<div class=\"form-group\">";
                     html += "<label>Mã đơn hàng đổi trả: </label>";
                     html += "<input ID=\"txtOrderRefund\" class=\"form-control fjx\"></input>";
-                    html += "<a href=\"javascript: ;\" class=\"btn link- btn\" style=\"background-color:#f87703;float:right;color:#fff;\" onclick=\"getReturnOrder()\">Tìm</a>";
+                    html += "<a href=\"javascript: ;\" class=\"btn link-btn\" style=\"background-color:#f87703;float:right;color:#fff;\" onclick=\"getReturnOrder()\">Tìm</a>";
                     html += "</div>";
                     showPopup(html);
                     $("#txtOrderRefund").focus();
@@ -430,8 +454,8 @@
             // pay order on click button
             function payAll() {
                 var phone = $("#<%=txtPhone.ClientID%>").val();
-                var name = $("#<%= txtFullname.ClientID%>").val();
-                var address = $("#<%= txtAddress.ClientID%>").val();
+                var name = $("#<%=txtFullname.ClientID%>").val();
+                var address = $("#<%=txtAddress.ClientID%>").val();
                 if (phone != "" && name != "" && address != "") {
                     if ($(".product-result").length > 0) {
                         var list = "";
@@ -459,13 +483,22 @@
                         $("#<%=hdfListProduct.ClientID%>").val(list);
                         $("#<%=btnOrder.ClientID%>").click();
                     } else {
-                        alert("Vui lòng nhập sản phẩm!");
+                        alert("Hãy nhập sản phẩm!");
                         $("#txtSearch").focus();
                     }
                 } else {
-                    alert("Vui lòng nhập thông tin khách hàng!");
-                    $("#<%= txtFullname.ClientID%>").focus();
-
+                    if (name == "") {
+                        alert("Hãy nhập tên khách hàng!");
+                        $("#<%= txtFullname.ClientID%>").focus();
+                    }
+                    else if (phone == "") {
+                        alert("Hãy nhập số điện thoại khách hàng!");
+                        $("#<%= txtPhone.ClientID%>").focus();
+                    }
+                    else if (address == "") {
+                        alert("Hãy nhập địa chỉ khách hàng!");
+                        $("#<%= txtAddress.ClientID%>").focus();
+                    }
                 }
             }
 

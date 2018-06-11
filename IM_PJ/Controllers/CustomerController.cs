@@ -133,14 +133,17 @@ namespace IM_PJ.Controllers
                 return null;
             }
         }
-        public static List<CustomerOut> Find(string text)
+        public static List<CustomerOut> Find(string text, string createdby = "")
         {
             string textsearch = '"' + text + '"';
             var list = new List<CustomerOut>();
             var sql = @"select c.ID, c.CustomerName, c.Nick, c.CustomerPhone, c.Zalo, c.Facebook, c.CustomerAddress, c.ProvinceID as Province
                         from tbl_Customer c
-                         WHERE CONTAINS(c.CustomerName,'" + textsearch + "')  OR CONTAINS(c.Nick,'" + textsearch + "') OR c.CustomerPhone like '%" + text + "%' OR c.Facebook like '%" + text + "%' OR c.Zalo like '%" + text + "%'";
-
+                         WHERE (CONTAINS(c.CustomerName,'" + textsearch + "')  OR CONTAINS(c.Nick,'" + textsearch + "') OR c.CustomerPhone like '%" + text + "%' OR c.Facebook like '%" + text + "%' OR c.Zalo like '%" + text + "%')";
+            if (createdby != "")
+            {
+                sql += " And c.CreatedBy = N'" + createdby + "'";
+            }
             var reader = (IDataReader)SqlHelper.ExecuteDataReader(sql);
             while (reader.Read())
             {

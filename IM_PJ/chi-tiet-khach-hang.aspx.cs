@@ -126,6 +126,16 @@ namespace IM_PJ
                 var d = CustomerController.GetByID(id);
                 if (d != null)
                 {
+                    string username = HttpContext.Current.Session["userLoginSystem"].ToString();
+                    var acc = AccountController.GetByUsername(username);
+                    if (acc.RoleID != 0)
+                    {
+                        if (d.CreatedBy != acc.Username)
+                        {
+                            Response.Redirect("/danh-sach-khach-hang");
+                        }
+                    }
+
                     ViewState["ID"] = id;
                     txtCustomerName.Text = d.CustomerName;
                     lblCustomerPhone.Text = d.CustomerPhone;
@@ -146,10 +156,7 @@ namespace IM_PJ
                     AvatarThumbnail.ImageUrl = d.Avatar;
                     ListAvatarImage.Value = d.Avatar;
 
-                    int UID = 0;
-                    var acc = AccountController.GetByUsername(d.CreatedBy);
-                    if (acc != null)
-                        UID = acc.ID;
+                    int UID = acc.ID;
                     ddlUser.SelectedValue = UID.ToString();
                 }
             }

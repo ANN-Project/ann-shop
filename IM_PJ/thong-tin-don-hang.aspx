@@ -105,12 +105,14 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label>Nick đặt hàng</label>
+                                            <asp:RequiredFieldValidator ID="RequiredFieldValidator2" runat="server" ControlToValidate="txtNick" ErrorMessage="(*)" ForeColor="Red" Display="Dynamic"></asp:RequiredFieldValidator>
                                             <asp:TextBox ID="txtNick" CssClass="form-control" runat="server" Enabled="false"></asp:TextBox>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label>Địa chỉ</label>
+                                            <asp:RequiredFieldValidator ID="RequiredFieldValidator3" runat="server" ControlToValidate="txtAddress" ErrorMessage="(*)" ForeColor="Red" Display="Dynamic"></asp:RequiredFieldValidator>
                                             <asp:TextBox ID="txtAddress" CssClass="form-control" runat="server" Enabled="false"></asp:TextBox>
                                         </div>
                                     </div>
@@ -372,7 +374,7 @@
                     </div>
                 </div>
             </div>
-
+            <asp:HiddenField ID="hdfUsername" runat="server" />
             <asp:HiddenField ID="hdfCheckCustomer" runat="server" Value="0" />
             <asp:HiddenField ID="hdfOrderType" runat="server" />
             <asp:HiddenField ID="hdfTotalPrice" runat="server" />
@@ -759,16 +761,30 @@
                             $("#<%=hdfListProduct.ClientID%>").val(list);
                             insertOrder();
                         } else {
-                            alert("Vui lòng nhập sản phẩm!");
+                            alert("Hãy nhập sản phẩm!");
                             $("#txtSearch").focus();
                         }
                     } else {
-                        alert("Vui lòng nhập sản phẩm!");
+                        alert("Hãy nhập sản phẩm!");
                         $("#txtSearch").focus();
                     }
                 } else {
-                    alert("Vui lòng nhập thông tin khách hàng!");
-                    $("#<%= txtFullname.ClientID%>").focus();
+                    if (name == "") {
+                        alert("Hãy nhập tên khách hàng!");
+                        $("#<%= txtFullname.ClientID%>").focus();
+                    }
+                    else if (phone == "") {
+                        alert("Hãy nhập số điện thoại khách hàng!");
+                        $("#<%= txtPhone.ClientID%>").focus();
+                    }
+                    else if (nick == "") {
+                        alert("Hãy nhập Nick đặt hàng của khách hàng!");
+                        $("#<%= txtNick.ClientID%>").focus();
+                    }
+                    else if (address == "") {
+                        alert("Hãy nhập địa chỉ khách hàng!");
+                        $("#<%= txtAddress.ClientID%>").focus();
+                    }
                 }
             }
 

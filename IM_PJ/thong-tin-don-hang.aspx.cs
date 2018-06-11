@@ -29,6 +29,7 @@ namespace IM_PJ
                     var acc = AccountController.GetByUsername(username);
                     if (acc != null)
                     {
+                        
                         Session["refund"] = "1";
                         var agent = acc.AgentID;
                         if (agent == 1)
@@ -40,8 +41,14 @@ namespace IM_PJ
                             hdfIsMain.Value = "0";
                         }
 
-                        if (acc.RoleID == 0 || acc.RoleID == 2)
-                        { }
+                        if (acc.RoleID == 0)
+                        {
+
+                        }
+                        else if (acc.RoleID == 2)
+                        {
+                            hdfUsername.Value = acc.Username;
+                        }
                         else
                         {
                             Response.Redirect("/dang-nhap");
@@ -64,6 +71,16 @@ namespace IM_PJ
                 var order = OrderController.GetByID(ID);
                 if (order != null)
                 {
+                    string username = HttpContext.Current.Session["userLoginSystem"].ToString();
+                    var acc = AccountController.GetByUsername(username);
+                    if(acc.RoleID != 0)
+                    {
+                        if (order.CreatedBy != acc.Username)
+                        {
+                            Response.Redirect("/danh-sach-don-hang");
+                        }
+                    }
+
                     var dc = DiscountController.GetAll();
                     if (dc != null)
                     {

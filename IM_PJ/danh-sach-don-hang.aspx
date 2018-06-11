@@ -76,7 +76,7 @@
                                     </asp:DropDownList>
                                 </div>
                                 <div class="col-md-2">
-                                    <asp:DropDownList ID="ddlCreateBy" runat="server" CssClass="form-control create hide"></asp:DropDownList>
+                                    <asp:DropDownList ID="ddlCreateBy" runat="server" CssClass="form-control"></asp:DropDownList>
                                 </div>
                                 <div class="col-md-1">
                                     <a href="javascript:;" onclick="searchAgent()" class="btn primary-btn h45-btn"><i class="fa fa-search"></i></a>
@@ -126,12 +126,6 @@
         <script type="text/javascript">
             function searchAgent() {
                 $("#<%= btnSearch.ClientID%>").click();
-            }
-
-            var list = document.getElementById('<%= hdfcreate.ClientID%>').defaultValue;
-            if (list == "1")
-            {
-                $(".create").removeClass("hide");
             }
 
             var formatThousands = function (n, dp) {

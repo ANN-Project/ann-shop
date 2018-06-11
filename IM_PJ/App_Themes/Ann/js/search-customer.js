@@ -150,11 +150,12 @@ function searchCustomer() {
 // show customer list after search
 function showCustomerList() {
     var textsearch = $("#txtSearchCustomer").val();
+    var username = $("input[id$='_hdfUsername']").val();
     if (!isBlank(textsearch)) {
         $.ajax({
             type: "POST",
             url: "/pos.aspx/searchCustomerByText",
-            data: "{textsearch:'" + textsearch + "'}",
+            data: "{textsearch:'" + textsearch + "', createdby:'" + username + "'}",
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function (msg) {

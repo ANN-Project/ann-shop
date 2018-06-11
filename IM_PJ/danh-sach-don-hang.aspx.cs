@@ -26,16 +26,16 @@ namespace IM_PJ
                     string username = Session["userLoginSystem"].ToString();
                     var acc = AccountController.GetByUsername(username);
                     int agent = acc.AgentID.ToString().ToInt();
-                    LoadCreatedBy(agent);
+                    
                     if (acc != null)
                     {
                         if(acc.RoleID == 0)
                         {
-
+                            LoadCreatedBy(agent);
                         }
                         else if(acc.RoleID == 2)
                         {
-
+                            LoadCreatedBy(agent, acc);
                         }
                         else
                         {
@@ -145,20 +145,29 @@ namespace IM_PJ
             }
         }
 
-        public void LoadCreatedBy(int AgentID)
+        public void LoadCreatedBy(int AgentID, tbl_Account acc = null)
         {
-            var CreateBy = AccountController.GetAllNotSearch();
-            ddlCreateBy.Items.Clear();
-            ddlCreateBy.Items.Insert(0, new ListItem("Nhân viên", "0"));
-            if (CreateBy.Count > 0)
+            if(acc != null)
             {
-                foreach (var p in CreateBy)
-                {
-                    ListItem listitem = new ListItem(p.Username, p.ID.ToString());
-                    ddlCreateBy.Items.Add(listitem);
-                }
-                ddlCreateBy.DataBind();
+                ddlCreateBy.Items.Clear();
+                ddlCreateBy.Items.Insert(0, new ListItem(acc.Username, acc.ID.ToString()));
             }
+            else
+            {
+                var CreateBy = AccountController.GetAllNotSearch();
+                ddlCreateBy.Items.Clear();
+                ddlCreateBy.Items.Insert(0, new ListItem("Nhân viên", "0"));
+                if (CreateBy.Count > 0)
+                {
+                    foreach (var p in CreateBy)
+                    {
+                        ListItem listitem = new ListItem(p.Username, p.ID.ToString());
+                        ddlCreateBy.Items.Add(listitem);
+                    }
+                    ddlCreateBy.DataBind();
+                }
+            }
+            
         }
         #region Paging
         public void pagingall(List<tbl_Order> acs)
