@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="6443bcedeb32406e96ca5d04ce9aa98e" Name="Diagram1" ZoomLevel="55">
+      <Diagram DiagramId="6443bcedeb32406e96ca5d04ce9aa98e" Name="Diagram1" ZoomLevel="71">
         <EntityTypeShape EntityType="inventorymanagementModel.tbl_Account" Width="1.5" PointX="0.75" PointY="0.75" />
         <EntityTypeShape EntityType="inventorymanagementModel.tbl_AccountInfo" Width="1.5" PointX="2.75" PointY="0.75" />
         <EntityTypeShape EntityType="inventorymanagementModel.tbl_Agent" Width="1.5" PointX="4.75" PointY="0.75" IsExpanded="true" />
@@ -12,7 +12,6 @@
         <EntityTypeShape EntityType="inventorymanagementModel.tbl_AgentProductVariable" Width="1.5" PointX="2.75" PointY="5.75" />
         <EntityTypeShape EntityType="inventorymanagementModel.tbl_Category" Width="1.5" PointX="4.75" PointY="5.75" />
         <EntityTypeShape EntityType="inventorymanagementModel.tbl_Config" Width="1.5" PointX="6.75" PointY="0.75" />
-        <EntityTypeShape EntityType="inventorymanagementModel.tbl_Customer" Width="1.5" PointX="6.75" PointY="4.75" />
         <EntityTypeShape EntityType="inventorymanagementModel.tbl_CustomerLevel" Width="1.5" PointX="8.75" PointY="0.75" />
         <EntityTypeShape EntityType="inventorymanagementModel.tbl_CheckWarehouse" Width="1.5" PointX="8.75" PointY="4.75" />
         <EntityTypeShape EntityType="inventorymanagementModel.tbl_CheckWarehouseDetail" Width="1.5" PointX="8.75" PointY="8.75" />
@@ -42,6 +41,7 @@
         <EntityTypeShape EntityType="inventorymanagementModel.tbl_OrderDetail" Width="1.5" PointX="4.75" PointY="17.75" />
         <EntityTypeShape EntityType="inventorymanagementModel.tbl_StockManager" Width="1.5" PointX="18.75" PointY="0.75" />
         <EntityTypeShape EntityType="inventorymanagementModel.tbl_TransportCompany" Width="1.5" PointX="0.75" PointY="19.75" />
+        <EntityTypeShape EntityType="inventorymanagementModel.tbl_Customer" Width="1.5" PointX="19.375" PointY="6.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -16,7 +16,7 @@
     <RootNamespace>IM_PJ</RootNamespace>
     <AssemblyName>IM_PJ</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
-    <UseIISExpress>true</UseIISExpress>
+    <UseIISExpress>false</UseIISExpress>
     <IISExpressSSLPort />
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
@@ -410,7 +410,14 @@
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="SQL\01CREATE_TABLE_Customer.sql" />
+    <Content Include="SQL\01CREATE_TABLE_Order.sql" />
+    <Content Include="SQL\01CREATE_TABLE_OrderDetail.sql" />
+    <Content Include="SQL\01CREATE_TABLE_ProductVariable.sql" />
+    <Content Include="SQL\01CREATE_TABLE_RefundGoods.sql" />
+    <Content Include="SQL\01CREATE_TABLE_RefundGoodsDetails.sql" />
     <Content Include="SQL\01CREATE_TABLE_TransportCompany.sql" />
+    <Content Include="SQL\05CREATE_STORE_PROCEDURE_GetReceiveProduct.sql" />
     <Content Include="SQL\IndexStockManager.sql" />
     <Content Include="SQL\TriggerStockManager.sql" />
     <Content Include="them-chiet-khau.aspx" />
@@ -754,7 +761,9 @@
     <Compile Include="Models\tbl_StockManager.cs">
       <DependentUpon>IMModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\tbl_TransportCompany.cs" />
+    <Compile Include="Models\tbl_TransportCompany.cs">
+      <DependentUpon>IMModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="print-order-image.aspx.cs">
       <DependentUpon>print-order-image.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -1615,9 +1624,9 @@
         <WebProjectProperties>
           <UseIIS>True</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>60486</DevelopmentServerPort>
+          <DevelopmentServerPort>80</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:60486/</IISUrl>
+          <IISUrl>http://localhost</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>
