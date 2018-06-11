@@ -4,6 +4,7 @@ using MB.Extensions;
 using NHST.Bussiness;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -137,187 +138,71 @@ namespace IM_PJ
         }
 
         [WebMethod]
-        public static string getProduct(string textsearch, string phone, int sl, string list)
+        public static string getProduct(string phone, string sku, int rowIndex)
         {
-            int AgentID = 0;
+            int agentID = 0;
             string username = HttpContext.Current.Session["userLoginSystem"].ToString();
+
             if (!string.IsNullOrEmpty(username))
             {
                 var a = AccountController.GetByUsername(username);
                 if (a != null)
                 {
-                    AgentID = Convert.ToInt32(a.AgentID);
+                    agentID = Convert.ToInt32(a.AgentID);
                 }
             }
-            var customer = CustomerController.GetByPhone(phone);
-            if (customer != null)
+
+            try
             {
-                int custID = customer.ID;
-                double FeeRefund = 0;
-                double NumOfDateToChangeProduct = 0;
-                double NumOfProductCanChange = 0;
-                var config = ConfigController.GetByTop1();
-                if (config != null)
-                {
-                    FeeRefund = Convert.ToDouble(config.FeeChangeProduct);
-                    NumOfDateToChangeProduct = Convert.ToDouble(config.NumOfDateToChangeProduct);
-                    NumOfProductCanChange = Convert.ToDouble(config.NumOfProductCanChange);
-                }
-                var d = DiscountCustomerController.getbyCustID(custID);
-                if (d.Count > 0)
-                {
-                    FeeRefund = d[0].FeeRefund;
-                    NumOfDateToChangeProduct = d[0].NumOfDateToChangeProduct;
-                    NumOfProductCanChange = d[0].NumOfProductCanChange;
-                }
+                string sqlStoreProcedure = String.Empty;
 
-                //DateTime toDate = DateTime.Now.Date;
-                DateTime toDate = DateTime.Now;
-                var fromDate = toDate.AddDays(-NumOfDateToChangeProduct);
+                sqlStoreProcedure += Environment.NewLine + " GetReceiveProduct ";
+                sqlStoreProcedure += Environment.NewLine + "      @UserName ";
+                sqlStoreProcedure += Environment.NewLine + " ,    @AgentID ";
+                sqlStoreProcedure += Environment.NewLine + " ,    @CustomerPhone ";
+                sqlStoreProcedure += Environment.NewLine + " ,    @SKU ";
+                sqlStoreProcedure += Environment.NewLine + " ,    @Index ";
 
-                double totalProductRefund = 0;
-                var refundList = RefundGoodController.GetByAgentIDCustomerIDFromDateToDate(AgentID, custID, fromDate, toDate);
-                if (refundList.Count > 0)
-                {
-                    foreach (var item in refundList)
+                var parameter = new SqlParameter[]
                     {
-                        var rfD = RefundGoodDetailController.GetByRefundGoodsID(item.ID);
-                        if (rfD.Count > 0)
-                        {
-                            foreach (var fd in rfD)
-                            {
-                                totalProductRefund += Convert.ToDouble(fd.Quantity);
-                            }
-                        }
-                    }
-                }
-                List<ProductGetOut> ps = new List<ProductGetOut>();
-               
-                double leftCanchange = NumOfProductCanChange - totalProductRefund;
-                if (leftCanchange > 0)
+                        new SqlParameter { ParameterName = "@UserName", Value = username, Direction = System.Data.ParameterDirection.Input}
+                        , new SqlParameter { ParameterName = "@AgentID", Value = agentID, Direction = System.Data.ParameterDirection.Input}
+                        , new SqlParameter { ParameterName = "@CustomerPhone", Value = phone, Direction = System.Data.ParameterDirection.Input}
+                        , new SqlParameter { ParameterName = "@SKU", Value = sku, Direction = System.Data.ParameterDirection.Input}
+                        , new SqlParameter { ParameterName = "@Index", Value = rowIndex, Direction = System.Data.ParameterDirection.Input}
+                };
+
+                using (var connect = new inventorymanagementEntities())
                 {
-                    var orders = OrderController.GetByCustomerIDFromDateToDate(AgentID, custID, fromDate, toDate);
-                    if (orders.Count > 0)
-                    {
-                        for (int i = 0; i < orders.Count; i++)
-                        {
-                            var o = orders[i];
-                            double giachietkhautungsanpham = Convert.ToDouble(o.DiscountPerProduct);
-                            var orderdetails = OrderDetailController.GetByOrderID(o.ID);
-                            if (orderdetails.Count > 0)
-                            {
-                                foreach (var od in orderdetails)
-                                {
-                                    string sku = od.SKU;
-                                    if (sku == textsearch.ToUpper())
-                                    {
-                                        ProductGetOut po = new ProductGetOut();
-                                        string ProductTitle = "";
-                                        double giagoc = 0;
-                                        double giabandagiam = 0;
-                                        int productType = Convert.ToInt32(od.ProductType);
-                                        if (productType == 1)
-                                        {
-                                            var product = ProductController.GetBySKU(sku);
-                                            if (product != null)
-                                            {
-                                                ProductTitle = product.ProductTitle;
-                                            }
-                                        }
-                                        else
-                                        {
-                                            var pvdetail = ProductVariableController.GetProductNameSQL(sku);
-                                            if (pvdetail.Count > 0)
-                                            {
-                                                ProductTitle = pvdetail[0].ProductTitle;
-                                            }
-                                        }
-                                        giagoc = Convert.ToDouble(od.Price);
-                                        double giabanchuatru = Convert.ToDouble(od.Price);
-                                        giabandagiam = giabanchuatru - giachietkhautungsanpham;
-
-                                        po.orderID = o.ID;
-                                        po.orderDetailID = od.ID;
-                                        po.ProductName = ProductTitle;
-                                        po.ProductType = productType;
-                                        po.SKU = sku;
-                                        po.Giagoc = giagoc;
-                                        po.stringGiagoc = string.Format("{0:N0}", giagoc);
-                                        po.Giadaban = giabandagiam;
-                                        po.stringGiadaban = string.Format("{0:N0}", giabandagiam);
-                                        po.TienGiam = giachietkhautungsanpham;
-                                        if (giachietkhautungsanpham > 0)
-                                        {
-                                            po.stringTienGiam = "(CK " + string.Format("{0:N0}", giachietkhautungsanpham) + ")";
-                                        }
-                                        else
-                                        {
-                                            po.stringTienGiam = "";
-                                        }
-
-                                        var qt = RefundGoodDetailController.GetQuantityMax(custID, o.ID, sku);
-                                        int qll = 0;
-                                        if (qt != null)
-                                        {
-                                            foreach (var item in qt)
-                                            {
-                                                double? q = item.Quantity;
-                                                qll += Convert.ToInt32(q);
-                                            }
-                                        }
-                                        po.Soluongtoida = Convert.ToDouble(od.Quantity) - qll;
-                                        int check = Convert.ToInt32(od.Quantity) - qll;
-                                        po.soluongmax = Convert.ToDouble(od.Quantity);
-                                        po.RefundFee = FeeRefund;
-                                        po.stringRefundFee = string.Format("{0:N0}", FeeRefund);
-                                        if (check > 0)
-                                        {
-                                            ps.Add(po);
-                                        }
-                                    }
-                                }
-                            }
-                            if (ps.Count() > 0)
-                            {
-                                ps = ps.Take(sl + 1).ToList();
-                            }
-                        }
-                    }
-
                     JavaScriptSerializer serializer = new JavaScriptSerializer();
-                    return serializer.Serialize(ps);
+                    var procedure = connect.Database.SqlQuery<ProductRefundModel>(sqlStoreProcedure, parameter).SingleOrDefault();
+
+                    return serializer.Serialize(procedure);
                 }
-                else
-                {
-                    return "full";
-                }
+
             }
-            else
+            catch (Exception e)
             {
-                return "nocustomer";
+
+                throw e;
             }
         }
 
 
-        public class ProductGetOut
+        public class ProductRefundModel
         {
-            public int ID { get; set; }
-            public int orderID { get; set; }
-            public int orderDetailID { get; set; }
+            public int OrderID { get; set; }
+            public int OrderDetailID { get; set; }
+            public int RowIndex { get; set;  }
             public string ProductName { get; set; }
             public int ProductType { get; set; }
             public string SKU { get; set; }
-            public double Giagoc { get; set; }
-            public string stringGiagoc { get; set; }
-            public double Giadaban { get; set; }
-            public string stringGiadaban { get; set; }
-            public double TienGiam { get; set; }
-            public string stringTienGiam { get; set; }
-            public string stringSoluongtoida { get; set; }
-            public double Soluongtoida { get; set; }
-            public double RefundFee { get; set; }
-            public string stringRefundFee { get; set; }
-            public double soluongmax { get; set; }
+            public double Price { get; set; }
+            public double ReducedPrice { get; set; }
+            public double DiscountPerProduct { get; set; }
+            public double QuantityOrder { get; set; }
+            public double QuantityLeft { get; set; }
+            public double FeeRefund { get; set; }
         }
 
         protected void btnSave_Click(object sender, EventArgs e)

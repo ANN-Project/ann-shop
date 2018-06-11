@@ -1,4 +1,9 @@
-﻿SET ANSI_NULLS ON
+﻿-- =============================================
+-- Author:      Binh-TT
+-- Create date: 2018-06-06
+-- Description: Create table Transport Company
+-- =============================================
+SET ANSI_NULLS ON
 GO
 
 SET QUOTED_IDENTIFIER ON

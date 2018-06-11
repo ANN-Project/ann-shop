@@ -1,4 +1,9 @@
-﻿CREATE Trigger Tr_StockManager
+﻿-- =============================================
+-- Author:      Binh-TT
+-- Create date: 2018-06-04
+-- Description: Create index table Stock Manager
+-- ==========================================
+CREATE Trigger Tr_StockManager
 ON tbl_StockManager
 AFTER INSERT
 AS
