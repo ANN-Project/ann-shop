@@ -501,7 +501,10 @@ namespace NHST.Bussiness
             else if (ShippingType == 4)
             {
                 ret = "<span class=\"bg-blue\">Chuyển xe</span>";
-
+            }
+            else if (ShippingType == 5)
+            {
+                ret = "<span class=\"bg-bronze\">Nhân viên giao</span>";
             }
             else
             {

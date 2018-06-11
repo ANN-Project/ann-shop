@@ -1,4 +1,43 @@
-﻿.report-column {
+﻿.header-search-box input {
+    color: #fff!important;
+}
+.table-customer .image-column {
+    width:10%;
+}
+.table-customer .name-column {
+    width:14%;
+}
+.table-customer .nick-column {
+    width:12%;
+}
+.table-customer .phone-column {
+    width:8%;
+}
+.table-customer .zalo-column {
+    width:8%;
+}
+.table-customer .facebook-column {
+    width:5%;
+}
+.table-customer .province-column {
+    width:10%;
+}
+.table-customer .buy-column {
+    width:5%;
+}
+.table-customer .staff-column {
+    width:6%;
+}
+.table-customer .group-column {
+    width:10%;
+}
+.table-customer .date-column {
+    width:7%;
+}
+.table-customer .action-column {
+    width:5%;
+}
+.report-column {
     background: #fff;
 }
 .report-column .report-label {

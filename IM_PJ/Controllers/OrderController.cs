@@ -14,7 +14,7 @@ namespace IM_PJ.Controllers
         #region CRUD
         public static tbl_Order Insert(int AgentID, int OrderType, string AdditionFee, string DisCount, int CustomerID, string CustomerName, string CustomerPhone,
             string CustomerAddress, string CustomerEmail, string TotalPrice, string TotalPriceNotDiscount, int PaymentStatus, int ExcuteStatus, bool IsHidden, int WayIn,
-            DateTime CreatedDate, string CreatedBy, double DiscountPerProduct, double TotalDiscount, string FeeShipping, int PaymentType, int ShippingType, string DateDone, double GuestPaid, double GuestChange)
+            DateTime CreatedDate, string CreatedBy, double DiscountPerProduct, double TotalDiscount, string FeeShipping, int PaymentType, int ShippingType, string DateDone, double GuestPaid, double GuestChange, int TransportCompanyID, int TransportCompanySubID)
         {
             using (var dbe = new inventorymanagementEntities())
             {
@@ -45,6 +45,8 @@ namespace IM_PJ.Controllers
                 ui.ShippingType = ShippingType;
                 ui.GuestPaid = GuestPaid;
                 ui.GuestChange = GuestChange;
+                ui.TransportCompanyID = TransportCompanyID;
+                ui.TransportCompanySubID = TransportCompanySubID;
                 if (DateDone != "")
                 {
                     ui.DateDone = Convert.ToDateTime(DateDone);
@@ -151,7 +153,7 @@ namespace IM_PJ.Controllers
         public static string UpdateOnSystem(int ID, int OrderType, string AdditionFee, string DisCount, int CustomerID, string CustomerName,
             string CustomerPhone, string CustomerAddress, string CustomerEmail, string TotalPrice, string TotalPriceNotDiscount, int PaymentStatus,
             int ExcuteStatus, DateTime ModifiedDate, string ModifiedBy, double DiscountPerProduct, double TotalDiscount,
-            string FeeShipping, double GuestPaid, double GuestChange, int PaymentType, int ShippingType, string OrderNote, string DateDone)
+            string FeeShipping, double GuestPaid, double GuestChange, int PaymentType, int ShippingType, string OrderNote, string DateDone, int RefundsGoodsID = 0, string ShippingCode = null, int TransportCompanyID = 0, int TransportCompanySubID = 0)
         {
             using (var dbe = new inventorymanagementEntities())
             {
@@ -185,6 +187,9 @@ namespace IM_PJ.Controllers
                     {
                         ui.DateDone = Convert.ToDateTime(DateDone);
                     }
+                    ui.ShippingCode = ShippingCode;
+                    ui.TransportCompanyID = TransportCompanyID;
+                    ui.TransportCompanySubID = TransportCompanySubID;
                     dbe.SaveChanges();
                     int kq = ui.ID;
                     return kq.ToString();

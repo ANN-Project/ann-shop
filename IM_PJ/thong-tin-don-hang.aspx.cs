@@ -23,7 +23,6 @@ namespace IM_PJ
         {
             if (!IsPostBack)
             {
-                Session["userLoginSystem"] = "admin";
                 if (Session["userLoginSystem"] != null)
                 {
                     string username = Session["userLoginSystem"].ToString();
@@ -53,6 +52,7 @@ namespace IM_PJ
                 {
                     Response.Redirect("/dang-nhap");
                 }
+                LoadTransportCompany();
                 LoadData();
             }
         }
@@ -122,7 +122,7 @@ namespace IM_PJ
 
                     }
                     ltrCustomerType.Text += "</select>";
-              
+
 
                     double ProductQuantity = 0;
                     double totalPrice = Convert.ToDouble(order.TotalPrice);
@@ -151,6 +151,8 @@ namespace IM_PJ
                     int paymentStatus = Convert.ToInt32(order.PaymentStatus);
                     int excuteStatus = Convert.ToInt32(order.ExcuteStatus);
                     int shipping = Convert.ToInt32(order.ShippingType);
+                    int TransportCompanyID = Convert.ToInt32(order.TransportCompanyID);
+                    int TransportCompanySubID = Convert.ToInt32(order.TransportCompanySubID);
                     int paymenttype = Convert.ToInt32(order.PaymentType);
                     #region Lấy danh sách sản phẩm
                     var orderdetails = OrderDetailController.GetByOrderID(ID);
@@ -370,6 +372,14 @@ namespace IM_PJ
                     ddlExcuteStatus.SelectedValue = excuteStatus.ToString();
                     ddlPaymentType.SelectedValue = paymenttype.ToString();
                     ddlShippingType.SelectedValue = shipping.ToString();
+
+                    LoadTransportCompanySubID(TransportCompanyID);
+                    ddlTransportCompanyID.SelectedValue = TransportCompanyID.ToString();
+                    ddlTransportCompanySubID.SelectedValue = TransportCompanySubID.ToString();
+
+                    txtShippingCode.Text = order.ShippingCode;
+                    txtOrderNote.Text = order.OrderNote;
+
                     ltrProductQuantity.Text = string.Format("{0:N0}", ProductQuantity) + " sản phẩm";
                     ltrTotalNotDiscount.Text = string.Format("{0:N0}", Convert.ToDouble(order.TotalPriceNotDiscount));
                     ltrTotalprice.Text = string.Format("{0:N0}", Convert.ToDouble(order.TotalPrice));
@@ -392,8 +402,50 @@ namespace IM_PJ
                     ltrPrint.Text = "<a href=\"/print-invoice.aspx?id=" + ID + "\" target=\"_blank\" class=\"btn primary-btn fw-btn not-fullwidth\"><i class=\"fa fa-print\" aria-hidden=\"true\"></i> In hóa đơn</a>";
                     ltrPrint.Text += "<a href=\"/print-invoice.aspx?id=" + ID + "&merge=1\" target=\"_blank\" class=\"btn primary-btn fw-btn not-fullwidth print-invoice-merged\"><i class=\"fa fa-print\" aria-hidden=\"true\"></i> In hóa đơn gộp</a>";
                     ltrPrint.Text += "<a href=\"/print-order-image?id=" + ID + "\" target=\"_blank\" class=\"btn primary-btn fw-btn not-fullwidth print-invoice-merged\"><i class=\"fa fa-picture-o\" aria-hidden=\"true\"></i> Lấy ảnh đơn hàng</a>";
+                    ltrPrint.Text += "<a href=\"/print-shipping-note?id=" + ID + "\" target=\"_blank\" class=\"btn primary-btn fw-btn not-fullwidth print-invoice-merged\"><i class=\"fa fa-file-text-o\" aria-hidden=\"true\"></i> In phiếu gửi hàng</a>";
                 }
             }
+        }
+
+        public void LoadTransportCompany()
+        {
+            var TransportCompany = TransportCompanyController.GetTransportCompany();
+            ddlTransportCompanyID.Items.Clear();
+            ddlTransportCompanyID.Items.Insert(0, new ListItem("Chọn chành xe", "0"));
+            if (TransportCompany.Count > 0)
+            {
+                foreach (var p in TransportCompany)
+                {
+                    ListItem listitem = new ListItem(p.CompanyName, p.ID.ToString());
+                    ddlTransportCompanyID.Items.Add(listitem);
+                }
+                ddlTransportCompanyID.DataBind();
+            }
+        }
+
+        public void LoadTransportCompanySubID(int ID)
+        {
+            ddlTransportCompanySubID.Items.Clear();
+            ddlTransportCompanySubID.Items.Insert(0, new ListItem("Chọn nơi nhận", "0"));
+            if (ID > 0)
+            {
+                var ShipTo = TransportCompanyController.GetReceivePlace(ID); ;
+
+                if (ShipTo.Count > 0)
+                {
+                    foreach (var p in ShipTo)
+                    {
+                        ListItem listitem = new ListItem(p.ShipTo, p.SubID.ToString());
+                        ddlTransportCompanySubID.Items.Add(listitem);
+                    }
+                }
+                ddlTransportCompanySubID.DataBind();
+            }
+        }
+
+        protected void ddlTransportCompanyID_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            LoadTransportCompanySubID(ddlTransportCompanyID.SelectedValue.ToInt(0));
         }
 
         [WebMethod]
@@ -796,6 +848,9 @@ namespace IM_PJ
                             int ExcuteStatus = ddlExcuteStatus.SelectedValue.ToInt(0);
                             int PaymentType = ddlPaymentType.SelectedValue.ToInt(0);
                             int ShippingType = ddlShippingType.SelectedValue.ToInt(0);
+                            int TransportCompanyID = ddlTransportCompanyID.SelectedValue.ToInt(0);
+                            int TransportCompanySubID = ddlTransportCompanySubID.SelectedValue.ToInt(0);
+                            string ShippingCode = txtShippingCode.Text;
                             string OrderNote = txtOrderNote.Text;
 
                             double DiscountPerProduct = 0;
@@ -839,7 +894,7 @@ namespace IM_PJ
 
                             string ret = OrderController.UpdateOnSystem(OrderID, OrderType, AdditionFee, DisCount, CustomerID, CustomerName, CustomerPhone,
                                 CustomerAddress, "", totalPrice, totalPriceNotDiscount, PaymentStatus, ExcuteStatus, currentDate, username,
-                                Convert.ToDouble(pDiscount.Value), TotalDiscount, FeeShipping, GuestPaid, GuestChange, PaymentType, ShippingType, OrderNote, datedone);
+                                Convert.ToDouble(pDiscount.Value), TotalDiscount, FeeShipping, GuestPaid, GuestChange, PaymentType, ShippingType, OrderNote, datedone, 0, ShippingCode, TransportCompanyID, TransportCompanySubID);
 
                             double totalQuantity = 0;
 

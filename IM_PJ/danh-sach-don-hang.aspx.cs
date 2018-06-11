@@ -66,7 +66,6 @@ namespace IM_PJ
                 string s = "";
                 string sku = "";
                 int by = 0;
-
                 if (Request.QueryString["o"] != null)
                 {
                     orderType = Request.QueryString["o"].ToInt(0);
@@ -114,7 +113,6 @@ namespace IM_PJ
 
                 if (acc.RoleID == 0 || acc.RoleID == 2)
                 {
-
                     var rs = OrderController.SearchByStatical(orderType, paymentStatus, excuteStatus, s, agentID, payment, ship, sku);
                     if (rs.Count > 0)
                     {
@@ -218,7 +216,8 @@ namespace IM_PJ
                     html.Append("   <td>" + datedone + "</td>");
 
                     html.Append("   <td>");
-                    html.Append("       <a href=\"/print-invoice.aspx?id=" + item.ID + "\" target=\"_blank\" class=\"btn primary-btn h45-btn\"><i class=\"fa fa-print\" aria-hidden=\"true\"></i></a>");
+                    html.Append("       <a href=\"/print-invoice.aspx?id=" + item.ID + "\" title=\"In hóa đơn\" target=\"_blank\" class=\"btn primary-btn h45-btn\"><i class=\"fa fa-print\" aria-hidden=\"true\"></i></a>");
+                    html.Append("       <a href=\"/print-shipping-note.aspx?id=" + item.ID + "\" title=\"In phiếu gửi hàng\" target=\"_blank\" class=\"btn primary-btn h45-btn\"><i class=\"fa fa-file-text-o\" aria-hidden=\"true\"></i></a>");
                     html.Append("   </td>");
                     html.Append("</tr>");
                 }
