@@ -178,12 +178,20 @@
                     };
 
                 }
+
                 function isBlank(str) {
                     return (!str || /^\s*$/.test(str));
                 }
 
+                function loadingShow() {
+                    $(".loader").removeClass("hide");
+                }
+                function loadingHide() {
+                    $(".loader").addClass("hide");
+                }
             </script>
         </div>
     </form>
+    <div class="loader hide"></div>
 </body>
 </html>

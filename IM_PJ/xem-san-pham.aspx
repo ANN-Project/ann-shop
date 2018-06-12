@@ -72,7 +72,7 @@
                                     Nhà cung cấp
                                 </div>
                                 <div class="row-right">
-                                    <asp:DropDownList ID="ddlSupplier" runat="server" CssClass="form-control">
+                                    <asp:DropDownList ID="ddlSupplier" runat="server" CssClass="form-control" Enabled="False">
                                     </asp:DropDownList>
                                 </div>
                             </div>
@@ -81,7 +81,7 @@
                                     Trạng thái                                    
                                 </div>
                                 <div class="row-right">
-                                    <asp:DropDownList ID="ddlStockStatus" runat="server" CssClass="form-control">
+                                    <asp:DropDownList ID="ddlStockStatus" runat="server" CssClass="form-control" Enabled="False">
                                         <asp:ListItem Text="Còn hàng" Value="1"></asp:ListItem>
                                         <asp:ListItem Text="Hết hàng" Value="2"></asp:ListItem>
                                     </asp:DropDownList>
@@ -92,7 +92,7 @@
                                     Quản lý kho
                                 </div>
                                 <div class="row-right">
-                                    <asp:CheckBox ID="chkManageStock" runat="server" />
+                                    <asp:CheckBox ID="chkManageStock" runat="server" Enabled="False" />
                                 </div>
                             </div>
                             <div class="form-row">
@@ -135,6 +135,14 @@
                                     <div class="content-box">
                                         <asp:Literal ID="pContent" runat="server"></asp:Literal>
                                     </div>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="row-left">
+                                    Thư viện ảnh
+                                </div>
+                                <div class="row-right">
+                                    <asp:Literal ID="imageGallery" runat="server"></asp:Literal>
                                 </div>
                             </div>
                             <div class="form-row">

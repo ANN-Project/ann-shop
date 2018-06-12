@@ -16,7 +16,6 @@
                                 <a href="javascript:;" class="search-customer" onclick="searchCustomer()" title="Tìm khách hàng"><i class="fa fa-search" aria-hidden="true"></i> Tìm (F1)</a>
                                 <a href="javascript:;" class="change-user" onclick="changeUser()" title="Tính tiền giúp nhân viên khác"><i class="fa fa-user" aria-hidden="true"></i></a>
                                 <a href="/danh-sach-don-hang" class="change-user" target="_blank" title="Danh sách đơn hàng"><i class="fa fa-list-ul" aria-hidden="true"></i></a>
-                                
                             </div>
                             <div class="panel-body">
                                 <div class="form-group">
@@ -92,7 +91,7 @@
                                 <div class="left">Tổng tiền còn lại</div>
                                 <div class="right totalpricedetail"></div>
                             </div>
-                            <div class="post-row clear">
+                            <div class="post-row clear hide">
                                 <div class="left">Tiền khách trả (F4)</div>
                                 <div class="right totalDiscount">
                                     <telerik:RadNumericTextBox runat="server" CssClass="form-control width-notfull" Skin="MetroTouch"
@@ -101,7 +100,7 @@
                                     </telerik:RadNumericTextBox>
                                 </div>
                             </div>
-                            <div class="post-row clear">
+                            <div class="post-row clear hide">
                                 <div class="left">Tiền thối lại</div>
                                 <div class="right totalGuestChange"></div>
                             </div>
@@ -444,6 +443,51 @@
                 $(".discount").removeClass("hide");
             }
 
+            function showChangeMoney() {
+                var totalpriceorderall = $(".totalpriceorderall").html();
+                var html = "";
+                html += "<div class=\"change-money\">";
+                html += "<div class=\"form-group\">";
+                html += "<label>Tổng tiền: </label>";
+                html += "<input ID=\"totalMoney\" disabled class=\"form-control total-money\" value=\"" + totalpriceorderall + "\"></input>";
+                html += "</div>";
+                html += "<div class=\"form-group\">";
+                html += "<label>Khách hàng trả: </label>";
+                html += "<input ID=\"guestPaid\" class=\"form-control\"></input>";
+                html += "</div>";
+                html += "<div class=\"form-group\">";
+                html += "<label>Tiền thối lại: </label>";
+                html += "<input ID=\"guestChange\" disabled class=\"form-control\"></input>";
+                html += "</div>";
+                html += "<a href=\"javascript:;\" class=\"btn link-btn\" style=\"background-color:#f87703;float:right;color:#fff;\" onclick=\"clickSubmit()\">Xác nhận</a>";
+                html += "</div>";
+                html += "</div>";
+                showPopup(html, 5);
+                $("#guestPaid").focus();
+                $("#guestPaid").keydown(function (e) {
+                    if (e.which == 13) {
+                        var value = parseInt($("#guestPaid").val()) * 1000;
+                        $("#guestPaid").val(formatThousands(value, ','));
+
+                        var total = $("#<%=hdfTongTienConLai.ClientID%>").val();
+                        var change = value - total;
+                        $("#guestChange").val(formatThousands(change, ','));
+
+                        $("#<%=pGuestPaid.ClientID%>").val(value);
+                        getAllPrice();
+
+                        $("#guestPaid").blur();
+                        return false;
+                    }
+                });
+            }
+
+            function clickSubmit() {
+                closePopup();
+                loadingShow();
+                $("#<%=btnOrder.ClientID%>").click();
+            }
+
             // print invoice after submit order
             function printInvoice(id) {
                 clearCustomerDetail();
@@ -481,7 +525,7 @@
                         });
                         $("#<%=hdfOrderType.ClientID %>").val(ordertype);
                         $("#<%=hdfListProduct.ClientID%>").val(list);
-                        $("#<%=btnOrder.ClientID%>").click();
+                        showChangeMoney();
                     } else {
                         alert("Hãy nhập sản phẩm!");
                         $("#txtSearch").focus();
@@ -601,7 +645,7 @@
                                         html += "   <td class=\"price-item gia-san-pham\" data-price=\"" + item.Giabansi + "\">" + item.stringGiabansi + "</td>";
                                     }
 
-                                    html += "   <td class=\"quantity-item\"><input type=\"text\" class=\"form-control in-quanlity\" value=\"1\" onkeyup=\"checkQuantiy($(this))\" onkeypress='return event.charCode >= 48 && event.charCode <= 57'/></td>";
+                                    html += "   <td class=\"quantity-item\"><input type=\"text\" class=\"form-control in-quanlity\" value=\"1\" onblur=\"checkQuantiy($(this))\" /></td>";
 
                                     html += "<td class=\"total-item totalprice-view\">" + formatThousands(parseFloat(item.Giabansi), '.') + "</td>";
                                     html += "   <td class=\"trash-item\"><a href=\"javascript:;\" class=\"link-btn\" onclick=\"deleteRow($(this))\"><i class=\"fa fa-trash\"></i></a></td>";
@@ -740,7 +784,7 @@
 
                                             var t = 0;
 
-                                            html += "   <td class=\"quantity-item\"><input type=\"text\" class=\"form-control in-quanlity\" value=\"" + list2[j] + "\" onkeyup=\"checkQuantiy($(this))\" onkeypress='return event.charCode >= 48 && event.charCode <= 57'/></td>";
+                                            html += "   <td class=\"quantity-item\"><input type=\"text\" class=\"form-control in-quanlity\" value=\"" + list2[j] + "\" onblur=\"checkQuantiy($(this))\" /></td>";
                                                 t = parseFloat(list2[j]) * parseFloat(item.Giabansi);
 
                                             html += "<td class=\"total-item totalprice-view\">" + formatThousands(t, '.') + "</td>";

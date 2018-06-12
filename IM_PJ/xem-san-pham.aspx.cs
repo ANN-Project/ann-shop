@@ -53,7 +53,7 @@ namespace IM_PJ
         {
             var supplier = SupplierController.GetAllWithIsHidden(false);
             ddlSupplier.Items.Clear();
-            ddlSupplier.Items.Insert(0, new ListItem("-- Chọn nhà cung cấp --", "0"));
+            ddlSupplier.Items.Insert(0, new ListItem("Chưa chọn nhà cung cấp", "0"));
             if (supplier.Count > 0)
             {
                 foreach (var p in supplier)
@@ -102,6 +102,19 @@ namespace IM_PJ
                     lbMaterials.Text = p.Materials;
                     lbpMinimumInventoryLevel.Text = p.MinimumInventoryLevel.ToString();
                     lbpMaximumInventoryLevel.Text = p.MaximumInventoryLevel.ToString();
+
+                    var image = ProductImageController.GetByProductID(id);
+
+                    imageGallery.Text = "<ul class=\"image-gallery\">";
+
+                    if (image != null)
+                    {
+                        foreach(var img in image)
+                        {
+                            imageGallery.Text +="<li><img src=\"" + img.ProductImage + "\" /></li>";
+                        }
+                    }
+                    imageGallery.Text += "</ul>";
 
                     if (p.ProductImage != null)
                     {

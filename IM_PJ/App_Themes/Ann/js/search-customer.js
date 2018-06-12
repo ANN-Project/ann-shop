@@ -136,7 +136,7 @@ function searchCustomer() {
     html += "<div class=\"customer-list hide\">";
     html += "</div>";
     html += "</div>";
-    showPopup(html);
+    showPopup(html, 9);
     $("#txtSearchCustomer").focus();
     $('#txtSearchCustomer').keydown(function (event) {
         if (event.which === 13) {
@@ -164,9 +164,9 @@ function showCustomerList() {
                 if (data.length > 0) {
                     var html = "";
                     var listGet = "";
-                    html += ("<div class=\"form-row\">");
-                    html += ("<table class=\"table table-checkable table-product\">");
-                    html += ("<tbody>");
+                    html += ("<div class=\"margin-top-15\">");
+                    html += ("<table class=\"table table-checkable table-product table-list-customer\">");
+                    html += ("<thead>");
                     html += ("<tr>");
                     html += ("<th class=\"select-column\"></th>");
                     html += ("<th class=\"nick-column\">Nick đặt hàng</th>");
@@ -175,16 +175,20 @@ function showCustomerList() {
                     html += ("<th class=\"zalo-column\">Zalo</th>");
                     html += ("<th class=\"facebook-column\">Facebook</th>");
                     html += ("<th class=\"address-column\">Địa chỉ</th>");
-                    html += ("<th class=\"province-column\">Tỉnh thành</th>");
+                    html += ("<th class=\"province-column\">Tỉnh</th>");
                     html += ("</tr>");
-                    
+                    html += ("</thead>");
+                    html += ("</table>");
+                    html += ("</div>");
+                    html += ("<div class=\"form-row list-customer\">");
+                    html += ("<table class=\"table table-checkable table-product table-list-customer\" id=\"tableCustomer\">");
+                    html += ("<tbody>");
                     for (var i = 0; i < data.length; i++) {
                         var item = data[i];
-                        html += ("<tr class=\"search-popup\" id=\"search-key\";>");
-                        html += ("<td>");
-                        html += ("<input id=\"" + item.ID + "\" name=\"cust\" type=\"radio\" class=\"check-popup\"  />");
-                        html += ("</td>");
 
+                        html += ("<tr>");
+                        
+                        html += ("<td class=\"select-column\"><a class=\"btn primary-btn link-btn\" href=\"javascript:;\"><i class=\"fa fa-check-square-o\" aria-hidden=\"true\"></i></a></td>");
                         if (!isBlank(item.Nick)) {
                             html += ("<td class=\"nick nick-column\">" + item.Nick + "</td>");
                         } else {
@@ -218,12 +222,11 @@ function showCustomerList() {
                     html += ("</tbody>");
                     html += ("</table>");
                     html += ("</div>");
-                    html += ("<div class=\"btn-content\">");
-                    html += ("<a href=\"javascript:;\" class=\"btn primary-btn float-right-btn link-btn\" onclick=\"selectCustomer()\"><i class=\"fa fa-check-square-o\" aria-hidden=\"true\"></i> Chọn</a>");
-                    html += ("</div>");
                     $("#txtSearchCustomer").val("");
                     $(".customer-list").html(html);
                     $(".customer-list").removeClass('hide').addClass('show');
+                    selectCustomer();
+
                 } else {
                     alert('Không tìm thấy khách hàng');
                 }
@@ -237,37 +240,35 @@ function showCustomerList() {
     }
 }
 
-// select a customer after show list
 function selectCustomer() {
-    $(".search-popup").each(function () {
-        if ($(this).find(".check-popup").is(':checked')) {
-            var phone = $(this).find("td.phone").html();
-            var name = $(this).find("td.name").html();
-            var nick = $(this).find("td.nick").html();
-            var address = $(this).find("td.address").html();
-            var zalo = $(this).find("td.zalo").html();
-            var facebook = $(this).find("td.facebook").attr("data-value");
-            var id = $(this).find("td.id").html();
-            $("input[id$='_txtPhone']").val(phone).prop('disabled', true);
-            $("input[id$='_txtFullname']").val(name).prop('disabled', true);
-            $("input[id$='_txtNick']").val(nick).prop('disabled', true);
-            $("input[id$='_txtAddress']").val(address).prop('disabled', true);
-            $("input[id$='_txtZalo']").val(zalo).prop('disabled', true);
-            $("input[id$='_txtFacebook']").parent().removeClass("width-100");
-            $("input[id$='_txtFacebook']").val(facebook).prop('disabled', true);
-            if (facebook == null) {
-                $(".link-facebook").hide();
-                $("input[id$='_txtFacebook']").parent().addClass("width-100");
-            }
-            else {
-                $("input[id$='_txtFacebook']").parent().removeClass("width-100");
-                $(".link-facebook").html("<a href=\"" + facebook + "\" class=\"btn primary-btn fw-btn not-fullwidth\" target=\"_blank\">Xem</a>").show();
-            }
-            $(".view-detail").html("<a href=\"javascript:;\" class=\"btn primary-btn fw-btn not-fullwidth\" onclick=\"viewCustomerDetail('" + id + "')\"><i class=\"fa fa-address-card-o\" aria-hidden=\"true\"></i> Xem chi tiết</a><a href=\"javascript:;\" class=\"btn primary-btn fw-btn not-fullwidth clear-btn\" onclick=\"clearCustomerDetail()\"><i class=\"fa fa-times\" aria-hidden=\"true\"></i> Bỏ qua</a>").show();
-            getCustomerDiscount(id);
+    $("#tableCustomer tr td").on('click', function (e) {
+        var phone = $(this).closest('tr').find("td.phone").html();
+        var name = $(this).closest('tr').find("td.name").html();
+        var nick = $(this).closest('tr').find("td.nick").html();
+        var address = $(this).closest('tr').find("td.address").html();
+        var zalo = $(this).closest('tr').find("td.zalo").html();
+        var facebook = $(this).closest('tr').find("td.facebook").attr("data-value");
+        var id = $(this).closest('tr').find("td.id").html();
+        $("input[id$='_txtPhone']").val(phone).prop('disabled', true);
+        $("input[id$='_txtFullname']").val(name).prop('disabled', true);
+        $("input[id$='_txtNick']").val(nick).prop('disabled', true);
+        $("input[id$='_txtAddress']").val(address).prop('disabled', true);
+        $("input[id$='_txtZalo']").val(zalo).prop('disabled', true);
+        $("input[id$='_txtFacebook']").parent().removeClass("width-100");
+        $("input[id$='_txtFacebook']").val(facebook).prop('disabled', true);
+        if (facebook == null) {
+            $(".link-facebook").hide();
+            $("input[id$='_txtFacebook']").parent().addClass("width-100");
         }
+        else {
+            $("input[id$='_txtFacebook']").parent().removeClass("width-100");
+            $(".link-facebook").html("<a href=\"" + facebook + "\" class=\"btn primary-btn fw-btn not-fullwidth\" target=\"_blank\">Xem</a>").show();
+        }
+        $(".view-detail").html("<a href=\"javascript:;\" class=\"btn primary-btn fw-btn not-fullwidth\" onclick=\"viewCustomerDetail('" + id + "')\"><i class=\"fa fa-address-card-o\" aria-hidden=\"true\"></i> Xem chi tiết</a><a href=\"javascript:;\" class=\"btn primary-btn fw-btn not-fullwidth clear-btn\" onclick=\"clearCustomerDetail()\"><i class=\"fa fa-times\" aria-hidden=\"true\"></i> Bỏ qua</a>").show();
+        getCustomerDiscount(id);
+
+        closePopup();
     });
-    closePopup();
 }
 
 // clear customer detail
