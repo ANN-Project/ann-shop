@@ -21,25 +21,13 @@ namespace IM_PJ
         {
             if (!IsPostBack)
             {
-                //Session["userLoginSystem"] = "admin";
                 if (Session["userLoginSystem"] != null)
                 {
                     string username = Session["userLoginSystem"].ToString();
                     var acc = AccountController.GetByUsername(username);
                     if (acc != null)
                     {
-                        //if (acc.RoleID == 0)
-                        //{
 
-                        //}
-                        //else if (acc.RoleID == 1)
-                        //{
-
-                        //}
-                        //else
-                        //{
-                        //    Response.Redirect("/trang-chu");
-                        //}
                     }
                 }
                 else

@@ -22,8 +22,6 @@ namespace IM_PJ
         {
             if (!IsPostBack)
             {
-                //Session["userLoginSystem"] = "admin";
-                
                 if (Session["userLoginSystem"] != null)
                 {
                     string username = Session["userLoginSystem"].ToString();
@@ -71,7 +69,6 @@ namespace IM_PJ
                 {
                     Response.Redirect("/dang-nhap");
                 }
-                //LoadData();
             }
         }
 
@@ -266,7 +263,6 @@ namespace IM_PJ
             {
                 return "0";
             }
-
         }
 
         [WebMethod]

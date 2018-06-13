@@ -1,4 +1,60 @@
-﻿.header-search-box input {
+﻿.margin-top-15 {
+    margin-top: 15px;
+}
+.list-customer {
+    overflow-x: auto;
+    max-height: 450px;
+}
+.table-list-customer thead th {
+    background-color: #9e9e9e;
+    border: solid 1px #9e9e9e;
+    color: #fff;
+}
+.table-list-customer tbody tr {
+    cursor: pointer;
+}
+.loader::after {
+  content: 'Loading...';
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: rgba(0,0,0,.5);
+  color: #fff;
+  height: 100%;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  display: flex;
+  font-size: 40px;
+}
+.change-money label {
+    font-size: 20px;
+}
+.change-money input {
+    font-size: 20px;
+}
+.change-money input.total-money {
+    font-size: 40px;
+    height: 55px;
+    background: #686868;
+    color: #fff;
+}
+
+ul.image-gallery {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+ul.image-gallery li {
+    float: none;
+    width: 25%;
+    margin-right: 15px;
+    margin-bottom: 15px;
+    display: inline-block;
+    vertical-align: top;
+}
+.header-search-box input {
     color: #fff!important;
 }
 .table-customer .image-column {
@@ -133,7 +189,7 @@
 }
 
 .select-column {
-    width: 4%;
+    width: 6%;
     text-align: right!important;
 }
 .nick-column {
@@ -157,7 +213,7 @@
     text-align: left!important;
 }
 .address-column {
-    width: 20%;
+    width: 18%;
     text-align: left!important;
 }
 .province-column {
@@ -833,13 +889,10 @@ body {
                 margin-right: 5px;
             }
 
-.btn.h45-btn {
+.btn .h45-btn {
     height: 40px;
     line-height: 21px;
-    padding-top: 10px;
-    padding-bottom: 10px;
-    padding-right: 10px;
-    padding-left: 10px;
+    padding: 10px;
 }
 
 .table-product {
