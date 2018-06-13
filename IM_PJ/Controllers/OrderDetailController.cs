@@ -35,6 +35,30 @@ namespace IM_PJ.Controllers
                 return kq.ToString();
             }
         }
+
+        public static void Insert(tbl_OrderDetail orderDetail)
+        {
+            using (var dbe = new inventorymanagementEntities())
+            {
+                tbl_OrderDetail ui = new tbl_OrderDetail();
+                ui.AgentID = orderDetail.AgentID;
+                ui.OrderID = orderDetail.OrderID;
+                ui.SKU = orderDetail.SKU;
+                ui.ProductID = orderDetail.ProductID;
+                ui.ProductVariableID = orderDetail.ProductVariableID;
+                ui.ProductVariableDescrition = orderDetail.ProductVariableDescrition;
+                ui.Quantity = orderDetail.Quantity;
+                ui.Price = orderDetail.Price;
+                ui.Status = orderDetail.Status;
+                ui.DiscountPrice = orderDetail.DiscountPrice;
+                ui.ProductType = orderDetail.ProductType;
+                ui.CreatedDate = orderDetail.CreatedDate;
+                ui.CreatedBy = orderDetail.CreatedBy;
+                ui.IsCount = orderDetail.IsCount;
+                dbe.tbl_OrderDetail.Add(ui);
+                dbe.SaveChanges();
+            }
+        }
         public static string UpdateQuantity(int ID, double Quantity, DateTime CreatedDate, string CreatedBy)
         {
             using (var dbe = new inventorymanagementEntities())

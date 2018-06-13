@@ -8,7 +8,7 @@
     <asp:Panel ID="parent" runat="server">
         <main id="main-wrap">
             <div class="container">
-                <div class="row">
+                <div id="infor-order" class="row">
                     <div class="col-md-12">
                         <div class="panel panelborderheading">
                             <div class="panel-heading clear">
@@ -76,7 +76,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="row">
+                <div id="infor-customer" class="row">
                     <div class="col-md-12">
                         <div class="panel panelborderheading">
                             <div class="panel-heading clear">
@@ -153,7 +153,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="row">
+                <div id="detail" class="row">
                     <div class="col-md-12">
                         <div class="panel-post">
                             <asp:Literal ID="ltrCustomerType" runat="server"></asp:Literal>
@@ -264,14 +264,14 @@
                         </div>
                     </div>
                 </div>
-                <div class="row">
+                <div id="status" class="row">
                     <div class="col-md-12">
                         <div class="panel panelborderheading">
                             <div class="panel-heading clear">
                                 <h3 class="page-title left not-margin-bot">Trạng thái đơn hàng</h3>
                             </div>
                             <div class="panel-body">
-                                <div class="form-row">
+                                <div id="row-payment-status" class="form-row">
                                     <div class="row-left">
                                         Trạng thái thanh toán
                                     </div>
@@ -283,19 +283,19 @@
                                         </asp:DropDownList>
                                     </div>
                                 </div>
-                                <div class="form-row">
+                                <div id="row-excute-status" class="form-row">
                                     <div class="row-left">
                                         Trạng thái xử lý
                                     </div>
                                     <div class="row-right">
-                                        <asp:DropDownList ID="ddlExcuteStatus" runat="server" CssClass="form-control">
+                                        <asp:DropDownList ID="ddlExcuteStatus" runat="server" CssClass="form-control" onchange="onChangeExcuteStatus()">
                                             <asp:ListItem Value="1" Text="Đang xử lý"></asp:ListItem>
                                             <asp:ListItem Value="2" Text="Đã hoàn tất"></asp:ListItem>
                                             <asp:ListItem Value="3" Text="Đã hủy"></asp:ListItem>
                                         </asp:DropDownList>
                                     </div>
                                 </div>
-                                <div class="form-row">
+                                <div id="row-payment-type" class="form-row">
                                     <div class="row-left">
                                         Phương thức thanh toán
                                     </div>
@@ -308,7 +308,7 @@
                                         </asp:DropDownList>
                                     </div>
                                 </div>
-                                <div class="form-row">
+                                <div id="row-shipping-type" class="form-row">
                                     <div class="row-left">
                                         Phương thức giao hàng
                                     </div>
@@ -322,7 +322,7 @@
                                         </asp:DropDownList>
                                     </div>
                                 </div>
-                                <div class="form-row transport-company">
+                                <div id="row-transport-company" class="form-row transport-company">
                                     <asp:UpdatePanel ID="up" runat="server">
                                         <ContentTemplate>
                                             <div class="form-row">
@@ -344,7 +344,7 @@
                                         </ContentTemplate>
                                     </asp:UpdatePanel>
                                 </div>
-                                <div class="form-row shipping-code hide">
+                                <div id="row-shipping" class="form-row shipping-code hide">
                                     <div class="row-left">
                                         Mã vận đơn
                                     </div>
@@ -352,7 +352,7 @@
                                         <asp:TextBox ID="txtShippingCode" runat="server" CssClass="form-control" placeholder="Nhập mã vận đơn Bưu điện - Proship"></asp:TextBox>
                                     </div>
                                 </div>
-                                <div class="form-row">
+                                <div id="row-order-note" class="form-row">
                                     <div class="row-left">
                                         Ghi chú đơn hàng
                                     </div>
@@ -435,6 +435,11 @@
 
         .padinfo {
             padding-bottom: 15px;
+        }
+
+        .disable {
+            pointer-events: none;
+            opacity: 0.4;
         }
     </style>
     <telerik:RadAjaxManager ID="rAjax" runat="server">
@@ -534,6 +539,9 @@
                 if ($("input[id$='_txtFacebook']").val() == "") {
                     $("input[id$='_txtFacebook']").parent().addClass("width-100");
                 }
+
+                // onchange drop down list excute status
+                onChangeExcuteStatus();
             });
 
             // check data before close page or refresh page
@@ -719,6 +727,7 @@
 
             // pay order on click button
             function payAll() {
+
                 var phone = $("#<%=txtPhone.ClientID%>").val();
                 var name = $("#<%= txtFullname.ClientID%>").val();
                 var nick = $("#<%= txtNick.ClientID%>").val();
@@ -726,10 +735,10 @@
                 if (phone != "" && name != "" && nick != "" && address != "") {
                     if ($(".product-result").length > 0) {
                         var list = "";
-                        var count = 0;
                         var ordertype = $(".customer-type").val();
                         var checkoutin = false;
-                        $(".product-result").each(function() {
+
+                        $(".product-result").each(function () {
                             var orderDetailID = $(this).attr("data-orderdetailid");
                             var id = $(this).attr("data-id");
                             var sku = $(this).attr("data-sku");
@@ -752,20 +761,53 @@
                                 list += id + "," + sku + "," + producttype + "," + productnariablename + "," + productvariablevalue + "," + quantity + "," +
                                     productname + "," + productimageorigin + "," + productvariablesave + "," + price + "," + productvariablesave + "," +
                                     orderDetailID + ";";
-                                count++;
                             }
                         });
-                        if (count > 0) {
-                            $("#<%=hdfOrderType.ClientID %>").val(ordertype);
-                            $("#<%=hdfListProduct.ClientID%>").val(list);
-                            insertOrder();
+
+                        let excuteStatus = Number($("#<%=ddlExcuteStatus.ClientID%>").val());
+
+                        if (excuteStatus == 3) {
+                            let c = confirm('Đơn hàng này sẽ được lưu ở trạng thái hủy');
+
+                            if (!c)
+                                return;
+                        }
+
+                        deleteOrder();
+
+                        $("#<%=hdfOrderType.ClientID %>").val(ordertype);
+                        $("#<%=hdfListProduct.ClientID%>").val(list);
+                        insertOrder();
+                    } else {
+                        let excuteStatus = Number($("#<%=ddlExcuteStatus.ClientID%>").val());
+
+                        if (excuteStatus == 3) {
+                            let c = confirm('Đơn hàng này sẽ được lưu ở trạng thái hủy');
+
+                            if (c) {
+                                deleteOrder();
+
+                                $.ajax({
+                                    type: "POST",
+                                    url: "/thong-tin-don-hang.aspx/UpdateStatus",
+                                    data: "{}",
+                                    contentType: "application/json; charset=utf-8",
+                                    dataType: "json",
+                                    success: function (msg) {
+                                        if (msg.d != null) {
+                                            window.location.assign("/danh-sach-don-hang.aspx");
+                                        }
+                                    },
+                                    error: function (xmlhttprequest, textstatus, errorthrow) {
+                                        alert('lỗi');
+                                    }
+                                });
+
+                            }
                         } else {
                             alert("Hãy nhập sản phẩm!");
                             $("#txtSearch").focus();
                         }
-                    } else {
-                        alert("Hãy nhập sản phẩm!");
-                        $("#txtSearch").focus();
                     }
                 } else {
                     if (name == "") {
@@ -799,32 +841,6 @@
                 if (isBlank(phone) || isBlank(fullname)) {
                     alert("Vui lòng nhập thông tin khách hàng!");
                 } else {
-                    if (listOrderDetail.length > 0) {
-                        let getDataJSON = function () {
-                            let stringJSON = "{listOrderDetail: [";
-
-                            for (index in listOrderDetail) {
-                                if (index == 0) {
-                                    stringJSON += listOrderDetail[index].stringJSON();
-                                } else {
-                                    stringJSON += ", " + listOrderDetail[index].stringJSON();
-                                }
-                            }
-
-                            stringJSON += "]}";
-
-                            return stringJSON;
-                        };
-
-                        $.ajax({
-                            type: "POST",
-                            url: "/thong-tin-don-hang.aspx/Delete",
-                            data: getDataJSON(),
-                            contentType: "application/json; charset=utf-8",
-                            dataType: "json"
-                        })
-                    }
-
                     $("#<%=btnOrder.ClientID%>").click();
                 }
             }
@@ -949,7 +965,7 @@
                                     }
 
                                     html += "   <td class=\"quantity-item\">" + item.QuantityInstockString + "</td>";
-                                    html += "   <td class=\"quantity-item\"><input type=\"text\" class=\"form-control in-quanlity\" value=\"1\" onkeyup=\"checkQuantiy($(this))\" onkeypress='return event.charCode >= 48 && event.charCode <= 57'/></td>";
+                                    html += "   <td class=\"quantity-item\"><input type=\"text\" class=\"form-control in-quanlity\" value=\"1\" onblur=\"checkQuantiy($(this))\" onkeypress='return event.charCode >= 48 && event.charCode <= 57'/></td>";
                                     var t = parseFloat(item.Giabansi);
 
                                     html += "<td class=\"total-item totalprice-view\">" + formatThousands(t, '.') + "</td>";
@@ -1096,7 +1112,7 @@
                                             var t = 0;
                                             html += "   <td class=\"quantity-item soluong\">" + item.QuantityInstockString + "</td>";
 
-                                            html += "   <td class=\"quantity-item\"><input type=\"text\" class=\"form-control in-quanlity\" value=\"" + list2[j] + "\" onkeyup=\"checkQuantiy($(this))\" onkeypress='return event.charCode >= 48 && event.charCode <= 57'/></td>";
+                                            html += "   <td class=\"quantity-item\"><input type=\"text\" class=\"form-control in-quanlity\" value=\"" + list2[j] + "\" onblur=\"checkQuantiy($(this))\" onkeypress='return event.charCode >= 48 && event.charCode <= 57'/></td>";
                                             t = parseFloat(list2[j]) * parseFloat(item.Giabansi);
 
                                             html += "<td class=\"total-item totalprice-view\">" + formatThousands(t, '.') + "</td>";
@@ -1156,9 +1172,13 @@
                     }
 
                     row.remove();
-                }
 
-                getAllPrice();
+                    if ($(".product-result").length == 0) {
+                        $("#<%=ddlExcuteStatus.ClientID%>").val(3);
+                    }
+
+                    getAllPrice();
+                }
 
             }
 
@@ -1267,31 +1287,13 @@
                     $("#<%=hdfTongTienConLai.ClientID%>").val(totalmoney - refund);
                     countGuestChange();
                 } else {
-                    var c = confirm('Đơn hàng này sẽ được lưu ở trạng thái hủy');
-                    if (c) {
-                        $.ajax({
-                            type: "POST",
-                            url: "/thong-tin-don-hang.aspx/UpdateStatus",
-                            data: "{}",
-                            contentType: "application/json; charset=utf-8",
-                            dataType: "json",
-                            success: function(msg) {
-                                if (msg.d != null) {
-                                    window.location.assign("/danh-sach-don-hang.aspx");
-                                }
-                            },
-                            error: function(xmlhttprequest, textstatus, errorthrow) {
-                                alert('lỗi');
-                            }
-                        });
 
-                    } else {
-                        $(".totalproductQuantity").html(formatThousands(0, ',') + " sản phẩm");
-                        $(".totalpriceorder").html(formatThousands(0, ','));
-                        $(".totalGuestChange").html(formatThousands(0, ','));
-                        $(".totalpriceorderall").html(formatThousands(0, ','));
-                        $(".priceafterchietkhau").html(formatThousands(0, ','));
-                    }
+                    $(".totalproductQuantity").html(formatThousands(0, ',') + " sản phẩm");
+                    $(".totalpriceorder").html(formatThousands(0, ','));
+                    $(".totalGuestChange").html(formatThousands(0, ','));
+                    $(".totalpriceorderall").html(formatThousands(0, ','));
+                    $(".priceafterchietkhau").html(formatThousands(0, ','));
+
                 }
                 reIndex();
             }
@@ -1400,6 +1402,67 @@
                 return s.substr(0, i + 3) + r +
                     (d ? '.' + Math.round(d * Math.pow(10, dp || 2)) : '');
             };
+
+            function deleteOrder() {
+                if (listOrderDetail.length > 0) {
+                    let getDataJSON = function () {
+                        let stringJSON = "{listOrderDetail: [";
+
+                        for (index in listOrderDetail) {
+                            if (index == 0) {
+                                stringJSON += listOrderDetail[index].stringJSON();
+                            } else {
+                                stringJSON += ", " + listOrderDetail[index].stringJSON();
+                            }
+                        }
+
+                        stringJSON += "]}";
+
+                        return stringJSON;
+                    };
+
+                    $.ajax({
+                        type: "POST",
+                        url: "/thong-tin-don-hang.aspx/Delete",
+                        data: getDataJSON(),
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json"
+                    })
+                }
+            }
+
+            function onChangeExcuteStatus() {
+                let excuteStatus = Number($("#<%=ddlExcuteStatus.ClientID%>").val());
+
+                switch (excuteStatus) {
+                    case 3:
+                        $("#infor-order").addClass("disable");
+                        $("#infor-customer").addClass("disable");
+                        $("#detail").addClass("disable");
+                        $("#status .panel-heading").addClass("disable");
+                        $("#row-payment-status").addClass("disable");
+                        $("#row-payment-type").addClass("disable");
+                        $("#row-shipping-type").addClass("disable");
+                        $("#row-transport-company").addClass("disable");
+                        $("#row-shipping").addClass("disable");
+                        $("#row-order-note").addClass("disable");
+
+                        break;
+                    default:
+                        $("#infor-order").removeClass("disable");
+                        $("#infor-customer").removeClass("disable");
+                        $("#detail").removeClass("disable");
+                        $("#status .panel-heading").removeClass("disable");
+                        $("#row-payment-status").removeClass("disable");
+                        $("#row-payment-type").removeClass("disable");
+                        $("#row-shipping-type").removeClass("disable");
+                        $("#row-transport-company").removeClass("disable");
+                        $("#row-shipping").removeClass("disable");
+                        $("#row-order-note").removeClass("disable");
+
+                        break;
+                }
+            }
         </script>
     </telerik:RadScriptBlock>
 </asp:Content>

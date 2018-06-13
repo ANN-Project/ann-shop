@@ -540,7 +540,6 @@ function showOrderStatus() {
     fr += "                 <select class=\"form-control excute-status\">";
     fr += "                     <option value=\"1\">Đang xử lý</option>";
     fr += "                     <option value=\"2\">Đã hoàn tất</option>";
-    fr += "                     <option value=\"3\">Đã hủy</option>";
     fr += "                 </select>";
     fr += "             </div>";
     fr += "         </div>";
@@ -683,7 +682,7 @@ function searchProduct() {
                         }
 
                         html += "   <td class=\"quantity-item\">" + item.QuantityInstockString + "</td>";
-                        html += "   <td class=\"quantity-item\"><input type=\"text\" class=\"form-control in-quanlity\" value=\"1\" onkeyup=\"checkQuantiy($(this))\" onkeypress='return event.charCode >= 48 && event.charCode <= 57'/></td>";
+                        html += "   <td class=\"quantity-item\"><input type=\"text\" class=\"form-control in-quanlity\" value=\"1\" onblur=\"checkQuantiy($(this))\" onkeypress='return event.charCode >= 48 && event.charCode <= 57'/></td>";
                         var t = parseFloat(item.Giabansi);
 
                         html += "<td class=\"total-item totalprice-view\">" + formatThousands(t, '.') + "</td>";
@@ -823,7 +822,7 @@ function GetProduct(list, list2) {
                                 var t = 0;
                                 html += "<td class=\"quantity-item\">" + item.QuantityInstockString + "</td>";
 
-                                html += "<td class=\"quantity-item\"><input type=\"text\" class=\"form-control in-quanlity\" value=\"" + list2[j] + "\" onkeyup=\"checkQuantiy($(this))\" onkeypress='return event.charCode >= 48 && event.charCode <= 57'/></td>";
+                                html += "<td class=\"quantity-item\"><input type=\"text\" class=\"form-control in-quanlity\" value=\"" + list2[j] + "\" onblur=\"checkQuantiy($(this))\" onkeypress='return event.charCode >= 48 && event.charCode <= 57'/></td>";
                                 t = parseFloat(list2[j]) * parseFloat(item.Giabansi);
 
                                 html += "<td class=\"total-item totalprice-view\">" + formatThousands(t, '.') + "</td>";

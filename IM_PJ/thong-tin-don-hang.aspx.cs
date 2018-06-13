@@ -351,7 +351,7 @@ namespace IM_PJ
                             html += "   <td class=\"variable-item\">" + ProductVariable + "</td>";
                             html += "   <td class=\"price-item gia-san-pham\" data-price=\"" + ItemPrice + "\">" + string.Format("{0:N0}", ItemPrice) + "</td>";
                             html += "   <td class=\"quantity-item soluong\">" + QuantityInstockString + "</td>";
-                            html += "   <td class=\"quantity-item\"><input data-quantity=\"" + item.Quantity + "\" value=\"" + item.Quantity + "\" type=\"text\" max=\"" + QuantityInstock + "\" class=\"form-control in-quanlity\" value=\"1\" onkeyup=\"checkQuantiy($(this))\" onkeypress='return event.charCode >= 48 && event.charCode <= 57'/></td>";
+                            html += "   <td class=\"quantity-item\"><input data-quantity=\"" + item.Quantity + "\" value=\"" + item.Quantity + "\" type=\"text\" max=\"" + QuantityInstock + "\" class=\"form-control in-quanlity\" value=\"1\" onblur=\"checkQuantiy($(this))\" onkeypress='return event.charCode >= 48 && event.charCode <= 57'/></td>";
                             int k = Convert.ToInt32(ItemPrice) * Convert.ToInt32(item.Quantity);
                             html += "<td class=\"total-item totalprice-view\">" + string.Format("{0:N0}", k) + "</td>";
                             html += "   <td class=\"trash-item\"><a href=\"javascript:;\" class=\"link-btn\" onclick=\"deleteRow($(this))\"><i class=\"fa fa-trash\"></i></a>    </td>";
@@ -666,6 +666,7 @@ namespace IM_PJ
             JavaScriptSerializer serializer = new JavaScriptSerializer();
             return serializer.Serialize(ps);
         }
+
         [WebMethod]
         public static string findReturnOrder(string order, string remove)
         {
@@ -736,6 +737,7 @@ namespace IM_PJ
             public double Giabansi { get; set; }
             public string stringGiabansi { get; set; }
         }
+
         [WebMethod]
         public static void Delete(List<tbl_OrderDetail> listOrderDetail)
         {
@@ -854,6 +856,7 @@ namespace IM_PJ
                                     CustomerID = checkphone.ID;
                                 }
                             }
+
                             string totalPrice = hdfTotalPrice.Value.ToString();
                             double GuestPaid = Convert.ToDouble(pGuestPaid.Value);
                             double GuestChange = Convert.ToDouble(totalPrice) - GuestPaid;
@@ -913,9 +916,38 @@ namespace IM_PJ
                                 CustomerAddress, "", totalPrice, totalPriceNotDiscount, PaymentStatus, ExcuteStatus, currentDate, username,
                                 Convert.ToDouble(pDiscount.Value), TotalDiscount, FeeShipping, GuestPaid, GuestChange, PaymentType, ShippingType, OrderNote, datedone, 0, ShippingCode, TransportCompanyID, TransportCompanySubID);
 
-                            double totalQuantity = 0;
+                            // Xử lý hủy hàng
+                            if (ExcuteStatus == 3)
+                            {
+                                var productRefund = OrderDetailController.GetByOrderID(order.ID);
 
-                            
+                                foreach(tbl_OrderDetail product in productRefund)
+                                {
+                                    StockManagerController.Insert(
+                                        new tbl_StockManager {
+                                            AgentID = product.AgentID,
+                                            ProductID = product.ProductID,
+                                            ProductVariableID = product.ProductVariableID,
+                                            Quantity = product.Quantity,
+                                            QuantityCurrent = 0,
+                                            Type = 1,
+                                            NoteID = "Nhập kho do hủy đơn hàng",
+                                            OrderID = product.OrderID,
+                                            Status = 4,
+                                            SKU = product.SKU,
+                                            CreatedDate = currentDate,
+                                            CreatedBy = product.CreatedBy,
+                                            MoveProID = 0,
+                                            ParentID = product.ProductID != 0 ? product.ProductID : product.ProductVariableID
+                                        });
+                                }
+
+                                PJUtils.ShowMessageBoxSwAlertCallFunction("Hủy đơn hàng thành công", "s", true, "addPayAllClicked()", Page);
+
+                                Response.Redirect("/danh-sach-don-hang.aspx");
+                                return;
+                            }
+
                             if (OrderID > 0)
                             {
                                 string list = hdfListProduct.Value;
@@ -959,6 +991,58 @@ namespace IM_PJ
                                         double Price = Convert.ToDouble(itemValue[9]);
                                         string ProductVariableSave = itemValue[10];
                                         int OrderDetailID = itemValue[11].ToInt(0);
+                                        
+                                        // Xử lý với trạng thái của đơn hàng đã hy
+                                        if (ExcuteStatusOld == 3)
+                                        {
+                                            var orderDetail = OrderDetailController.GetByID(OrderDetailID);
+
+                                            if(orderDetail != null)
+                                            {
+                                                OrderDetailController.UpdateQuantity(OrderDetailID, Quantity, currentDate, username);
+                                            }
+                                            else
+                                            {
+                                                OrderDetailController.Insert(new tbl_OrderDetail()
+                                                {
+                                                    AgentID = AgentID,
+                                                    OrderID = OrderID,
+                                                    SKU = SKU,
+                                                    ProductID = ProductID,
+                                                    ProductVariableID = ProductVariableID,
+                                                    ProductVariableDescrition = ProductVariableSave,
+                                                    Quantity = Quantity,
+                                                    Price = Price,
+                                                    Status = 1,
+                                                    DiscountPrice = 0,
+                                                    ProductType = 2,
+                                                    CreatedDate = currentDate,
+                                                    CreatedBy = username,
+                                                    IsCount = true
+                                                });
+                                            }
+
+                                            StockManagerController.Insert(
+                                                new tbl_StockManager {
+                                                    AgentID = AgentID,
+                                                    ProductID = ProductID,
+                                                    ProductVariableID = ProductVariableID,
+                                                    Quantity = Quantity,
+                                                    QuantityCurrent = 0,
+                                                    Type = 2,
+                                                    NoteID = "Xuất kho khi chuyển trạng từ trạng thái hủy đơn hàng sang trạng thái khác",
+                                                    OrderID = OrderID,
+                                                    Status = 4,
+                                                    SKU = SKU,
+                                                    CreatedDate = currentDate,
+                                                    CreatedBy = username,
+                                                    MoveProID = 0,
+                                                    ParentID = parentID,
+                                                });
+
+                                            continue;
+                                        }
+
                                         // kiểm tra sản phẩm này đã có trong đơn chưa?
                                         // nếu sản phẩm này có trong đơn có rồi thì chỉnh sửa
                                         if (OrderDetailID > 0)
@@ -967,7 +1051,6 @@ namespace IM_PJ
                                             
                                             if (od != null)
                                             {
-                                                // 
                                                 if (od.IsCount == true)
                                                 {
                                                     double quantityOld = Convert.ToDouble(od.Quantity);
@@ -1197,12 +1280,10 @@ namespace IM_PJ
                                                     });
                                             }
                                         }
-                                        totalQuantity += Quantity;
                                     }
                                 }
 
                                 // thêm đơn hàng đổi trả
-
                                 string refund = HttpContext.Current.Session["refund"].ToString();
                                 if (refund == "0")
                                 {
@@ -1227,7 +1308,6 @@ namespace IM_PJ
                                             var update_oldreturnorder = RefundGoodController.UpdateStatus(k[0].ToInt(), acc.Username, 1);
                                         }
                                     }
-                                    
                                 }
 
                                 HttpContext.Current.Session.Remove("refund");
