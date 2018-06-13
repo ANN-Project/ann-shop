@@ -268,6 +268,9 @@ function selectCustomer() {
         getCustomerDiscount(id);
 
         closePopup();
+        if (typeof checkCustomer == 'function') {
+            checkCustomer();
+        }
     });
 }
 

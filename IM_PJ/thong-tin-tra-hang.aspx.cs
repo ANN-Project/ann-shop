@@ -52,21 +52,69 @@ namespace IM_PJ
                     var r = RefundGoodController.GetByIDAndAgentID(ID, AgentID);
                     if (r != null)
                     {
-                        ltrInfo.Text += "<div class=\"form-row\">Tên khách hàng</div>";
-                        ltrInfo.Text += "<div class=\"form-row\"><span class=\"form-control\">" + r.CustomerName + "</span></div>";
-                        ltrInfo.Text += "<div class=\"form-row\">Số điện thoại</div>";
-                        ltrInfo.Text += "<div class=\"form-row\"><span class=\"form-control\">" + r.CustomerPhone + "</span></div>";
-                       
+                        ltrOrderID.Text = ID.ToString();
+                        ltrCreateBy.Text = r.CreatedBy;
+                        ltrCreateDate.Text = r.CreatedDate.ToString();
+                        ltrOrderStatus.Text = PJUtils.RefundStatus(Convert.ToInt32(r.Status));
+                        ltrOrderQuantity.Text = r.TotalQuantity.ToString();
+                        ltrOrderTotalPrice.Text = string.Format("{0:N0}", (Convert.ToDouble(r.TotalPrice)));
+                        ltrTotalRefundFee.Text = r.TotalRefundFee;
+
+                        ltrInfo.Text += "<div class=\"row\">";
+                        ltrInfo.Text += "<div class=\"col-md-6\">";
+                        ltrInfo.Text += "<div class=\"form-group\">";
+                        ltrInfo.Text += "<label>Họ tên</label>";
+                        ltrInfo.Text += "<span class=\"form-control\">" + r.CustomerName + "</span>";
+                        ltrInfo.Text += "</div>";
+                        ltrInfo.Text += "</div>";
+                        ltrInfo.Text += "<div class=\"col-md-6\">";
+                        ltrInfo.Text += "<div class=\"form-group\">";
+                        ltrInfo.Text += "<label>Điện thoại</label>";
+                        ltrInfo.Text += "<span class=\"form-control\">" + r.CustomerPhone + "</span>";
+                        ltrInfo.Text += "</div>";
+                        ltrInfo.Text += "</div>";
+                        ltrInfo.Text += "</div>";
+
                         var cus = CustomerController.GetByID(r.CustomerID.Value);
                         if (cus != null)
                         {
-                            ltrInfo.Text += "<div class=\"form-row\">Địa chỉ</div>";
-                            ltrInfo.Text += "<div class=\"form-row\"><span class=\"form-control\">" + cus.CustomerAddress + "</span></div>";
-                            ltrInfo.Text += "<div class=\"form-row\">Zalo</div>";
-                            ltrInfo.Text += "<div class=\"form-row\"><span class=\"form-control\">" + cus.Zalo + "</span></div>";
-                            ltrInfo.Text += "<div class=\"form-row\">Facebook</div>";
-                            ltrInfo.Text += "<div class=\"form-row\"><span class=\"form-control\">" + cus.Facebook + "</span></div>";
+                            ltrInfo.Text += "<div class=\"row\">";
+                            ltrInfo.Text += "<div class=\"col-md-6\">";
+                            ltrInfo.Text += "<div class=\"form-group\">";
+                            ltrInfo.Text += "<label>Nick đặt hàng</label>";
+                            ltrInfo.Text += "<span class=\"form-control\">" + cus.Nick + "</span>";
+                            ltrInfo.Text += "</div>";
+                            ltrInfo.Text += "</div>";
+                            ltrInfo.Text += "<div class=\"col-md-6\">";
+                            ltrInfo.Text += "<div class=\"form-group\">";
+                            ltrInfo.Text += "<label>Địa chỉ</label>";
+                            ltrInfo.Text += "<span class=\"form-control\">" + cus.CustomerAddress + "</span>";
+                            ltrInfo.Text += "</div>";
+                            ltrInfo.Text += "</div>";
+                            ltrInfo.Text += "</div>";
+
+                            ltrInfo.Text += "<div class=\"row\">";
+                            ltrInfo.Text += "<div class=\"col-md-6\">";
+                            ltrInfo.Text += "<div class=\"form-group\">";
+                            ltrInfo.Text += "<label>Zalo</label>";
+                            ltrInfo.Text += "<span class=\"form-control\">" + cus.Zalo + "</span>";
+                            ltrInfo.Text += "</div>";
+                            ltrInfo.Text += "</div>";
+                            ltrInfo.Text += "<div class=\"col-md-6\">";
+                            ltrInfo.Text += "<div class=\"form-group\">";
+                            ltrInfo.Text += "<label>Facebook</label>";
+                            ltrInfo.Text += "<span class=\"form-control\">" + cus.Facebook + "</span>";
+                            ltrInfo.Text += "</div>";
+                            ltrInfo.Text += "</div>";
+                            ltrInfo.Text += "</div>";
+                            ltrInfo.Text += "<div class=\"row\">";
+                            ltrInfo.Text += "    <div class=\"col-md-12 view-detail\">";
+                            ltrInfo.Text += "    	<a href=\"javascript:;\" class=\"btn primary-btn fw-btn not-fullwidth\" onclick=\"viewCustomerDetail('" + cus.ID + "')\"><i class=\"fa fa-address-card-o\" aria-hidden=\"true\"></i> Xem chi tiết</a>";
+                            ltrInfo.Text += "    </div>";
+                            ltrInfo.Text += "</div>";
                         }
+                        
+
                         ltrTotal.Text = string.Format("{0:N0}", Convert.ToDouble(r.TotalPrice));
                         ltrQuantity.Text = string.Format("{0:N0}", Convert.ToDouble(r.TotalQuantity));
                         ltrRefund.Text = string.Format("{0:N0}", Convert.ToDouble(r.TotalRefundFee));

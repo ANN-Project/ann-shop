@@ -229,13 +229,13 @@ namespace IM_PJ
                             productPrint += "<td>Hoàn tất</td>";
                             string datedone = string.Format("{0:dd/MM/yyyy HH:mm}", order.DateDone);
                             productPrint += "<td>" + datedone + "</td>";
+                            productPrint += "</tr>";
                         }
                         else
                         {
                             error += "Đơn hàng chưa hoàn tất";
                         }
-                            
-                        productPrint += "</tr>";
+                        
                         productPrint += "<tr>";
                         productPrint += "<td>Nhân viên</td>";
                         productPrint += "<td>" + order.CreatedBy + "</td>";

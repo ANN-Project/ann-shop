@@ -2,6 +2,7 @@
 
 <%@ Register Assembly="Telerik.Web.UI" Namespace="Telerik.Web.UI" TagPrefix="telerik" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
+    <script src="/App_Themes/Ann/js/search-customer.js"></script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <asp:Panel ID="parent" runat="server">
@@ -9,7 +10,58 @@
             <div class="container">
                 <div class="row">
                     <div class="col-md-12">
-                        <h3 class="page-title left">Đổi trả hàng</h3>
+                        <div class="panel panelborderheading">
+                            <div class="panel-heading clear">
+                                <h3 class="page-title left not-margin-bot">Thông tin đơn hàng đổi trả #<asp:Literal ID="ltrOrderID" runat="server"></asp:Literal></h3>
+                            </div>
+                            <div class="panel-body">
+                                <div class="row pad">
+                                    <div class="col-md-4">
+                                        <label class="left pad10">Nhân viên tạo đơn: </label>
+                                        <div class="ordercreateby">
+                                            <asp:Literal ID="ltrCreateBy" runat="server"></asp:Literal>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label class="left pad10">Ngày tạo: </label>
+                                        <div class="ordercreatedate">
+                                            <asp:Literal ID="ltrCreateDate" runat="server"></asp:Literal>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label class="left pad10">Trạng thái: </label>
+                                        <div class="orderstatus">
+                                            <asp:Literal ID="ltrOrderStatus" runat="server"></asp:Literal>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row pad">
+                                    <div class="col-md-4">
+                                        <label class="left pad10">Số lượng: </label>
+                                        <div class="orderquantity">
+                                            <asp:Literal ID="ltrOrderQuantity" runat="server"></asp:Literal>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label class="left pad10">Tổng tiền: </label>
+                                        <div class="ordertotalprice">
+                                            <asp:Literal ID="ltrOrderTotalPrice" runat="server"></asp:Literal>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label class="left pad10">Phí đổi hàng: </label>
+                                        <div class="ordernote">
+                                            <asp:Literal ID="ltrTotalRefundFee" runat="server"></asp:Literal>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <asp:Literal ID="ltrPrint" runat="server"></asp:Literal>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="row">
@@ -20,6 +72,11 @@
                             </div>
                             <div class="panel-body">
                                 <asp:Literal ID="ltrInfo" runat="server"></asp:Literal>
+                                <div class="row">
+                                    <div class="col-md-12 view-detail">
+                                        <asp:Literal ID="ltrViewDetail" runat="server"></asp:Literal>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -36,8 +93,8 @@
                                             <th>SKU</th>
                                             <th>Giá gốc</th>
                                             <th>Giá đã bán</th>
-                                            <th>Sl tối đa</th>
-                                            <th>Sl cần đổi</th>
+                                            <th>Đổi tối đa</th>
+                                            <th>Cần đổi</th>
                                             <th>Hình thức</th>
                                             <th>Phí đổi hàng</th>
                                             <th>Thành tiền</th>
@@ -66,11 +123,6 @@
                                     <asp:Literal ID="ltrRefund" runat="server"></asp:Literal>
                                 </div>
                             </div>
-                            <%-- <div class="post-table-links clear">
-                                <a href="/danh-sach-don-tra-hang" class="btn link-btn" style="background-color: #f87703; float: right">Trở về</a>
-                                <%--<a href="javascript:;" class="btn link-btn" style="background-color: #f87703; float: right" onclick="payall()">Thanh toán</a>
-                                <a href="javascript:;" class="btn link-btn" style="background-color: #f87703; float: right; margin-right: 10px;" onclick="deleteProduct()">Xóa</a>
-                            </div>--%>
                         </div>
                     </div>
                 </div>
@@ -113,6 +165,12 @@
         </main>
     </asp:Panel>
     <style>
+        .pad {
+            padding-bottom: 15px;
+        }
+        .pad10 {
+            padding-right: 10px;
+        }
         .search-product-content {
             height: 350px;
             background: #fff;

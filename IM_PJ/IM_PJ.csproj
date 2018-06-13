@@ -408,6 +408,7 @@
     <Content Include="chi-tiet-nha-xe.aspx" />
     <Content Include="chi-tiet-noi-den-nha-xe.aspx" />
     <Content Include="danh-sach-nha-xe.aspx" />
+    <Content Include="print-invoice-return.aspx" />
     <Content Include="print-order-image.aspx" />
     <Content Include="print-invoice.aspx" />
     <Content Include="cai-dat.aspx" />
@@ -928,6 +929,13 @@
     </Compile>
     <Compile Include="Models\tbl_TransportCompany.cs">
       <DependentUpon>IMModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="print-invoice-return.aspx.cs">
+      <DependentUpon>print-invoice-return.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="print-invoice-return.aspx.designer.cs">
+      <DependentUpon>print-invoice-return.aspx</DependentUpon>
     </Compile>
     <Compile Include="print-order-image.aspx.cs">
       <DependentUpon>print-order-image.aspx</DependentUpon>

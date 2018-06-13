@@ -2,6 +2,7 @@
 
 <%@ Register Assembly="Telerik.Web.UI" Namespace="Telerik.Web.UI" TagPrefix="telerik" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
+    <script src="/App_Themes/Ann/js/search-customer.js"></script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <asp:Panel ID="parent" runat="server">
@@ -17,42 +18,65 @@
                         <div class="panel panelborderheading">
                             <div class="panel-heading clear">
                                 <h3 class="page-title left not-margin-bot">Thông tin khách hàng</h3>
+                                <a href="javascript:;" class="search-customer" onclick="searchCustomer2()"><i class="fa fa-search" aria-hidden="true"></i> Tìm khách hàng (F1)</a>
                             </div>
                             <div class="panel-body">
-                                <div class="form-row">
-                                    Số điện thoại
-                                     <a href="javascript:;" style="text-decoration: underline; float: right; font-size: 12px; font-style: italic;" onclick="checkCustomer()">Kiểm tra</a>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Họ tên</label>
+                                            <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" ControlToValidate="txtFullname" ErrorMessage="(*)" ForeColor="Red" Display="Dynamic"></asp:RequiredFieldValidator>
+                                            <asp:TextBox ID="txtFullname" Enabled="false" CssClass="form-control" runat="server"></asp:TextBox>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Điện thoại</label>
+                                            <asp:RequiredFieldValidator ID="re" runat="server" ControlToValidate="txtPhone" ErrorMessage="(*)" ForeColor="Red" Display="Dynamic"></asp:RequiredFieldValidator>
+                                            <asp:TextBox ID="txtPhone" Enabled="false" CssClass="form-control" runat="server" onchange="checkCustomer()" onpaste="checkCustomer()"></asp:TextBox>
+                                        </div>
+                                    </div>
+                                </div> 
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Nick đặt hàng</label>
+                                            <asp:RequiredFieldValidator ID="RequiredFieldValidator2" runat="server" ControlToValidate="txtNick" ErrorMessage="(*)" ForeColor="Red" Display="Dynamic"></asp:RequiredFieldValidator>
+                                            <asp:TextBox ID="txtNick" Enabled="false" CssClass="form-control" runat="server"></asp:TextBox>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Địa chỉ</label>
+                                            <asp:RequiredFieldValidator ID="RequiredFieldValidator3" runat="server" ControlToValidate="txtAddress" ErrorMessage="(*)" ForeColor="Red" Display="Dynamic"></asp:RequiredFieldValidator>
+                                            <asp:TextBox ID="txtAddress" Enabled="false" CssClass="form-control" runat="server"></asp:TextBox>
+                                        </div>
+                                    </div>
+                                </div> 
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Zalo</label>
+                                            <asp:TextBox ID="txtZalo" Enabled="false" CssClass="form-control" runat="server"></asp:TextBox>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Facebook</label>
+                                            <div class="row">
+                                                <div class="col-md-10 fb width-100">
+                                                <asp:TextBox ID="txtFacebook" Enabled="false" CssClass="form-control" runat="server"></asp:TextBox>
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <div class="row">
+                                                        <span class="link-facebook"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="form-row">
-                                    <asp:TextBox ID="fullnamephone" CssClass="form-control" runat="server"></asp:TextBox>
-                                </div>
-
-                                <div class="form-row">
-                                    Họ tên
-                                    <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" ControlToValidate="txtFullname" ErrorMessage="(*)"
-                                        ForeColor="Red" Display="Dynamic"></asp:RequiredFieldValidator>
-                                </div>
-                                <div class="form-row">
-                                    <asp:TextBox ID="txtFullname" CssClass="form-control" runat="server"></asp:TextBox>
-                                </div>
-
-                                <div class="form-row">
-                                    Địa chỉ
-                                </div>
-                                <div class="form-row">
-                                    <asp:TextBox ID="txtAddress" CssClass="form-control" runat="server"></asp:TextBox>
-                                </div>
-                                <div class="form-row">
-                                    Zalo
-                                </div>
-                                <div class="form-row">
-                                    <asp:TextBox ID="txtZalo" CssClass="form-control" runat="server"></asp:TextBox>
-                                </div>
-                                <div class="form-row">
-                                    Facebook
-                                </div>
-                                <div class="form-row">
-                                    <asp:TextBox ID="txtFacebook" CssClass="form-control" runat="server"></asp:TextBox>
+                                <div class="form-row view-detail" style="display: none">
                                 </div>
                                 <div class="form-row result-check">
                                 </div>
@@ -81,8 +105,8 @@
                                             <th>Giá gốc</th>
                                             <th>Giá đã bán</th>
                                             <th>Tổng số lượng</th>
-                                            <th>Sl tối đa</th>
-                                            <th>Sl cần đổi</th>
+                                            <th>Đổi tối đa</th>
+                                            <th>Cần đổi</th>
                                             <th>Hình thức</th>
                                             <th>Phí đổi hàng</th>
                                             <th>Thành tiền</th>
@@ -145,6 +169,7 @@
                 </div>
             </div>
             <asp:Button ID="btnSave" runat="server" OnClick="btnSave_Click" Style="display: none" />
+            <asp:HiddenField ID="hdfUsername" runat="server" />
             <asp:HiddenField ID="hdfIsRefund" runat="server" />
             <asp:HiddenField ID="hdfTotalCanchange" runat="server" Value="0" />
             <asp:HiddenField ID="hdfPhone" runat="server" />
@@ -217,6 +242,7 @@
             var productRefunds = [];
             var productDeleteRefunds = [];
 
+            
             $('#txtSearch').keydown(function (event) {
                 if (event.which === 13) {
                     searchProduct();
@@ -578,12 +604,15 @@
                 }
             }
 
+            function searchCustomer2() {
+                searchCustomer();
+                //checkCustomer();
+            }
+
             function checkCustomer() {
-                var phone = $("#<%=fullnamephone.ClientID%>").val();
-                if (isBlank(phone)) {
-                    alert('Vui lòng nhập số điện thoại.');
-                }
-                else {
+                
+                    var phone = $("#<%=txtPhone.ClientID%>").val();
+
                     $.ajax({
                         type: "POST",
                         url: "/them-don-tra-hang.aspx/checkphone",
@@ -600,11 +629,6 @@
                                     alert('Không tìm thấy khách hàng trong hệ thống');
                                 }
                                 else {
-                                    $("#<%= txtFullname.ClientID%>").val(data.CustName).prop('disabled', true);
-                                    $("#<%= txtAddress.ClientID%>").val(data.CustAddress).prop('disabled', true);
-                                    $("#<%= txtFacebook.ClientID%>").val(data.CustFB).prop('disabled', true);
-                                    $("#<%= txtZalo.ClientID%>").val(data.CustZalo).prop('disabled', true);
-                                    $("#<%= fullnamephone.ClientID%>").val(data.CustPhone);
                                     $(".result-check").html("<span class=\"numcanchange\">Số lượng sản phẩm được phép đổi tối đa: " + data.CustleftCanchange + " sản phẩm</span>");
                                     $("#<%=hdfTotalCanchange.ClientID%>").val(data.CustleftCanchange);
                                     $("#<%=hdfPhone.ClientID%>").val(phone);
@@ -615,7 +639,8 @@
                             alert('lỗi');
                         }
                     });
-                }
+                
+                
             }
 
             var formatThousands = function (n, dp) {

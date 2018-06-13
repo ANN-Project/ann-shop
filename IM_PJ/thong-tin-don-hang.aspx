@@ -71,7 +71,6 @@
                                     <div class="col-md-12">
                                         <asp:Literal ID="ltrPrint" runat="server"></asp:Literal>
                                     </div>
-                                    
                                 </div>
                             </div>
                         </div>
