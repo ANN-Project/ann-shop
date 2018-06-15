@@ -612,7 +612,7 @@
                 var phone = $("#<%=txtPhone.ClientID%>").val();
                 var name = $("#<%=txtFullname.ClientID%>").val();
                 if (isBlank(phone) || isBlank(name)) {
-                    swal("Thông báo", "Hãy nhập thông tin khách hàng trước!", "error");
+                    swal("Thông báo", "Hãy nhập thông tin khách hàng trước!", "info");
                 } else {
                     var html = "";
                     html += "<div class=\"form-group\">";
@@ -684,7 +684,7 @@
                         }
                     });
                 } else {
-                    swal("Thông báo", "Hãy nhập thông tin khách hàng trước!", "error");
+                    swal("Thông báo", "Hãy nhập thông tin khách hàng trước!", "info");
                 }
             }
 
@@ -767,6 +767,7 @@
                         let excuteStatus = Number($("#<%=ddlExcuteStatus.ClientID%>").val());
 
                         if (excuteStatus == 3) {
+
                             let c = confirm('Đơn hàng này sẽ được lưu ở trạng thái hủy');
 
                             if (!c)

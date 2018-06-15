@@ -24,7 +24,7 @@
         customClass: '',
         html: false,
         animation: true,
-        allowEscapeKey: true,
+        allowEscapeKey: false,
         inputType: 'text'
       };
 

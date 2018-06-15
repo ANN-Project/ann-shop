@@ -321,7 +321,7 @@ function searchReturnOrder() {
     var phone = $("#<%=txtPhone.ClientID%>").val();
     var name = $("#<%=txtFullname.ClientID%>").val();
     if (isBlank(phone) || isBlank(name)) {
-        swal("Thông báo", "Hãy nhập thông tin khách hàng trước!", "error");
+        swal("Thông báo", "Hãy nhập thông tin khách hàng trước!", "info");
     } else {
         var html = "";
         html += "<div class=\"form-row\">";
@@ -388,7 +388,7 @@ function getReturnOrder() {
             }
         });
     } else {
-        swal("Thông báo", "Hãy nhập thông tin khách hàng trước!", "error");
+        swal("Thông báo", "Hãy nhập thông tin khách hàng trước!", "prompt");
     }
 }
 
@@ -721,7 +721,7 @@ function searchProduct() {
         });
     } else {
         $("#txtSearch").focus();
-        swal("Thông báo", "Hãy nhập mã sản phẩm", "error");
+        swal("Thông báo", "Hãy nhập mã sản phẩm", "info");
     }
 }
 
