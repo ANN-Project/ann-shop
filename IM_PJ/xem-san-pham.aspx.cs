@@ -30,14 +30,6 @@ namespace IM_PJ
                         {
                             hdfcost.Value = "ok";
                         }
-                        //else if(acc.RoleID == 1)
-                        //{
-
-                        //}
-                        //else
-                        //{
-                        //    Response.Redirect("/dang-nhap");
-                        //}
                     }
                 }
                 else
@@ -45,6 +37,7 @@ namespace IM_PJ
 
                     Response.Redirect("/dang-nhap");
                 }
+                LoadCategory();
                 LoadSupplier();
                 LoadData();
             }
@@ -62,6 +55,21 @@ namespace IM_PJ
                     ddlSupplier.Items.Add(listitem);
                 }
                 ddlSupplier.DataBind();
+            }
+        }
+        public void LoadCategory()
+        {
+            var category = CategoryController.GetAllWithIsHidden(false);
+            ddlCategory.Items.Clear();
+            ddlCategory.Items.Insert(0, new ListItem("Chọn danh mục sản phẩm", "0"));
+            if (category.Count > 0)
+            {
+                foreach (var p in category)
+                {
+                    ListItem listitem = new ListItem(p.CategoryName, p.ID.ToString());
+                    ddlCategory.Items.Add(listitem);
+                }
+                ddlCategory.DataBind();
             }
         }
         public void LoadData()
@@ -86,19 +94,19 @@ namespace IM_PJ
                         foreach (var item in a)
                         {
                             lbProductStock.Text = item.TotalProductInstockQuantityLeft.ToString();
+                            ddlStockStatus.SelectedValue = item.StockStatus.ToString();
                         }
                     }
                     else
                     {
                         lbProductStock.Text = "0";
                     }
-                   
-                    ddlStockStatus.SelectedValue = p.StockStatus.ToString();
-                    chkManageStock.Checked = Convert.ToBoolean(p.ManageStock);
+
                     lbRegularPrice.Text = string.Format("{0:N0}", p.Regular_Price);
                     lbpCostOfGood.Text = string.Format("{0:N0}", p.CostOfGood);
                     lbRetailPrice.Text = string.Format("{0:N0}", p.Retail_Price);
                     ddlSupplier.SelectedValue = p.SupplierID.ToString();
+                    ddlCategory.SelectedValue = p.CategoryID.ToString();
                     lbMaterials.Text = p.Materials;
                     lbpMinimumInventoryLevel.Text = p.MinimumInventoryLevel.ToString();
                     lbpMaximumInventoryLevel.Text = p.MaximumInventoryLevel.ToString();
@@ -130,7 +138,7 @@ namespace IM_PJ
                 }
 
                 List<tbl_ProductVariable> b = new List<tbl_ProductVariable>();
-                //int productID = Request.QueryString["id"].ToInt(0);
+
                 if (id > 0)
                 {
                     ViewState["ID"] = id;
@@ -143,7 +151,6 @@ namespace IM_PJ
                     b = ProductVariableController.SearchProductID(id, "");
                     pagingall(b);
                 }
-
             }
         }
         #region Paging

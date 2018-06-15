@@ -22,7 +22,7 @@
                                 <tbody>
                                     <tr>
                                         <th>SKU</th>
-                                        <th>Tên thuộc tính</th>
+                                        <th>Thuộc tính</th>
                                         <th>Giá trị</th>
                                         <th>Ngày tạo</th>
                                         <th>Ẩn</th>

@@ -22,15 +22,6 @@ namespace IM_PJ {
         protected global::System.Web.UI.WebControls.Label lblError;
         
         /// <summary>
-        /// ddlCategory control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlSelect ddlCategory;
-        
-        /// <summary>
         /// rq control.
         /// </summary>
         /// <remarks>
@@ -49,6 +40,15 @@ namespace IM_PJ {
         protected global::System.Web.UI.WebControls.TextBox txtProductTitle;
         
         /// <summary>
+        /// ddlCategory control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlSelect ddlCategory;
+        
+        /// <summary>
         /// RequiredFieldValidator1 control.
         /// </summary>
         /// <remarks>
@@ -65,6 +65,15 @@ namespace IM_PJ {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtProductSKU;
+        
+        /// <summary>
+        /// RequiredFieldValidator2 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator RequiredFieldValidator2;
         
         /// <summary>
         /// txtMaterials control.
@@ -92,15 +101,6 @@ namespace IM_PJ {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox pMaximumInventoryLevel;
-        
-        /// <summary>
-        /// chkManageStock control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.CheckBox chkManageStock;
         
         /// <summary>
         /// ddlSupplier control.
@@ -229,15 +229,6 @@ namespace IM_PJ {
         protected global::System.Web.UI.WebControls.HiddenField listImg;
         
         /// <summary>
-        /// chkIsHidden control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.CheckBox chkIsHidden;
-        
-        /// <summary>
         /// up control.
         /// </summary>
         /// <remarks>
@@ -265,13 +256,13 @@ namespace IM_PJ {
         protected global::System.Web.UI.WebControls.DropDownList ddlVariableValue;
         
         /// <summary>
-        /// btnLogin control.
+        /// btnSubmit control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnLogin;
+        protected global::System.Web.UI.WebControls.Button btnSubmit;
         
         /// <summary>
         /// ltrBack control.

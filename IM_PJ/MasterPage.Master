@@ -8,6 +8,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=yes">
     <meta name="format-detection" content="telephone=no">
+    <meta name="robots" content="noindex, nofollow">
     <link rel="stylesheet" href="/App_Themes/Ann/css/style.css" media="all">
     <link rel="stylesheet" href="/App_Themes/Ann/css/style-P.css" media="all">
     <link href="/App_Themes/NewUI/js/sweet/sweet-alert.css" rel="stylesheet" type="text/css" />
@@ -19,7 +20,7 @@
 </head>
 <body class="menuin">
     <form id="form12" runat="server" enctype="multipart/form-data">
-        <asp:ScriptManager runat="server" ID="scr">
+        <asp:ScriptManager runat="server" AsyncPostBackTimeout="1200" ID="scr">
         </asp:ScriptManager>
         <div>
             <header id="header">

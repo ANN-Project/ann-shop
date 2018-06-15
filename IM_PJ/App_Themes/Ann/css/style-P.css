@@ -304,6 +304,9 @@ ul.image-gallery li {
     width: 30px;
     text-align: left!important;
 }
+.trash-item a {
+    font-size: 20px;
+}
 .space-item {
     width: 20px;
     padding: 0!important;

@@ -29,6 +29,15 @@
                             </div>
                             <div class="form-row">
                                 <div class="row-left">
+                                    Danh mục
+                                </div>
+                                <div class="row-right parent">
+                                    <asp:DropDownList ID="ddlCategory" Enabled="false" runat="server" CssClass="form-control slparent" date-name="parentID" data-level="1" onchange="chooseParent($(this))">
+                                    </asp:DropDownList>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="row-left">
                                     Mã sản phẩm
                                 </div>
                                 <div class="row-right">
@@ -84,15 +93,8 @@
                                     <asp:DropDownList ID="ddlStockStatus" runat="server" CssClass="form-control" Enabled="False">
                                         <asp:ListItem Text="Còn hàng" Value="1"></asp:ListItem>
                                         <asp:ListItem Text="Hết hàng" Value="2"></asp:ListItem>
+                                        <asp:ListItem Text="Đang nhập hàng" Value="3"></asp:ListItem>
                                     </asp:DropDownList>
-                                </div>
-                            </div>
-                            <div class="form-row">
-                                <div class="row-left">
-                                    Quản lý kho
-                                </div>
-                                <div class="row-right">
-                                    <asp:CheckBox ID="chkManageStock" runat="server" Enabled="False" />
                                 </div>
                             </div>
                             <div class="form-row">
