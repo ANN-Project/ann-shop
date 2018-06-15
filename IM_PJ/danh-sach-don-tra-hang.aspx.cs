@@ -170,7 +170,7 @@ namespace IM_PJ
                     html.Append("   <td>" + item.CreatedBy + "</td>");
                     html.Append("   <td>" + date + "</td>");
                     html.Append("   <td>");
-                    html.Append("       <a href=\"javascript:;\" onclick=\"printOrder(" + item.ID + ")\" class=\"btn primary-btn h45-btn\"><i class=\"fa fa-print\" aria-hidden=\"true\"></i></a>");
+                    html.Append("       <a href=\"/print-invoice-return.aspx?id=" + item.ID + "\" title=\"In hóa đơn\" target=\"_blank\" class=\"btn primary-btn h45-btn\"><i class=\"fa fa-print\" aria-hidden=\"true\"></i></a>");
                     html.Append("   </td>");
                     html.Append("</tr>");
                 }

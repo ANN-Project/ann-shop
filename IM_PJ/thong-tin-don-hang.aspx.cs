@@ -212,7 +212,8 @@ namespace IM_PJ
                                 var product = ProductController.GetBySKU(SKU);
                                 if (product != null)
                                 {
-                                    double total = PJUtils.TotalProductQuantityInstock(AgentID, SKU);
+                                    double mainstock = PJUtils.TotalProductQuantityInstock(1, SKU);
+
                                     if (customerType == 1)
                                     {
                                         Giabansi = Convert.ToDouble(product.CostOfGood);
@@ -229,10 +230,10 @@ namespace IM_PJ
                                     string variablevalue = "";
                                     string variable = "";
 
-                                    double mainstock = PJUtils.TotalProductQuantityInstock(1, SKU);
+                                    
 
-                                    QuantityInstock = total;
-                                    QuantityInstockString = string.Format("{0:N0}", total);
+                                    QuantityInstock = mainstock;
+                                    QuantityInstockString = string.Format("{0:N0}", mainstock);
 
                                     var img = ProductImageController.GetFirstByProductID(product.ID);
                                     if (!string.IsNullOrEmpty(product.ProductImage))
@@ -268,7 +269,9 @@ namespace IM_PJ
                                 if (productvariable != null)
                                 {
                                     SKU = productvariable.SKU.Trim().ToUpper();
-                                    double total = PJUtils.TotalProductQuantityInstock(AgentID, SKU);
+
+                                    double mainstock = PJUtils.TotalProductQuantityInstock(1, SKU);
+
                                     if (customerType == 1)
                                     {
                                         Giabansi = Convert.ToDouble(productvariable.CostOfGood);
@@ -299,10 +302,8 @@ namespace IM_PJ
                                         }
                                     }
 
-                                    double mainstock = PJUtils.TotalProductQuantityInstock(1, SKU);
-
-                                    QuantityInstock = total;
-                                    QuantityInstockString = string.Format("{0:N0}", total);
+                                    QuantityInstock = mainstock;
+                                    QuantityInstockString = string.Format("{0:N0}", mainstock);
 
                                     var _product = ProductController.GetByID(Convert.ToInt32(productvariable.ProductID));
 
@@ -323,9 +324,9 @@ namespace IM_PJ
                                     }
 
                                     ProductVariable = variable;
-                                    var product1 = ProductController.GetByID(Convert.ToInt32(productvariable.ProductID));
-                                    if (product1 != null)
-                                        ProductName = product1.ProductTitle;
+
+                                    if (_product != null)
+                                        ProductName = _product.ProductTitle;
 
                                     QuantityMainInstock = mainstock;
                                     QuantityMainInstockString = string.Format("{0:N0}", mainstock);
