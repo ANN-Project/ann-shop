@@ -1,6 +1,7 @@
 ﻿using IM_PJ.Controllers;
 using IM_PJ.Models;
 using MB.Extensions;
+using Newtonsoft.Json;
 using NHST.Bussiness;
 using System;
 using System.Collections.Generic;
@@ -20,6 +21,8 @@ namespace IM_PJ
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            ScriptManager.GetCurrent(this).AsyncPostBackTimeout = 12000;
+
             if (!IsPostBack)
             {
                 if (Session["userLoginSystem"] != null)
@@ -111,7 +114,8 @@ namespace IM_PJ
                                 }
 
                                 ProductGetOut p = new ProductGetOut();
-                                p.ID = pv.ID;
+                                p.ProductID = 0;
+                                p.ProductVariableID = pv.ID;
                                 p.ProductName = product.ProductTitle;
                                 p.ProductVariable = variable;
                                 p.ProductVariableSave = variablesave;
@@ -149,7 +153,8 @@ namespace IM_PJ
                         string SKU = product.ProductSKU.Trim().ToUpper();
 
                         ProductGetOut p = new ProductGetOut();
-                        p.ID = product.ID;
+                        p.ProductID = product.ID;
+                        p.ProductVariableID = 0;
                         p.ProductName = product.ProductTitle;
                         p.ProductVariable = "";
                         p.ProductVariableSave = "";
@@ -209,7 +214,8 @@ namespace IM_PJ
                             }
 
                             ProductGetOut p = new ProductGetOut();
-                            p.ID = productvariable.ID;
+                            p.ProductID = productvariable.ID;
+                            p.ProductVariableID = 0;
 
                             var _product = ProductController.GetByID(Convert.ToInt32(productvariable.ProductID));
                             if (_product != null)
@@ -236,7 +242,7 @@ namespace IM_PJ
                                 p.ProductImage = "<img src=\"/App_Themes/Ann/image/placeholder.png\" />";
                                 p.ProductImageOrigin = "";
                             }
-                            
+
                             p.SKU = SKU;
                             p.Giabansi = Convert.ToDouble(productvariable.Regular_Price);
                             p.stringGiabansi = string.Format("{0:N0}", productvariable.Regular_Price);
@@ -247,6 +253,7 @@ namespace IM_PJ
                     }
                 }
             }
+
             JavaScriptSerializer serializer = new JavaScriptSerializer();
             return serializer.Serialize(ps);
         }
@@ -346,7 +353,8 @@ namespace IM_PJ
 
         public class ProductGetOut
         {
-            public int ID { get; set; }
+            public int ProductID { get; set; }
+            public int ProductVariableID { get; set; }
             public string ProductName { get; set; }
             public string ProductVariable { get; set; }
             public string ProductVariableSave { get; set; }
@@ -363,6 +371,12 @@ namespace IM_PJ
             public double Giabansi { get; set; }
             public string stringGiabansi { get; set; }
         }
+
+        public class ProductPOS
+        {
+            public List<ProductGetOut> productPOS { get; set; }
+        }
+
         public class CustomerInfoWithDiscount
         {
             public tbl_Customer Customer { get; set; }
@@ -446,104 +460,59 @@ namespace IM_PJ
 
                     if (OrderID > 0)
                     {
-                        string list = hdfListProduct.Value;
-                        string[] items = list.Split(';');
-                        if (items.Length - 1 > 0)
+                        ProductPOS POS = JsonConvert.DeserializeObject<ProductPOS>(hdfListProduct.Value);
+                        List<tbl_OrderDetail> orderDetails = new List<tbl_OrderDetail>();
+                        List<tbl_StockManager> stockManager = new List<tbl_StockManager>();
+
+                        foreach (ProductGetOut item in POS.productPOS)
                         {
-                            for (int i = 0; i < items.Length - 1; i++)
-                            {
-                                var item = items[i];
-                                string[] itemValue = item.Split(',');
-
-                                int ProductID = 0;
-                                int ProductVariableID = 0;
-
-                                int ID = itemValue[0].ToInt();
-                                int parentID = ID;
-                                var parent = ProductVariableController.GetBySKU(itemValue[1].ToString());
-                                if (parent != null)
+                            orderDetails.Add(
+                                new tbl_OrderDetail()
                                 {
-                                    parentID = Convert.ToInt32(parent.ProductID);
+                                    AgentID = AgentID,
+                                    OrderID = OrderID,
+                                    SKU = item.SKU,
+                                    ProductID = item.ProductID,
+                                    ProductVariableID = item.ProductVariableID,
+                                    ProductVariableDescrition = item.ProductVariableSave,
+                                    Quantity = item.QuantityInstock,
+                                    Price = item.Giabanle,
+                                    Status = 1,
+                                    DiscountPrice = 0,
+                                    ProductType = item.ProductType,
+                                    CreatedDate = currentDate,
+                                    CreatedBy = username,
+                                    IsCount = true
                                 }
-                                string SKU = itemValue[1];
-                                int producttype = itemValue[2].ToInt();
-                                if (producttype == 1)
-                                {
-                                    ProductID = ID;
-                                    ProductVariableID = 0;
-                                }
-                                else
-                                {
-                                    ProductID = 0;
-                                    ProductVariableID = ID;
-                                }
+                            );
 
-                                string ProductVariableName = itemValue[3];
-                                string ProductVariableValue = itemValue[4];
-                                double Quantity = Convert.ToDouble(itemValue[5]);
-                                string ProductName = itemValue[6];
-                                string ProductImageOrigin = itemValue[7];
-                                string ProductVariable = itemValue[8];
-                                double Price = Convert.ToDouble(itemValue[9]);
-                                string ProductVariableSave = itemValue[10];
 
-                                OrderDetailController.Insert(AgentID, OrderID, SKU, ProductID, ProductVariableID, ProductVariableSave, Quantity, Price, 1, 0,
-                                    producttype, currentDate, username, true);
-
-                                if (producttype == 1)
+                            stockManager.Add(
+                                new tbl_StockManager()
                                 {
-                                    StockManagerController.Insert(
-                                        new tbl_StockManager {
-                                            AgentID = AgentID,
-                                            ProductID = ID,
-                                            ProductVariableID = 0,
-                                            Quantity = Quantity,
-                                            QuantityCurrent = 0,
-                                            Type = 2,
-                                            NoteID = "Xuất kho bán POS",
-                                            OrderID = OrderID,
-                                            Status = 3,
-                                            SKU = SKU,
-                                            CreatedDate = currentDate,
-                                            CreatedBy = username,
-                                            MoveProID = 0,
-                                            ParentID = parentID
-                                        });
+                                    AgentID = AgentID,
+                                    ProductID = item.ProductID,
+                                    ProductVariableID = item.ProductVariableID,
+                                    Quantity = item.QuantityInstock,
+                                    QuantityCurrent = 0,
+                                    Type = 2,
+                                    NoteID = "Xuất kho bán POS",
+                                    OrderID = OrderID,
+                                    Status = 3,
+                                    SKU = item.SKU,
+                                    CreatedDate = currentDate,
+                                    CreatedBy = username,
+                                    MoveProID = 0,
+                                    ParentID = item.ProductID != 0 ? item.ProductID : item.ProductVariableID
                                 }
-                                else
-                                {
-                                    string parentSKU = "";
-                                    var productV = ProductVariableController.GetByID(ID);
-                                    if (productV != null)
-                                        parentSKU = productV.ParentSKU;
-                                    if (!string.IsNullOrEmpty(parentSKU))
-                                    {
-                                        var product = ProductController.GetBySKU(parentSKU);
-                                        if (product != null)
-                                            parentID = product.ID;
-                                    }
+                             );
 
-                                    StockManagerController.Insert(
-                                        new tbl_StockManager {
-                                            AgentID = AgentID,
-                                            ProductID = 0,
-                                            ProductVariableID = ID,
-                                            Quantity = Quantity,
-                                            QuantityCurrent = 0,
-                                            Type = 2,
-                                            NoteID = "Xuất kho bán POS",
-                                            OrderID = OrderID,
-                                            Status = 3,
-                                            SKU = SKU,
-                                            CreatedDate = currentDate,
-                                            CreatedBy = username,
-                                            MoveProID = 0,
-                                            ParentID = parentID
-                                        });
-                                }
-                            }
+
                         }
-                        
+
+                        OrderDetailController.Insert(orderDetails);
+                        StockManagerController.Insert(stockManager);
+
                         PJUtils.ShowMessageBoxSwAlertCallFunction("Tạo mới đơn hàng thành công", "s", true, "printInvoice(" + OrderID + ")", Page);
                     }
 
