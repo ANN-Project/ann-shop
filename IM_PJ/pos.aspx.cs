@@ -21,7 +21,7 @@ namespace IM_PJ
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            ScriptManager.GetCurrent(this).AsyncPostBackTimeout = 1200;
+            ScriptManager.GetCurrent(this).AsyncPostBackTimeout = 600;
 
             if (!IsPostBack)
             {

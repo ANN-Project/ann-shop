@@ -31,11 +31,11 @@ namespace IM_PJ
                     {
                         if (acc.RoleID == 0)
                         {
-
+                            
                         }
                         else if (acc.RoleID == 1)
                         {
-
+                            
                         }
                         else
                         {
@@ -47,7 +47,6 @@ namespace IM_PJ
                 {
                     Response.Redirect("/dang-nhap");
                 }
-                //LoadData();
             }
         }
 
@@ -277,9 +276,9 @@ namespace IM_PJ
 
         protected void btnOrder_Click(object sender, EventArgs e)
         {
-            string barcode = "";
+            string barcodeValue = "";
             string productPrint = "";
-            string barcodeIMG = "";
+            string barcodeImage = "";
             string[] list = hdfListProduct.Value.Split(';');
             if (list.Count() > 0)
             {
@@ -291,16 +290,17 @@ namespace IM_PJ
                     int quantity = list2[2].ToInt();
                     for (int j = 0; j < quantity; j++)
                     {
-                        barcode = list2[1];
-                        //string QRIMG = PJUtils.GenQRCode(barcode);
-                        barcodeIMG = "/Uploads/Images/" + barcode + ".Png";
-                        System.Drawing.Image barCode = PJUtils.MakeBarcodeImage(barcode,2,true);
+                        barcodeValue = list2[1];
 
-                        barCode.Save(HttpContext.Current.Server.MapPath("" + barcodeIMG + ""), ImageFormat.Png);
-                       
+                        barcodeImage = "/Uploads/Barcodes/" + barcodeValue + ".png";
+
+                        System.Drawing.Image barCode = PJUtils.MakeBarcodeImage(barcodeValue, 2,true);
+
+                        barCode.Save(HttpContext.Current.Server.MapPath("" + barcodeImage + ""), ImageFormat.Png);
+
                         productPrint += "<div class=\"item\">";
-                        productPrint += "<div class=\"img\"><img src =\"" + barcodeIMG + "\"></div>";
-                        productPrint += "<div><h1>" + barcode + "</h1></div>";
+                        productPrint += "<div class=\"img\"><img src=\"data:image/png;base64, " + Convert.ToBase64String(File.ReadAllBytes(Server.MapPath("" + barcodeImage + ""))) + "\"></div>";
+                        productPrint += "<div><h1>" + barcodeValue + "</h1></div>";
                         productPrint += "</div>";
                     }
                 }
@@ -308,6 +308,14 @@ namespace IM_PJ
                 string html = "";
                 html += productPrint;
                 ltrprint.Text = html;
+
+                // Delete barcode image after print
+                string[] filePaths = Directory.GetFiles(Server.MapPath("/Uploads/Barcodes/"));
+                foreach (string filePath in filePaths)
+                {
+                    File.Delete(filePath);
+                }
+
                 PJUtils.ShowMessageBoxSwAlertCallFunction("Bấm OK để in mã vạch", "s", true, "printBarcode()", Page);
             }
         }

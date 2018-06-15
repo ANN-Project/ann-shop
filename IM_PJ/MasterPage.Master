@@ -15,6 +15,8 @@
     <link href="/App_Themes/NewUI/js/select2/select2.css" rel="stylesheet" />
     <script src="/App_Themes/Ann/js/jquery-1.9.1.min.js"></script>
     <script src="/App_Themes/Ann/js/popup.js"></script>
+    <link href="/App_Themes/Ann/css/HoldOn.css" rel="stylesheet" type="text/css">
+    
     <asp:ContentPlaceHolder ID="head" runat="server">
     </asp:ContentPlaceHolder>
 </head>
@@ -57,7 +59,7 @@
             <script src="/App_Themes/Ann/js/master.js"></script>
             
             <script type="text/javascript">
-
+                
                 function screenClass() {
                     if ($(window).innerWidth() < 769) {
                         $('.nav-toggle').removeClass('open');
@@ -183,16 +185,9 @@
                 function isBlank(str) {
                     return (!str || /^\s*$/.test(str));
                 }
-
-                function loadingShow() {
-                    $(".loader").removeClass("hide");
-                }
-                function loadingHide() {
-                    $(".loader").addClass("hide");
-                }
             </script>
         </div>
     </form>
-    <div class="loader hide"></div>
+    <script src="/App_Themes/Ann/js/HoldOn.js"></script>
 </body>
 </html>

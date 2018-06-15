@@ -118,7 +118,7 @@
                 newWin.document.open();
                 newWin.document.write('<html><head><link rel="stylesheet" href="/App_Themes/Ann/css/Barcode.css" type="text/css"/><link rel="stylesheet" href="/App_Themes/Ann/barcode/style.css" type="text/css"/><link rel="stylesheet" href="/App_Themes/Ann/css/responsive.css" type="text/css"/></head><body onload="window.print()">' + divToPrint.innerHTML + '</body></html>');
                 newWin.document.close();
-                setTimeout(function () { newWin.close(); }, 10);
+                setTimeout(function () { newWin.close(); }, 1);
             }
 
             $('#txtSearch').keydown(function (event) {

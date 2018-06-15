@@ -226,9 +226,9 @@ function showCustomerList() {
                     $(".customer-list").html(html);
                     $(".customer-list").removeClass('hide').addClass('show');
                     selectCustomer();
-
                 } else {
-                    alert('Không tìm thấy khách hàng');
+                    $("#txtSearchCustomer").select();
+                    swal("Thông báo", "Không tìm thấy khách hàng", "error");
                 }
             },
             error: function (xmlhttprequest, textstatus, errorthrow) {
@@ -236,7 +236,8 @@ function showCustomerList() {
             }
         });
     } else {
-        alert('Vui lòng nhập nội dung tìm kiếm');
+        $("#txtSearchCustomer").focus();
+        swal("Thông báo", "Hãy nhập nội dung tìm kiếm", "error");
     }
 }
 

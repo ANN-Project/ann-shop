@@ -276,6 +276,7 @@
     <Content Include="App_Themes\Ann\barcode\style.css" />
     <Content Include="App_Themes\Ann\css\Barcode.css" />
     <Content Include="App_Themes\Ann\css\bootstrap.css" />
+    <Content Include="App_Themes\Ann\css\HoldOn.css" />
     <Content Include="App_Themes\Ann\css\print-order-image.css" />
     <Content Include="App_Themes\Ann\css\reset.css" />
     <Content Include="App_Themes\Ann\css\responsive.css" />
@@ -321,6 +322,7 @@
     <Content Include="App_Themes\Ann\js\bootstrap-table\bootstrap-table.js" />
     <Content Include="App_Themes\Ann\js\bootstrap.min.js" />
     <Content Include="App_Themes\Ann\js\chartjs.min.js" />
+    <Content Include="App_Themes\Ann\js\HoldOn.js" />
     <Content Include="App_Themes\Ann\js\html2canvas.js" />
     <Content Include="App_Themes\Ann\js\jquery-1.9.1.min.js" />
     <Content Include="App_Themes\Ann\js\master.js" />

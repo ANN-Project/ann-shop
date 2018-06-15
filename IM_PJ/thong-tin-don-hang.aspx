@@ -612,7 +612,7 @@
                 var phone = $("#<%=txtPhone.ClientID%>").val();
                 var name = $("#<%=txtFullname.ClientID%>").val();
                 if (isBlank(phone) || isBlank(name)) {
-                    alert("Nhập thông tin khác hàng trước!");
+                    swal("Thông báo", "Hãy nhập thông tin khách hàng trước!", "error");
                 } else {
                     var html = "";
                     html += "<div class=\"form-group\">";
@@ -670,13 +670,13 @@
                                     closePopup();
                                     getAllPrice();
                                 } else {
-                                    alert("Đơn hàng đổi trả không thuộc khách hàng này!");
+                                    swal("Thông báo", "Đơn hàng đổi trả không thuộc khách hàng này!", "error");
                                 }
                             } else if (order == existorder[0]) {
-                                alert("Đơn hàng đổi trả này đã thêm vào trước đó!\nHãy đổi về trạng thái 'Chưa trừ tiền' để thêm lại lần nữa!\nSau khi đổi trạng thái, trở lại giao diện này để thêm lại!");
+                                swal("Thông báo", "Đơn hàng đổi trả này đã thêm vào trước đó!\nHãy đổi về trạng thái 'Chưa trừ tiền' để thêm lại lần nữa!\nSau khi đổi trạng thái, trở lại giao diện này để thêm lại!", "error");
                                 ViewOrder(order);
                             } else {
-                                alert("Đơn hàng đổi trả không tồn tại hoặc đã được trừ tiền!");
+                                swal("Thông báo", "Đơn hàng đổi trả không tồn tại hoặc đã được trừ tiền!", "error");
                             }
                         },
                         error: function(xmlhttprequest, textstatus, errorthrow) {
@@ -684,7 +684,7 @@
                         }
                     });
                 } else {
-                    alert("Vui lòng nhập thông tin khách hàng!");
+                    swal("Thông báo", "Hãy nhập thông tin khách hàng trước!", "error");
                 }
             }
 
@@ -805,26 +805,26 @@
 
                             }
                         } else {
-                            alert("Hãy nhập sản phẩm!");
                             $("#txtSearch").focus();
+                            swal("Thông báo", "Hãy nhập sản phẩm!", "error");
                         }
                     }
                 } else {
                     if (name == "") {
-                        alert("Hãy nhập tên khách hàng!");
                         $("#<%= txtFullname.ClientID%>").focus();
+                        swal("Thông báo", "Hãy nhập tên khách hàng!", "error");
                     }
                     else if (phone == "") {
-                        alert("Hãy nhập số điện thoại khách hàng!");
                         $("#<%= txtPhone.ClientID%>").focus();
+                        swal("Thông báo", "Hãy nhập số điện thoại khách hàng!", "error");
                     }
                     else if (nick == "") {
-                        alert("Hãy nhập Nick đặt hàng của khách hàng!");
                         $("#<%= txtNick.ClientID%>").focus();
+                        swal("Thông báo", "Hãy nhập Nick đặt hàng của khách hàng!", "error");
                     }
                     else if (address == "") {
-                        alert("Hãy nhập địa chỉ khách hàng!");
                         $("#<%= txtAddress.ClientID%>").focus();
+                        swal("Thông báo", "Hãy nhập địa chỉ khách hàng!", "error");
                     }
                 }
             }
@@ -836,14 +836,8 @@
 
             // insert order
             function insertOrder() {
-                var phone = $("#<%=txtPhone.ClientID%>").val();
-                var fullname = $("#<%=txtFullname.ClientID%>").val();
-                if (isBlank(phone) || isBlank(fullname)) {
-                    alert("Vui lòng nhập thông tin khách hàng!");
-                } else {
-                    loadingShow();
-                    $("#<%=btnOrder.ClientID%>").click();
-                }
+                HoldOn.open();
+                $("#<%=btnOrder.ClientID%>").click();
             }
 
             // count guest change
@@ -859,14 +853,12 @@
                     var totalprice = parseFloat($("#<%= hdfTotalPrice.ClientID%>").val());
                     var leftchange = -gp + totalprice - totalrefund;
                     $(".totalGuestChange").html(formatThousands(-leftchange, ","));
-                    <%-- $("#<%=hdfTotalPrice.ClientID%>
-                    ").val(leftchange);--%>
+
                 } else {
                     var totalprice = parseFloat($("#<%= hdfTotalPrice.ClientID%>").val());
                     var leftchange = totalprice - totalrefund;
                     $(".totalGuestChange").html(formatThousands(-leftchange, ","));
-                    <%-- $("#<%=hdfTotalPrice.ClientID%>
-                    ").val(leftchange);--%>
+
                 }
             }
 
@@ -994,8 +986,8 @@
                                 $("#txtSearch").val("");
                                 getAllPrice();
                             } else {
-                                alert("Không tìm thấy sản phẩm");
                                 $("#txtSearch").select();
+                                swal("Thông báo", "Không tìm thấy sản phẩm", "error");
                             }
                         },
                         error: function(xmlhttprequest, textstatus, errorthrow) {
@@ -1003,7 +995,8 @@
                         }
                     });
                 } else {
-                    alert("Hãy nhập mã sản phẩm");
+                    $("#txtSearch").focus();
+                    swal("Thông báo", "Hãy nhập mã sản phẩm", "error");
                 }
             }
 
@@ -1146,7 +1139,8 @@
                             $("#txtSearch").val("");
                             getAllPrice();
                         } else {
-                            alert("Không tìm thấy sản phẩm");
+                            $("#txtSearch").select();
+                            swal("Thông báo", "Không tìm thấy sản phẩm", "error");
                         }
                     },
                     error: function(xmlhttprequest, textstatus, errorthrow) {

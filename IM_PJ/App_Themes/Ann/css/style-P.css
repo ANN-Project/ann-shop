@@ -13,21 +13,6 @@
 .table-list-customer tbody tr {
     cursor: pointer;
 }
-.loader::after {
-  content: 'Loading...';
-  position: absolute;
-  top: 0;
-  left: 0;
-  background-color: rgba(0,0,0,.5);
-  color: #fff;
-  height: 100%;
-  width: 100%;
-  justify-content: center;
-  align-items: center;
-  z-index: 9999;
-  display: flex;
-  font-size: 40px;
-}
 .change-money label {
     font-size: 20px;
 }

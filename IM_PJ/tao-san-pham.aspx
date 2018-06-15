@@ -745,7 +745,7 @@
                                         listv += datanameid + ";" + datavalueid + ";" + datanametext + ";" + datavaluetext + ";" + productvariablesku + ";" + regularprice.replace(",", "") + ";" + costofgood.replace(",", "") + ";" + retailprice.replace(",", "") + ";" + datanamevalue + ";" + max + ";" + min + ";" + StockStatus + ";" + checked + ",";
                                         $("#<%=hdfVariableListInsert.ClientID%>").val(listv);
 
-                                        loadingShow();
+                                        HoldOn.open();
                                         $("#<%=btnSubmit.ClientID%>").click();
                                     }
                                     else {
@@ -811,7 +811,7 @@
                             listv = "";
                             $("#<%=hdfVariableListInsert.ClientID%>").val(listv);
                             $("#<%=btnSubmit.ClientID%>").click();
-                            loadingShow();
+                            HoldOn.open();
                         }
                         else {
                             alert("Hãy nhập đầy đủ thông tin.")

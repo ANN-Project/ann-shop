@@ -136,7 +136,7 @@
             }
             else {
                 $("#<%=btnSubmit.ClientID%>").click();
-                loadingShow();
+                HoldOn.open();
             }
         }
 

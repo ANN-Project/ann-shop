@@ -134,7 +134,7 @@
                 }
                 else {
                     $("#<%=btnSubmit.ClientID%>").click();
-                    loadingShow();
+                    HoldOn.open();
                 }
             }
             function OnClientFileSelected1(sender, args) {

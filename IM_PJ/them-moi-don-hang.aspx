@@ -321,7 +321,7 @@ function searchReturnOrder() {
     var phone = $("#<%=txtPhone.ClientID%>").val();
     var name = $("#<%=txtFullname.ClientID%>").val();
     if (isBlank(phone) || isBlank(name)) {
-        alert("Nhập thông tin khác hàng trước!");
+        swal("Thông báo", "Hãy nhập thông tin khách hàng trước!", "error");
     } else {
         var html = "";
         html += "<div class=\"form-row\">";
@@ -377,10 +377,10 @@ function getReturnOrder() {
                         closePopup();
                         getAllPrice();
                     } else {
-                        alert("Đơn hàng đổi trả không thuộc khách hàng này!");
+                        swal("Thông báo", "Đơn hàng đổi trả không thuộc khách hàng này!", "error");
                     }
                 } else {
-                    alert("Đơn hàng đổi trả không tồn tại hoặc đã được trừ tiền!");
+                    swal("Thông báo", "Đơn hàng đổi trả không tồn tại hoặc đã được trừ tiền!", "error");
                 }
             },
             error: function(xmlhttprequest, textstatus, errorthrow) {
@@ -388,7 +388,7 @@ function getReturnOrder() {
             }
         });
     } else {
-        alert("Vui lòng nhập thông tin khách hàng!");
+        swal("Thông báo", "Hãy nhập thông tin khách hàng trước!", "error");
     }
 }
 
@@ -466,59 +466,59 @@ function payAll() {
                 $("#<%=hdfListProduct.ClientID%>").val(list);
                 showOrderStatus();
             } else {
-                alert("Hãy nhập sản phẩm!");
                 $("#txtSearch").focus();
+                swal("Thông báo", "Hãy nhập sản phẩm!", "error");
             }
         } else {
-            alert("Hãy nhập sản phẩm!");
             $("#txtSearch").focus();
+            swal("Thông báo", "Hãy nhập sản phẩm!", "error");
         }
     } else {
         if (name == "") {
-            alert("Hãy nhập tên khách hàng!");
             $("#<%= txtFullname.ClientID%>").focus();
+            swal("Thông báo", "Hãy nhập tên khách hàng!", "error");
         }
         else if (phone == "") {
-            alert("Hãy nhập số điện thoại khách hàng!");
             $("#<%= txtPhone.ClientID%>").focus();
+            swal("Thông báo", "Hãy nhập số điện thoại khách hàng!", "error");
         }
         else if (nick == "") {
-            alert("Hãy nhập Nick đặt hàng của khách hàng!");
             $("#<%= txtNick.ClientID%>").focus();
+            swal("Thông báo", "Hãy nhập Nick đặt hàng của khách hàng!", "error");
         }
         else if (address == "") {
-            alert("Hãy nhập địa chỉ khách hàng!");
             $("#<%= txtAddress.ClientID%>").focus();
+            swal("Thông báo", "Hãy nhập địa chỉ khách hàng!", "error");
         }
     }
 }
 
 // insert order
-function insertOrder() {
-    var paymentStatus = $(".payment-status").val();
-    var excuteStatus = 1;
-    if ($(".excute-status").length > 0)
-        excuteStatus = $(".excute-status").val();
-    var paymenttype = 2;
-    if ($(".payment-type").length > 0)
-        paymenttype = $(".payment-type").val();
-    var shippingtype = 1;
-    if ($(".shipping-type").length > 0)
-        shippingtype = $(".shipping-type").val();
-    $("#<%=hdfPaymentStatus.ClientID%>").val(paymentStatus);
-    $("#<%=hdfExcuteStatus.ClientID%>").val(excuteStatus);
-    $("#<%=hdfPaymentType.ClientID%>").val(paymenttype);
-    $("#<%=hdfShippingType.ClientID%>").val(shippingtype);
-    var phone = $("#<%=txtPhone.ClientID%>").val();
-    var fullname = $("#<%=txtFullname.ClientID%>").val();
-    if (isBlank(phone) || isBlank(fullname)) {
-        alert("Vui lòng nhập thông tin khách hàng!");
-    } else {
+    function insertOrder() {
+        HoldOn.open();
+        var paymentStatus = $(".payment-status").val();
+
+        var excuteStatus = 1;
+        if ($(".excute-status").length > 0)
+            excuteStatus = $(".excute-status").val();
+
+        var paymenttype = 2;
+        if ($(".payment-type").length > 0)
+            paymenttype = $(".payment-type").val();
+
+        var shippingtype = 4;
+        if ($(".shipping-type").length > 0)
+            shippingtype = $(".shipping-type").val();
+
+        $("#<%=hdfPaymentStatus.ClientID%>").val(paymentStatus);
+        $("#<%=hdfExcuteStatus.ClientID%>").val(excuteStatus);
+        $("#<%=hdfPaymentType.ClientID%>").val(paymenttype);
+        $("#<%=hdfShippingType.ClientID%>").val(shippingtype);
+
         $("#payall").addClass("payall-clicked");
-        loadingShow();
+    
         $("#<%=btnOrder.ClientID%>").click();
     }
-}
 
 // show popup Order status
 function showOrderStatus() {
@@ -548,8 +548,8 @@ function showOrderStatus() {
     fr += "             <div class=\"row-left\">Phương thức thanh toán:</div>";
     fr += "             <div class=\"row-right\">"
     fr += "                 <select class=\"form-control payment-type\">";
-    fr += "                     <option value=\"2\">Chuyển khoản</option>";
     fr += "                     <option value=\"1\">Tiền mặt</option>";
+    fr += "                     <option value=\"2\" selected>Chuyển khoản</option>";
     fr += "                     <option value=\"3\">Thu hộ</option>";
     fr += "                     <option value=\"4\">Công nợ</option>";
     fr += "                 </select>";
@@ -562,7 +562,7 @@ function showOrderStatus() {
     fr += "                     <option value=\"1\">Lấy trực tiếp</option>";
     fr += "                     <option value=\"2\">Chuyển bưu điện</option>";
     fr += "                     <option value=\"3\">Chuyển proship</option>";
-    fr += "                     <option value=\"4\">Chuyển xe</option>";
+    fr += "                     <option value=\"4\" selected>Chuyển xe</option>";
     fr += "                     <option value=\"5\">Nhân viên giao hàng</option>";
     fr += "                 </select>";
     fr += "             </div>";
@@ -711,8 +711,8 @@ function searchProduct() {
                     $("#txtSearch").val("");
                     getAllPrice();
                 } else {
-                    alert("Không tìm thấy sản phẩm");
                     $("#txtSearch").select();
+                    swal("Thông báo", "Không tìm thấy sản phẩm", "error");
                 }
             },
             error: function(xmlhttprequest, textstatus, errorthrow) {
@@ -720,7 +720,8 @@ function searchProduct() {
             }
         });
     } else {
-        alert("Hãy nhập mã sản phẩm");
+        $("#txtSearch").focus();
+        swal("Thông báo", "Hãy nhập mã sản phẩm", "error");
     }
 }
 
@@ -853,8 +854,8 @@ function GetProduct(list, list2) {
                 $("#txtSearch").val("");
                 getAllPrice();
             } else {
-                alert("Không tìm thấy sản phẩm");
                 $("#txtSearch").select();
+                swal("Thông báo", "Không tìm thấy sản phẩm", "error");
             }
         },
         error: function(xmlhttprequest, textstatus, errorthrow) {
