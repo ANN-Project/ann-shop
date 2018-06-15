@@ -16,11 +16,11 @@
                             <div class="form-row">
                                 <asp:Label ID="lblError" runat="server" Visible="false" ForeColor="Red"></asp:Label>
                             </div>
+                            
                             <div class="form-row">
                                 <div class="row-left">
                                     Tên sản phẩm
-                                    <asp:RequiredFieldValidator ID="rq" runat="server" ControlToValidate="txtProductTitle" ForeColor="Red" SetFocusOnError="true"
-                                        ErrorMessage="(*)" Display="Dynamic"></asp:RequiredFieldValidator>
+                                    <asp:RequiredFieldValidator ID="rq" runat="server" ControlToValidate="txtProductTitle" ForeColor="Red" SetFocusOnError="true" ErrorMessage="(*)" Display="Dynamic"></asp:RequiredFieldValidator>
                                 </div>
                                 <div class="row-right">
                                     <asp:TextBox ID="txtProductTitle" runat="server" CssClass="form-control" placeholder="Tên sản phẩm"></asp:TextBox>
@@ -28,15 +28,24 @@
                             </div>
                             <div class="form-row">
                                 <div class="row-left">
-                                    Mã sản phẩm                                    
+                                    Danh mục
                                 </div>
-                                <div class="row-right">
-                                    <asp:Label ID="lblSKU" runat="server" CssClass="form-control"></asp:Label>
+                                <div class="row-right parent">
+                                    <asp:DropDownList ID="ddlCategory" runat="server" CssClass="form-control slparent" date-name="parentID" data-level="1" onchange="chooseParent($(this))">
+                                    </asp:DropDownList>
                                 </div>
                             </div>
                             <div class="form-row">
                                 <div class="row-left">
-                                    Chất liệu                                    
+                                    Mã sản phẩm
+                                </div>
+                                <div class="row-right">
+                                    <asp:TextBox ID="lblSKU" Enabled="false" runat="server" CssClass="form-control" placeholder="Mã sản phẩm"></asp:TextBox>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="row-left">
+                                    Chất liệu
                                 </div>
                                 <div class="row-right">
                                     <asp:TextBox ID="txtMaterials" runat="server" CssClass="form-control" placeholder="Chất liệu"></asp:TextBox>
@@ -45,25 +54,17 @@
                             <div class="form-row">
                                 <div class="row-left">
                                     Tồn kho ít nhất
-                                    <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" ControlToValidate="pMinimumInventoryLevel" ForeColor="Red"
-                                        ErrorMessage="(*)" Display="Dynamic" SetFocusOnError="true"></asp:RequiredFieldValidator>
                                 </div>
                                 <div class="row-right">
-                                    <telerik:RadNumericTextBox runat="server" CssClass="form-control" Skin="MetroTouch"
-                                        ID="pMinimumInventoryLevel" MinValue="0" NumberFormat-GroupSizes="3" Width="100%"  NumberFormat-DecimalDigits="0">
-                                    </telerik:RadNumericTextBox>
+                                    <asp:TextBox type="number" min="0" ID="pMinimumInventoryLevel" runat="server" CssClass="form-control" placeholder="Số lượng tồn kho ít nhất"></asp:TextBox>
                                 </div>
                             </div>
                             <div class="form-row">
                                 <div class="row-left">
                                     Tồn kho nhiều nhất
-                                    <asp:RequiredFieldValidator ID="RequiredFieldValidator6" runat="server" ControlToValidate="pMinimumInventoryLevel" ForeColor="Red"
-                                        ErrorMessage="(*)" Display="Dynamic" SetFocusOnError="true"></asp:RequiredFieldValidator>
                                 </div>
                                 <div class="row-right">
-                                    <telerik:RadNumericTextBox runat="server" CssClass="form-control" Skin="MetroTouch"
-                                        ID="pMaximumInventoryLevel" MinValue="0" NumberFormat-GroupSizes="3" Width="100%"  NumberFormat-DecimalDigits="0">
-                                    </telerik:RadNumericTextBox>
+                                    <asp:TextBox type="number" min="0" ID="pMaximumInventoryLevel" runat="server" CssClass="form-control" placeholder="Số lượng tồn kho nhiều nhất"></asp:TextBox>
                                 </div>
                             </div>
                             <div class="form-row">
@@ -77,46 +78,29 @@
                             </div>
                             <div class="form-row">
                                 <div class="row-left">
-                                    Quản lý kho
-                                </div>
-                                <div class="row-right">
-                                    <asp:CheckBox ID="chkManageStock" runat="server" />
-                                </div>
-                            </div>
-                            <div class="form-row">
-                                <div class="row-left">
                                     Giá sỉ
-                                    <asp:RequiredFieldValidator ID="RequiredFieldValidator3" runat="server" ControlToValidate="pRegular_Price" ForeColor="Red"
-                                        ErrorMessage="(*)" Display="Dynamic" SetFocusOnError="true"></asp:RequiredFieldValidator>
+                                    <asp:RequiredFieldValidator ID="RequiredFieldValidator3" runat="server" ControlToValidate="pRegular_Price" ForeColor="Red" ErrorMessage="(*)" Display="Dynamic" SetFocusOnError="true"></asp:RequiredFieldValidator>
                                 </div>
                                 <div class="row-right">
-                                    <telerik:RadNumericTextBox runat="server" CssClass="form-control" Skin="MetroTouch"
-                                        ID="pRegular_Price" MinValue="0" NumberFormat-GroupSizes="3" Width="100%" Value="0" NumberFormat-DecimalDigits="0">
-                                    </telerik:RadNumericTextBox>
+                                    <asp:TextBox type="number" min="0" autocomplete="off" ID="pRegular_Price" runat="server" CssClass="form-control" placeholder="Giá sỉ"></asp:TextBox>
                                 </div>
                             </div>
                             <div class="form-row cost hide">
                                 <div class="row-left">
                                     Giá vốn
-                                    <asp:RequiredFieldValidator ID="RequiredFieldValidator4" runat="server" ControlToValidate="pCostOfGood" ForeColor="Red"
-                                        ErrorMessage="(*)" Display="Dynamic" SetFocusOnError="true"></asp:RequiredFieldValidator>
+                                    <asp:RequiredFieldValidator ID="RequiredFieldValidator4" runat="server" ControlToValidate="pCostOfGood" ForeColor="Red" ErrorMessage="(*)" Display="Dynamic" SetFocusOnError="true"></asp:RequiredFieldValidator>
                                 </div>
                                 <div class="row-right">
-                                    <telerik:RadNumericTextBox runat="server" CssClass="form-control" Skin="MetroTouch"
-                                        ID="pCostOfGood" MinValue="0" NumberFormat-GroupSizes="3" Width="100%" Value="0" NumberFormat-DecimalDigits="0">
-                                    </telerik:RadNumericTextBox>
+                                    <asp:TextBox type="number" min="0" autocomplete="off" ID="pCostOfGood" runat="server" CssClass="form-control" placeholder="Giá vốn"></asp:TextBox>
                                 </div>
                             </div>
                             <div class="form-row">
                                 <div class="row-left">
                                     Giá lẻ
-                                    <asp:RequiredFieldValidator ID="RequiredFieldValidator5" runat="server" ControlToValidate="pRetailPrice" ForeColor="Red"
-                                        ErrorMessage="(*)" Display="Dynamic" SetFocusOnError="true"></asp:RequiredFieldValidator>
+                                    <asp:RequiredFieldValidator ID="RequiredFieldValidator5" runat="server" ControlToValidate="pRetailPrice" ForeColor="Red" ErrorMessage="(*)" Display="Dynamic" SetFocusOnError="true"></asp:RequiredFieldValidator>
                                 </div>
                                 <div class="row-right">
-                                    <telerik:RadNumericTextBox runat="server" CssClass="form-control" Skin="MetroTouch"
-                                        ID="pRetailPrice" MinValue="0" NumberFormat-GroupSizes="3" Width="100%" Value="0" NumberFormat-DecimalDigits="0">
-                                    </telerik:RadNumericTextBox>
+                                    <asp:TextBox type="number" min="0" autocomplete="off" ID="pRetailPrice" runat="server" CssClass="form-control" placeholder="Giá lẻ"></asp:TextBox>
                                 </div>
                             </div>
                             <div class="form-row">
@@ -152,7 +136,8 @@
                                 </div>
                             </div>
                             <div class="form-row">
-                                <asp:Button ID="btnLogin" runat="server" CssClass="btn primary-btn fw-btn not-fullwidth" Text="Cập nhật" OnClick="btnLogin_Click" />
+                                <a href="javascript:;" class="btn primary-btn fw-btn not-fullwidth" onclick="updateProduct()">Cập nhật</a>
+                                <asp:Button ID="btnSubmit" runat="server" CssClass="btn primary-btn fw-btn not-fullwidth" Text="Cập nhật" OnClick="btnSubmit_Click" Style="display: none" />
                                 <asp:Literal ID="ltrBack" runat="server"></asp:Literal>
                             </div>
                         </div>
@@ -163,6 +148,7 @@
         <asp:HiddenField ID="hdfTempVariable" runat="server" />
         <asp:HiddenField ID="hdfVariableFull" runat="server" />
         <asp:HiddenField ID="hdfcost" runat="server" />
+        <asp:HiddenField ID="hdfParentID" runat="server" />
     </main>
 
     <telerik:RadCodeBlock runat="server">
@@ -175,6 +161,83 @@
 
             function isBlank(str) {
                 return (!str || /^\s*$/.test(str));
+            }
+
+            function chooseParent(obj) {
+                var parentID = obj.val();
+                $("#<%=hdfParentID.ClientID%>").val(parentID);
+                var lv = parseFloat(obj.attr('data-level'));
+                var level = lv + 1;
+                $(".slparent").each(function () {
+                    var lev = $(this).attr('data-level');
+                    if (lv < lev) {
+                        $(this).remove();
+                    }
+                })
+                $.ajax({
+                    type: "POST",
+                    url: "/tao-san-pham.aspx/getParent",
+                    data: "{parent:'" + parentID + "'}",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (msg) {
+                        var data = JSON.parse(msg.d);
+                        var html = "";
+                        //var sl = "";
+                        if (data.length > 0) {
+                            html += "<select class=\"form-control slparent\" style=\"margin-top:15px;\" data-level=" + level + " onchange=\"chooseParent($(this))\">";
+                            html += "<option  value=\"0\">Chọn danh mục</option>";
+                            for (var i = 0; i < data.length; i++) {
+                                html += "<option value=\"" + data[i].ID + "\">" + data[i].CategoryName + "</option>";
+                            }
+                            html += "</select>";
+                        }
+                        $(".parent").append(html);
+                    }
+                })
+            }
+
+            function updateProduct() {
+                var title = $("#<%=txtProductTitle.ClientID%>").val();
+                var materials = $("#<%=txtMaterials.ClientID%>").val();
+                var maximum = $("#<%=pMaximumInventoryLevel.ClientID%>").val();
+                var minimum = $("#<%=pMinimumInventoryLevel.ClientID%>").val();
+                var giasi = $("#<%=pRegular_Price.ClientID%>").val();
+                var giavon = $("#<%=pCostOfGood.ClientID%>").val();
+                var giale = $("#<%=pRetailPrice.ClientID%>").val();
+
+                if (title == "") {
+                    $("#<%=txtProductTitle.ClientID%>").focus();
+                    swal("Thông báo", "Chưa nhập tên sản phẩm", "error");
+                }
+                else if (materials == "") {
+                    $("#<%=txtMaterials.ClientID%>").focus();
+                    swal("Thông báo", "Chưa nhập chất liệu sản phẩm", "error");
+                }
+                else if (giasi == "") {
+                    $("#<%=pRegular_Price.ClientID%>").focus();
+                    swal("Thông báo", "Chưa nhập giá sỉ", "error");
+                }
+                else if (giavon == "") {
+                    $("#<%=pCostOfGood.ClientID%>").focus();
+                    swal("Thông báo", "Chưa nhập giá vốn", "error");
+                }
+                else if (giale == "") {
+                    $("#<%=pRetailPrice.ClientID%>").focus();
+                    swal("Thông báo", "Chưa nhập giá lẻ", "error");
+                }
+                else if (parseFloat(giasi) < parseFloat(giavon)) {
+                    $("#<%=pRegular_Price.ClientID%>").focus();
+                    swal("Thông báo", "Giá sỉ không được thấp hơn giá vốn", "error");
+                }
+                else if (parseFloat(giasi) > parseFloat(giale)) {
+                    $("#<%=pRetailPrice.ClientID%>").focus();
+                    swal("Thông báo", "Giá lẻ không được thấp hơn giá sỉ", "error");
+                }
+                else {
+                    $("#<%=btnSubmit.ClientID%>").click();
+                    loadingShow();
+                }
             }
 
             function AddNewProduct() {

@@ -31,31 +31,13 @@ namespace IM_PJ {
         protected global::System.Web.UI.WebControls.RequiredFieldValidator rq;
         
         /// <summary>
-        /// txtSKU control.
+        /// txtProductSKU control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtSKU;
-        
-        /// <summary>
-        /// pStock control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::Telerik.Web.UI.RadNumericTextBox pStock;
-        
-        /// <summary>
-        /// RequiredFieldValidator2 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.RequiredFieldValidator RequiredFieldValidator2;
+        protected global::System.Web.UI.WebControls.TextBox txtProductSKU;
         
         /// <summary>
         /// pMinimumInventoryLevel control.
@@ -64,16 +46,7 @@ namespace IM_PJ {
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::Telerik.Web.UI.RadNumericTextBox pMinimumInventoryLevel;
-        
-        /// <summary>
-        /// RequiredFieldValidator6 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.RequiredFieldValidator RequiredFieldValidator6;
+        protected global::System.Web.UI.WebControls.TextBox pMinimumInventoryLevel;
         
         /// <summary>
         /// pMaximumInventoryLevel control.
@@ -82,34 +55,7 @@ namespace IM_PJ {
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::Telerik.Web.UI.RadNumericTextBox pMaximumInventoryLevel;
-        
-        /// <summary>
-        /// ddlSupplier control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlSupplier;
-        
-        /// <summary>
-        /// ddlStockStatus control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlStockStatus;
-        
-        /// <summary>
-        /// chkManageStock control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.CheckBox chkManageStock;
+        protected global::System.Web.UI.WebControls.TextBox pMaximumInventoryLevel;
         
         /// <summary>
         /// RequiredFieldValidator3 control.
@@ -127,7 +73,7 @@ namespace IM_PJ {
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::Telerik.Web.UI.RadNumericTextBox pRegular_Price;
+        protected global::System.Web.UI.WebControls.TextBox pRegular_Price;
         
         /// <summary>
         /// RequiredFieldValidator4 control.
@@ -145,16 +91,16 @@ namespace IM_PJ {
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::Telerik.Web.UI.RadNumericTextBox pCostOfGood;
+        protected global::System.Web.UI.WebControls.TextBox pCostOfGood;
         
         /// <summary>
-        /// RequiredFieldValidator1 control.
+        /// RequiredFieldValidator5 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.RequiredFieldValidator RequiredFieldValidator1;
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator RequiredFieldValidator5;
         
         /// <summary>
         /// pRetailPrice control.
@@ -163,52 +109,43 @@ namespace IM_PJ {
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::Telerik.Web.UI.RadNumericTextBox pRetailPrice;
+        protected global::System.Web.UI.WebControls.TextBox pRetailPrice;
         
         /// <summary>
-        /// hinhDaiDien control.
+        /// ProductThumbnailImage control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::Telerik.Web.UI.RadAsyncUpload hinhDaiDien;
+        protected global::Telerik.Web.UI.RadAsyncUpload ProductThumbnailImage;
         
         /// <summary>
-        /// imgDaiDien control.
+        /// ProductThumbnail control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Image imgDaiDien;
+        protected global::System.Web.UI.WebControls.Image ProductThumbnail;
         
         /// <summary>
-        /// listImg control.
+        /// ListProductThumbnail control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.HiddenField listImg;
+        protected global::System.Web.UI.WebControls.HiddenField ListProductThumbnail;
         
         /// <summary>
-        /// chkIsHidden control.
+        /// btnSubmit control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.CheckBox chkIsHidden;
-        
-        /// <summary>
-        /// btnLogin control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnLogin;
+        protected global::System.Web.UI.WebControls.Button btnSubmit;
         
         /// <summary>
         /// ltrBack control.

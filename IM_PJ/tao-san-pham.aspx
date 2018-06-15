@@ -95,18 +95,8 @@
 
                             <div class="form-row">
                                 <div class="row-left">
-                                    Danh mục
-                                </div>
-                                <div class="row-right parent">
-                                    <select id="ddlCategory" date-name="parentID" style="margin-bottom: 15px;" runat="server" class="form-control slparent" data-level="1" onchange="chooseParent($(this))"></select>
-                                </div>
-                            </div>
-
-                            <div class="form-row">
-                                <div class="row-left">
                                     Tên sản phẩm
-                                    <asp:RequiredFieldValidator ID="rq" runat="server" ControlToValidate="txtProductTitle" ForeColor="Red" SetFocusOnError="true"
-                                        ErrorMessage="(*)" Display="Dynamic"></asp:RequiredFieldValidator>
+                                    <asp:RequiredFieldValidator ID="rq" runat="server" ControlToValidate="txtProductTitle" ForeColor="Red" SetFocusOnError="true" ErrorMessage="(*)" Display="Dynamic"></asp:RequiredFieldValidator>
                                 </div>
                                 <div class="row-right">
                                     <asp:TextBox ID="txtProductTitle" runat="server" CssClass="form-control" placeholder="Tên sản phẩm"></asp:TextBox>
@@ -115,16 +105,26 @@
 
                             <div class="form-row">
                                 <div class="row-left">
+                                    Danh mục
+                                </div>
+                                <div class="row-right parent">
+                                    <select id="ddlCategory" date-name="parentID" runat="server" class="form-control slparent" data-level="1" onchange="chooseParent($(this))"></select>
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="row-left">
                                     Mã sản phẩm
                                     <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" ControlToValidate="txtProductSKU" ForeColor="Red" ErrorMessage="(*)" Display="Dynamic" SetFocusOnError="true"></asp:RequiredFieldValidator>
                                 </div>
-                                <div class="row-right" style="display: inline-flex">
-                                    <asp:TextBox ID="txtProductSKU" runat="server" CssClass="form-control" onblur="CheckSKU()" placeholder="SKU"></asp:TextBox>
+                                <div class="row-right">
+                                    <asp:TextBox ID="txtProductSKU" runat="server" CssClass="form-control" onblur="CheckSKU()" placeholder="Mã sản phẩm"></asp:TextBox>
                                 </div>
                             </div>
                             <div class="form-row">
                                 <div class="row-left">
-                                    Chất liệu                                    
+                                    Chất liệu
+                                    <asp:RequiredFieldValidator ID="RequiredFieldValidator2" runat="server" ControlToValidate="txtMaterials" ForeColor="Red" SetFocusOnError="true" ErrorMessage="(*)" Display="Dynamic"></asp:RequiredFieldValidator>
                                 </div>
                                 <div class="row-right">
                                     <asp:TextBox ID="txtMaterials" runat="server" CssClass="form-control" placeholder="Chất liệu"></asp:TextBox>
@@ -159,15 +159,6 @@
                                     <asp:TextBox type="number" min="0" ID="pMaximumInventoryLevel" runat="server" CssClass="form-control" placeholder="Số lượng tồn kho nhiều nhất"></asp:TextBox>
                                 </div>
                             </div>
-                            <div class="form-row" id="ManageStock">
-                                <div class="row-left">
-                                    Quản lý kho
-                                </div>
-                                <div class="row-right">
-                                    <asp:CheckBox ID="chkManageStock" runat="server" Checked="true" />
-                                </div>
-                            </div>
-
                             <div class="form-row">
                                 <div class="row-left">
                                     Nhà cung cấp
@@ -183,7 +174,7 @@
                                     <asp:RequiredFieldValidator ID="RequiredFieldValidator3" runat="server" ControlToValidate="pRegular_Price" ForeColor="Red" ErrorMessage="(*)" Display="Dynamic" SetFocusOnError="true"></asp:RequiredFieldValidator>
                                 </div>
                                 <div class="row-right">
-                                    <asp:TextBox type="number" min="0" ID="pRegular_Price" runat="server" CssClass="form-control" placeholder="Giá sỉ"></asp:TextBox>
+                                    <asp:TextBox type="number" min="0" autocomplete="off" ID="pRegular_Price" runat="server" CssClass="form-control" placeholder="Giá sỉ"></asp:TextBox>
                                 </div>
                             </div>
                             <div class="form-row">
@@ -192,7 +183,7 @@
                                     <asp:RequiredFieldValidator ID="RequiredFieldValidator4" runat="server" ControlToValidate="pCostOfGood" ForeColor="Red" ErrorMessage="(*)" Display="Dynamic" SetFocusOnError="true"></asp:RequiredFieldValidator>
                                 </div>
                                 <div class="row-right">
-                                    <asp:TextBox type="number" min="0" ID="pCostOfGood" runat="server" CssClass="form-control" placeholder="Giá vốn"></asp:TextBox>
+                                    <asp:TextBox type="number" min="0" autocomplete="off" ID="pCostOfGood" runat="server" CssClass="form-control" placeholder="Giá vốn"></asp:TextBox>
                                 </div>
                             </div>
                             <div class="form-row">
@@ -201,7 +192,7 @@
                                     <asp:RequiredFieldValidator ID="RequiredFieldValidator5" runat="server" ControlToValidate="pRetailPrice" ForeColor="Red" ErrorMessage="(*)" Display="Dynamic" SetFocusOnError="true"></asp:RequiredFieldValidator>
                                 </div>
                                 <div class="row-right">
-                                    <asp:TextBox type="number" min="0" ID="pRetailPrice" runat="server" CssClass="form-control" placeholder="Giá lẻ"></asp:TextBox>
+                                    <asp:TextBox type="number" min="0" autocomplete="off" ID="pRetailPrice" runat="server" CssClass="form-control" placeholder="Giá lẻ"></asp:TextBox>
                                 </div>
                             </div>
                             <div class="form-row">
@@ -244,14 +235,6 @@
                                     <div class="hidImage"></div>
                                 </div>
                             </div>
-                            <div class="form-row">
-                                <div class="row-left">
-                                    Ẩn                   
-                                </div>
-                                <div class="row-right">
-                                    <asp:CheckBox ID="chkIsHidden" runat="server" />
-                                </div>
-                            </div>
                             <div class="form-row variable" style="display: none">
                                 <div class="row-left">
                                     Thuộc tính
@@ -275,35 +258,7 @@
 
                                     <div class="variableselect" style="float: left; width: 100%">
                                         <span id="selectvariabletitle">Các thuộc tính đã chọn: 
-                                            <a href="javascript:;" onclick="generateVariable()" id="generateVariable" class="btn primary-btn fw-btn not-fullwidth">Thiết lập thuộc tính</a></span>
-                                    </div>
-                                    <div class="numbertype" style="float: left; width: 100%; display: none">
-                                        <span id="settype">Thêm nhanh: 
-                                           
-                                        </span>
-                                        <br />
-                                        <div class="form-row">
-                                            <div class="row-left">
-                                                Tồn kho nhiều nhất:
-                                            </div>
-                                            <div class="row-right">
-                                                <input class="form-control maxquantity" type="text" value="0" />
-                                            </div>
-                                        </div>
-                                        <div class="form-row">
-                                            <div class="row-left">
-                                                Tồn kho ít nhất:
-                                            </div>
-                                            <div class="row-right">
-                                                <input class="form-control miniquantity" type="text" value="0" />
-                                            </div>
-                                        </div>
-                                        <div class="form-row">
-                                            <div class="row-left">
-                                                <a href="javascript:;" onclick="setMax()" id="setMax"
-                                                    class="btn primary-btn fw-btn not-fullwidth">Thêm</a>
-                                            </div>
-                                        </div>
+                                            <a href="javascript:;" onclick="generateVariable()" id="generateVariable" class="btn primary-btn fw-btn not-fullwidth">Thiết lập biến thể</a></span>
                                     </div>
                                     <style>
                                         .generat-variable-content {
@@ -338,7 +293,7 @@
                             </div>
                             <div class="form-row">
                                 <a href="javascript:;" class="btn primary-btn fw-btn not-fullwidth" onclick="addNewProduct()">Tạo mới</a>
-                                <asp:Button ID="btnLogin" runat="server" CssClass="btn primary-btn fw-btn not-fullwidth" Text="Tạo mới" OnClick="btnLogin_Click" Style="display: none" />
+                                <asp:Button ID="btnSubmit" runat="server" CssClass="btn primary-btn fw-btn not-fullwidth" Text="Tạo mới" OnClick="btnSubmit_Click" Style="display: none" />
                                 <asp:Literal ID="ltrBack" runat="server"></asp:Literal>
                             </div>
                         </div>
@@ -359,6 +314,10 @@
     <telerik:RadCodeBlock runat="server">
         <script src="/App_Themes/NewUI/js/jquery.min.js"></script>
         <script type="text/javascript">
+            function reDirectTo(ID) {
+                window.location.href = "/xem-san-pham.aspx?id=" +ID;
+            }
+
             function chooseVariable() {
                 var vName = $("#<%=ddlVariablename.ClientID%> option:selected").val();
                 var vName_text = $("#<%=ddlVariablename.ClientID%> option:selected").text();
@@ -395,6 +354,10 @@
                                                 html += "</div>";
                                                 vValueContentChild.append(html);
                                             }
+                                            else {
+                                                swal("Thông báo", "Bạn đã thêm giá trị này trước đó.", "error");
+                                                $("#<%=ddlVariableValue.ClientID%>").focus();
+                                            }
                                         }
                                     }
                                 });
@@ -426,13 +389,22 @@
                             html += "</div>";
                             $(".variableselect").append(html);
                         }
+                        $("#selectvariabletitle").show();
                     }
-                    $("#selectvariabletitle").show();
+                    else {
+                        swal("Thông báo", "Hãy chọn một giá trị của thuộc tính.", "error");
+                        $("#<%=ddlVariableValue.ClientID%>").focus();
+                    }
+                    
+                }
+                else {
+                    swal("Thông báo", "Hãy chọn một thuộc tính sản phẩm.", "error");
+                    $("#<%=ddlVariablename.ClientID%>").focus();
                 }
             }
 
             function deleteValueInGroup(obj) {
-                var c = confirm('Bạn muốn xóa giá trị này phải không?');
+                var c = confirm('Bạn muốn xóa giá trị này?');
                 if (c == true) {
                     var root = obj.parent().parent().parent();
                     var parent_content = obj.parent().parent();
@@ -448,7 +420,7 @@
             }
 
             function deleteGroup(obj) {
-                var c = confirm('Bạn muốn xóa thuộc tính này phải không?');
+                var c = confirm('Bạn muốn xóa thuộc tính này?');
                 if (c == true) {
                     obj.parent().parent().remove();
                     if ($(".variable-select").length == 0) {
@@ -479,8 +451,8 @@
                         var html = "";
                         //var sl = "";
                         if (data.length > 0) {
-                            html += "<select class=\"form-control slparent\" style=\"margin-bottom:15px;\" data-level=" + level + "  onchange=\"chooseParent($(this))\">";
-                            html += "<option  value=\"0\">--Chọn danh mục--</option>";
+                            html += "<select class=\"form-control slparent\" style=\"margin-top:15px;\" data-level=" + level + " onchange=\"chooseParent($(this))\">";
+                            html += "<option  value=\"0\">Chọn danh mục</option>";
                             for (var i = 0; i < data.length; i++) {
                                 html += "<option value=\"" + data[i].ID + "\">" + data[i].CategoryName + "</option>";
                             }
@@ -495,34 +467,16 @@
                 var vl = $("#ddlProductStyle").val();
                 $("#<%=hdfsetStyle.ClientID%>").val(vl);
                 if (vl == 2) {
-                    $("#Minimum").hide();
-                    $("#Maximum").hide();
-                    $("#<%=pMaximumInventoryLevel.ClientID%>").val(0);
-                    $("#<%=pMinimumInventoryLevel.ClientID%>").val(0);
-                    $("#ManageStock").hide();
                     $(".variable").show();
                 }
                 else {
-                    $("#<%=pMaximumInventoryLevel.ClientID%>").val("");
-                    $("#<%=pMinimumInventoryLevel.ClientID%>").val("");
-                    $("#Minimum").show();
-                    $("#Maximum").show();
-                    $("#ManageStock").show();
                     $(".variable").hide();
                 }
             }
 
-            function setMax() {
-                var value = $(".numbertype").find(".maxquantity").val();
-                var value1 = $(".numbertype").find(".miniquantity").val();
-
-                $(".item-var-gen").each(function () {
-                    $(".maximum").val(value);
-                    $(".minimum").val(value1);
-                });
-            }
-
             function generateVariable() {
+                var MinimumInventoryLevel = $("#<%=pMinimumInventoryLevel.ClientID%>").val();
+                var MaximumInventoryLevel = $("#<%=pMaximumInventoryLevel.ClientID%>").val();
                 var giasi = $("#<%=pRegular_Price.ClientID%>").val();
                 var giavon = $("#<%=pCostOfGood.ClientID%>").val();
                 var giale = $("#<%=pRetailPrice.ClientID%>").val();
@@ -533,15 +487,34 @@
                     checkError = true;
                 }
 
-                if (parseFloat(giasi) < parseFloat(giavon)) {
-                    swal("Thông báo", "Gía sỉ không được thấp hơn giá vốn", "error");
-                } else if (parseFloat(giasi) > parseFloat(giale)) {
+                if (SKU == "") {
+                    $("#<%=txtProductSKU.ClientID%>").focus();
+                    swal("Thông báo", "Chưa nhập mã sản phẩm", "error");
+                }
+                else if (giasi == "") {
+                    $("#<%=pRegular_Price.ClientID%>").focus();
+                    swal("Thông báo", "Chưa nhập giá sỉ", "error");
+                }
+                else if (giavon == "") {
+                    $("#<%=pCostOfGood.ClientID%>").focus();
+                    swal("Thông báo", "Chưa nhập giá vốn", "error");
+                }
+                else if (giale == "") {
+                    $("#<%=pRetailPrice.ClientID%>").focus();
+                    swal("Thông báo", "Chưa nhập giá lẻ", "error");
+                }
+                else if (parseFloat(giasi) < parseFloat(giavon)) {
+                    $("#<%=pRegular_Price.ClientID%>").focus();
+                    swal("Thông báo", "Giá sỉ không được thấp hơn giá vốn", "error");
+                }
+                else if (parseFloat(giasi) > parseFloat(giale)) {
+                    $("#<%=pRetailPrice.ClientID%>").focus();
                     swal("Thông báo", "Giá lẻ không được thấp hơn giá sỉ ", "error");
                 }
                 else {
 
                     if (checkError == true) {
-                        alert('Vui lòng kiểm tra lại không để thông tin thuộc tính bị rỗng.');
+                        swal("Thông báo", "Hãy nhập đầy đủ thông tin sản phẩm.", "error");
                     }
                     else {
                         if ($(".variablevalue-item").length > 0) {
@@ -554,12 +527,8 @@
                             if ($(".variable-select").length > 0) {
                                 $(".variable-select").each(function () {
                                     parentnameid += $(this).attr("data-name") + ":";
-                                    //listname += $(this).attr("data-name") + "|";
-                                    //listname_id += $(this).attr("data-id") + "|";
                                     $(this).find(".variablevalue").find(".variablevalue-item").each(function () {
                                         parentnameid += $(this).attr("data-valueid") + "-" + $(this).attr("data-valuename") + ";"
-                                        //listvalue += $(this).attr("data-valuename") + "|";
-                                        //listvalue_id += $(this).attr("data-valueid") + "|";
                                     });
                                     parentnameid += "|";
                                 });
@@ -570,159 +539,82 @@
                             for (var j = 1; j < parent.length; j++) {
                                 parentlist += parent[j] + "|";
                             }
-
                         }
-                    }
-                    $.ajax({
-                        type: "POST",
-                        url: "/tao-san-pham.aspx/getVariable",
-                        data: "{list:'" + parentlist + "'}",
-                        contentType: "application/json; charset=utf-8",
-                        dataType: "json",
-                        success: function (msg) {
-                            var data = JSON.parse(msg.d);
-                            if (data.length > 0) {
-                                var html = "";
-                                for (var i = 0; i < data.length; i++) {
-                                    var item = data[i];
-                                    var temp1 = item.ProductVariableName.split('|');
-                                    var a = $("#<%= hdfsetStyle.ClientID%>").val();
+                        $.ajax({
+                            type: "POST",
+                            url: "/tao-san-pham.aspx/getVariable",
+                            data: "{list:'" + parentlist + "'}",
+                            contentType: "application/json; charset=utf-8",
+                            dataType: "json",
+                            success: function (msg) {
+                                var data = JSON.parse(msg.d);
+                                if (data.length > 0) {
+                                    var html = "";
+                                    for (var i = 0; i < data.length; i++) {
+                                        var item = data[i];
+                                        var temp1 = item.ProductVariableName.split('|');
+                                        var a = $("#<%=hdfsetStyle.ClientID%>").val();
 
-                                if (a == 2) {
-                                    $(".numbertype").show();
-                                    $(".delete").show();
-                                    html += "<div class=\"item-var-gen\" data-name-id=\"" + item.VariableListValue
-                                        + "|\" data-value-id=\"" + item.VariableValue
-                                        + "|\" data-name-text=\"" + item.VariableNameList
-                                        + "|\" data-value-text=\"" + item.VariableValueName
-                                        + "\" data-name-value=\"" + item.ProductVariable + "\">";
-                                    html += "<div class=\"form-row\">";
-                                    html += "<div class=\"row-left\">Thông tin</div>";
-                                    html += "<div class=\"row-right\">";
-                                    for (var j = 0; j < temp1.length - 1; j++) {
-                                        html += "<p><strong>" + temp1[j] + " </strong></p>";
+                                        $(".numbertype").show();
+                                        $(".delete").show();
+                                        html += "<div class=\"item-var-gen\" data-name-id=\"" + item.VariableListValue
+                                            + "|\" data-value-id=\"" + item.VariableValue
+                                            + "|\" data-name-text=\"" + item.VariableNameList
+                                            + "|\" data-value-text=\"" + item.VariableValueName
+                                            + "\" data-name-value=\"" + item.ProductVariable + "\">";
+                                        html += "<div class=\"form-row\">";
+                                        html += "<div class=\"row-left\">Thông tin</div>";
+                                        html += "<div class=\"row-right\">";
+                                        for (var j = 0; j < temp1.length - 1; j++) {
+                                            html += "<p><strong>" + temp1[j] + " </strong></p>";
+                                        }
+                                        html += "</div>";
+                                        html += "</div>";
+                                        html += "<div class=\"form-row\">";
+                                        html += "<div class=\"row-left\">Mã sản phẩm</div>";
+                                        html += "<div class=\"row-right\"><input type=\"text\" class=\"form-control productvariablesku\" value=\"" + SKU + item.VariableSKUText + "\" /></div>";
+                                        html += "</div>";
+                                        html += "<div class=\"form-row\">";
+                                        html += "<div class=\"row-left\">Giá sỉ</div>";
+                                        html += "<div class=\"row-right\"><input class=\"form-control regularprice\" type=\"text\" value=\"" + giasi + "\" /> </div>";
+                                        html += "</div>";
+                                        html += "<div class=\"form-row\">";
+                                        html += "<div class=\"row-left\">Giá vốn</div>";
+                                        html += "<div class=\"row-right\"><input class=\"form-control costofgood\" type=\"text\"  value=\"" + giavon + "\" /></div>";
+                                        html += "</div>";
+                                        html += "<div class=\"form-row\">";
+                                        html += "<div class=\"row-left\">Giá bán lẻ</div>";
+                                        html += "<div class=\"row-right\"><input class=\"form-control retailprice\" type=\"text\"  value=\"" + giale + "\" /></div>";
+                                        html += "</div>";
+                                        html += "<div class=\"form-row\">";
+                                        html += "<div class=\"row-left\">Tồn kho ít nhất</div>";
+                                        html += "<div class=\"row-right\"><input class=\"form-control minimum\" type=\"text\"  value=\"" + MinimumInventoryLevel + "\" /></div>";
+                                        html += "</div>";
+                                        html += "<div class=\"form-row\">";
+                                        html += "<div class=\"row-left\">Tồn kho nhiều nhất</div>";
+                                        html += "<div class=\"row-right\"><input class=\"form-control maximum\" type=\"text\"  value=\"" + MaximumInventoryLevel + "\" /></div>";
+                                        html += "</div>";
+                                        html += "<div class=\"form-row\">";
+                                        html += "<input type='file' class=\"productVariableImage\" onchange=\"imagepreview(this,$(this));\" name=\"" + item.ProductVariable + "\"/>";
+                                        html += "<img class=\"imgpreview\" src=\"#\" style=\"width: 40%;\"  />";
+                                        html += "<span class=\"remove\" style=\"display:none\">Xóa</span>";
+                                        html += "</div>";
+                                        html += "<div class=\"form-row\">";
+                                        html += "<div class=\"row-left\"><a href=\"javascript:;\" onclick=\"deleteItemGen($(this))\" class=\"btn primary-btn fw-btn not-fullwidth\">Xóa</a></div>";
+                                        html += "<div class=\"row-right\">";
+                                        html += "</div>";
+                                        html += "</div>";
+                                        html += "</div>";
                                     }
-                                    html += "</div>";
-                                    html += "</div>";
-                                    html += "<div class=\"form-row\">";
-                                    html += "<div class=\"row-left\">SKU</div>";
-                                    html += "<div class=\"row-right\"><input type=\"text\" class=\"form-control productvariablesku\" value=\"" + SKU + item.VariableSKUText + "\" /></div>";
-                                    html += "</div>";
-                                    html += "<div class=\"form-row\">";
-                                    html += "<div class=\"row-left\">Giá sỉ</div>";
-                                    html += "<div class=\"row-right\"><input class=\"form-control regularprice\" type=\"text\" value=\"" + giasi + "\" /> </div>";
-                                    html += "</div>";
-                                    html += "<div class=\"form-row\">";
-                                    html += "<div class=\"row-left\">Giá vốn</div>";
-                                    html += "<div class=\"row-right\"><input class=\"form-control costofgood\" type=\"text\"  value=\"" + giavon + "\" /></div>";
-                                    html += "</div>";
-                                    html += "<div class=\"form-row\">";
-                                    html += "<div class=\"row-left\">Giá bán lẻ</div>";
-                                    html += "<div class=\"row-right\"><input class=\"form-control retailprice\" type=\"text\"  value=\"" + giale + "\" /></div>";
-                                    html += "</div>";
-                                    html += "<div class=\"form-row\">";
-                                    html += "<div class=\"row-left\">Tồn kho nhiều nhất</div>";
-                                    html += "<div class=\"row-right\"><input class=\"form-control maximum\" type=\"text\"  value=\"" + 0 + "\" /></div>";
-                                    html += "</div>";
-                                    html += "<div class=\"form-row\">";
-                                    html += "<div class=\"row-left\">Tồn kho ít nhất</div>";
-                                    html += "<div class=\"row-right\"><input class=\"form-control minimum\" type=\"text\"  value=\"" + 0 + "\" /></div>";
-                                    html += "</div>";
-                                    html += "<div class=\"form-row\">";
-                                    html += "<div class=\"row-left\">Trạng thái</div>";
-                                    html += "<div class=\"row-right\">";
-                                    html += "<select id=\"ddlStockStatus\" class=\"form-control\">";
-                                    html += "<option value=\"1\">Còn hàng</option>";
-                                    html += "<option value=\"2\">Hết hàng</option>";
-                                    html += "</select>";
-                                    html += "</div >";
-                                    html += "</div>";
-                                    html += "<div class=\"form-row\">";
-                                    html += "<div class=\"row-left\">Quản lý trong kho</div>";
-                                    html += "<div class=\"row-right\"><input class=\"managestock\" type=\"checkbox\" Checked=\"true\" ></div>";
-                                    html += "</div>";
-                                    html += "<div class=\"form-row\">";
-                                    html += "<input type='file' class=\"productVariableImage\" onchange=\"imagepreview(this,$(this));\" name=\"" + item.ProductVariable + "\"/>";
-                                    html += "<img class=\"imgpreview\" src=\"#\" style=\"width: 40%;\"  />";
-                                    html += "<span class=\"remove\" style=\"display:none\">Xóa</span>";
-                                    html += "</div>";
-                                    html += "<div class=\"form-row\">";
-                                    html += "<div class=\"row-left\"><a href=\"javascript:;\" onclick=\"deleteItemGen($(this))\" class=\"btn primary-btn fw-btn not-fullwidth\">Xóa</a></div>";
-                                    html += "<div class=\"row-right\">";
-                                    html += "</div>";
-                                    html += "</div>";
-                                    html += "</div>";
+                                    $(".list-item-genred").append(html);
                                 }
-                                else {
-                                    var maximum = $("#<%=pMaximumInventoryLevel.ClientID%>").val();
-                                    var minimum = $("#<%=pMinimumInventoryLevel.ClientID%>").val();
-                                    html += "<div class=\"item-var-gen\" data-name-id=\"" + item.VariableListValue
-                                        + "|\" data-value-id=\"" + item.VariableValue
-                                        + "|\" data-name-text=\"" + item.VariableNameList
-                                        + "|\" data-value-text=\"" + item.VariableValueName
-                                        + "\" data-name-value=\"" + item.ProductVariable + "\">";
-                                    html += "<div class=\"form-row\">";
-                                    html += "<div class=\"row-left\">Thông tin</div>";
-                                    html += "<div class=\"row-right\">";
-                                    for (var j = 0; j < temp1.length - 1; j++) {
-                                        html += "<p><strong>" + temp1[j] + " </strong></p>";
-                                    }
-                                    html += "</div>";
-                                    html += "</div>";
-                                    html += "<div class=\"form-row\">";
-                                    html += "<div class=\"row-left\">SKU</div>";
-                                    html += "<div class=\"row-right\"><input type=\"text\" class=\"form-control productvariablesku\" value=\"" + SKU + item.VariableSKUText + "\" /></div>";
-                                    html += "</div>";
-                                    html += "<div class=\"form-row\">";
-                                    html += "<div class=\"row-left\">Giá sỉ</div>";
-                                    html += "<div class=\"row-right\"><input class=\"form-control regularprice\" type=\"text\" value=\"" + giasi + "\" /> </div>";
-                                    html += "</div>";
-                                    html += "<div class=\"form-row\">";
-                                    html += "<div class=\"row-left\">Giá vốn</div>";
-                                    html += "<div class=\"row-right\"><input class=\"form-control costofgood\" type=\"text\"  value=\"" + giavon + "\" /></div>";
-                                    html += "</div>";
-                                    html += "<div class=\"form-row\">";
-                                    html += "<div class=\"row-left\">Giá lẻ</div>";
-                                    html += "<div class=\"row-right\"><input class=\"form-control retailprice\" type=\"text\"  value=\"" + giale + "\" /></div>";
-                                    html += "</div>";
-                                    html += "<div class=\"form-row\">";
-                                    html += "<div class=\"row-left\">Tồn kho nhiều nhất</div>";
-                                    html += "<div class=\"row-right\"><input class=\"form-control maximum\" type=\"text\"  value=\"" + maximum + "\" /></div>";
-                                    html += "</div>";
-                                    html += "<div class=\"form-row\">";
-                                    html += "<div class=\"row-left\">Tồn kho ít nhất</div>";
-                                    html += "<div class=\"row-right\"><input class=\"form-control minimum\" type=\"text\"  value=\"" + minimum + "\" /></div>";
-                                    html += "</div>";
-                                    html += "<div class=\"form-row\">";
-                                    html += "<div class=\"row-left\">Trạng thái</div>";
-                                    html += "<div class=\"row-right\">";
-                                    html += "<select id=\"ddlStockStatus\" class=\"form-control\">";
-                                    html += "<option value=\"1\">Còn hàng</option>";
-                                    html += "<option value=\"2\">Hết hàng</option>";
-                                    html += "</select>";
-                                    html += "</div >";
-                                    html += "</div>";
-                                    html += "<div class=\"form-row\">";
-                                    html += "<input type='file' class=\"productVariableImage\" onchange=\"imagepreview(this,$(this));\" name=\"" + item.ProductVariable + "\"/>";
-                                    html += "<img class=\"imgpreview\" src=\"#\" style=\"width: 40%;\"/>";
-                                    html += "<span class=\"remove\" style=\"display:none\">Xóa</span>";
-                                    html += "</div>";
-                                    html += "<div class=\"form-row\">";
-                                    html += "<div class=\"row-left\"><a href=\"javascript:;\" onclick=\"deleteItemGen($(this))\" class=\"btn primary-btn fw-btn not-fullwidth\">Xóa</a></div>";
-                                    html += "<div class=\"row-right\">";
-                                    html += "</div>";
-                                    html += "</div>";
-                                    html += "</div>";
-                                }
+                                $(".generat-variable-content").show();
+                            },
+                            error: function (xmlhttprequest, textstatus, errorthrow) {
+                                alert('lỗi');
                             }
-                            $(".list-item-genred").append(html);
-                        }
-                        $(".generat-variable-content").show();
-                    },
-                    error: function (xmlhttprequest, textstatus, errorthrow) {
-                        alert('lỗi');
+                        });
                     }
-                });
                 }
             }
 
@@ -769,70 +661,101 @@
                 var a = $("#<%= hdfsetStyle.ClientID%>").val();
                 var parent = $("#<%=hdfParentID.ClientID%>").val();
                 if (a == 2) {
-                    if ($(".item-var-gen").length > 0) {
-                        var checkError = false;
-                        $(".item-var-gen").each(function () {
-                            var productvariablesku = $(this).find(".productvariablesku").val();
-                            var regularprice = $(this).find(".regularprice").val();
-                            var costofgood = $(this).find(".costofgood").val();
-                            var retailprice = $(this).find(".retailprice").val();
-                            var image = $(this).find(".productVariableImage").attr("name");
-                            if (isBlank(productvariablesku) || isBlank(regularprice) || isBlank(costofgood) || isBlank(retailprice)) {
-                                checkError = true;
-                            }
+                    var title = $("#<%=txtProductTitle.ClientID%>").val();
+                    var SKU = $("#<%=txtProductSKU.ClientID%>").val();
+                    var materials = $("#<%=txtMaterials.ClientID%>").val();
+                    var maximum = $("#<%=pMaximumInventoryLevel.ClientID%>").val();
+                    var minimum = $("#<%=pMinimumInventoryLevel.ClientID%>").val();
+                    var giasi = $("#<%=pRegular_Price.ClientID%>").val();
+                    var giavon = $("#<%=pCostOfGood.ClientID%>").val();
+                    var giale = $("#<%=pRetailPrice.ClientID%>").val();
 
-                        });
-                        if (checkError == true) {
-                            alert('Vui lòng kiểm tra lại không để thông tin thuộc tính bị rỗng.');
-                        }
-                        //else if (parseFloat(regularprice) < parseFloat(costofgood)) {
-                        //    swal("Thông báo", "Gía sỉ không được thấp hơn giá vốn", "error");
-                        //}
-                        //else if (parseFloat(regularprice) > parseFloat(retailprice)) {
-                        //    swal("Thông báo", "Giá lẻ không được thấp hơn giá sỉ", "error");
-                        //}
-                        else {
-
+                    if (parent == "") {
+                        $("#<%=ddlCategory.ClientID%>").focus();
+                        swal("Thông báo", "Chưa chọn danh mục sản phẩm", "error");
+                    }
+                    else if (title == "") {
+                        $("#<%=txtProductTitle.ClientID%>").focus();
+                        swal("Thông báo", "Chưa nhập tên sản phẩm", "error");
+                    }
+                    else if (SKU == "") {
+                        $("#<%=txtProductSKU.ClientID%>").focus();
+                        swal("Thông báo", "Chưa nhập mã sản phẩm", "error");
+                    }
+                    else if (materials == "") {
+                        $("#<%=txtMaterials.ClientID%>").focus();
+                        swal("Thông báo", "Chưa nhập chất liệu sản phẩm", "error");
+                    }
+                    else if (giasi == "") {
+                        $("#<%=pRegular_Price.ClientID%>").focus();
+                        swal("Thông báo", "Chưa nhập giá sỉ", "error");
+                    }
+                    else if (giavon == "") {
+                        $("#<%=pCostOfGood.ClientID%>").focus();
+                        swal("Thông báo", "Chưa nhập giá vốn", "error");
+                    }
+                    else if (giale == "") {
+                        $("#<%=pRetailPrice.ClientID%>").focus();
+                        swal("Thông báo", "Chưa nhập giá lẻ", "error");
+                    }
+                    else if (parseFloat(giasi) < parseFloat(giavon)) {
+                        $("#<%=pRegular_Price.ClientID%>").focus();
+                        swal("Thông báo", "Gía sỉ không được thấp hơn giá vốn", "error");
+                    }
+                    else if (parseFloat(giasi) > parseFloat(giale)) {
+                        $("#<%=pRetailPrice.ClientID%>").focus();
+                        swal("Thông báo", "Giá lẻ không được thấp hơn giá sỉ", "error");
+                    }
+                    else {
+                        if ($(".item-var-gen").length > 0) {
+                            var checkError = false;
                             $(".item-var-gen").each(function () {
-                                var datanameid = $(this).attr("data-name-id");
-                                var datavalueid = $(this).attr("data-value-id");
-                                var datanametext = $(this).attr("data-name-text");
-                                var datavaluetext = $(this).attr("data-value-text");
                                 var productvariablesku = $(this).find(".productvariablesku").val();
                                 var regularprice = $(this).find(".regularprice").val();
                                 var costofgood = $(this).find(".costofgood").val();
                                 var retailprice = $(this).find(".retailprice").val();
-                                var datanamevalue = $(this).attr("data-name-value");
                                 var image = $(this).find(".productVariableImage").attr("name");
-                                var max = $(this).find(".maximum").val();
-                                var min = $(this).find(".minimum").val();
-                                var StockStatus = $("#ddlStockStatus").val();
-                                if ($(this).find(".managestock").is(':checked')) {
-                                    var checked = true;
-                                }
-                                else {
-                                    var checked = false;
-                                }
-
-                                if (parent == "") {
-                                    swal("Thông báo", "Chưa chọn danh mục sản phẩm", "error");
-                                } else if (parseFloat(regularprice) < parseFloat(costofgood)) {
-                                    swal("Thông báo", "Gía sỉ không được thấp hơn giá vốn", "error");
-                                } else if (parseFloat(regularprice) > parseFloat(retailprice)) {
-                                    swal("Thông báo", "Giá lẻ không được thấp hơn giá sỉ ", "error");
-                                }
-                                else {
-                                    if (!isBlank(productvariablesku) && !isBlank(regularprice) && !isBlank(costofgood) && !isBlank(retailprice) && max > 0 && min > 0 && !isBlank(StockStatus)) {
-                                        listv += datanameid + ";" + datavalueid + ";" + datanametext + ";" + datavaluetext + ";" + productvariablesku + ";" +
-                                            regularprice.replace(",", "") + ";" + costofgood.replace(",", "") + ";" + retailprice.replace(",", "") + ";" + datanamevalue + ";" + max + ";" + min + ";" + StockStatus + ";" + checked + ",";
-                                        $("#<%=hdfVariableListInsert.ClientID%>").val(listv);
-                                        $("#<%=btnLogin.ClientID%>").click();
-                                    }
-                                    else {
-                                        alert("Vui lòng kiểm tra lại các biến thể!")
-                                    }
+                                if (isBlank(productvariablesku) || isBlank(regularprice) || isBlank(costofgood) || isBlank(retailprice)) {
+                                    checkError = true;
                                 }
                             });
+                            if (checkError == true) {
+                                alert('Hãy nhập đầy đủ thông tin.');
+                            }
+                            else {
+
+                                $(".item-var-gen").each(function () {
+                                    var datanameid = $(this).attr("data-name-id");
+                                    var datavalueid = $(this).attr("data-value-id");
+                                    var datanametext = $(this).attr("data-name-text");
+                                    var datavaluetext = $(this).attr("data-value-text");
+                                    var productvariablesku = $(this).find(".productvariablesku").val();
+                                    var regularprice = $(this).find(".regularprice").val();
+                                    var costofgood = $(this).find(".costofgood").val();
+                                    var retailprice = $(this).find(".retailprice").val();
+                                    var datanamevalue = $(this).attr("data-name-value");
+                                    var image = $(this).find(".productVariableImage").attr("name");
+                                    var max = $(this).find(".maximum").val();
+                                    var min = $(this).find(".minimum").val();
+                                    var StockStatus = 3;
+                                    var checked = true;
+
+                                    if (!isBlank(productvariablesku) && !isBlank(regularprice) && !isBlank(costofgood) && !isBlank(retailprice) && !isBlank(StockStatus)) {
+
+                                        listv += datanameid + ";" + datavalueid + ";" + datanametext + ";" + datavaluetext + ";" + productvariablesku + ";" + regularprice.replace(",", "") + ";" + costofgood.replace(",", "") + ";" + retailprice.replace(",", "") + ";" + datanamevalue + ";" + max + ";" + min + ";" + StockStatus + ";" + checked + ",";
+                                        $("#<%=hdfVariableListInsert.ClientID%>").val(listv);
+
+                                        loadingShow();
+                                        $("#<%=btnSubmit.ClientID%>").click();
+                                    }
+                                    else {
+                                        swal("Lỗi", "Hãy kiểm tra thông tin các biến thể", "error");
+                                    }
+                                });
+                            }
+                        }
+                        else {
+                            swal("Lỗi", "Chưa thiếp lập biến thể sản phẩm", "error");
                         }
                     }
                 }
@@ -848,28 +771,55 @@
 
 
                     if (parent == "") {
+                        $("#<%=ddlCategory.ClientID%>").focus();
                         swal("Thông báo", "Chưa chọn danh mục sản phẩm", "error");
                     }
+                    else if (title == "") {
+                        $("#<%=txtProductTitle.ClientID%>").focus();
+                        swal("Thông báo", "Chưa nhập tên sản phẩm", "error");
+                    }
+                    else if (SKU == "") {
+                        $("#<%=txtProductSKU.ClientID%>").focus();
+                        swal("Thông báo", "Chưa nhập mã sản phẩm", "error");
+                    }
+                    else if (materials == "") {
+                        $("#<%=txtMaterials.ClientID%>").focus();
+                        swal("Thông báo", "Chưa nhập chất liệu sản phẩm", "error");
+                    }
+                    else if (giasi == "") {
+                        $("#<%=pRegular_Price.ClientID%>").focus();
+                        swal("Thông báo", "Chưa nhập giá sỉ", "error");
+                    }
+                    else if (giavon == "") {
+                        $("#<%=pCostOfGood.ClientID%>").focus();
+                        swal("Thông báo", "Chưa nhập giá vốn", "error");
+                    }
+                    else if (giale == "") {
+                        $("#<%=pRetailPrice.ClientID%>").focus();
+                        swal("Thông báo", "Chưa nhập giá lẻ", "error");
+                    }
                     else if (parseFloat(giasi) < parseFloat(giavon)) {
-                        swal("Thông báo", "Gía sỉ không được thấp hơn giá vốn", "error");
-                    } else if (parseFloat(giasi) > parseFloat(giale)) {
+                        $("#<%=pRegular_Price.ClientID%>").focus();
+                        swal("Thông báo", "Giá sỉ không được thấp hơn giá vốn", "error");
+                    }
+                    else if (parseFloat(giasi) > parseFloat(giale)) {
+                        $("#<%=pRetailPrice.ClientID%>").focus();
                         swal("Thông báo", "Giá lẻ không được thấp hơn giá sỉ", "error");
                     }
                     else {
-                        if (!isBlank(title) && !isBlank(SKU) && !isBlank(materials) && !isBlank(maximum) && !isBlank(minimum) && !isBlank(giasi) && !isBlank(giavon) && !isBlank(giale)) {
+                        if (!isBlank(title) && !isBlank(SKU) && !isBlank(materials) && !isBlank(giasi) && !isBlank(giavon) && !isBlank(giale)) {
                             listv = "";
                             $("#<%=hdfVariableListInsert.ClientID%>").val(listv);
-                            $("#<%=btnLogin.ClientID%>").click();
+                            $("#<%=btnSubmit.ClientID%>").click();
+                            loadingShow();
                         }
                         else {
-                            alert("Vui lòng kiểm tra lại không để thông tin thuộc tính bị rỗng.")
+                            alert("Hãy nhập đầy đủ thông tin.")
                         }
                     }
                 }
-
             }
-</script>
-        <script>
+
             function isBlank(str) {
                 return (!str || /^\s*$/.test(str));
             }
@@ -896,10 +846,10 @@
                     dataType: "json",
                     success: function (msg) {
                         if (msg.d != "ok") {
-                            swal("Thông báo", "Trùng mã SKU vui lòng kiểm tra lại :)", "error");
-                            $("#<%=txtProductSKU.ClientID%>").focus();
+                            swal("Thông báo", "Trùng mã sản phẩm vui lòng kiểm tra lại :)", "error");
+                            $("#<%=txtProductSKU.ClientID%>").select().focus();
+                            $("body").removeClass("stop-scrolling");
                         }
-
                     }
                 })
             }
@@ -935,7 +885,7 @@
                         var vs = variable_selected.split('|');
                         if (vs.length - 1 > 0) {
                             html += "<div class=\"row-variable-selected\">";
-                            html += "   <div class=\"v-element\"><input type=\"text\" class=\"form-control sku-variable\" placeholder=\"SKU\"></div>";
+                            html += "   <div class=\"v-element\"><input type=\"text\" class=\"form-control sku-variable\" placeholder=\"Mã sản phẩm\"></div>";
                             html += "   <div class=\"v-element\"><input type=\"number\" min=\"0\" class=\"form-control stock-variable\" placeholder=\"Stock\"></div>";
                             html += "   <div class=\"v-element\"><select class=\"form-control stock-status\"><option value=\"1\">Instock</option><option value=\"2\">Out of stock</option></select></div>";
                             html += "   <div class=\"v-element\"><input type=\"number\" min=\"0\" class=\"form-control regularprice-variable\" placeholder=\"Regular Price\"></div>";
@@ -962,9 +912,8 @@
                 else {
 
                 }
-
-
             }
+
             function deleterowva(obj) {
                 var c = confirm("Bạn muốn xóa thuộc tính này?");
                 if (c == true) {

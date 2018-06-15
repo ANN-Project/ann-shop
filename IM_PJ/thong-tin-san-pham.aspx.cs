@@ -47,7 +47,24 @@ namespace IM_PJ
                     Response.Redirect("/dang-nhap");
                 }
                 LoadSupplier();
+                LoadCategory();
                 LoadData();
+            }
+        }
+
+        public void LoadCategory()
+        {
+            var category = CategoryController.GetAllWithIsHidden(false);
+            ddlCategory.Items.Clear();
+            ddlCategory.Items.Insert(0, new ListItem("Chọn danh mục sản phẩm", "0"));
+            if (category.Count > 0)
+            {
+                foreach (var p in category)
+                {
+                    ListItem listitem = new ListItem(p.CategoryName, p.ID.ToString());
+                    ddlCategory.Items.Add(listitem);
+                }
+                ddlCategory.DataBind();
             }
         }
         public void LoadSupplier()
@@ -76,20 +93,21 @@ namespace IM_PJ
                     ViewState["ID"] = id;
                     ViewState["cateID"] = p.CategoryID;
                     ViewState["SKU"] = p.ProductSKU;
+                    hdfParentID.Value = p.CategoryID.ToString();
                     ltrBack.Text = "<a href=\"/xem-san-pham.aspx?id=" + p.ID + "\" class=\"btn primary-btn fw-btn not-fullwidth\">Trở về</a>";
                     txtProductTitle.Text = p.ProductTitle;
                     pContent.Content = p.ProductContent;
                     lblSKU.Text = p.ProductSKU;
 
-                    chkManageStock.Checked = Convert.ToBoolean(p.ManageStock);
-                    pRegular_Price.Value = p.Regular_Price;
-                    pCostOfGood.Value = p.CostOfGood;
-                    pRetailPrice.Value = p.Retail_Price;
+                    pRegular_Price.Text = p.Regular_Price.ToString();
+                    pCostOfGood.Text = p.CostOfGood.ToString();
+                    pRetailPrice.Text = p.Retail_Price.ToString();
                     chkIsHidden.Checked = Convert.ToBoolean(p.IsHidden);
                     ddlSupplier.SelectedValue = p.SupplierID.ToString();
+                    ddlCategory.SelectedValue = p.CategoryID.ToString();
                     txtMaterials.Text = p.Materials;
-                    pMinimumInventoryLevel.Value = p.MinimumInventoryLevel;
-                    pMaximumInventoryLevel.Value = p.MaximumInventoryLevel;
+                    pMinimumInventoryLevel.Text = p.MinimumInventoryLevel.ToString();
+                    pMaximumInventoryLevel.Text = p.MaximumInventoryLevel.ToString();
                     if(p.ProductImage != null)
                     {
                         ListProductThumbnail.Value = p.ProductImage;
@@ -99,7 +117,7 @@ namespace IM_PJ
             }
         }
 
-        protected void btnLogin_Click(object sender, EventArgs e)
+        protected void btnSubmit_Click(object sender, EventArgs e)
         {
             string username = Session["userLoginSystem"].ToString();
             var acc = AccountController.GetByUsername(username);
@@ -116,11 +134,12 @@ namespace IM_PJ
                         string ProductSKU = ViewState["SKU"].ToString();
                         double ProductStock = 0;
                         int StockStatus = 0;
-                        bool ManageStock = chkManageStock.Checked;
-                        double Regular_Price = Convert.ToDouble(pRegular_Price.Value);
-                        double CostOfGood = Convert.ToDouble(pCostOfGood.Value);
-                        double Retail_Price = Convert.ToDouble(pRetailPrice.Value);
+                        bool ManageStock = true;
+                        double Regular_Price = Convert.ToDouble(pRegular_Price.Text);
+                        double CostOfGood = Convert.ToDouble(pCostOfGood.Text);
+                        double Retail_Price = Convert.ToDouble(pRetailPrice.Text);
                         bool IsHidden = chkIsHidden.Checked;
+                        int CategoryID = hdfParentID.Value.ToInt();
 
                         //Phần thêm ảnh đại diện sản phẩm
                         string path = "/Uploads/Images/";
@@ -147,14 +166,15 @@ namespace IM_PJ
                             }
                         }
 
-                        string kq = ProductController.Update(id, cateID, 0, ProductTitle, ProductContent, ProductSKU, ProductStock,
+                        string kq = ProductController.Update(id, CategoryID, 0, ProductTitle, ProductContent, ProductSKU, ProductStock,
                             StockStatus, ManageStock, Regular_Price, CostOfGood, Retail_Price, ProductImage, 0,
                             IsHidden, DateTime.Now, username, ddlSupplier.SelectedValue.ToInt(0), ddlSupplier.SelectedItem.ToString(),
-                            txtMaterials.Text, Convert.ToDouble(pMinimumInventoryLevel.Value), Convert.ToDouble(pMaximumInventoryLevel.Value));
+                            txtMaterials.Text, Convert.ToDouble(pMinimumInventoryLevel.Text), Convert.ToDouble(pMaximumInventoryLevel.Text));
+
                         if (kq.ToInt(0) > 0)
                         {
-                            //PJUtils.ShowMessageBoxSwAlert("Cập nhật sản phẩm thành công", "s", true, Page);
-                            Response.Redirect("thong-tin-san-pham.aspx?id=" + id + "");
+                            PJUtils.ShowMessageBoxSwAlert("Cập nhật sản phẩm thành công", "s", true, Page);
+                            //Response.Redirect("thong-tin-san-pham.aspx?id=" + id + "");
                         }
                     }
                 }

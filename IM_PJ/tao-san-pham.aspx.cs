@@ -51,7 +51,7 @@ namespace IM_PJ
             if (variablename.Count > 0)
             {
                 ddlVariablename.Items.Clear();
-                ddlVariablename.Items.Insert(0, new ListItem("Chọn tên thuộc tính", "0"));
+                ddlVariablename.Items.Insert(0, new ListItem("Chọn thuộc tính", "0"));
                 foreach (var p in variablename)
                 {
                     ListItem listitem = new ListItem(p.VariableName, p.ID.ToString());
@@ -286,7 +286,7 @@ namespace IM_PJ
             public string ProductVariable { get; set; }
             public string ProductVariableName { get; set; }
         }
-        protected void btnLogin_Click(object sender, EventArgs e)
+        protected void btnSubmit_Click(object sender, EventArgs e)
         {
             string username = Session["userLoginSystem"].ToString();
             var acc = AccountController.GetByUsername(username);
@@ -314,7 +314,7 @@ namespace IM_PJ
 
                         if (check == false)
                         {
-                            PJUtils.ShowMessageBoxSwAlert("Trùng mã SKU vui lòng kiểm tra lại", "e", false, Page);
+                            PJUtils.ShowMessageBoxSwAlert("Trùng mã sản phẩm vui lòng kiểm tra lại", "e", false, Page);
                         }
                         else
                         {
@@ -323,16 +323,19 @@ namespace IM_PJ
 
                             double ProductStock = 0;
                             int StockStatus = 3;
-                            bool ManageStock = chkManageStock.Checked;
                             double Regular_Price = Convert.ToDouble(pRegular_Price.Text);
                             double CostOfGood = Convert.ToDouble(pCostOfGood.Text);
                             double Retail_Price = Convert.ToDouble(pRetailPrice.Text);
                             int supplierID = ddlSupplier.SelectedValue.ToInt(0);
                             string supplierName = ddlSupplier.SelectedItem.ToString();
-                            bool IsHidden = chkIsHidden.Checked;
                             int a = 1;
+                            double MinimumInventoryLevel = Convert.ToDouble(pMinimumInventoryLevel.Text);
+                            double MaximumInventoryLevel = Convert.ToDouble(pMaximumInventoryLevel.Text);
+
                             if (hdfsetStyle.Value == "2")
                             {
+                                MinimumInventoryLevel = 0;
+                                MaximumInventoryLevel = 0;
                                 a = hdfsetStyle.Value.ToInt();
                             }
 
@@ -353,10 +356,14 @@ namespace IM_PJ
                                 }
                             }
 
-                            string kq = ProductController.Insert(cateID, 0, ProductTitle, ProductContent, ProductSKU, ProductStock, StockStatus, ManageStock, Regular_Price, CostOfGood, Retail_Price, ProductImage, 0, IsHidden, currentDate, username, supplierID, supplierName, txtMaterials.Text, Convert.ToDouble(pMinimumInventoryLevel.Text), Convert.ToDouble(pMaximumInventoryLevel.Text), a);
+                            
+                            
+                            string kq = ProductController.Insert(cateID, 0, ProductTitle, ProductContent, ProductSKU, ProductStock, StockStatus, true, Regular_Price, CostOfGood, Retail_Price, ProductImage, 0, false, currentDate, username, supplierID, supplierName, txtMaterials.Text, MinimumInventoryLevel, MaximumInventoryLevel, a);
+
                             if (kq.ToInt(0) > 0)
                             {
                                 int ProductID = kq.ToInt(0);
+
                                 string variable = hdfVariableListInsert.Value;
                                 if (!string.IsNullOrEmpty(variable))
                                 {
@@ -376,28 +383,22 @@ namespace IM_PJ
                                         string retailprice = itemElement[7];
                                         string[] datanamevalue = itemElement[8].Split('|');
                                         string imageUpload = itemElement[8];
-                                        int max = itemElement[9].ToInt();
-                                        int min = itemElement[10].ToInt();
-                                     
+                                        int max = itemElement[9].ToInt(0);
+                                        int min = itemElement[10].ToInt(0);
 
                                         int stockstatus = itemElement[11].ToInt();
+
                                         HttpPostedFile postedFile = Request.Files["" + imageUpload + ""];
                                         string image = "";
-                                        bool CHECK = true;
                                         if (postedFile != null && postedFile.ContentLength > 0)
                                         {
                                             string filePath = Server.MapPath("/Uploads/Images/") + Path.GetFileName(postedFile.FileName);
                                             postedFile.SaveAs(filePath);
                                             image = "/Uploads/Images/" + Path.GetFileName(postedFile.FileName);
                                         }
-                                        if (a == 2)
-                                        {
-                                            CHECK = itemElement[12].ToBool();
-                                        }
-
 
                                         string kq1 = ProductVariableController.Insert(ProductID, ProductSKU, productvariablesku, 0, stockstatus, Convert.ToDouble(regularprice),
-                                            Convert.ToDouble(costofgood), Convert.ToDouble(retailprice), image, CHECK, false, currentDate, username,
+                                            Convert.ToDouble(costofgood), Convert.ToDouble(retailprice), image, true, false, currentDate, username,
                                             supplierID, supplierName, min, max);
                                         string color = "";
                                         string size = "";
@@ -438,9 +439,7 @@ namespace IM_PJ
                                         catch { }
                                     }
                                 }
-
-                                //PJUtils.ShowMessageBoxSwAlert("Tạo mới sản phẩm thành công", "s", true, Page);
-                                Response.Redirect("xem-san-pham.aspx?id=" + kq + "");
+                                PJUtils.ShowMessageBoxSwAlertCallFunction("Tạo sản phẩm thành công", "s", true, "reDirectTo("+ kq +")", Page);
                             }
                         }
 
@@ -450,30 +449,5 @@ namespace IM_PJ
             }
 
         }
-
-
-
-        //protected void ddlCategory_SelectedIndexChanged(object sender, EventArgs e)
-        //{
-        //    LoadCategoryParent(ddlCategory.SelectedValue.ToInt(0));
-        //}
-
-        ///Lưu ảnh
-        ///string duongdan = "";
-        //if (hinhDaiDien.UploadedFiles.Count > 0)
-        //{
-        //    foreach (UploadedFile f in hinhDaiDien.UploadedFiles)
-        //    {
-        //        var o = duongdan + Guid.NewGuid() + f.GetExtension();
-        //        try
-        //        {
-        //            f.SaveAs(Server.MapPath(o));
-        //            IMG = o;
-        //        }
-        //        catch { }
-        //    }
-        //}
-
-
     }
 }
