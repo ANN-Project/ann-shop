@@ -59,6 +59,33 @@ namespace IM_PJ.Controllers
                 dbe.SaveChanges();
             }
         }
+
+        public static void Insert(List<tbl_OrderDetail> orderDetails)
+        {
+            using (var con = new inventorymanagementEntities())
+            {
+                var index = 1;
+
+                foreach(tbl_OrderDetail order in orderDetails)
+                {
+                    if (index >= 100)
+                    {
+                        index = 1;
+                        con.tbl_OrderDetail.Add(order);
+                        con.SaveChanges();
+                    }
+                    else
+                    {
+                        con.tbl_OrderDetail.Add(order);
+                    }
+
+                    index++;
+                }
+
+                con.SaveChanges();
+            }
+        }
+
         public static string UpdateQuantity(int ID, double Quantity, DateTime CreatedDate, string CreatedBy)
         {
             using (var dbe = new inventorymanagementEntities())

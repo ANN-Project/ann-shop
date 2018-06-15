@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Máy tính tiền" Language="C#" MasterPageFile="~/MasterPage.Master" AutoEventWireup="true" CodeBehind="pos.aspx.cs" Inherits="IM_PJ.pos" EnableSessionState="ReadOnly" %>
+﻿<%@ Page Title="Máy tính tiền" Language="C#" MasterPageFile="~/MasterPage.Master" AutoEventWireup="true" CodeBehind="pos.aspx.cs" Inherits="IM_PJ.pos"%>
 
 <%@ Register Assembly="Telerik.Web.UI" Namespace="Telerik.Web.UI" TagPrefix="telerik" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
@@ -495,6 +495,37 @@
                 window.open(url);
             }
 
+            class OrderDetail {
+                constructor(
+                      ProductID
+                    , ProductVariableID
+                    , SKU
+                    , ProductType
+                    , ProductVariableName
+                    , ProductVariableValue
+                    , QuantityInstock
+                    , ProductName
+                    , ProductImageOrigin
+                    , Giabanle
+                    , ProductVariableSave) {
+                    this.ProductID = ProductID;
+                    this.ProductVariableID = ProductVariableID;
+                    this.SKU = SKU;
+                    this.ProductType = ProductType;
+                    this.ProductVariableName = ProductVariableName;
+                    this.ProductVariableValue = ProductVariableValue;
+                    this.QuantityInstock = QuantityInstock;
+                    this.ProductName = ProductName;
+                    this.ProductImageOrigin = ProductImageOrigin;
+                    this.Giabanle = Giabanle;
+                    this.ProductVariableSave = ProductVariableSave;
+                }
+
+                stringJSON() {
+                    return JSON.stringify(this);
+                }
+            }
+
             // pay order on click button
             function payAll() {
                 var phone = $("#<%=txtPhone.ClientID%>").val();
@@ -502,29 +533,48 @@
                 var address = $("#<%=txtAddress.ClientID%>").val();
                 if (phone != "" && name != "" && address != "") {
                     if ($(".product-result").length > 0) {
-                        var list = "";
-                        var count = 0;
-                        var ordertype = $(".customer-type").val();
-                        $(".product-result").each(function() {
-                            var id = $(this).attr("data-id");
-                            var sku = $(this).attr("data-sku");
-                            var producttype = $(this).attr("data-producttype");
-                            var productnariablename = $(this).attr("data-productnariablename");
-                            var productvariablevalue = $(this).attr("data-productvariablevalue");
-                            var quantity = $(this).find(".in-quanlity").val();
-                            var productname = $(this).attr("data-productname");
-                            var productimageorigin = $(this).attr("data-productimageorigin");
-                            var productvariable = $(this).attr("data-productvariable");
-                            var price = $(this).find(".gia-san-pham").attr("data-price");
-                            var productvariablesave = $(this).attr("data-productvariablesave");
+                        let orderDetails = "";
+                        let ordertype = $(".customer-type").val();
+
+                        orderDetails += '{ "productPOS" : ['
+
+                        $(".product-result").each(function () {
+                            let productID = $(this).attr("data-productid");
+                            let productVariableID = $(this).attr("data-productvariableid");
+                            let sku = $(this).attr("data-sku");
+                            let producttype = $(this).attr("data-producttype");
+                            let productvariablename = $(this).attr("data-productvariablename");
+                            let productvariablevalue = $(this).attr("data-productvariablevalue");
+                            let quantity = $(this).find(".in-quanlity").val();
+                            let productname = $(this).attr("data-productname");
+                            let productimageorigin = $(this).attr("data-productimageorigin");
+                            let productvariable = $(this).attr("data-productvariable");
+                            let price = $(this).find(".gia-san-pham").attr("data-price");
+                            let productvariablesave = $(this).attr("data-productvariablesave");
+
                             if (quantity > 0) {
-                                list += id + "," + sku + "," + producttype + "," + productnariablename + "," + productvariablevalue + "," + quantity + "," +
-                                    productname + "," + productimageorigin + "," + productvariablesave + "," + price + "," + productvariablesave + ";";
-                                count++;
+                                let order = new OrderDetail(
+                                        productID
+                                        , productVariableID
+                                        , sku
+                                        , producttype
+                                        , productvariablename
+                                        , productvariablevalue
+                                        , quantity
+                                        , productname
+                                        , productimageorigin
+                                        , price
+                                        , productvariablesave
+                                );
+
+                                orderDetails += order.stringJSON() + ",";
                             }
                         });
+
+                        orderDetails = orderDetails.replace(/.$/, "") + "]}";
+
                         $("#<%=hdfOrderType.ClientID %>").val(ordertype);
-                        $("#<%=hdfListProduct.ClientID%>").val(list);
+                        $("#<%=hdfListProduct.ClientID%>").val(orderDetails);
                         showChangeMoney();
                     } else {
                         alert("Hãy nhập sản phẩm!");
@@ -628,8 +678,8 @@
                                     html += "<tr class=\"product-result\" data-giabansi=\"" + item.Giabansi + "\" data-giabanle=\"" + item.Giabanle + "\" " +
                                         "data-quantityinstock=\"" + item.QuantityInstock + "\" data-productimageorigin=\"" + item.ProductImageOrigin + "\" " +
                                         "data-productvariable=\"" + item.ProductVariable + "\" data-productname=\"" + item.ProductName + "\" " +
-                                        "data-sku=\"" + item.SKU + "\" data-producttype=\"" + item.ProductType + "\" data-id=\"" + item.ID + "\" " +
-                                        "data-productnariablename=\"" + item.ProductVariableName + "\" " +
+                                        "data-sku=\"" + item.SKU + "\" data-producttype=\"" + item.ProductType + "\" data-productid=\"" + item.ProductID + "\" data-productvariableid=\"" + item.ProductVariableID + "\" " +
+                                        "data-productvariablename=\"" + item.ProductVariableName + "\" " +
                                         "data-productvariablevalue =\"" + item.ProductVariableValue + "\" " +
                                         "data-productvariablesave =\"" + item.ProductVariableSave + "\">";
                                     html += "   <td class=\"image-item\">" + item.ProductImage + "";
@@ -765,8 +815,8 @@
                                             html += "<tr class=\"product-result\" data-giabansi=\"" + item.Giabansi + "\" data-giabanle=\"" + item.Giabanle + "\" " +
                                                 "data-quantityinstock=\"" + item.QuantityInstock + "\" data-productimageorigin=\"" + item.ProductImageOrigin + "\" " +
                                                 "data-productvariable=\"" + item.ProductVariable + "\" data-productname=\"" + item.ProductName + "\" " +
-                                                "data-sku=\"" + item.SKU + "\" data-producttype=\"" + item.ProductType + "\" data-id=\"" + item.ID + "\" " +
-                                                "data-productnariablename=\"" + item.ProductVariableName + "\" " +
+                                                "data-sku=\"" + item.SKU + "\" data-producttype=\"" + item.ProductType + "\" data-productid=\"" + item.ProductID + "\" data-productvariableid=\"" + item.ProductVariableID + "\" " +
+                                                "data-productvariablename=\"" + item.ProductVariableName + "\" " +
                                                 "data-productvariablevalue =\"" + item.ProductVariableValue + "\" " +
                                                 "data-productvariablesave =\"" + item.ProductVariableSave + "\">";
                                             html += "   <td class=\"image-item\">" + item.ProductImage + "";

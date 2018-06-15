@@ -762,7 +762,7 @@ namespace IM_PJ
 
                     if (parent != null)
                     {
-                        var t = StockManagerController.Insert(
+                        StockManagerController.Insert(
                             new tbl_StockManager
                             {
                                 AgentID = AgentID,
@@ -783,7 +783,7 @@ namespace IM_PJ
                     }
                     else
                     {
-                        var t = StockManagerController.Insert(
+                        StockManagerController.Insert(
                             new tbl_StockManager
                             {
                                 AgentID = AgentID,
