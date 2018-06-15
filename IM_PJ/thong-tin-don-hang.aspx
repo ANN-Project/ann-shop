@@ -841,6 +841,7 @@
                 if (isBlank(phone) || isBlank(fullname)) {
                     alert("Vui lòng nhập thông tin khách hàng!");
                 } else {
+                    loadingShow();
                     $("#<%=btnOrder.ClientID%>").click();
                 }
             }
