@@ -45,7 +45,6 @@ namespace IM_PJ
                 }
                 else
                 {
-
                     Response.Redirect("/dang-nhap");
                 }
                 LoadData();

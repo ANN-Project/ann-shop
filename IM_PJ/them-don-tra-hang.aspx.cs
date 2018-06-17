@@ -47,7 +47,6 @@ namespace IM_PJ
                 {
                     Response.Redirect("/dang-nhap");
                 }
-                //LoadData();
             }
         }
         [WebMethod]

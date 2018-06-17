@@ -121,13 +121,13 @@ namespace IM_PJ {
         protected global::System.Web.UI.WebControls.Label lbRegularPrice;
         
         /// <summary>
-        /// lbpCostOfGood control.
+        /// ltrCostOfGood control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lbpCostOfGood;
+        protected global::System.Web.UI.WebControls.Literal ltrCostOfGood;
         
         /// <summary>
         /// lbRetailPrice control.
@@ -209,14 +209,5 @@ namespace IM_PJ {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.HiddenField hdfTable;
-        
-        /// <summary>
-        /// hdfcost control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.HiddenField hdfcost;
     }
 }

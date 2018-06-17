@@ -1,4 +1,7 @@
-﻿.margin-top-15 {
+﻿.sku-input {
+    text-transform: uppercase;
+}
+.margin-top-15 {
     margin-top: 15px;
 }
 .list-customer {

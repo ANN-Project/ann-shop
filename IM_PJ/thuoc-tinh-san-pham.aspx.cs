@@ -34,15 +34,18 @@ namespace IM_PJ
                         {
                            
                         }
+                        else if (acc.RoleID == 2)
+                        {
+
+                        }
                         else
                         {
-                            Response.Redirect("/dang-nhap");
+                            Response.Redirect("/trang-chu");
                         }
                     }
                 }
                 else
                 {
-
                     Response.Redirect("/dang-nhap");
                 }
                 LoadData();

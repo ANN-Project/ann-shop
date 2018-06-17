@@ -27,14 +27,11 @@ namespace IM_PJ
                     {
                         if(acc.RoleID == 0)
                         {
-                        }
-                        else if(acc.RoleID == 1)
-                        {
 
                         }
                         else
                         {
-                            Response.Redirect("/dang-nhap");
+                            Response.Redirect("/trang-chu");
                         }
                     }
                 }

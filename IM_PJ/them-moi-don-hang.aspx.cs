@@ -29,7 +29,19 @@ namespace IM_PJ
                     var acc = AccountController.GetByUsername(username);
                     if (acc != null)
                     {
-                        
+                        if (acc.RoleID == 0)
+                        {
+
+                        }
+                        else if (acc.RoleID == 2)
+                        {
+                            hdfUsername.Value = acc.Username;
+                        }
+                        else
+                        {
+                            Response.Redirect("/trang-chu");
+                        }
+
                         var dc = DiscountController.GetAll();
                         if (dc != null)
                         {
@@ -49,18 +61,6 @@ namespace IM_PJ
                         else
                         {
                             hdfIsMain.Value = "0";
-                        }
-                        if (acc.RoleID == 0)
-                        {
-
-                        }
-                        else if (acc.RoleID == 2)
-                        {
-                            hdfUsername.Value = acc.Username;
-                        }
-                        else
-                        {
-                            Response.Redirect("/trang-chu");
                         }
                     }
                 }

@@ -41,7 +41,6 @@ namespace IM_PJ
         public void LoadData()
         {
             DateTime today = DateTime.Now.Date;
-            //DateTime test = today.AddDays(-40);
             DateTime now = DateTime.Now;
             List<OrderTop> opdertop = new List<OrderTop>();
             var or = OrderController.Report(today.ToString(), now.ToString());

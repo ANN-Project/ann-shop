@@ -105,14 +105,7 @@
                                     <asp:Label ID="lbRegularPrice" runat="server" CssClass="form-control"></asp:Label>
                                 </div>
                             </div>
-                             <div class="form-row cost hide">
-                                <div class="row-left">
-                                    Giá vốn
-                                </div>
-                                <div class="row-right">
-                                    <asp:Label ID="lbpCostOfGood" runat="server" CssClass="form-control"></asp:Label>
-                                </div>
-                            </div>
+                            <asp:Literal ID="ltrCostOfGood" runat="server"></asp:Literal>
                             <div class="form-row">
                                 <div class="row-left">
                                     Giá lẻ
@@ -160,19 +153,7 @@
                         <div class="responsive-table">
                             <table class="table table-checkable table-product all-product-table">
                                 <tbody>
-                                    <tr>
-                                        <th class="image-column">Ảnh</th>
-                                        <th class="variable-column">Thuộc tính</th>
-                                        <th class="sku-column">Mã</th>
-                                        <th class="wholesale-price-column">Giá sỉ</th>
-                                        <th class="cost-price-column cost hide">Giá vốn</th>
-                                        <th class="retail-price-column">Giá lẻ</th>
-                                        <th class="stock-column">Kho</th>
-                                        <th class="stock-status-column">Trạng thái</th>
-                                        <th class="date-column">Ngày tạo</th>
-                                        <th class="hide-column">Ẩn</th>
-                                        <th class="action-column">Thao tác</th>
-                                    </tr>
+                                    
                                     <asp:Literal ID="ltrList" runat="server" EnableViewState="false"></asp:Literal>
                                 </tbody>
                             </table>
@@ -189,7 +170,6 @@
         <asp:HiddenField ID="hdfTempVariable" runat="server" />
         <asp:HiddenField ID="hdfVariableFull" runat="server" />
         <asp:HiddenField ID="hdfTable" runat="server" />
-        <asp:HiddenField ID="hdfcost" runat="server" />
     </main>
 
     <telerik:RadCodeBlock runat="server">
@@ -198,11 +178,6 @@
             var bt = document.getElementById('<%= hdfTable.ClientID%>').defaultValue;
             if (bt == "2") {
                 $(".tableview").removeClass('hide').add('show');
-            }
-
-            var cost = document.getElementById('<%= hdfcost.ClientID%>').defaultValue;
-            if (cost == "ok") {
-                $(".cost").removeClass("hide");
             }
         </script>
     </telerik:RadCodeBlock>

@@ -27,29 +27,40 @@ namespace IM_PJ
                     if (acc != null)
                     {
                         LoadData();
-                        LoadDLL();
+                        LoadCategory();
                     }
                 }
                 else
                 {
                     Response.Redirect("/dang-nhap");
                 }
-
             }
         }
-        public void LoadDLL()
+        public void LoadCategory()
         {
             var category = CategoryController.GetAllWithIsHidden(false);
             ddlCategory.Items.Clear();
-            ddlCategory.Items.Insert(0, new ListItem("Tất cả danh mục", "0"));
+            ddlCategory.Items.Insert(0, new ListItem("Danh mục sản phẩm", "0"));
             if (category.Count > 0)
             {
-                foreach (var p in category)
-                {
-                    ListItem listitem = new ListItem(p.CategoryName, p.ID.ToString());
-                    ddlCategory.Items.Add(listitem);
-                }
+                addItemCategory(0, "");
                 ddlCategory.DataBind();
+            }
+        }
+
+        public void addItemCategory(int id, string h = "")
+        {
+            var categories = CategoryController.GetByParentID("", id);
+
+            if (categories.Count > 0)
+            {
+                foreach (var c in categories)
+                {
+                    ListItem listitem = new ListItem(h + c.CategoryName, c.ID.ToString());
+                    ddlCategory.Items.Add(listitem);
+
+                    addItemCategory(c.ID, h + "---");
+                }
             }
         }
         public void LoadData()
@@ -67,19 +78,12 @@ namespace IM_PJ
             txtSearchProduct.Text = s;
             ddlCategory.SelectedValue = categoryID.ToString();
             ddlType.SelectedValue = type.ToString();
+
             List<ProductSQL> a = new List<ProductSQL>();
             a = ProductController.GetAllSql(categoryID, s);
-            if (type == 3)
+            if (type != 0)
             {
-                a = a.Where(p => p.TotalProductInstockQuantityIn == 0).ToList();
-            }
-            if (type == 1)
-            {
-                a = a.Where(p => p.TotalProductInstockQuantityLeft > 0).ToList();
-            }
-            else if (type == 2)
-            {
-                a = a.Where(p => p.TotalProductInstockQuantityLeft == 0 && p.TotalProductInstockQuantityIn > 0).ToList();
+                a = a.Where(p => p.StockStatus == type).ToList();
             }
             pagingall(a);
         }
@@ -89,14 +93,7 @@ namespace IM_PJ
             string username = Session["userLoginSystem"].ToString();
             string k = "";
             var acc = AccountController.GetByUsername(username);
-            if (acc != null)
-            {
-                if (acc.RoleID == 0)
-                {
-                    k = "ok";
-                    hdfcost.Value = k;
-                }
-            }
+
             int PageSize = 30;
             StringBuilder html = new StringBuilder();
             if (acs.Count > 0)
@@ -114,6 +111,22 @@ namespace IM_PJ
                 int ToRow = Page * PageSize - 1;
                 if (ToRow >= TotalItems)
                     ToRow = TotalItems - 1;
+                html.Append("<tr>");
+                html.Append("    <th class='image-column'>Ảnh</th>");
+                html.Append("    <th class='name-column'>Sản phẩm</th>");
+                html.Append("    <th class='sku-column'>Mã</th>");
+                html.Append("    <th class='wholesale-price-column'>Giá sỉ</th>");
+                if(acc.RoleID == 0)
+                {
+                    html.Append("    <th class='cost-price-column'>Giá vốn</th> ");
+                }
+                html.Append("    <th class='retail-price-column'>Giá lẻ</th>");
+                html.Append("    <th class='stock-column'>Kho</th>");
+                html.Append("    <th class='stock-status-column'>Trạng thái</th>");
+                html.Append("    <th class='category-column'>Danh mục</th>");
+                html.Append("    <th class='date-column'>Ngày tạo</th>");
+                html.Append("    <th class='action-column'></th>");
+                html.Append("</tr>");
                 for (int i = FromRow; i < ToRow + 1; i++)
                 {
                     var item = acs[i];
@@ -122,7 +135,7 @@ namespace IM_PJ
                     html.Append("   <td><a href=\"/xem-san-pham.aspx?id=" + item.ID + "\">" + item.ProductTitle + "</a></td>");
                     html.Append("   <td>" + item.ProductSKU + "</td>");
                     html.Append("   <td>" + string.Format("{0:N0}", item.RegularPrice) + "</td>");
-                    if (k == "ok")
+                    if (acc.RoleID == 0)
                     {
                         html.Append("   <td>" + string.Format("{0:N0}", item.CostOfGood) + "</td>");
                     }

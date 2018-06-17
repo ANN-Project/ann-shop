@@ -159,7 +159,7 @@
                             <asp:Literal ID="ltrCustomerType" runat="server"></asp:Literal>
                             <div class="post-above clear">
                                 <div class="search-box left">
-                                    <input type="text" id="txtSearch" class="form-control" placeholder="SKU (F3)">
+                                    <input type="text" id="txtSearch" class="form-control sku-input" placeholder="SKU (F3)">
                                 </div>
                                 <div class="right">
                                     <a href="javascript:;" class="link-btn" onclick="searchProduct()"><i class="fa fa-search"></i></a>

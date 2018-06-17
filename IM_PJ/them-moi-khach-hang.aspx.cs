@@ -28,13 +28,12 @@ namespace IM_PJ
                     {
                         if (acc.RoleID == 1)
                         {
-                            Response.Redirect("/dang-nhap");
+                            Response.Redirect("/trang-chu");
                         }
                     }
                 }
                 else
                 {
-
                     Response.Redirect("/dang-nhap");
                 }
                 LoadProvince();

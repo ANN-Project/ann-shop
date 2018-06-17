@@ -36,7 +36,7 @@ namespace IM_PJ
                         {
                             LoadCreatedBy(agent, acc);
                         }
-                        else if (acc.RoleID == 1)
+                        else
                         {
                             Response.Redirect("/dang-nhap");
                         }
@@ -44,10 +44,8 @@ namespace IM_PJ
                 }
                 else
                 {
-
                     Response.Redirect("/dang-nhap");
                 }
-
                 LoadData();
                 LoadProvince();
             }

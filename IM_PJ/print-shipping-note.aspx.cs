@@ -23,12 +23,29 @@ namespace IM_PJ
             {
                 if (Session["userLoginSystem"] != null)
                 {
-                    LoadData();
+                    string username = Session["userLoginSystem"].ToString();
+                    var acc = AccountController.GetByUsername(username);
+                    if (acc != null)
+                    {
+                        if (acc.RoleID == 0)
+                        {
+
+                        }
+                        else if (acc.RoleID == 2)
+                        {
+
+                        }
+                        else
+                        {
+                            Response.Redirect("/trang-chu");
+                        }
+                    }
                 }
                 else
                 {
                     Response.Redirect("/dang-nhap");
                 }
+                LoadData();
             }
         }
         public void LoadData()

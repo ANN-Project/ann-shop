@@ -50,26 +50,19 @@ namespace IM_PJ
                         ltrMenu.Text += "<li><a href=\"/quan-ly-dai-ly\"><span class=\"icon-menu icon-lib\"></span>Chi nhánh</a></li>";
                         ltrMenu.Text += "<li><a href=\"/tat-ca-nhan-vien\"><span class=\"icon-menu icon-lib\"></span>Nhân viên</a></li>";
                         ltrMenu.Text += "<li><a href=\"/danh-sach-nha-cung-cap\"><span class=\"icon-menu icon-product\"></span>Nhà cung cấp</a></li>";
-                        ltrMenu.Text += "<li><a href=\"/danh-sach-nha-xe\"><span class=\"icon-menu icon-product\"></span>Nhà xe</a></li>";
-
                         ltrMenu.Text += "<li><a href=\"/danh-sach-chiet-khau\"><span class=\"icon-menu icon-product\"></span>Mức chiết khấu</a></li>";
                         ltrMenu.Text += "<li><a href=\"/bao-cao\"><span class=\"icon-menu icon-product\"></span>Báo cáo</a></li>";
                         ltrMenu.Text += "<li><a href=\"/cai-dat\"><span class=\"icon-menu icon-product\"></span>Cài đặt chung</a></li>";
-
                     }
                     else if (role == 1) //Nhân viên kho
                     {
                         ltrMenu.Text += "<li><a href=\"/trang-chu\"><span class=\"icon-menu icon-home\"></span>Trang chủ</a></li>";
                         ltrMenu.Text += "<li><a href=\"/tat-ca-san-pham\"><span class=\"icon-menu icon-lib\"></span>Sản phẩm</a></li>";
-                        ltrMenu.Text += "<li><a href=\"/quan-ly-danh-muc-san-pham\"><span class=\"icon-menu icon-product\"></span>Danh mục</a></li>";
                         ltrMenu.Text += "<li><a href=\"/quan-ly-danh-muc-thuoc-tinh\"><span class=\"icon-menu icon-product\"></span>Thuộc tính</a></li>";
                         ltrMenu.Text += "<li><a href=\"/tao-ma-vach\"><span class=\"icon-menu icon-product\"></span>In mã vạch</a></li>";
                         ltrMenu.Text += "<li><a href=\"/quan-ly-nhap-kho\"><span class=\"icon-menu icon-product\"></span>Nhập kho</a></li>";
                         ltrMenu.Text += "<li><a href=\"/quan-ly-xuat-kho\"><span class=\"icon-menu icon-product\"></span>Xuất kho </a></li>";
                         ltrMenu.Text += "<li><a href=\"/kiem-kho\"><span class=\"icon-menu icon-product\"></span>Kiểm kho</a></li>";
-                        ltrMenu.Text += "<li><a href=\"/danh-sach-chuyen-hang\"><span class=\"icon-menu icon-product\"></span>Chuyển kho</a></li>";
-                        ltrMenu.Text += "<li><a href=\"/danh-sach-nhan-hang\"><span class=\"icon-menu icon-product\"></span>Nhận hàng</a></li>";
-
                     }
                     else //Nhân viên bán hàng
                     {
@@ -79,8 +72,7 @@ namespace IM_PJ
                         ltrMenu.Text += "<li><a href=\"/danh-sach-don-tra-hang\"><span class=\"icon-menu icon-order\"></span>Đổi trả hàng</a></li>";
                         ltrMenu.Text += "<li><a href=\"/tat-ca-san-pham\"><span class=\"icon-menu icon-lib\"></span>Sản phẩm</a></li>";
                         ltrMenu.Text += "<li><a href=\"/danh-sach-khach-hang\"><span class=\"icon-menu icon-product\"></span>Khách hàng</a></li>";
-                        ltrMenu.Text += "<li><a href=\"/quan-ly-nhap-kho\"><span class=\"icon-menu icon-product\"></span>Nhập kho</a></li>";
-                        ltrMenu.Text += "<li><a href=\"/kiem-kho\"><span class=\"icon-menu icon-product\"></span>Kiểm kho</a></li>";
+                        ltrMenu.Text += "<li><a href=\"/danh-sach-nha-xe\"><span class=\"icon-menu icon-product\"></span>Nhà xe</a></li>";
                     }
                 }
             }

@@ -26,10 +26,9 @@ namespace IM_PJ
                     if (acc != null)
                     {
                         ViewState["role"] = acc.RoleID;
-                        if (acc.RoleID == 0)
-                        {
-                            hdfcost.Value = "ok";
-                        }
+                        LoadCategory();
+                        LoadSupplier();
+                        LoadData(Convert.ToInt32(acc.RoleID));
                     }
                 }
                 else
@@ -37,9 +36,6 @@ namespace IM_PJ
 
                     Response.Redirect("/dang-nhap");
                 }
-                LoadCategory();
-                LoadSupplier();
-                LoadData();
             }
         }
         public void LoadSupplier()
@@ -64,15 +60,27 @@ namespace IM_PJ
             ddlCategory.Items.Insert(0, new ListItem("Chọn danh mục sản phẩm", "0"));
             if (category.Count > 0)
             {
-                foreach (var p in category)
-                {
-                    ListItem listitem = new ListItem(p.CategoryName, p.ID.ToString());
-                    ddlCategory.Items.Add(listitem);
-                }
+                addItemCategory(0, "");
                 ddlCategory.DataBind();
             }
         }
-        public void LoadData()
+
+        public void addItemCategory(int id, string h = "")
+        {
+            var categories = CategoryController.GetByParentID("", id);
+
+            if (categories.Count > 0)
+            {
+                foreach (var c in categories)
+                {
+                    ListItem listitem = new ListItem(h + c.CategoryName, c.ID.ToString());
+                    ddlCategory.Items.Add(listitem);
+
+                    addItemCategory(c.ID, h + "---");
+                }
+            }
+        }
+        public void LoadData(int userRole)
         {
             int id = Request.QueryString["id"].ToInt(0);
             if (id > 0)
@@ -103,7 +111,20 @@ namespace IM_PJ
                     }
 
                     lbRegularPrice.Text = string.Format("{0:N0}", p.Regular_Price);
-                    lbpCostOfGood.Text = string.Format("{0:N0}", p.CostOfGood);
+
+                    ltrCostOfGood.Text = "";
+                    if (userRole == 0)
+                    {
+                        ltrCostOfGood.Text += "<div class='form-row'>";
+                        ltrCostOfGood.Text += "    <div class='row-left'>";
+                        ltrCostOfGood.Text += "        Giá vốn";
+                        ltrCostOfGood.Text += "    </div>";
+                        ltrCostOfGood.Text += "    <div class='row-right'>";
+                        ltrCostOfGood.Text += "        <span class='form-control'>" + string.Format("{0:N0}", p.CostOfGood) + "</span>";
+                        ltrCostOfGood.Text += "    </div>";
+                        ltrCostOfGood.Text += "</div>";
+                    }
+                    
                     lbRetailPrice.Text = string.Format("{0:N0}", p.Retail_Price);
                     ddlSupplier.SelectedValue = p.SupplierID.ToString();
                     ddlCategory.SelectedValue = p.CategoryID.ToString();
@@ -139,25 +160,13 @@ namespace IM_PJ
 
                 List<tbl_ProductVariable> b = new List<tbl_ProductVariable>();
 
-                if (id > 0)
-                {
-                    ViewState["ID"] = id;
-                    var product = ProductController.GetByID(id);
-                    if (product != null)
-                    {
-                        ViewState["ProductName"] = product.ProductTitle;
-                        var cate = CategoryController.GetByID(Convert.ToInt32(product.CategoryID));
-                    }
-                    b = ProductVariableController.SearchProductID(id, "");
-                    pagingall(b);
-                }
+                b = ProductVariableController.SearchProductID(id, "");
+                pagingall(b, userRole);
             }
         }
         #region Paging
-        public void pagingall(List<tbl_ProductVariable> acs)
+        public void pagingall(List<tbl_ProductVariable> acs, int userRole)
         {
-
-            string productname = ViewState["ProductName"].ToString();
             int PageSize = 15;
             StringBuilder html = new StringBuilder();
             if (acs.Count > 0)
@@ -175,6 +184,22 @@ namespace IM_PJ
                 int ToRow = Page * PageSize - 1;
                 if (ToRow >= TotalItems)
                     ToRow = TotalItems - 1;
+                html.Append("<tr>");
+                html.Append("    <th class='image-column'>Ảnh</th>");
+                html.Append("    <th class='variable-column'>Thuộc tính</th>");
+                html.Append("    <th class='sku-column'>Mã</th>");
+                html.Append("    <th class='wholesale-price-column'>Giá sỉ</th>");
+                if(userRole == 0)
+                {
+                    html.Append("    <th class='cost-price-column'>Giá vốn</th>");
+                }
+                html.Append("    <th class='retail-price-column'>Giá lẻ</th>");
+                html.Append("    <th class='stock-column'>Kho</th>");
+                html.Append("    <th class='stock-status-column'>Trạng thái</th>");
+                html.Append("    <th class='date-column'>Ngày tạo</th>");
+                html.Append("    <th class='hide-column'>Ẩn</th>");
+                html.Append("    <th class='action-column'>Thao tác</th>");
+                html.Append("</tr>");
                 for (int i = FromRow; i < ToRow + 1; i++)
                 {
                     var item = acs[i];
@@ -217,8 +242,7 @@ namespace IM_PJ
 
                     html.Append("   <td>" + string.Format("{0:N0}", item.Regular_Price) + "</td>");
 
-                    int k = Convert.ToInt32(ViewState["role"]);
-                    if (k == 0)
+                    if (userRole == 0)
                     {
                         html.Append("   <td>" + string.Format("{0:N0}", item.CostOfGood) + "</td>");
                     }

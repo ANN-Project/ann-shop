@@ -15,7 +15,7 @@
                                 <th>Đã mua</th>
                                 <th>Zalo</th>
                                 <th>Facebook</th>
-                                <th>Nhân viên phụ trách</th>
+                                <th>Nhân viên</th>
                             </tr>
                         </thead>
                         <tbody>

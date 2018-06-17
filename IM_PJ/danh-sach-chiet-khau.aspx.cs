@@ -30,7 +30,6 @@ namespace IM_PJ
                         {
                             Response.Redirect("/trang-chu");
                         }
-                       
                     }
                 }
                 else
@@ -40,7 +39,6 @@ namespace IM_PJ
                 LoadData();
             }
         }
-
 
         public void LoadData()
         {

@@ -53,19 +53,7 @@
                         <div class="responsive-table">
                             <table class="table table-checkable table-product all-product-table">
                                 <tbody>
-                                    <tr>
-                                        <th class="image-column">Ảnh</th>
-                                        <th class="name-column">Sản phẩm</th>
-                                        <th class="sku-column">Mã</th>
-                                        <th class="wholesale-price-column">Giá sỉ</th>
-                                        <th class="cost-price-column cost hide">Giá vốn</th> 
-                                        <th class="retail-price-column">Giá lẻ</th>
-                                        <th class="stock-column">Kho</th>
-                                        <th class="stock-status-column">Trạng thái</th>
-                                        <th class="category-column">Danh mục</th>
-                                        <th class="date-column">Ngày tạo</th>
-                                        <th class="action-column"></th>
-                                    </tr>
+                                    
                                     <asp:Literal ID="ltrList" runat="server" EnableViewState="false"></asp:Literal>
                                 </tbody>
                             </table>
@@ -79,16 +67,9 @@
                 </div>
             </div>
         </div>
-        <asp:HiddenField ID="hdfcost" runat="server" />
         <script type="text/javascript">
             function searchAgent() {
                 $("#<%= btnSearch.ClientID%>").click();
-            }
-
-            var cost = document.getElementById('<%= hdfcost.ClientID%>').defaultValue;
-            if (cost == "ok")
-            {
-                $(".cost").removeClass("hide");
             }
         </script>
     </main>

@@ -29,15 +29,16 @@ namespace IM_PJ
                     var acc = AccountController.GetByUsername(username);
                     if (acc != null)
                     {
+                        hdfUserRole.Value = acc.RoleID.ToString();
+
                         if (acc.RoleID == 2)
                         {
-                            Response.Redirect("/dang-nhap");
+                            Response.Redirect("/trang-chu");
                         }
                     }
                 }
                 else
                 {
-
                     Response.Redirect("/dang-nhap");
                 }
                 LoadSupplier();
@@ -110,15 +111,26 @@ namespace IM_PJ
             ddlCategory.Items.Insert(0, new ListItem("Chọn danh mục sản phẩm", "0"));
             if (category.Count > 0)
             {
-                foreach (var p in category)
-                {
-                    ListItem listitem = new ListItem(p.CategoryName, p.ID.ToString());
-                    ddlCategory.Items.Add(listitem);
-                }
+                addItemCategory(0, "");
                 ddlCategory.DataBind();
             }
         }
 
+        public void addItemCategory(int id, string h = "")
+        {
+            var categories = CategoryController.GetByParentID("", id);
+            
+            if (categories.Count > 0)
+            {
+                foreach (var c in categories)
+                {
+                    ListItem listitem = new ListItem(h + c.CategoryName, c.ID.ToString());
+                    ddlCategory.Items.Add(listitem);
+
+                    addItemCategory(c.ID, h + "---");
+                }
+            }
+        }
         public static void DeQuyCongTu(int el, int final, string r, List<Variable> listObject)
         {
             var currentElement = listObject[el];
@@ -329,8 +341,9 @@ namespace IM_PJ
                             int supplierID = ddlSupplier.SelectedValue.ToInt(0);
                             string supplierName = ddlSupplier.SelectedItem.ToString();
                             int a = 1;
-                            double MinimumInventoryLevel = Convert.ToDouble(pMinimumInventoryLevel.Text);
-                            double MaximumInventoryLevel = Convert.ToDouble(pMaximumInventoryLevel.Text);
+
+                            double MinimumInventoryLevel = pMinimumInventoryLevel.Text.ToInt(0);
+                            double MaximumInventoryLevel = pMaximumInventoryLevel.Text.ToInt(0);
 
                             if (hdfsetStyle.Value == "2")
                             {
@@ -355,8 +368,6 @@ namespace IM_PJ
                                     catch { }
                                 }
                             }
-
-                            
                             
                             string kq = ProductController.Insert(cateID, 0, ProductTitle, ProductContent, ProductSKU, ProductStock, StockStatus, true, Regular_Price, CostOfGood, Retail_Price, ProductImage, 0, false, currentDate, username, supplierID, supplierName, txtMaterials.Text, MinimumInventoryLevel, MaximumInventoryLevel, a);
 
@@ -383,8 +394,8 @@ namespace IM_PJ
                                         string retailprice = itemElement[7];
                                         string[] datanamevalue = itemElement[8].Split('|');
                                         string imageUpload = itemElement[8];
-                                        int max = itemElement[9].ToInt(0);
-                                        int min = itemElement[10].ToInt(0);
+                                        int _MaximumInventoryLevel = itemElement[9].ToInt(0);
+                                        int _MinimumInventoryLevel = itemElement[10].ToInt(0);
 
                                         int stockstatus = itemElement[11].ToInt();
 
@@ -399,7 +410,7 @@ namespace IM_PJ
 
                                         string kq1 = ProductVariableController.Insert(ProductID, ProductSKU, productvariablesku, 0, stockstatus, Convert.ToDouble(regularprice),
                                             Convert.ToDouble(costofgood), Convert.ToDouble(retailprice), image, true, false, currentDate, username,
-                                            supplierID, supplierName, min, max);
+                                            supplierID, supplierName, _MinimumInventoryLevel, _MaximumInventoryLevel);
                                         string color = "";
                                         string size = "";
                                         int ProductVariableID = 0;

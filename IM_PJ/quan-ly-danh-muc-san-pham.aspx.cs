@@ -24,7 +24,7 @@ namespace IM_PJ
                     var acc = AccountController.GetByUsername(username);
                     if (acc != null)
                     {
-                        if (acc.RoleID == 0 || acc.RoleID == 1)
+                        if (acc.RoleID == 0)
                         {
                            
                         }
@@ -54,7 +54,6 @@ namespace IM_PJ
                 html += "<ul>";
                 foreach (var c in categories)
                 {
-                    //html += "<li data-jstree='{ \"opened\" : false}'>" + c.CategoryName + "";
                     html += "<li data-jstree='{ \"opened\" : true}'>" + c.CategoryName + " - <span class=\"register-link\" onclick=\"editCategory('" + c.ID + "')\">Chi tiết</span> | <span class=\"register-link\" onclick=\"AddChildCategory('" + c.ID + "')\">Sản phẩm</span>";
                     Loadtree(c.ID, c.CategoryName);
                     html += "</li>";
@@ -85,7 +84,6 @@ namespace IM_PJ
             if (Request.QueryString["s"] != null)
             {
                 string s = Request.QueryString["s"];
-                //txtAgentName.Text = s;
                 a = CategoryController.GetBySearchLevel(s,0);
             }
             else
@@ -144,7 +142,6 @@ namespace IM_PJ
                     html.Append("</tr>");
                 }
             }
-            //ltrList.Text = html.ToString();
         }
         public static Int32 GetIntFromQueryString(String key)
         {

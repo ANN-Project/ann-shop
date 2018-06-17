@@ -28,7 +28,7 @@ namespace IM_PJ
                     {
                         if (acc.RoleID != 0)
                         {
-                            Response.Redirect("/dang-nhap");
+                            Response.Redirect("/trang-chu");
                         }
                     }
                 }
@@ -50,7 +50,6 @@ namespace IM_PJ
                 pContent.Content = p.ChangeGoodsRule;
             }
         }
-
         protected void btnLogin_Click(object sender, EventArgs e)
         {
             string username = Session["userLoginSystem"].ToString();

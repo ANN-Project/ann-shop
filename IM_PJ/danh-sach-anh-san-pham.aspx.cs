@@ -25,15 +25,11 @@ namespace IM_PJ
                     var acc = AccountController.GetByUsername(username);
                     if (acc != null)
                     {
-                        if (acc.RoleID != 0)
-                        {
-                            Response.Redirect("/dang-nhap");
-                        }
+
                     }
                 }
                 else
                 {
-
                     Response.Redirect("/dang-nhap");
                 }
                 LoadData();

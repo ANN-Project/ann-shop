@@ -118,7 +118,7 @@
                                     <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" ControlToValidate="txtProductSKU" ForeColor="Red" ErrorMessage="(*)" Display="Dynamic" SetFocusOnError="true"></asp:RequiredFieldValidator>
                                 </div>
                                 <div class="row-right">
-                                    <asp:TextBox ID="txtProductSKU" runat="server" CssClass="form-control" onblur="CheckSKU()" placeholder="Mã sản phẩm"></asp:TextBox>
+                                    <asp:TextBox ID="txtProductSKU" runat="server" CssClass="form-control sku-input" onblur="CheckSKU()" placeholder="Mã sản phẩm"></asp:TextBox>
                                 </div>
                             </div>
                             <div class="form-row">
@@ -177,13 +177,13 @@
                                     <asp:TextBox type="number" min="0" autocomplete="off" ID="pRegular_Price" runat="server" CssClass="form-control" placeholder="Giá sỉ"></asp:TextBox>
                                 </div>
                             </div>
-                            <div class="form-row">
+                            <div class="form-row cost-of-goods">
                                 <div class="row-left">
                                     Giá vốn
                                     <asp:RequiredFieldValidator ID="RequiredFieldValidator4" runat="server" ControlToValidate="pCostOfGood" ForeColor="Red" ErrorMessage="(*)" Display="Dynamic" SetFocusOnError="true"></asp:RequiredFieldValidator>
                                 </div>
                                 <div class="row-right">
-                                    <asp:TextBox type="number" min="0" autocomplete="off" ID="pCostOfGood" runat="server" CssClass="form-control" placeholder="Giá vốn"></asp:TextBox>
+                                    <asp:TextBox type="number" min="0" autocomplete="off" ID="pCostOfGood" runat="server" CssClass="form-control cost-price" placeholder="Giá vốn"></asp:TextBox>
                                 </div>
                             </div>
                             <div class="form-row">
@@ -282,8 +282,7 @@
                                                 <h3>Danh sách thuộc tính sản phẩm</h3>
                                             </div>
                                             <div class="col-md-2 delete" style="display: none;">
-                                                <a href="javascript:;" onclick="deleteAll()" id="delete"
-                                                    class="btn primary-btn fw-btn not-fullwidth">Xóa</a>
+                                                <a href="javascript:;" onclick="deleteAll()" id="delete" class="btn primary-btn fw-btn not-fullwidth">Xóa tất cả</a>
                                             </div>
                                         </div>
                                         <div class="list-item-genred">
@@ -309,11 +308,33 @@
         <asp:HiddenField ID="hdfMaximum" runat="server" />
         <asp:HiddenField ID="hdfMinimum" runat="server" />
         <asp:HiddenField ID="hdfParentID" runat="server" />
+        <asp:HiddenField ID="hdfUserRole" runat="server" />
     </main>
 
     <telerik:RadCodeBlock runat="server">
         <script src="/App_Themes/NewUI/js/jquery.min.js"></script>
         <script type="text/javascript">
+            $(document).ready(function () {
+                var userRole = $("#<%=hdfUserRole.ClientID%>").val();
+                if (userRole != "0") {
+                    $(".cost-of-goods").addClass("hide");
+                }
+
+                $("#<%=pRegular_Price.ClientID%>").blur(function () {
+                    var cost = parseInt($("#<%=pRegular_Price.ClientID%>").val()) - 15000;
+                    $("input.cost-price").val(cost);
+                });
+
+                $("#<%=pRegular_Price.ClientID%>").blur(function () {
+                    var retailPrice = parseInt($("#<%=pRegular_Price.ClientID%>").val()) + 50000;
+                    $("#<%=pRetailPrice.ClientID%>").val(retailPrice);
+                });
+
+                $('input.sku-input').val(function () {
+                    return this.value.toUpperCase();
+                })
+            });
+
             function reDirectTo(ID) {
                 window.location.href = "/xem-san-pham.aspx?id=" +ID;
             }
@@ -517,6 +538,7 @@
                         swal("Thông báo", "Hãy nhập đầy đủ thông tin sản phẩm.", "error");
                     }
                     else {
+                        HoldOn.open();
                         if ($(".variablevalue-item").length > 0) {
                             var parentnameid = "";
                             var listname = "";
@@ -550,63 +572,97 @@
                                 var data = JSON.parse(msg.d);
                                 if (data.length > 0) {
                                     var html = "";
+
+                                    var numberCreated = 0;
                                     for (var i = 0; i < data.length; i++) {
                                         var item = data[i];
                                         var temp1 = item.ProductVariableName.split('|');
                                         var a = $("#<%=hdfsetStyle.ClientID%>").val();
 
-                                        $(".numbertype").show();
-                                        $(".delete").show();
-                                        html += "<div class=\"item-var-gen\" data-name-id=\"" + item.VariableListValue
+                                        var checkExisted = false;
+                                        $(".item-var-gen").each(function () {
+                                            var existedID = $(this).attr("data-name-value");
+                                            if (item.ProductVariable == existedID) {
+                                                checkExisted = true;
+                                            }
+                                        });
+
+                                        if (checkExisted == false) {
+                                            html += "<div class=\"item-var-gen\" data-name-id=\"" + item.VariableListValue
                                             + "|\" data-value-id=\"" + item.VariableValue
                                             + "|\" data-name-text=\"" + item.VariableNameList
                                             + "|\" data-value-text=\"" + item.VariableValueName
                                             + "\" data-name-value=\"" + item.ProductVariable + "\">";
-                                        html += "<div class=\"form-row\">";
-                                        html += "<div class=\"row-left\">Thông tin</div>";
-                                        html += "<div class=\"row-right\">";
-                                        for (var j = 0; j < temp1.length - 1; j++) {
-                                            html += "<p><strong>" + temp1[j] + " </strong></p>";
+                                            html += "<div class=\"form-row\">";
+                                            html += "<div class=\"row-left\">Thông tin</div>";
+                                            html += "<div class=\"row-right\">";
+                                            for (var j = 0; j < temp1.length - 1; j++) {
+                                                html += "<p><strong>" + temp1[j] + " </strong></p>";
+                                            }
+                                            html += "</div>";
+                                            html += "</div>";
+                                            html += "<div class=\"form-row\">";
+                                            html += "<div class=\"row-left\">Mã sản phẩm</div>";
+                                            html += "<div class=\"row-right\"><input type=\"text\" class=\"form-control productvariablesku sku-input\" value=\"" + SKU + item.VariableSKUText + "\" /></div>";
+                                            html += "</div>";
+                                            html += "<div class=\"form-row\">";
+                                            html += "<div class=\"row-left\">Giá sỉ</div>";
+                                            html += "<div class=\"row-right\"><input class=\"form-control regularprice\" type=\"text\" value=\"" + giasi + "\" /> </div>";
+                                            html += "</div>";
+                                            html += "<div class=\"form-row cost-of-goods\">";
+                                            html += "<div class=\"row-left\">Giá vốn</div>";
+                                            html += "<div class=\"row-right\"><input class=\"form-control costofgood cost-price\" type=\"text\" value=\"" + giavon + "\" /></div>";
+                                            html += "</div>";
+                                            html += "<div class=\"form-row\">";
+                                            html += "<div class=\"row-left\">Giá bán lẻ</div>";
+                                            html += "<div class=\"row-right\"><input class=\"form-control retailprice\" type=\"text\" value=\"" + giale + "\" /></div>";
+                                            html += "</div>";
+                                            html += "<div class=\"form-row\">";
+                                            html += "<div class=\"row-left\">Tồn kho ít nhất</div>";
+                                            html += "<div class=\"row-right\"><input class=\"form-control minimum\" type=\"text\" value=\"" + MinimumInventoryLevel + "\" /></div>";
+                                            html += "</div>";
+                                            html += "<div class=\"form-row\">";
+                                            html += "<div class=\"row-left\">Tồn kho nhiều nhất</div>";
+                                            html += "<div class=\"row-right\"><input class=\"form-control maximum\" type=\"text\" value=\"" + MaximumInventoryLevel + "\" /></div>";
+                                            html += "</div>";
+                                            html += "<div class=\"form-row\">";
+                                            html += "<input type='file' class=\"productVariableImage\" onchange=\"imagepreview(this,$(this));\" name=\"" + item.ProductVariable + "\"/>";
+                                            html += "<img class=\"imgpreview\" src=\"#\" style=\"width: 40%;\"  />";
+                                            html += "<span class=\"remove\" style=\"display:none\">Xóa</span>";
+                                            html += "</div>";
+                                            html += "<div class=\"form-row\">";
+                                            html += "<div class=\"row-left\"><a href=\"javascript:;\" onclick=\"deleteItemGen($(this))\" class=\"btn primary-btn fw-btn not-fullwidth\">Xóa</a></div>";
+                                            html += "<div class=\"row-right\">";
+                                            html += "</div>";
+                                            html += "</div>";
+                                            html += "</div>";
+                                            numberCreated++;
                                         }
-                                        html += "</div>";
-                                        html += "</div>";
-                                        html += "<div class=\"form-row\">";
-                                        html += "<div class=\"row-left\">Mã sản phẩm</div>";
-                                        html += "<div class=\"row-right\"><input type=\"text\" class=\"form-control productvariablesku\" value=\"" + SKU + item.VariableSKUText + "\" /></div>";
-                                        html += "</div>";
-                                        html += "<div class=\"form-row\">";
-                                        html += "<div class=\"row-left\">Giá sỉ</div>";
-                                        html += "<div class=\"row-right\"><input class=\"form-control regularprice\" type=\"text\" value=\"" + giasi + "\" /> </div>";
-                                        html += "</div>";
-                                        html += "<div class=\"form-row\">";
-                                        html += "<div class=\"row-left\">Giá vốn</div>";
-                                        html += "<div class=\"row-right\"><input class=\"form-control costofgood\" type=\"text\"  value=\"" + giavon + "\" /></div>";
-                                        html += "</div>";
-                                        html += "<div class=\"form-row\">";
-                                        html += "<div class=\"row-left\">Giá bán lẻ</div>";
-                                        html += "<div class=\"row-right\"><input class=\"form-control retailprice\" type=\"text\"  value=\"" + giale + "\" /></div>";
-                                        html += "</div>";
-                                        html += "<div class=\"form-row\">";
-                                        html += "<div class=\"row-left\">Tồn kho ít nhất</div>";
-                                        html += "<div class=\"row-right\"><input class=\"form-control minimum\" type=\"text\"  value=\"" + MinimumInventoryLevel + "\" /></div>";
-                                        html += "</div>";
-                                        html += "<div class=\"form-row\">";
-                                        html += "<div class=\"row-left\">Tồn kho nhiều nhất</div>";
-                                        html += "<div class=\"row-right\"><input class=\"form-control maximum\" type=\"text\"  value=\"" + MaximumInventoryLevel + "\" /></div>";
-                                        html += "</div>";
-                                        html += "<div class=\"form-row\">";
-                                        html += "<input type='file' class=\"productVariableImage\" onchange=\"imagepreview(this,$(this));\" name=\"" + item.ProductVariable + "\"/>";
-                                        html += "<img class=\"imgpreview\" src=\"#\" style=\"width: 40%;\"  />";
-                                        html += "<span class=\"remove\" style=\"display:none\">Xóa</span>";
-                                        html += "</div>";
-                                        html += "<div class=\"form-row\">";
-                                        html += "<div class=\"row-left\"><a href=\"javascript:;\" onclick=\"deleteItemGen($(this))\" class=\"btn primary-btn fw-btn not-fullwidth\">Xóa</a></div>";
-                                        html += "<div class=\"row-right\">";
-                                        html += "</div>";
-                                        html += "</div>";
-                                        html += "</div>";
                                     }
                                     $(".list-item-genred").append(html);
+                                    $(".delete").show();
+                                    if (data.length == numberCreated) {
+                                        swal("Thông báo", "Đã tạo thành công " + numberCreated + " biến thể sản phẩm", "success");
+                                    }
+                                    else {
+                                        if (numberCreated > 0) {
+                                            swal("Thông báo", "Đã thêm thành công " + numberCreated + " biến thể còn thiếu. Những biến thể mới sẽ thêm vào dưới cùng.", "success");
+                                        }
+                                        else {
+                                            swal("Thông báo", "Đã tạo đầy đủ " + data.length + " biến thể sản phẩm trước đó", "info");
+                                        }
+                                        
+                                    }
+                                    
+                                    HoldOn.close();
+
+                                    var userRole = $("#<%=hdfUserRole.ClientID%>").val();
+                                    if (userRole != "0") {
+                                        $(".cost-of-goods").addClass("hide");
+                                    }
+                                    $('input.sku-input').val(function () {
+                                        return this.value.toUpperCase();
+                                    })
                                 }
                                 $(".generat-variable-content").show();
                             },
@@ -652,7 +708,6 @@
                     $(".list-item-genred").remove();
                     var html = "<div class=\"list-item-genred\"></div>";
                     $(".generat-variable-content").append(html);
-                    $(".numbertype").hide();
                 }
             }
 

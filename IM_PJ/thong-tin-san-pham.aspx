@@ -40,7 +40,7 @@
                                     Mã sản phẩm
                                 </div>
                                 <div class="row-right">
-                                    <asp:TextBox ID="lblSKU" Enabled="false" runat="server" CssClass="form-control" placeholder="Mã sản phẩm"></asp:TextBox>
+                                    <asp:TextBox ID="lblSKU" Enabled="false" runat="server" CssClass="form-control sku-input" placeholder="Mã sản phẩm"></asp:TextBox>
                                 </div>
                             </div>
                             <div class="form-row">
@@ -85,13 +85,13 @@
                                     <asp:TextBox type="number" min="0" autocomplete="off" ID="pRegular_Price" runat="server" CssClass="form-control" placeholder="Giá sỉ"></asp:TextBox>
                                 </div>
                             </div>
-                            <div class="form-row cost hide">
+                            <div class="form-row cost-of-goods">
                                 <div class="row-left">
                                     Giá vốn
                                     <asp:RequiredFieldValidator ID="RequiredFieldValidator4" runat="server" ControlToValidate="pCostOfGood" ForeColor="Red" ErrorMessage="(*)" Display="Dynamic" SetFocusOnError="true"></asp:RequiredFieldValidator>
                                 </div>
                                 <div class="row-right">
-                                    <asp:TextBox type="number" min="0" autocomplete="off" ID="pCostOfGood" runat="server" CssClass="form-control" placeholder="Giá vốn"></asp:TextBox>
+                                    <asp:TextBox type="number" min="0" autocomplete="off" ID="pCostOfGood" runat="server" CssClass="form-control cost-price" placeholder="Giá vốn"></asp:TextBox>
                                 </div>
                             </div>
                             <div class="form-row">
@@ -147,17 +147,19 @@
         </div>
         <asp:HiddenField ID="hdfTempVariable" runat="server" />
         <asp:HiddenField ID="hdfVariableFull" runat="server" />
-        <asp:HiddenField ID="hdfcost" runat="server" />
         <asp:HiddenField ID="hdfParentID" runat="server" />
+        <asp:HiddenField ID="hdfUserRole" runat="server" />
     </main>
 
     <telerik:RadCodeBlock runat="server">
         <script src="/App_Themes/NewUI/js/jquery.min.js"></script>
         <script>
-            var cost = document.getElementById('<%= hdfcost.ClientID%>').defaultValue;
-            if (cost == "ok") {
-                $(".cost").removeClass("hide");
-            }
+            $(document).ready(function () {
+                var userRole = $("#<%=hdfUserRole.ClientID%>").val();
+                if (userRole != "0") {
+                    $(".cost-of-goods").addClass("hide");
+                }
+            });
 
             function isBlank(str) {
                 return (!str || /^\s*$/.test(str));
