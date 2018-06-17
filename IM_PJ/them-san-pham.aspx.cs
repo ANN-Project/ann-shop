@@ -351,9 +351,9 @@ namespace IM_PJ
                                         bool CHECK = true;
                                         if (postedFile != null && postedFile.ContentLength > 0)
                                         {
-                                            string filePath = Server.MapPath("/Uploads/Images/") + Path.GetFileName(postedFile.FileName);
+                                            string filePath = Server.MapPath("/uploads/images/") + Path.GetFileName(postedFile.FileName);
                                             postedFile.SaveAs(filePath);
-                                            image = "/Uploads/Images/" + Path.GetFileName(postedFile.FileName);
+                                            image = "/uploads/images/" + Path.GetFileName(postedFile.FileName);
                                         }
                                         if (a == 2)
                                         {
@@ -417,7 +417,7 @@ namespace IM_PJ
                                 }
 
                                 //Phần thêm ảnh sản phẩm
-                                string duongdan = "/Uploads/Images/";
+                                string duongdan = "/uploads/images/";
                                 string IMG = "";
                                 if (hinhDaiDien.UploadedFiles.Count > 0)
                                 {

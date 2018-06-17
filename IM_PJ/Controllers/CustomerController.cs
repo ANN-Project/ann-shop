@@ -306,7 +306,7 @@ namespace IM_PJ.Controllers
                 }
                 else
                 {
-                    entity.Avatar = "/Uploads/Avatars/no-avatar.png";
+                    entity.Avatar = "/uploads/avatars/no-avatar.png";
                 }
                 if (reader["ShippingType"] != DBNull.Value)
                     entity.ShippingType = reader["ShippingType"].ToString().ToInt(0);

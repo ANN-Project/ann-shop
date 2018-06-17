@@ -18,7 +18,7 @@
         <telerik:RadScriptManager ID="RadScriptManager1" runat="server" />
         <telerik:RadFileExplorer RenderMode="Lightweight" runat="server" ID="FileExplorer1" Width="780px" Height="600px"
             OnClientFileOpen="OnClientFileOpen" Skin="MetroTouch">
-            <Configuration ViewPaths="~/Uploads" />
+            <Configuration ViewPaths="~/uploads" />
         </telerik:RadFileExplorer>
         <script>
             (function (global, undefined) {

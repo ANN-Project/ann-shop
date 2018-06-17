@@ -35,7 +35,7 @@ namespace IM_PJ
                             string fname = li.Replace("https://ann.com.vn/wp-content/uploads/", "");
                             try
                             {
-                                client.DownloadFile(new Uri(li), Server.MapPath("~/Uploads/" + fname + ""));
+                                client.DownloadFile(new Uri(li), Server.MapPath("~/uploads/" + fname + ""));
                             }
                             catch
                             {
@@ -67,7 +67,7 @@ namespace IM_PJ
                                     string fname = item.Replace("https://ann.com.vn/wp-content/uploads/", "");
                                     try
                                     {
-                                        client.DownloadFile(new Uri(item), Server.MapPath("~/Uploads/" + fname + ""));
+                                        client.DownloadFile(new Uri(item), Server.MapPath("~/uploads/" + fname + ""));
                                     }
                                     catch
                                     {
@@ -81,7 +81,7 @@ namespace IM_PJ
                                 string fname = li.Replace("https://ann.com.vn/wp-content/uploads/", "");
                                 try
                                 {
-                                    client.DownloadFile(new Uri(li), Server.MapPath("~/Uploads/" + fname + ""));
+                                    client.DownloadFile(new Uri(li), Server.MapPath("~/uploads/" + fname + ""));
                                 }
                                 catch
                                 {

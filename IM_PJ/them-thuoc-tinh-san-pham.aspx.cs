@@ -105,7 +105,7 @@ namespace IM_PJ
                         bool ManageStock = true;
 
                         //Phần thêm ảnh đại diện sản phẩm
-                        string path = "/Uploads/Images/";
+                        string path = "/uploads/images/";
                         string ProductImage = "";
                         if (ProductThumbnailImage.UploadedFiles.Count > 0)
                         {

@@ -420,7 +420,7 @@ namespace IM_PJ
                             for (int j = 0; j < quantity; j++)
                             {
                                 barcodeValue = list2[0];
-                                barcodeImage = "/Uploads/Barcodes/" + barcodeValue + ".png";
+                                barcodeImage = "/uploads/barcodes/" + barcodeValue + ".png";
                                 System.Drawing.Image barCode = PJUtils.MakeBarcodeImage(barcodeValue, 2, true);
 
                                 barCode.Save(HttpContext.Current.Server.MapPath("" + barcodeImage + ""), ImageFormat.Png);
@@ -437,7 +437,7 @@ namespace IM_PJ
                         ltrprint.Text = html;
 
                         // Delete barcode image after print
-                        string[] filePaths = Directory.GetFiles(Server.MapPath("/Uploads/Barcodes/"));
+                        string[] filePaths = Directory.GetFiles(Server.MapPath("/uploads/barcodes/"));
                         foreach (string filePath in filePaths)
                         {
                             File.Delete(filePath);

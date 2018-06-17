@@ -340,7 +340,7 @@ namespace IM_PJ
                             }
 
                             //Phần thêm ảnh đại diện sản phẩm
-                            string path = "/Uploads/Images/";
+                            string path = "/uploads/images/";
                             string ProductImage = "";
                             if (ProductThumbnailImage.UploadedFiles.Count > 0)
                             {
@@ -392,9 +392,9 @@ namespace IM_PJ
                                         string image = "";
                                         if (postedFile != null && postedFile.ContentLength > 0)
                                         {
-                                            string filePath = Server.MapPath("/Uploads/Images/") + Path.GetFileName(postedFile.FileName);
+                                            string filePath = Server.MapPath("/uploads/images/") + Path.GetFileName(postedFile.FileName);
                                             postedFile.SaveAs(filePath);
-                                            image = "/Uploads/Images/" + Path.GetFileName(postedFile.FileName);
+                                            image = "/uploads/images/" + Path.GetFileName(postedFile.FileName);
                                         }
 
                                         string kq1 = ProductVariableController.Insert(ProductID, ProductSKU, productvariablesku, 0, stockstatus, Convert.ToDouble(regularprice),

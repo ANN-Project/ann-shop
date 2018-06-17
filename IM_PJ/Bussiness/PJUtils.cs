@@ -998,7 +998,7 @@ namespace NHST.Bussiness
 
             var myEncoderParameter = new EncoderParameter(myEncoder, 100L);
             myEncoderParameters.Param[0] = myEncoderParameter;
-            myBitmap.Save(HttpContext.Current.Server.MapPath("~/Uploads/Barcode.jpg"), jgpEncoder, myEncoderParameters);
+            myBitmap.Save(HttpContext.Current.Server.MapPath("~/uploads/Barcode.jpg"), jgpEncoder, myEncoderParameters);
         }
 
         private static ImageCodecInfo GetEncoder(ImageFormat format)
@@ -1222,7 +1222,7 @@ namespace NHST.Bussiness
 
         public static string GenQRCode(string code)
         {
-            string IMG = "/Uploads/QRCode/" + code + ".jpg";
+            string IMG = "/uploads/QRCode/" + code + ".jpg";
             QRCodeGenerator qrGenerator = new QRCodeGenerator();
             QRCodeGenerator.QRCode qrCode = qrGenerator.CreateQrCode(code, QRCodeGenerator.ECCLevel.Q);
             Bitmap bitmap = qrCode.GetGraphic(20);

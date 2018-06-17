@@ -177,7 +177,7 @@ namespace IM_PJ
                         if (d != null)
                         {
                             //Phần thêm ảnh đại diện khách hàng
-                            string path = "/Uploads/Avatars/";
+                            string path = "/uploads/avatars/";
                             string Avatar = ListAvatarImage.Value;
                             if (UploadAvatarImage.UploadedFiles.Count > 0)
                             {

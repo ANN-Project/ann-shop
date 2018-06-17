@@ -120,7 +120,7 @@ namespace IM_PJ
                         lblError.Visible = false;
 
                         //Phần thêm ảnh đại diện khách hàng
-                        string path = "/Uploads/Avatars/";
+                        string path = "/uploads/avatars/";
                         string Avatar = "";
                         if (UploadAvatarImage.UploadedFiles.Count > 0)
                         {

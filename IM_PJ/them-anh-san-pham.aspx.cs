@@ -68,7 +68,7 @@ namespace IM_PJ
                     int productID = ViewState["productid"].ToString().ToInt(0);
                     bool isHidden = chkIsHidden.Checked;
                     ///Lưu ảnh
-                    string duongdan = "/Uploads/Images/";
+                    string duongdan = "/uploads/images/";
                     string IMG = "";
                     if (hinhDaiDien.UploadedFiles.Count > 0)
                     {
