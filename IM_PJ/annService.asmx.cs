@@ -6,6 +6,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Web;
 using System.Web.Script.Services;
 using System.Web.Services;
@@ -112,15 +113,15 @@ namespace IM_PJ
                 rs.Code = APIUtils.GetResponseCode(APIUtils.ResponseCode.SUCCESS);
                 rs.Status = APIUtils.ResponseMessage.Success.ToString();
 
-                foreach(var item in Product)
+                foreach (var item in Product)
                 {
                     var productImage = ProductImageController.GetByProductID(item.ID);
 
-                    item.ProductContent = String.Format("<p><img src='/wp-content/uploads/{0}' alt='{1}'> /></p>", item.ProductImage.Split('/')[3], item.ProductTitle);
-                    foreach(var image in productImage)
+                    item.ProductContent = String.Format("<p><img src='/wp-content/uploads/{0}' alt='{1}'/></p>", item.ProductImage.Split('/')[3], item.ProductTitle);
+                    foreach (var image in productImage)
                     {
                         item.ProductImage += "|" + image.ProductImage;
-                        item.ProductContent += String.Format("<p><img src='/wp-content/uploads/{0}' alt='{1}'> /></p>", image.ProductImage.Split('/')[3], item.ProductTitle);
+                        item.ProductContent += String.Format("<p><img src='/wp-content/uploads/{0}' alt='{1}'/></p>", image.ProductImage.Split('/')[3], item.ProductTitle);
                     }
                 }
                 rs.Product = Product;
@@ -618,6 +619,49 @@ namespace IM_PJ
             Context.Response.End();
         }
 
+        [WebMethod]
+        [ScriptMethod(UseHttpGet = false)]
+        public void GetQuantityCurrent()
+        {
+            var StockManager = StockManagerController.GetQuantityCurrent();
+            if (StockManager.Count > 0)
+            {
+                var DataToExportToCSV = StockManager.Select(x => {
+                    var quantityCurrent = 0D;
+
+                    if (x.Type == 1)
+                    {
+                        quantityCurrent = x.QuantityCurrent.Value + x.Quantity.Value;
+                    }
+                    else
+                    {
+                        quantityCurrent = x.QuantityCurrent.Value + x.Quantity.Value;
+                    }
+
+                    return new StockManager()
+                    {
+                        SKU = x.SKU,
+                        Quantity = quantityCurrent,
+                        Status = quantityCurrent > 0 ? 1 : 0
+                    };
+                }).ToList();
+
+                string attachment = "attachment; filename=StockManagerCSV.csv";
+                HttpContext.Current.Response.Clear();
+                HttpContext.Current.Response.ClearHeaders();
+                HttpContext.Current.Response.ClearContent();
+                HttpContext.Current.Response.AddHeader("content-disposition", attachment);
+                HttpContext.Current.Response.ContentType = "text/csv";
+                HttpContext.Current.Response.AddHeader("Pragma", "public");
+
+                var sb = new StringBuilder();
+                foreach (var line in DataToExportToCSV)
+                    sb.AppendLine(String.Format("{0}, {1}, {2}", line.SKU, line.Quantity, line.Status));
+
+                HttpContext.Current.Response.Write(sb.ToString());
+            }
+
+        }
 
         public class ResponseClass
         {
@@ -646,6 +690,9 @@ namespace IM_PJ
             public List<tbl_ProductVariableValue> ProductVariableValue { get; set; }
 
             [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+            public List<StockManager> StockManager { get; set; }
+
+            [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
             public tbl_Account User { get; set; }
 
             [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
@@ -666,6 +713,13 @@ namespace IM_PJ
             public string ProductVariableValue { get; set; }
             public double Quantity { get; set; }
             public double Price { get; set; }
+        }
+
+        public class StockManager
+        {
+            public string SKU { get; set; }
+            public double Quantity { get; set; }
+            public int Status { get; set; }
         }
     }
 }

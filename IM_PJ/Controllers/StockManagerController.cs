@@ -669,6 +669,28 @@ namespace IM_PJ.Controllers
                 return null;
             }
         }
+
+        public static List<tbl_StockManager> GetQuantityCurrent()
+        {
+            using (var con = new inventorymanagementEntities())
+            {
+                return con.tbl_StockManager
+                            .Join(
+                                con.tbl_StockManager
+                                    .GroupBy(x => new { x.AgentID, x.ProductID, x.ProductVariableID })
+                                    .Select(x => new
+                                    {
+                                        AgentID = x.Key.AgentID,
+                                        ProductID = x.Key.ProductID,
+                                        ProductVariableID = x.Key.ProductVariableID,
+                                        CreatedDate = x.Max(row => row.CreatedDate)
+                                    }),
+                                stock => new { stock.AgentID, stock.ProductID, stock.ProductVariableID, stock.CreatedDate },
+                                stock_max => new { stock_max.AgentID, stock_max.ProductID, stock_max.ProductVariableID, stock_max.CreatedDate },
+                                (stock, stock_max) => stock)
+                             .ToList();
+            }
+        }
         #endregion
     }
 }
