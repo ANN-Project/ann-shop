@@ -111,6 +111,18 @@ namespace IM_PJ
             {
                 rs.Code = APIUtils.GetResponseCode(APIUtils.ResponseCode.SUCCESS);
                 rs.Status = APIUtils.ResponseMessage.Success.ToString();
+
+                foreach(var item in Product)
+                {
+                    var productImage = ProductImageController.GetByProductID(item.ID);
+
+                    item.ProductContent = String.Format("<p><img src='/wp-content/uploads/{0}' alt='{1}'> /></p>", item.ProductImage.Split('/')[3], item.ProductTitle);
+                    foreach(var image in productImage)
+                    {
+                        item.ProductImage += "|" + image.ProductImage;
+                        item.ProductContent += String.Format("<p><img src='/wp-content/uploads/{0}' alt='{1}'> /></p>", image.ProductImage.Split('/')[3], item.ProductTitle);
+                    }
+                }
                 rs.Product = Product;
             }
             else
