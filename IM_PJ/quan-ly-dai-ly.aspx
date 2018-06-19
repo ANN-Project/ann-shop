@@ -7,7 +7,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
-                    <h3 class="page-title left">Danh sách đại lý</h3>
+                    <h3 class="page-title left">Danh sách chi nhánh</h3>
                     <div class="right above-list-btn">
                         <a href="/them-dai-ly" class="h45-btn primary-btn btn">Thêm mới</a>
                     </div>
@@ -20,7 +20,7 @@
                             <table class="table table-checkable table-product">
                                 <tbody>
                                     <tr>
-                                        <th>Tên</th>
+                                        <th>Chi nhánh</th>
                                         <th>Điện thoại</th>
                                         <th>Địa chỉ</th>
                                         <th>Ngày tạo</th>
@@ -40,10 +40,5 @@
                 </div>
             </div>
         </div>
-        <script type="text/javascript">
-            <%--function searchAgent() {
-                $("#<%= btnSearch.ClientID%>").click();
-            }--%>
-        </script>
     </main>
 </asp:Content>

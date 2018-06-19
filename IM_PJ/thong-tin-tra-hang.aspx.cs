@@ -173,7 +173,7 @@ namespace IM_PJ
                 var re = RefundGoodController.updatestatus((ViewState["ID"].ToString()).ToInt(), Convert.ToInt32(ddlRefundStatus.SelectedValue),DateTime.Now, a.Username,txtRefundsNote.Text);
                 if(re != null)
                 {
-                    PJUtils.ShowMessageBoxSwAlert("Cập nhật đơn trả hàng thành công", "s", true, Page);
+                    PJUtils.ShowMessageBoxSwAlert("Cập nhật đơn hàng đổi trả thành công", "s", true, Page);
                 }
                 else
                 {

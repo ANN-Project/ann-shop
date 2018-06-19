@@ -662,6 +662,105 @@ namespace IM_PJ
             }
 
         }
+        //[WebMethod]
+        //[ScriptMethod(UseHttpGet = false)]
+        //public void GetAllProduct()
+        //{
+        //    int categoryID = 1;
+        //    string s = "";
+        //    List<ProductSQL> products = new List<ProductSQL>();
+        //    products = ProductController.GetAllSql(categoryID, s);
+        //    string xml = "";
+        //    if(products.Count > 0)
+        //    {
+        //        foreach (var item in products)
+        //        {
+        //            xml += "<product>";
+        //            xml += "<product_sku>" + item.ProductSKU + "</product_sku>";
+        //            xml += "<product_title>" + item.ProductTitle + "</product_title>";
+        //            xml += "<product_regular_price>" + item.RegularPrice + "</product_regular_price>";
+        //            xml += "<product_retail_price>" + item.RetailPrice + "</product_retail_price>";
+        //            xml += "<product_category>" + item.CategoryName + "</product_category>";
+        //            xml += "<product_type>" + item.ProductStyle + "</product_type>";
+                    
+        //            string stock = "0";
+        //            string manager_stock = "0";
+        //            if (item.ProductStyle == 1)
+        //            {
+        //                var ProductStock = ProductController.GetAllSql(0, item.ProductSKU);
+        //                if (ProductStock.Count() > 0)
+        //                {
+        //                    foreach (var itemStock in ProductStock)
+        //                    {
+        //                        stock = itemStock.TotalProductInstockQuantityLeft.ToString();
+        //                    }
+        //                }
+        //                manager_stock = "1";
+        //            }
+        //            xml += "<product_stock>" + stock + "</product_stock>";
+        //            xml += "<product_manager_stock>" + manager_stock + "</product_manager_stock>";
+
+        //            var productImage = ProductImageController.GetByProductID(item.ID);
+
+        //            item.ProductContent = String.Format("<p><img src='/wp-content/uploads/{0}' alt='{1}'/></p>", item.ProductImage.Split('/')[3], item.ProductTitle);
+        //            foreach (var image in productImage)
+        //            {
+        //                item.ProductImage += "|" + image.ProductImage;
+        //                item.ProductContent += String.Format("<p><img src='/wp-content/uploads/{0}' alt='{1}'/></p>", image.ProductImage.Split('/')[3], item.ProductTitle);
+        //            }
+        //            xml += "<productimage>" + item.ProductImage + "</productimage>";
+        //            xml += "<productcontent>" + item.ProductContent + "</productcontent>";
+
+        //            // Nếu sản phẩm có biến thể thì hiển thị biến thể bên dưới...
+        //            if (item.ProductStyle == 2)
+        //            {
+        //                xml += "<productvariable>";
+                        
+        //                var ProductVariable = ProductVariableController.GetProductID(item.ID);
+        //                if (ProductVariable.Count > 0)
+        //                {
+        //                    foreach (var variable in ProductVariable)
+        //                    {
+        //                        xml += "<variable>";
+        //                        xml += "<variable_sku>" + variable.SKU + "</variable_sku>";
+        //                        xml += "<variable_regularprice>" + variable.Regular_Price + "</variable_regularprice>";
+        //                        xml += "<variable_retailprice>" + variable.RetailPrice + "</variable_retailprice>";
+
+        //                        string variable_stock = "0";
+        //                        var VariableStock = ProductController.GetAllSql(0, variable.SKU);
+        //                        if (VariableStock.Count() > 0)
+        //                        {
+        //                            foreach (var itemStock in VariableStock)
+        //                            {
+        //                                variable_stock = itemStock.TotalProductInstockQuantityLeft.ToString();
+        //                            }
+        //                        }
+        //                        xml += "<variable_stock>" + variable_stock + "</variable_stock>";
+        //                        xml += "<variable_manager_stock>1</variable_manager_stock>";
+
+                                
+        //                        var ProductVariableValue = ProductVariableValueController.GetByProductVariableID(variable.ID);
+        //                        if (ProductVariableValue.Count > 0)
+        //                        {
+        //                            foreach (var variant in ProductVariableValue)
+        //                            {
+        //                                xml += "<" + variant.VariableName + ">" + variant.VariableValue + "</" + variant.VariableName + ">";
+        //                            }
+        //                        }
+
+        //                        xml += "</variable>";
+
+        //                    }
+        //                }
+                        
+        //                xml += "</productvariable>";
+        //            }
+
+        //            xml += "</product>";
+        //        }
+        //    }
+        //    HttpContext.Current.Response.Write(xml);
+        //}
 
         public class ResponseClass
         {

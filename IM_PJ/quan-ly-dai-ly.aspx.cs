@@ -112,7 +112,7 @@ namespace IM_PJ
                     html.Append("   <td>" + ishidden + "</td>");
                     html.Append("   <td>");
                     html.Append("       <a href=\"/thong-tin-dai-ly.aspx?id=" + item.ID + "\" class=\"btn primary-btn h45-btn\">Chi tiết</a>");
-                    html.Append("       <a href=\"/quan-ly-nhan-vien.aspx?agentid=" + item.ID + "\" class=\"btn primary-btn h45-btn\">Danh sách nhân viên</a>");
+                    html.Append("       <a href=\"/tat-ca-nhan-vien.aspx?agentid=" + item.ID + "\" class=\"btn primary-btn h45-btn\">Nhân viên</a>");
                     html.Append("   </td>");
                     html.Append("</tr>");
                 }
@@ -258,18 +258,5 @@ namespace IM_PJ
             return output.ToString();
         }
         #endregion
-
-        //protected void btnSearch_Click(object sender, EventArgs e)
-        //{
-        //    string search = txtAgentName.Text;
-        //    if (!string.IsNullOrEmpty(search))
-        //    {
-        //        Response.Redirect("/quan-ly-dai-ly?s=" + search + "");
-        //    }
-        //    else
-        //    {
-        //        Response.Redirect("/quan-ly-dai-ly");
-        //    }
-        //}
     }
 }

@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Chi tiết giảm giá" Language="C#" MasterPageFile="~/MasterPage.Master" AutoEventWireup="true" CodeBehind="chi-tiet-giam-gia.aspx.cs" Inherits="IM_PJ.chi_tiet_giam_gia" %>
+﻿<%@ Page Title="Chi tiết nhóm khách hàng" Language="C#" MasterPageFile="~/MasterPage.Master" AutoEventWireup="true" CodeBehind="chi-tiet-giam-gia.aspx.cs" Inherits="IM_PJ.chi_tiet_giam_gia" %>
 <%@ Register Assembly="Telerik.Web.UI" Namespace="Telerik.Web.UI" TagPrefix="telerik" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
@@ -9,7 +9,7 @@
                 <div class="col-md-12">
                     <div class="panel panelborderheading">
                         <div class="panel-heading clear">
-                            <h3 class="page-title left not-margin-bot">Thêm nhóm giảm giá</h3>
+                            <h3 class="page-title left not-margin-bot">Thông tin nhóm khách hàng</h3>
                         </div>
                         <div class="panel-body">
                             <div class="form-row">

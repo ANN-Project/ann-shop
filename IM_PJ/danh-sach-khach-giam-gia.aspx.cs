@@ -44,7 +44,7 @@ namespace IM_PJ
         {
             var customer = CustomerController.GetNotInGroupByGroupID(groupID);
             ddlCustomer.Items.Clear();
-            ddlCustomer.Items.Insert(0, new ListItem("-- Chọn khách hàng --", "0"));
+            ddlCustomer.Items.Insert(0, new ListItem("Chọn khách hàng", "0"));
             if (customer.Count > 0)
             {
                 customer = customer.OrderBy(o => o.CustomerName).ToList();

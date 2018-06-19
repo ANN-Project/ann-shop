@@ -9,7 +9,7 @@
                 <div class="col-md-12">
                     <div class="panel panelborderheading">
                         <div class="panel-heading clear">
-                            <h3 class="page-title left not-margin-bot">Thêm mới đại lý</h3>
+                            <h3 class="page-title left not-margin-bot">Thêm mới chi nhánh</h3>
                         </div>
                         <div class="panel-body">
                             <div class="form-row">
@@ -17,7 +17,7 @@
                             </div>
                             <div class="form-row">
                                 <div class="row-left">
-                                    Tên đại lý 
+                                    Tên chi nhánh 
                                     <asp:RequiredFieldValidator ID="rq" runat="server" ControlToValidate="txtAgentName" ForeColor="Red" SetFocusOnError="true"
                                         ErrorMessage="(*)" Display="Dynamic"></asp:RequiredFieldValidator>
                                 </div>
@@ -28,7 +28,7 @@
 
                             <div class="form-row">
                                 <div class="row-left">
-                                    Tên chủ đại lý 
+                                    Tên quản lý chi nhánh
                             <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" ControlToValidate="txtAgentName" ForeColor="Red"
                                 ErrorMessage="(*)" Display="Dynamic" SetFocusOnError="true"></asp:RequiredFieldValidator>
                                 </div>
@@ -38,7 +38,7 @@
                             </div>
                             <div class="form-row">
                                 <div class="row-left">
-                                    Số đt đại lý 
+                                    Điện thoại
                                     <asp:RequiredFieldValidator ID="RequiredFieldValidator2" runat="server" ControlToValidate="txtAgentName" ForeColor="Red"
                                         ErrorMessage="(*)" Display="Dynamic" SetFocusOnError="true"></asp:RequiredFieldValidator>
                                 </div>
@@ -49,7 +49,7 @@
 
                             <div class="form-row">
                                 <div class="row-left">
-                                    Địa chỉ đại lý 
+                                    Địa chỉ
                             <asp:RequiredFieldValidator ID="RequiredFieldValidator3" runat="server" ControlToValidate="txtAgentName" ForeColor="Red"
                                 ErrorMessage="(*)" Display="Dynamic" SetFocusOnError="true"></asp:RequiredFieldValidator>
                                 </div>
@@ -60,7 +60,7 @@
 
                             <div class="form-row">
                                 <div class="row-left">
-                                    Email đại lý 
+                                    Email
                                     <asp:RequiredFieldValidator ID="RequiredFieldValidator4" runat="server" ControlToValidate="txtEmail" ForeColor="Red"
                                         ErrorMessage="(*)" Display="Dynamic" SetFocusOnError="true"></asp:RequiredFieldValidator>
                                     <asp:RegularExpressionValidator runat="server" ID="RegularExpressionValidator1" ControlToValidate="txtEmail" ForeColor="Red"

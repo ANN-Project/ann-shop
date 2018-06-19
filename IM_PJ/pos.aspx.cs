@@ -513,7 +513,7 @@ namespace IM_PJ
                         OrderDetailController.Insert(orderDetails);
                         StockManagerController.Insert(stockManager);
 
-                        PJUtils.ShowMessageBoxSwAlertCallFunction("Tạo mới đơn hàng thành công", "s", true, "printInvoice(" + OrderID + ")", Page);
+                        PJUtils.ShowMessageBoxSwAlertCallFunction("Tạo đơn hàng thành công", "s", true, "printInvoice(" + OrderID + ")", Page);
                     }
 
                 }

@@ -95,12 +95,12 @@
     <asp:Literal ID="ltrShippingNote" runat="server"></asp:Literal>
     <asp:Literal ID="ltrPrintEnable"  runat="server"></asp:Literal>
     <script type="text/javascript">
-        //window.onload = function () {
-        //    if ($(".print-enable").hasClass("true")) {
-        //        window.print();
-        //        setTimeout(function () { window.close(); }, 1);
-        //    }
-        //}
+        window.onload = function () {
+            if ($(".print-enable").hasClass("true")) {
+                window.print();
+                setTimeout(function () { window.close(); }, 1);
+            }
+        }
     </script> 
 </body>
 </html>

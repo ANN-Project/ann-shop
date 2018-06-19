@@ -242,6 +242,9 @@
             var productRefunds = [];
             var productDeleteRefunds = [];
 
+            function redirectTo(ID) {
+                window.location.href = "/thong-tin-tra-hang.aspx?id=" + ID;
+            }
             
             $('#txtSearch').keydown(function (event) {
                 if (event.which === 13) {

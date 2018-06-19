@@ -417,7 +417,6 @@
     <Content Include="chi-tiet-chiet-khau.aspx" />
     <Content Include="chi-tiet-chuyen-hang.aspx" />
     <Content Include="chi-tiet-danh-muc-thuoc-tinh.aspx" />
-    <Content Include="chi-tiet-don-hang.aspx" />
     <Content Include="chi-tiet-giam-gia.aspx" />
     <Content Include="chi-tiet-khach-hang.aspx" />
     <Content Include="chi-tiet-nha-cung-cap.aspx" />
@@ -428,8 +427,6 @@
     <Content Include="Content\Site.css" />
     <Content Include="dang-nhap.aspx" />
     <Content Include="dang-xuat.aspx" />
-    <Content Include="danh-muc-con-level-1.aspx" />
-    <Content Include="danh-muc-con-level-2.aspx" />
     <Content Include="danh-sach-anh-san-pham.aspx" />
     <Content Include="danh-sach-chiet-khau.aspx" />
     <Content Include="danh-sach-chuyen-hang.aspx" />
@@ -440,7 +437,6 @@
     <Content Include="danh-sach-khach-hang.aspx" />
     <Content Include="danh-sach-nha-cung-cap.aspx" />
     <Content Include="danh-sach-nhan-hang.aspx" />
-    <Content Include="danh-sach-san-pham.aspx" />
     <Content Include="Dialogs\Dialog.aspx" />
     <Content Include="FilesResources\ToolContent.xml" />
     <Content Include="FilesResources\ToolsBasic.xml" />
@@ -556,7 +552,6 @@
     <Content Include="quan-ly-dai-ly.aspx" />
     <Content Include="quan-ly-danh-muc-san-pham.aspx" />
     <Content Include="quan-ly-danh-muc-thuoc-tinh.aspx" />
-    <Content Include="quan-ly-nhan-vien.aspx" />
     <Content Include="quan-ly-nhap-kho.aspx" />
     <Content Include="quan-ly-thuoc-tinh-san-pham.aspx" />
     <Content Include="quan-ly-tra-hang.aspx" />
@@ -602,8 +597,6 @@
     <Content Include="tat-ca-san-pham.aspx" />
     <Content Include="them-anh-san-pham.aspx" />
     <Content Include="them-dai-ly.aspx" />
-    <Content Include="them-danh-muc-con-level-1.aspx" />
-    <Content Include="them-danh-muc-con-level-2.aspx" />
     <Content Include="them-danh-muc-san-pham.aspx" />
     <Content Include="them-don-tra-hang.aspx" />
     <Content Include="them-gia-tri-thuoc-tinh.aspx" />
@@ -614,7 +607,6 @@
     <Content Include="them-moi-nha-cung-cap.aspx" />
     <Content Include="them-moi-thuoc-tinh.aspx" />
     <Content Include="them-nhan-vien.aspx" />
-    <Content Include="them-san-pham.aspx" />
     <Content Include="them-thuoc-tinh-san-pham.aspx" />
     <Content Include="thong-ke-chiet-khau.aspx" />
     <Content Include="thong-ke-doanh-thu.aspx" />
@@ -625,8 +617,6 @@
     <Content Include="thong-ke-so-luong-ton-kho-theo-danh-muc.aspx" />
     <Content Include="thong-tin-anh-san-pham.aspx" />
     <Content Include="thong-tin-dai-ly.aspx" />
-    <Content Include="thong-tin-danh-muc-con-level-1.aspx" />
-    <Content Include="thong-tin-danh-muc-con-level-2.aspx" />
     <Content Include="thong-tin-danh-muc-san-pham.aspx" />
     <Content Include="thong-tin-don-hang.aspx" />
     <Content Include="thong-tin-gia-tri-thuoc-tinh.aspx" />
@@ -635,7 +625,6 @@
     <Content Include="thong-tin-thuoc-tinh-san-pham.aspx" />
     <Content Include="thong-tin-tra-hang.aspx" />
     <Content Include="thuoc-tinh-san-pham.aspx" />
-    <Content Include="tra-hang.aspx" />
     <Content Include="trang-chu.aspx" />
     <Content Include="ViewSwitcher.ascx" />
     <Content Include="Web.config">
@@ -862,13 +851,6 @@
     <Compile Include="chi-tiet-danh-muc-thuoc-tinh.aspx.designer.cs">
       <DependentUpon>chi-tiet-danh-muc-thuoc-tinh.aspx</DependentUpon>
     </Compile>
-    <Compile Include="chi-tiet-don-hang.aspx.cs">
-      <DependentUpon>chi-tiet-don-hang.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="chi-tiet-don-hang.aspx.designer.cs">
-      <DependentUpon>chi-tiet-don-hang.aspx</DependentUpon>
-    </Compile>
     <Compile Include="chi-tiet-giam-gia.aspx.cs">
       <DependentUpon>chi-tiet-giam-gia.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -951,20 +933,6 @@
     <Compile Include="dang-xuat.aspx.designer.cs">
       <DependentUpon>dang-xuat.aspx</DependentUpon>
     </Compile>
-    <Compile Include="danh-muc-con-level-1.aspx.cs">
-      <DependentUpon>danh-muc-con-level-1.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="danh-muc-con-level-1.aspx.designer.cs">
-      <DependentUpon>danh-muc-con-level-1.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="danh-muc-con-level-2.aspx.cs">
-      <DependentUpon>danh-muc-con-level-2.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="danh-muc-con-level-2.aspx.designer.cs">
-      <DependentUpon>danh-muc-con-level-2.aspx</DependentUpon>
-    </Compile>
     <Compile Include="danh-sach-anh-san-pham.aspx.cs">
       <DependentUpon>danh-sach-anh-san-pham.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -1034,13 +1002,6 @@
     </Compile>
     <Compile Include="danh-sach-nhan-hang.aspx.designer.cs">
       <DependentUpon>danh-sach-nhan-hang.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="danh-sach-san-pham.aspx.cs">
-      <DependentUpon>danh-sach-san-pham.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="danh-sach-san-pham.aspx.designer.cs">
-      <DependentUpon>danh-sach-san-pham.aspx</DependentUpon>
     </Compile>
     <Compile Include="Default.aspx.cs">
       <DependentUpon>Default.aspx</DependentUpon>
@@ -1238,13 +1199,6 @@
     <Compile Include="quan-ly-danh-muc-thuoc-tinh.aspx.designer.cs">
       <DependentUpon>quan-ly-danh-muc-thuoc-tinh.aspx</DependentUpon>
     </Compile>
-    <Compile Include="quan-ly-nhan-vien.aspx.cs">
-      <DependentUpon>quan-ly-nhan-vien.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="quan-ly-nhan-vien.aspx.designer.cs">
-      <DependentUpon>quan-ly-nhan-vien.aspx</DependentUpon>
-    </Compile>
     <Compile Include="quan-ly-nhap-kho.aspx.cs">
       <DependentUpon>quan-ly-nhap-kho.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -1351,20 +1305,6 @@
     <Compile Include="them-dai-ly.aspx.designer.cs">
       <DependentUpon>them-dai-ly.aspx</DependentUpon>
     </Compile>
-    <Compile Include="them-danh-muc-con-level-1.aspx.cs">
-      <DependentUpon>them-danh-muc-con-level-1.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="them-danh-muc-con-level-1.aspx.designer.cs">
-      <DependentUpon>them-danh-muc-con-level-1.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="them-danh-muc-con-level-2.aspx.cs">
-      <DependentUpon>them-danh-muc-con-level-2.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="them-danh-muc-con-level-2.aspx.designer.cs">
-      <DependentUpon>them-danh-muc-con-level-2.aspx</DependentUpon>
-    </Compile>
     <Compile Include="them-danh-muc-san-pham.aspx.cs">
       <DependentUpon>them-danh-muc-san-pham.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -1463,13 +1403,6 @@
     <Compile Include="them-nhan-vien.aspx.designer.cs">
       <DependentUpon>them-nhan-vien.aspx</DependentUpon>
     </Compile>
-    <Compile Include="them-san-pham.aspx.cs">
-      <DependentUpon>them-san-pham.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="them-san-pham.aspx.designer.cs">
-      <DependentUpon>them-san-pham.aspx</DependentUpon>
-    </Compile>
     <Compile Include="them-thuoc-tinh-san-pham.aspx.cs">
       <DependentUpon>them-thuoc-tinh-san-pham.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -1547,20 +1480,6 @@
     <Compile Include="thong-tin-dai-ly.aspx.designer.cs">
       <DependentUpon>thong-tin-dai-ly.aspx</DependentUpon>
     </Compile>
-    <Compile Include="thong-tin-danh-muc-con-level-1.aspx.cs">
-      <DependentUpon>thong-tin-danh-muc-con-level-1.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="thong-tin-danh-muc-con-level-1.aspx.designer.cs">
-      <DependentUpon>thong-tin-danh-muc-con-level-1.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="thong-tin-danh-muc-con-level-2.aspx.cs">
-      <DependentUpon>thong-tin-danh-muc-con-level-2.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="thong-tin-danh-muc-con-level-2.aspx.designer.cs">
-      <DependentUpon>thong-tin-danh-muc-con-level-2.aspx</DependentUpon>
-    </Compile>
     <Compile Include="thong-tin-danh-muc-san-pham.aspx.cs">
       <DependentUpon>thong-tin-danh-muc-san-pham.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -1616,13 +1535,6 @@
     </Compile>
     <Compile Include="thuoc-tinh-san-pham.aspx.designer.cs">
       <DependentUpon>thuoc-tinh-san-pham.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="tra-hang.aspx.cs">
-      <DependentUpon>tra-hang.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="tra-hang.aspx.designer.cs">
-      <DependentUpon>tra-hang.aspx</DependentUpon>
     </Compile>
     <Compile Include="trang-chu.aspx.cs">
       <DependentUpon>trang-chu.aspx</DependentUpon>

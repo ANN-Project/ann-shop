@@ -27,7 +27,7 @@
                                     Email
                                 </div>
                                 <div class="row-right">
-                                    <asp:Label ID="lblEmail" runat="server" CssClass="form-control" ></asp:Label>
+                                    <asp:Label ID="lblEmail" runat="server" CssClass="form-control"></asp:Label>
                                 </div>
                             </div>
                             <div class="form-row">
@@ -101,7 +101,6 @@
                                         <asp:ListItem Value="1" Text="Hoạt động"></asp:ListItem>
                                         <asp:ListItem Value="2" Text="Khóa"></asp:ListItem>
                                     </asp:DropDownList>
-
                                 </div>
                             </div>
                             <div class="form-row">

@@ -335,7 +335,7 @@
                 })
             });
 
-            function reDirectTo(ID) {
+            function redirectTo(ID) {
                 window.location.href = "/xem-san-pham.aspx?id=" +ID;
             }
 

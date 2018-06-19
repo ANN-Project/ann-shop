@@ -30,13 +30,9 @@ namespace IM_PJ
                         {
                             pnAdmin.Visible = true;
                         }
-                        //else if (acc.AgentID == agentID && acc.RoleID == 1)
-                        //{
-
-                        //}
                         else
                         {
-                            Response.Redirect("/dang-nhap");
+                            Response.Redirect("/trang-chu");
                         }
                     }
                 }

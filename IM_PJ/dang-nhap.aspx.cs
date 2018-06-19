@@ -35,7 +35,7 @@ namespace IM_PJ
                 if (ac.Status == 1)
                 {
                     Session["userLoginSystem"] = username;
-                    Response.Redirect("/trang-chu.aspx");
+                    Response.Redirect("/trang-chu");
                 }
                 else
                 {

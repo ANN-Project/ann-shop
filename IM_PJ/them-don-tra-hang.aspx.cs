@@ -375,7 +375,7 @@ namespace IM_PJ
                                                 }
                                             }
                                         }
-                                        PJUtils.ShowMessageBoxSwAlert("Tạo mới đơn trả hàng thành công", "s", true, Page);
+                                        PJUtils.ShowMessageBoxSwAlertCallFunction("Tạo đơn hàng đổi trả thành công", "s", true, "redirectTo(" + rdID + ")", Page);
                                     }
                                 }
                             }

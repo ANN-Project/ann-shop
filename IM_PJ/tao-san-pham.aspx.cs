@@ -450,7 +450,7 @@ namespace IM_PJ
                                         catch { }
                                     }
                                 }
-                                PJUtils.ShowMessageBoxSwAlertCallFunction("Tạo sản phẩm thành công", "s", true, "reDirectTo("+ kq +")", Page);
+                                PJUtils.ShowMessageBoxSwAlertCallFunction("Tạo sản phẩm thành công", "s", true, "redirectTo("+ kq +")", Page);
                             }
                         }
 

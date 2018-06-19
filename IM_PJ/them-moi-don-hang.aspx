@@ -255,6 +255,10 @@
 // order of item list
 var orderItem = 0;
 
+function redirectTo(ID) {
+    window.location.href = "/thong-tin-don-hang.aspx?id=" + ID;
+}
+
 // search Product by SKU
 $("#txtSearch").keydown(function(event) {
     if (event.which === 13) {

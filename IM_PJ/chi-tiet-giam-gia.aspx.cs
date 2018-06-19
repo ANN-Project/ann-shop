@@ -75,10 +75,8 @@ namespace IM_PJ
                         var d = DiscountGroupController.GetByID(id);
                         if (d != null)
                         {
-                            DiscountGroupController.Update(id, txtDiscountName.Text, Convert.ToDouble(pDiscountAmount.Value),
-                        Convert.ToDouble(pDiscountAmountPercent.Value), pDiscountNote.Content, chkIsHidden.Checked, DateTime.Now, username,
-                        Convert.ToDouble(rRefundGoods.Value), Convert.ToDouble(pNumOfDateToChangeProduct.Value), Convert.ToDouble(pNumOfProductCanChange.Value));
-                            PJUtils.ShowMessageBoxSwAlert("Cập nhật thành công", "s", true, Page);
+                            DiscountGroupController.Update(id, txtDiscountName.Text, Convert.ToDouble(pDiscountAmount.Value), Convert.ToDouble(pDiscountAmountPercent.Value), pDiscountNote.Content, chkIsHidden.Checked, DateTime.Now, username, Convert.ToDouble(rRefundGoods.Value), Convert.ToDouble(pNumOfDateToChangeProduct.Value), Convert.ToDouble(pNumOfProductCanChange.Value));
+                            PJUtils.ShowMessageBoxSwAlert("Cập nhật nhóm khách hàng thành công", "s", true, Page);
                         }
                     }
                 }

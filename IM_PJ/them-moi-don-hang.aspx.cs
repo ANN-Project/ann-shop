@@ -516,8 +516,8 @@ namespace IM_PJ
                             var updateor = OrderController.UpdateRefund(OrderID, RefundID[0].ToInt(), acc.Username);
                         }
                         HttpContext.Current.Session.Remove("refundt");
-                        
-                        Response.Redirect("/thong-tin-don-hang.aspx?id="+OrderID);
+
+                        PJUtils.ShowMessageBoxSwAlertCallFunction("Tạo đơn hàng thành công", "s", true, "redirectTo(" + OrderID + ")", Page);
                     }
                 }
             }

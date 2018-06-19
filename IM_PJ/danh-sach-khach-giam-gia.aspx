@@ -10,7 +10,7 @@
                 <div class="col-md-12">
                     <div class="panel panelborderheading">
                         <div class="panel-heading clear">
-                            <h3 class="page-title left not-margin-bot">Khách hàng trong group</h3>
+                            <h3 class="page-title left not-margin-bot">Thêm khách hàng vào nhóm</h3>
                         </div>
                         <div class="panel-body">
                             <div class="form-row">
@@ -20,7 +20,7 @@
                                 <div class="row-right">
                                     <asp:DropDownList ID="ddlCustomer" runat="server" CssClass="form-control customerlist select2" Width="50%" Height="40px">
                                     </asp:DropDownList>
-                                    <asp:Button ID="btnLogin" runat="server" CssClass="btn primary-btn fw-btn not-fullwidth" Text="Add" OnClick="btnLogin_Click" />
+                                    <asp:Button ID="btnLogin" runat="server" CssClass="btn primary-btn fw-btn not-fullwidth" Text="Thêm" OnClick="btnLogin_Click" />
                                     <a href="/danh-sach-nhom-khach-hang" class="btn primary-btn fw-btn not-fullwidth">Trở về</a>
                                 </div>
                             </div>
@@ -35,8 +35,8 @@
                             <table class="table table-checkable table-product">
                                 <tbody>
                                     <tr>
-                                        <th>Tên</th>
-                                        <th>Số Phone</th>
+                                        <th>Họ tên</th>
+                                        <th>Điện thoại</th>
                                         <th>Ẩn</th>
                                         <th>Ngày tạo</th>
                                         <th>Thao tác</th>
@@ -44,11 +44,6 @@
                                     <asp:Literal ID="ltrList" runat="server" EnableViewState="false"></asp:Literal>
                                 </tbody>
                             </table>
-                        </div>
-                        <div class="panel-footer clear">
-                            <%--<div class="pagination">
-                                <%this.DisplayHtmlStringPaging1();%>
-                            </div>--%>
                         </div>
                     </div>
                 </div>

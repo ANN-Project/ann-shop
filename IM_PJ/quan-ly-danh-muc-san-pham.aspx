@@ -36,7 +36,7 @@
                 var win = window.open("/thong-tin-danh-muc-san-pham.aspx?id=" + ID + "", '_blank');
             }
             function AddChildCategory(ID) {
-                var win = window.open("/danh-sach-san-pham.aspx?categoryid=" + ID + "", '_blank');
+                var win = window.open("/tat-ca-san-pham?categoryid=" + ID + "", '_blank');
             }
         </script>
     </main>

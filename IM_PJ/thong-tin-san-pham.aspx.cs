@@ -186,7 +186,6 @@ namespace IM_PJ
                         if (kq.ToInt(0) > 0)
                         {
                             PJUtils.ShowMessageBoxSwAlert("Cập nhật sản phẩm thành công", "s", true, Page);
-                            //Response.Redirect("thong-tin-san-pham.aspx?id=" + id + "");
                         }
                     }
                 }
