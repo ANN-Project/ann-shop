@@ -412,7 +412,7 @@ namespace IM_PJ.Controllers
                 list.Add(entity);
             }
             reader.Close();
-            return list.OrderByDescending(x => x.CreatedDate).ToList();
+            return list.OrderByDescending(x => x.ID).ToList();
         }
 
         

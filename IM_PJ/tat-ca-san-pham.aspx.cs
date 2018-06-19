@@ -91,7 +91,7 @@ namespace IM_PJ
         public void pagingall(List<ProductSQL> acs)
         {
             string username = Session["userLoginSystem"].ToString();
-            string k = "";
+
             var acc = AccountController.GetByUsername(username);
 
             int PageSize = 30;
