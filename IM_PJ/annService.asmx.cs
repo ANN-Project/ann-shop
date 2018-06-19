@@ -621,12 +621,13 @@ namespace IM_PJ
 
         [WebMethod]
         [ScriptMethod(UseHttpGet = false)]
-        public void GetQuantityCurrent()
+        public void GetQuantityOfDay()
         {
-            var StockManager = StockManagerController.GetQuantityCurrent();
+            var StockManager = StockManagerController.GetQuantityOfDay();
+
             if (StockManager.Count > 0)
             {
-                var DataToExportToCSV = StockManager.Select(x => {
+                var dataToExportToCSV = StockManager.Select(x => {
                     var quantityCurrent = 0D;
 
                     if (x.Type == 1)
@@ -642,21 +643,24 @@ namespace IM_PJ
                     {
                         SKU = x.SKU,
                         Quantity = quantityCurrent,
-                        Status = quantityCurrent > 0 ? 1 : 0
                     };
                 }).ToList();
 
-                string attachment = "attachment; filename=StockManagerCSV.csv";
+                string attachment = String.Format("attachment; filename={0}_StockManagerCSV.csv", DateTime.Now.ToString("yyyyMMddHHmmss"));
                 HttpContext.Current.Response.Clear();
                 HttpContext.Current.Response.ClearHeaders();
                 HttpContext.Current.Response.ClearContent();
                 HttpContext.Current.Response.AddHeader("content-disposition", attachment);
                 HttpContext.Current.Response.ContentType = "text/csv";
                 HttpContext.Current.Response.AddHeader("Pragma", "public");
+                HttpContext.Current.Response.ContentEncoding = System.Text.Encoding.UTF8;
 
                 var sb = new StringBuilder();
-                foreach (var line in DataToExportToCSV)
-                    sb.AppendLine(String.Format("{0}, {1}, {2}", line.SKU, line.Quantity, line.Status));
+                sb.AppendLine("SKU,Quantity");
+                foreach (var line in dataToExportToCSV)
+                {
+                    sb.AppendLine(String.Format("{0}, {1}", line.SKU, line.Quantity));
+                }
 
                 HttpContext.Current.Response.Write(sb.ToString());
             }
@@ -719,7 +723,6 @@ namespace IM_PJ
         {
             public string SKU { get; set; }
             public double Quantity { get; set; }
-            public int Status { get; set; }
         }
     }
 }
