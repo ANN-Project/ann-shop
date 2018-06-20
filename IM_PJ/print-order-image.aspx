@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="/App_Themes/Ann/css/print-order-image.css" type="text/css"/>
     <link rel="stylesheet" href="/App_Themes/Ann/barcode/style.css" type="text/css"/>
     <link rel="stylesheet" href="/App_Themes/Ann/css/responsive.css" type="text/css"/>
-    <script src="/App_Themes/Ann/js/jquery-1.9.1.min.js"></script>
+    <script src="/App_Themes/Ann/js/jquery-2.1.3.min.js"></script>
     <script src="http://html2canvas.hertzen.com/dist/html2canvas.js"></script>
     <title></title>    
 </head>

@@ -29,7 +29,7 @@
                             </div>
                             <div class="form-row">
                                 <div class="row-left">
-                                    SKUText
+                                    Code
                                     <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" ControlToValidate="txtSKUText" ForeColor="Red"
                                         SetFocusOnError="true" ErrorMessage="(*)" Display="Dynamic"></asp:RequiredFieldValidator>
                                 </div>
@@ -40,7 +40,7 @@
 
                             <div class="form-row">
                                 <asp:Button ID="btnLogin" runat="server" CssClass="btn primary-btn fw-btn not-fullwidth" OnClick="btnLogin_Click" Text="Tạo mới" />
-                                <a href="/quan-ly-thuoc-tinh-san-pham" class="btn primary-btn fw-btn not-fullwidth">Trở về</a>
+                                <asp:Literal ID="ltrBack" runat="server"></asp:Literal>
                             </div>
                         </div>
                     </div>

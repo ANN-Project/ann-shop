@@ -11,7 +11,7 @@
     <title>Đăng nhập hệ thống</title>
     <link rel="stylesheet" href="/App_Themes/Ann/css/style.css" media="all" />
     <link rel="stylesheet" href="/App_Themes/Ann/css/style-P.css" media="all" />
-    <script src="/App_Themes/Ann/js/jquery-1.9.1.min.js"></script>
+    <script src="/App_Themes/Ann/js/jquery-2.1.3.min.js"></script>
 </head>
 <body>
     <form id="form1" runat="server">

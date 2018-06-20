@@ -477,12 +477,12 @@ namespace IM_PJ
             if (acc != null)
             {
                 int AgentID = Convert.ToInt32(acc.AgentID);
-                var product = ProductController.GetBySKU(textsearch.Trim());
+                var product = ProductController.GetBySKU(textsearch.Trim().ToUpper());
 
                 // Kiểm tra sản phẩm có trong table Product không?
                 if (product != null) // Nếu sản phẩm có trong table Product thì...
                 {
-                    var productvariable = ProductVariableController.GetProductID(product.ID);
+                    var productvariable = ProductVariableController.GetByParentSKU(product.ProductSKU);
 
                     // Kiểm tra sản phẩm cha là variable hay simple?
                     if (productvariable.Count > 0) // Nếu sản phẩm cha là variable thì...
@@ -491,7 +491,7 @@ namespace IM_PJ
                         {
                             string SKU = pv.SKU.Trim().ToUpper();
 
-                            var variables = ProductVariableValueController.GetByProductVariableID(pv.ID);
+                            var variables = ProductVariableValueController.GetByProductVariableSKU(SKU);
 
                             if (variables.Count > 0)
                             {
@@ -534,12 +534,11 @@ namespace IM_PJ
 
                                 if (gettotal == 1)
                                 {
-                                    double total = PJUtils.TotalProductQuantityInstock(AgentID, SKU);
                                     var mainstock = PJUtils.TotalProductQuantityInstock(1, SKU);
                                     p.QuantityMainInstock = mainstock;
                                     p.QuantityMainInstockString = string.Format("{0:N0}", mainstock);
-                                    p.QuantityInstock = total;
-                                    p.QuantityInstockString = string.Format("{0:N0}", total);
+                                    p.QuantityInstock = mainstock;
+                                    p.QuantityInstockString = string.Format("{0:N0}", mainstock);
                                 }
 
                                 p.SKU = SKU;
@@ -554,7 +553,6 @@ namespace IM_PJ
                     else // Nếu sản phẩm cha là simple thì...
                     {
                         string SKU = product.ProductSKU.Trim().ToUpper();
-                        double total = PJUtils.TotalProductQuantityInstock(AgentID, SKU);
                         double mainstock = PJUtils.TotalProductQuantityInstock(1, SKU);
 
                         ProductGetOut p = new ProductGetOut();
@@ -586,8 +584,8 @@ namespace IM_PJ
                         p.SKU = SKU;
                         p.QuantityMainInstock = mainstock;
                         p.QuantityMainInstockString = string.Format("{0:N0}", mainstock);
-                        p.QuantityInstock = total;
-                        p.QuantityInstockString = string.Format("{0:N0}", total);
+                        p.QuantityInstock = mainstock;
+                        p.QuantityInstockString = string.Format("{0:N0}", mainstock);
                         p.Giabansi = Convert.ToDouble(product.Regular_Price);
                         p.stringGiabansi = string.Format("{0:N0}", product.Regular_Price);
                         p.Giabanle = Convert.ToDouble(product.Retail_Price);
@@ -597,15 +595,14 @@ namespace IM_PJ
                 }
                 else // Nếu không nằm trong table Product thì...
                 {
-                    var productvariable = ProductVariableController.GetBySKU(textsearch);
+                    var productvariable = ProductVariableController.GetBySKU(textsearch.Trim().ToUpper());
 
                     // Nếu sản phẩm là con (nằm trong table ProductVariable) thì...
                     if (productvariable != null)
                     {
                         string SKU = productvariable.SKU.Trim().ToUpper();
-                        double total = PJUtils.TotalProductQuantityInstock(AgentID, SKU);
 
-                        var variables = ProductVariableValueController.GetByProductVariableID(productvariable.ID);
+                        var variables = ProductVariableValueController.GetByProductVariableSKU(SKU);
 
                         if (variables.Count > 0)
                         {
@@ -621,12 +618,13 @@ namespace IM_PJ
                                 variablename += v.VariableName + "|";
                                 variablevalue += v.VariableValue + "|";
                             }
+
                             double mainstock = PJUtils.TotalProductQuantityInstock(1, SKU);
 
                             ProductGetOut p = new ProductGetOut();
                             p.ID = productvariable.ID;
 
-                            var _product = ProductController.GetByID(Convert.ToInt32(productvariable.ProductID));
+                            var _product = ProductController.GetBySKU(productvariable.ParentSKU);
                             if (_product != null)
                                 p.ProductName = _product.ProductTitle;
 
@@ -655,8 +653,8 @@ namespace IM_PJ
                             p.SKU = SKU;
                             p.QuantityMainInstock = mainstock;
                             p.QuantityMainInstockString = string.Format("{0:N0}", mainstock);
-                            p.QuantityInstock = total;
-                            p.QuantityInstockString = string.Format("{0:N0}", total);
+                            p.QuantityInstock = mainstock;
+                            p.QuantityInstockString = string.Format("{0:N0}", mainstock);
                             p.Giabansi = Convert.ToDouble(productvariable.Regular_Price);
                             p.stringGiabansi = string.Format("{0:N0}", productvariable.Regular_Price);
                             p.Giabanle = Convert.ToDouble(productvariable.Regular_Price);

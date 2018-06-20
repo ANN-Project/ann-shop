@@ -282,9 +282,7 @@
     <Content Include="App_Themes\Ann\css\responsive.css" />
     <Content Include="App_Themes\Ann\css\style-P.css" />
     <Content Include="App_Themes\Ann\css\style.css" />
-    <Content Include="App_Themes\Ann\css\style.min.css">
-      <DependentUpon>style.css</DependentUpon>
-    </Content>
+    <Content Include="App_Themes\Ann\css\style.min.css" />
     <Content Include="App_Themes\Ann\fonts\font-awesome-4.7\css\font-awesome.min.css" />
     <Content Include="App_Themes\Ann\fonts\font-awesome-4.7\fonts\fontawesome-webfont.svg" />
     <Content Include="App_Themes\Ann\fonts\SFUIText\font.css" />
@@ -324,11 +322,10 @@
     <Content Include="App_Themes\Ann\js\chartjs.min.js" />
     <Content Include="App_Themes\Ann\js\HoldOn.js" />
     <Content Include="App_Themes\Ann\js\html2canvas.js" />
-    <Content Include="App_Themes\Ann\js\jquery-1.9.1.min.js" />
+    <Content Include="App_Themes\Ann\js\jquery-2.1.3.min.js" />
     <Content Include="App_Themes\Ann\js\master.js" />
     <Content Include="App_Themes\Ann\js\popup.js" />
     <Content Include="App_Themes\Ann\js\search-customer.js" />
-    <Content Include="App_Themes\Ann\js\simple.money.format.js" />
     <Content Include="App_Themes\Ann\scss\style.css" />
     <Content Include="App_Themes\Ann\scss\style.min.css" />
     <Content Include="App_Themes\NewUI\css\bootstrap-editable.css" />
@@ -479,18 +476,13 @@
     <Content Include="Models\IMModel.edmx.diagram">
       <DependentUpon>IMModel.edmx</DependentUpon>
     </Content>
-    <Content Include="App_Themes\Ann\css\.DS_Store" />
     <Content Include="App_Themes\Ann\css\accepted.exceptions.php" />
     <Content Include="App_Themes\Ann\css\style.css.map" />
-    <Content Include="App_Themes\Ann\fonts\.DS_Store" />
-    <Content Include="App_Themes\Ann\fonts\font-awesome-4.7\.DS_Store" />
-    <Content Include="App_Themes\Ann\fonts\font-awesome-4.7\css\.DS_Store" />
     <Content Include="App_Themes\Ann\fonts\font-awesome-4.7\fonts\fontawesome-webfont.eot" />
     <Content Include="App_Themes\Ann\fonts\font-awesome-4.7\fonts\fontawesome-webfont.ttf" />
     <Content Include="App_Themes\Ann\fonts\font-awesome-4.7\fonts\fontawesome-webfont.woff" />
     <Content Include="App_Themes\Ann\fonts\font-awesome-4.7\fonts\fontawesome-webfont.woff2" />
     <Content Include="App_Themes\Ann\fonts\font-awesome-4.7\fonts\FontAwesome.otf" />
-    <Content Include="App_Themes\Ann\fonts\SFUIText\.DS_Store" />
     <Content Include="App_Themes\Ann\fonts\SFUIText\SFUIText-Light.eot" />
     <Content Include="App_Themes\Ann\fonts\SFUIText\SFUIText-Light.ttf" />
     <Content Include="App_Themes\Ann\fonts\SFUIText\SFUIText-Light.woff" />
@@ -500,10 +492,6 @@
     <Content Include="App_Themes\Ann\fonts\SFUIText\SFUIText-Semibold.eot" />
     <Content Include="App_Themes\Ann\fonts\SFUIText\SFUIText-Semibold.ttf" />
     <Content Include="App_Themes\Ann\fonts\SFUIText\SFUIText-Semibold.woff" />
-    <Content Include="App_Themes\Ann\image\.DS_Store" />
-    <Content Include="App_Themes\Ann\image\iconsMenu\.DS_Store" />
-    <Content Include="App_Themes\Ann\js\.DS_Store" />
-    <Content Include="App_Themes\Ann\scss\.DS_Store" />
     <Content Include="MasterPage.Master" />
     <Content Include="App_Themes\NewUI\css\fonts\fontawesome-webfont.eot" />
     <Content Include="App_Themes\NewUI\css\fonts\fontawesome-webfont.ttf" />
@@ -558,7 +546,6 @@
     <Content Include="quan-ly-thuoc-tinh-san-pham.aspx" />
     <Content Include="quan-ly-tra-hang.aspx" />
     <Content Include="quan-ly-xuat-kho.aspx" />
-    <Content Include="quen-mat-khau.aspx" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
@@ -1227,13 +1214,6 @@
     </Compile>
     <Compile Include="quan-ly-xuat-kho.aspx.designer.cs">
       <DependentUpon>quan-ly-xuat-kho.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="quen-mat-khau.aspx.cs">
-      <DependentUpon>quen-mat-khau.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="quen-mat-khau.aspx.designer.cs">
-      <DependentUpon>quen-mat-khau.aspx</DependentUpon>
     </Compile>
     <Compile Include="Site.Master.cs">
       <DependentUpon>Site.Master</DependentUpon>

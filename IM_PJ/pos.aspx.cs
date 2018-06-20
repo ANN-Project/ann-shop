@@ -31,6 +31,7 @@ namespace IM_PJ
                     var acc = AccountController.GetByUsername(username);
                     if (acc != null)
                     {
+                        hdfUsernameCurrent.Value = acc.Username;
                         if (acc.RoleID == 0)
                         {
 
@@ -84,12 +85,12 @@ namespace IM_PJ
             if (acc != null)
             {
                 int AgentID = Convert.ToInt32(acc.AgentID);
-                var product = ProductController.GetBySKU(textsearch.Trim());
+                var product = ProductController.GetBySKU(textsearch.Trim().ToUpper());
 
                 // Kiểm tra sản phẩm có trong table Product không?
                 if (product != null) // Nếu sản phẩm có trong table Product thì...
                 {
-                    var productvariable = ProductVariableController.GetProductID(product.ID);
+                    var productvariable = ProductVariableController.GetByParentSKU(product.ProductSKU);
 
                     // Kiểm tra sản phẩm cha là variable hay simple?
                     if (productvariable.Count > 0) // Nếu sản phẩm cha là variable thì...
@@ -98,7 +99,8 @@ namespace IM_PJ
                         {
                             string SKU = pv.SKU.Trim().ToUpper();
 
-                            var variables = ProductVariableValueController.GetByProductVariableID(pv.ID);
+                            var variables = ProductVariableValueController.GetByProductVariableSKU(SKU);
+
                             if (variables.Count > 0)
                             {
                                 string variablename = "";
@@ -189,14 +191,14 @@ namespace IM_PJ
                 }
                 else // Nếu không nằm trong table Product thì...
                 {
-                    var productvariable = ProductVariableController.GetBySKU(textsearch);
+                    var productvariable = ProductVariableController.GetBySKU(textsearch.Trim().ToUpper());
 
                     // Nếu sản phẩm là con (nằm trong table ProductVariable) thì...
                     if (productvariable != null)
                     {
                         string SKU = productvariable.SKU.Trim().ToUpper();
 
-                        var variables = ProductVariableValueController.GetByProductVariableID(productvariable.ID);
+                        var variables = ProductVariableValueController.GetByProductVariableSKU(SKU);
 
                         if (variables.Count > 0)
                         {
@@ -217,7 +219,7 @@ namespace IM_PJ
                             p.ProductID = productvariable.ID;
                             p.ProductVariableID = 0;
 
-                            var _product = ProductController.GetByID(Convert.ToInt32(productvariable.ProductID));
+                            var _product = ProductController.GetBySKU(productvariable.ParentSKU);
                             if (_product != null)
                                 p.ProductName = _product.ProductTitle;
 
@@ -395,9 +397,9 @@ namespace IM_PJ
                 if (acc.RoleID == 0 || acc.RoleID == 2)
                 {
                     // change user
-                    if(username != hdfUsername.Value)
+                    if(username != hdfUsernameCurrent.Value)
                     {
-                        username = hdfUsername.Value;
+                        username = hdfUsernameCurrent.Value;
                     }
                     int AgentID = Convert.ToInt32(acc.AgentID);
                     int OrderType = hdfOrderType.Value.ToInt();

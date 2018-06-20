@@ -171,7 +171,7 @@ namespace IM_PJ
         #region Paging
         public void pagingall(List<tbl_Order> acs)
         {
-            int PageSize = 20;
+            int PageSize = 30;
             StringBuilder html = new StringBuilder();
             if (acs.Count > 0)
             {

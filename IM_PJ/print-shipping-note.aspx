@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <title>ann</title>
-<script src="/App_Themes/Ann/js/jquery-1.9.1.min.js"></script>
+<script src="/App_Themes/Ann/js/jquery-2.1.3.min.js"></script>
   <style>
     
     body {

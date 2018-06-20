@@ -42,9 +42,13 @@ namespace IM_PJ
         {
             string s = "";
             if (Request.QueryString["s"] != null)
+            {
                 s = Request.QueryString["s"];
+            }
+            
             int ID = Request.QueryString["id"].ToInt(0);
             ViewState["ID"] = ID;
+            ltrBack.Text = "<a href=\"/quan-ly-thuoc-tinh-san-pham.aspx?id=" + ID + "\" class=\"btn primary-btn fw-btn not-fullwidth\">Trở về</a>";
         }
 
         protected void btnLogin_Click(object sender, EventArgs e)
