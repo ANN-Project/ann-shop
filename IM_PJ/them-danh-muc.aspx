@@ -43,12 +43,10 @@
                             </div>
 
                             <div class="form-row">
-                                <div class="row-left">
-                                    Ẩn                   
+                                <div class="row-left">               
                                 </div>
                                 <div class="row-right">
-                                    <asp:CheckBox ID="chkIsHidden" runat="server" />
-                                    <div class="clear mar-top-3">
+                                    <div class="clear">
                                         <asp:Button ID="btnLogin" runat="server" CssClass="btn primary-btn fw-btn not-fullwidth" Text="Tạo mới" OnClick="btnLogin_Click" />
                                         <asp:Literal ID="ltrBack" runat="server"></asp:Literal>
                                     </div>
@@ -60,4 +58,9 @@
             </div>
         </div>
     </main>
+    <script type="text/javascript">
+        function redirectTo(ID) {
+            window.location.href = "thong-tin-danh-muc-san-pham.aspx?id=" + ID;
+        }
+    </script>
 </asp:Content>

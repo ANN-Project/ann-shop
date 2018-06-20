@@ -17,9 +17,16 @@
                             </div>
                             <div class="form-row">
                                 <div class="row-left">
+                                    Danh mục cha
+                                </div>
+                                <div class="row-right">
+                                   <asp:DropDownList runat="server" ID="ddlCategory" CssClass="form-control"></asp:DropDownList>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="row-left">
                                     Tên danh mục
-                                    <asp:RequiredFieldValidator ID="rq" runat="server" ControlToValidate="txtCategoryName" ForeColor="Red" SetFocusOnError="true"
-                                        ErrorMessage="(*)" Display="Dynamic"></asp:RequiredFieldValidator>
+                                    <asp:RequiredFieldValidator ID="rq" runat="server" ControlToValidate="txtCategoryName" ForeColor="Red" SetFocusOnError="true" ErrorMessage="(*)" Display="Dynamic"></asp:RequiredFieldValidator>
                                 </div>
                                 <div class="row-right">
                                     <asp:TextBox ID="txtCategoryName" runat="server" CssClass="form-control" placeholder="Tên danh mục"></asp:TextBox>
@@ -39,8 +46,14 @@
                                 </div>
                                 <div class="row-right">
                                     <asp:CheckBox ID="chkIsHidden" runat="server" />
-                                    <div class="clear mar-top-3">
-                                        <asp:Button ID="btnLogin" runat="server" CssClass="btn primary-btn fw-btn not-fullwidth" Text="Cập nhật" OnClick="btnLogin_Click" />
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="row-left">
+                                </div>
+                                <div class="row-right">
+                                    <div class="clear">
+                                        <asp:Button ID="Button1" runat="server" CssClass="btn primary-btn fw-btn not-fullwidth" Text="Cập nhật" OnClick="btnLogin_Click" />
                                         <a href="/quan-ly-danh-muc-san-pham" class="btn primary-btn fw-btn not-fullwidth">Quay về danh sách</a>
                                     </div>
                                 </div>

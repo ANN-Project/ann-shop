@@ -597,7 +597,6 @@
     <Content Include="tat-ca-san-pham.aspx" />
     <Content Include="them-anh-san-pham.aspx" />
     <Content Include="them-dai-ly.aspx" />
-    <Content Include="them-danh-muc-san-pham.aspx" />
     <Content Include="them-don-tra-hang.aspx" />
     <Content Include="them-gia-tri-thuoc-tinh.aspx" />
     <Content Include="them-moi-danh-muc-thuoc-tinh.aspx" />
@@ -1304,13 +1303,6 @@
     </Compile>
     <Compile Include="them-dai-ly.aspx.designer.cs">
       <DependentUpon>them-dai-ly.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="them-danh-muc-san-pham.aspx.cs">
-      <DependentUpon>them-danh-muc-san-pham.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="them-danh-muc-san-pham.aspx.designer.cs">
-      <DependentUpon>them-danh-muc-san-pham.aspx</DependentUpon>
     </Compile>
     <Compile Include="them-danh-muc.aspx.cs">
       <DependentUpon>them-danh-muc.aspx</DependentUpon>

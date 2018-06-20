@@ -10,7 +10,7 @@ namespace IM_PJ.Controllers
     public class CategoryController
     {
         #region CRUD
-        public static string Insert(string CategoryName, string CategoryDescription, int CategoryLevel, int ParentID, bool IsHidden,
+        public static int Insert(string CategoryName, string CategoryDescription, int CategoryLevel, int ParentID, bool IsHidden,
             DateTime CreatedDate, string CreatedBy)
         {
             using (var dbe = new inventorymanagementEntities())
@@ -25,7 +25,7 @@ namespace IM_PJ.Controllers
                 ui.CreatedBy = CreatedBy;
                 dbe.tbl_Category.Add(ui);
                 int kq = dbe.SaveChanges();
-                return kq.ToString();
+                return ui.ID;
             }
         }
         public static string Update(int ID, string CategoryName, string CategoryDescription, int CategoryLevel, int ParentID, bool IsHidden,

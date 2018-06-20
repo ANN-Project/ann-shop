@@ -33,6 +33,7 @@ namespace IM_PJ
                 {
                     Response.Redirect("/dang-nhap");
                 }
+                LoadCategory();
                 LoadData();
             }
         }
@@ -47,40 +48,53 @@ namespace IM_PJ
                     ViewState["ID"] = id;
                     txtCategoryName.Text = a.CategoryName;
                     txtCategoryDescription.Text = a.CategoryDescription;
+                    ddlCategory.SelectedValue = a.ParentID.ToString();
                     if (a.IsHidden != null)
                         chkIsHidden.Checked = Convert.ToBoolean(a.IsHidden);
                 }
             }
             else
             {
-                Response.Redirect("/quan-ly-dai-ly");
+                Response.Redirect("/quan-ly-danh-muc-san-pham");
             }
+        }
+        public void LoadCategory()
+        {
+            var category = CategoryController.GetAllWithIsHidden(false);
+            ddlCategory.Items.Clear();
+            ddlCategory.Items.Insert(0, new ListItem("Không chọn danh mục cha", "0"));
+            if (category.Count > 0)
+            {
+                addItemCategory(0, "");
+                ddlCategory.DataBind();
+            }
+        }
+        public void addItemCategory(int id, string h = "")
+        {
+            var categories = CategoryController.GetByParentID("", id);
 
+            if (categories.Count > 0)
+            {
+                foreach (var c in categories)
+                {
+                    ListItem listitem = new ListItem(h + c.CategoryName, c.ID.ToString());
+                    ddlCategory.Items.Add(listitem);
+
+                    addItemCategory(c.ID, h + "---");
+                }
+            }
         }
         protected void btnLogin_Click(object sender, EventArgs e)
         {
+            string username = Session["userLoginSystem"].ToString();
             DateTime currentDate = DateTime.Now;
-            if (Session["userLoginSystem"] != null)
+            int parentID = ddlCategory.SelectedValue.ToInt();
+            int ID = ViewState["ID"].ToString().ToInt(0);
+            string kq = CategoryController.Update(ID, txtCategoryName.Text, txtCategoryDescription.Text, parentID, parentID, chkIsHidden.Checked,
+                currentDate, username);
+            if (kq.ToInt(0) > 0)
             {
-                string username = Session["userLoginSystem"].ToString();
-                var acc = AccountController.GetByUsername(username);
-                if (acc != null)
-                {
-                    if (acc.RoleID == 0)
-                    {
-                        int ID = ViewState["ID"].ToString().ToInt(0);
-                        string kq = CategoryController.Update(ID, txtCategoryName.Text, txtCategoryDescription.Text, 0, 0, chkIsHidden.Checked,
-                            currentDate, username);
-                        if (kq.ToInt(0) > 0)
-                        {
-                            PJUtils.ShowMessageBoxSwAlert("Cập nhật thành công", "s", true, Page);
-                        }
-                    }
-                }
-            }
-            else
-            {
-                Response.Redirect("/dang-nhap");
+                PJUtils.ShowMessageBoxSwAlert("Cập nhật thành công", "s", true, Page);
             }
 
         }

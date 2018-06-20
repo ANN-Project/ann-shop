@@ -37,74 +37,46 @@ namespace IM_PJ
         }
         public void LoadData()
         {
-            var cate = CategoryController.GetAllByLevel();
+            LoadCategory();
+        }
+        public void LoadCategory()
+        {
+            var category = CategoryController.GetAllWithIsHidden(false);
             ddlCategory.Items.Clear();
-            ddlCategory.Items.Insert(0, new ListItem("-- Không có danh mục cha --", "0"));
-            if (cate.Count > 0)
+            ddlCategory.Items.Insert(0, new ListItem("Không chọn danh mục cha", "0"));
+            if (category.Count > 0)
             {
-                foreach (var p in cate)
-                {
-                    ListItem listitem = new ListItem(p.CategoryName, p.ID.ToString());
-                    ddlCategory.Items.Add(listitem);
-                }
+                addItemCategory(0, "");
                 ddlCategory.DataBind();
+            }
+        }
+        public void addItemCategory(int id, string h = "")
+        {
+            var categories = CategoryController.GetByParentID("", id);
+
+            if (categories.Count > 0)
+            {
+                foreach (var c in categories)
+                {
+                    ListItem listitem = new ListItem(h + c.CategoryName, c.ID.ToString());
+                    ddlCategory.Items.Add(listitem);
+
+                    addItemCategory(c.ID, h + "---");
+                }
             }
         }
         protected void btnLogin_Click(object sender, EventArgs e)
         {
+            string username = Session["userLoginSystem"].ToString();
             DateTime currentDate = DateTime.Now;
-            if (Session["userLoginSystem"] != null)
-            {
-                string username = Session["userLoginSystem"].ToString();
-                var acc = AccountController.GetByUsername(username);
-                if (acc != null)
-                {
-                    if (acc.RoleID == 0)
-                    {
-                        int id = ddlCategory.SelectedValue.ToInt();
-                        var check = CategoryController.GetByID(id);
-                        if (check != null)
-                        {
-                            if(check.CategoryLevel == 0)
-                            {
-                                string kq = CategoryController.Insert(txtCategoryName.Text, txtCategoryDescription.Text, 1,
-                               check.ID, chkIsHidden.Checked, currentDate, username);
-                                if (kq.ToInt(0) > 0)
-                                {
-                                    PJUtils.ShowMessageBoxSwAlert("Tạo mới thành công", "s", true, Page);
-                                    Response.Redirect("quan-ly-danh-muc-san-pham.aspx");
-                                }
-                            }
 
-                             if(check.CategoryLevel == 1)
-                            {
-                                string kq = CategoryController.Insert(txtCategoryName.Text, txtCategoryDescription.Text, 2,
-                              check.ID, chkIsHidden.Checked, currentDate, username);
-                                if (kq.ToInt(0) > 0)
-                                {
-                                    PJUtils.ShowMessageBoxSwAlert("Tạo mới thành công", "s", true, Page);
-                                    Response.Redirect("quan-ly-danh-muc-san-pham.aspx");
-                                }
-                            }
-                        }
-                        else
-                        {
-                            string kq = CategoryController.Insert(txtCategoryName.Text, txtCategoryDescription.Text, 0,
-                             0, chkIsHidden.Checked, currentDate, username);
-                            if (kq.ToInt(0) > 0)
-                            {
-                                PJUtils.ShowMessageBoxSwAlert("Tạo mới thành công", "s", true, Page);
-                                Response.Redirect("quan-ly-danh-muc-san-pham.aspx");
-                            }
-                        }
-                    }
-                }
-            }
-            else
+            int parentID = ddlCategory.SelectedValue.ToInt();
+            int ID = CategoryController.Insert(txtCategoryName.Text, txtCategoryDescription.Text, parentID, parentID, false, currentDate, username);
+            if (ID > 0)
             {
-                Response.Redirect("/dang-nhap");
+                PJUtils.ShowMessageBoxSwAlertCallFunction("Tạo danh mục sản phẩm thành công", "s", true, "redirectTo(" + ID + ")", Page);
             }
-
+                    
         }
     }
 }
