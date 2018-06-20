@@ -312,8 +312,8 @@
     </main>
 
     <telerik:RadCodeBlock runat="server">
-        <script src="/App_Themes/NewUI/js/jquery.min.js"></script>
         <script type="text/javascript">
+
             $(document).ready(function () {
                 var userRole = $("#<%=hdfUserRole.ClientID%>").val();
                 if (userRole != "0") {
@@ -332,9 +332,10 @@
 
                 $('input.sku-input').val(function () {
                     return this.value.toUpperCase();
-                })
-            });
+                });
 
+            });
+            
             function redirectTo(ID) {
                 window.location.href = "/xem-san-pham.aspx?id=" +ID;
             }

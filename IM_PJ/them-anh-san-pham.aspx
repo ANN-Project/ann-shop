@@ -52,7 +52,6 @@
     </main>
 
     <telerik:radcodeblock runat="server">
-        <script src="/App_Themes/NewUI/js/jquery.min.js"></script>
         <script>
             function OnClientFileSelected1(sender, args) {
                 if ($telerik.isIE) return;

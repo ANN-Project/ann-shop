@@ -102,7 +102,6 @@
         <asp:HiddenField ID="hdfVariableFull" runat="server" />
         <asp:HiddenField ID="hdfcost" runat="server" />
     </main>
-    <script src="/App_Themes/NewUI/js/jquery.min.js"></script>
     <script>
         var cost = document.getElementById('<%=hdfcost.ClientID%>').defaultValue;
         if (cost == "ok") {

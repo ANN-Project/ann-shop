@@ -137,10 +137,20 @@ namespace IM_PJ
 
                         int PaymentType = ddlPaymentType.SelectedValue.ToInt(0);
                         int ShippingType = ddlShippingType.SelectedValue.ToInt(0);
-                        int TransportCompanyID = ddlTransportCompanyID.SelectedValue.ToInt(0);
-                        int TransportCompanySubID = ddlTransportCompanySubID.SelectedValue.ToInt(0);
 
-                        CustomerController.Insert(txtCustomerName.Text, txtCustomerPhone.Text, txtSupplierAddress.Text, "", 0, 1, DateTime.Now, username, false, txtZalo.Text, txtFacebook.Text, txtNote.Text, ddlProvince.SelectedValue, txtNick.Text, Avatar, ShippingType, PaymentType, TransportCompanyID, TransportCompanySubID);
+                        int TransportCompanyID = 0;
+                        int TransportCompanySubID = 0;
+                        if (ddlTransportCompanyID.SelectedValue != "0")
+                        {
+                            TransportCompanyID = ddlTransportCompanyID.SelectedValue.ToInt();
+                        }
+                        if(ddlTransportCompanySubID.SelectedValue != "0")
+                        {
+                            TransportCompanySubID = ddlTransportCompanySubID.SelectedValue.ToInt();
+                        }
+                        
+
+                        CustomerController.Insert(txtCustomerName.Text, phone, txtAddress.Text, "", 0, 1, DateTime.Now, username, false, txtZalo.Text, txtFacebook.Text, txtNote.Text, ddlProvince.SelectedValue, txtNick.Text, Avatar, ShippingType, PaymentType, TransportCompanyID, TransportCompanySubID);
 
                         PJUtils.ShowMessageBoxSwAlert("Tạo khách hàng thành công", "s", true, Page);
                     }

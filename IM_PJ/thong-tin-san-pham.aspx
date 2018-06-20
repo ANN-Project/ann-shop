@@ -152,7 +152,6 @@
     </main>
 
     <telerik:RadCodeBlock runat="server">
-        <script src="/App_Themes/NewUI/js/jquery.min.js"></script>
         <script>
             $(document).ready(function () {
                 var userRole = $("#<%=hdfUserRole.ClientID%>").val();

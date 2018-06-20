@@ -328,6 +328,7 @@
     <Content Include="App_Themes\Ann\js\master.js" />
     <Content Include="App_Themes\Ann\js\popup.js" />
     <Content Include="App_Themes\Ann\js\search-customer.js" />
+    <Content Include="App_Themes\Ann\js\simple.money.format.js" />
     <Content Include="App_Themes\Ann\scss\style.css" />
     <Content Include="App_Themes\Ann\scss\style.min.css" />
     <Content Include="App_Themes\NewUI\css\bootstrap-editable.css" />

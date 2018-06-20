@@ -8,7 +8,7 @@ using System.Linq;
 using System.Web;
 using WebUI.Business;
 using System.Text.RegularExpressions;
-
+using System.Data.Entity.Validation;
 
 namespace IM_PJ.Controllers
 {
@@ -51,8 +51,21 @@ namespace IM_PJ.Controllers
                 ui.TransportCompanyID = TransportCompanyID;
                 ui.TransportCompanySubID = TransportCompanySubID;
 
-                dbe.tbl_Customer.Add(ui);
-                dbe.SaveChanges();
+                try
+                {
+                    dbe.tbl_Customer.Add(ui);
+                    dbe.SaveChanges();
+                }
+                catch (DbEntityValidationException dbEx)
+                {
+                    foreach (var validationErrors in dbEx.EntityValidationErrors)
+                    {
+                        foreach (var validationError in validationErrors.ValidationErrors)
+                        {
+                            System.Console.WriteLine("Property: {0} Error: {1}", validationError.PropertyName, validationError.ErrorMessage);
+                        }
+                    }
+                }
                 int kq = ui.ID;
                 return kq.ToString();
             }

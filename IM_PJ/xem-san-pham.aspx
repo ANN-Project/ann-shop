@@ -173,7 +173,6 @@
     </main>
 
     <telerik:RadCodeBlock runat="server">
-        <script src="/App_Themes/NewUI/js/jquery.min.js"></script>
         <script>
             var bt = document.getElementById('<%= hdfTable.ClientID%>').defaultValue;
             if (bt == "2") {

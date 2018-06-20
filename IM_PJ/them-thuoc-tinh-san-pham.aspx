@@ -96,7 +96,6 @@
     </main>
 
     <telerik:radcodeblock runat="server">
-        <script src="/App_Themes/NewUI/js/jquery.min.js"></script>
         <script>
             function isBlank(str) {
                 return (!str || /^\s*$/.test(str));

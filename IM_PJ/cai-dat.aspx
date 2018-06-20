@@ -69,6 +69,5 @@
     </main>
 
     <telerik:RadCodeBlock runat="server">
-        <script src="/App_Themes/NewUI/js/jquery.min.js"></script>
     </telerik:RadCodeBlock>
 </asp:Content>

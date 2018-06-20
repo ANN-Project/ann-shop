@@ -63,10 +63,10 @@
                             <div class="form-row">
                                 <div class="row-left">
                                     Địa chỉ
-                                    <asp:RequiredFieldValidator ID="RequiredFieldValidator2" runat="server" ControlToValidate="txtSupplierAddress" ForeColor="Red" SetFocusOnError="true" ErrorMessage="(*)" Display="Dynamic"></asp:RequiredFieldValidator>
+                                    <asp:RequiredFieldValidator ID="RequiredFieldValidator2" runat="server" ControlToValidate="txtAddress" ForeColor="Red" SetFocusOnError="true" ErrorMessage="(*)" Display="Dynamic"></asp:RequiredFieldValidator>
                                 </div>
                                 <div class="row-right">
-                                    <asp:TextBox ID="txtSupplierAddress" runat="server" CssClass="form-control" placeholder="Địa chỉ"></asp:TextBox>
+                                    <asp:TextBox ID="txtAddress" runat="server" CssClass="form-control" placeholder="Địa chỉ"></asp:TextBox>
                                 </div>
                             </div>
                             <div class="form-row">
@@ -151,7 +151,8 @@
                                 </div>
                             </div>
                             <div class="form-row">
-                                <asp:Button ID="btnSubmit" runat="server" CssClass="btn primary-btn fw-btn not-fullwidth" Text="Tạo mới" OnClick="btnSubmit_Click" />
+                                <a href="javascript:;" class="btn primary-btn fw-btn not-fullwidth" onclick="addCustomer()">Tạo mới</a>
+                                <asp:Button ID="btnSubmit" runat="server" CssClass="btn primary-btn fw-btn not-fullwidth" Text="Tạo mới" OnClick="btnSubmit_Click" Style="display: none" />
                                 <a href="/danh-sach-khach-hang" class="btn primary-btn fw-btn not-fullwidth">Trở về</a>
                             </div>
                         </div>
@@ -167,6 +168,33 @@
                 truncateName(args);
                 var file = args.get_fileInputField().files.item(args.get_rowIndex());
                 showThumbnail(file, args);
+            }
+        }
+        function addCustomer() {
+            var CustomerName = $("#<%=txtCustomerName.ClientID%>").val();
+            var Nick = $("#<%=txtNick.ClientID%>").val();
+            var CustomerPhone = $("#<%=txtCustomerPhone.ClientID%>").val();
+            var Address = $("#<%=txtAddress.ClientID%>").val();
+
+            if (CustomerName == "") {
+                $("#<%=txtCustomerName.ClientID%>").focus();
+                swal("Thông báo", "Chưa nhập họ tên khách hàng", "error");
+            }
+            else if (Nick == "") {
+                $("#<%=txtNick.ClientID%>").focus();
+                swal("Thông báo", "Chưa nhập nick đặt hàng", "error");
+            }
+            else if (CustomerPhone == "") {
+                $("#<%=txtCustomerPhone.ClientID%>").focus();
+                swal("Thông báo", "Chưa nhập số điện thoại", "error");
+            }
+            else if (Address == "") {
+                $("#<%=txtAddress.ClientID%>").focus();
+                swal("Thông báo", "Chưa nhập địa chỉ", "error");
+            }
+            else {
+                HoldOn.open();
+                $("#<%=btnSubmit.ClientID%>").click();
             }
         }
 
