@@ -149,7 +149,7 @@ namespace IM_PJ
                     html.Append("       <a href=\"/danh-sach-anh-san-pham.aspx?id=" + item.ID + "\" title=\"Xem hình ảnh\" class=\"btn primary-btn h45-btn\"><i class=\"fa fa-file-image-o\" aria-hidden=\"true\"></i></a>");
                     if (item.ProductStyle == 2)
                     {
-                        html.Append(" <a href=\"/thuoc-tinh-san-pham.aspx?id=" + item.ID + "\" title=\"Xem thuộc tính\" class=\"btn primary-btn h45-btn\"><i class=\"fa fa-file-text-o\" aria-hidden=\"true\"></i></a>");
+                        html.Append(" <a href=\"/thuoc-tinh-san-pham.aspx?id=" + item.ID + "\" title=\"Xem thuộc tính\" class=\"btn primary-btn btn-black h45-btn\"><i class=\"fa fa-cogs\" aria-hidden=\"true\"></i></a>");
                     }
 
                     html.Append("  </td>");

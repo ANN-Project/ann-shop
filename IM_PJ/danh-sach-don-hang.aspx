@@ -107,7 +107,7 @@
                                         <th>Tổng tiền</th>
                                         <th>Ngày tạo</th>
                                         <th>Hoàn tất</th>
-                                        <th></th>
+                                        <th>Thao tác</th>
                                     </tr>
                                     <asp:Literal ID="ltrList" runat="server" EnableViewState="false"></asp:Literal>
                                 </tbody>

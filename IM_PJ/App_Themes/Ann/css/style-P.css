@@ -1,4 +1,10 @@
-﻿.sku-input {
+﻿.btn-red {
+    background-color: #F44336!important;
+}
+.btn-black {
+    background-color: #686868!important;
+}
+.sku-input {
     text-transform: uppercase;
 }
 .margin-top-15 {
@@ -132,13 +138,13 @@ ul.image-gallery li {
     width: 7%;
 }
 .all-product-table .category-column {
-    width: 14%;
+    width: 12%;
 }
 .all-product-table .date-column {
     width: 7%;
 }
 .all-product-table .action-column {
-    width: 7%;
+    width: 9%;
 }
 .all-product-table .variable-column {
     width: 20%;
@@ -353,11 +359,6 @@ img {
 .mar-top-5 {
     margin-top: 50px;
 }
-
-.btn.h45-btn {
-    margin-bottom: 10px;
-}
-
 .bg-red {
     background: #FF675B;
     color: #fff;

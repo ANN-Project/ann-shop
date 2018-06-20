@@ -195,7 +195,16 @@ namespace IM_PJ
                     html.Append("   <td><a href=\"/thong-tin-don-hang.aspx?id=" + item.ID + "\">" + item.ID + "</a></td>");
                     html.Append("   <td>" + PJUtils.OrderTypeStatus(Convert.ToInt32(item.OrderType)) + "</td>");
                     html.Append("   <td>" + item.CustomerPhone + "</td>");
-                    html.Append("   <td><a href=\"/thong-tin-don-hang.aspx?id=" + item.ID + "\">" + item.CustomerName + "</a></td>");
+                    var customer = CustomerController.GetByID(Convert.ToInt32(item.CustomerID));
+                    if (!string.IsNullOrEmpty(customer.Nick))
+                    {
+                        html.Append("   <td><a href=\"/thong-tin-don-hang.aspx?id=" + item.ID + "\">" + customer.Nick + "</a></td>");
+                    }
+                    else
+                    {
+                        html.Append("   <td><a href=\"/thong-tin-don-hang.aspx?id=" + item.ID + "\">" + item.CustomerName + "</a></td>");
+                    }
+                    
                     var orderdetails = OrderDetailController.GetByOrderID(item.ID);
                     int quantity = 0;
                     if (orderdetails.Count > 0)
@@ -225,7 +234,8 @@ namespace IM_PJ
 
                     html.Append("   <td>");
                     html.Append("       <a href=\"/print-invoice.aspx?id=" + item.ID + "\" title=\"In hóa đơn\" target=\"_blank\" class=\"btn primary-btn h45-btn\"><i class=\"fa fa-print\" aria-hidden=\"true\"></i></a>");
-                    html.Append("       <a href=\"/print-shipping-note.aspx?id=" + item.ID + "\" title=\"In phiếu gửi hàng\" target=\"_blank\" class=\"btn primary-btn h45-btn\"><i class=\"fa fa-file-text-o\" aria-hidden=\"true\"></i></a>");
+                    html.Append("       <a href=\"/print-shipping-note.aspx?id=" + item.ID + "\" title=\"In phiếu gửi hàng\" target=\"_blank\" class=\"btn primary-btn btn-red h45-btn\"><i class=\"fa fa-file-text-o\" aria-hidden=\"true\"></i></a>");
+                    html.Append("       <a href=\"/chi-tiet-khach-hang.aspx?id=" + item.CustomerID + "\" title=\"Thông tin khách hàng " + item.CustomerName + "\" target=\"_blank\" class=\"btn primary-btn btn-black h45-btn\"><i class=\"fa fa-user-circle\" aria-hidden=\"true\"></i></a>");
                     html.Append("   </td>");
                     html.Append("</tr>");
                 }
