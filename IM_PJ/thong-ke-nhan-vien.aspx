@@ -20,7 +20,6 @@
                         <div class="filter-control">
                             <div class="row">
                                 <div class="col-md-5">
-                                    <label>Nhân viên</label>
                                     <asp:DropDownList runat="server" ID="ddlAccountInfo" CssClass="form-control"></asp:DropDownList>
                                 </div>
                                 <div class="col-md-3">
@@ -79,7 +78,7 @@
                             <div class="col-md-2">
                                 <div class="report-column">
                                     <div class="report-label">
-                                        Sản lượng bán ra trung bình:
+                                        SL bán ra trung bình:
                                     </div>
                                     <div class="report-value">
                                         <asp:Literal ID="ltrAverageOutput" runat="server" EnableViewState="false"></asp:Literal>
@@ -99,7 +98,7 @@
                             <div class="col-md-2">
                                 <div class="report-column">
                                     <div class="report-label">
-                                        Lượng hàng đổi trả trung bình:
+                                        SL đổi trả trung bình:
                                     </div>
                                     <div class="report-value">
                                         <asp:Literal ID="ltrAverageRefund" runat="server" EnableViewState="false"></asp:Literal>

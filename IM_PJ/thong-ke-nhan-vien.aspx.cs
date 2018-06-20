@@ -43,10 +43,10 @@ namespace IM_PJ
 
             long totalSales = 0;
             double averageSales = 0D;
-            long totalOutput = 0;
-            double averageOutput = 0D;
-            long totalRefund = 0;
-            double averageRefund = 0D;
+            int totalOutput = 0;
+            int averageOutput = 0;
+            int totalRefund = 0;
+            int averageRefund = 0;
             double totalDays = 0D;
 
             if (!String.IsNullOrEmpty(Request.QueryString["accountName"]))
@@ -92,19 +92,19 @@ namespace IM_PJ
             averageSales = Math.Ceiling(totalSales / totalDays);
 
 
-            totalOutput = totalSales;
-            averageOutput = averageSales;
+            totalOutput = OrderController.GetTotalProductSalesByAccount(accountName, fromdate, todate);
+            averageOutput = totalOutput / Convert.ToInt32(totalDays);
 
             totalRefund = RefundGoodController.GetTotalRefundByAccount(accountName, fromdate, todate);
-            averageRefund = Math.Ceiling(totalRefund / totalDays);
+            averageRefund = totalRefund / Convert.ToInt32(totalDays);
 
 
             ltrTotalSales.Text = String.Format("{0:N0}  đ", totalSales);
-            ltrAverageSales.Text = String.Format("{0:N0}   đơn/ngày", averageSales);
-            ltrTotalOutput.Text = String.Format("{0:N0}  đ", totalSales);
-            ltrAverageOutput.Text = String.Format("{0:N0}   đơn/ngày", averageSales);
-            ltrTotalRefund.Text = String.Format("{0:N0}  đ", totalSales);
-            ltrAverageRefund.Text = String.Format("{0:N0}   đơn/ngày", averageSales);
+            ltrAverageSales.Text = String.Format("{0:N0}   đ/ngày", averageSales);
+            ltrTotalOutput.Text = totalOutput.ToString() + " cái";
+            ltrAverageOutput.Text = averageOutput.ToString() + " cái/ngày";
+            ltrTotalRefund.Text = totalRefund.ToString() + " cái";
+            ltrAverageRefund.Text = averageRefund.ToString() + " cái/ngày";
         }
 
         /// <summary>
@@ -112,13 +112,12 @@ namespace IM_PJ
         /// </summary>
         private void LoadAccountInfo()
         {
-            var accounts = AccountInfoController.GetAll();
-
-            this.ddlAccountInfo.Items.Add(new ListItem(String.Empty, String.Empty, true));
-
+            ddlAccountInfo.Items.Clear();
+            ddlAccountInfo.Items.Insert(0, new ListItem("Chọn nhân viên", "0"));
+            var accounts = AccountController.GetAllUser();
             foreach (var acc in accounts)
             {
-                this.ddlAccountInfo.Items.Add(new ListItem(acc.Fullname, acc.Fullname.Trim()));
+                this.ddlAccountInfo.Items.Add(new ListItem(acc.FullName, acc.Username));
             }
         }
 

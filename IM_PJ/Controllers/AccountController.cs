@@ -315,6 +315,38 @@ namespace IM_PJ.Controllers
             reader.Close();
             return list;
         }
+        public static List<UserList> GetAllUser()
+        {
+            var list = new List<UserList>();
+            var sql = @"Select u.ID, u.Username, u.Email, u.CreatedDate, u.Status, u.RoleID, i.FullName from tbl_Account as u";
+            sql += " LEFT OUTER JOIN tbl_AccountInfo as i ON u.ID = i.UID";
+            sql += " Order By u.ID desc";
+
+            var reader = (IDataReader)SqlHelper.ExecuteDataReader(sql);
+            int i = 1;
+            while (reader.Read())
+            {
+                var entity = new UserList();
+                if (reader["ID"] != DBNull.Value)
+                    entity.ID = reader["ID"].ToString().ToInt(0);
+                if (reader["Username"] != DBNull.Value)
+                    entity.Username = reader["Username"].ToString();
+                if (reader["Email"] != DBNull.Value)
+                    entity.Email = reader["Email"].ToString();
+                if (reader["Status"] != DBNull.Value)
+                    entity.Status = reader["Status"].ToString().ToInt(0);
+                if (reader["RoleID"] != DBNull.Value)
+                    entity.RoleID = reader["RoleID"].ToString().ToInt(0);
+                if (reader["FullName"] != DBNull.Value)
+                    entity.FullName = reader["FullName"].ToString();
+                if (reader["CreatedDate"] != DBNull.Value)
+                    entity.CreatedDate = Convert.ToDateTime(reader["CreatedDate"]);
+                i++;
+                list.Add(entity);
+            }
+            reader.Close();
+            return list;
+        }
         #endregion
         public class UserList
         {

@@ -311,15 +311,31 @@ namespace IM_PJ.Controllers
             }
         }
 
-        public static long GetTotalRefundByAccount(string accountName, DateTime fromdate, DateTime todate)
+        public static int GetTotalRefundByAccount(string accountName, DateTime fromdate, DateTime todate)
         {
             using (var db = new inventorymanagementEntities())
             {
-                return db.tbl_RefundGoods
+                List<tbl_RefundGoods> or = new List<tbl_RefundGoods>();
+                or = db.tbl_RefundGoods
                             .Where(x => (fromdate <= x.CreatedDate && x.CreatedDate <= todate)
                                         && x.CreatedBy.Trim().ToUpper() == accountName.Trim().ToUpper())
-                            .ToList()
-                            .Sum(x => Convert.ToInt64(x.TotalPrice));
+                            .ToList();
+                int tongdoitra = 0;
+                if (or != null)
+                {
+                    foreach (var item in or)
+                    {
+                        var oddetail = RefundGoodDetailController.GetByRefundGoodsID(item.ID);
+                        if (oddetail != null)
+                        {
+                            foreach (var temp in oddetail)
+                            {
+                                tongdoitra += Convert.ToInt32(temp.Quantity);
+                            }
+                        }
+                    }
+                }
+                return tongdoitra;
             }
         }
         #endregion

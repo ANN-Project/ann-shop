@@ -1030,6 +1030,36 @@ namespace IM_PJ.Controllers
             }
         }
 
+        public static int GetTotalProductSalesByAccount(string accountName, DateTime fromdate, DateTime todate)
+        {
+            using (var con = new inventorymanagementEntities())
+            {
+                List<tbl_Order> or = new List<tbl_Order>();
+                or = con.tbl_Order
+                    .Where(x => (fromdate <= x.DateDone && x.DateDone <= todate)
+                                && x.CreatedBy.Trim().ToUpper() == accountName.Trim().ToUpper()
+                                && (x.ExcuteStatus == 2 && x.PaymentStatus == 3)
+                           )
+                     .ToList();
+                int tongbanra = 0;
+                if (or != null)
+                {
+                    foreach (var item in or)
+                    {
+                        var oddetail = OrderDetailController.GetByOrderID(item.ID);
+                        if (oddetail != null)
+                        {
+                            foreach (var temp in oddetail)
+                            {
+                                tongbanra += Convert.ToInt32(temp.Quantity);
+                            }
+                        }
+                    }
+                }
+                return tongbanra;
+            }
+        }
+
         #endregion
 
         public class OrderSQL
