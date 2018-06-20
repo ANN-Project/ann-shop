@@ -496,7 +496,7 @@ namespace NHST.Bussiness
             }
             else if (ShippingType == 3)
             {
-                ret = "<span class=\"bg-yellow\">Chuyển proship</span>";
+                ret = "<span class=\"bg-yellow\">Chuyển GHTK</span>";
             }
             else if (ShippingType == 4)
             {

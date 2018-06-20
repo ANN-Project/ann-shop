@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Danh sách đổi trả hàng" Language="C#" MasterPageFile="~/MasterPage.Master" AutoEventWireup="true" CodeBehind="danh-sach-don-tra-hang.aspx.cs" Inherits="IM_PJ.danh_sach_don_tra_hang" %>
+﻿<%@ Page Title="Danh sách đổi trả hàng" Language="C#" MasterPageFile="~/MasterPage.Master" AutoEventWireup="true" CodeBehind="danh-sach-don-tra-hang.aspx.cs" Inherits="IM_PJ.danh_sach_don_tra_hang" EnableSessionState="ReadOnly" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>

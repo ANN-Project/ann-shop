@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Tất cả sản phẩm" Language="C#" MasterPageFile="~/MasterPage.Master" AutoEventWireup="true" CodeBehind="tat-ca-san-pham.aspx.cs" Inherits="IM_PJ.tat_ca_san_pham" %>
+﻿<%@ Page Title="Tất cả sản phẩm" Language="C#" MasterPageFile="~/MasterPage.Master" AutoEventWireup="true" CodeBehind="tat-ca-san-pham.aspx.cs" Inherits="IM_PJ.tat_ca_san_pham" EnableSessionState="ReadOnly" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>

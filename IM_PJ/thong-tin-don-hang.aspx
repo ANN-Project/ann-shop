@@ -316,7 +316,7 @@
                                         <asp:DropDownList ID="ddlShippingType" runat="server" CssClass="form-control">
                                             <asp:ListItem Value="1" Text="Lấy trực tiếp"></asp:ListItem>
                                             <asp:ListItem Value="2" Text="Chuyển bưu điện"></asp:ListItem>
-                                            <asp:ListItem Value="3" Text="Chuyển proship"></asp:ListItem>
+                                            <asp:ListItem Value="3" Text="Chuyển GHTK"></asp:ListItem>
                                             <asp:ListItem Value="4" Text="Chuyển xe"></asp:ListItem>
                                             <asp:ListItem Value="5" Text="Nhân viên giao hàng"></asp:ListItem>
                                         </asp:DropDownList>
@@ -349,7 +349,7 @@
                                         Mã vận đơn
                                     </div>
                                     <div class="row-right">
-                                        <asp:TextBox ID="txtShippingCode" runat="server" CssClass="form-control" placeholder="Nhập mã vận đơn Bưu điện - Proship"></asp:TextBox>
+                                        <asp:TextBox ID="txtShippingCode" runat="server" CssClass="form-control" placeholder="Nhập mã vận đơn"></asp:TextBox>
                                     </div>
                                 </div>
                                 <div id="row-order-note" class="form-row">

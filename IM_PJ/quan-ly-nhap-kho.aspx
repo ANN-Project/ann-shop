@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Nhập kho sản phẩm" Language="C#" MasterPageFile="~/MasterPage.Master" AutoEventWireup="true" CodeBehind="quan-ly-nhap-kho.aspx.cs" Inherits="IM_PJ.quan_ly_nhap_kho" %>
+﻿<%@ Page Title="Nhập kho sản phẩm" Language="C#" MasterPageFile="~/MasterPage.Master" AutoEventWireup="true" CodeBehind="quan-ly-nhap-kho.aspx.cs" Inherits="IM_PJ.quan_ly_nhap_kho" EnableSessionState="ReadOnly" %>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <main id="main-wrap">
         <div class="container">

@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Thêm mới khách hàng" Language="C#" MasterPageFile="~/MasterPage.Master" AutoEventWireup="true" CodeBehind="them-moi-khach-hang.aspx.cs" Inherits="IM_PJ.them_moi_khach_hang" %>
+﻿<%@ Page Title="Thêm mới khách hàng" Language="C#" MasterPageFile="~/MasterPage.Master" AutoEventWireup="true" CodeBehind="them-moi-khach-hang.aspx.cs" Inherits="IM_PJ.them_moi_khach_hang" EnableSessionState="ReadOnly" %>
 
 <%@ Register Assembly="Telerik.Web.UI" Namespace="Telerik.Web.UI" TagPrefix="telerik" %>
 
@@ -100,7 +100,7 @@
                                         <asp:ListItem Value="0" Text="Chọn phương thức giao hàng mặc định"></asp:ListItem>
                                         <asp:ListItem Value="1" Text="Lấy trực tiếp"></asp:ListItem>
                                         <asp:ListItem Value="2" Text="Chuyển bưu điện"></asp:ListItem>
-                                        <asp:ListItem Value="3" Text="Chuyển proship"></asp:ListItem>
+                                        <asp:ListItem Value="3" Text="Chuyển GHTK"></asp:ListItem>
                                         <asp:ListItem Value="4" Text="Chuyển xe"></asp:ListItem>
                                         <asp:ListItem Value="5" Text="Nhân viên giao hàng"></asp:ListItem>
                                     </asp:DropDownList>

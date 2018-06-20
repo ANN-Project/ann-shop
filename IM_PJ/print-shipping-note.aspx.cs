@@ -143,7 +143,7 @@ namespace IM_PJ
                     }
                     else if(order.ShippingType == 3)
                     {
-                        rowHtml += Environment.NewLine + String.Format("        <p class=\"delivery\"><span>PROSHIP</span></p>");
+                        rowHtml += Environment.NewLine + String.Format("        <p class=\"delivery\"><span>GHTK</span></p>");
                         if (!string.IsNullOrEmpty(order.ShippingCode))
                         {
                             rowHtml += Environment.NewLine + String.Format("        <p class=\"delivery\"><span>{0}</span></p>", order.ShippingCode);

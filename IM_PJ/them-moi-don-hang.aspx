@@ -256,6 +256,7 @@
 var orderItem = 0;
 
 function redirectTo(ID) {
+    $("#payall").addClass("payall-clicked");
     window.location.href = "/thong-tin-don-hang.aspx?id=" + ID;
 }
 
@@ -565,7 +566,7 @@ function showOrderStatus() {
     fr += "                 <select class=\"form-control shipping-type\">";
     fr += "                     <option value=\"1\">Lấy trực tiếp</option>";
     fr += "                     <option value=\"2\">Chuyển bưu điện</option>";
-    fr += "                     <option value=\"3\">Chuyển proship</option>";
+    fr += "                     <option value=\"3\">Chuyển GHTK</option>";
     fr += "                     <option value=\"4\" selected>Chuyển xe</option>";
     fr += "                     <option value=\"5\">Nhân viên giao hàng</option>";
     fr += "                 </select>";
