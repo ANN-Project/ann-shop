@@ -147,18 +147,8 @@ namespace IM_PJ
 
                     html.Append("   <td>" + string.Format("{0:N0}", item.RetailPrice) + "</td>");
 
-                    var stock = ProductController.GetStock(item.ID);
-                    if(stock != null)
-                    {
-                        html.Append("   <td>" + stock.quantityLeft + "</td>");
-                        html.Append("   <td>" + stock.ProductInstockStatus + "</td>");
-                       
-                    }
-                    else
-                    {
-                        html.Append("   <td></td>");
-                        html.Append("   <td></td>");
-                    }
+                    html.Append("   <td>" + PJUtils.TotalProductQuantityInstock(1, item.SKU) + "</td>");
+                    html.Append("   <td>" + PJUtils.StockStatusBySKU(1, item.SKU) + "</td>");
 
                     html.Append("   <td>" + date + "</td>");
                     html.Append("   <td>" + ishidden + "</td>");

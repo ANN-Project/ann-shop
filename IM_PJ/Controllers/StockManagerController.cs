@@ -55,7 +55,7 @@ namespace IM_PJ.Controllers
                             stockBalance.Quantity = quantityCurrentNew * (-1);
                             stockBalance.QuantityCurrent = quantityCurrent;
                             stockBalance.Type = 1;
-                            stockBalance.NoteID = stock.NoteID;
+                            stockBalance.NoteID = "Nhập lệch kho";
                             stockBalance.OrderID = stock.OrderID;
                             stockBalance.Status = stock.Status;
                             stockBalance.SKU = stock.SKU;
@@ -95,7 +95,7 @@ namespace IM_PJ.Controllers
                         stockBalance.Quantity = stock.Quantity;
                         stockBalance.QuantityCurrent = 0;
                         stockBalance.Type = 1;
-                        stockBalance.NoteID = stock.NoteID;
+                        stockBalance.NoteID = "Nhập kho sản phẩm mới";
                         stockBalance.OrderID = stock.OrderID;
                         stockBalance.Status = stock.Status;
                         stockBalance.SKU = stock.SKU;
@@ -393,7 +393,7 @@ namespace IM_PJ.Controllers
                                             Quantity = quantityCurrentNew * (-1),
                                             QuantityCurrent = quantityCurrent,
                                             Type = 1,
-                                            NoteID = stockNew.NoteID,
+                                            NoteID = "Nhập lệch kho",
                                             OrderID = stockNew.OrderID,
                                             Status = stockNew.Status,
                                             SKU = stockNew.SKU,
@@ -453,7 +453,7 @@ namespace IM_PJ.Controllers
                                         Quantity = stockNew.Quantity,
                                         QuantityCurrent = 0,
                                         Type = 1,
-                                        NoteID = stockNew.NoteID,
+                                        NoteID = "Nhập kho sản phẩm mới",
                                         OrderID = stockNew.OrderID,
                                         Status = stockNew.Status,
                                         SKU = stockNew.SKU,

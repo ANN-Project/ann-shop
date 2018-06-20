@@ -1411,6 +1411,50 @@ namespace NHST.Bussiness
             return currentQuantity;
         }
 
+        public static string StockStatusBySKU(int AgentID, string SKU)
+        {
+            double currentQuantity = 0;
+            var ps = StockManagerController.GetBySKU(AgentID, SKU).OrderByDescending(x => x.CreatedDate).FirstOrDefault();
+
+            if (ps != null)
+            {
+                double quantity = 0;
+                double quantityCurrent = 0;
+
+                if (ps.Quantity.HasValue)
+                {
+                    quantity = ps.Quantity.Value;
+                }
+
+                if (ps.QuantityCurrent.HasValue)
+                {
+                    quantityCurrent = ps.QuantityCurrent.Value;
+                }
+
+                switch (ps.Type)
+                {
+                    case 1:
+                        currentQuantity = quantityCurrent + quantity;
+                        break;
+                    case 2:
+                        currentQuantity = quantityCurrent - quantity;
+                        break;
+                    default:
+                        currentQuantity = 0;
+                        break;
+                }
+                if (currentQuantity > 0)
+                    return "<span class=\"bg-green\">Còn hàng</span>";
+                else
+                    return "<span class=\"bg-red\">Hết hàng</span>";
+            }
+            else
+            {
+                return "<span class=\"bg-yellow\">Nhập hàng</span>";
+            }
+            
+        }
+
         public static double TotalProductQuantityInstockBySKU(string SKU)
         {
             double currentQuantity = 0;

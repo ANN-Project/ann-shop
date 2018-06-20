@@ -89,7 +89,7 @@
                         <div class="panel-post">
                             <div class="post-above clear">
                                 <div class="search-box left" style="width: 96%;">
-                                    <input type="text" id="txtSearch" class="form-control" placeholder="SKU">
+                                    <input type="text" id="txtSearch" class="form-control" placeholder="SKU (F3)">
                                 </div>
                                 <div class="right">
                                     <a href="javascript:;" class="link-btn" onclick="searchProduct()"><i class="fa fa-search"></i></a>
@@ -245,6 +245,22 @@
             function redirectTo(ID) {
                 window.location.href = "/thong-tin-tra-hang.aspx?id=" + ID;
             }
+
+            // key press F1 - F4
+            $(document).keydown(function(e) {
+                if (e.which == 112) { //F1 Search Customer
+                    searchCustomer();
+                    return false;
+                }
+                if (e.which == 113) { //F2 Input Fullname
+                    $("#<%= txtFullname.ClientID%>").focus();
+                    return false;
+                }
+                if (e.which == 114) { //F3 Search Product
+                    $("#txtSearch").focus();
+                    return false;
+                }
+            });
             
             $('#txtSearch').keydown(function (event) {
                 if (event.which === 13) {
