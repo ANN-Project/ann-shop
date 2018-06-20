@@ -46,6 +46,10 @@
                                         <td>Tồn kho</td>
                                         <td><a href="thong-ke-so-luong-ton-kho-theo-danh-muc" class="btn primary-btn h45-btn">Chi tiết</a></td>
                                     </tr>
+                                    <tr>
+                                        <td>Nhân viên</td>
+                                        <td><a href="thong-ke-nhan-vien" class="btn primary-btn h45-btn">Chi tiết</a></td>
+                                    </tr>
                                 </tbody>
                             </table>
                         </div>

@@ -1016,6 +1016,20 @@ namespace IM_PJ.Controllers
             }
         }
 
+        public static long GetTotalPriceByAccount(string accountName, DateTime fromdate, DateTime todate)
+        {
+            using (var con = new inventorymanagementEntities())
+            {
+                return con.tbl_Order
+                    .Where(x => (fromdate <= x.DateDone && x.DateDone <= todate)
+                                && x.CreatedBy.Trim().ToUpper() == accountName.Trim().ToUpper()
+                                && (x.ExcuteStatus == 2 && x.PaymentStatus == 3)
+                           )
+                     .ToList()
+                     .Sum(x => Convert.ToInt64(x.TotalPrice));
+            }
+        }
+
         #endregion
 
         public class OrderSQL

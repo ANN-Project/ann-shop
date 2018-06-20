@@ -465,6 +465,7 @@
     <Content Include="them-moi-nha-xe.aspx" />
     <Content Include="them-moi-nhan-vien.aspx" />
     <Content Include="them-moi-noi-den-nha-xe.aspx" />
+    <Content Include="thong-ke-nhan-vien.aspx" />
     <Content Include="thong-ke-phi-van-chuyen.aspx" />
     <Content Include="uploads\avatars\no-avatar.png" />
     <Content Include="xem-san-pham.aspx" />
@@ -1409,6 +1410,13 @@
     </Compile>
     <Compile Include="thong-ke-chiet-khau.aspx.designer.cs">
       <DependentUpon>thong-ke-chiet-khau.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="thong-ke-nhan-vien.aspx.cs">
+      <DependentUpon>thong-ke-nhan-vien.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="thong-ke-nhan-vien.aspx.designer.cs">
+      <DependentUpon>thong-ke-nhan-vien.aspx</DependentUpon>
     </Compile>
     <Compile Include="thong-ke-doanh-thu.aspx.cs">
       <DependentUpon>thong-ke-doanh-thu.aspx</DependentUpon>

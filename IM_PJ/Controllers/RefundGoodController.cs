@@ -310,6 +310,18 @@ namespace IM_PJ.Controllers
                 return or;
             }
         }
+
+        public static long GetTotalRefundByAccount(string accountName, DateTime fromdate, DateTime todate)
+        {
+            using (var db = new inventorymanagementEntities())
+            {
+                return db.tbl_RefundGoods
+                            .Where(x => (fromdate <= x.CreatedDate && x.CreatedDate <= todate)
+                                        && x.CreatedBy.Trim().ToUpper() == accountName.Trim().ToUpper())
+                            .ToList()
+                            .Sum(x => Convert.ToInt64(x.TotalPrice));
+            }
+        }
         #endregion
     }
 }

@@ -94,6 +94,14 @@ namespace IM_PJ.Controllers
                     return null;
             }
         }
+
+        public static List<tbl_AccountInfo> GetAll()
+        {
+            using (var con = new inventorymanagementEntities())
+            {
+                return con.tbl_AccountInfo.ToList();
+            }
+        }
         #endregion
     }
 }
