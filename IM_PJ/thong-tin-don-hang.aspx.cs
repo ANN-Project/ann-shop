@@ -926,6 +926,17 @@ namespace IM_PJ
 
                                 foreach(tbl_OrderDetail product in productRefund)
                                 {
+                                    int parentID = 0;
+
+                                    if (product.ProductID != 0)
+                                    {
+                                        parentID = product.ProductID.Value;
+                                    }
+                                    else
+                                    {
+                                        parentID = ProductVariableController.GetByID(product.ProductVariableID.Value).ProductID.Value;
+                                    }
+
                                     StockManagerController.Insert(
                                         new tbl_StockManager {
                                             AgentID = product.AgentID,
@@ -941,7 +952,7 @@ namespace IM_PJ
                                             CreatedDate = currentDate,
                                             CreatedBy = product.CreatedBy,
                                             MoveProID = 0,
-                                            ParentID = product.ProductID != 0 ? product.ProductID : product.ProductVariableID
+                                            ParentID = parentID
                                         });
                                 }
 
