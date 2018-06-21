@@ -459,6 +459,7 @@
     <Content Include="SQL\TriggerStockManager.sql" />
     <Content Include="them-chiet-khau.aspx" />
     <Content Include="them-danh-muc.aspx" />
+    <Content Include="tao-don-hang-doi-tra.aspx" />
     <Content Include="them-moi-nha-xe.aspx" />
     <Content Include="them-moi-nhan-vien.aspx" />
     <Content Include="them-moi-noi-den-nha-xe.aspx" />
@@ -1292,6 +1293,13 @@
     </Compile>
     <Compile Include="them-danh-muc.aspx.designer.cs">
       <DependentUpon>them-danh-muc.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="tao-don-hang-doi-tra.aspx.cs">
+      <DependentUpon>tao-don-hang-doi-tra.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="tao-don-hang-doi-tra.aspx.designer.cs">
+      <DependentUpon>tao-don-hang-doi-tra.aspx</DependentUpon>
     </Compile>
     <Compile Include="them-don-tra-hang.aspx.cs">
       <DependentUpon>them-don-tra-hang.aspx</DependentUpon>

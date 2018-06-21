@@ -17,7 +17,7 @@
     
     <script type="text/javascript" src="/App_Themes/Ann/js/popup.js"></script>
     
-    <link href="/App_Themes/Ann/css/HoldOn.css" rel="stylesheet" type="text/css">
+    <link href="/App_Themes/Ann/css/HoldOn.css" rel="stylesheet" type="text/css" />
     
     <asp:ContentPlaceHolder ID="head" runat="server">
     </asp:ContentPlaceHolder>

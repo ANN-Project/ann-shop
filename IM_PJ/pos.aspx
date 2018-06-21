@@ -313,9 +313,15 @@
             }
 
             function setNewUser() {
-                var selected = $("#listUser").val();
-                $("#<%=hdfUsername.ClientID%>").val(selected);
+                var selectedUser = $("#listUser").val();
+                $("#<%=hdfUsernameCurrent.ClientID%>").val(selectedUser);
+                $("#<%=hdfUsername.ClientID%>").val(selectedUser);
+                $("#<%=txtPhone.ClientID%>").val("");
+                $("#<%=txtFullname.ClientID%>").val("");
+                $("#<%=txtAddress.ClientID%>").val("");
+                $("#<%=txtNick.ClientID%>").val("");
                 closePopup();
+                swal("Thông báo", "Bạn đã chọn tính tiền giúp nhân viên " + selectedUser + "", "info");
             }
 
             // search return order

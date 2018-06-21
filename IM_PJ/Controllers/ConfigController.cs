@@ -32,6 +32,22 @@ namespace IM_PJ.Controllers
                     return null;
             }
         }
+        public static string UpdateSecurityCode(string SecurityCode)
+        {
+            using (var dbe = new inventorymanagementEntities())
+            {
+
+                var a = dbe.tbl_Config.Where(ac => ac.ID == 1).SingleOrDefault();
+                if (a != null)
+                {
+                    a.SecurityCode = PJUtils.Encrypt("scode", SecurityCode);
+                    dbe.Configuration.ValidateOnSaveEnabled = false;
+                    int kq = dbe.SaveChanges();
+                    return kq.ToString();
+                }
+                return null;
+            }
+        }
         #endregion
         #region Select
         public static tbl_Config GetByID(int ID)

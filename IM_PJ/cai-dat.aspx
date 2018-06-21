@@ -14,7 +14,22 @@
                             <div class="form-row">
                                 <asp:Label ID="lblError" runat="server" Visible="false" ForeColor="Red"></asp:Label>
                             </div>
-                           
+                            <div class="form-row">
+                                <div class="row-left">
+                                    Mã bảo mật
+                                </div>
+                                <div class="row-right">
+                                    <asp:TextBox ID="txtSecurityCode" runat="server" CssClass="form-control" placeholder="Chỉ nhập khi cần thay đổi" TextMode="Password"></asp:TextBox>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="row-left">
+                                    Xác nhận Mã bảo mật
+                                </div>
+                                <div class="row-right">
+                                    <asp:TextBox ID="txtConfirmSecurityCode" runat="server" CssClass="form-control" placeholder="Nhập giống phía trên" TextMode="Password"></asp:TextBox>
+                                </div>
+                            </div>
                             <div class="form-row">
                                 <div class="row-left">
                                     Số ngày được đổi trả

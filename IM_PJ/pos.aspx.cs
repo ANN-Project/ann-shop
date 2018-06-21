@@ -63,7 +63,10 @@ namespace IM_PJ
                             string listUser = "";
                             foreach (var item in CreateBy)
                             {
-                                listUser += item.Username + "|";
+                                if(item.Username != acc.Username)
+                                {
+                                    listUser += item.Username + "|";
+                                }
                             }
                             hdfListUser.Value = listUser;
                         }
@@ -396,9 +399,11 @@ namespace IM_PJ
             {
                 if (acc.RoleID == 0 || acc.RoleID == 2)
                 {
+                    string OrderNote = "";
                     // change user
                     if(username != hdfUsernameCurrent.Value)
                     {
+                        OrderNote = "Được tính tiền giúp bởi " + username;
                         username = hdfUsernameCurrent.Value;
                     }
                     int AgentID = Convert.ToInt32(acc.AgentID);
@@ -444,7 +449,6 @@ namespace IM_PJ
                     int ExcuteStatus = 2;
                     int PaymentType = 1;
                     int ShippingType = 1;
-                    string OrderNote = "";
                     bool IsHidden = false;
                     int WayIn = 1;
 

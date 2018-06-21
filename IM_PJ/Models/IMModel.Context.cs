@@ -31,7 +31,6 @@ namespace IM_PJ.Models
         public virtual DbSet<tbl_AgentProduct> tbl_AgentProduct { get; set; }
         public virtual DbSet<tbl_AgentProductVariable> tbl_AgentProductVariable { get; set; }
         public virtual DbSet<tbl_Category> tbl_Category { get; set; }
-        public virtual DbSet<tbl_Config> tbl_Config { get; set; }
         public virtual DbSet<tbl_CustomerLevel> tbl_CustomerLevel { get; set; }
         public virtual DbSet<tbl_CheckWarehouse> tbl_CheckWarehouse { get; set; }
         public virtual DbSet<tbl_CheckWarehouseDetail> tbl_CheckWarehouseDetail { get; set; }
@@ -62,5 +61,6 @@ namespace IM_PJ.Models
         public virtual DbSet<tbl_TransportCompany> tbl_TransportCompany { get; set; }
         public virtual DbSet<tbl_Order> tbl_Order { get; set; }
         public virtual DbSet<tbl_Customer> tbl_Customer { get; set; }
+        public virtual DbSet<tbl_Config> tbl_Config { get; set; }
     }
 }

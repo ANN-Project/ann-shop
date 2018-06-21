@@ -11,7 +11,6 @@
         <EntityTypeShape EntityType="inventorymanagementModel.tbl_AgentProduct" Width="1.5" PointX="0.75" PointY="5.75" />
         <EntityTypeShape EntityType="inventorymanagementModel.tbl_AgentProductVariable" Width="1.5" PointX="2.75" PointY="5.75" />
         <EntityTypeShape EntityType="inventorymanagementModel.tbl_Category" Width="1.5" PointX="4.75" PointY="5.75" />
-        <EntityTypeShape EntityType="inventorymanagementModel.tbl_Config" Width="1.5" PointX="6.75" PointY="0.75" />
         <EntityTypeShape EntityType="inventorymanagementModel.tbl_CustomerLevel" Width="1.5" PointX="8.75" PointY="0.75" />
         <EntityTypeShape EntityType="inventorymanagementModel.tbl_CheckWarehouse" Width="1.5" PointX="8.75" PointY="4.75" />
         <EntityTypeShape EntityType="inventorymanagementModel.tbl_CheckWarehouseDetail" Width="1.5" PointX="8.75" PointY="8.75" />
@@ -42,6 +41,7 @@
         <EntityTypeShape EntityType="inventorymanagementModel.tbl_TransportCompany" Width="1.5" PointX="0.75" PointY="19.75" />
         <EntityTypeShape EntityType="inventorymanagementModel.tbl_Order" Width="1.5" PointX="19.375" PointY="12.75" />
         <EntityTypeShape EntityType="inventorymanagementModel.tbl_Customer" Width="1.5" PointX="19.375" PointY="6.75" />
+        <EntityTypeShape EntityType="inventorymanagementModel.tbl_Config" Width="1.5" PointX="7.375" PointY="20.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

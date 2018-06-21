@@ -153,7 +153,7 @@
                                             html += "   <td>" + item.ProductVariable + "</td>";
                                             html += "   <td>" + item.SupplierName + "</td>";
                                             html += "   <td>" + item.WarehouseQuantity + "</td>";
-                                            html += "   <td><input type=\"text\" class=\"form-control in-quanlity\" onkeyup=\"pressKeyQuantity($(this))\" value=\"1\" /></td>";
+                                            html += "   <td><input type=\"text\" class=\"form-control in-quanlity\" onkeyup=\"pressKeyQuantity($(this))\" onkeypress=\"return event.keyCode != 13;\" value=\"1\" /></td>";
                                             html += "   <td class=\"trash-column\"><a href=\"javascript:;\" onclick=\"deleteRow($(this))\"><i class=\"fa fa-trash\"></i></a></td>";
                                             html += "</tr>";
                                         }
@@ -183,7 +183,7 @@
                                         html += "   <td>" + item.ProductVariable + "</td>";
                                         html += "   <td>" + item.SupplierName + "</td>";
                                         html += "   <td>" + item.WarehouseQuantity + "</td>";
-                                        html += "   <td><input type=\"text\" class=\"form-control in-quanlity\" onkeyup=\"pressKeyQuantity($(this))\" value=\"1\" /></td>";
+                                        html += "   <td><input type=\"text\" class=\"form-control in-quanlity\" onkeyup=\"pressKeyQuantity($(this))\" onkeypress=\"return event.keyCode != 13;\" value=\"1\" /></td>";
                                         html += "   <td class=\"trash-column\"><a href=\"javascript:;\" onclick=\"deleteRow($(this))\"><i class=\"fa fa-trash\"></i></a></td>";
                                         html += "</tr>";
                                     }
@@ -230,7 +230,7 @@
 
         function pressKeyQuantity(e) {
             $(".in-quanlity").keydown(function (e) {
-                if (e.which == 40 || e.which == 13)
+                if (e.which == 40)
                 {
                     // press down 
                     $(this).closest('tr').next().find('td:eq(' + $(this).closest('td').index() + ')').find(".in-quanlity").focus().select();
@@ -239,7 +239,7 @@
                 {
                     // press up
                     $(this).closest('tr').prev().find('td:eq(' + $(this).closest('td').index() + ')').find(".in-quanlity").focus().select();
-                } 
+                }
             });
             checkQuantiy(e);
         }

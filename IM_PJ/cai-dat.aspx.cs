@@ -54,12 +54,35 @@ namespace IM_PJ
         {
             string username = Session["userLoginSystem"].ToString();
             var acc = AccountController.GetByUsername(username);
+            string securityCode = txtSecurityCode.Text.Trim();
             if (acc != null)
             {
                 if (acc.RoleID == 0)
                 {
-                    ConfigController.Update(1, Convert.ToDouble(pNumOfDateToChangeProduct.Value), Convert.ToDouble(pNumOfProductCanChange.Value),
-                         Convert.ToDouble(pFeeChangeProduct.Value), 0, pContent.Content, DateTime.Now, username);
+                    if (!string.IsNullOrEmpty(securityCode))
+                    {
+                        string confirmSecurityCode = txtConfirmSecurityCode.Text;
+                        if (!string.IsNullOrEmpty(confirmSecurityCode))
+                        {
+                            if (securityCode == confirmSecurityCode)
+                            {
+                                ConfigController.UpdateSecurityCode(securityCode);
+                            }
+                            else
+                            {
+                                lblError.Text = "Xác nhận mã bảo mật không đúng.";
+                                lblError.Visible = true;
+                            }
+                        }
+                        else
+                        {
+                            lblError.Text = "Không để trống xác nhận mã bảo mật";
+                            lblError.Visible = true;
+                        }
+                    }
+
+                    ConfigController.Update(1, Convert.ToDouble(pNumOfDateToChangeProduct.Value), Convert.ToDouble(pNumOfProductCanChange.Value), Convert.ToDouble(pFeeChangeProduct.Value), 0, pContent.Content, DateTime.Now, username);
+
                     PJUtils.ShowMessageBoxSwAlert("Cập nhật thành công", "s", true, Page);
                 }
             }

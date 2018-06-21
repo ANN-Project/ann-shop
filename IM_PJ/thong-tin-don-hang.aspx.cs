@@ -414,10 +414,11 @@ namespace IM_PJ
                     {
                         ltrDateDone.Text = order.DateDone.ToString();
                     }
-                    
+                    ltrOrderNote.Text = order.OrderNote;
                     ltrOrderQuantity.Text = ProductQuantity.ToString();
                     ltrOrderTotalPrice.Text = string.Format("{0:N0}", Convert.ToDouble(order.TotalPrice));
                     ltrOrderStatus.Text = PJUtils.OrderExcuteStatus(Convert.ToInt32(order.ExcuteStatus));
+
                     ltrOrderType.Text = PJUtils.OrderType(Convert.ToInt32(order.OrderType));
                     ltrPrint.Text = "<a href=\"/print-invoice.aspx?id=" + ID + "\" target=\"_blank\" class=\"btn primary-btn fw-btn not-fullwidth\"><i class=\"fa fa-print\" aria-hidden=\"true\"></i> In hóa đơn</a>";
                     ltrPrint.Text += "<a href=\"/print-invoice.aspx?id=" + ID + "&merge=1\" target=\"_blank\" class=\"btn primary-btn fw-btn not-fullwidth print-invoice-merged\"><i class=\"fa fa-print\" aria-hidden=\"true\"></i> In hóa đơn gộp</a>";
