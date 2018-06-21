@@ -74,23 +74,28 @@ namespace IM_PJ
             if (acc != null)
             {
                 int AgentID = Convert.ToInt32(acc.AgentID);
-                var products = ProductController.GetBySKU(textsearch);
+                var products = ProductController.GetBySKU(textsearch.Trim().ToUpper());
+
                 if (products != null)
                 {
-                    var productvariable = ProductVariableController.GetProductID(products.ID);
+                    var productvariable = ProductVariableController.GetByParentSKU(products.ProductSKU);
+
                     if (productvariable.Count > 0)
                     {
                         foreach (var pv in productvariable)
                         {
                             string SKU = pv.SKU.Trim().ToUpper();
+
                             var check = StockManagerController.GetBySKU(AgentID, SKU);
+
                             if (check.Count > 0)
                             {
                                 double total = PJUtils.TotalProductQuantityInstock(AgentID, SKU);
 
                                 if (total > 0)
                                 {
-                                    var variables = ProductVariableValueController.GetByProductVariableID(pv.ID);
+                                    var variables = ProductVariableValueController.GetByProductVariableSKU(pv.SKU);
+
                                     if (variables.Count > 0)
                                     {
                                         string variablename = "";
@@ -199,24 +204,25 @@ namespace IM_PJ
                                 ps.Add(p);
                             }
                         }
-
                     }
                 }
                 else
                 {
-                    var productvariable = ProductVariableController.GetAllBySKU(textsearch);
+                    var productvariable = ProductVariableController.GetAllBySKU(textsearch.Trim().ToUpper());
+
                     if (productvariable != null)
                     {
                         foreach (var value in productvariable)
                         {
                             string SKU = value.SKU.Trim().ToUpper();
+
                             var check = StockManagerController.GetBySKU(AgentID, SKU);
                             if (check.Count > 0)
                             {
                                 double total = PJUtils.TotalProductQuantityInstock(AgentID, SKU);
                                 if (total > 0)
                                 {
-                                    var variables = ProductVariableValueController.GetByProductVariableID(value.ID);
+                                    var variables = ProductVariableValueController.GetByProductVariableSKU(value.SKU);
 
                                     if (variables.Count > 0)
                                     {
@@ -233,7 +239,9 @@ namespace IM_PJ
 
                                         ProductGetOut p = new ProductGetOut();
                                         p.ID = value.ID;
-                                        var product = ProductController.GetByID(Convert.ToInt32(value.ProductID));
+
+                                        var product = ProductController.GetBySKU(value.ParentSKU);
+
                                         if (product != null)
                                             p.ProductName = product.ProductTitle;
                                         p.ProductVariable = variable;
