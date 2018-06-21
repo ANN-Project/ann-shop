@@ -519,6 +519,15 @@ namespace IM_PJ
                         OrderDetailController.Insert(orderDetails);
                         StockManagerController.Insert(stockManager);
 
+                        string refund = HttpContext.Current.Session["refund"].ToString();
+                        if (refund != "1")
+                        {
+                            string[] RefundID = refund.Split('|');
+                            var update = RefundGoodController.UpdateStatus(RefundID[0].ToInt(), username, 2);
+                            var updateor = OrderController.UpdateRefund(OrderID, RefundID[0].ToInt(), username);
+                        }
+                        HttpContext.Current.Session.Remove("refund");
+
                         PJUtils.ShowMessageBoxSwAlertCallFunction("Tạo đơn hàng thành công", "s", true, "printInvoice(" + OrderID + ")", Page);
                     }
 

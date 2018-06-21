@@ -510,8 +510,8 @@ namespace IM_PJ
                         if (refund != "1")
                         {
                             string[] RefundID = refund.Split('|');
-                            var update = RefundGoodController.UpdateStatus(RefundID[0].ToInt(), acc.Username,2);
-                            var updateor = OrderController.UpdateRefund(OrderID, RefundID[0].ToInt(), acc.Username);
+                            var update = RefundGoodController.UpdateStatus(RefundID[0].ToInt(), username, 2);
+                            var updateor = OrderController.UpdateRefund(OrderID, RefundID[0].ToInt(), username);
                         }
                         HttpContext.Current.Session.Remove("refundt");
 

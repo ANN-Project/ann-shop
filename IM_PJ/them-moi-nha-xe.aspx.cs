@@ -18,9 +18,9 @@ namespace IM_PJ
 
                     if (acc != null)
                     {
-                        if (acc.RoleID != 0)
+                        if (acc.RoleID == 1)
                         {
-                            Response.Redirect("/dang-nhap");
+                            Response.Redirect("/trang-chu");
                         }
 
                         // Check mode of page
@@ -50,24 +50,18 @@ namespace IM_PJ
         protected void btnAdd_Click(object sender, EventArgs e)
         {
             string username = Session["userLoginSystem"].ToString();
-            var acc = AccountController.GetByUsername(username);
-            if (acc != null)
-            {
-                if (acc.RoleID == 0)
-                {
-                    tbl_TransportCompany transportCompanyNew = new tbl_TransportCompany();
 
-                    transportCompanyNew.CompanyName = this.txtCompanyName.Text;
-                    transportCompanyNew.CompanyPhone = this.txtCompanyPhone.Text;
-                    transportCompanyNew.CompanyAddress = this.txtCompanyAddress.Text;
-                    transportCompanyNew.Note = this.pNote.Content;
-                    transportCompanyNew.CreatedBy = username;
+            tbl_TransportCompany transportCompanyNew = new tbl_TransportCompany();
 
-                    TransportCompanyController.InsertTransportCompany(transportCompanyNew);
+            transportCompanyNew.CompanyName = this.txtCompanyName.Text;
+            transportCompanyNew.CompanyPhone = this.txtCompanyPhone.Text;
+            transportCompanyNew.CompanyAddress = this.txtCompanyAddress.Text;
+            transportCompanyNew.Note = this.pNote.Content;
+            transportCompanyNew.CreatedBy = username;
 
-                    Response.Redirect("/danh-sach-nha-xe");
-                }
-            }
+            TransportCompanyController.InsertTransportCompany(transportCompanyNew);
+
+            Response.Redirect("/danh-sach-nha-xe");
         }
     }
 }

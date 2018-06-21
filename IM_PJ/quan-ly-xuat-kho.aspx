@@ -84,6 +84,7 @@
                     contentType: "application/json; charset=utf-8",
                     dataType: "json",
                     success: function (msg) {
+                        var count = 0;
                         var data = JSON.parse(msg.d);
                         if (data.length > 0) {
                             var html = "";
@@ -152,10 +153,14 @@
                                             }
                                         });
                                     }
+                                    count++;
                                 }
                             }
                             $(".content-product").append(html);
                             $("#txtSearch").val("");
+                            if (count > 0) {
+                                $(".excute-in").show();
+                            }
                         }
                         else
                         {

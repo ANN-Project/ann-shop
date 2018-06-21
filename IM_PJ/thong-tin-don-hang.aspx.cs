@@ -103,15 +103,31 @@ namespace IM_PJ
                     if (cus != null)
                     {
                         txtNick.Text = cus.Nick;
+                        if (string.IsNullOrEmpty(cus.Nick))
+                        {
+                            txtNick.Enabled = true;
+                        }
+                        
                         txtZalo.Text = cus.Zalo;
+                        if (string.IsNullOrEmpty(cus.Zalo))
+                        {
+                            txtZalo.Enabled = true;
+                        }
+
                         txtFacebook.Text = cus.Facebook;
                         if (!string.IsNullOrEmpty(cus.Facebook))
                         {
                             ltrFb.Text += "<a href =\"" + cus.Facebook + "\" class=\"btn primary-btn fw-btn not-fullwidth\" target=\"_blank\">Xem</a>";
                         }
+                        else
+                        {
+                            txtFacebook.Enabled = true;
+                        }
                     }
                     int customerID = Convert.ToInt32(order.CustomerID);
-                    ltrViewDetail.Text = "<a href=\"javascript:;\" class=\"btn primary-btn fw-btn not-fullwidth\" onclick=\"viewCustomerDetail('" + customerID + "')\"><i class=\"fa fa-address-card-o\" aria-hidden=\"true\"></i> Xem chi tiết</a><a href=\"javascript:;\" class=\"btn primary-btn fw-btn not-fullwidth clear-btn\" onclick=\"clearCustomerDetail()\"><i class=\"fa fa-times\" aria-hidden=\"true\"></i> Bỏ qua</a>";
+                    ltrViewDetail.Text = "<a href=\"javascript:;\" class=\"btn primary-btn fw-btn not-fullwidth\" onclick=\"viewCustomerDetail('" + customerID + "')\"><i class=\"fa fa-address-card-o\" aria-hidden=\"true\"></i> Xem chi tiết</a>";
+                    ltrViewDetail.Text += "<a href=\"chi-tiet-khach-hang?id=" + customerID + "\" class=\"btn primary-btn fw-btn not-fullwidth edit-customer-btn\" target=\"_blank\"><i class=\"fa fa-pencil-square-o\" aria-hidden=\"true\"></i> Chỉnh sửa</a>";
+                    ltrViewDetail.Text += "<a href=\"javascript:;\" class=\"btn primary-btn fw-btn not-fullwidth clear-btn\" onclick=\"clearCustomerDetail()\"><i class=\"fa fa-times\" aria-hidden=\"true\"></i> Bỏ qua</a>";
                     var d = DiscountCustomerController.getbyCustID(customerID);
                     if (d.Count > 0)
                     {
@@ -834,30 +850,28 @@ namespace IM_PJ
                             string CustomerAddress = txtAddress.Text.Trim();
                             string Zalo = txtZalo.Text.Trim();
                             string Facebook = txtFacebook.Text.Trim();
-                            if (checkCustomer == 0)
+
+                            int PaymentType = ddlPaymentType.SelectedValue.ToInt(0);
+                            int ShippingType = ddlShippingType.SelectedValue.ToInt(0);
+                            int TransportCompanyID = ddlTransportCompanyID.SelectedValue.ToInt(0);
+                            int TransportCompanySubID = ddlTransportCompanySubID.SelectedValue.ToInt(0);
+
+
+                            var Customer = CustomerController.GetByPhone(CustomerPhone);
+                            if (Customer != null)
                             {
-                                var checkphone = CustomerController.GetByPhone(CustomerPhone);
-                                if (checkphone != null)
-                                {
-                                    CustomerID = checkphone.ID;
-                                }
-                                else
-                                {
-                                    string kq = CustomerController.Insert(CustomerName, CustomerPhone, CustomerAddress, "", 0, 0, currentDate, username, false, Zalo, Facebook, "", "", Nick);
-                                    if (kq.ToInt(0) > 0)
-                                    {
-                                        CustomerID = kq.ToInt(0);
-                                    }
-                                }
+                                CustomerID = Customer.ID;
+                                string kq = CustomerController.Update(CustomerID, CustomerName, CustomerPhone, CustomerAddress, "", Convert.ToInt32(Customer.CustomerLevelID), Convert.ToInt32(Customer.Status), Customer.CreatedBy, currentDate, username, false, Zalo, Facebook, Customer.Note, Customer.ProvinceID.ToString(), Nick, Customer.Avatar, ShippingType, PaymentType, TransportCompanyID, TransportCompanySubID);
                             }
                             else
                             {
-                                var checkphone = CustomerController.GetByPhone(CustomerPhone);
-                                if (checkphone != null)
+                                string kq = CustomerController.Insert(CustomerName, CustomerPhone, CustomerAddress, "", 0, 0, currentDate, username, false, Zalo, Facebook, "", "", Nick, "", ShippingType, PaymentType, TransportCompanyID, TransportCompanySubID);
+                                if (kq.ToInt(0) > 0)
                                 {
-                                    CustomerID = checkphone.ID;
+                                    CustomerID = kq.ToInt(0);
                                 }
                             }
+
 
                             string totalPrice = hdfTotalPrice.Value.ToString();
                             double GuestPaid = Convert.ToDouble(pGuestPaid.Value);
@@ -868,10 +882,7 @@ namespace IM_PJ
                             int ExcuteStatusOld = Convert.ToInt32(order.ExcuteStatus);
                             int PaymentStatus = ddlPaymentStatus.SelectedValue.ToInt(0);
                             int ExcuteStatus = ddlExcuteStatus.SelectedValue.ToInt(0);
-                            int PaymentType = ddlPaymentType.SelectedValue.ToInt(0);
-                            int ShippingType = ddlShippingType.SelectedValue.ToInt(0);
-                            int TransportCompanyID = ddlTransportCompanyID.SelectedValue.ToInt(0);
-                            int TransportCompanySubID = ddlTransportCompanySubID.SelectedValue.ToInt(0);
+                            
                             string ShippingCode = txtShippingCode.Text;
                             string OrderNote = txtOrderNote.Text;
 

@@ -18,9 +18,9 @@ namespace IM_PJ
 
                     if (acc != null)
                     {
-                        if (acc.RoleID != 0)
+                        if (acc.RoleID == 1)
                         {
-                            Response.Redirect("/dang-nhap");
+                            Response.Redirect("/trang-chu");
                         }
 
                         var ID = Request.QueryString["ID"];
@@ -79,27 +79,21 @@ namespace IM_PJ
         protected void btnUpdate_Click(object sender, EventArgs e)
         {
             string username = Session["userLoginSystem"].ToString();
-            var acc = AccountController.GetByUsername(username);
-            if (acc != null)
-            {
-                if (acc.RoleID == 0)
-                {
-                    tbl_TransportCompany receivePlaceUpdate = new tbl_TransportCompany();
 
-                    receivePlaceUpdate.ID = Convert.ToInt32(this.hdfID.Value);
-                    receivePlaceUpdate.SubID = Convert.ToInt32(this.hdfSubID.Value);
-                    receivePlaceUpdate.ShipTo = this.txtShipTo.Text;
-                    receivePlaceUpdate.Address = this.txtAddress.Text;
-                    receivePlaceUpdate.Prepay = Convert.ToBoolean(this.rdbPrepay.SelectedValue);
-                    receivePlaceUpdate.COD = Convert.ToBoolean(this.rdbCOD.SelectedValue);
-                    receivePlaceUpdate.Note = this.pNote.Content;
-                    receivePlaceUpdate.ModifiedBy = username;
+            tbl_TransportCompany receivePlaceUpdate = new tbl_TransportCompany();
 
-                    TransportCompanyController.UpdateReceivePlace(receivePlaceUpdate);
+            receivePlaceUpdate.ID = Convert.ToInt32(this.hdfID.Value);
+            receivePlaceUpdate.SubID = Convert.ToInt32(this.hdfSubID.Value);
+            receivePlaceUpdate.ShipTo = this.txtShipTo.Text;
+            receivePlaceUpdate.Address = this.txtAddress.Text;
+            receivePlaceUpdate.Prepay = Convert.ToBoolean(this.rdbPrepay.SelectedValue);
+            receivePlaceUpdate.COD = Convert.ToBoolean(this.rdbCOD.SelectedValue);
+            receivePlaceUpdate.Note = this.pNote.Content;
+            receivePlaceUpdate.ModifiedBy = username;
 
-                    Response.Redirect(String.Format("/chi-tiet-nha-xe/?id={0}", this.hdfID.Value));
-                }
-            }
+            TransportCompanyController.UpdateReceivePlace(receivePlaceUpdate);
+
+            Response.Redirect(String.Format("/chi-tiet-nha-xe/?id={0}", this.hdfID.Value));
         }
     }
 }

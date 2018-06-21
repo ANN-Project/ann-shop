@@ -428,7 +428,8 @@
                         $(".returnorder").addClass("hide");
                         $(".totalpriceorderall").addClass("price-red");
                         $(".totalpricedetail").removeClass("price-red");
-                        alert("Đã bỏ qua đơn hàng đổi trả này!");
+                        $("#<%=pGuestPaid.ClientID%>").val(0);
+                        swal("Thông báo", "Đã bỏ qua đơn hàng đổi trả này!", "info");
                         getAllPrice();
                     },
                     error: function(xmlhttprequest, textstatus, errorthrow) {
@@ -453,7 +454,7 @@
             }
 
             function showChangeMoney() {
-                var totalpriceorderall = $(".totalpriceorderall").html();
+                var totalpriceorderall = $(".totalpricedetail").html();
                 var html = "";
                 html += "<div class=\"change-money\">";
                 html += "<div class=\"form-group\">";

@@ -21,6 +21,7 @@
                             <table class="table table-checkable table-product">
                                 <tbody>
                                     <tr>
+                                        <th>#</th>
                                         <th>Tên nhà xe</th>
                                         <th>Điện thoại</th>
                                         <th>Địa chỉ</th>

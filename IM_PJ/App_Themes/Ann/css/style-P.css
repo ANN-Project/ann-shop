@@ -224,6 +224,10 @@ ul.image-gallery li {
     margin-left: 15px;
     background-color: #F44336!important;
 }
+.edit-customer-btn {
+    margin-left: 15px;
+    background-color: #686868!important;
+}
 .change-user {
     float: right;
     font-size: 14px;
@@ -565,7 +569,7 @@ img {
 #popup_content {
     position: fixed;
     background-color: #fff;
-    top: 15%;
+    top: 10%;
     z-index: 9999;
     left: 0;
     border-radius: 10px;
@@ -943,7 +947,7 @@ body {
 
 #popup_content {
     overflow-x: auto;
-    max-height: 600px;
+    max-height: 550px;
 }
 
 .fix {

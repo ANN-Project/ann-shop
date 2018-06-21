@@ -25,7 +25,7 @@
                             </div>
                             <div class="form-row">
                                 <div class="row-left">
-                                    Số điện thoại
+                                    Điện thoại
                                 </div>
                                 <div class="row-right">
                                     <asp:TextBox ID="txtCompanyPhone" runat="server" CssClass="form-control" Enabled="false" TabIndex="2"></asp:TextBox>

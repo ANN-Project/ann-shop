@@ -212,7 +212,7 @@ namespace IM_PJ.Controllers
         {
             using (var connect = new inventorymanagementEntities())
             {
-                return connect.tbl_TransportCompany.Where(x => x.SubID == 0).ToList();
+                return connect.tbl_TransportCompany.Where(x => x.SubID == 0).OrderBy(x => x.CompanyName).ToList();
             }
         }
 

@@ -57,6 +57,7 @@
         <script src="/App_Themes/NewUI/js/select2/select2.min.js"></script>
         <script src="/App_Themes/Ann/js/chartjs.min.js"></script>
         <script src="/App_Themes/Ann/js/master.js"></script>
+        <script src="/App_Themes/Ann/js/HoldOn.js"></script>
         <script>
             function isBlank(str) {
                 return (!str || /^\s*$/.test(str));
@@ -115,6 +116,7 @@
             }
 
             function checkSecurityCode() {
+                HoldOn.open();
                 var code = $("#txtSecurityCode").val();
                 $.ajax({
                     type: "POST",
@@ -128,6 +130,7 @@
                             closePopup();
                         }
                         else {
+                            HoldOn.close();
                             swal("Thông báo", "Mã bảo mật không đúng!!!", "error");
                             $("#txtSecurityCode").select();
                         }

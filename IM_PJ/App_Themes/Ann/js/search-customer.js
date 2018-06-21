@@ -8,7 +8,7 @@ function getCustomerDiscount(custID) {
         dataType: "json",
         success: function (msg) {
             var data = msg.d;
-            if (data != 0) {
+            if (data !== 0) {
                 $(".discount-info").html("<strong>Khách hàng được chiết khấu: " + formatThousands(data, ",") + " vnđ/sản phẩm.</strong>").show();
                 $("input[id$='_hdfIsDiscount']").val("1");
                 $("input[id$='_hdfDiscountAmount']").val(data);
@@ -34,7 +34,7 @@ function viewCustomerDetail(custID) {
         contentType: "application/json; charset=utf-8",
         dataType: "json",
         success: function (msg) {
-            if (msg.d != "null") {
+            if (msg.d !== "null") {
                 $("input[id$='_hdfCheckCustomer']").val("1");
                 var alldata = JSON.parse(msg.d);
 
@@ -257,7 +257,7 @@ function selectCustomer() {
         $("input[id$='_txtZalo']").val(zalo).prop('disabled', true);
         $("input[id$='_txtFacebook']").parent().removeClass("width-100");
         $("input[id$='_txtFacebook']").val(facebook).prop('disabled', true);
-        if (facebook == null) {
+        if (facebook === null) {
             $(".link-facebook").hide();
             $("input[id$='_txtFacebook']").parent().addClass("width-100");
         }
@@ -265,11 +265,16 @@ function selectCustomer() {
             $("input[id$='_txtFacebook']").parent().removeClass("width-100");
             $(".link-facebook").html("<a href=\"" + facebook + "\" class=\"btn primary-btn fw-btn not-fullwidth\" target=\"_blank\">Xem</a>").show();
         }
-        $(".view-detail").html("<a href=\"javascript:;\" class=\"btn primary-btn fw-btn not-fullwidth\" onclick=\"viewCustomerDetail('" + id + "')\"><i class=\"fa fa-address-card-o\" aria-hidden=\"true\"></i> Xem chi tiết</a><a href=\"javascript:;\" class=\"btn primary-btn fw-btn not-fullwidth clear-btn\" onclick=\"clearCustomerDetail()\"><i class=\"fa fa-times\" aria-hidden=\"true\"></i> Bỏ qua</a>").show();
+
+        var button = "<a href=\"javascript:;\" class=\"btn primary-btn fw-btn not-fullwidth\" onclick=\"viewCustomerDetail('" + id + "')\"><i class=\"fa fa-address-card-o\" aria-hidden=\"true\"></i> Xem chi tiết</a>";
+        button += "<a href=\"chi-tiet-khach-hang?id=" + id + "\" class=\"btn primary-btn fw-btn not-fullwidth edit-customer-btn\" target=\"_blank\"><i class=\"fa fa-pencil-square-o\" aria-hidden=\"true\"></i> Chỉnh sửa</a>";
+        button += "<a href=\"javascript:;\" class=\"btn primary-btn fw-btn not-fullwidth clear-btn\" onclick=\"clearCustomerDetail()\"><i class=\"fa fa-times\" aria-hidden=\"true\"></i> Bỏ qua</a>";
+        $(".view-detail").html(button).show();
+
         getCustomerDiscount(id);
 
         closePopup();
-        if (typeof checkCustomer == 'function') {
+        if (typeof checkCustomer === 'function') {
             checkCustomer();
         }
     });

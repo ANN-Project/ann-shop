@@ -47,6 +47,7 @@ namespace IM_PJ
                         ltrMenu.Text += "<li><a href=\"/kiem-kho\"><span class=\"icon-menu icon-product\"></span>Kiểm kho</a></li>";
                         ltrMenu.Text += "<li><a href=\"/danh-sach-chuyen-hang\"><span class=\"icon-menu icon-product\"></span>Chuyển kho</a></li>";
                         ltrMenu.Text += "<li><a href=\"/danh-sach-nhan-hang\"><span class=\"icon-menu icon-product\"></span>Nhận hàng</a></li>";
+                        ltrMenu.Text += "<li><a href=\"/danh-sach-nha-xe\"><span class=\"icon-menu icon-product\"></span>Nhà xe</a></li>";
                         ltrMenu.Text += "<li><a href=\"/quan-ly-dai-ly\"><span class=\"icon-menu icon-lib\"></span>Chi nhánh</a></li>";
                         ltrMenu.Text += "<li><a href=\"/tat-ca-nhan-vien\"><span class=\"icon-menu icon-lib\"></span>Nhân viên</a></li>";
                         ltrMenu.Text += "<li><a href=\"/danh-sach-nha-cung-cap\"><span class=\"icon-menu icon-product\"></span>Nhà cung cấp</a></li>";
@@ -72,6 +73,7 @@ namespace IM_PJ
                         ltrMenu.Text += "<li><a href=\"/danh-sach-don-tra-hang\"><span class=\"icon-menu icon-order\"></span>Đổi trả hàng</a></li>";
                         ltrMenu.Text += "<li><a href=\"/tat-ca-san-pham\"><span class=\"icon-menu icon-lib\"></span>Sản phẩm</a></li>";
                         ltrMenu.Text += "<li><a href=\"/danh-sach-khach-hang\"><span class=\"icon-menu icon-product\"></span>Khách hàng</a></li>";
+                        ltrMenu.Text += "<li><a href=\"/quan-ly-nhap-kho\"><span class=\"icon-menu icon-product\"></span>Nhập kho</a></li>";
                         ltrMenu.Text += "<li><a href=\"/danh-sach-nha-xe\"><span class=\"icon-menu icon-product\"></span>Nhà xe</a></li>";
                     }
                 }

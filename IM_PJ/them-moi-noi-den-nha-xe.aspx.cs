@@ -18,9 +18,9 @@ namespace IM_PJ
 
                     if (acc != null)
                     {
-                        if (acc.RoleID != 0)
+                        if (acc.RoleID == 1)
                         {
-                            Response.Redirect("/dang-nhap");
+                            Response.Redirect("/trang-chu");
                         }
 
                         // Check mode of page
@@ -74,29 +74,23 @@ namespace IM_PJ
         protected void btnAdd_Click(object sender, EventArgs e)
         {
             string username = Session["userLoginSystem"].ToString();
-            var acc = AccountController.GetByUsername(username);
-            if (acc != null)
-            {
-                if (acc.RoleID == 0)
-                {
-                    tbl_TransportCompany receivePlaceNew = new tbl_TransportCompany();
 
-                    receivePlaceNew.ID = Convert.ToInt32(this.hdfID.Value);
-                    receivePlaceNew.CompanyName = this.txtCompanyName.Text;
-                    receivePlaceNew.CompanyPhone = this.txtCompanyPhone.Text;
-                    receivePlaceNew.CompanyAddress = this.txtCompanyAddress.Text;
-                    receivePlaceNew.ShipTo = this.txtShipTo.Text;
-                    receivePlaceNew.Address = this.txtAddress.Text;
-                    receivePlaceNew.Prepay = Convert.ToBoolean(this.rdbPrepay.SelectedValue);
-                    receivePlaceNew.COD = Convert.ToBoolean(this.rdbCOD.SelectedValue);
-                    receivePlaceNew.Note = this.pNote.Content;
-                    receivePlaceNew.CreatedBy = username;
+            tbl_TransportCompany receivePlaceNew = new tbl_TransportCompany();
 
-                    TransportCompanyController.InsertReceivePlace(receivePlaceNew);
+            receivePlaceNew.ID = Convert.ToInt32(this.hdfID.Value);
+            receivePlaceNew.CompanyName = this.txtCompanyName.Text;
+            receivePlaceNew.CompanyPhone = this.txtCompanyPhone.Text;
+            receivePlaceNew.CompanyAddress = this.txtCompanyAddress.Text;
+            receivePlaceNew.ShipTo = this.txtShipTo.Text;
+            receivePlaceNew.Address = this.txtAddress.Text;
+            receivePlaceNew.Prepay = Convert.ToBoolean(this.rdbPrepay.SelectedValue);
+            receivePlaceNew.COD = Convert.ToBoolean(this.rdbCOD.SelectedValue);
+            receivePlaceNew.Note = this.pNote.Content;
+            receivePlaceNew.CreatedBy = username;
 
-                    Response.Redirect(String.Format("/chi-tiet-nha-xe/?id={0}", this.hdfID.Value));
-                }
-            }
+            TransportCompanyController.InsertReceivePlace(receivePlaceNew);
+
+            Response.Redirect(String.Format("/chi-tiet-nha-xe/?id={0}", this.hdfID.Value));
         }
     }
 }

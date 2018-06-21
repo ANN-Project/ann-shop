@@ -60,7 +60,7 @@ namespace IM_PJ
         #region Paging
         public void pagingall(List<tbl_TransportCompany> transprots)
         {
-            int PageSize = 15;
+            int PageSize = 40;
 
             StringBuilder html = new StringBuilder();
 
@@ -92,12 +92,13 @@ namespace IM_PJ
                     String rowHtml = String.Empty;
 
                     rowHtml += Environment.NewLine + String.Format("<tr>");
+                    rowHtml += Environment.NewLine + String.Format("    <td>{0}</td>", i + 1);
                     rowHtml += Environment.NewLine + String.Format("    <td>{0}</td>", company.CompanyName);
                     rowHtml += Environment.NewLine + String.Format("    <td>{0}</td>", company.CompanyPhone);
                     rowHtml += Environment.NewLine + String.Format("    <td>{0}</td>", company.CompanyAddress);
                     rowHtml += Environment.NewLine + String.Format("    <td>{0:dd/MM/yyyy}</td>", company.CreatedDate);
                     rowHtml += Environment.NewLine + String.Format("    <td>");
-                    rowHtml += Environment.NewLine + String.Format("        <a href=\"/chi-tiet-nha-xe?id={0}\" class=\"btn primary-btn h45-btn\">Chi tiết</a>", company.ID);
+                    rowHtml += Environment.NewLine + String.Format("        <a href=\"/chi-tiet-nha-xe?id={0}\" class=\"btn primary-btn h45-btn\">Quản lý</a>", company.ID);
                     rowHtml += Environment.NewLine + String.Format("    </td>");
                     rowHtml += Environment.NewLine + String.Format("</tr>");
 

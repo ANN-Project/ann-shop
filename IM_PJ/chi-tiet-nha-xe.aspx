@@ -10,7 +10,7 @@
                 <div class="col-md-12">
                     <h3 class="page-title left">Danh sách nhà xe</h3>
                     <div class="right above-list-btn">
-                        <a href="/them-moi-noi-den-nha-xe/?id=<%=hdfID.Value%>" class="h45-btn primary-btn btn">Thêm mới</a>
+                        <a href="/them-moi-noi-den-nha-xe/?id=<%=hdfID.Value%>" class="h45-btn primary-btn btn">Thêm nơi nhận</a>
                     </div>
                 </div>
                 <div class="col-md-12">
@@ -24,7 +24,7 @@
                     </div>
                     <div class="form-row">
                         <div class="row-left">
-                            Số điện thoại
+                            Điện thoại
                         </div>
                         <div class="row-right">
                             <asp:TextBox ID="txtCompanyPhone" runat="server" CssClass="form-control" Enabled="false" TabIndex="2"></asp:TextBox>
@@ -32,7 +32,7 @@
                     </div>
                     <div class="form-row">
                         <div class="row-left">
-                            Địa chỉ chành xe gửi
+                            Địa chỉ chành xe gửi ở TPHCM
                         </div>
                         <div class="row-right">
                             <asp:TextBox ID="txtCompanyAddress" runat="server" CssClass="form-control" Enabled="false" TabIndex="3"></asp:TextBox>
@@ -48,7 +48,8 @@
                             <table class="table table-checkable table-product" tabindex="4">
                                 <tbody>
                                     <tr>
-                                        <th>Gửi đến</th>
+                                        <th>#</th>
+                                        <th>Nơi nhận</th>
                                         <th>Địa chỉ chành</th>
                                         <th>Trả cước trước</th>
                                         <th>Thu hộ</th>

@@ -27,9 +27,9 @@ namespace IM_PJ
                     var acc = AccountController.GetByUsername(username);
                     if (acc != null)
                     {
-                        if (acc.RoleID != 0)
+                        if (acc.RoleID == 1)
                         {
-                            Response.Redirect("/dang-nhap");
+                            Response.Redirect("/trang-chu");
                         }
 
                         var ID = Request.QueryString["ID"];
@@ -114,6 +114,7 @@ namespace IM_PJ
                     String rowHtml = String.Empty;
 
                     rowHtml += Environment.NewLine + String.Format("<tr>");
+                    rowHtml += Environment.NewLine + String.Format("    <td>{0}</td>", i + 1);
                     rowHtml += Environment.NewLine + String.Format("    <td>{0}</td>", company.ShipTo);
                     rowHtml += Environment.NewLine + String.Format("    <td>{0}</td>", company.Address);
                     rowHtml += Environment.NewLine + String.Format("    <td>{0}</td>", company.Prepay ? "Có" : "Không");

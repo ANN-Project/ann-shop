@@ -192,6 +192,7 @@ namespace IM_PJ
 
                     double TotalQuantity = 0;
                     double TotalOrder = 0;
+                    
 
                     var orderdetails = OrderDetailController.GetByIDSortBySKU(ID);
 
@@ -295,11 +296,14 @@ namespace IM_PJ
                         productPrint += "<td colspan=\"4\">Thành tiền</td>";
                         productPrint += "<td>" + string.Format("{0:N0}", TotalOrder) + "</td>";
                         productPrint += "</tr>";
-                        
+
+                        double TotalPrice = TotalOrder;
+
                         if (order.DiscountPerProduct > 0)
                         {
                             var TotalDiscount = Convert.ToDouble(order.DiscountPerProduct) * Convert.ToDouble(TotalQuantity);
                             TotalOrder = TotalOrder - TotalDiscount;
+                            TotalPrice = TotalPrice - TotalDiscount;
                             productPrint += "<tr>";
                             productPrint += "<td colspan=\"4\">Chiết khấu mỗi cái </td>";
                             productPrint += "<td>" + string.Format("{0:N0}", Convert.ToDouble(order.DiscountPerProduct)) + "</td>";
@@ -316,35 +320,40 @@ namespace IM_PJ
                         
                         if (order.RefundsGoodsID != null)
                         {
-                            var refund = OrderReturnGoodController.GetByID(Convert.ToInt32(order.RefundsGoodsID));
-                            TotalOrder = TotalOrder - Convert.ToDouble(refund.TotalPrice);
-                            productPrint += "<tr>";
-                            productPrint += "<td colspan=\"4\">Mã đơn hàng trả</td>";
-                            productPrint += "<td>" + order.RefundsGoodsID + "</td>";
-                            productPrint += "</tr>";
+                            var refund = RefundGoodController.GetByID(Convert.ToInt32(order.RefundsGoodsID));
+                            if(refund != null)
+                            {
+                                TotalOrder = TotalOrder - Convert.ToDouble(refund.TotalPrice);
 
-                            productPrint += "<tr>";
-                            productPrint += "<td colspan=\"4\">Trừ tiền hàng trả</td>";
-                            productPrint += "<td>" + string.Format("{0:N0}", Convert.ToDouble(refund.TotalPrice)) + "</td>";
-                            productPrint += "</tr>";
+                                productPrint += "<tr>";
+                                productPrint += "<td colspan=\"4\">Trừ tiền hàng trả (đơn " + order.RefundsGoodsID + ")</td>";
+                                productPrint += "<td>" + string.Format("{0:N0}", Convert.ToDouble(refund.TotalPrice)) + "</td>";
+                                productPrint += "</tr>";
 
-                            productPrint += "<tr>";
-                            productPrint += "<td colspan=\"4\">Tổng tiền còn lại</td>";
-                            productPrint += "<td>" + string.Format("{0:N0}", TotalOrder) + "</td>";
-                            productPrint += "</tr>";
+                                productPrint += "<tr>";
+                                productPrint += "<td colspan=\"4\">Tổng tiền còn lại</td>";
+                                productPrint += "<td>" + string.Format("{0:N0}", TotalOrder) + "</td>";
+                                productPrint += "</tr>";
+                            }
+                            else
+                            {
+                                error += "Không tìm thấy đơn hàng đổi trả " + order.RefundsGoodsID.ToString();
+                            }
+
                         }
+                        
 
                         if (Convert.ToDouble(order.FeeShipping) > 0)
                         {
                             TotalOrder = TotalOrder + Convert.ToDouble(order.FeeShipping);
+                            TotalPrice = TotalPrice + Convert.ToDouble(order.FeeShipping);
                             productPrint += "<tr>";
                             productPrint += "<td colspan=\"4\">Phí vận chuyển</td>";
                             productPrint += "<td>" + string.Format("{0:N0}", Convert.ToDouble(order.FeeShipping)) + "</td>";
                             productPrint += "</tr>";
-                            
                         }
 
-                        if (TotalOrder != Convert.ToDouble(order.TotalPrice))
+                        if (TotalPrice != Convert.ToDouble(order.TotalPrice))
                         {
                             error += "Đơn hàng tính sai tổng tiền";
                         }

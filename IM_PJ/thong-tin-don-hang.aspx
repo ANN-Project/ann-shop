@@ -89,14 +89,14 @@
                                         <div class="form-group">
                                             <label>Họ tên</label>
                                             <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" ControlToValidate="txtFullname" ErrorMessage="(*)" ForeColor="Red" Display="Dynamic"></asp:RequiredFieldValidator>
-                                            <asp:TextBox ID="txtFullname" CssClass="form-control" runat="server" Enabled="false" placeholder="(F2)"></asp:TextBox>
+                                            <asp:TextBox ID="txtFullname" CssClass="form-control" runat="server" Enabled="false" placeholder="Họ tên thật của khách (F2)"></asp:TextBox>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label>Điện thoại</label>
                                             <asp:RequiredFieldValidator ID="re" runat="server" ControlToValidate="txtPhone" ErrorMessage="(*)" ForeColor="Red" Display="Dynamic"></asp:RequiredFieldValidator>
-                                            <asp:TextBox ID="txtPhone" CssClass="form-control" runat="server" Enabled="false"></asp:TextBox>
+                                            <asp:TextBox ID="txtPhone" CssClass="form-control" runat="server" Enabled="false" placeholder="Số điện thoại khách hàng"></asp:TextBox>
                                         </div>
                                     </div>
                                 </div>
@@ -105,14 +105,14 @@
                                         <div class="form-group">
                                             <label>Nick đặt hàng</label>
                                             <asp:RequiredFieldValidator ID="RequiredFieldValidator2" runat="server" ControlToValidate="txtNick" ErrorMessage="(*)" ForeColor="Red" Display="Dynamic"></asp:RequiredFieldValidator>
-                                            <asp:TextBox ID="txtNick" CssClass="form-control" runat="server" Enabled="false"></asp:TextBox>
+                                            <asp:TextBox ID="txtNick" CssClass="form-control" runat="server" Enabled="false" placeholder="Tên nick đặt hàng"></asp:TextBox>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label>Địa chỉ</label>
                                             <asp:RequiredFieldValidator ID="RequiredFieldValidator3" runat="server" ControlToValidate="txtAddress" ErrorMessage="(*)" ForeColor="Red" Display="Dynamic"></asp:RequiredFieldValidator>
-                                            <asp:TextBox ID="txtAddress" CssClass="form-control" runat="server" Enabled="false"></asp:TextBox>
+                                            <asp:TextBox ID="txtAddress" CssClass="form-control" runat="server" Enabled="false" placeholder="Địa chỉ khách hàng"></asp:TextBox>
                                         </div>
                                     </div>
                                 </div>
@@ -120,7 +120,7 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label>Zalo</label>
-                                            <asp:TextBox ID="txtZalo" CssClass="form-control" runat="server" Enabled="false"></asp:TextBox>
+                                            <asp:TextBox ID="txtZalo" CssClass="form-control" runat="server" Enabled="false" placeholder="Số điện thoại Zalo"></asp:TextBox>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
@@ -128,7 +128,7 @@
                                             <label>Facebook</label>
                                             <div class="row">
                                                 <div class="col-md-10 fb">
-                                                <asp:TextBox ID="txtFacebook" CssClass="form-control" runat="server" Enabled="false"></asp:TextBox>
+                                                <asp:TextBox ID="txtFacebook" CssClass="form-control" runat="server" Enabled="false" placeholder="Đường link chat Facebook"></asp:TextBox>
                                                 </div>
                                                 <div class="col-md-2">
                                                     <div class="row">
@@ -600,7 +600,7 @@
                 $(".find3").removeClass("hide");
                 $(".find1").addClass("hide");
                 $(".find2").html("(Xem đơn hàng " + t[0] + ")");
-                $(".find2").attr("onclick", "ViewOrder(" + t[0] + ")");
+                $(".find2").attr("onclick", "viewReturnOrder(" + t[0] + ")");
                 $(".find2").removeClass("hide");
                 $(".returnorder").removeClass("hide");
                 $(".totalpriceorderall").removeClass("price-red");
@@ -657,7 +657,7 @@
                                     $(".find3").removeClass("hide");
                                     $(".find1").addClass("hide");
                                     $(".find2").html("(Xem đơn hàng " + data.ID + ")");
-                                    $(".find2").attr("onclick", "ViewOrder(" + data.ID + ")");
+                                    $(".find2").attr("onclick", "viewReturnOrder(" + data.ID + ")");
                                     $(".find2").removeClass("hide");
                                     var refundprice = 0;
                                     if (parseFloat($("#<%=hdfTotalPrice.ClientID%>").val() > 0)) {
@@ -667,6 +667,7 @@
                                     $("#<%=hdfDonHangTra.ClientID%>").val(data.TotalPrice);
                                     $(".refund").removeClass("hide");
                                     $(".totalpriceorderrefund").html(formatThousands(data.TotalPrice, ","));
+                                    $("#<%=pGuestPaid.ClientID%>").val(0);
                                     closePopup();
                                     getAllPrice();
                                 } else {
@@ -674,7 +675,7 @@
                                 }
                             } else if (order == existorder[0]) {
                                 swal("Thông báo", "Đơn hàng đổi trả này đã thêm vào trước đó!\nHãy đổi về trạng thái 'Chưa trừ tiền' để thêm lại lần nữa!\nSau khi đổi trạng thái, trở lại giao diện này để thêm lại!", "error");
-                                ViewOrder(order);
+                                viewReturnOrder(order);
                             } else {
                                 swal("Thông báo", "Đơn hàng đổi trả không tồn tại hoặc đã được trừ tiền!", "error");
                             }
@@ -716,7 +717,8 @@
                         $(".returnorder").addClass("hide");
                         $(".totalpriceorderall").addClass("price-red");
                         $(".totalpricedetail").removeClass("price-red");
-                        alert("Đã bỏ qua đơn hàng đổi trả này!");
+                        $("#<%=pGuestPaid.ClientID%>").val(0);
+                        swal("Thông báo", "Đã bỏ qua đơn hàng đổi trả này!", "info");
                         getAllPrice();
                     },
                     error: function(xmlhttprequest, textstatus, errorthrow) {
@@ -820,8 +822,10 @@
                         swal("Thông báo", "Hãy nhập số điện thoại khách hàng!", "error");
                     }
                     else if (nick == "") {
+                        $("#<%= txtNick.ClientID%>").prop('disabled', false);
                         $("#<%= txtNick.ClientID%>").focus();
                         swal("Thông báo", "Hãy nhập Nick đặt hàng của khách hàng!", "error");
+                        
                     }
                     else if (address == "") {
                         $("#<%= txtAddress.ClientID%>").focus();
