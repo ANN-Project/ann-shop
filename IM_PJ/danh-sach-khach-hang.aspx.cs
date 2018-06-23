@@ -197,8 +197,8 @@ namespace IM_PJ
                         }
                     }
                     html.Append("   <td><a href=\"/chi-tiet-khach-hang?id=" + item.ID + "\"><img src=\"" + item.Avatar + "\"/></a></td>");
-                    html.Append("   <td><a href=\"/chi-tiet-khach-hang?id=" + item.ID + "\">" + item.CustomerName + "</a></td>");
-                    html.Append("   <td>" + item.Nick + "</td>");
+                    html.Append("   <td><a class=\"capitalize\" href=\"/chi-tiet-khach-hang?id=" + item.ID + "\">" + item.CustomerName + "</a></td>");
+                    html.Append("   <td class=\"capitalize\">" + item.Nick + "</td>");
                     html.Append("   <td>" + item.CustomerPhone + "</td>");
                     html.Append("   <td>" + item.Zalo + "</td>");
                     if (!string.IsNullOrEmpty(item.Facebook))

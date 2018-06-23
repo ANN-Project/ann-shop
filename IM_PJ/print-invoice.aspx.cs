@@ -222,7 +222,7 @@ namespace IM_PJ
                         productPrint += "<tbody>";
                         productPrint += "<tr>";
                         productPrint += "<td>Khách hàng</td>";
-                        productPrint += "<td>" + order.CustomerName + "</td>";
+                        productPrint += "<td class=\"capitalize\">" + order.CustomerName + "</td>";
                         productPrint += "</tr>";
                         productPrint += "<tr>";
                         productPrint += "<td>Điện thoại</td>";

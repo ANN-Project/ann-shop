@@ -283,8 +283,8 @@ namespace IM_PJ
                             p.QuantityInstockString = string.Format("{0:N0}", mainstock);
                             p.Giabansi = Convert.ToDouble(productvariable.Regular_Price);
                             p.stringGiabansi = string.Format("{0:N0}", productvariable.Regular_Price);
-                            p.Giabanle = Convert.ToDouble(productvariable.Regular_Price);
-                            p.stringGiabanle = string.Format("{0:N0}", productvariable.Regular_Price);
+                            p.Giabanle = Convert.ToDouble(productvariable.RetailPrice);
+                            p.stringGiabanle = string.Format("{0:N0}", productvariable.RetailPrice);
                             ps.Add(p);
                         }
                     }

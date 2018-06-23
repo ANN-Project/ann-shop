@@ -25,6 +25,7 @@ namespace IM_PJ
 
             if (!IsPostBack)
             {
+
                 if (Session["userLoginSystem"] != null)
                 {
                     string username = Session["userLoginSystem"].ToString();
@@ -44,7 +45,9 @@ namespace IM_PJ
                         {
                             Response.Redirect("/trang-chu");
                         }
+
                         Session["refund"] = "1";
+
                         var dc = DiscountController.GetAll();
                         if (dc != null)
                         {
@@ -251,8 +254,8 @@ namespace IM_PJ
                             p.SKU = SKU;
                             p.Giabansi = Convert.ToDouble(productvariable.Regular_Price);
                             p.stringGiabansi = string.Format("{0:N0}", productvariable.Regular_Price);
-                            p.Giabanle = Convert.ToDouble(productvariable.Regular_Price);
-                            p.stringGiabanle = string.Format("{0:N0}", productvariable.Regular_Price);
+                            p.Giabanle = Convert.ToDouble(productvariable.RetailPrice);
+                            p.stringGiabanle = string.Format("{0:N0}", productvariable.RetailPrice);
                             ps.Add(p);
                         }
                     }
@@ -460,8 +463,8 @@ namespace IM_PJ
                     double GuestChange = Convert.ToDouble(totalPrice) - GuestPaid;
 
                     var ret = OrderController.InsertOnSystem(AgentID, OrderType, AdditionFee, DisCount, CustomerID, CustomerName, CustomerPhone, CustomerAddress,
-                       CustomerEmail, totalPrice, totalPriceNotDiscount, PaymentStatus, ExcuteStatus, IsHidden, WayIn, currentDate, username, DiscountPerProduct,
-                       TotalDiscount, FeeShipping, GuestPaid, GuestChange, PaymentType, ShippingType, OrderNote, DateTime.Now);
+                        CustomerEmail, totalPrice, totalPriceNotDiscount, PaymentStatus, ExcuteStatus, IsHidden, WayIn, currentDate, username, DiscountPerProduct,
+                        TotalDiscount, FeeShipping, GuestPaid, GuestChange, PaymentType, ShippingType, OrderNote, DateTime.Now);
                     int OrderID = ret.ID;
 
                     if (OrderID > 0)
@@ -511,7 +514,7 @@ namespace IM_PJ
                                     MoveProID = 0,
                                     ParentID = item.ProductID != 0 ? item.ProductID : item.ProductVariableID
                                 }
-                             );
+                                );
 
 
                         }
@@ -526,11 +529,11 @@ namespace IM_PJ
                             var update = RefundGoodController.UpdateStatus(RefundID[0].ToInt(), username, 2);
                             var updateor = OrderController.UpdateRefund(OrderID, RefundID[0].ToInt(), username);
                         }
+
                         HttpContext.Current.Session.Remove("refund");
 
-                        PJUtils.ShowMessageBoxSwAlertCallFunction("Tạo đơn hàng thành công", "s", true, "printInvoice(" + OrderID + ")", Page);
+                        ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "script", "$(function () { printInvoice(" + OrderID + ") });", true);
                     }
-
                 }
             }
         }

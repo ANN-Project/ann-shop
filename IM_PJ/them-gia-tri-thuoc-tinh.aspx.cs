@@ -27,7 +27,7 @@ namespace IM_PJ
                     {
                         if (acc.RoleID != 0)
                         {
-                            Response.Redirect("/dang-nhap");
+                            Response.Redirect("/trang-chu");
                         }
                     }
                 }
@@ -90,22 +90,15 @@ namespace IM_PJ
         {
             DateTime currentDate = DateTime.Now;
             string username = Session["userLoginSystem"].ToString();
-            var acc = AccountController.GetByUsername(username);
-            if (acc != null)
-            {
-                if (acc.RoleID == 0)
-                {
-                    int productvariableid = ViewState["productvariableid"].ToString().ToInt(0);
-                    string SKU = ViewState["ProductvariableSKU"].ToString();
-                    int VariableValueID = ddlVariableValue.SelectedValue.ToInt();
-                    string VariableName = ddlVariable.SelectedItem.ToString();
-                    string VariableValue = ddlVariableValue.SelectedItem.ToString();
-                    bool isHidden = chkIsHidden.Checked;
-                    ProductVariableValueController.Insert(productvariableid, SKU, VariableValueID, VariableName, VariableValue, isHidden,
-                        currentDate, username);
-                    PJUtils.ShowMessageBoxSwAlert("Thêm giá trị thành công", "s", true, Page);
-                }
-            }
+            int productvariableid = ViewState["productvariableid"].ToString().ToInt(0);
+            string SKU = ViewState["ProductvariableSKU"].ToString();
+            int VariableValueID = ddlVariableValue.SelectedValue.ToInt();
+            string VariableName = ddlVariable.SelectedItem.ToString();
+            string VariableValue = ddlVariableValue.SelectedItem.ToString();
+            bool isHidden = chkIsHidden.Checked;
+            ProductVariableValueController.Insert(productvariableid, SKU, VariableValueID, VariableName, VariableValue, isHidden,
+                currentDate, username);
+            PJUtils.ShowMessageBoxSwAlert("Thêm giá trị thành công", "s", true, Page);
         }
     }
 }

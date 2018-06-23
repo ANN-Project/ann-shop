@@ -461,11 +461,11 @@ namespace IM_PJ
                             File.Delete(filePath);
                         }
 
-                        PJUtils.ShowMessageBoxSwAlertCallFunction("Nhập kho thành công. Bấm OK để in mã vạch", "s", true, "printBarcode()", Page);
+                        ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "script", "$(function () { printBarcode() });", true);
                     }
                     else
                     {
-                        PJUtils.ShowMessageBoxSwAlert("Nhập kho thành công", "s", true, Page);
+                        PJUtils.ShowMessageBoxSwAlert("Nhập kho thành công!", "s", true, Page);
                     }
                 }
             }

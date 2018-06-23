@@ -63,6 +63,7 @@ namespace IM_PJ
                     if (ac.Status == 1)
                     {
                         Session["userLoginSystem"] = username;
+                        Session.Timeout = 10080;
                         Response.Redirect("/trang-chu");
                     }
                     else

@@ -309,6 +309,26 @@ namespace NHST.Bussiness
             }
             JavaScript.AfterPageLoad(page).ExecuteCustomScript("swal({ title: 'Thông báo',text:' " + txt + "',type: '" + p + "'}" + (Convert.ToBoolean(isCall.ToString()) ? ", function () { window.location.replace(window.location.href); " + functionName + "  });" : ");"));
         }
+        public static void SwAlertCallFunction(string txt, string txtConfirm, string type, bool? isCall, string functionName, System.Web.UI.Page page)
+        {
+            txt = new JavaScriptSerializer().Serialize(txt);
+            string p;
+            switch (type)
+            {
+
+                case "e":
+                    p = "error";
+                    break;
+                case "i":
+                    p = "warning";
+                    break;
+
+                default:
+                    p = "success";
+                    break;
+            }
+            JavaScript.AfterPageLoad(page).ExecuteCustomScript("swal({ title: 'Thông báo', text:' " + txt + "', type: '" + p + "', showCancelButton: true, confirmButtonText:' " + txtConfirm + "', closeOnConfirm: true, html: true}" + (Convert.ToBoolean(isCall.ToString()) ? ", function () { " + functionName + " });" : ");"));
+        }
         public static string GetIcon(object o)
         {
             if (o == null)

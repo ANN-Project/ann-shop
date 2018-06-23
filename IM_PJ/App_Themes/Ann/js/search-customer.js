@@ -53,11 +53,11 @@ function viewCustomerDetail(custID) {
                 html += "   <thead>";
                 html += "       <tr>";
                 html += "           <td style=\"width:25%;\">Khách hàng:</td>";
-                html += "           <td>" + data.CustomerName + "</td>";
+                html += "           <td class=\"capitalize\">" + data.CustomerName + "</td>";
                 html += "       </tr>";
                 html += "       <tr>";
                 html += "           <td style=\"width:25%;\">Nick đặt hàng:</td>";
-                html += "           <td>" + data.Nick + "</td>";
+                html += "           <td class=\"capitalize\">" + data.Nick + "</td>";
                 html += "       </tr>";
                 html += "       <tr>";
                 html += "           <td style=\"width:25%;\">Điện thoại</td>";
@@ -65,7 +65,7 @@ function viewCustomerDetail(custID) {
                 html += "       </tr>";
                 html += "       <tr>";
                 html += "           <td style=\"width:25%;\">Địa chỉ</td>";
-                html += "           <td>" + data.CustomerAddress + "</td>";
+                html += "           <td class=\"capitalize\">" + data.CustomerAddress + "</td>";
                 html += "       </tr>";
                 html += "       <tr>";
                 html += "           <td style=\"width:25%;\">Email</td>";

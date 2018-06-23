@@ -234,7 +234,7 @@ namespace IM_PJ
 
                                     if (customerType == 1)
                                     {
-                                        Giabansi = Convert.ToDouble(product.CostOfGood);
+                                        Giabansi = Convert.ToDouble(product.Regular_Price);
                                         Giabanle = ItemPrice;
                                     }
                                     else
@@ -292,7 +292,7 @@ namespace IM_PJ
 
                                     if (customerType == 1)
                                     {
-                                        Giabansi = Convert.ToDouble(productvariable.CostOfGood);
+                                        Giabansi = Convert.ToDouble(productvariable.Regular_Price);
                                         Giabanle = ItemPrice;
                                     }
                                     else
@@ -438,7 +438,7 @@ namespace IM_PJ
                     ltrOrderType.Text = PJUtils.OrderType(Convert.ToInt32(order.OrderType));
                     ltrPrint.Text = "<a href=\"/print-invoice.aspx?id=" + ID + "\" target=\"_blank\" class=\"btn primary-btn fw-btn not-fullwidth\"><i class=\"fa fa-print\" aria-hidden=\"true\"></i> In hóa đơn</a>";
                     ltrPrint.Text += "<a href=\"/print-invoice.aspx?id=" + ID + "&merge=1\" target=\"_blank\" class=\"btn primary-btn fw-btn not-fullwidth print-invoice-merged\"><i class=\"fa fa-print\" aria-hidden=\"true\"></i> In hóa đơn gộp</a>";
-                    ltrPrint.Text += "<a href=\"/print-order-image?id=" + ID + "\" target=\"_blank\" class=\"btn primary-btn fw-btn not-fullwidth print-invoice-merged\"><i class=\"fa fa-picture-o\" aria-hidden=\"true\"></i> Lấy ảnh đơn hàng</a>";
+                    ltrPrint.Text += "<a href=\"javascript:;\" onclick=\"warningGetOrderImage(" + ID + ")\" target=\"_blank\" class=\"btn primary-btn fw-btn not-fullwidth print-invoice-merged\"><i class=\"fa fa-picture-o\" aria-hidden=\"true\"></i> Lấy ảnh đơn hàng</a>";
                     ltrPrint.Text += "<a href=\"/print-shipping-note?id=" + ID + "\" target=\"_blank\" class=\"btn primary-btn fw-btn not-fullwidth print-invoice-merged\"><i class=\"fa fa-file-text-o\" aria-hidden=\"true\"></i> In phiếu gửi hàng</a>";
                 }
             }
@@ -674,8 +674,8 @@ namespace IM_PJ
                             p.QuantityInstockString = string.Format("{0:N0}", mainstock);
                             p.Giabansi = Convert.ToDouble(productvariable.Regular_Price);
                             p.stringGiabansi = string.Format("{0:N0}", productvariable.Regular_Price);
-                            p.Giabanle = Convert.ToDouble(productvariable.Regular_Price);
-                            p.stringGiabanle = string.Format("{0:N0}", productvariable.Regular_Price);
+                            p.Giabanle = Convert.ToDouble(productvariable.RetailPrice);
+                            p.stringGiabanle = string.Format("{0:N0}", productvariable.RetailPrice);
                             ps.Add(p);
                         }
                     }

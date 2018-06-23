@@ -21,7 +21,7 @@
                                 <div class="form-group">
                                     <label>Họ tên</label>
                                     <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" ControlToValidate="txtFullname" ErrorMessage="(*)" ForeColor="Red" Display="Dynamic"></asp:RequiredFieldValidator>
-                                    <asp:TextBox ID="txtFullname" CssClass="form-control" runat="server" placeholder="(F2)"></asp:TextBox>
+                                    <asp:TextBox ID="txtFullname" CssClass="form-control capitalize" runat="server" placeholder="(F2)"></asp:TextBox>
                                 </div>
                                 <div class="form-group">
                                     <label>Điện thoại</label>
@@ -30,12 +30,12 @@
                                 </div>
                                 <div class="form-group">
                                     <label>Nick đặt hàng</label>
-                                    <asp:TextBox ID="txtNick" CssClass="form-control" runat="server"></asp:TextBox>
+                                    <asp:TextBox ID="txtNick" CssClass="form-control capitalize" runat="server"></asp:TextBox>
                                 </div>
                                 <div class="form-group">
                                     <label>Địa chỉ</label>
                                     <asp:RequiredFieldValidator ID="RequiredFieldValidator2" runat="server" ControlToValidate="txtAddress" ErrorMessage="(*)" ForeColor="Red" Display="Dynamic"></asp:RequiredFieldValidator>
-                                    <asp:TextBox ID="txtAddress" CssClass="form-control" runat="server"></asp:TextBox>
+                                    <asp:TextBox ID="txtAddress" CssClass="form-control capitalize" runat="server"></asp:TextBox>
                                 </div>
                                 <div class="form-row view-detail" style="display: none">
                                 </div>
@@ -500,9 +500,19 @@
 
             // print invoice after submit order
             function printInvoice(id) {
-                clearCustomerDetail();
-                var url = "/print-invoice.aspx?id=" + id;
-                window.open(url);
+                swal({
+                    title: "Thông báo", text: "Tạo đơn hàng thành công! Bấm OK để in hóa đơn...",
+                    type: "success",
+                    showCancelButton: false,
+                    confirmButtonText: "OK in đê!!",
+                    closeOnConfirm: true,
+                    html: false
+                }, function () {
+                    clearCustomerDetail();
+                    var url = "/print-invoice.aspx?id=" + id;
+                    window.open(url);
+                    window.location.replace(window.location.href);
+                });
             }
 
             class OrderDetail {
@@ -631,6 +641,7 @@
                 var textsearch = $("#txtSearch").val();
                 $("#<%=hdfListSearch.ClientID%>").val(textsearch);
                 var customerType = $(".customer-type").val();
+                $("#txtSearch").val("");
                 if (!isBlank(textsearch)) {
                     $.ajax({
                         type: "POST",
@@ -671,7 +682,6 @@
                                 html += ("<div>");
                                 html += ("<a href=\"javascript: ;\" class=\"btn link- btn\" style=\"background-color:#f87703;float:right;color:#fff;\" onclick=\"selectProduct()\">Chọn</a>");
                                 html += ("</div >");
-                                $("#txtSearch").val("");
                                 showPopup(html);
                             } else if (data.length == 1) {
 
@@ -728,16 +738,17 @@
                                     });
                                 }
 
-                                $(".content-product").append(html);
-                                $("#txtSearch").val("");
+                                $(".content-product").prepend(html);
+                                
                                 getAllPrice();
                             } else {
-                                $("#txtSearch").select();
+                                $("#txtSearch").val(textsearch).select();
                                 swal("Thông báo", "Không tìm thấy sản phẩm", "error");
                             }
                         },
                         error: function(xmlhttprequest, textstatus, errorthrow) {
                             alert('lỗi');
+                            $("#txtSearch").val(textsearch).select();
                         }
                     });
                 } else {
@@ -797,6 +808,7 @@
             function getProduct(list, list2) {
                 var textsearch = $("#<%=hdfListSearch.ClientID%>").val();
                 var customerType = $(".customer-type").val();
+                $("#txtSearch").val("");
                 $.ajax({
                     type: "POST",
                     url: "/pos.aspx/getProduct",
@@ -870,16 +882,17 @@
                                     }
                                 }
                             }
-                            $(".content-product").append(html);
-                            $("#txtSearch").val("");
+                            $(".content-product").prepend(html);
+                            
                             getAllPrice();
                         } else {
-                            $("#txtSearch").select();
+                            $("#txtSearch").val(textsearch).select();
                             swal("Thông báo", "Không tìm thấy sản phẩm", "error");
                         }
                     },
                     error: function(xmlhttprequest, textstatus, errorthrow) {
                         alert('lỗi');
+                        $("#txtSearch").val(textsearch).select();
                     }
                 });
             }

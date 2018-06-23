@@ -18,7 +18,10 @@
                             </div>
                             <div class="form-row">
                                 <h3 class="no-margin float-left">Kết quả tìm kiếm: <span class="result-numsearch"></span></h3>
-                                <div class="float-right excute-in"><a href="javascript:;" class="btn primary-btn fw-btn not-fullwidth" onclick="noteImportStock()">Nhập kho</a></div>
+                                <div class="excute-in">
+                                    <a href="javascript:;" style="background-color: #f87703; float: right;" class="btn primary-btn link-btn" onclick="noteImportStock()">Nhập kho</a>
+                                    <a href="javascript:;" style="background-color: #ffad00; float: right;" class="btn primary-btn link-btn" onclick="quickInput()">Nhập nhanh số lượng (F2)</a>
+                                </div>
                             </div>
                             <div class="form-row" style="border: solid 1px #ccc; padding: 10px;">
                                 <table class="table table-checkable table-product import-stock">
@@ -41,8 +44,9 @@
                                     </tbody>
                                 </table>
                             </div>
-                            <div class="form-row excute-in">
-                                <div class="float-right"><a href="javascript:;" class="btn primary-btn fw-btn not-fullwidth" onclick="noteImportStock()">Nhập kho</a></div>
+                            <div class="post-table-links excute-in clear">
+                                <a href="javascript:;" style="background-color: #f87703; float: right;" class="btn primary-btn link-btn" onclick="noteImportStock()">Nhập kho</a>
+                                <a href="javascript:;" style="background-color: #ffad00; float: right;" class="btn primary-btn link-btn" onclick="quickInput()">Nhập nhanh số lượng (F2)</a>
                             </div>
                         </div>
                     </div>
@@ -60,7 +64,11 @@
 
     <script type="text/javascript">
 
-        $(document).keydown(function(e) {
+        $(document).keydown(function (e) {
+            if (e.which == 113) { //F2 Quick Input
+                quickInput();
+                return false;
+            }
             if (e.which == 114) { //F3 Search Product
                 $("#txtSearch").focus();
                 return false;
@@ -80,17 +88,58 @@
             }
         });
 
+        // quick input quantity
+        function quickInput() {
+            if ($(".product-result").length == 0) {
+                alert("Hãy nhập sản phẩm!");
+                $("#txtSearch").focus();
+            } else {
+                var html = "";
+                html += "<div class=\"form-row\">";
+                html += "<label>Nhập nhanh số lượng cho mỗi sản phẩm: </label>";
+                html += "<input ID=\"txtQuickInput\" class=\"form-control fjx\"></input>";
+                html += "<a href=\"javascript:;\" class=\"btn primary-btn float-right-btn link-btn\" onclick=\"submitQuickInput()\"><i class=\"fa fa-search\" aria-hidden=\"true\"></i> Tìm</a>";
+                html += "</div>";
+                showPopup(html);
+                $("#txtQuickInput").focus();
+                $('#txtQuickInput').keydown(function (event) {
+                    if (event.which === 13) {
+                        submitQuickInput();
+                        event.preventDefault();
+                        return false;
+                    }
+                });
+            }
+        }
+
+        function submitQuickInput() {
+            var quantity = $("#txtQuickInput").val();
+            $(".product-result").each(function () {
+                $(this).find(".in-quanlity").val(quantity);
+            });
+            closePopup();
+        }
+
         function printBarcode() {
-            printDiv('printcontent');
+            swal({
+                title: "Thông báo", text: "Nhập kho thành công! Bấm OK để in mã vạch...",
+                type: "success",
+                showCancelButton: false,
+                confirmButtonText: "OK in đê!!",
+                closeOnConfirm: true,
+                html: false
+            }, function () {
+                window.location.replace(window.location.href);
+                printDiv('printcontent');
+            });
         }
 
         function printDiv(divid) {
             var divToPrint = document.getElementById('' + divid + '');
             var newWin = window.open('', 'Print-Window');
             newWin.document.open();
-            newWin.document.write('<html><head><link rel="stylesheet" href="/App_Themes/Ann/css/Barcode.css" type="text/css"/><link rel="stylesheet" href="/App_Themes/Ann/barcode/style.css" type="text/css"/><link rel="stylesheet" href="/App_Themes/Ann/css/responsive.css" type="text/css"/></head><body onload="window.print()">' + divToPrint.innerHTML + '</body></html>');
+            newWin.document.write('<html><head><link rel="stylesheet" href="/App_Themes/Ann/css/Barcode.css" type="text/css"/><link rel="stylesheet" href="/App_Themes/Ann/barcode/style.css" type="text/css"/><link rel="stylesheet" href="/App_Themes/Ann/css/responsive.css" type="text/css"/></head><body><script>window.onload = setTimeout(function () {window.print();setTimeout(function () { window.close(); }, 1);}, 2000);<\/script>' + divToPrint.innerHTML + '</body></html>');
             newWin.document.close();
-            setTimeout(function () { newWin.close(); }, 10);
         }
 
         $("#check-all").change(function () {

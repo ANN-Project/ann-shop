@@ -198,11 +198,11 @@ namespace IM_PJ
                     var customer = CustomerController.GetByID(Convert.ToInt32(item.CustomerID));
                     if (!string.IsNullOrEmpty(customer.Nick))
                     {
-                        html.Append("   <td><a href=\"/thong-tin-don-hang.aspx?id=" + item.ID + "\">" + customer.Nick + "</a></td>");
+                        html.Append("   <td><a class=\"customer-name-link capitalize\" href=\"/thong-tin-don-hang.aspx?id=" + item.ID + "\">" + customer.Nick + "</a><br><span class=\"name-bottom-nick\">(" + item.CustomerName + ")</span></td>");
                     }
                     else
                     {
-                        html.Append("   <td><a href=\"/thong-tin-don-hang.aspx?id=" + item.ID + "\">" + item.CustomerName + "</a></td>");
+                        html.Append("   <td><a class=\"customer-name-link capitalize\" href=\"/thong-tin-don-hang.aspx?id=" + item.ID + "\">" + item.CustomerName + "</a></td>");
                     }
                     
                     var orderdetails = OrderDetailController.GetByOrderID(item.ID);

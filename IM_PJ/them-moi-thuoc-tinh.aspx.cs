@@ -53,40 +53,38 @@ namespace IM_PJ
 
         protected void btnLogin_Click(object sender, EventArgs e)
         {
+            DateTime currentDate = DateTime.Now;
+            string username = Session["userLoginSystem"].ToString();
+            int id = Convert.ToInt32(ViewState["ID"]);
+            if (id != 0)
             {
-                DateTime currentDate = DateTime.Now;
-                string username = Session["userLoginSystem"].ToString();
-                int id = Convert.ToInt32(ViewState["ID"]);
-                if (id != 0)
+                var variname = VariableController.GetByID(id);
+                if (variname != null)
                 {
-                    var variname = VariableController.GetByID(id);
-                    if (variname != null)
+                    var acc = AccountController.GetByUsername(username);
+                    if (acc != null)
                     {
-                        var acc = AccountController.GetByUsername(username);
-                        if (acc != null)
+                        if (acc.RoleID == 0)
                         {
-                            if (acc.RoleID == 0)
-                            {
 
-                                int ID = id;
-                                string variableName = variname.VariableName.Trim();                                
-                                string VariableValue = txtVariableValue.Text.Trim();
-                                string SKUText = txtSKUText.Text.Trim();
-                                var check = VariableValueController.GetByValueAndSKUText(id,VariableValue, SKUText);
-                                if(check != null)
-                                {
-                                    lblError.Text = "Tên thuộc tính hoặc SKUText đã tồn tại vui lòng chọn tên khác.";
-                                    lblError.Visible = true;
-                                }
-                                else
-                                {
-                                    lblError.Visible = false;
-                                    VariableValueController.Insert(ID, variableName, VariableValue, false, currentDate, username, SKUText);
-                                    PJUtils.ShowMessageBoxSwAlert("Thêm thuộc tính thành công", "s", true, Page);
-                                    Response.Redirect("quan-ly-thuoc-tinh-san-pham?id=" + id);
-                                }
-                                
+                            int ID = id;
+                            string variableName = variname.VariableName.Trim();                                
+                            string VariableValue = txtVariableValue.Text.Trim();
+                            string SKUText = txtSKUText.Text.Trim();
+                            var check = VariableValueController.GetByValueAndSKUText(id,VariableValue, SKUText);
+                            if(check != null)
+                            {
+                                lblError.Text = "Tên thuộc tính hoặc SKUText đã tồn tại vui lòng chọn tên khác.";
+                                lblError.Visible = true;
                             }
+                            else
+                            {
+                                lblError.Visible = false;
+                                VariableValueController.Insert(ID, variableName, VariableValue, false, currentDate, username, SKUText);
+                                PJUtils.ShowMessageBoxSwAlert("Thêm thuộc tính thành công", "s", true, Page);
+                                Response.Redirect("quan-ly-thuoc-tinh-san-pham?id=" + id);
+                            }
+                                
                         }
                     }
                 }

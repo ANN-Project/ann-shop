@@ -75,67 +75,61 @@ namespace IM_PJ
         {
             DateTime currentDate = DateTime.Now;
             string username = Session["userLoginSystem"].ToString();
-            var acc = AccountController.GetByUsername(username);
-            if (acc != null)
+
+            bool check = true;
+            string SKU = txtProductSKU.Text.Trim().ToUpper();
+            var productcheck = ProductController.GetBySKU(SKU);
+            if (productcheck != null)
             {
-                if (acc.RoleID == 0)
+                check = false;
+            }
+            else
+            {
+                var productvariable = ProductVariableController.GetBySKU(SKU);
+                if (productvariable != null)
+                    check = false;
+            }
+            if (check == false)
+            {
+                PJUtils.ShowMessageBoxSwAlert("Trùng mã sản phẩm vui lòng kiểm tra lại", "e", false, Page);
+            }
+            else
+            {
+                int parentID = ViewState["productid"].ToString().ToInt(0);
+
+                var parentProduct = ProductController.GetByID(parentID);
+
+                bool isHidden = false;
+
+                double Stock = 0;
+                double Regular_Price = Convert.ToDouble(pRegular_Price.Text);
+                double CostOfGood = Convert.ToDouble(pCostOfGood.Text);
+                double RetailPrice = Convert.ToDouble(pRetailPrice.Text);
+                int StockStatus = 1;
+                bool ManageStock = true;
+
+                //Phần thêm ảnh đại diện sản phẩm
+                string path = "/uploads/images/";
+                string ProductImage = "";
+                if (ProductThumbnailImage.UploadedFiles.Count > 0)
                 {
-                    bool check = true;
-                    string SKU = txtProductSKU.Text.Trim().ToUpper();
-                    var productcheck = ProductController.GetBySKU(SKU);
-                    if (productcheck != null)
+                    foreach (UploadedFile f in ProductThumbnailImage.UploadedFiles)
                     {
-                        check = false;
-                    }
-                    else
-                    {
-                        var productvariable = ProductVariableController.GetBySKU(SKU);
-                        if (productvariable != null)
-                            check = false;
-                    }
-                    if (check == false)
-                    {
-                        PJUtils.ShowMessageBoxSwAlert("Trùng mã sản phẩm vui lòng kiểm tra lại", "e", false, Page);
-                    }
-                    else
-                    {
-                        int parentID = ViewState["productid"].ToString().ToInt(0);
-
-                        var parentProduct = ProductController.GetByID(parentID);
-
-                        bool isHidden = false;
-
-                        double Stock = 0;
-                        double Regular_Price = Convert.ToDouble(pRegular_Price.Text);
-                        double CostOfGood = Convert.ToDouble(pCostOfGood.Text);
-                        double RetailPrice = Convert.ToDouble(pRetailPrice.Text);
-                        int StockStatus = 1;
-                        bool ManageStock = true;
-
-                        //Phần thêm ảnh đại diện sản phẩm
-                        string path = "/uploads/images/";
-                        string ProductImage = "";
-                        if (ProductThumbnailImage.UploadedFiles.Count > 0)
+                        var o = path + Guid.NewGuid() + f.GetExtension();
+                        try
                         {
-                            foreach (UploadedFile f in ProductThumbnailImage.UploadedFiles)
-                            {
-                                var o = path + Guid.NewGuid() + f.GetExtension();
-                                try
-                                {
-                                    f.SaveAs(Server.MapPath(o));
-                                    ProductImage = o;
-                                }
-                                catch { }
-                            }
+                            f.SaveAs(Server.MapPath(o));
+                            ProductImage = o;
                         }
-                        ProductVariableController.Insert(parentProduct.ID, parentProduct.ProductSKU, SKU, Stock, StockStatus, Regular_Price,
-                            CostOfGood, RetailPrice, ProductImage, ManageStock, isHidden, currentDate, username, Convert.ToInt32(parentProduct.SupplierID),
-                            parentProduct.SupplierName, Convert.ToDouble(pMinimumInventoryLevel.Text),
-                            Convert.ToDouble(pMaximumInventoryLevel.Text));
-
-                        PJUtils.ShowMessageBoxSwAlert("Thêm biến thể sản phẩm thành công", "s", true, Page);
+                        catch { }
                     }
                 }
+                ProductVariableController.Insert(parentProduct.ID, parentProduct.ProductSKU, SKU, Stock, StockStatus, Regular_Price,
+                    CostOfGood, RetailPrice, ProductImage, ManageStock, isHidden, currentDate, username, Convert.ToInt32(parentProduct.SupplierID),
+                    parentProduct.SupplierName, Convert.ToDouble(pMinimumInventoryLevel.Text),
+                    Convert.ToDouble(pMaximumInventoryLevel.Text));
+
+                PJUtils.ShowMessageBoxSwAlert("Thêm biến thể sản phẩm thành công", "s", true, Page);
             }
         }
     }

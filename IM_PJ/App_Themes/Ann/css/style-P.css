@@ -1,4 +1,24 @@
-﻿.btn-red {
+﻿.customer-name-link {
+    font-weight: bold;
+}
+.name-bottom-nick {
+    font-size: 12px;
+    text-transform: capitalize;
+    margin-top: 5px;
+    display: block;
+}
+.btn-feeship {
+    height: 36px;
+    border-radius: 0;
+    background-color: #F44336;
+    margin-right: 10px;
+    line-height: 18px;
+    color: #fff!important;
+}
+.capitalize {
+    text-transform: capitalize;
+}
+.btn-red {
     background-color: #F44336!important;
 }
 .btn-black {

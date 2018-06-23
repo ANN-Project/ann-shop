@@ -18,6 +18,10 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="panel-post">
+                            <div class="post-table-links clear">
+                                <a href="javascript:;" style="background-color: #f87703; float: right;" class="btn primary-btn link-btn" onclick="payall()">In mã vạch (F1)</a>
+                                <a href="javascript:;" style="background-color: #ffad00; float: right;" class="btn primary-btn link-btn" onclick="quickInput()">Nhập nhanh số lượng (F2)</a>
+                            </div>
                             <div class="post-above clear">
                                 <div class="search-box left" style="width: 96%;">
                                     <input type="text" id="txtSearch" class="form-control" placeholder="SKU (F3)">
@@ -108,16 +112,25 @@
             });
 
             function printBarcode() {
-                printDiv('printcontent');
+                swal({
+                    title: "Thông báo", text: "Tạo mã vạch thành công! Bấm OK để in mã vạch...",
+                    type: "success",
+                    showCancelButton: false,
+                    confirmButtonText: "OK in đê!!",
+                    closeOnConfirm: true,
+                    html: false
+                }, function () {
+                    window.location.replace(window.location.href);
+                    printDiv('printcontent');
+                });
             }
 
             function printDiv(divid) {
                 var divToPrint = document.getElementById('' + divid + '');
                 var newWin = window.open('', 'Print-Window');
                 newWin.document.open();
-                newWin.document.write('<html><head><link rel="stylesheet" href="/App_Themes/Ann/css/Barcode.css" type="text/css"/><link rel="stylesheet" href="/App_Themes/Ann/barcode/style.css" type="text/css"/><link rel="stylesheet" href="/App_Themes/Ann/css/responsive.css" type="text/css"/></head><body onload="window.print()">' + divToPrint.innerHTML + '</body></html>');
+                newWin.document.write('<html><head><link rel="stylesheet" href="/App_Themes/Ann/css/Barcode.css" type="text/css"/><link rel="stylesheet" href="/App_Themes/Ann/barcode/style.css" type="text/css"/><link rel="stylesheet" href="/App_Themes/Ann/css/responsive.css" type="text/css"/></head><body><script>window.onload = setTimeout(function () {window.print();setTimeout(function () { window.close(); }, 1);}, 2000);<\/script>' + divToPrint.innerHTML + '</body></html>');
                 newWin.document.close();
-                setTimeout(function () { newWin.close(); }, 1);
             }
 
             $('#txtSearch').keydown(function (event) {

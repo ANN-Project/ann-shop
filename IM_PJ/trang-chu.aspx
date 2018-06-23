@@ -11,10 +11,13 @@
                     <table data-toggle="table" id="table-student">
                         <thead>
                             <tr>
+                                <th>#</th>
                                 <th>Khách hàng</th>
+                                <th>Nick đặt hàng</th>
                                 <th>Đã mua</th>
                                 <th>Zalo</th>
                                 <th>Facebook</th>
+                                <th>Địa chỉ</th>
                                 <th>Nhân viên</th>
                             </tr>
                         </thead>

@@ -89,7 +89,7 @@
                                         <div class="form-group">
                                             <label>Họ tên</label>
                                             <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" ControlToValidate="txtFullname" ErrorMessage="(*)" ForeColor="Red" Display="Dynamic"></asp:RequiredFieldValidator>
-                                            <asp:TextBox ID="txtFullname" CssClass="form-control" runat="server" Enabled="false" placeholder="Họ tên thật của khách (F2)"></asp:TextBox>
+                                            <asp:TextBox ID="txtFullname" CssClass="form-control capitalize" runat="server" Enabled="false" placeholder="Họ tên thật của khách (F2)"></asp:TextBox>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
@@ -105,14 +105,14 @@
                                         <div class="form-group">
                                             <label>Nick đặt hàng</label>
                                             <asp:RequiredFieldValidator ID="RequiredFieldValidator2" runat="server" ControlToValidate="txtNick" ErrorMessage="(*)" ForeColor="Red" Display="Dynamic"></asp:RequiredFieldValidator>
-                                            <asp:TextBox ID="txtNick" CssClass="form-control" runat="server" Enabled="false" placeholder="Tên nick đặt hàng"></asp:TextBox>
+                                            <asp:TextBox ID="txtNick" CssClass="form-control capitalize" runat="server" Enabled="false" placeholder="Tên nick đặt hàng"></asp:TextBox>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label>Địa chỉ</label>
                                             <asp:RequiredFieldValidator ID="RequiredFieldValidator3" runat="server" ControlToValidate="txtAddress" ErrorMessage="(*)" ForeColor="Red" Display="Dynamic"></asp:RequiredFieldValidator>
-                                            <asp:TextBox ID="txtAddress" CssClass="form-control" runat="server" Enabled="false" placeholder="Địa chỉ khách hàng"></asp:TextBox>
+                                            <asp:TextBox ID="txtAddress" CssClass="form-control capitalize" runat="server" Enabled="false" placeholder="Địa chỉ khách hàng"></asp:TextBox>
                                         </div>
                                     </div>
                                 </div>
@@ -206,7 +206,7 @@
                                 <div class="left">Chiết khấu</div>
                                 <div class="right totalDiscount">
                                     <telerik:RadNumericTextBox runat="server" CssClass="form-control width-notfull" Skin="MetroTouch"
-                                        ID="pDiscount" MinValue="0" NumberFormat-GroupSizes="3" Width="100%" Value="0" NumberFormat-DecimalDigits="0"
+                                        ID="pDiscount" MinValue="0" NumberFormat-GroupSizes="3" Value="0" NumberFormat-DecimalDigits="0"
                                         oninput="countTotal()">
                                     </telerik:RadNumericTextBox>
                                 </div>
@@ -220,8 +220,9 @@
                             <div class="post-row clear">
                                 <div class="left">Phí vận chuyển</div>
                                 <div class="right totalDiscount">
+                                    <a class="btn btn-feeship link-btn" href="javascript:;" id="calfeeship" onclick="calFeeShip()"><i class="fa fa-check-square-o" aria-hidden="true"></i> Miễn phí</a>
                                     <telerik:RadNumericTextBox runat="server" CssClass="form-control width-notfull" Skin="MetroTouch"
-                                        ID="pFeeShip" MinValue="0" NumberFormat-GroupSizes="3" Width="100%" Value="0" NumberFormat-DecimalDigits="0"
+                                        ID="pFeeShip" MinValue="0" NumberFormat-GroupSizes="3" Value="0" NumberFormat-DecimalDigits="0"
                                         oninput="countTotal()">
                                     </telerik:RadNumericTextBox>
                                 </div>
@@ -250,7 +251,7 @@
                                 <div class="left">Tiền khách trả (F4)</div>
                                 <div class="right totalDiscount">
                                     <telerik:RadNumericTextBox runat="server" CssClass="form-control width-notfull" Skin="MetroTouch"
-                                        ID="pGuestPaid" MinValue="0" NumberFormat-GroupSizes="3" Width="100%" Value="0" NumberFormat-DecimalDigits="0"
+                                        ID="pGuestPaid" MinValue="0" NumberFormat-GroupSizes="3" Value="0" NumberFormat-DecimalDigits="0"
                                         oninput="countGuestChange()">
                                     </telerik:RadNumericTextBox>
                                 </div>
@@ -313,7 +314,7 @@
                                         Phương thức giao hàng
                                     </div>
                                     <div class="row-right">
-                                        <asp:DropDownList ID="ddlShippingType" runat="server" CssClass="form-control">
+                                        <asp:DropDownList ID="ddlShippingType" runat="server" CssClass="form-control shipping-type">
                                             <asp:ListItem Value="1" Text="Lấy trực tiếp"></asp:ListItem>
                                             <asp:ListItem Value="2" Text="Chuyển bưu điện"></asp:ListItem>
                                             <asp:ListItem Value="3" Text="Chuyển GHTK"></asp:ListItem>
@@ -481,6 +482,37 @@
                     return false;
                 }
             });
+
+            // cal fee ship
+            function calFeeShip() {
+                if ($("#<%=pFeeShip.ClientID%>").is(":disabled")) {
+                    $("#<%=pFeeShip.ClientID%>").prop('disabled', false).css("background-color", "#fff").focus();
+                    $("#calfeeship").html("Miễn phí").css("background-color", "#F44336");
+                }
+                else {
+                    $("#<%=pFeeShip.ClientID%>").prop('disabled', true).css("background-color", "#eeeeee").val(0);
+                    swal("Thông báo", "Đã chọn miễn phí vận chuyển cho đơn hàng này", "success");
+                    getAllPrice();
+                    $("#calfeeship").html("<i class=\"fa fa-pencil-square-o\" aria-hidden=\"true\"></i> Tính phí").css("background-color", "#f87703");
+                }
+        
+            }
+
+            function warningGetOrderImage(ID) {
+                
+                swal({
+                    title: "Thông báo",
+                    text: "Hãy nhớ lưu đơn hàng trước khi lấy ảnh!",
+                    type: "info",
+                    showCancelButton: false,
+                    confirmButtonColor: "#DD6B55",
+                    confirmButtonText: "Yes sir!!",
+                    closeOnConfirm: true,
+                    html: false
+                }, function () {
+                    window.open("/print-order-image?id=" + ID, "_blank");
+                });
+            }
 
             $(document).ready(function () {
 
@@ -812,6 +844,7 @@
                             swal("Thông báo", "Hãy nhập sản phẩm!", "error");
                         }
                     }
+
                 } else {
                     if (name == "") {
                         $("#<%= txtFullname.ClientID%>").focus();
@@ -841,8 +874,24 @@
 
             // insert order
             function insertOrder() {
-                HoldOn.open();
-                $("#<%=btnOrder.ClientID%>").click();
+                shippingtype = $(".shipping-type").val();
+
+                if (shippingtype == 2 || shippingtype == 3) {
+                    if ($("#<%=pFeeShip.ClientID%>").val() == 0 && $("#<%=pFeeShip.ClientID%>").is(":disabled") == false) {
+
+                        $("#<%=pFeeShip.ClientID%>").focus();
+                        swal("Thông báo", "Chưa nhập phí vận chuyển. Hãy chọn miễn phí vận chuyển nếu có!", "error");
+                    }
+                    else {
+                        HoldOn.open();
+                        $("#<%=btnOrder.ClientID%>").click();
+                    }
+                }
+                else
+                {
+                    HoldOn.open();
+                    $("#<%=btnOrder.ClientID%>").click();
+                }
             }
 
             // count guest change
@@ -879,6 +928,7 @@
             function searchProduct() {
                 var textsearch = $("#txtSearch").val();
                 var customerType = $(".customer-type").val();
+                $("#txtSearch").val("");
                 if (!isBlank(textsearch)) {
                     $.ajax({
                         type: "POST",
@@ -922,7 +972,6 @@
                                 html += ("<div>");
                                 html += ("<a href=\"javascript: ;\" class=\"btn link- btn\" style=\"background-color:#f87703;float:right;color:#fff;\" onclick=\"selectProduct()\">Chọn</a>");
                                 html += ("</div >");
-                                $("#txtSearch").val("");
                                 showPopup(html);
                             } else if (data.length == 1) {
 
@@ -988,15 +1037,16 @@
                                 }
 
                                 $(".content-product").prepend(html);
-                                $("#txtSearch").val("");
+                                
                                 getAllPrice();
                             } else {
-                                $("#txtSearch").select();
+                                $("#txtSearch").val(textsearch).select();
                                 swal("Thông báo", "Không tìm thấy sản phẩm", "error");
                             }
                         },
                         error: function(xmlhttprequest, textstatus, errorthrow) {
                             alert('lỗi');
+                            $("#txtSearch").val(textsearch).select();
                         }
                     });
                 } else {
@@ -1055,6 +1105,7 @@
             function GetProduct(list, list2) {
                 var textsearch = $("#<%=hdfListSearch.ClientID%>").val();
                 var customerType = $(".customer-type").val();
+                $("#txtSearch").val("");
                 $.ajax({
                     type: "POST",
                     url: "/thong-tin-don-hang.aspx/getProduct",
@@ -1141,15 +1192,16 @@
                                 }
                             }
                             $(".content-product").prepend(html);
-                            $("#txtSearch").val("");
+                            
                             getAllPrice();
                         } else {
-                            $("#txtSearch").select();
+                            $("#txtSearch").val(textsearch).select();
                             swal("Thông báo", "Không tìm thấy sản phẩm", "error");
                         }
                     },
                     error: function(xmlhttprequest, textstatus, errorthrow) {
                         alert('lỗi');
+                        $("#txtSearch").val(textsearch).select();
                     }
                 });
             }

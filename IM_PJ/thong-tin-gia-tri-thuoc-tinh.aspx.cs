@@ -113,27 +113,20 @@ namespace IM_PJ
         {
             DateTime currentDate = DateTime.Now;
             string username = Session["userLoginSystem"].ToString();
-            var acc = AccountController.GetByUsername(username);
-            if (acc != null)
+
+            int id = ViewState["ID"].ToString().ToInt(0);
+            var pvv = ProductVariableValueController.GetByID(id);
+            if (pvv != null)
             {
-                if (acc.RoleID == 0)
-                {
-                    int id = ViewState["ID"].ToString().ToInt(0);
-                    var pvv = ProductVariableValueController.GetByID(id);
-                    if (pvv != null)
-                    {
-                        int productvariableid = ViewState["productvariableid"].ToString().ToInt(0);
-                        string SKU = ViewState["ProductvariableSKU"].ToString();
-                        int VariableValueID = ddlVariableValue.SelectedValue.ToInt();
-                        string VariableName = ddlVariable.SelectedItem.ToString();
-                        string VariableValue = ddlVariableValue.SelectedItem.ToString();
-                        bool isHidden = chkIsHidden.Checked;
-                        ProductVariableValueController.Update(id,productvariableid, SKU, VariableValueID, VariableName, VariableValue, isHidden,
-                            currentDate, username);
-                        PJUtils.ShowMessageBoxSwAlert("Cập nhật giá trị thành công", "s", true, Page);
-                    }
-                    
-                }
+                int productvariableid = ViewState["productvariableid"].ToString().ToInt(0);
+                string SKU = ViewState["ProductvariableSKU"].ToString();
+                int VariableValueID = ddlVariableValue.SelectedValue.ToInt();
+                string VariableName = ddlVariable.SelectedItem.ToString();
+                string VariableValue = ddlVariableValue.SelectedItem.ToString();
+                bool isHidden = chkIsHidden.Checked;
+                ProductVariableValueController.Update(id,productvariableid, SKU, VariableValueID, VariableName, VariableValue, isHidden,
+                    currentDate, username);
+                PJUtils.ShowMessageBoxSwAlert("Cập nhật giá trị thành công", "s", true, Page);
             }
         }
     }

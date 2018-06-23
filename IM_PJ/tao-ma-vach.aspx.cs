@@ -313,8 +313,7 @@ namespace IM_PJ
                 {
                     File.Delete(filePath);
                 }
-
-                PJUtils.ShowMessageBoxSwAlertCallFunction("Bấm OK để in mã vạch", "s", true, "printBarcode()", Page);
+                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "script", "$(function () { printBarcode() });", true);
             }
         }
     }

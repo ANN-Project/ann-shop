@@ -33,6 +33,8 @@ namespace IM_PJ
         {
             public int CusID { get; set; }
             public string CusName { get; set; }
+            public string CusNick { get; set; }
+            public string CusAddress { get; set; }
             public string CreateBy { get; set; }
             public string CusZalo { get; set; }
             public string CusFB { get; set; }
@@ -87,6 +89,8 @@ namespace IM_PJ
                             order.CreateBy = cus.CreatedBy;
                             order.CusZalo = cus.Zalo;
                             order.CusFB = cus.Facebook;
+                            order.CusNick = cus.Nick;
+                            order.CusAddress = cus.CustomerAddress;
                         }
                         var ordetail = OrderDetailController.GetByOrderID(item.ID);
                         if (ordetail != null)
@@ -106,7 +110,7 @@ namespace IM_PJ
 
             if (opdertop.Count() > 0)
             {
-                pagingall(opdertop.OrderByDescending(x => x.Quantity).Take(10).ToList());
+                pagingall(opdertop.OrderByDescending(x => x.Quantity).Take(20).ToList());
             }
         }
         #region Paging
@@ -133,10 +137,20 @@ namespace IM_PJ
                 {
                     var item = acs[i];
                     html.Append("<tr>");
-                    html.Append("   <td>" + item.CusName + "</td>");
-                    html.Append("   <td>" + item.Quantity + " sản phẩm" + "</td>");
+                    html.Append("   <td>" + Convert.ToInt32(i + 1) + "</td>");
+                    html.Append("   <td class=\"capitalize\">" + item.CusName + "</td>");
+                    html.Append("   <td class=\"capitalize\">" + item.CusNick + "</td>");
+                    html.Append("   <td>" + item.Quantity + " cái" + "</td>");
                     html.Append("   <td>" + item.CusZalo + "</td>");
-                    html.Append("   <td>" + item.CusFB + "</td>");
+                    if (!string.IsNullOrEmpty(item.CusFB))
+                    {
+                        html.Append("   <td><a href=\"" + item.CusFB + "\" target=\"_blank\">Xem</a></td>");
+                    }
+                    else
+                    {
+                        html.Append("   <td></td>");
+                    }
+                    html.Append("   <td>" + item.CusAddress + "</td>");
                     html.Append("   <td>" + item.CreateBy + "</td>");
                     html.Append("</tr>");
                 }

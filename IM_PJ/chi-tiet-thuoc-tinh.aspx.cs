@@ -24,7 +24,7 @@ namespace IM_PJ
                     {
                         if (acc.RoleID == 2)
                         {
-                            Response.Redirect("/dang-nhap");
+                            Response.Redirect("/trang-chu");
                         }
                     }
                 }
@@ -57,23 +57,17 @@ namespace IM_PJ
         protected void btnLogin_Click(object sender, EventArgs e)
         {
             string username = Session["userLoginSystem"].ToString();
-            var acc = AccountController.GetByUsername(username);
-            if (acc != null)
+
+            int id = ViewState["ID"].ToString().ToInt(0);
+            if (id > 0)
             {
-                if (acc.RoleID == 0)
+                var d = VariableValueController.GetByID(id);
+                if (d != null)
                 {
-                    int id = ViewState["ID"].ToString().ToInt(0);
-                    if (id > 0)
-                    {
-                        var d = VariableValueController.GetByID(id);
-                        if (d != null)
-                        {
-                            int variID =Convert.ToInt32(d.VariableID);
-                            string variName = d.VariableName;
-                            VariableValueController.Update(id, variID, variName, txtVariableValue.Text,chkIsHidden.Checked, DateTime.Now, username,txtSKUText.Text);
-                            PJUtils.ShowMessageBoxSwAlert("Cập nhật thành công", "s", true, Page);
-                        }
-                    }
+                    int variID =Convert.ToInt32(d.VariableID);
+                    string variName = d.VariableName;
+                    VariableValueController.Update(id, variID, variName, txtVariableValue.Text,chkIsHidden.Checked, DateTime.Now, username,txtSKUText.Text);
+                    PJUtils.ShowMessageBoxSwAlert("Cập nhật thành công", "s", true, Page);
                 }
             }
         }
