@@ -48,7 +48,16 @@ namespace IM_PJ.Controllers
             }
         }
 
-    
+        public static int Insert(tbl_RefundGoodsDetails refundDetail)
+        {
+            using (var con = new inventorymanagementEntities())
+            {
+                con.tbl_RefundGoodsDetails.Add(refundDetail);
+                con.SaveChanges();
+                int kq = refundDetail.ID;
+                return kq;
+            }
+        }
         #endregion
         #region Select        
         public static List<tbl_RefundGoodsDetails> GetAll(string s)

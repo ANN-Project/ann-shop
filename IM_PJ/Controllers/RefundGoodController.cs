@@ -37,6 +37,18 @@ namespace IM_PJ.Controllers
                 return kq;
             }
         }
+
+        public static int Insert(tbl_RefundGoods refund)
+        {
+            using (var con = new inventorymanagementEntities())
+            {
+                con.tbl_RefundGoods.Add(refund);
+                con.SaveChanges();
+                int kq = refund.ID;
+                return kq;
+            }
+        }
+
         public static string updatestatus(int ID, int status, DateTime ModifiedDate, string ModifiedBy, string Note)
         {
             using (var dbe = new inventorymanagementEntities())

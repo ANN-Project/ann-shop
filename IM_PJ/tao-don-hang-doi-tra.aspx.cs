@@ -1,6 +1,7 @@
 ﻿using IM_PJ.Controllers;
 using IM_PJ.Models;
 using MB.Extensions;
+using Newtonsoft.Json;
 using NHST.Bussiness;
 using System;
 using System.Collections.Generic;
@@ -31,7 +32,6 @@ namespace IM_PJ
                     {
                         if (acc.RoleID == 0)
                         {
-
                         }
                         else if (acc.RoleID == 2)
                         {
@@ -49,90 +49,19 @@ namespace IM_PJ
                 }
             }
         }
+
         [WebMethod]
         public static string checkphone(string phonefullname)
         {
-            RefundCust rf = new RefundCust();
-            int AgentID = 0;
-            string username = HttpContext.Current.Session["userLoginSystem"].ToString();
-            if (!string.IsNullOrEmpty(username))
-            {
-                var a = AccountController.GetByUsername(username);
-                if (a != null)
-                {
-                    AgentID = Convert.ToInt32(a.AgentID);
-                }
-            }
             var customer = CustomerController.GetByPhone(phonefullname);
+
             if (customer != null)
             {
-
-                rf.CustName = customer.CustomerName;
-                rf.CustPhone = customer.CustomerPhone;
-                rf.CustZalo = customer.Zalo;
-                rf.CustFB = customer.Facebook;
-                rf.CustAddress = customer.CustomerAddress;
-
-
-                int custID = customer.ID;
-                double FeeRefund = 0;
-                double NumOfDateToChangeProduct = 0;
-                double NumOfProductCanChange = 0;
-                var config = ConfigController.GetByTop1();
-                if (config != null)
-                {
-                    FeeRefund = Convert.ToDouble(config.FeeChangeProduct);
-                    NumOfDateToChangeProduct = Convert.ToDouble(config.NumOfDateToChangeProduct);
-                    NumOfProductCanChange = Convert.ToDouble(config.NumOfProductCanChange);
-                }
-                var d = DiscountCustomerController.getbyCustID(custID);
-                if (d.Count > 0)
-                {
-                    FeeRefund = d[0].FeeRefund;
-                    NumOfDateToChangeProduct = d[0].NumOfDateToChangeProduct;
-                    NumOfProductCanChange = d[0].NumOfProductCanChange;
-                }
-
-                DateTime toDate = DateTime.Now.Date;
-                var fromDate = toDate.AddDays(-NumOfDateToChangeProduct);
-
-                double totalProductRefund = 0;
-                var refundList = RefundGoodController.GetByAgentIDCustomerIDFromDateToDate(AgentID, custID, fromDate, toDate.AddDays(1));
-                if (refundList.Count > 0)
-                {
-                    foreach (var item in refundList)
-                    {
-                        var rfD = RefundGoodDetailController.GetByRefundGoodsID(item.ID);
-                        if (rfD.Count > 0)
-                        {
-                            foreach (var fd in rfD)
-                            {
-                                totalProductRefund += Convert.ToDouble(fd.Quantity);
-                            }
-                        }
-                    }
-                }
-                double leftCanchange = NumOfProductCanChange - totalProductRefund;
-                if (leftCanchange > 0)
-                {
-                    rf.CustleftCanchange = leftCanchange.ToString();
-
-                    JavaScriptSerializer serializer = new JavaScriptSerializer();
-                    return serializer.Serialize(rf);
-                }
-                else
-                {
-                    rf.CustleftCanchange = "full";
-                    JavaScriptSerializer serializer = new JavaScriptSerializer();
-                    return serializer.Serialize(rf);
-                }
+                return "OK";
             }
             else
             {
-                rf.CustleftCanchange = "nocustomer";
-                JavaScriptSerializer serializer = new JavaScriptSerializer();
-                return serializer.Serialize(rf);
-
+                return "nocustomer";
             }
         }
 
@@ -147,236 +76,251 @@ namespace IM_PJ
         }
 
         [WebMethod]
-        public static string getProduct(string phone, string sku, int rowIndex)
+        public static string getProduct(string sku)
         {
-            int agentID = 0;
-            string username = HttpContext.Current.Session["userLoginSystem"].ToString();
-
-            if (!string.IsNullOrEmpty(username))
-            {
-                var a = AccountController.GetByUsername(username);
-                if (a != null)
-                {
-                    agentID = Convert.ToInt32(a.AgentID);
-                }
-            }
-
             try
             {
-                string sqlStoreProcedure = String.Empty;
+                var freeChange = ConfigController.GetByTop1().FeeChangeProduct.Value;
 
-                sqlStoreProcedure += Environment.NewLine + " GetReceiveProduct ";
-                sqlStoreProcedure += Environment.NewLine + "      @UserName ";
-                sqlStoreProcedure += Environment.NewLine + " ,    @AgentID ";
-                sqlStoreProcedure += Environment.NewLine + " ,    @CustomerPhone ";
-                sqlStoreProcedure += Environment.NewLine + " ,    @SKU ";
-                sqlStoreProcedure += Environment.NewLine + " ,    @Index ";
-
-                var parameter = new SqlParameter[]
-                    {
-                        new SqlParameter { ParameterName = "@UserName", Value = username, Direction = System.Data.ParameterDirection.Input}
-                        , new SqlParameter { ParameterName = "@AgentID", Value = agentID, Direction = System.Data.ParameterDirection.Input}
-                        , new SqlParameter { ParameterName = "@CustomerPhone", Value = phone, Direction = System.Data.ParameterDirection.Input}
-                        , new SqlParameter { ParameterName = "@SKU", Value = sku, Direction = System.Data.ParameterDirection.Input}
-                        , new SqlParameter { ParameterName = "@Index", Value = rowIndex, Direction = System.Data.ParameterDirection.Input}
-                };
-
-                using (var connect = new inventorymanagementEntities())
+                using (var con = new inventorymanagementEntities())
                 {
-                    JavaScriptSerializer serializer = new JavaScriptSerializer();
-                    var procedure = connect.Database.SqlQuery<ProductRefundModel>(sqlStoreProcedure, parameter).SingleOrDefault();
+                    var productTarget = con.tbl_Product
+                        .GroupJoin(
+                            con.tbl_ProductVariable,
+                            product => new
+                            {
+                                ProductStyle = product.ProductStyle.Value,
+                                ProductID = product.ID,
+                            },
+                            productVariable => new
+                            {
+                                ProductStyle = 2,
+                                ProductID = productVariable.ProductID.Value,
+                            },
+                            (product, productVariable) => new {
+                                product,
+                                productVariable
+                            })
+                        .SelectMany(x => x.productVariable.DefaultIfEmpty(),
+                                    (parent, child) => new RefundDetailModel
+                                    {
+                                        ProductID = parent.product.ID,
+                                        ProductVariableID = parent.product.ProductStyle == 2 ? child.ID : 0,
+                                        ProductStyle = parent.product.ProductStyle.Value,
+                                        ProductImage = parent.product.ProductStyle == 2 ? child.Image : parent.product.ProductImage,
+                                        ProductTitle = parent.product.ProductTitle,
+                                        ParentSKU = parent.product.ProductSKU,
+                                        ChildSKU = parent.product.ProductStyle == 2 ? child.SKU : String.Empty,
+                                        Price = parent.product.ProductStyle == 2 ? child.Regular_Price.Value : parent.product.Regular_Price.Value,
+                                        ReducedPrice = parent.product.ProductStyle == 2 ? child.Regular_Price.Value : parent.product.Regular_Price.Value,
+                                        QuantityRefund = 1,
+                                        ChangeType = 1,
+                                        FeeRefund = freeChange,
+                                        TotalFeeRefund = parent.product.ProductStyle == 2 ? child.Regular_Price.Value : parent.product.Regular_Price.Value
+                                    })
+                        .Where(x => x.ParentSKU == sku.Trim().ToUpper() || x.ChildSKU == sku.Trim().ToUpper())
+                        .OrderBy(x => x.ProductID)
+                        .ThenBy(x => x.ProductVariableID)
+                        .ToList();
 
-                    return serializer.Serialize(procedure);
+                    if (productTarget.Count > 1)
+                    {
+                        var variableValue = con.tbl_ProductVariableValue
+                            .Where(x => x.ProductvariableSKU.Contains(sku.Trim().ToUpper()))
+                            .OrderBy(x => x.ProductVariableID)
+                            .ThenBy(x => x.ID)
+                            .ToList();
+
+                        productTarget = productTarget.Select(x => {
+                            string properties = String.Empty;
+
+                            variableValue
+                                .Where(y => y.ProductVariableID == x.ProductVariableID)
+                                .Select(y => {
+                                    properties += String.Format("{0}: {1}<br/>", y.VariableName, y.VariableValue);
+                                    return y;
+                                })
+                                .ToList();
+
+                            return new RefundDetailModel
+                            {
+
+                                ProductID = x.ProductID,
+                                ProductVariableID = x.ProductVariableID,
+                                ProductStyle = x.ProductStyle,
+                                ProductImage = x.ProductImage,
+                                ProductTitle = x.ProductTitle,
+                                ParentSKU = x.ParentSKU,
+                                ChildSKU = x.ChildSKU,
+                                VariableValue = properties,
+                                Price = x.Price,
+                                ReducedPrice = x.ReducedPrice,
+                                QuantityRefund = x.QuantityRefund,
+                                ChangeType = x.ChangeType,
+                                FeeRefund = x.FeeRefund,
+                                TotalFeeRefund = x.TotalFeeRefund
+                            };
+                        })
+                        .ToList();
+                    }
+
+                    return new JavaScriptSerializer().Serialize(productTarget);
                 }
-
             }
             catch (Exception e)
             {
-
                 throw e;
             }
         }
 
-
-        public class ProductRefundModel
+        public class RefundDetailModel
         {
-            public int OrderID { get; set; }
-            public int OrderDetailID { get; set; }
-            public int RowIndex { get; set;  }
-            public string ProductName { get; set; }
-            public int ProductType { get; set; }
-            public string SKU { get; set; }
+            public int ProductID { get; set; }
+            public int ProductVariableID { get; set; }
+            public int ProductStyle { get; set; }
+            public string ProductImage { get; set; }
+            public string ProductTitle { get; set; }
+            public string ParentSKU { get; set; }
+            public string ChildSKU { get; set; }
+            public string VariableValue { get; set; }
             public double Price { get; set; }
             public double ReducedPrice { get; set; }
-            public double DiscountPerProduct { get; set; }
-            public double QuantityOrder { get; set; }
-            public double QuantityLeft { get; set; }
+            public double QuantityRefund { get; set; }
+            public int ChangeType { get; set; }
             public double FeeRefund { get; set; }
+            public double TotalFeeRefund { get; set; }
+        }
+
+        public class RefundModel{
+            public List<RefundDetailModel> RefundDetails { get; set; }
         }
 
         protected void btnSave_Click(object sender, EventArgs e)
         {
             DateTime currentDate = DateTime.Now;
-            int AgentID = 0;
+            int agentID = 0;
             string username = Session["userLoginSystem"].ToString();
+
             if (!string.IsNullOrEmpty(username))
             {
                 var a = AccountController.GetByUsername(username);
+
                 if (a != null)
                 {
-                    AgentID = Convert.ToInt32(a.AgentID);
+                    agentID = Convert.ToInt32(a.AgentID);
                     string phone = hdfPhone.Value;
+
                     if (!string.IsNullOrEmpty(phone))
                     {
                         var cust = CustomerController.GetByPhone(phone);
+
                         if (cust != null)
                         {
                             int custID = cust.ID;
-                            string totalprice = hdfTotalPrice.Value;
-                            string totalquantity = hdfTotalQuantity.Value;
-                            string totalrefund = hdfTotalRefund.Value;
-                            var agent = AgentController.GetByID(AgentID);
-                            string agentName = "";
+                            double totalPrice = Convert.ToDouble(hdfTotalPrice.Value);
+                            double totalQuantity = Convert.ToDouble(hdfTotalQuantity.Value);
+                            double totalRefund = Convert.ToDouble(hdfTotalRefund.Value);
+                            var agent = AgentController.GetByID(agentID);
+                            string agentName = String.Empty;
+
                             if (agent != null)
                             {
                                 agentName = agent.AgentName;
                             }
+
                             //insert ddlstatus, refundnote
                             int status = ddlRefundStatus.SelectedValue.ToInt();
                             string RefundsNote = txtRefundsNote.Text;
-                            int rID = RefundGoodController.Insert(AgentID, totalprice, status, custID, Convert.ToDouble(totalquantity),
-                                totalrefund, agentName, cust.CustomerName, cust.CustomerPhone, currentDate, username, RefundsNote);
+                            int rID = RefundGoodController.Insert(
+                                new tbl_RefundGoods()
+                                {
+                                    AgentID = agentID,
+                                    TotalPrice = totalPrice.ToString(),
+                                    Status = status,
+                                    CustomerID = custID,
+                                    TotalQuantity = totalQuantity,
+                                    TotalRefundFee = totalRefund.ToString(),
+                                    CreatedDate = currentDate,
+                                    CreatedBy = username,
+                                    CustomerName = cust.CustomerName,
+                                    CustomerPhone = cust.CustomerPhone,
+                                    AgentName = agentName,
+                                    RefundNote = RefundsNote
+                                });
+
                             if (rID > 0)
                             {
-                                string listString = hdfListProduct.Value;
-                                string[] items = listString.Split('|');
-                                if (items.Length - 1 > 0)
+                                RefundModel refundModel = JsonConvert.DeserializeObject<RefundModel>(hdfListProduct.Value);
+
+                                foreach (RefundDetailModel item in refundModel.RefundDetails)
                                 {
-                                    for (int i = 0; i < items.Length - 1; i++)
-                                    {
-                                        string[] element = items[i].Split(';');
-                                        var sku = element[0];
-                                        var orderID = element[1].ToInt(0);
-                                        var orderDetailID = element[2];
-                                        var ProductName = element[3];
-                                        var GiavonPerProduct = Convert.ToDouble(element[5]);
-                                        var SoldPricePerProduct = Convert.ToDouble(element[6]);
-                                        var DiscountPricePerProduct = Convert.ToDouble(element[7]);
-                                        var quantity = Convert.ToDouble(element[10]);
-                                        var quantityMax = Convert.ToDouble(element[8]);
-                                        var ProductType = element[4].ToInt(1);
-                                        var RefundType = element[9].ToInt(1);
-                                        var RefundFeePerProduct = Convert.ToDouble(element[11]);
-                                        var TotalPriceRow = element[12];
-                                        var PriceNotFeeRefund = SoldPricePerProduct * quantity;
-                                        var rdTotalRefundFee = RefundFeePerProduct * quantity;
-
-                                        int rdID = RefundGoodDetailController.Insert(rID, AgentID, orderID, ProductName, custID, sku, quantity,
-                                            quantityMax, PriceNotFeeRefund.ToString(), ProductType, true, RefundType, RefundFeePerProduct.ToString(),
-                                            rdTotalRefundFee.ToString(), GiavonPerProduct.ToString(), DiscountPricePerProduct.ToString(), SoldPricePerProduct.ToString(),
-                                            TotalPriceRow, currentDate, username);
-                                        if (rdID > 0)
+                                    int rdID = RefundGoodDetailController.Insert(
+                                        new tbl_RefundGoodsDetails()
                                         {
-                                            if (RefundType < 3)
+                                            RefundGoodsID = rID,
+                                            AgentID = agentID,
+                                            OrderID = null,
+                                            ProductName = item.ProductTitle,
+                                            CustomerID = custID,
+                                            SKU = item.ProductStyle == 1 ? item.ParentSKU : item.ChildSKU,
+                                            Quantity = item.QuantityRefund,
+                                            QuantityMax = item.QuantityRefund,
+                                            PriceNotFeeRefund = (item.QuantityRefund * item.ReducedPrice).ToString(),
+                                            ProductType = item.ProductStyle,
+                                            IsCount = true,
+                                            RefundType = item.ChangeType,
+                                            RefundFeePerProduct = item.ChangeType == 2 ? item.FeeRefund.ToString() : "0",
+                                            TotalRefundFee = item.ChangeType == 2 ? (item.FeeRefund * item.QuantityRefund).ToString() : "0",
+                                            GiavonPerProduct = item.Price.ToString(),
+                                            DiscountPricePerProduct = "0",
+                                            SoldPricePerProduct = item.ReducedPrice.ToString(),
+                                            TotalPriceRow = item.TotalFeeRefund.ToString(),
+                                            CreatedDate = currentDate,
+                                            CreatedBy = username
+                                        });
+                                    
+                                    if (rdID > 0)
+                                    {
+                                        if (item.ChangeType < 3)
+                                        {
+                                            int typeRe = 0;
+                                            string note = "";
+
+                                            if (item.ChangeType == 1)
                                             {
-                                                int typeRe = 0;
-                                                string note = "";
-                                                if (RefundType == 1)
-                                                {
-                                                    note = "Đổi size";
-                                                    typeRe = 8;
-                                                }
-                                                else if (RefundType == 2)
-                                                {
-                                                    note = "Đổi sản phẩm";
-                                                    typeRe = 9;
-                                                }
-                                                if (ProductType == 1)
-                                                {
-                                                    var product = ProductController.GetBySKU(sku);
-                                                    if (product != null)
-                                                    {
-                                                        int productID = product.ID;
-                                                        string ProductImageOrigin = "";
-                                                        var ProductImage = ProductImageController.GetFirstByProductID(product.ID);
-                                                        if (ProductImage != null)
-                                                            ProductImageOrigin = ProductImage.ProductImage;
-                                                        StockManagerController.Insert(
-                                                            new tbl_StockManager {
-                                                                AgentID = AgentID,
-                                                                ProductID = productID,
-                                                                ProductVariableID = 0,
-                                                                Quantity = quantity,
-                                                                QuantityCurrent = 0,
-                                                                Type = 1,
-                                                                NoteID = note,
-                                                                OrderID = orderID,
-                                                                Status = typeRe,
-                                                                SKU = sku,
-                                                                CreatedDate = currentDate,
-                                                                CreatedBy = username,
-                                                                MoveProID = 0,
-                                                                ParentID = productID,
-                                                            });
-                                                    }
-                                                }
-                                                else
-                                                {
-                                                    string ProductVariableName = "";
-                                                    string ProductVariableValue = "";
-                                                    string ProductVariable = "";
-                                                    int parentID = 0;
-                                                    string parentSKU = "";
-                                                    string ProductImageOrigin = "";
-                                                    int ID = 0;
+                                                note = "Đổi size";
+                                                typeRe = 8;
+                                            }
+                                            else if (item.ChangeType == 2)
+                                            {
+                                                note = "Đổi sản phẩm";
+                                                typeRe = 9;
+                                            }
 
-                                                    var productvariable = ProductVariableController.GetBySKU(sku);
-                                                    if (productvariable != null)
+                                            if (item.ChangeType == 1 || item.ChangeType == 2)
+                                            {
+                                                StockManagerController.Insert(
+                                                    new tbl_StockManager
                                                     {
-                                                        ID = productvariable.ID;
-                                                        ProductImageOrigin = productvariable.Image;
-                                                        parentSKU = productvariable.ParentSKU;
-                                                        var variables = ProductVariableValueController.GetByProductVariableID(productvariable.ID);
-                                                        if (variables.Count > 0)
-                                                        {
-                                                            foreach (var v in variables)
-                                                            {
-                                                                ProductVariable += v.VariableName.Trim() + ":" + v.VariableValue.Trim() + "|";
-                                                                ProductVariableName += v.VariableName + "|";
-                                                                ProductVariableValue += v.VariableValue + "|";
-                                                            }
-                                                        }
-                                                    }
-                                                    if (!string.IsNullOrEmpty(parentSKU))
-                                                    {
-                                                        var product = ProductController.GetBySKU(parentSKU);
-                                                        if (product != null)
-                                                            parentID = product.ID;
-                                                    }
-
-
-                                                    StockManagerController.Insert(
-                                                        new tbl_StockManager {
-                                                            AgentID = AgentID,
-                                                            ProductID = 0,
-                                                            ProductVariableID = ID,
-                                                            Quantity = quantity,
-                                                            QuantityCurrent = 0,
-                                                            Type = 1,
-                                                            NoteID = note,
-                                                            OrderID = orderID,
-                                                            Status = typeRe,
-                                                            SKU = sku,
-                                                            CreatedDate = currentDate,
-                                                            CreatedBy = username,
-                                                            MoveProID = 0,
-                                                            ParentID = parentID,
-                                                        });
-                                                }
+                                                        AgentID = agentID,
+                                                        ProductID = item.ProductID,
+                                                        ProductVariableID = item.ProductVariableID,
+                                                        Quantity = item.QuantityRefund,
+                                                        QuantityCurrent = 0,
+                                                        Type = 1,
+                                                        NoteID = note,
+                                                        OrderID = null,
+                                                        Status = typeRe,
+                                                        SKU = item.ProductStyle == 1 ? item.ParentSKU : item.ChildSKU,
+                                                        CreatedDate = currentDate,
+                                                        CreatedBy = username,
+                                                        MoveProID = 0,
+                                                        ParentID = item.ProductID,
+                                                    });
                                             }
                                         }
-                                        PJUtils.ShowMessageBoxSwAlertCallFunction("Tạo đơn hàng đổi trả thành công", "s", true, "redirectTo(" + rID + ")", Page);
                                     }
+                                    PJUtils.ShowMessageBoxSwAlertCallFunction("Tạo đơn hàng đổi trả thành công", "s", true, "redirectTo(" + rID + ")", Page);
                                 }
                             }
                         }

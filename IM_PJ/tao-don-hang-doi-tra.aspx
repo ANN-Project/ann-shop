@@ -99,13 +99,11 @@
                                 <table class="table table-checkable table-product custom-font-size-12">
                                     <thead>
                                         <tr>
-                                            <th>Mã đơn hàng</th>
+                                            <th>Ảnh</th>
                                             <th>Tên sản phẩm</th>
                                             <th>SKU</th>
                                             <th>Giá gốc</th>
                                             <th>Giá đã bán</th>
-                                            <th>Tổng số lượng</th>
-                                            <th>Đổi tối đa</th>
                                             <th>Cần đổi</th>
                                             <th>Hình thức</th>
                                             <th>Phí đổi hàng</th>
@@ -119,15 +117,15 @@
                             </div>
                             <div class="post-row clear">
                                 <div class="left">Tổng cộng</div>
-                                <div class="right totalpriceorder"></div>
+                                <div class="right totalPriceOrder"></div>
                             </div>
                             <div class="post-row clear">
                                 <div class="left">Tổng số lượng sản phẩm</div>
-                                <div class="right totalproductQuantity"></div>
+                                <div class="right totalProductQuantity"></div>
                             </div>
                             <div class="post-row clear">
                                 <div class="left">Phí đổi hàng</div>
-                                <div class="right totalrefund"></div>
+                                <div class="right totalRefund"></div>
                             </div>
 
                         </div>
@@ -170,11 +168,9 @@
             </div>
             <asp:Button ID="btnSave" runat="server" OnClick="btnSave_Click" Style="display: none" />
             <asp:HiddenField ID="hdfUsername" runat="server" />
-            <asp:HiddenField ID="hdfIsRefund" runat="server" />
-            <asp:HiddenField ID="hdfTotalCanchange" runat="server" Value="0" />
             <asp:HiddenField ID="hdfPhone" runat="server" />
-            <asp:HiddenField ID="hdfTotalQuantity" runat="server" Value="0" />
             <asp:HiddenField ID="hdfTotalPrice" runat="server" Value="0" />
+            <asp:HiddenField ID="hdfTotalQuantity" runat="server" Value="0" />
             <asp:HiddenField ID="hdfTotalRefund" runat="server" Value="0" />
             <asp:HiddenField ID="hdfListProduct" runat="server" />
         </main>
@@ -198,47 +194,48 @@
     </telerik:RadAjaxManager>
     <telerik:RadScriptBlock ID="sc" runat="server">
         <script type="text/javascript">
-            class ProductRefundModel{
-                constructor(OrderID
-                            , OrderDetailID
-                            , RowIndex
-                            , ProductName
-                            , ProductType
-                            , SKU
+            // Create model entity
+            class RefundDetailModel{
+                constructor(ProductID
+                            , ProductVariableID
+                            , ProductStyle
+                            , ProductImage
+                            , ProductTitle
+                            , ParentSKU
+                            , ChildSKU
+                            , VariableValue
                             , Price
                             , ReducedPrice
-                            , DiscountPerProduct
-                            , QuantityOrder
-                            , QuantityLeft
                             , QuantityRefund
                             , ChangeType
-                            , FeeRefund) {
-                    this.OrderID = OrderID;
-                    this.OrderDetailID = OrderDetailID;
-                    this.RowIndex = RowIndex;
-                    this.ProductName = ProductName;
-                    this.ProductType = ProductType;
-                    this.SKU = SKU;
+                            , FeeRefund
+                            , TotalFeeRefund) {
+                    this.ProductID = ProductID;
+                    this.ProductVariableID = ProductVariableID;
+                    this.ProductStyle = ProductStyle;
+                    this.ProductImage = ProductImage;
+                    this.ProductTitle = ProductTitle;
+                    this.ParentSKU = ParentSKU;
+                    this.ChildSKU = ChildSKU;
+                    this.VariableValue = VariableValue;
                     this.Price = Price;
                     this.ReducedPrice = ReducedPrice;
-                    this.DiscountPerProduct = DiscountPerProduct;
-                    this.QuantityOrder = QuantityOrder;
-                    this.QuantityLeft = QuantityLeft;
                     this.QuantityRefund = QuantityRefund;
                     this.ChangeType = ChangeType;
                     this.FeeRefund = FeeRefund;
-                    this.TotalFeeRefund = QuantityRefund * ReducedPrice;
+                    this.TotalFeeRefund = TotalFeeRefund;
                 }
 
-                isTarget(OrderID, OrderDetailID, SKU) {
-                    return this.OrderID == OrderID && this.OrderDetailID == OrderDetailID && this.SKU == SKU;
+                isTarget(ProductID, ProductVariableID){
+                    return this.ProductID == ProductID && this.ProductVariableID == ProductVariableID;
                 }
-
-                canAddOderDetailNew(QuantityRefund) {
-                    return QuantityRefund > this.QuantityLeft
+                
+                stringJSON() {
+                    return JSON.stringify(this);
                 }
             }
 
+            // Create model
             var productRefunds = [];
             var productDeleteRefunds = [];
 
@@ -252,10 +249,12 @@
                     searchCustomer();
                     return false;
                 }
+
                 if (e.which == 113) { //F2 Input Fullname
                     $("#<%= txtFullname.ClientID%>").focus();
                     return false;
                 }
+
                 if (e.which == 114) { //F3 Search Product
                     $("#txtSearch").focus();
                     return false;
@@ -270,162 +269,230 @@
                 }
             });
 
-            function payall() {
-                if ($(".product-result").length > 0) {
-                    var totalCanchange = parseFloat($("#<%=hdfTotalCanchange.ClientID%>").val());
-                    var totalRequest = 0;
-                    var list = "";
-                    $(".product-result").each(function () {
-
-                        var quantity = parseFloat($(this).find(".soluongcandoi").val());
-                        totalRequest += quantity;
-                    });
-                    if (totalRequest <= totalCanchange) {
-                        $(".product-result").each(function () {
-                            var sku = $(this).attr("data-sku");
-                            var orderID = $(this).attr("data-orderID");
-                            var orderDetailID = $(this).attr("data-orderDetailID");
-                            var ProductName = $(this).attr("data-ProductName");
-                            var ProductType = $(this).attr("data-ProductType");
-                            var Giagoc = $(this).attr("data-Giagoc");
-                            var Giadaban = $(this).attr("data-Giadaban");
-                            var TienGiam = $(this).attr("data-TienGiam");
-                            var Soluongtoida = $(this).attr("data-Soluongtoida");
-                            var RefundType = $(this).find(".changeType").val();
-                            var quantity = parseFloat($(this).find(".soluongcandoi").val());
-                            var RefundFee = $(this).find(".phidoihang").attr("data-RefundFee");
-                            var priceRow = $(this).find(".thanhtien").attr("data-thanhtien");
-                            if (quantity > 0) {
-                                list += sku + ";" + orderID + ";" + orderDetailID + ";" + ProductName + ";" + ProductType + ";" + Giagoc + ";" + Giadaban + ";" +
-                                    TienGiam + ";" + Soluongtoida + ";" + RefundType + ";" + quantity + ";" + RefundFee + ";" + priceRow + "|";
-                            }
-                            $("#<%=hdfListProduct.ClientID%>").val(list);
-                            $("#<%=btnSave.ClientID%>").click();
-                        });
-                    }
-                    else {
-                        alert('Số lượng cần đổi đã vượt quá số lượng cho phép');
-                    }
-
-
-                }
-                else {
-                    alert('Vui lòng chọn sản phẩm đổi trả');
-                }
+            function searchCustomer2() {
+                searchCustomer();
             }
 
-            function deleteProduct() {
-                var c = confirm("Bạn muốn xóa tất cả sản phẩm?");
-                if (c == true) {
-                    productDeleteRefunds = productRefunds;
-                    productRefunds = [];
+            function checkCustomer() {
+                var txtPhone = $("#<%=txtPhone.ClientID%>").val();
 
-                    $(".product-result").remove();
-
-                    getAllPrice();
-                    $(".totalpriceorder").html("0");
-                    $(".totalproductQuantity").html("0");
-                    $(".totalrefund").html("0");
-                }
+                $.ajax({
+                    type: "POST",
+                    url: "/tao-don-hang-doi-tra.aspx/checkphone",
+                    data: "{phonefullname:'" + txtPhone + "'}",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (msg) {
+                        if (msg.d == "nocustomer") {
+                            alert('Không tìm thấy khách hàng trong hệ thống');
+                        }
+                        else {
+                            $("#<%=hdfPhone.ClientID%>").val(txtPhone);
+                        }
+                    },
+                    error: function (xmlhttprequest, textstatus, errorthrow) {
+                        alert('lỗi');
+                    }
+                });
             }
 
             function getAllPrice() {
-                let totalprice = 0;
-                let productquantity = 0;
+                let totalPrice = 0;
+                let productQuantity = 0;
                 let totalRefund = 0;
 
-                if ($(".product-result").length > 0) {
-                    $(".product-result").each(function () {
-                        var giadaban = parseFloat($(this).attr("data-giadaban"));
-                        var feeRefund = parseFloat($(this).attr("data-RefundFee"));
-                        var changetype = $(this).find(".changeType").val();
-                        var quantity = parseFloat($(this).find(".soluongcandoi").val());
-                        var refundRow = 0;
-                        if (changetype == 2) {
-                            refundRow = feeRefund * quantity;
-                            $(this).find(".phidoihang").html(formatThousands(feeRefund, ","));
-                            $(this).find(".phidoihang").attr("data-RefundFee", feeRefund);
-                        }
-                        else {
-                            $(this).find(".phidoihang").html("0");
-                            $(this).find(".phidoihang").attr("data-RefundFee", "0");
-                        }
-                        var totalRow = giadaban * quantity - refundRow;
-                        totalprice += totalRow;
-                        productquantity += quantity;
-                        totalRefund += refundRow;
-                        $(this).find(".thanhtien").attr("data-thanhtien", totalRow);
-                        $(this).find(".thanhtien").html(formatThousands(totalRow, ","));
+                productRefunds.forEach(function(item){
+                    totalPrice += item.TotalFeeRefund;
+                    productQuantity += item.QuantityRefund;
 
-                    });
+                    if (item.ChangeType == 2){
+                        totalRefund += item.FeeRefund * item.QuantityRefund;
+                    }
+                    else{
+                        totalRefund += 0;
+                    }
+                });
+
+                $(".totalPriceOrder").html(formatThousands(totalPrice, ","));
+                $(".totalProductQuantity").html(formatThousands(productQuantity, ","));
+                $(".totalRefund").html(formatThousands(totalRefund, ","));
+
+                $("#<%=hdfTotalPrice.ClientID%>").val(totalPrice);
+                $("#<%=hdfTotalQuantity.ClientID%>").val(productQuantity);
+                $("#<%=hdfTotalRefund.ClientID%>").val(totalRefund);
+            }
+
+            function changeRow(obj)
+            {
+                let row = obj.parent().parent();
+                let ProductID = parseInt(row.attr("data-productID"));
+                let ProductVariableID = parseInt(row.attr("data-productVariableID"));
+                let Price = parseFloat(row.find(".Price").html().replace(/,/g, ""));
+                let ReducedPrice = parseFloat(row.find(".reducedPrice").val().replace(/,/g, ""));
+                let Quantity = parseFloat(row.find(".quantityRefund").val().replace(/,/g, ""));
+                let ChangeType = row.find(".changeType").val();
+                let FeeRefund = parseFloat(row.attr("data-feeRefund"));
+                let TotalFeeRefund = 0;
+
+                // Ruler Price - ReducedPrice >= 10,000 VND
+                if ((Price - ReducedPrice) > 10000) {
+                    alert("Bạn đã nhập quá triết khấu 10,0000VND");
+                    row.find(".reducedPrice").val(formatThousands(Price, ","));
+                    return;
                 }
 
-                $(".totalpriceorder").html(formatThousands(totalprice, ","));
-                $(".totalproductQuantity").html(formatThousands(productquantity, ","));
-                $(".totalrefund").html(formatThousands(totalRefund, ","));
+                if (ChangeType == 2) {
+                    TotalFeeRefund = (ReducedPrice - FeeRefund) * Quantity;
 
-                $("#<%=hdfTotalQuantity.ClientID%>").val(productquantity);
-                $("#<%=hdfTotalRefund.ClientID%>").val(totalRefund);
-                $("#<%=hdfTotalPrice.ClientID%>").val(totalprice);
+                    row.find(".feeRefund").html(formatThousands(FeeRefund, ","));
+                    row.find(".totalFeeRefund").html(formatThousands(TotalFeeRefund, ","));
+                }
+                else {
+                    TotalFeeRefund = ReducedPrice * Quantity;
+
+                    row.find(".feeRefund").html(0);
+                    row.find(".totalFeeRefund").html(formatThousands(TotalFeeRefund, ","));
+                }
+
+                productRefunds.forEach(function(item){
+                    if (item.isTarget(ProductID, ProductVariableID)){
+                        item.QuantityRefund = Quantity;
+                        item.ChangeType = ChangeType;
+                        item.TotalFeeRefund = TotalFeeRefund;
+                    }
+                });
+
+                getAllPrice();
             }
 
             function addHtmlProductResult(item) {
                 let html = "";
 
                 html += "<tr class='product-result' "
-                                + "data-orderID='" + item.OrderID + "' "
-                                + "data-orderDetailID='" + item.OrderDetailID + "' "
-                                + "data-sku='" + item.SKU + "' "
-                                + "data-rowIndex='" + item.RowIndex + "' "
-                                + "data-ProductName='" + item.ProductName + "' "
-                                + "data-ProductType='" + item.ProductType + "' "
-                                + "data-Giagoc='" + item.Price + "' "
-                                + "data-Giadaban='" + item.ReducedPrice + "' "
-                                + "data-TienGiam='" + item.DiscountPerProduct + "' "
-                                + "data-Soluongtoida='" + item.QuantityLeft + "' "
-                                + "data-RefundFee='" + item.FeeRefund + "' >\n";
-                html += "    <td>" + item.OrderID + "</td>\n";
-                html += "    <td>" + item.ProductName + "</td>\n";
-                html += "    <td>" + item.SKU + "</td>\n";
-                html += "    <td class='giagoc' data-giagoc='" + item.Price + "'>" + formatThousands(item.Price) + "</td>\n";
-                if (item.DiscountPerProduct > 0) {
-                    html += "    <td class='giadaban' data-giadaban='" + item.ReducedPrice + "'>\n"
-                    html += "        " + formatThousands(item.ReducedPrice) + "(CK " + formatThousands(item.DiscountPerProduct) + ")\n"
-                    html += "    </td>\n";
+                                + "data-productID='" + item.ProductID + "' "
+                                + "data-productVariableID='" + item.ProductVariableID + "' "
+                                + "data-productStyle='" + item.ProductStyle + "' "
+                                + "data-productImage='" + item.ProductImage + "' "
+                                + "data-productTitle='" + item.ProductTitle + "' "
+                                + "data-parentSKU='" + item.ParentSKU + "' "
+                                + "data-childSKU='" + item.ChildSKU + "' "
+                                + "data-variableValue='" + item.VariableValue + "' "
+                                + "data-price='" + item.Price + "' "
+                                + "data-feeRefund='" + item.FeeRefund + "' >\n";
+                html += "    <td><img src='" + item.ProductImage + "''></td>\n";
+                html += "    <td>" + item.ProductTitle + "</td>\n";
+                if (item.ProductStyle == 1) {
+                    html += "    <td>" + item.ParentSKU + "</td>\n";
                 }
-                else {
-                    html += "    <td class='giadaban' data-giadaban='" + item.ReducedPrice + "'>" + formatThousands(item.ReducedPrice) + "</td>\n";
+                else if (item.ProductStyle == 2) {
+                    html += "    <td>" + item.ChildSKU + "</td>\n";
                 }
-                html += "    <td class='slmax' data-slmax='" + item.QuantityOrder + "'>" + formatThousands(item.QuantityOrder) + "</td>\n";
-                html += "    <td class='sltoida' data-sltoida='" + item.QuantityLeft + "'>" + formatThousands(item.QuantityLeft) + "</td>\n";
-                html += "    <td class='slcandoi'>\n";
-                html += "           <input type='text' min='1' max='" + item.QuantityLeft + "' class='form-control soluongcandoi' style='width: 40%;margin: 0 auto;' value='1'  onkeyup='checkQuantiy($(this))' onkeypress='return event.charCode >= 48 && event.charCode <= 57'/>\n";
+                html += "    <td class='Price'>" + formatThousands(item.Price, ",") + "</td>\n";
+                html += "    <td>\n";
+                html += "           <input type='text' class='form-control reducedPrice' min='1' value='" + formatThousands(item.ReducedPrice, ",") + "' onblur='changeRow($(this))' onkeypress='return event.charCode >= 48 && event.charCode <= 57'/>\n";
                 html += "    </td>\n";
                 html += "    <td>\n";
-                html += "           <select class='changeType form-control' onchange='getAllPrice()'>\n";
+                html += "           <input type='text' class='form-control quantityRefund' min='1' value='" + formatThousands(item.QuantityRefund, ",") + "' onblur='changeRow($(this))' onkeypress='return event.charCode >= 48 && event.charCode <= 57'/>\n";
+                html += "    </td>\n";
+                html += "    <td>\n";
+                html += "           <select class='form-control changeType' onchange='changeRow($(this))'>\n";
                 html += "               <option value='1'>Đổi size</option>\n";
                 html += "               <option value='2'>Đổi sản phẩm khác</option>\n";
                 html += "               <option value='3'>Đổi hàng lỗi</option>\n";
                 html += "           </select>\n";
                 html += "    </td>\n";
-                html += "   <td class='phidoihang'>0</td>\n";
-                html += "   <td class='thanhtien' data-thanhtien='" + item.TotalFeeRefund + "'>" + formatThousands(item.TotalFeeRefund) + "</td>\n";
+                html += "   <td class='feeRefund'>0</td>\n";
+                html += "   <td class='totalFeeRefund'>" + formatThousands(item.TotalFeeRefund) + "</td>\n";
                 html += "   <td><a href='javascript:;' class='link-btn' onclick='deleteRow($(this))'><i class='fa fa-trash'></i></a></td>\n";
                 html += "</tr>\n";
 
-                return html;
+                $(".content-product").append(html);
+            }
+
+            // select a variable product
+            function selectProduct() {
+                $(".search-popup").each(function (index, element) {
+                    if ($(this).find(".check-popup").is(':checked')) {
+                        let sku = $(this).find("td.key").html();
+                        let quantity = parseInt($(this).find("input.quantity").val());
+
+                        let productTarget = productVariableSearch.filter(function (x) { return x.ChildSKU == sku })[0];
+
+                        // get quantity new
+                        productTarget.QuantityRefund = quantity;
+                        // update total price
+                        productTarget.TotalFeeRefund = productTarget.ReducedPrice * productTarget.QuantityRefund;
+
+                        // remove dangerous Request.Form
+                        productTarget.VariableValue = ""; 
+
+                        productRefunds.push(productTarget);
+                        addHtmlProductResult(productTarget);
+                    }
+                });
+
+                getAllPrice();
+                closePopup();
+                $("#txtSearch").focus();
+            }
+
+            // select all variable product
+            function check_all() {
+                if ($('#check-all').is(":checked")) {
+                    $(".check-popup").prop('checked', true);
+                } else {
+                    $(".check-popup").prop('checked', false);
+                }
+            }
+
+            // Show list product variable
+            function showProductVariable(productVariables){
+                var html = "";
+                // Header Popup
+                html += "<table class='table table-checkable table-product'>\n";
+                html += "<tr>\n";
+                html += "   <td class='order-item'>\n";
+                html += "       <input type='checkbox' id='check-all'onchange='check_all()'/>\n";
+                html += "   </td>\n";
+                html += "   <td class='image-item'>Ảnh</td>\n";
+                html += "   <td class='name-item'>Sản phẩm</td>\n";
+                html += "   <td class='sku-item'>Mã</td>\n";
+                html += "   <td class='variable-item'>Thuộc tính</td>\n";
+                html += "   <td class='quantity-item'>Số lượng</td>\n";
+                html += "</tr>\n";
+
+                // Body Popup
+                productVariables.forEach(function(item) {
+                    html += "<tr class='search-popup' id='search-key';>\n";
+                    html += "   <td class='order-item'>\n";
+                    html += "       <input id='" + item.ProductVariableID + "' type='checkbox' class='check-popup' />\n";
+                    html += "   </td>\n";
+                    html += "   <td class='image-item'><img src='" + item.ProductImage + "'></td>\n";
+                    html += "   <td class='namer-item'>" + item.ProductTitle + "</td>\n";
+                    html += "   <td class='sku-item key'>" + item.ChildSKU + "</td>\n";
+                    html += "   <td class='variable-item'>" + item.VariableValue + "</td>\n";
+                    html += "   <td class='quantity-item'><input class='quantity' type='text' value='1' onkeypress='return event.charCode >= 48 && event.charCode <= 57'></td>\n";
+                    html += "</tr>\n";
+                });
+
+                // Footer Popup
+                html += "</table>\n";
+                html += "<div>\n";
+                html += "   <a href='javascript: ;' class='btn link-btn' style='background-color:#f87703;float:right;color:#fff;' onclick='selectProduct()'>Chọn</a>\n";
+                html += "</div >\n";
+
+                $("#txtSearch").val("");
+                showPopup(html);
             }
 
             function searchProduct() {
-                let phone = $("#<%=hdfPhone.ClientID%>").val();
+                let txtPhone = $("#<%=txtPhone.ClientID%>").val();
                 let txtSearch = $("#txtSearch").val();
-                let rowIndex = 1;
-                let totalCanChange = $("#<%=hdfTotalCanchange.ClientID%>").val();
-                let totalProductRefund = $(".totalproductQuantity").val();
-                let isProductNew = true; // true when QuantityLeft == QuantityRefund or SKU != txtSearch
                 var product = null;
 
-                if (isBlank(phone)) {
+                productVariableSearch = [];
+
+                if (isBlank(txtPhone)) {
                     alert('Vui lòng nhập số điện thoại.');
                     return;
                 }
@@ -435,161 +502,106 @@
                     return;
                 }
 
-                if (totalCanChange <= totalProductRefund) {
-                    alert('Số lượng sản phẩm đổi trả đã đạt tối đa!');
-                    return;
-                }
-
-                if (productRefunds.length > 0) {
-                    for (let i = 0; i < productRefunds.length; i++) {
-                        let item = productRefunds[i];
-
-                        if (item.SKU.toUpperCase() == txtSearch.toUpperCase()) {
-                            if (item.QuantityLeft > item.QuantityRefund) {
-                                item.QuantityRefund += 1;
-
-                                $(".product-result").each(function () {
-                                    let orderID = $(this).attr("data-orderID");
-                                    let orderDetailID = $(this).attr("data-orderDetailID");
-                                    let sku = $(this).attr("data-sku");
-
-                                    if (item.isTarget(orderID, orderDetailID, sku)) {
-                                        $("#txtSearch").val("");
-                                        $(this).find(".soluongcandoi").val(formatThousands(item.QuantityRefund));
-                                        getAllPrice();
-
-                                        return;
-                                    }
-                                });
-
-                                isProductNew = false;
-                                break;
-                            } else {
-                                isProductNew = true
-
-                                if (rowIndex <= item.RowIndex) {
-                                    rowIndex = item.RowIndex + 1;
-                                }
-                            }
-                        } else {
-                            isProductNew = true;
-                        }
+                productDeleteRefunds.forEach(function (item) {
+                    if (item.ProductStyle == 1 && item.ParentSKU.toUpperCase() == txtSearch.toUpperCase()) {
+                        product = item;
                     }
-                }
-
-                if (isProductNew) {
-
-                    productDeleteRefunds.forEach(function (item) {
-                        if (item.SKU.toUpperCase() == txtSearch.toUpperCase()) {
-                            if (product == null) {
-                                product = item;
-                            } else {
-                                if (product.rowIndex > item.RowIndex) {
-                                    product = item;
-                                }
-                            }
-                        }
-                    });
-
-                    if (product != null) {
-                        productDeleteRefunds = productDeleteRefunds.filter(function (item) {
-                            return item.SKU != product.SKU && item.RowIndex != product.RowIndex
-                        });
-
-                        productRefunds.push(product);
-
-                        $(".content-product").append(addHtmlProductResult(product));
-
-                        $("#txtSearch").val("");
-                        if (productRefunds.length > 0) {
-                            $(".excute-in").show();
-                        }
-
-                        getAllPrice();
-
-                    } else {
-                        $.ajax({
-                            type: "POST",
-                            url: "/them-don-tra-hang.aspx/getProduct",
-                            data: "{phone:'" + phone + "', sku:'" + txtSearch + "', rowIndex:" + rowIndex + "}",
-                            contentType: "application/json; charset=utf-8",
-                            dataType: "json",
-                            success: function (msg) {
-                                var data = JSON.parse(msg.d);
-
-                                if (data != null) {
-                                    product = new ProductRefundModel(
-                                        OrderID = data.OrderID
-                                        , OrderDetailID = data.OrderDetailID
-                                        , RowIndex = data.RowIndex
-                                        , ProductName = data.ProductName
-                                        , ProductType = data.ProductType
-                                        , SKU = data.SKU
-                                        , Price = data.Price
-                                        , ReducedPrice = data.ReducedPrice
-                                        , DiscountPerProduct = data.DiscountPerProduct
-                                        , QuantityOrder = data.QuantityOrder
-                                        , QuantityLeft = data.QuantityLeft
-                                        , QuantityRefund = 1
-                                        , ChangeType = data.ChangeType
-                                        , FeeRefund = data.FeeRefund
-                                        );
-
-                                    productRefunds.push(product);
-
-                                    $(".content-product").append(addHtmlProductResult(product));
-
-                                    $("#txtSearch").val("");
-                                    if (productRefunds.length > 0) {
-                                        $(".excute-in").show();
-                                    }
-
-                                    getAllPrice();
-                                }
-                                else {
-                                    alert('Không tìm thấy sản phẩm');
-                                }
-                            },
-                            error: function (jqXHR, textStatus, errorThrown) {
-                                let msg = '';
-
-                                if (jqXHR.status == 500) {
-                                    msg = jqXHR.responseJSON.Message;
-                                } else {
-                                    msg = 'lỗi'
-                                }
-
-                                alert(msg);
-                                return;
-                            }
-                        });
-                    }
-                }
-            }
-
-            function checkQuantiy(obj) {
-                let row = obj.parent().parent();
-                let orderID = parseFloat(row.attr("data-orderid"));
-                let orderDetailID = parseFloat(row.attr("data-orderdetailid"));
-                let sku = row.attr("data-sku");
-
-                let currentVal = parseFloat(obj.val());
-
-                if (currentVal < obj.attr("min")) {
-                    currentVal = 1;
-                }
-                else if (currentVal > obj.attr("max")) {
-                    currentVal = obj.attr("max");
-                }
-
-                obj.val(currentVal);
-                productRefunds.forEach(function (product) {
-                    if (product.isTarget(orderID, orderDetailID, sku)) {
-                        product.QuantityRefund = currentVal;
+                    else if (item.ProductStyle == 2 && item.ChildSKU.toUpperCase() == txtSearch.toUpperCase()) {
+                        product = item;
                     }
                 });
 
-                getAllPrice();
+                if (product != null) {
+                    productDeleteRefunds = productDeleteRefunds.filter(function (item) {
+                        return !(item.ParentSKU = product.ParentSKU && item.ChildSKU == product.ChildSKU)
+                    });
+
+                    productRefunds.push(product);
+
+                    addHtmlProductResult(product);
+
+                    $("#txtSearch").val("");
+                    getAllPrice();
+                }
+                else {
+                    $.ajax({
+                        type: "POST",
+                        url: "/tao-don-hang-doi-tra.aspx/getProduct",
+                        data: "{sku:'" + txtSearch + "'}",
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        success: function (msg) {
+                            let data = JSON.parse(msg.d);
+
+                            if (data != null && data.length > 0) {
+                                if (data.length > 1) {
+                                    data.forEach(function (item) {
+                                        let productVariable = new RefundDetailModel(
+                                            ProductID = item.ProductID
+                                            , ProductVariableID = item.ProductVariableID
+                                            , ProductStyle = item.ProductStyle
+                                            , ProductImage = item.ProductImage
+                                            , ProductTitle = item.ProductTitle
+                                            , ParentSKU = item.ParentSKU
+                                            , ChildSKU = item.ChildSKU
+                                            , VariableValue = item.VariableValue
+                                            , Price = item.Price
+                                            , ReducedPrice = item.ReducedPrice
+                                            , QuantityRefund = item.QuantityRefund
+                                            , ChangeType = item.ChangeType
+                                            , FeeRefund = item.FeeRefund
+                                            , TotalFeeRefund = item.TotalFeeRefund
+                                        );
+
+                                        productVariableSearch.push(productVariable);
+                                    });
+
+                                    showProductVariable(productVariableSearch);
+                                }
+                                else {
+                                    product = new RefundDetailModel(
+                                        ProductID = data[0].ProductID
+                                        , ProductVariableID = data[0].ProductVariableID
+                                        , ProductStyle = data[0].ProductStyle
+                                        , ProductImage = data[0].ProductImage
+                                        , ProductTitle = data[0].ProductTitle
+                                        , ParentSKU = data[0].ParentSKU
+                                        , ChildSKU = data[0].ChildSKU
+                                        , VariableValue = data[0].VariableValue
+                                        , Price = data[0].Price
+                                        , ReducedPrice = data[0].ReducedPrice
+                                        , QuantityRefund = data[0].QuantityRefund
+                                        , ChangeType = data[0].ChangeType
+                                        , FeeRefund = data[0].FeeRefund
+                                        , TotalFeeRefund = data[0].TotalFeeRefund
+                                    );
+
+                                    productRefunds.push(product);
+
+                                    addHtmlProductResult(product);
+
+                                    $("#txtSearch").val("");
+                                    getAllPrice();
+                                }
+                            }
+                            else {
+                                alert('Không tìm thấy sản phẩm');
+                            }
+                        },
+                        error: function (jqXHR, textStatus, errorThrown) {
+                            let msg = '';
+
+                            if (jqXHR.status == 500) {
+                                msg = jqXHR.responseJSON.Message;
+                            } else {
+                                msg = 'lỗi'
+                            }
+
+                            alert(msg);
+                            return;
+                        }
+                    });
+                }
             }
 
             function deleteRow(obj) {
@@ -597,69 +609,54 @@
 
                 if (c) {
                     let row = obj.parent().parent();
-                    let orderID = parseFloat(row.attr("data-orderid"));
-                    let orderDetailID = parseFloat(row.attr("data-orderdetailid"));
-                    let sku = row.attr("data-sku");
+                    let ProductID = parseFloat(row.attr("data-productID"));
+                    let ProductVariableID = parseFloat(row.attr("data-productVariableID"));
 
                     productRefunds.forEach(function (product) {
-                        if (product.isTarget(orderID, orderDetailID, sku)) {
+                        if (product.isTarget(ProductID, ProductVariableID)) {
                             product.QuantityRefund = 1; // return default
                             productDeleteRefunds.push(product);
                         }
                     });
 
                     productRefunds = productRefunds.filter(function (product) {
-                        return !product.isTarget(orderID, orderDetailID, sku);
+                        return !product.isTarget(ProductID, ProductVariableID);
                     });
 
                     row.remove();
                     getAllPrice();
-
-                    if (productRefunds.length == 0) {
-                        $(".excute-in").hide();
-
-                    }
-
                 }
             }
 
-            function searchCustomer2() {
-                searchCustomer();
-                //checkCustomer();
+            function deleteProduct() {
+                let c = confirm("Bạn muốn xóa tất cả sản phẩm?");
+
+                if (c) {
+                    productDeleteRefunds = productRefunds;
+                    productRefunds = [];
+
+                    $(".product-result").remove();
+
+                    getAllPrice();
+                }
             }
 
-            function checkCustomer() {
-                
-                    var phone = $("#<%=txtPhone.ClientID%>").val();
+            function payall() {
+                if (productRefunds.length > 0) {
+                    let dataJSON = "{ 'RefundDetails' : ["
 
-                    $.ajax({
-                        type: "POST",
-                        url: "/them-don-tra-hang.aspx/checkphone",
-                        data: "{phonefullname:'" + phone + "'}",
-                        contentType: "application/json; charset=utf-8",
-                        dataType: "json",
-                        success: function (msg) {
-                            if (msg.d != "0") {
-                                var data = JSON.parse(msg.d);
-                                if (data.CustleftCanchange == "full") {
-                                    alert('Bạn đã đổi hết số lượng sản phẩm được phép đổi');
-                                }
-                                else if (data.CustleftCanchange == "nocustomer") {
-                                    alert('Không tìm thấy khách hàng trong hệ thống');
-                                }
-                                else {
-                                    $(".result-check").html("<span class=\"numcanchange\">Số lượng sản phẩm được phép đổi tối đa: " + data.CustleftCanchange + " sản phẩm</span>");
-                                    $("#<%=hdfTotalCanchange.ClientID%>").val(data.CustleftCanchange);
-                                    $("#<%=hdfPhone.ClientID%>").val(phone);
-                                }
-                            }
-                        },
-                        error: function (xmlhttprequest, textstatus, errorthrow) {
-                            alert('lỗi');
-                        }
+                    productRefunds.forEach(function (item) {
+                        dataJSON += item.stringJSON() + ","
                     });
-                
-                
+
+                    dataJSON = dataJSON.replace(/.$/, "") + "]}";
+
+                    $("#<%=hdfListProduct.ClientID%>").val(dataJSON);
+                    $("#<%=btnSave.ClientID%>").click();
+                }
+                else {
+                    alert('Vui lòng chọn sản phẩm đổi trả');
+                }
             }
 
             var formatThousands = function (n, dp) {
