@@ -148,24 +148,6 @@ namespace IM_PJ {
         protected global::System.Web.UI.WebControls.HiddenField hdfUsername;
         
         /// <summary>
-        /// hdfIsRefund control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.HiddenField hdfIsRefund;
-        
-        /// <summary>
-        /// hdfTotalCanchange control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.HiddenField hdfTotalCanchange;
-        
-        /// <summary>
         /// hdfPhone control.
         /// </summary>
         /// <remarks>
@@ -175,15 +157,6 @@ namespace IM_PJ {
         protected global::System.Web.UI.WebControls.HiddenField hdfPhone;
         
         /// <summary>
-        /// hdfTotalQuantity control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.HiddenField hdfTotalQuantity;
-        
-        /// <summary>
         /// hdfTotalPrice control.
         /// </summary>
         /// <remarks>
@@ -191,6 +164,15 @@ namespace IM_PJ {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.HiddenField hdfTotalPrice;
+        
+        /// <summary>
+        /// hdfTotalQuantity control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hdfTotalQuantity;
         
         /// <summary>
         /// hdfTotalRefund control.
