@@ -38,7 +38,7 @@ namespace IM_PJ
         public void LoadData()
         {
             DateTime now = DateTime.Now;
-            var start = new DateTime(now.Year, now.Month, 1, 0, 0, 0);
+            var start = new DateTime(now.Year, now.Month, now.Day, 0, 0, 0);
             string fromdate = start.ToString();
             string todate = "";
 

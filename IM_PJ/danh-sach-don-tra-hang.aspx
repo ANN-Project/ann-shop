@@ -9,7 +9,7 @@
                 <div class="col-md-12">
                     <h3 class="page-title left">Danh sách đổi trả hàng</h3>
                     <div class="right above-list-btn">
-                        <a href="/them-don-tra-hang" class="h45-btn primary-btn btn">Thêm mới</a>
+                        <a href="/tao-don-hang-doi-tra" class="h45-btn primary-btn btn">Thêm mới</a>
                     </div>
                 </div>
             </div>

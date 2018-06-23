@@ -2,8 +2,10 @@
 using NHST.Bussiness;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Web;
+using WebUI.Business;
 
 namespace IM_PJ.Controllers
 {
@@ -192,5 +194,58 @@ namespace IM_PJ.Controllers
             }
         }
         #endregion
+        public static List<tbl_OrderDetail> GetAllToday()
+        {
+            using (var dbe = new inventorymanagementEntities())
+            {
+                List<tbl_OrderDetail> ags = new List<tbl_OrderDetail>();
+                ags = dbe.tbl_OrderDetail.OrderByDescending(o => o.ID).ToList();
+                return ags;
+            }
+        }
+
+        public static List<orderReport> Report(string fromdate, string todate)
+        {
+
+            var list = new List<orderReport>();
+
+            var sql = @"SELECT OD.ID, OD.SKU, OD.Quantity, OD.Price, O.ExcuteStatus, O.PaymentStatus FROM tbl_OrderDetail OD";
+            sql += " INNER JOIN tbl_Order as O ON OD.OrderID = O.ID";
+            sql += " WHERE (O.DateDone >= CONVERT(datetime, '" + fromdate + "', 121) AND O.DateDone < CONVERT(datetime, '" + todate + "', 121))";
+            sql += " AND O.ExcuteStatus = 2 AND O.PaymentStatus = 3";
+
+            var reader = (IDataReader)SqlHelper.ExecuteDataReader(sql);
+            while (reader.Read())
+            {
+                var entity = new orderReport();
+
+                entity.ID = Convert.ToInt32(reader["ID"]);
+
+                entity.SKU = reader["SKU"].ToString();
+
+                entity.Quantity = Convert.ToDouble(reader["Quantity"]);
+
+                entity.Price = Convert.ToDouble(reader["Price"]);
+
+                entity.ExcuteStatus = Convert.ToInt32(reader["ExcuteStatus"]);
+
+                entity.ExcuteStatus = Convert.ToInt32(reader["PaymentStatus"]);
+
+                list.Add(entity);
+            }
+            reader.Close();
+            return list;
+        }
+        public class orderReport
+        {
+            public int ID { get; set; }
+            public string SKU { get; set; }
+            public double Quantity { get; set; }
+            public double Price { get; set; }
+            public DateTime DateDone { get; set; }
+            public int ExcuteStatus { get; set; }
+            public int PaymentStatus { get; set; }
+
+        }
     }
 }

@@ -14,6 +14,7 @@ namespace IM_PJ
         {
             if (!IsPostBack)
             {
+
                 if (Session["userLoginSystem"] != null)
                 {
                     string username = Session["userLoginSystem"].ToString();
@@ -50,7 +51,7 @@ namespace IM_PJ
             }
 
             DateTime now = DateTime.Now;
-            var start = new DateTime(now.Year, now.Month, 1, 0, 0, 0);
+            var start = new DateTime(now.Year, now.Month, now.Day, 0, 0, 0);
 
             if (!string.IsNullOrEmpty(fromdate))
             {
@@ -68,24 +69,18 @@ namespace IM_PJ
             }
 
 
-            var od = OrderController.Report(fromdate, todate);
+            var od = OrderDetailController.Report(fromdate, todate);
             int tongbanra = 0;
             if (od != null)
             {
                 foreach (var item in od)
                 {
-                    var oddetail = OrderDetailController.GetByOrderID(item.ID);
-                    if (oddetail != null)
-                    {
-                        foreach (var temp in oddetail)
-                        {
-                            tongbanra += Convert.ToInt32(temp.Quantity);
-                        }
-                    }
+                    tongbanra += Convert.ToInt32(item.Quantity);
                 }
             }
 
             int totalrefund = 0;
+
             var refund = RefundGoodController.TotalRefund(fromdate, todate);
             if (refund.Count() > 0)
             {
