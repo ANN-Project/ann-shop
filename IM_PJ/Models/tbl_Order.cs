@@ -48,5 +48,7 @@ namespace IM_PJ.Models
         public string ShippingCode { get; set; }
         public Nullable<int> TransportCompanyID { get; set; }
         public Nullable<int> TransportCompanySubID { get; set; }
+        public string OtherFeeName { get; set; }
+        public Nullable<double> OtherFeeValue { get; set; }
     }
 }

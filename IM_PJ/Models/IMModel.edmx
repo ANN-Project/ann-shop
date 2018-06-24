@@ -321,6 +321,8 @@
           <Property Name="ShippingCode" Type="nvarchar(max)" />
           <Property Name="TransportCompanyID" Type="int" />
           <Property Name="TransportCompanySubID" Type="int" />
+          <Property Name="OtherFeeName" Type="nchar" MaxLength="100" />
+          <Property Name="OtherFeeValue" Type="float" />
         </EntityType>
         <EntityType Name="tbl_OrderDetail">
           <Key>
@@ -759,9 +761,9 @@ warning 6002: The table/view 'inventorymanagement.dbo.View_ProductList' does not
           <EntitySet Name="tbl_OrderDetail" EntityType="inventorymanagementModel.tbl_OrderDetail" />
           <EntitySet Name="tbl_StockManager" EntityType="inventorymanagementModel.tbl_StockManager" />
           <EntitySet Name="tbl_TransportCompany" EntityType="inventorymanagementModel.tbl_TransportCompany" />
-          <EntitySet Name="tbl_Order" EntityType="inventorymanagementModel.tbl_Order" />
           <EntitySet Name="tbl_Customer" EntityType="inventorymanagementModel.tbl_Customer" />
           <EntitySet Name="tbl_Config" EntityType="inventorymanagementModel.tbl_Config" />
+          <EntitySet Name="tbl_Order" EntityType="inventorymanagementModel.tbl_Order" />
         </EntityContainer>
         <EntityType Name="tbl_Account">
           <Key>
@@ -1337,45 +1339,6 @@ warning 6002: The table/view 'inventorymanagement.dbo.View_ProductList' does not
           <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
           <Property Name="ModifiedBy" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
-        <EntityType Name="tbl_Order">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="AgentID" Type="Int32" />
-          <Property Name="OrderType" Type="Int32" />
-          <Property Name="AdditionFee" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="DisCount" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="CustomerID" Type="Int32" />
-          <Property Name="CustomerName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="CustomerPhone" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="CustomerAddress" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="CustomerEmail" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="TotalPrice" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="PaymentStatus" Type="Int32" />
-          <Property Name="ExcuteStatus" Type="Int32" />
-          <Property Name="IsHidden" Type="Boolean" />
-          <Property Name="WayIn" Type="Int32" />
-          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
-          <Property Name="CreatedBy" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
-          <Property Name="ModifiedBy" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="DiscountPerProduct" Type="Double" />
-          <Property Name="TotalDiscount" Type="Double" />
-          <Property Name="FeeShipping" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="TotalPriceNotDiscount" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="GuestPaid" Type="Double" />
-          <Property Name="GuestChange" Type="Double" />
-          <Property Name="FeeRefund" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="PaymentType" Type="Int32" />
-          <Property Name="ShippingType" Type="Int32" />
-          <Property Name="OrderNote" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="DateDone" Type="DateTime" Precision="3" />
-          <Property Name="RefundsGoodsID" Type="Int32" />
-          <Property Name="ShippingCode" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="TransportCompanyID" Type="Int32" />
-          <Property Name="TransportCompanySubID" Type="Int32" />
-        </EntityType>
         <EntityType Name="tbl_Customer">
           <Key>
             <PropertyRef Name="ID" />
@@ -1418,6 +1381,47 @@ warning 6002: The table/view 'inventorymanagement.dbo.View_ProductList' does not
           <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
           <Property Name="ModifiedBy" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="SecurityCode" Type="String" MaxLength="60" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="tbl_Order">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AgentID" Type="Int32" />
+          <Property Name="OrderType" Type="Int32" />
+          <Property Name="AdditionFee" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="DisCount" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CustomerID" Type="Int32" />
+          <Property Name="CustomerName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CustomerPhone" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CustomerAddress" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CustomerEmail" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="TotalPrice" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PaymentStatus" Type="Int32" />
+          <Property Name="ExcuteStatus" Type="Int32" />
+          <Property Name="IsHidden" Type="Boolean" />
+          <Property Name="WayIn" Type="Int32" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="CreatedBy" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="DiscountPerProduct" Type="Double" />
+          <Property Name="TotalDiscount" Type="Double" />
+          <Property Name="FeeShipping" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="TotalPriceNotDiscount" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="GuestPaid" Type="Double" />
+          <Property Name="GuestChange" Type="Double" />
+          <Property Name="FeeRefund" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PaymentType" Type="Int32" />
+          <Property Name="ShippingType" Type="Int32" />
+          <Property Name="OrderNote" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="DateDone" Type="DateTime" Precision="3" />
+          <Property Name="RefundsGoodsID" Type="Int32" />
+          <Property Name="ShippingCode" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="TransportCompanyID" Type="Int32" />
+          <Property Name="TransportCompanySubID" Type="Int32" />
+          <Property Name="OtherFeeName" Type="String" MaxLength="100" FixedLength="true" Unicode="true" />
+          <Property Name="OtherFeeValue" Type="Double" />
         </EntityType>
         </Schema>
     </edmx:ConceptualModels>
@@ -2032,46 +2036,6 @@ warning 6002: The table/view 'inventorymanagement.dbo.View_ProductList' does not
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="tbl_Order">
-            <EntityTypeMapping TypeName="inventorymanagementModel.tbl_Order">
-              <MappingFragment StoreEntitySet="tbl_Order">
-                <ScalarProperty Name="TransportCompanySubID" ColumnName="TransportCompanySubID" />
-                <ScalarProperty Name="TransportCompanyID" ColumnName="TransportCompanyID" />
-                <ScalarProperty Name="ShippingCode" ColumnName="ShippingCode" />
-                <ScalarProperty Name="RefundsGoodsID" ColumnName="RefundsGoodsID" />
-                <ScalarProperty Name="DateDone" ColumnName="DateDone" />
-                <ScalarProperty Name="OrderNote" ColumnName="OrderNote" />
-                <ScalarProperty Name="ShippingType" ColumnName="ShippingType" />
-                <ScalarProperty Name="PaymentType" ColumnName="PaymentType" />
-                <ScalarProperty Name="FeeRefund" ColumnName="FeeRefund" />
-                <ScalarProperty Name="GuestChange" ColumnName="GuestChange" />
-                <ScalarProperty Name="GuestPaid" ColumnName="GuestPaid" />
-                <ScalarProperty Name="TotalPriceNotDiscount" ColumnName="TotalPriceNotDiscount" />
-                <ScalarProperty Name="FeeShipping" ColumnName="FeeShipping" />
-                <ScalarProperty Name="TotalDiscount" ColumnName="TotalDiscount" />
-                <ScalarProperty Name="DiscountPerProduct" ColumnName="DiscountPerProduct" />
-                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
-                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
-                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
-                <ScalarProperty Name="WayIn" ColumnName="WayIn" />
-                <ScalarProperty Name="IsHidden" ColumnName="IsHidden" />
-                <ScalarProperty Name="ExcuteStatus" ColumnName="ExcuteStatus" />
-                <ScalarProperty Name="PaymentStatus" ColumnName="PaymentStatus" />
-                <ScalarProperty Name="TotalPrice" ColumnName="TotalPrice" />
-                <ScalarProperty Name="CustomerEmail" ColumnName="CustomerEmail" />
-                <ScalarProperty Name="CustomerAddress" ColumnName="CustomerAddress" />
-                <ScalarProperty Name="CustomerPhone" ColumnName="CustomerPhone" />
-                <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
-                <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
-                <ScalarProperty Name="DisCount" ColumnName="DisCount" />
-                <ScalarProperty Name="AdditionFee" ColumnName="AdditionFee" />
-                <ScalarProperty Name="OrderType" ColumnName="OrderType" />
-                <ScalarProperty Name="AgentID" ColumnName="AgentID" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="tbl_Customer">
             <EntityTypeMapping TypeName="inventorymanagementModel.tbl_Customer">
               <MappingFragment StoreEntitySet="tbl_Customer">
@@ -2113,6 +2077,48 @@ warning 6002: The table/view 'inventorymanagement.dbo.View_ProductList' does not
                 <ScalarProperty Name="FeeChangeProduct" ColumnName="FeeChangeProduct" />
                 <ScalarProperty Name="NumOfProductCanChange" ColumnName="NumOfProductCanChange" />
                 <ScalarProperty Name="NumOfDateToChangeProduct" ColumnName="NumOfDateToChangeProduct" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_Order">
+            <EntityTypeMapping TypeName="inventorymanagementModel.tbl_Order">
+              <MappingFragment StoreEntitySet="tbl_Order">
+                <ScalarProperty Name="OtherFeeValue" ColumnName="OtherFeeValue" />
+                <ScalarProperty Name="OtherFeeName" ColumnName="OtherFeeName" />
+                <ScalarProperty Name="TransportCompanySubID" ColumnName="TransportCompanySubID" />
+                <ScalarProperty Name="TransportCompanyID" ColumnName="TransportCompanyID" />
+                <ScalarProperty Name="ShippingCode" ColumnName="ShippingCode" />
+                <ScalarProperty Name="RefundsGoodsID" ColumnName="RefundsGoodsID" />
+                <ScalarProperty Name="DateDone" ColumnName="DateDone" />
+                <ScalarProperty Name="OrderNote" ColumnName="OrderNote" />
+                <ScalarProperty Name="ShippingType" ColumnName="ShippingType" />
+                <ScalarProperty Name="PaymentType" ColumnName="PaymentType" />
+                <ScalarProperty Name="FeeRefund" ColumnName="FeeRefund" />
+                <ScalarProperty Name="GuestChange" ColumnName="GuestChange" />
+                <ScalarProperty Name="GuestPaid" ColumnName="GuestPaid" />
+                <ScalarProperty Name="TotalPriceNotDiscount" ColumnName="TotalPriceNotDiscount" />
+                <ScalarProperty Name="FeeShipping" ColumnName="FeeShipping" />
+                <ScalarProperty Name="TotalDiscount" ColumnName="TotalDiscount" />
+                <ScalarProperty Name="DiscountPerProduct" ColumnName="DiscountPerProduct" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="WayIn" ColumnName="WayIn" />
+                <ScalarProperty Name="IsHidden" ColumnName="IsHidden" />
+                <ScalarProperty Name="ExcuteStatus" ColumnName="ExcuteStatus" />
+                <ScalarProperty Name="PaymentStatus" ColumnName="PaymentStatus" />
+                <ScalarProperty Name="TotalPrice" ColumnName="TotalPrice" />
+                <ScalarProperty Name="CustomerEmail" ColumnName="CustomerEmail" />
+                <ScalarProperty Name="CustomerAddress" ColumnName="CustomerAddress" />
+                <ScalarProperty Name="CustomerPhone" ColumnName="CustomerPhone" />
+                <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
+                <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
+                <ScalarProperty Name="DisCount" ColumnName="DisCount" />
+                <ScalarProperty Name="AdditionFee" ColumnName="AdditionFee" />
+                <ScalarProperty Name="OrderType" ColumnName="OrderType" />
+                <ScalarProperty Name="AgentID" ColumnName="AgentID" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>

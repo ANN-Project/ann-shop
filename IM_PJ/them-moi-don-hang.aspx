@@ -273,6 +273,20 @@ $("#txtSearch").keydown(function(event) {
 // focus to searchProduct input when page on ready
 $(document).ready(function() {
     $("#txtSearch").focus();
+
+    $("#<%=txtPhone.ClientID%>").keyup(function (e) {
+        if (/\D/g.test(this.value)) {
+            // Filter non-digits from input value.
+            this.value = this.value.replace(/\D/g, '');
+        }
+    });
+
+    $("#<%=txtZalo.ClientID%>").keyup(function (e) {
+        if (/\D/g.test(this.value)) {
+            // Filter non-digits from input value.
+            this.value = this.value.replace(/\D/g, '');
+        }
+    });
 });
 
 // check data before close page or refresh page

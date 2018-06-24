@@ -421,6 +421,10 @@ namespace IM_PJ
                     ltrTotalprice.Text = string.Format("{0:N0}", Convert.ToDouble(order.TotalPrice));
                     pDiscount.Value = order.DiscountPerProduct;
                     pFeeShip.Value = Convert.ToDouble(order.FeeShipping);
+
+                    ltrOtherFeeName.Text = order.OtherFeeName;
+                    pOtherFee.Value = Convert.ToDouble(order.OtherFeeValue);
+
                     ltrTotalAfterCK.Text = string.Format("{0:N0}", (Convert.ToDouble(order.TotalPriceNotDiscount) - Convert.ToDouble(order.TotalDiscount)));
                     ltrOrderID.Text = ID.ToString();
                     ltrCreateBy.Text = order.CreatedBy;
@@ -994,6 +998,7 @@ namespace IM_PJ
                                             parentID = Convert.ToInt32(parent.ProductID);
                                         }
                                         string SKU = itemValue[1];
+
                                         int producttype = itemValue[2].ToInt();
                                         if (producttype == 1)
                                         {

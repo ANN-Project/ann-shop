@@ -20,7 +20,7 @@
                         <div class="filter-control">
                             <div class="row">
                                 <div class="col-md-5">
-                                    <asp:TextBox ID="txtSearchProduct" runat="server" CssClass="form-control" placeholder="Tìm sản phẩm"></asp:TextBox>
+                                    <asp:TextBox ID="txtSearchProduct" runat="server" CssClass="form-control sku-input" placeholder="Tìm sản phẩm"></asp:TextBox>
                                 </div>
                                 <div class="col-md-3">
                                     <asp:DropDownList ID="ddlCategory" runat="server" CssClass="form-control"></asp:DropDownList>

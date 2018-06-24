@@ -200,6 +200,20 @@
 
         $(document).ready(function () {
 
+            $("#<%=txtCustomerPhone.ClientID%>").keyup(function (e) {
+                if (/\D/g.test(this.value)) {
+                    // Filter non-digits from input value.
+                    this.value = this.value.replace(/\D/g, '');
+                }
+            });
+
+            $("#<%=txtZalo.ClientID%>").keyup(function (e) {
+                if (/\D/g.test(this.value)) {
+                    // Filter non-digits from input value.
+                    this.value = this.value.replace(/\D/g, '');
+                }
+            });
+
             if ($("#<%=ddlShippingType.ClientID%>").find(":selected").val() == 4) {
                 $(".transport-company").removeClass("hide");
             }

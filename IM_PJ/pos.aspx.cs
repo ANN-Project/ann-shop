@@ -222,8 +222,8 @@ namespace IM_PJ
                             }
 
                             ProductGetOut p = new ProductGetOut();
-                            p.ProductID = productvariable.ID;
-                            p.ProductVariableID = 0;
+                            p.ProductID = 0;
+                            p.ProductVariableID = productvariable.ID;
 
                             var _product = ProductController.GetBySKU(productvariable.ParentSKU);
                             if (_product != null)
@@ -461,10 +461,12 @@ namespace IM_PJ
                     string FeeShipping = pFeeShip.Value.ToString();
                     double GuestPaid = Convert.ToDouble(pGuestPaid.Value);
                     double GuestChange = Convert.ToDouble(totalPrice) - GuestPaid;
+                    string OtherFeeName = txtOtherFeeName.Text;
+                    double OtherFeeValue = Convert.ToDouble(pOtherFee.Value);
 
                     var ret = OrderController.InsertOnSystem(AgentID, OrderType, AdditionFee, DisCount, CustomerID, CustomerName, CustomerPhone, CustomerAddress,
                         CustomerEmail, totalPrice, totalPriceNotDiscount, PaymentStatus, ExcuteStatus, IsHidden, WayIn, currentDate, username, DiscountPerProduct,
-                        TotalDiscount, FeeShipping, GuestPaid, GuestChange, PaymentType, ShippingType, OrderNote, DateTime.Now);
+                        TotalDiscount, FeeShipping, GuestPaid, GuestChange, PaymentType, ShippingType, OrderNote, DateTime.Now, OtherFeeName, OtherFeeValue);
                     int OrderID = ret.ID;
 
                     if (OrderID > 0)

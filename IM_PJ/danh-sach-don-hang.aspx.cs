@@ -196,9 +196,16 @@ namespace IM_PJ
                     html.Append("   <td>" + PJUtils.OrderTypeStatus(Convert.ToInt32(item.OrderType)) + "</td>");
                     html.Append("   <td>" + item.CustomerPhone + "</td>");
                     var customer = CustomerController.GetByID(Convert.ToInt32(item.CustomerID));
-                    if (!string.IsNullOrEmpty(customer.Nick))
+                    if(customer != null)
                     {
-                        html.Append("   <td><a class=\"customer-name-link capitalize\" href=\"/thong-tin-don-hang.aspx?id=" + item.ID + "\">" + customer.Nick + "</a><br><span class=\"name-bottom-nick\">(" + item.CustomerName + ")</span></td>");
+                        if (!string.IsNullOrEmpty(customer.Nick))
+                        {
+                            html.Append("   <td><a class=\"customer-name-link capitalize\" href=\"/thong-tin-don-hang.aspx?id=" + item.ID + "\">" + customer.Nick + "</a><br><span class=\"name-bottom-nick\">(" + item.CustomerName + ")</span></td>");
+                        }
+                        else
+                        {
+                            html.Append("   <td><a class=\"customer-name-link capitalize\" href=\"/thong-tin-don-hang.aspx?id=" + item.ID + "\">" + item.CustomerName + "</a></td>");
+                        }
                     }
                     else
                     {

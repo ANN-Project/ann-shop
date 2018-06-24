@@ -21,7 +21,7 @@
                                     <asp:RequiredFieldValidator ID="rq" runat="server" ControlToValidate="txtProductSKU" ForeColor="Red" SetFocusOnError="true" ErrorMessage="(*)" Display="Dynamic"></asp:RequiredFieldValidator>
                                 </div>
                                 <div class="row-right">
-                                    <asp:TextBox ID="txtProductSKU" runat="server" CssClass="form-control" placeholder="Mã sản phẩm"></asp:TextBox>
+                                    <asp:TextBox ID="txtProductSKU" runat="server" CssClass="form-control sku-input" placeholder="Mã sản phẩm"></asp:TextBox>
                                 </div>
                             </div>
                             <div class="form-row" id="Minimum">
@@ -29,7 +29,7 @@
                                     Tồn kho ít nhất
                                 </div>
                                 <div class="row-right">
-                                    <asp:TextBox type="number" min="0" ID="pMinimumInventoryLevel" runat="server" CssClass="form-control" placeholder="Số lượng tồn kho ít nhất"></asp:TextBox>
+                                    <asp:TextBox type="number" min="0" value="3" ID="pMinimumInventoryLevel" runat="server" CssClass="form-control" placeholder="Số lượng tồn kho ít nhất"></asp:TextBox>
                                 </div>
                             </div>
                             <div class="form-row" id="Maximum">
@@ -37,7 +37,7 @@
                                     Tồn kho nhiều nhất
                                 </div>
                                 <div class="row-right">
-                                    <asp:TextBox type="number" min="0" ID="pMaximumInventoryLevel" runat="server" CssClass="form-control" placeholder="Số lượng tồn kho nhiều nhất"></asp:TextBox>
+                                    <asp:TextBox type="number" min="0" value="10" ID="pMaximumInventoryLevel" runat="server" CssClass="form-control" placeholder="Số lượng tồn kho nhiều nhất"></asp:TextBox>
                                 </div>
                             </div>
                             <div class="form-row">
@@ -49,7 +49,7 @@
                                     <asp:TextBox type="number" min="0" autocomplete="off" ID="pRegular_Price" runat="server" CssClass="form-control" placeholder="Giá sỉ"></asp:TextBox>
                                 </div>
                             </div>
-                            <div class="form-row">
+                            <div class="form-row cost-of-goods">
                                 <div class="row-left">
                                     Giá vốn
                                     <asp:RequiredFieldValidator ID="RequiredFieldValidator4" runat="server" ControlToValidate="pCostOfGood" ForeColor="Red" ErrorMessage="(*)" Display="Dynamic" SetFocusOnError="true"></asp:RequiredFieldValidator>
@@ -93,6 +93,7 @@
         </div>
         <asp:HiddenField ID="hdfTempVariable" runat="server" />
         <asp:HiddenField ID="hdfVariableFull" runat="server" />
+        <asp:HiddenField ID="hdfUserRole" runat="server" />
     </main>
 
     <telerik:radcodeblock runat="server">
@@ -100,6 +101,29 @@
             function isBlank(str) {
                 return (!str || /^\s*$/.test(str));
             }
+
+            $(document).ready(function () {
+                var userRole = $("#<%=hdfUserRole.ClientID%>").val();
+                if (userRole != "0") {
+                    $(".cost-of-goods").addClass("hide");
+                }
+
+                $("#<%=pRegular_Price.ClientID%>").blur(function () {
+                    var cost = parseInt($("#<%=pRegular_Price.ClientID%>").val()) - 15000;
+                    $("input.cost-price").val(cost);
+                });
+
+                $("#<%=pRegular_Price.ClientID%>").blur(function () {
+                    var retailPrice = parseInt($("#<%=pRegular_Price.ClientID%>").val()) + 50000;
+                    $("#<%=pRetailPrice.ClientID%>").val(retailPrice);
+                });
+
+                $('input.sku-input').val(function () {
+                    return this.value.toUpperCase();
+                });
+
+            });
+
             function addNewProduct() {
                 var SKU = $("#<%=txtProductSKU.ClientID%>").val();
                 var giasi = $("#<%=pRegular_Price.ClientID%>").val();

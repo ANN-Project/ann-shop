@@ -21,7 +21,7 @@
                             <table class="table table-checkable table-product">
                                 <tbody>
                                     <tr>
-                                        <th>SKU</th>
+                                        <th>Mã sản phẩm</th>
                                         <th>Thuộc tính</th>
                                         <th>Giá trị</th>
                                         <th>Ngày tạo</th>

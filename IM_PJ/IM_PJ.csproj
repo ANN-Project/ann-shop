@@ -465,7 +465,6 @@
     <Content Include="them-moi-noi-den-nha-xe.aspx" />
     <Content Include="thong-ke-nhan-vien.aspx" />
     <Content Include="thong-ke-phi-van-chuyen.aspx" />
-    <Content Include="uploads\avatars\no-avatar.png" />
     <Content Include="xem-san-pham.aspx" />
     <EntityDeploy Include="Models\IMModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
@@ -1549,8 +1548,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Themes\NewUI\plugins\" />
-    <Folder Include="uploads\barcodes\" />
-    <Folder Include="uploads\images\" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

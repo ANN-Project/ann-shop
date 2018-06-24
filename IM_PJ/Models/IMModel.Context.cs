@@ -59,8 +59,8 @@ namespace IM_PJ.Models
         public virtual DbSet<tbl_OrderDetail> tbl_OrderDetail { get; set; }
         public virtual DbSet<tbl_StockManager> tbl_StockManager { get; set; }
         public virtual DbSet<tbl_TransportCompany> tbl_TransportCompany { get; set; }
-        public virtual DbSet<tbl_Order> tbl_Order { get; set; }
         public virtual DbSet<tbl_Customer> tbl_Customer { get; set; }
         public virtual DbSet<tbl_Config> tbl_Config { get; set; }
+        public virtual DbSet<tbl_Order> tbl_Order { get; set; }
     }
 }

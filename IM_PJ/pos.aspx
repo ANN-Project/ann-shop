@@ -66,10 +66,22 @@
                                 <div class="right priceafterchietkhau"></div>
                             </div>
                             <div class="post-row clear shipping hide">
-                                <div class="left">Phí vận chuyển</div>
+                                <div class="left">Phí vận chuyển
+                                    
+                                </div>
                                 <div class="right totalDiscount">
                                     <telerik:RadNumericTextBox runat="server" CssClass="form-control width-notfull" Skin="MetroTouch"
                                         ID="pFeeShip" MinValue="0" NumberFormat-GroupSizes="3" Width="100%" Value="0" NumberFormat-DecimalDigits="0"
+                                        oninput="countTotal()">
+                                    </telerik:RadNumericTextBox>
+                                </div>
+                            </div>
+                            <div class="post-row clear otherfee hide">
+                                <div class="left"><span class="otherfee-name"></span><a href="javascript:;" style="text-decoration: underline; float: right; font-size: 12px; font-style: italic; padding-left: 10px;" onclick="removeOtherFee()">(Xóa)</a></div>
+                                <div class="right otherfee-value">
+                                    <asp:TextBox ID="txtOtherFeeName" CssClass="form-control" runat="server" Style="display: none" ></asp:TextBox>
+                                    <telerik:RadNumericTextBox runat="server" CssClass="form-control width-notfull" Skin="MetroTouch"
+                                        ID="pOtherFee" NumberFormat-GroupSizes="3" Width="100%" Value="0" NumberFormat-DecimalDigits="0"
                                         oninput="countTotal()">
                                     </telerik:RadNumericTextBox>
                                 </div>
@@ -108,7 +120,10 @@
                                 <a href="javascript:;" class="btn link-btn" style="background-color: #ffad00" onclick="searchReturnOrder()" title="Nhập đơn hàng đổi trả"><i class="fa fa-refresh"></i> Đổi trả</a>
                                 <a href="javascript:;" class="btn link-btn" style="background-color: #00a2b7" onclick="showShipping()" title="Nhập phí vận chuyển"><i class="fa fa-truck"></i> Vận chuyển</a>
                                 <a href="javascript:;" class="btn link-btn" style="background-color: #453288" onclick="showDiscount()" title="Nhập chiết khấu mỗi cái"><i class="fa fa-tag"></i> Chiết khấu</a>
-                                <a href="javascript:;" class="btn link-btn" style="background-color: #f87703;" onclick="payAll()" title="Hoàn tất đơn hàng"><i class="fa fa-floppy-o"></i> Thanh toán</a>
+                                <a href="javascript:;" class="btn link-btn" style="background-color: #607D8B;" onclick="addOtherFee()" title="Thêm phí khác vào đơn hàng"><i class="fa fa-floppy-o"></i> Thêm phí</a>
+                            </div>
+                            <div class="post-table-links clear">
+                                <a href="javascript:;" class="btn link-btn btn-complete-order" onclick="payAll()" title="Hoàn tất đơn hàng"><i class="fa fa-floppy-o"></i> Thanh toán (F9)</a>
                                 <asp:Button ID="btnOrder" runat="server" OnClick="btnOrder_Click" Style="display: none" />
                             </div>
                         </div>
@@ -250,6 +265,14 @@
             // focus to searchProduct input when page on ready
             $(document).ready(function() {
                 $("#txtSearch").focus();
+
+                $("#<%=txtPhone.ClientID%>").keyup(function (e) {
+                    if (/\D/g.test(this.value)) {
+                        // Filter non-digits from input value.
+                        this.value = this.value.replace(/\D/g, '');
+                    }
+                });
+
             });
 
             // check data before close page or refresh page
@@ -453,6 +476,39 @@
                 $("#<%=pDiscount.ClientID%>").focus();
             }
 
+            function addOtherFee() {
+                swal({
+                    title: "Thêm phí khác",
+                    text: 'Nhập tên loại phí:',
+                    type: 'input',
+                    showCancelButton: true,
+                    closeOnConfirm: false,
+                }, function (otherFeeName) {
+                    swal({
+                        title: "Thêm phí khác",
+                        text: 'Nhập số tiền:',
+                        type: 'input',
+                        showCancelButton: true,
+                        closeOnConfirm: true,
+                    }, function (otherFeeValue) {
+                        $(".subtotal").removeClass("hide");
+                        $(".otherfee-name").html(otherFeeName);
+                        $("#<%=txtOtherFeeName.ClientID%>").val(otherFeeName);
+                        $("#<%=pOtherFee.ClientID%>").val(otherFeeValue).focus();
+                        $(".otherfee").removeClass("hide");
+                        getAllPrice();
+                    });
+                });
+            }
+
+            function removeOtherFee() {
+                $(".otherfee").addClass("hide");
+                $(".otherfee-name").html("");
+                $("#<%=txtOtherFeeName.ClientID%>").val("");
+                $("#<%=pOtherFee.ClientID%>").val(0).focus();
+                getAllPrice();
+            }
+
             function showChangeMoney() {
                 var totalpriceorderall = $(".totalpricedetail").html();
                 var html = "";
@@ -496,6 +552,24 @@
                 closePopup();
                 HoldOn.open();
                 $("#<%=btnOrder.ClientID%>").click();
+            }
+
+            function pressKeyQuantity(e) {
+
+                $(".in-quantity").keyup(function (e) {
+                    if (/\D/g.test(this.value)) {
+                        // Filter non-digits from input value.
+                        this.value = this.value.replace(/\D/g, '');
+                    }
+                    else if (e.which == 40) {
+                        // press down 
+                        $(this).closest('tr').next().find('td:eq(' + $(this).closest('td').index() + ')').find(".in-quantity").focus().select();
+                    }
+                    else if (e.which == 38) {
+                        // press up
+                        $(this).closest('tr').prev().find('td:eq(' + $(this).closest('td').index() + ')').find(".in-quantity").focus().select();
+                    }
+                });
             }
 
             // print invoice after submit order
@@ -551,7 +625,7 @@
                 var phone = $("#<%=txtPhone.ClientID%>").val();
                 var name = $("#<%=txtFullname.ClientID%>").val();
                 var address = $("#<%=txtAddress.ClientID%>").val();
-                if (phone != "" && name != "" && address != "") {
+                if (phone != "" && name != "" && address != "" && phone.length <= 15) {
                     if ($(".product-result").length > 0) {
                         let orderDetails = "";
                         let ordertype = $(".customer-type").val();
@@ -565,7 +639,7 @@
                             let producttype = $(this).attr("data-producttype");
                             let productvariablename = $(this).attr("data-productvariablename");
                             let productvariablevalue = $(this).attr("data-productvariablevalue");
-                            let quantity = $(this).find(".in-quanlity").val();
+                            let quantity = $(this).find(".in-quantity").val();
                             let productname = $(this).attr("data-productname");
                             let productimageorigin = $(this).attr("data-productimageorigin");
                             let productvariable = $(this).attr("data-productvariable");
@@ -608,6 +682,10 @@
                     else if (phone == "") {
                         $("#<%= txtPhone.ClientID%>").focus();
                         swal("Thông báo", "Hãy nhập số điện thoại khách hàng!", "error");
+                    }
+                    else if(phone.length > 15){
+                        $("#<%= txtPhone.ClientID%>").focus();
+                        swal("Thông báo", "Số điện thoại không được nhập quá 15 ký tự!", "error");
                     }
                     else if (address == "") {
                         $("#<%= txtAddress.ClientID%>").focus();
@@ -675,7 +753,7 @@
                                     html += ("<td class=\"name-item\">" + item.ProductName + "</td>");
                                     html += ("<td class=\"sku-item key\">" + item.SKU + "</td>");
                                     html += ("<td class=\"variable-item\">" + item.ProductVariable + "</td>");
-                                    html += ("<td class=\"quantity-item\"><input class=\"quantity\" type=\"text\" value=\"1\"></td>");
+                                    html += ("<td class=\"quantity-item\"><input type=\"text\" pattern=\"[0-9]{1,3}\" class=\"form-control quantity in-quantity\" onkeyup=\"pressKeyQuantity($(this))\" onkeypress=\"return event.charCode >= 48 && event.charCode <= 57\" onblur=\"checkQuantiy($(this))\" value=\"1\"></td>");
                                     html += ("</tr>");
                                 }
                                 html += ("</table>");
@@ -715,7 +793,7 @@
                                         html += "   <td class=\"price-item gia-san-pham\" data-price=\"" + item.Giabansi + "\">" + item.stringGiabansi + "</td>";
                                     }
 
-                                    html += "   <td class=\"quantity-item\"><input type=\"text\" class=\"form-control in-quanlity\" value=\"1\" onblur=\"checkQuantiy($(this))\" /></td>";
+                                    html += "   <td class=\"quantity-item\"><input type=\"text\" pattern=\"[0-9]{1,3}\" class=\"form-control in-quantity\" value=\"1\" onkeyup=\"pressKeyQuantity($(this))\" onblur=\"checkQuantiy($(this))\"  onkeypress=\"return event.charCode >= 48 && event.charCode <= 57\" /></td>";
 
                                     html += "<td class=\"total-item totalprice-view\">" + formatThousands(parseFloat(item.Giabansi), '.') + "</td>";
                                     html += "   <td class=\"trash-item\"><a href=\"javascript:;\" class=\"link-btn\" onclick=\"deleteRow($(this))\"><i class=\"fa fa-trash\"></i></a></td>";
@@ -725,10 +803,10 @@
                                         var existedSKU = $(this).attr("data-sku");
                                         if (sku == existedSKU) {
                                             var quantityinstock = parseFloat($(this).attr("data-quantityinstock"));
-                                            var quantityCurrent = parseFloat($(this).find(".in-quanlity").val());
+                                            var quantityCurrent = parseFloat($(this).find(".in-quantity").val());
                                             var newquantity = quantityCurrent + 1;
                                             
-                                            $(this).find(".in-quanlity").val(newquantity);
+                                            $(this).find(".in-quantity").val(newquantity);
 
                                             var price = parseFloat(newquantity) * parseFloat(item.Giabansi);
                                             $(this).find(".totalprice-view").html(formatThousands(price, '.'));
@@ -857,7 +935,7 @@
 
                                             var t = 0;
 
-                                            html += "   <td class=\"quantity-item\"><input type=\"text\" class=\"form-control in-quanlity\" value=\"" + list2[j] + "\" onblur=\"checkQuantiy($(this))\" /></td>";
+                                            html += "   <td class=\"quantity-item\"><input type=\"text\" pattern=\"[0-9]{1,3}\" class=\"form-control in-quantity\" onkeyup=\"pressKeyQuantity($(this))\" value=\"" + list2[j] + "\" onblur=\"checkQuantiy($(this))\"  onkeypress=\"return event.charCode >= 48 && event.charCode <= 57\" /></td>";
                                                 t = parseFloat(list2[j]) * parseFloat(item.Giabansi);
 
                                             html += "<td class=\"total-item totalprice-view\">" + formatThousands(t, '.') + "</td>";
@@ -869,10 +947,10 @@
                                                 var existedSKU = $(this).attr("data-sku");
                                                 if (sku == existedSKU) {
                                                     var quantityinstock = parseFloat($(this).attr("data-quantityinstock"));
-                                                    var quantityCurrent = parseFloat($(this).find(".in-quanlity").val());
+                                                    var quantityCurrent = parseFloat($(this).find(".in-quantity").val());
                                                     var newquantity = quantityCurrent + parseInt(list2[j]);
 
-                                                    $(this).find(".in-quanlity").val(newquantity);
+                                                    $(this).find(".in-quantity").val(newquantity);
                                                     var price = parseFloat(newquantity) * parseFloat(item.Giabansi);
                                                     $(this).find(".totalprice-view").html(formatThousands(price, '.'));
                                                     getAllPrice();
@@ -925,7 +1003,7 @@
                     var productquantity = 0;
                     $(".product-result").each(function() {
                         var price = parseFloat($(this).find(".gia-san-pham").attr("data-price"));
-                        var quantity = parseFloat($(this).find(".in-quanlity").val());
+                        var quantity = parseFloat($(this).find(".in-quantity").val());
 
                         var total = price * quantity;
                         $(this).find(".totalprice-view").html(formatThousands(total, '.'));
@@ -991,8 +1069,12 @@
                     var fs = $("#<%=pFeeShip.ClientID%>").val();
                     var feeship = parseFloat(fs.replace(',', ''));
                     var feeship = parseFloat(fs.replace(/\,/g, ''));
+
+                    var of = $("#<%=pOtherFee.ClientID%>").val();
+                    var otherfee = parseFloat(of.replace(',', ''));
+
                     var priceafterchietkhau = totalleft;
-                    var totalmoney = totalleft + feeship;
+                    var totalmoney = totalleft + feeship + otherfee;
 
                     $("#<%=pDiscount.ClientID%>").val(formatThousands(totalDiscount, ','));
                     $(".totalpriceorderall").html(formatThousands(totalmoney, ','));
@@ -1040,12 +1122,15 @@
                 notEmpty();
                 var dis = $("#<%=pDiscount.ClientID%>").val();
                 var fs = $("#<%=pFeeShip.ClientID%>").val();
+                var of = $("#<%=pOtherFee.ClientID%>").val();
 
                 var discount = parseFloat(dis.replace(/\,/g, ''));
                 var feeship = parseFloat(fs.replace(/\,/g, ''));
+                var otherfee = parseFloat(of.replace(/\,/g, ''));
+
                 $("#<%=hdfcheck.ClientID%>").val(discount);
-                var totalleft = total + feeship - discount * quantity;
-                //alert(discount + " - " + feeship);
+
+                var totalleft = total + feeship + otherfee - discount * quantity;
                 var priceafterchietkhau = total - discount * quantity;
 
                 $(".totalpriceorderall").html(formatThousands(totalleft, ','));

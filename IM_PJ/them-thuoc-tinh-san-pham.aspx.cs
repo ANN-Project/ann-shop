@@ -27,6 +27,8 @@ namespace IM_PJ
                     var acc = AccountController.GetByUsername(username);
                     if (acc != null)
                     {
+                        hdfUserRole.Value = acc.RoleID.ToString();
+
                         if (acc.RoleID == 0)
                         {
 
@@ -58,7 +60,7 @@ namespace IM_PJ
                 var product = ProductController.GetByID(productid);
                 if (product != null)
                 {
-                    txtProductSKU.Text = product.ProductSKU;
+                    txtProductSKU.Text = product.ProductSKU.Trim().ToUpper();
                     pMinimumInventoryLevel.Text = product.MinimumInventoryLevel.ToString();
                     pMaximumInventoryLevel.Text = product.MaximumInventoryLevel.ToString();
                     pRegular_Price.Text = product.Regular_Price.ToString();

@@ -96,15 +96,15 @@
                                 </div>
                             </div>
                             <div class="post-body search-product-content clear">
-                                <table class="table table-checkable table-product custom-font-size-12">
+                                <table class="table table-checkable table-product custom-font-size-12 table-return-order">
                                     <thead>
                                         <tr>
-                                            <th>Ảnh</th>
-                                            <th>Tên sản phẩm</th>
-                                            <th>SKU</th>
-                                            <th>Giá gốc</th>
-                                            <th>Giá đã bán</th>
-                                            <th>Cần đổi</th>
+                                            <th class="image-column">Ảnh</th>
+                                            <th class="name-column">Tên sản phẩm</th>
+                                            <th class="sku-column">SKU</th>
+                                            <th class="price-column">Giá gốc</th>
+                                            <th class="price-column">Giá đã bán</th>
+                                            <th class="quantity-column">Cần đổi</th>
                                             <th>Hình thức</th>
                                             <th>Phí đổi hàng</th>
                                             <th>Thành tiền</th>

@@ -98,9 +98,9 @@
                 html += "<div class=\"form-row\">";
                 html += "<label>Nhập nhanh số lượng cho mỗi sản phẩm: </label>";
                 html += "<input ID=\"txtQuickInput\" class=\"form-control fjx\"></input>";
-                html += "<a href=\"javascript:;\" class=\"btn primary-btn float-right-btn link-btn\" onclick=\"submitQuickInput()\"><i class=\"fa fa-search\" aria-hidden=\"true\"></i> Tìm</a>";
+                html += "<a href=\"javascript:;\" class=\"btn primary-btn float-right-btn link-btn\" onclick=\"submitQuickInput()\"><i class=\"fa fa-search\" aria-hidden=\"true\"></i> OK</a>";
                 html += "</div>";
-                showPopup(html);
+                showPopup(html, 3);
                 $("#txtQuickInput").focus();
                 $('#txtQuickInput').keydown(function (event) {
                     if (event.which === 13) {
@@ -115,7 +115,7 @@
         function submitQuickInput() {
             var quantity = $("#txtQuickInput").val();
             $(".product-result").each(function () {
-                $(this).find(".in-quanlity").val(quantity);
+                $(this).find(".in-quantity").val(quantity);
             });
             closePopup();
         }
@@ -202,7 +202,7 @@
                                             html += "   <td>" + item.ProductVariable + "</td>";
                                             html += "   <td>" + item.SupplierName + "</td>";
                                             html += "   <td>" + item.WarehouseQuantity + "</td>";
-                                            html += "   <td><input type=\"text\" class=\"form-control in-quanlity\" onkeyup=\"pressKeyQuantity($(this))\" onkeypress=\"return event.keyCode != 13;\" value=\"1\" /></td>";
+                                            html += "   <td><input type=\"text\" class=\"form-control in-quantity\" pattern=\"[0-9]{1,3}\" onkeyup=\"pressKeyQuantity($(this))\" onkeypress=\"return event.charCode >= 48 && event.charCode <= 57\" value=\"1\" /></td>";
                                             html += "   <td class=\"trash-column\"><a href=\"javascript:;\" onclick=\"deleteRow($(this))\"><i class=\"fa fa-trash\"></i></a></td>";
                                             html += "</tr>";
                                         }
@@ -210,9 +210,9 @@
                                             $(".product-result").each(function () {
                                                 var skuFind = $(this).attr("data-sku");
                                                 if (skuFind == sku) {
-                                                    var quantityOld = parseFloat($(this).find(".in-quanlity").val());
+                                                    var quantityOld = parseFloat($(this).find(".in-quantity").val());
                                                     var quantityNew = quantityOld + 1;
-                                                    $(this).find(".in-quanlity").val(quantityNew);
+                                                    $(this).find(".in-quantity").val(quantityNew);
                                                 }
                                             });
                                         }
@@ -232,7 +232,7 @@
                                         html += "   <td>" + item.ProductVariable + "</td>";
                                         html += "   <td>" + item.SupplierName + "</td>";
                                         html += "   <td>" + item.WarehouseQuantity + "</td>";
-                                        html += "   <td><input type=\"text\" class=\"form-control in-quanlity\" onkeyup=\"pressKeyQuantity($(this))\" onkeypress=\"return event.keyCode != 13;\" value=\"1\" /></td>";
+                                        html += "   <td><input type=\"text\" class=\"form-control in-quantity\" pattern=\"[0-9]{1,3}\" onkeyup=\"pressKeyQuantity($(this))\" onkeypress=\"return event.charCode >= 48 && event.charCode <= 57\" value=\"1\" /></td>";
                                         html += "   <td class=\"trash-column\"><a href=\"javascript:;\" onclick=\"deleteRow($(this))\"><i class=\"fa fa-trash\"></i></a></td>";
                                         html += "</tr>";
                                     }
@@ -240,9 +240,9 @@
                                         $(".product-result").each(function () {
                                             var skuFind = $(this).attr("data-sku");
                                             if (skuFind == sku) {
-                                                var quantityOld = parseFloat($(this).find(".in-quanlity").val());
+                                                var quantityOld = parseFloat($(this).find(".in-quantity").val());
                                                 var quantityNew = quantityOld + 1;
-                                                $(this).find(".in-quanlity").val(quantityNew);
+                                                $(this).find(".in-quantity").val(quantityNew);
                                             }
                                         });
                                     }
@@ -278,16 +278,21 @@
         }
 
         function pressKeyQuantity(e) {
-            $(".in-quanlity").keydown(function (e) {
-                if (e.which == 40)
+            
+            $(".in-quantity").keyup(function (e) {
+                if (/\D/g.test(this.value)) {
+                    // Filter non-digits from input value.
+                    this.value = this.value.replace(/\D/g, '');
+                }
+                else if (e.which == 40)
                 {
                     // press down 
-                    $(this).closest('tr').next().find('td:eq(' + $(this).closest('td').index() + ')').find(".in-quanlity").focus().select();
+                    $(this).closest('tr').next().find('td:eq(' + $(this).closest('td').index() + ')').find(".in-quantity").focus().select();
                 }
                 else if (e.which == 38) 
                 {
                     // press up
-                    $(this).closest('tr').prev().find('td:eq(' + $(this).closest('td').index() + ')').find(".in-quanlity").focus().select();
+                    $(this).closest('tr').prev().find('td:eq(' + $(this).closest('td').index() + ')').find(".in-quantity").focus().select();
                 }
             });
             checkQuantiy(e);
@@ -314,7 +319,7 @@
                     var producttype = $(this).attr("data-producttype");
                     var productnariablename = $(this).attr("data-productnariablename");
                     var productvariablevalue = $(this).attr("data-productvariablevalue");
-                    var quantity = $(this).find(".in-quanlity").val();
+                    var quantity = $(this).find(".in-quantity").val();
                     var productname = $(this).attr("data-productname");
                     var productimageorigin = $(this).attr("data-productimageorigin");
                     var productvariable = $(this).attr("data-productvariable");

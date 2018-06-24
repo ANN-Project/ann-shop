@@ -388,7 +388,7 @@ namespace IM_PJ
                                         string[] datavalueid = itemElement[1].Split('|');
                                         string datanametext = itemElement[2];
                                         string datavaluetext = itemElement[3];
-                                        string productvariablesku = itemElement[4];
+                                        string productvariablesku = itemElement[4].Trim().ToUpper();
                                         string regularprice = itemElement[5];
                                         string costofgood = itemElement[6];
                                         string retailprice = itemElement[7];

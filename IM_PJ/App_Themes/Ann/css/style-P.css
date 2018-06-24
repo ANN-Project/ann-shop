@@ -1,4 +1,27 @@
-﻿.customer-name-link {
+﻿.btn-complete-order {
+    background-color: #F44336;
+    width: 100%!important;
+    text-transform: uppercase;
+    padding: 14px;
+    height: 50px;
+    font-size: 22px;
+}
+.table-return-order .image-column {
+    width: 10%;
+}
+.table-return-order .price-column {
+    width: 10%;
+}
+.table-return-order .name-column {
+    width: 18%;
+}
+.table-return-order .quantity-column {
+    width: 10%;
+}
+.table-return-order .quantity-column {
+    width: 10%;
+}
+.customer-name-link {
     font-weight: bold;
 }
 .name-bottom-nick {

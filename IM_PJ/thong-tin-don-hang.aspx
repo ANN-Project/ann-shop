@@ -60,7 +60,7 @@
                                             <asp:Literal ID="ltrOrderStatus" runat="server"></asp:Literal>
                                         </div>
                                     </div>
-                                    <div class="col-md-4">
+                                    <div class="col-md-4"> 
                                         <label class="left pad10">Ghi chú: </label>
                                         <div class="ordernote">
                                             <asp:Literal ID="ltrOrderNote" runat="server"></asp:Literal>
@@ -223,6 +223,16 @@
                                     <a class="btn btn-feeship link-btn" href="javascript:;" id="calfeeship" onclick="calFeeShip()"><i class="fa fa-check-square-o" aria-hidden="true"></i> Miễn phí</a>
                                     <telerik:RadNumericTextBox runat="server" CssClass="form-control width-notfull" Skin="MetroTouch"
                                         ID="pFeeShip" MinValue="0" NumberFormat-GroupSizes="3" Value="0" NumberFormat-DecimalDigits="0"
+                                        oninput="countTotal()">
+                                    </telerik:RadNumericTextBox>
+                                </div>
+                            </div>
+                            <div class="post-row clear otherfee">
+                                <div class="left"><span class="otherfee-name"><asp:Literal ID="ltrOtherFeeName" runat="server"></asp:Literal></span><a href="javascript:;" style="text-decoration: underline; float: right; font-size: 12px; font-style: italic; padding-left: 10px;" onclick="removeOtherFee()">(Xóa)</a></div>
+                                <div class="right otherfee-value">
+                                    <asp:TextBox ID="txtOtherFeeName" CssClass="form-control" runat="server" Style="display: none" ></asp:TextBox>
+                                    <telerik:RadNumericTextBox runat="server" CssClass="form-control width-notfull" Skin="MetroTouch"
+                                        ID="pOtherFee" NumberFormat-GroupSizes="3" Value="0" NumberFormat-DecimalDigits="0"
                                         oninput="countTotal()">
                                     </telerik:RadNumericTextBox>
                                 </div>
@@ -516,6 +526,20 @@
 
             $(document).ready(function () {
 
+                $("#<%=txtPhone.ClientID%>").keyup(function (e) {
+                    if (/\D/g.test(this.value)) {
+                        // Filter non-digits from input value.
+                        this.value = this.value.replace(/\D/g, '');
+                    }
+                });
+
+                $("#<%=txtZalo.ClientID%>").keyup(function (e) {
+                    if (/\D/g.test(this.value)) {
+                        // Filter non-digits from input value.
+                        this.value = this.value.replace(/\D/g, '');
+                    }
+                });
+
                 // hide shipping code
 
                 if ($("#<%=ddlShippingType.ClientID%>").find(":selected").val() == 1) {
@@ -574,22 +598,6 @@
 
                 // onchange drop down list excute status
                 onChangeExcuteStatus();
-            });
-
-            // check data before close page or refresh page
-            function stopNavigate(event) {
-                $(window).off('beforeunload');
-            }
-
-            $(window).bind('beforeunload', function (e) {
-                if ($("#payall").hasClass("payall-clicked")) {
-                    e = null;
-                } else {
-                    if ($(".product-result").length > 0 || $("#<%=txtPhone.ClientID%>").val() != "" || $("#<%= txtFullname.ClientID%>").val() != "")
-                        return true;
-                    else
-                        e = null;
-                }
             });
 
             // key press F1 - F4

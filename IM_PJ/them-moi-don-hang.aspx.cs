@@ -427,6 +427,7 @@ namespace IM_PJ
                                     parentID = Convert.ToInt32(parent.ProductID);
                                 }
                                 string SKU = itemValue[1];
+
                                 int producttype = itemValue[2].ToInt();
                                 if (producttype == 1)
                                 {

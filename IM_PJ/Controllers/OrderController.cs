@@ -60,7 +60,7 @@ namespace IM_PJ.Controllers
         }
         public static tbl_Order InsertOnSystem(int AgentID, int OrderType, string AdditionFee, string DisCount, int CustomerID, string CustomerName, string CustomerPhone,
            string CustomerAddress, string CustomerEmail, string TotalPrice, string TotalPriceNotDiscount, int PaymentStatus, int ExcuteStatus, bool IsHidden, int WayIn,
-           DateTime CreatedDate, string CreatedBy, double DiscountPerProduct, double TotalDiscount, string FeeShipping, double GuestPaid, double GuestChange, int PaymentType, int ShippingType, string OrderNote, DateTime DateDone)
+           DateTime CreatedDate, string CreatedBy, double DiscountPerProduct, double TotalDiscount, string FeeShipping, double GuestPaid, double GuestChange, int PaymentType, int ShippingType, string OrderNote, DateTime DateDone, string OtherFeeName, double OtherFeeValue)
         {
             using (var dbe = new inventorymanagementEntities())
             {
@@ -92,6 +92,8 @@ namespace IM_PJ.Controllers
                 ui.ShippingType = ShippingType;
                 ui.OrderNote = OrderNote;
                 ui.DateDone = DateDone;
+                ui.OtherFeeName = OtherFeeName;
+                ui.OtherFeeValue = OtherFeeValue;
                 dbe.tbl_Order.Add(ui);
                 dbe.SaveChanges();
 
