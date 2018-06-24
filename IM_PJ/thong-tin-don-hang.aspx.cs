@@ -162,8 +162,9 @@ namespace IM_PJ
                     double ProductQuantity = 0;
                     double totalPrice = Convert.ToDouble(order.TotalPrice);
                     double totalPriceNotDiscount = Convert.ToDouble(order.TotalPriceNotDiscount);
-                    double GuestPaid = Convert.ToDouble(order.GuestPaid);
+
                     hdfcheckR.Value = "";
+                    
                     int totalrefund = 0;
                     if (order.RefundsGoodsID > 0)
                     {
@@ -179,10 +180,13 @@ namespace IM_PJ
                         ltrTotalPriceRefund.Text = string.Format("{0:N0}", totalrefund);
                     }
 
-                    double guestChange = GuestPaid - totalPrice + totalrefund;
-                  
-                    ltrTotalchagne.Text = string.Format("{0:N0}", guestChange);
-                    pGuestPaid.Value = GuestPaid;
+                    hdfDiscountInOrder.Value = "";
+
+                    if (order.DiscountPerProduct > 0)
+                    {
+                        hdfDiscountInOrder.Value = order.DiscountPerProduct.ToString();
+                    }
+
                     int paymentStatus = Convert.ToInt32(order.PaymentStatus);
                     int excuteStatus = Convert.ToInt32(order.ExcuteStatus);
                     int shipping = Convert.ToInt32(order.ShippingType);
@@ -423,6 +427,7 @@ namespace IM_PJ
                     pFeeShip.Value = Convert.ToDouble(order.FeeShipping);
 
                     ltrOtherFeeName.Text = order.OtherFeeName;
+                    txtOtherFeeName.Text = order.OtherFeeName;
                     pOtherFee.Value = Convert.ToDouble(order.OtherFeeValue);
 
                     ltrTotalAfterCK.Text = string.Format("{0:N0}", (Convert.ToDouble(order.TotalPriceNotDiscount) - Convert.ToDouble(order.TotalDiscount)));
@@ -878,8 +883,6 @@ namespace IM_PJ
 
 
                             string totalPrice = hdfTotalPrice.Value.ToString();
-                            double GuestPaid = Convert.ToDouble(pGuestPaid.Value);
-                            double GuestChange = Convert.ToDouble(totalPrice) - GuestPaid;
 
                             string totalPriceNotDiscount = hdfTotalPriceNotDiscount.Value;
                             int PaymentStatusOld = Convert.ToInt32(order.PaymentStatus);
@@ -929,9 +932,12 @@ namespace IM_PJ
                                 }
                             }
 
+                            string OtherFeeName = txtOtherFeeName.Text;
+                            double OtherFeeValue = Convert.ToDouble(pOtherFee.Value);
+
                             string ret = OrderController.UpdateOnSystem(OrderID, OrderType, AdditionFee, DisCount, CustomerID, CustomerName, CustomerPhone,
                                 CustomerAddress, "", totalPrice, totalPriceNotDiscount, PaymentStatus, ExcuteStatus, currentDate, username,
-                                Convert.ToDouble(pDiscount.Value), TotalDiscount, FeeShipping, GuestPaid, GuestChange, PaymentType, ShippingType, OrderNote, datedone, 0, ShippingCode, TransportCompanyID, TransportCompanySubID);
+                                Convert.ToDouble(pDiscount.Value), TotalDiscount, FeeShipping, Convert.ToDouble(order.GuestPaid), Convert.ToDouble(order.GuestChange), PaymentType, ShippingType, OrderNote, datedone, 0, ShippingCode, TransportCompanyID, TransportCompanySubID, OtherFeeName, OtherFeeValue);
 
                             // Xử lý hủy hàng
                             if (ExcuteStatus == 3)

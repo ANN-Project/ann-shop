@@ -353,6 +353,16 @@ namespace IM_PJ
                             productPrint += "</tr>";
                         }
 
+                        if (Convert.ToDouble(order.OtherFeeValue) > 0)
+                        {
+                            TotalOrder = TotalOrder + Convert.ToDouble(order.OtherFeeValue);
+                            TotalPrice = TotalPrice + Convert.ToDouble(order.OtherFeeValue);
+                            productPrint += "<tr>";
+                            productPrint += "<td colspan=\"4\">" + order.OtherFeeName +"</td>";
+                            productPrint += "<td>" + string.Format("{0:N0}", Convert.ToDouble(order.OtherFeeValue)) + "</td>";
+                            productPrint += "</tr>";
+                        }
+
                         if (TotalPrice != Convert.ToDouble(order.TotalPrice))
                         {
                             error += "Đơn hàng tính sai tổng tiền";

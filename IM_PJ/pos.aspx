@@ -299,8 +299,8 @@
                     $("#txtSearch").focus();
                     return false;
                 }
-                if (e.which == 115) { //F4 GuestPaid
-                    $("#<%=pGuestPaid.ClientID%>").focus();
+                if (e.which == 120) { //F9 Pay all
+                    payAll();
                     return false;
                 }
             });
@@ -1112,6 +1112,10 @@
                     var pain = 0;
                     $("#<%=pGuestPaid.ClientID%>").val(formatThousands(pain, ','));
                 }
+                if ($("#<%=pOtherFee.ClientID%>").val() == '') {
+                    var fee = 0;
+                    $("#<%=pOtherFee.ClientID%>").val(formatThousands(fee, ','));
+                }
 
             }
 
@@ -1122,10 +1126,12 @@
                 notEmpty();
                 var dis = $("#<%=pDiscount.ClientID%>").val();
                 var fs = $("#<%=pFeeShip.ClientID%>").val();
-                var of = $("#<%=pOtherFee.ClientID%>").val();
+                
 
                 var discount = parseFloat(dis.replace(/\,/g, ''));
                 var feeship = parseFloat(fs.replace(/\,/g, ''));
+
+                var of = $("#<%=pOtherFee.ClientID%>").val();
                 var otherfee = parseFloat(of.replace(/\,/g, ''));
 
                 $("#<%=hdfcheck.ClientID%>").val(discount);

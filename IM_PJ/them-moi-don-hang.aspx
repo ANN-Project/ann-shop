@@ -149,6 +149,16 @@
                                     </telerik:RadNumericTextBox>
                                 </div>
                             </div>
+                            <div class="post-row clear otherfee hide">
+                                <div class="left"><span class="otherfee-name"></span><a href="javascript:;" style="text-decoration: underline; float: right; font-size: 12px; font-style: italic; padding-left: 10px;" onclick="removeOtherFee()">(Xóa)</a></div>
+                                <div class="right otherfee-value">
+                                    <asp:TextBox ID="txtOtherFeeName" CssClass="form-control" runat="server" Style="display: none" ></asp:TextBox>
+                                    <telerik:RadNumericTextBox runat="server" CssClass="form-control width-notfull" Skin="MetroTouch"
+                                        ID="pOtherFee" NumberFormat-GroupSizes="3" Width="100%" Value="0" NumberFormat-DecimalDigits="0"
+                                        oninput="countTotal()">
+                                    </telerik:RadNumericTextBox>
+                                </div>
+                            </div>
                             <div class="post-row clear">
                                 <div class="left">Tổng tiền</div>
                                 <div class="right totalpriceorderall price-red"></div>
@@ -166,23 +176,11 @@
                                 <div class="left">Tổng tiền còn lại</div>
                                 <div class="right totalpricedetail"></div>
                             </div>
-                            <div class="post-row clear">
-                                <div class="left">Tiền khách trả (F4)</div>
-                                <div class="right totalDiscount">
-                                    <telerik:RadNumericTextBox runat="server" CssClass="form-control width-notfull" Skin="MetroTouch"
-                                        ID="pGuestPaid" MinValue="0" NumberFormat-GroupSizes="3" Value="0" NumberFormat-DecimalDigits="0"
-                                        oninput="countGuestChange()">
-                                    </telerik:RadNumericTextBox>
-                                </div>
-                            </div>
-                            <div class="post-row clear">
-                                <div class="left">Tiền thối lại</div>
-                                <div class="right totalGuestChange"></div>
-                            </div>
                             <div class="post-table-links clear">
                                 <a href="javascript:;" class="btn link-btn" id="payall" style="background-color: #f87703; float: right" onclick="payAll()"><i class="fa fa-floppy-o"></i> Xác nhận</a>
                                 <asp:Button ID="btnOrder" runat="server" OnClick="btnOrder_Click" Style="display: none" />
                                 <a href="javascript:;" class="btn link-btn" style="background-color: #ffad00; float: right;" onclick="searchReturnOrder()"><i class="fa fa-refresh"></i> Đổi trả</a>
+                                <a href="javascript:;" class="btn link-btn" style="background-color: #ffad00; float: right;" onclick="addOtherFee()"><i class="fa fa-refresh"></i> Thêm phí</a>
                                 <a href="javascript:;" class="btn link-btn" style="background-color: #F44336; float: right;" onclick="deleteProduct()"><i class="fa fa-times" aria-hidden="true"></i> Làm lại</a>
                             </div>
                         </div>
@@ -319,21 +317,6 @@ $(document).keydown(function(e) {
         $("#txtSearch").focus();
         return false;
     }
-    if (e.which == 115) { //F4 GuestPaid
-        $("#<%=pGuestPaid.ClientID%>").focus();
-        return false;
-    }
-});
-
-// quickly input change
-$("#<%=pGuestPaid.ClientID%>").keydown(function(e) {
-    if (e.which == 13) {
-        var value = $("#<%=pGuestPaid.ClientID%>").val() + "000";
-        $("#<%=pGuestPaid.ClientID%>").val(value);
-        getAllPrice();
-        $("#<%=pGuestPaid.ClientID%>").blur();
-        return false;
-    }
 });
 
     // cal fee ship
@@ -349,6 +332,42 @@ $("#<%=pGuestPaid.ClientID%>").keydown(function(e) {
             $("#calfeeship").html("<i class=\"fa fa-pencil-square-o\" aria-hidden=\"true\"></i> Tính phí").css("background-color", "#f87703");
         }
         
+    }
+
+    function addOtherFee() {
+        swal({
+            title: "Thêm phí khác",
+            text: 'Nhập tên loại phí:',
+            type: 'input',
+            showCancelButton: true,
+            closeOnConfirm: false,
+        }, function (otherFeeName) {
+            swal({
+                title: "Thêm phí khác",
+                text: 'Nhập số tiền:',
+                type: 'input',
+                showCancelButton: true,
+                closeOnConfirm: true,
+            }, function (otherFeeValue) {
+
+                $(".otherfee-name").html(otherFeeName);
+                $("#<%=txtOtherFeeName.ClientID%>").val(otherFeeName);
+                $("#<%=pOtherFee.ClientID%>").val(otherFeeValue).focus();
+                $(".otherfee").removeClass("hide");
+                
+                getAllPrice();
+            });
+        });
+    }
+
+    function removeOtherFee() {
+
+        $(".otherfee").addClass("hide");
+        $(".otherfee-name").html("");
+        $("#<%=txtOtherFeeName.ClientID%>").val("");
+        $("#<%=pOtherFee.ClientID%>").val(0).focus();
+        
+        getAllPrice();
     }
 
 // search return order
@@ -392,7 +411,6 @@ function getReturnOrder() {
                 if (msg.d != "null") {
                     var data = JSON.parse(msg.d);
                     if (data.CustomerName == name && data.CustomerPhone == phone) {
-                        $(".subtotal").removeClass("hide");
                         $(".returnorder").removeClass("hide");
                         $(".totalpriceorderall").removeClass("price-red");
                         $(".totalpricedetail").addClass("price-red");
@@ -455,7 +473,7 @@ function deleteReturnOrder() {
             $(".returnorder").addClass("hide");
             $(".totalpriceorderall").addClass("price-red");
             $(".totalpricedetail").removeClass("price-red");
-            $("#<%=pGuestPaid.ClientID%>").val(0);
+
             swal("Thông báo", "Đã bỏ qua đơn hàng đổi trả này!", "info");
             getAllPrice();
         },
@@ -623,26 +641,6 @@ function showOrderStatus() {
     fr += "             <a class=\"btn primary-btn fw-btn not-fullwidth\" href=\"javascript:;\" onclick=\"insertOrder()\">Tạo đơn hàng</a>";
     fr += "         </div>";
     showPopup(fr);
-}
-
-// count guest change
-function countGuestChange() {
-    notEmpty();
-    var totalrefund = 0;
-    if (parseFloat($("#<%=hdfDonHangTra.ClientID%>").val()) > 0) {
-        totalrefund = parseFloat($("#<%=hdfDonHangTra.ClientID%>").val());
-    }
-    var gp1 = $("#<%=pGuestPaid.ClientID%>").val();
-    var gp = parseFloat(gp1.replace(/\,/g, ''));
-    if (gp > 0) {
-        var totalprice = parseFloat($("#<%= hdfTotalPrice.ClientID%>").val());
-        var leftchange = gp - totalprice + totalrefund;
-        $(".totalGuestChange").html(formatThousands(leftchange, ","));
-    } else {
-        var totalprice = parseFloat($("#<%= hdfTotalPrice.ClientID%>").val());
-        var leftchange = -totalprice + totalrefund;
-        $(".totalGuestChange").html(formatThousands(leftchange, ","));
-    }
 }
 
 // reindex item order
@@ -1025,14 +1023,19 @@ function getAllPrice() {
         }
         var fs = $("#<%=pFeeShip.ClientID%>").val();
         var feeship = parseFloat(fs.replace(/\,/g, ''));
-        totalleft += feeship;
+
+        var of = $("#<%=pOtherFee.ClientID%>").val();
+        var otherfee = parseFloat(of.replace(/\,/g, ''));
+
         var priceafterchietkhau = totalleft;
-        var totalmoney = totalleft + feeship;
+
+        
+
+        var totalmoney = totalleft + feeship + otherfee;
         $("#<%=pDiscount.ClientID%>").val(formatThousands(totalDiscount, ','));
-        $(".totalpriceorderall").html(formatThousands(totalleft, ','));
-        $(".totalGuestChange").html(formatThousands(totalleft, ','));
+        $(".totalpriceorderall").html(formatThousands(totalmoney, ','));
         $(".priceafterchietkhau").html(formatThousands(priceafterchietkhau, ','));
-        $("#<%=hdfTotalPrice.ClientID%>").val(totalleft);
+        $("#<%=hdfTotalPrice.ClientID%>").val(totalmoney);
         var refund = 0;
         if (parseFloat($("#<%=hdfDonHangTra.ClientID%>").val()) > 0) {
             refund = parseFloat($("#<%=hdfDonHangTra.ClientID%>").val());
@@ -1040,11 +1043,9 @@ function getAllPrice() {
 
         $(".totalpricedetail").html(formatThousands((totalmoney - refund), ","));
         $("#<%=hdfTongTienConLai.ClientID%>").val(totalmoney - refund);
-        countGuestChange();
     } else {
         $(".totalproductQuantity").html(formatThousands(0, ',') + " sản phẩm");
         $(".totalpriceorder").html(formatThousands(0, ','));
-        $(".totalGuestChange").html(formatThousands(0, ','));
         $(".totalpriceorderall").html(formatThousands(0, ','));
         $(".priceafterchietkhau").html(formatThousands(0, ','));
     }
@@ -1061,11 +1062,10 @@ function notEmpty() {
         var fee = 0;
         $("#<%=pFeeShip.ClientID%>").val(formatThousands(fee, ','));
     }
-    if ($("#<%=pGuestPaid.ClientID%>").val() == '') {
-        var pain = 0;
-        $("#<%=pGuestPaid.ClientID%>").val(formatThousands(pain, ','));
+    if ($("#<%=pOtherFee.ClientID%>").val() == '') {
+        var fee = 0;
+        $("#<%=pOtherFee.ClientID%>").val(formatThousands(fee, ','));
     }
-
 }
 
 // count total order
@@ -1077,12 +1077,18 @@ function countTotal() {
     var fs = $("#<%=pFeeShip.ClientID%>").val();
     var discount = parseFloat(dis.replace(/\,/g, ''));
     var feeship = parseFloat(fs.replace(/\,/g, ''));
+
+    var of = $("#<%=pOtherFee.ClientID%>").val();
+    var otherfee = parseFloat(of.replace(/\,/g, ''));
+
     $("#<%=hdfcheck.ClientID%>").val(discount);
-    var totalleft = total + feeship - discount * quantity;
+    var totalleft = total + feeship + otherfee - discount * quantity;
+
     var priceafterchietkhau = total - discount * quantity;
+
     $(".priceafterchietkhau").html(formatThousands(priceafterchietkhau, ','));
     $(".totalpriceorderall").html(formatThousands(totalleft, ','));
-    $(".totalGuestChange").html(formatThousands(totalleft, ','));
+
     var refund = 0;
     if (parseFloat($("#<%=hdfDonHangTra.ClientID%>").val()) > 0) {
         refund = parseFloat($("#<%=hdfDonHangTra.ClientID%>").val());
@@ -1090,7 +1096,6 @@ function countTotal() {
     $(".totalpricedetail").html(formatThousands((totalleft - refund), ","));
     $("#<%=hdfTongTienConLai.ClientID%>").val(totalleft - refund);
     $("#<%=hdfTotalPrice.ClientID%>").val(totalleft);
-    countGuestChange();
 }
 
 // get product price
@@ -1110,7 +1115,6 @@ function getProductPrice(obj) {
             }
         });
         getAllPrice();
-        countGuestChange();
     }
 }
 

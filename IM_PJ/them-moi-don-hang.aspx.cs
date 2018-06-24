@@ -385,6 +385,9 @@ namespace IM_PJ
                     double TotalDiscount = Convert.ToDouble(pDiscount.Value) * Convert.ToDouble(hdfTotalQuantity.Value);
                     string FeeShipping = pFeeShip.Value.ToString();
 
+                    string OtherFeeName = txtOtherFeeName.Text;
+                    double OtherFeeValue = Convert.ToDouble(pOtherFee.Value);
+
                     bool IsHidden = false;
                     int WayIn = 1;
 
@@ -394,12 +397,9 @@ namespace IM_PJ
                         datedone = DateTime.Now.ToString();
                     }
 
-                    double GuestPaid = Convert.ToDouble(pGuestPaid.Value);
-                    double GuestChange = Convert.ToDouble(totalPrice) - GuestPaid;
-
                     var ret = OrderController.Insert(AgentID, OrderType, AdditionFee, DisCount, CustomerID, CustomerName, CustomerPhone, CustomerAddress,
                         "", totalPrice, totalPriceNotDiscount, PaymentStatus, ExcuteStatus, IsHidden, WayIn, currentDate, username, Convert.ToDouble(pDiscount.Value),
-                        TotalDiscount, FeeShipping, PaymentType, ShippingType, datedone, GuestPaid, GuestChange, TransportCompanyID, TransportCompanySubID);
+                        TotalDiscount, FeeShipping, PaymentType, ShippingType, datedone, 0, 0, TransportCompanyID, TransportCompanySubID, OtherFeeName, OtherFeeValue);
 
                     int OrderID = ret.ID;
 

@@ -130,13 +130,22 @@ namespace IM_PJ {
         protected global::Telerik.Web.UI.RadNumericTextBox pFeeShip;
         
         /// <summary>
-        /// pGuestPaid control.
+        /// txtOtherFeeName control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::Telerik.Web.UI.RadNumericTextBox pGuestPaid;
+        protected global::System.Web.UI.WebControls.TextBox txtOtherFeeName;
+        
+        /// <summary>
+        /// pOtherFee control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::Telerik.Web.UI.RadNumericTextBox pOtherFee;
         
         /// <summary>
         /// btnOrder control.

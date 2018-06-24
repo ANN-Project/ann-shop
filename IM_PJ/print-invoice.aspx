@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="print-invoice.aspx.cs" Inherits="IM_PJ.print_invoice" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="print-invoice.aspx.cs" Inherits="IM_PJ.print_invoice" EnableSessionState="ReadOnly" %>
 
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml">
@@ -19,7 +19,7 @@
                 window.print();
                 setTimeout(function () { window.close(); }, 1);
             }
-        }, 2000);
+        }, 1500);
     </script> 
 </body>
 </html>

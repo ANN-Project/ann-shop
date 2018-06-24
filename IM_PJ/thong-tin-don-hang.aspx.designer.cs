@@ -346,24 +346,6 @@ namespace IM_PJ {
         protected global::System.Web.UI.WebControls.Literal ltrtotalpricedetail;
         
         /// <summary>
-        /// pGuestPaid control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::Telerik.Web.UI.RadNumericTextBox pGuestPaid;
-        
-        /// <summary>
-        /// ltrTotalchagne control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal ltrTotalchagne;
-        
-        /// <summary>
         /// ddlPaymentStatus control.
         /// </summary>
         /// <remarks>
@@ -452,6 +434,15 @@ namespace IM_PJ {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button btnOrder;
+        
+        /// <summary>
+        /// hdfDiscountInOrder control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hdfDiscountInOrder;
         
         /// <summary>
         /// hdfUsername control.
