@@ -196,7 +196,8 @@
         <script type="text/javascript">
             // Create model entity
             class RefundDetailModel{
-                constructor(ProductID
+                constructor(RowIndex
+                            , ProductID
                             , ProductVariableID
                             , ProductStyle
                             , ProductImage
@@ -210,6 +211,7 @@
                             , ChangeType
                             , FeeRefund
                             , TotalFeeRefund) {
+                    this.RowIndex = RowIndex;
                     this.ProductID = ProductID;
                     this.ProductVariableID = ProductVariableID;
                     this.ProductStyle = ProductStyle;
@@ -226,14 +228,17 @@
                     this.TotalFeeRefund = TotalFeeRefund;
                 }
 
-                isTarget(ProductID, ProductVariableID){
-                    return this.ProductID == ProductID && this.ProductVariableID == ProductVariableID;
+                isTarget(RowIndex, ProductID, ProductVariableID) {
+                    return this.RowIndex == RowIndex && this.ProductID == ProductID && this.ProductVariableID == ProductVariableID;
                 }
                 
                 stringJSON() {
                     return JSON.stringify(this);
                 }
             }
+
+            // Key for row in table product refund
+            var rowIndexMax = Number(0);
 
             // Create model
             var productRefunds = [];
@@ -325,6 +330,7 @@
             function changeRow(obj)
             {
                 let row = obj.parent().parent();
+                let RowIndex = parseInt(row.attr("data-rowIndex"));
                 let ProductID = parseInt(row.attr("data-productID"));
                 let ProductVariableID = parseInt(row.attr("data-productVariableID"));
                 let Price = parseFloat(row.find(".Price").html().replace(/,/g, ""));
@@ -355,7 +361,7 @@
                 }
 
                 productRefunds.forEach(function(item){
-                    if (item.isTarget(ProductID, ProductVariableID)){
+                    if (item.isTarget(RowIndex, ProductID, ProductVariableID)) {
                         item.QuantityRefund = Quantity;
                         item.ChangeType = ChangeType;
                         item.TotalFeeRefund = TotalFeeRefund;
@@ -369,6 +375,7 @@
                 let html = "";
 
                 html += "<tr class='product-result' "
+                                + "data-rowIndex='" + item.RowIndex + "' "
                                 + "data-productID='" + item.ProductID + "' "
                                 + "data-productVariableID='" + item.ProductVariableID + "' "
                                 + "data-productStyle='" + item.ProductStyle + "' "
@@ -512,6 +519,7 @@
                 });
 
                 if (product != null) {
+                    // remove product by SKU 
                     productDeleteRefunds = productDeleteRefunds.filter(function (item) {
                         return !(item.ParentSKU = product.ParentSKU && item.ChildSKU == product.ChildSKU)
                     });
@@ -536,8 +544,11 @@
                             if (data != null && data.length > 0) {
                                 if (data.length > 1) {
                                     data.forEach(function (item) {
+                                        rowIndexMax = rowIndexMax + 1;
+
                                         let productVariable = new RefundDetailModel(
-                                            ProductID = item.ProductID
+                                            RowIndex = rowIndexMax
+                                            , ProductID = item.ProductID
                                             , ProductVariableID = item.ProductVariableID
                                             , ProductStyle = item.ProductStyle
                                             , ProductImage = item.ProductImage
@@ -559,8 +570,11 @@
                                     showProductVariable(productVariableSearch);
                                 }
                                 else {
+                                    rowIndexMax = rowIndexMax + 1;
+
                                     product = new RefundDetailModel(
-                                        ProductID = data[0].ProductID
+                                        RowIndex = rowIndexMax
+                                        , ProductID = data[0].ProductID
                                         , ProductVariableID = data[0].ProductVariableID
                                         , ProductStyle = data[0].ProductStyle
                                         , ProductImage = data[0].ProductImage
@@ -609,18 +623,21 @@
 
                 if (c) {
                     let row = obj.parent().parent();
+                    let RowIndex = parseFloat(row.attr("data-rowIndex"));
                     let ProductID = parseFloat(row.attr("data-productID"));
                     let ProductVariableID = parseFloat(row.attr("data-productVariableID"));
 
                     productRefunds.forEach(function (product) {
-                        if (product.isTarget(ProductID, ProductVariableID)) {
+                        if (product.isTarget(RowIndex, ProductID, ProductVariableID)) {
                             product.QuantityRefund = 1; // return default
+                            product.ChangeType = 1; // return default
+                            product.TotalFeeRefund = product.Price; // return default
                             productDeleteRefunds.push(product);
                         }
                     });
 
                     productRefunds = productRefunds.filter(function (product) {
-                        return !product.isTarget(ProductID, ProductVariableID);
+                        return !product.isTarget(RowIndex, ProductID, ProductVariableID);
                     });
 
                     row.remove();
