@@ -491,12 +491,14 @@
                         showCancelButton: true,
                         closeOnConfirm: true,
                     }, function (otherFeeValue) {
-                        $(".subtotal").removeClass("hide");
-                        $(".otherfee-name").html(otherFeeName);
-                        $("#<%=txtOtherFeeName.ClientID%>").val(otherFeeName);
-                        $("#<%=pOtherFee.ClientID%>").val(otherFeeValue).focus();
-                        $(".otherfee").removeClass("hide");
-                        getAllPrice();
+                        if (otherFeeValue != false) {
+                            $(".subtotal").removeClass("hide");
+                            $(".otherfee-name").html(otherFeeName);
+                            $("#<%=txtOtherFeeName.ClientID%>").val(otherFeeName);
+                            $("#<%=pOtherFee.ClientID%>").val(otherFeeValue).focus();
+                            $(".otherfee").removeClass("hide");
+                            getAllPrice();
+                        }
                     });
                 });
             }

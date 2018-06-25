@@ -37,7 +37,7 @@ namespace IM_PJ
                         }
                         else
                         {
-                            Response.Redirect("/dang-nhap");
+                            Response.Redirect("/trang-chu");
                         }
                         LoadDLLCreateBy();
                     }
@@ -158,8 +158,25 @@ namespace IM_PJ
                 {
                     var item = acs[i];
                     html.Append("<tr>");
-                    html.Append("   <td><a href=\"/thong-tin-tra-hang.aspx?id=" + item.ID + "\">" + item.ID + "</a></td>");
-                    html.Append("   <td><a href=\"/thong-tin-tra-hang.aspx?id=" + item.ID + "\">" + item.CustomerName + "</a></td>");
+                    html.Append("   <td><a href=\"/xem-don-hang-doi-tra.aspx?id=" + item.ID + "\">" + item.ID + "</a></td>");
+
+                    var customer = CustomerController.GetByID(Convert.ToInt32(item.CustomerID));
+                    if (customer != null)
+                    {
+                        if (!string.IsNullOrEmpty(customer.Nick))
+                        {
+                            html.Append("   <td><a class=\"customer-name-link capitalize\" href=\"/xem-don-hang-doi-tra.aspx?id=" + item.ID + "\">" + customer.Nick + "</a><br><span class=\"name-bottom-nick\">(" + item.CustomerName + ")</span></td>");
+                        }
+                        else
+                        {
+                            html.Append("   <td><a class=\"customer-name-link capitalize\" href=\"/xem-don-hang-doi-tra.aspx?id=" + item.ID + "\">" + item.CustomerName + "</a></td>");
+                        }
+                    }
+                    else
+                    {
+                        html.Append("   <td><a class=\"customer-name-link capitalize\" href=\"/xem-don-hang-doi-tra.aspx?id=" + item.ID + "\">" + item.CustomerName + "</a></td>");
+                    }
+
                     html.Append("   <td>" + item.CustomerPhone + "</td>");
                     html.Append("   <td>" + string.Format("{0:N0}", Convert.ToDouble(item.TotalQuantity)) + "</td>");
                     html.Append("   <td>" + string.Format("{0:N0}", Convert.ToDouble(item.TotalRefundFee)) + "</td>");

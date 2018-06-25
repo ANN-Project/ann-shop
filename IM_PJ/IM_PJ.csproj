@@ -465,6 +465,7 @@
     <Content Include="them-moi-noi-den-nha-xe.aspx" />
     <Content Include="thong-ke-nhan-vien.aspx" />
     <Content Include="thong-ke-phi-van-chuyen.aspx" />
+    <Content Include="xem-don-hang-doi-tra.aspx" />
     <Content Include="xem-san-pham.aspx" />
     <EntityDeploy Include="Models\IMModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
@@ -1509,6 +1510,13 @@
     </Compile>
     <Compile Include="thong-tin-thuoc-tinh-san-pham.aspx.designer.cs">
       <DependentUpon>thong-tin-thuoc-tinh-san-pham.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="xem-don-hang-doi-tra.aspx.cs">
+      <DependentUpon>xem-don-hang-doi-tra.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="xem-don-hang-doi-tra.aspx.designer.cs">
+      <DependentUpon>xem-don-hang-doi-tra.aspx</DependentUpon>
     </Compile>
     <Compile Include="thong-tin-tra-hang.aspx.cs">
       <DependentUpon>thong-tin-tra-hang.aspx</DependentUpon>

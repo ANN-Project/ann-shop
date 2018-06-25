@@ -245,7 +245,7 @@
             var productDeleteRefunds = [];
 
             function redirectTo(ID) {
-                window.location.href = "/thong-tin-tra-hang.aspx?id=" + ID;
+                window.location.href = "/xem-don-hang-doi-tra?id=" + ID;
             }
 
             // key press F1 - F4
@@ -342,7 +342,7 @@
 
                 // Ruler Price - ReducedPrice >= 10,000 VND
                 if ((Price - ReducedPrice) > 10000) {
-                    alert("Bạn đã nhập quá triết khấu 10,0000VND");
+                    alert("Giá đã bán không thể giảm hơn 10,000đ..");
                     row.find(".reducedPrice").val(formatThousands(Price, ","));
                     return;
                 }
@@ -365,6 +365,8 @@
                         item.QuantityRefund = Quantity;
                         item.ChangeType = ChangeType;
                         item.TotalFeeRefund = TotalFeeRefund;
+                        item.ReducedPrice = ReducedPrice;
+                        item.DiscountPricePerProduct = Price - ReducedPrice;
                     }
                 });
 

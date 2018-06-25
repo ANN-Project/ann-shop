@@ -349,13 +349,14 @@ $(document).keydown(function(e) {
                 showCancelButton: true,
                 closeOnConfirm: true,
             }, function (otherFeeValue) {
+                if (otherFeeValue != false) {
+                    $(".otherfee-name").html(otherFeeName);
+                    $("#<%=txtOtherFeeName.ClientID%>").val(otherFeeName);
+                    $("#<%=pOtherFee.ClientID%>").val(otherFeeValue).focus();
+                    $(".otherfee").removeClass("hide");
 
-                $(".otherfee-name").html(otherFeeName);
-                $("#<%=txtOtherFeeName.ClientID%>").val(otherFeeName);
-                $("#<%=pOtherFee.ClientID%>").val(otherFeeValue).focus();
-                $(".otherfee").removeClass("hide");
-                
-                getAllPrice();
+                    getAllPrice();
+                }
             });
         });
     }

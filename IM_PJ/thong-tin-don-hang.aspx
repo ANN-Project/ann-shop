@@ -454,7 +454,7 @@
             // OrderDetailModel
             class OrderDetailModel {
                 constructor(ID, SKU, ProductID, Quantity) {
-                    this.ID = ID
+                    this.ID = ID,
                     this.SKU = SKU,
                     this.ProductID = ProductID,
                     this.Quantity = Quantity
@@ -510,13 +510,14 @@
                         showCancelButton: true,
                         closeOnConfirm: true,
                     }, function (otherFeeValue) {
+                        if (otherFeeValue != false) {
+                            $(".otherfee-name").html(otherFeeName);
+                            $("#<%=txtOtherFeeName.ClientID%>").val(otherFeeName);
+                            $("#<%=pOtherFee.ClientID%>").val(otherFeeValue).focus();
+                            $(".otherfee").removeClass("hide");
 
-                        $(".otherfee-name").html(otherFeeName);
-                        $("#<%=txtOtherFeeName.ClientID%>").val(otherFeeName);
-                        $("#<%=pOtherFee.ClientID%>").val(otherFeeValue).focus();
-                        $(".otherfee").removeClass("hide");
-                
-                        getAllPrice();
+                            getAllPrice();
+                        }
                     });
                 });
             }
@@ -785,6 +786,7 @@
                 var nick = $("#<%= txtNick.ClientID%>").val();
                 var address = $("#<%= txtAddress.ClientID%>").val();
                 if (phone != "" && name != "" && nick != "" && address != "") {
+                    
                     if ($(".product-result").length > 0) {
                         var list = "";
                         var ordertype = $(".customer-type").val();
@@ -831,6 +833,7 @@
                         $("#<%=hdfOrderType.ClientID %>").val(ordertype);
                         $("#<%=hdfListProduct.ClientID%>").val(list);
                         insertOrder();
+
                     } else {
                         let excuteStatus = Number($("#<%=ddlExcuteStatus.ClientID%>").val());
 
@@ -889,6 +892,7 @@
             function addPayAllClicked() {
                 $("#payall").addClass("payall-clicked");
             }
+
 
             // insert order
             function insertOrder() {
@@ -976,6 +980,7 @@
                                 // update stock which removed
                                 updateTemplateStock(item);
 
+                                var data_orderdetail = searchRemovedList(item.ID);
                                 var sku = item.SKU;
                                 var check = false;
                                 $(".product-result").each(function() {
@@ -986,7 +991,7 @@
                                 });
                                 if (check == false) {
                                     orderItem++;
-                                    html += "<tr class=\"product-result\" data-giabansi=\"" + item.Giabansi + "\" data-giabanle=\"" + item.Giabanle + "\" " +
+                                    html += "<tr class=\"product-result\" " + data_orderdetail + " data-giabansi=\"" + item.Giabansi + "\" data-giabanle=\"" + item.Giabanle + "\" " +
                                         "data-quantityinstock=\"" + item.QuantityInstock + "\" data-productimageorigin=\"" + item.ProductImageOrigin + "\" " +
                                         "data-productvariable=\"" + item.ProductVariable + "\" data-productname=\"" + item.ProductName + "\" " +
                                         "data-sku=\"" + item.SKU + "\" data-producttype=\"" + item.ProductType + "\" data-id=\"" + item.ID + "\" " +
@@ -1014,6 +1019,10 @@
                                     html += "<td class=\"total-item totalprice-view\">" + formatThousands(t, '.') + "</td>";
                                     html += "<td class=\"trash-item\"><a href=\"javascript:;\" class=\"link-btn\" onclick=\"deleteRow($(this))\"><i class=\"fa fa-trash\"></i></a></td>";
                                     html += "</tr>";
+
+                                    // remove product if it existed before
+                                    removeProductExisted(item);
+
                                 } else if (check == true) {
                                     $(".product-result").each(function() {
                                         var existedSKU = $(this).attr("data-sku");
@@ -1227,17 +1236,34 @@
 
                     getAllPrice();
                 }
-
             }
 
             // update stock which removed
-            function updateTemplateStock(orderServer){
+            function updateTemplateStock(orderServer) {
                 listOrderDetail.forEach(function (orderClient) {
-                    if (orderClient.ID = orderServer.ID) {
+                    if (orderClient.ProductID == orderServer.ID) {
                         orderServer.QuantityInstockString = (Number(orderServer.QuantityInstockString) + Number(orderClient.Quantity)).toString();
                     }
                 });
-            };
+            }
+
+            function searchRemovedList(ProductID) {
+                var t = ""
+                for (i = 0; i< listOrderDetail.length; i++) {
+                    if (listOrderDetail[i].ProductID == ProductID) {
+                        t += "data-orderdetailid=\"" + listOrderDetail[i].ID + "\"";
+                    }
+                }
+                return t;
+            }
+
+            function removeProductExisted(orderServer) {
+                for (index in listOrderDetail) {
+                    if (listOrderDetail[index].ProductID == orderServer.ID) {
+                        delete listOrderDetail[index];
+                    }
+                }
+            }
 
             // change quantity of product
             function checkQuantiy(obj) {

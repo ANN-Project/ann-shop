@@ -272,7 +272,7 @@ namespace IM_PJ
                                             RefundFeePerProduct = item.ChangeType == 2 ? item.FeeRefund.ToString() : "0",
                                             TotalRefundFee = item.ChangeType == 2 ? (item.FeeRefund * item.QuantityRefund).ToString() : "0",
                                             GiavonPerProduct = item.Price.ToString(),
-                                            DiscountPricePerProduct = "0",
+                                            DiscountPricePerProduct = (item.Price - item.ReducedPrice).ToString(),
                                             SoldPricePerProduct = item.ReducedPrice.ToString(),
                                             TotalPriceRow = item.TotalFeeRefund.ToString(),
                                             CreatedDate = currentDate,
