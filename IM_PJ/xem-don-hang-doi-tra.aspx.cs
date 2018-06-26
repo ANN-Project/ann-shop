@@ -129,10 +129,10 @@ namespace IM_PJ
                         _refundGood.RefundGoodsID = ID;
                         _refundGood.CustomerName = r.CustomerName;
                         _refundGood.CustomerPhone = r.CustomerPhone;
-                        _refundGood.CustomerNick = cus.Nick;
-                        _refundGood.CustomerAddress = cus.CustomerAddress;
-                        _refundGood.CustomerZalo = cus.Zalo;
-                        _refundGood.CustomerFacebook = cus.Facebook;
+                        _refundGood.CustomerNick = cus != null? cus.Nick : String.Empty;
+                        _refundGood.CustomerAddress = cus != null ? cus.CustomerAddress : String.Empty;
+                        _refundGood.CustomerZalo = cus != null ? cus.Zalo : String.Empty;
+                        _refundGood.CustomerFacebook = cus != null ? cus.Facebook : String.Empty;
                         _refundGood.RefundDetails = RefundGoodDetailController.GetInfoShowRefundDetail(ID);
                         _refundGood.TotalPrice = Convert.ToDouble(r.TotalPrice);
                         _refundGood.TotalQuantity = Convert.ToDouble(r.TotalQuantity);
