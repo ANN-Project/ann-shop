@@ -38,68 +38,36 @@ namespace IM_PJ
 
         public void LoadData()
         {
-            string fromdate = "";
-            string todate = "";
+            DateTime fromdate = DateTime.Today;
+            DateTime todate = fromdate.AddDays(1).AddMinutes(-1);
 
-
-            if (Request.QueryString["fromdate"] != null)
+            if (!String.IsNullOrEmpty(Request.QueryString["fromdate"]))
             {
-                fromdate = Request.QueryString["fromdate"];
-            }
-            if (Request.QueryString["todate"] != null)
-            {
-                todate = Request.QueryString["todate"];
+                fromdate = Convert.ToDateTime(Request.QueryString["fromdate"]);
             }
 
+            if (!String.IsNullOrEmpty(Request.QueryString["todate"]))
+            {
+                todate = Convert.ToDateTime(Request.QueryString["todate"]);
 
-            DateTime now = DateTime.Now;
-            var start = new DateTime(now.Year, now.Month, 1, 0, 0, 0);
-            if (!string.IsNullOrEmpty(fromdate))
-            {
-                rFromDate.SelectedDate = Convert.ToDateTime(fromdate);
-            }
-            else
-            {
-                fromdate = start.ToString();
-            }
-            if (!string.IsNullOrEmpty(todate))
-            {
-                rToDate.SelectedDate = Convert.ToDateTime(todate);
+                if (fromdate == todate)
+                {
+                    todate = fromdate.AddDays(1).AddMinutes(-1);
+                }
             }
 
-            int tongdonhang = 0;
-            int totalshipping = 0;
-            var od = OrderController.Report(fromdate, todate);
+            rFromDate.SelectedDate = fromdate;
+            rToDate.SelectedDate = todate;
+            double day = (todate - fromdate).TotalDays;
+
+            double tongdonhang = 0;
+            double totalshipping = 0;
+            var od = OrderController.Report(fromdate.ToString(), todate.ToString());
             if (od.Count() > 0)
             {
                 //var t = od.LastOrDefault();
                 var o = od.FirstOrDefault();
-                DateTime st = new DateTime();
-                DateTime end = new DateTime();
-                if (!string.IsNullOrEmpty(fromdate))
-                {
-                    st = Convert.ToDateTime(fromdate);
-                }
-                else
-                {
-                    st = Convert.ToDateTime(o.CreatedDate);
-                }
-                if (!string.IsNullOrEmpty(todate))
-                {
-                    end = Convert.ToDateTime(todate);
-                }
-                else
-                {
-                    end = Convert.ToDateTime(DateTime.Now);
-                }
                 
-                TimeSpan total = end.Subtract(st);
-                int day = total.Days;
-                int hours = total.Hours;
-                if (hours >= 20)
-                {
-                    day++;
-                }
                 foreach (var item in od)
                 {
                     totalshipping += Convert.ToInt32(item.FeeShipping);
@@ -107,12 +75,9 @@ namespace IM_PJ
                 tongdonhang = totalshipping / day;
             }
 
-
-
-
             ltrList.Text += "<tr>";
-            ltrList.Text += "<td style=\"text-align:center;\">" + string.Format("{0:N0}", totalshipping) + " vnđ"+ "</td>";
-            ltrList.Text += "<td>" + string.Format("{0:N0}", tongdonhang) + " vnđ" + "</td>";
+            ltrList.Text += "<td>" + string.Format("{0:N0}", totalshipping) + "đ"+ "</td>";
+            ltrList.Text += "<td>" + string.Format("{0:N0}", tongdonhang) + "đ" + "</td>";
             ltrList.Text += "</tr>";
 
         }

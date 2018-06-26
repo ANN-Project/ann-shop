@@ -38,38 +38,27 @@ namespace IM_PJ
 
         public void LoadData()
         {
-            string fromdate = "";
-            string todate = "";
+            DateTime fromdate = DateTime.Today;
+            DateTime todate = fromdate.AddDays(1).AddMinutes(-1);
 
-            if (Request.QueryString["fromdate"] != null)
+            if (!String.IsNullOrEmpty(Request.QueryString["fromdate"]))
             {
-                fromdate = Request.QueryString["fromdate"];
-            }
-            if (Request.QueryString["todate"] != null)
-            {
-                todate = Request.QueryString["todate"];
+                fromdate = Convert.ToDateTime(Request.QueryString["fromdate"]);
             }
 
-            DateTime now = DateTime.Now;
-            var start = new DateTime(now.Year, now.Month, now.Day, 0, 0, 0);
-
-            if (!string.IsNullOrEmpty(fromdate))
+            if (!String.IsNullOrEmpty(Request.QueryString["todate"]))
             {
-                rFromDate.SelectedDate = Convert.ToDateTime(fromdate);
-            }
-            else
-            {
-                fromdate = start.ToString();
-            }
+                todate = Convert.ToDateTime(Request.QueryString["todate"]);
 
-            if (!string.IsNullOrEmpty(todate))
-            {
-                rToDate.SelectedDate = Convert.ToDateTime(todate);
-                todate = Convert.ToDateTime(todate).AddHours(24).ToString();
+                if (fromdate == todate)
+                {
+                    todate = fromdate.AddDays(1).AddMinutes(-1);
+                }
             }
+            rFromDate.SelectedDate = fromdate;
+            rToDate.SelectedDate = todate;
 
-
-            var od = OrderDetailController.Report(fromdate, todate);
+            var od = OrderDetailController.Report(fromdate.ToString(), todate.ToString());
             int tongbanra = 0;
             if (od != null)
             {
@@ -81,7 +70,7 @@ namespace IM_PJ
 
             int totalrefund = 0;
 
-            var refund = RefundGoodController.TotalRefund(fromdate, todate);
+            var refund = RefundGoodController.TotalRefund(fromdate.ToString(), todate.ToString());
             if (refund.Count() > 0)
             {
                 foreach (var vl in refund)

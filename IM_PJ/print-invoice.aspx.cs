@@ -353,7 +353,7 @@ namespace IM_PJ
                             productPrint += "</tr>";
                         }
 
-                        if (Convert.ToDouble(order.OtherFeeValue) > 0)
+                        if (Convert.ToDouble(order.OtherFeeValue) != 0)
                         {
                             TotalOrder = TotalOrder + Convert.ToDouble(order.OtherFeeValue);
                             TotalPrice = TotalPrice + Convert.ToDouble(order.OtherFeeValue);

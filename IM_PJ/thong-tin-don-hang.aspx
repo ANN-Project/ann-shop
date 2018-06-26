@@ -980,7 +980,7 @@
                                 // update stock which removed
                                 updateTemplateStock(item);
 
-                                var data_orderdetail = searchRemovedList(item.ID);
+                                var data_orderdetail = searchRemovedList(item.SKU);
                                 var sku = item.SKU;
                                 var check = false;
                                 $(".product-result").each(function() {
@@ -1129,6 +1129,7 @@
                                     // update stock which removed
                                     updateTemplateStock(item);
 
+                                    var data_orderdetail = searchRemovedList(item.SKU);
                                     var sku = item.SKU;
                                     var check = false;
                                     if (key == sku) {
@@ -1143,7 +1144,7 @@
                                             var vl1 = item.QuantityMainInstockString;
                                             var vl2 = parseFloat(vl1.replace(/\,/g, ''));
                                             var soluong = vl2 - parseFloat(list2[j])
-                                            html += "<tr class=\"product-result\" data-giabansi=\"" + item.Giabansi + "\" data-giabanle=\"" + item.Giabanle + "\" " +
+                                            html += "<tr class=\"product-result\" " + data_orderdetail + " data-giabansi=\"" + item.Giabansi + "\" data-giabanle=\"" + item.Giabanle + "\" " +
                                                 "data-quantityinstock=\"" + item.QuantityInstock + "\" data-productimageorigin=\"" + item.ProductImageOrigin + "\" " +
                                                 "data-productvariable=\"" + item.ProductVariable + "\" data-productname=\"" + item.ProductName + "\" " +
                                                 "data-sku=\"" + item.SKU + "\" data-producttype=\"" + item.ProductType + "\" data-id=\"" + item.ID + "\" " +
@@ -1173,6 +1174,9 @@
                                             html += "<td class=\"total-item totalprice-view\">" + formatThousands(t, '.') + "</td>";
                                             html += "<td class=\"trash-item\"><a href=\"javascript:;\" class=\"link-btn\" onclick=\"deleteRow($(this))\"><i class=\"fa fa-trash\"></i></a></td>";
                                             html += "</tr>";
+
+                                            removeProductExisted(item);
+
                                         } else if (check == true) {
                                             $(".product-result").each(function() {
                                                 var existedSKU = $(this).attr("data-sku");
@@ -1247,10 +1251,10 @@
                 });
             }
 
-            function searchRemovedList(ProductID) {
+            function searchRemovedList(ProductSKU) {
                 var t = ""
                 for (i = 0; i< listOrderDetail.length; i++) {
-                    if (listOrderDetail[i].ProductID == ProductID) {
+                    if (listOrderDetail[i].SKU == ProductSKU) {
                         t += "data-orderdetailid=\"" + listOrderDetail[i].ID + "\"";
                     }
                 }
@@ -1260,7 +1264,7 @@
             function removeProductExisted(orderServer) {
                 for (index in listOrderDetail) {
                     if (listOrderDetail[index].ProductID == orderServer.ID) {
-                        delete listOrderDetail[index];
+                        listOrderDetail.splice(index,1);
                     }
                 }
             }

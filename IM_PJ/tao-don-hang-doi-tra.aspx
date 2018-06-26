@@ -177,9 +177,7 @@
     </asp:Panel>
     <style>
         .search-product-content {
-            height: 350px;
             background: #fff;
-            overflow-y: scroll;
             padding: 5px;
         }
     </style>
@@ -415,7 +413,7 @@
                 html += "   <td><a href='javascript:;' class='link-btn' onclick='deleteRow($(this))'><i class='fa fa-trash'></i></a></td>\n";
                 html += "</tr>\n";
 
-                $(".content-product").append(html);
+                $(".content-product").prepend(html);
             }
 
             // select a variable product

@@ -37,74 +37,43 @@ namespace IM_PJ
 
         public void LoadData()
         {
-            string fromdate = "";
-            string todate = "";
+            DateTime fromdate = DateTime.Today;
+            DateTime todate = fromdate.AddDays(1).AddMinutes(-1);
 
-            if (Request.QueryString["fromdate"] != null)
+            if (!String.IsNullOrEmpty(Request.QueryString["fromdate"]))
             {
-                fromdate = Request.QueryString["fromdate"];
-            }
-            if (Request.QueryString["todate"] != null)
-            {
-                todate = Request.QueryString["todate"];
+                fromdate = Convert.ToDateTime(Request.QueryString["fromdate"]);
             }
 
-            DateTime now = DateTime.Now;
-            var start = new DateTime(now.Year, now.Month, 1, 0, 0, 0);
+            if (!String.IsNullOrEmpty(Request.QueryString["todate"]))
+            {
+                todate = Convert.ToDateTime(Request.QueryString["todate"]);
 
-            if (!string.IsNullOrEmpty(fromdate))
-            {
-                rFromDate.SelectedDate = Convert.ToDateTime(fromdate);
-            }
-            else
-            {
-                fromdate = start.ToString();
-            }
-            if (!string.IsNullOrEmpty(todate))
-            {
-                rToDate.SelectedDate = Convert.ToDateTime(todate);
+                if (fromdate == todate)
+                {
+                    todate = fromdate.AddDays(1).AddMinutes(-1);
+                }
             }
 
-            var od = OrderController.Report(fromdate, todate);
+            rFromDate.SelectedDate = fromdate;
+            rToDate.SelectedDate = todate;
+            double day = (todate - fromdate).TotalDays;
+
+            var od = OrderController.Report(fromdate.ToString(), todate.ToString());
             if (od.Count() > 0)
             {
                 var o = od.FirstOrDefault();
-                DateTime st = new DateTime();
-                DateTime end = new DateTime();
-                if (!string.IsNullOrEmpty(fromdate))
-                {
-                    st = Convert.ToDateTime(fromdate);
-                }
-                else
-                {
-                    st = Convert.ToDateTime(o.CreatedDate);
-                }
-                if (!string.IsNullOrEmpty(todate))
-                {
-                    end = Convert.ToDateTime(todate);
-                }
-                else
-                {
-                    end = Convert.ToDateTime(DateTime.Now);
-                }
 
-                TimeSpan total = end.Subtract(st);
-                int day = total.Days;
-                int hours = total.Hours;
-                if (hours >= 20)
-                {
-                    day++;
-                }
-                int totaldiscount = 0;
+                double totaldiscount = 0;
                 foreach (var item in od)
                 {
                     totaldiscount += Convert.ToInt32(item.TotalDiscount);
                 }
 
-                int discountperday = totaldiscount / day;
+                double discountperday = totaldiscount / day;
                 ltrList.Text += "<tr>";
-                ltrList.Text += "   <td class=\"text-right\">" + string.Format("{0:N0}", totaldiscount) + " vnđ" + "</td>";
-                ltrList.Text += "   <td class=\"text-right\">" + string.Format("{0:N0}", discountperday) + " vnđ" + "</td>";
+                ltrList.Text += "   <td>" + string.Format("{0:N0}", totaldiscount) + "đ" + "</td>";
+                ltrList.Text += "   <td>" + string.Format("{0:N0}", discountperday) + "đ" + "</td>";
                 ltrList.Text += "</tr>";
             }
 
