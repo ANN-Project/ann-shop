@@ -1,10 +1,10 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="print-order-image.aspx.cs" Inherits="IM_PJ.print_order_image" EnableSessionState="ReadOnly" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="print-return-order-image.aspx.cs" Inherits="IM_PJ.print_return_order_image" EnableSessionState="ReadOnly" %>
 
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
 <meta charset="utf-8" />
-    <link rel="stylesheet" href="/App_Themes/Ann/css/print-order-image.css" type="text/css"/>
+    <link rel="stylesheet" href="/App_Themes/Ann/css/print-return-order-image.css" type="text/css"/>
     <link rel="stylesheet" href="/App_Themes/Ann/barcode/style.css" type="text/css"/>
     <link rel="stylesheet" href="/App_Themes/Ann/css/responsive.css" type="text/css"/>
     <script src="/App_Themes/Ann/js/jquery-2.1.3.min.js"></script>

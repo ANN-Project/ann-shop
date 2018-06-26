@@ -23,7 +23,7 @@
     padding: 3px!important; 
 }
 .print-order-image {
-    font-size: 42px;
+    font-size: 36px;
     color: #000;
 }
 .print-order-image .all {
@@ -153,23 +153,31 @@ h1 {
             }
 
             .print-order-image .table-2 table col.image {
-                width: 17%;
+                width: 13%;
             }
 
             .print-order-image .table-2 table col.name {
-                width: 40%;
+                width: 27%;
             }
 
             .print-order-image .table-2 table col.quantity {
-                width: 7%;
+                width: 6%;
             }
 
             .print-order-image .table-2 table col.price {
-                width: 14%;
+                width: 12%;
+            }
+
+            .print-order-image .table-2 table col.sold-price {
+                width: 12%;
+            }
+
+            .print-order-image .table-2 table col.fee {
+                width: 12%;
             }
 
             .print-order-image .table-2 table col.subtotal {
-                width: 16%;
+                width: 12%;
             }
 
             .print-order-image .table-2 table th,
@@ -188,7 +196,7 @@ h1 {
                 }
 
             .print-order-image .table-2 table th {
-                background-color: #607D8B;
+                background-color: #F44336;
                 color: #fff;
                 border-top: none;
                 vertical-align: middle;

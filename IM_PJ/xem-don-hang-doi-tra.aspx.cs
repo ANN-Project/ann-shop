@@ -65,19 +65,19 @@ namespace IM_PJ
                         ltrOrderStatus.Text = PJUtils.RefundStatus(Convert.ToInt32(r.Status));
                         ltrOrderQuantity.Text = r.TotalQuantity.ToString();
                         ltrOrderTotalPrice.Text = string.Format("{0:N0}", (Convert.ToDouble(r.TotalPrice)));
-                        ltrTotalRefundFee.Text = r.TotalRefundFee;
+                        ltrTotalRefundFee.Text = string.Format("{0:N0}", (Convert.ToDouble(r.TotalRefundFee)));
 
                         ltrInfo.Text += "<div class=\"row\">";
                         ltrInfo.Text += "<div class=\"col-md-6\">";
                         ltrInfo.Text += "<div class=\"form-group\">";
                         ltrInfo.Text += "<label>Họ tên</label>";
-                        ltrInfo.Text += "<span class=\"form-control input-distabled\">" + r.CustomerName + "</span>";
+                        ltrInfo.Text += "<span class=\"form-control input-disabled\">" + r.CustomerName + "</span>";
                         ltrInfo.Text += "</div>";
                         ltrInfo.Text += "</div>";
                         ltrInfo.Text += "<div class=\"col-md-6\">";
                         ltrInfo.Text += "<div class=\"form-group\">";
                         ltrInfo.Text += "<label>Điện thoại</label>";
-                        ltrInfo.Text += "<span class=\"form-control\">" + r.CustomerPhone + "</span>";
+                        ltrInfo.Text += "<span class=\"form-control input-disabled\">" + r.CustomerPhone + "</span>";
                         ltrInfo.Text += "</div>";
                         ltrInfo.Text += "</div>";
                         ltrInfo.Text += "</div>";
@@ -89,13 +89,13 @@ namespace IM_PJ
                             ltrInfo.Text += "<div class=\"col-md-6\">";
                             ltrInfo.Text += "<div class=\"form-group\">";
                             ltrInfo.Text += "<label>Nick đặt hàng</label>";
-                            ltrInfo.Text += "<span class=\"form-control\">" + cus.Nick + "</span>";
+                            ltrInfo.Text += "<span class=\"form-control input-disabled\">" + cus.Nick + "</span>";
                             ltrInfo.Text += "</div>";
                             ltrInfo.Text += "</div>";
                             ltrInfo.Text += "<div class=\"col-md-6\">";
                             ltrInfo.Text += "<div class=\"form-group\">";
                             ltrInfo.Text += "<label>Địa chỉ</label>";
-                            ltrInfo.Text += "<span class=\"form-control\">" + cus.CustomerAddress + "</span>";
+                            ltrInfo.Text += "<span class=\"form-control input-disabled\">" + cus.CustomerAddress + "</span>";
                             ltrInfo.Text += "</div>";
                             ltrInfo.Text += "</div>";
                             ltrInfo.Text += "</div>";
@@ -104,13 +104,13 @@ namespace IM_PJ
                             ltrInfo.Text += "<div class=\"col-md-6\">";
                             ltrInfo.Text += "<div class=\"form-group\">";
                             ltrInfo.Text += "<label>Zalo</label>";
-                            ltrInfo.Text += "<span class=\"form-control\">" + cus.Zalo + "</span>";
+                            ltrInfo.Text += "<span class=\"form-control input-disabled\">" + cus.Zalo + "</span>";
                             ltrInfo.Text += "</div>";
                             ltrInfo.Text += "</div>";
                             ltrInfo.Text += "<div class=\"col-md-6\">";
                             ltrInfo.Text += "<div class=\"form-group\">";
                             ltrInfo.Text += "<label>Facebook</label>";
-                            ltrInfo.Text += "<span class=\"form-control\">" + cus.Facebook + "</span>";
+                            ltrInfo.Text += "<span class=\"form-control input-disabled\">" + cus.Facebook + "</span>";
                             ltrInfo.Text += "</div>";
                             ltrInfo.Text += "</div>";
                             ltrInfo.Text += "</div>";
@@ -207,6 +207,7 @@ namespace IM_PJ
                             ltrList.Text = html;
                         }
                         ltrPrint.Text = "<a href=\"/print-invoice-return.aspx?id=" + ID + "\" target=\"_blank\" class=\"btn primary-btn fw-btn not-fullwidth\"><i class=\"fa fa-print\" aria-hidden=\"true\"></i> In hóa đơn</a>";
+                        ltrPrint.Text += "<a href=\"/print-return-order-image.aspx?id=" + ID + "\" target=\"_blank\" class=\"btn primary-btn fw-btn not-fullwidth print-invoice-merged\"><i class=\"fa fa-picture-o\" aria-hidden=\"true\"></i> Lấy ảnh đơn hàng</a>";
                     }
                 }
             }

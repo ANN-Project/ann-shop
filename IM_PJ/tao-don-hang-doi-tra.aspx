@@ -447,8 +447,9 @@
 
                         // get quantity new
                         productTarget.QuantityRefund = quantity;
+
                         // update total price
-                        productTarget.TotalFeeRefund = productTarget.ReducedPrice * productTarget.QuantityRefund;
+                        productTarget.TotalFeeRefund = (productTarget.ReducedPrice - productTarget.FeeRefund) * productTarget.QuantityRefund;
 
                         // remove dangerous Request.Form
                         productTarget.VariableValue = ""; 
@@ -634,7 +635,7 @@
                                         , QuantityRefund = data[0].QuantityRefund
                                         , ChangeType = data[0].ChangeType
                                         , FeeRefund = data[0].FeeRefund
-                                        , TotalFeeRefund = data[0].TotalFeeRefund
+                                        , TotalFeeRefund = data[0].TotalFeeRefund - data[0].FeeRefund
                                     );
 
                                     productRefunds.push(product);

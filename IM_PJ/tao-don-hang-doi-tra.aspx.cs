@@ -240,8 +240,10 @@ namespace IM_PJ
                             {
                                 RefundGoodModel refundModel = JsonConvert.DeserializeObject<RefundGoodModel>(hdfListProduct.Value);
 
+                                int t = 0;
                                 foreach (RefundDetailModel item in refundModel.RefundDetails)
                                 {
+                                    t++;
                                     int rdID = RefundGoodDetailController.Insert(
                                         new tbl_RefundGoodsDetails()
                                         {

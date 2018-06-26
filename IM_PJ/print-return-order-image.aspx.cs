@@ -15,7 +15,7 @@ using System.Web.UI.WebControls;
 
 namespace IM_PJ
 {
-    public partial class print_order_image : System.Web.UI.Page
+    public partial class print_return_order_image : System.Web.UI.Page
     {
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -48,9 +48,9 @@ namespace IM_PJ
                 LoadData();
             }
         }
-        public void printItemList(ref int ID, ref double TotalQuantity, ref double TotalOrder, ref string Print)
+        public void printItemList(ref int ID, ref double TotalQuantity, ref double TotalOrder, ref string Print, ref double TotalFee)
         {
-            var orderdetails = OrderDetailController.GetByOrderID(ID);
+            var orderdetails = RefundGoodDetailController.GetByRefundGoodsID(ID);
             if (orderdetails.Count > 0)
             {
                 int t = 0;
@@ -60,11 +60,13 @@ namespace IM_PJ
                     TotalQuantity += Convert.ToDouble(item.Quantity);
 
                     int ProductType = Convert.ToInt32(item.ProductType);
-                    double ItemPrice = Convert.ToDouble(item.Price);
+                    double ItemPrice = Convert.ToDouble(item.GiavonPerProduct);
+                    double SoldPrice = Convert.ToDouble(item.SoldPricePerProduct);
+                    double RefundFee = Convert.ToDouble(item.RefundFeePerProduct);
                     string SKU = item.SKU;
                     string ProductName = "";
                     string ProductImage = "/App_Themes/Ann/image/placeholder.png";
-                    int SubTotal = Convert.ToInt32(ItemPrice) * Convert.ToInt32(item.Quantity);
+                    int SubTotal = (Convert.ToInt32(SoldPrice) - Convert.ToInt32(item.RefundFeePerProduct)) * Convert.ToInt32(item.Quantity);
 
                     t++;
                     Print += "<tr>";
@@ -104,15 +106,17 @@ namespace IM_PJ
                             }
                             
                             Print += "<td><image src=\"" + ProductImage + "\" /></td>";
-                            Print += "<td><p><strong>" + SKU + "</strong> - " + ProductName + "</p><p class=\"variable\">" + item.ProductVariableDescrition.Replace("|", ". ") + "</p></td> ";
+                            Print += "<td><p><strong>" + SKU + "</strong> - " + ProductName + "</p></td> ";
                         }
                     }
 
                     Print += "<td>" + item.Quantity + "</td>";
                     Print += "<td>" + string.Format("{0:N0}", ItemPrice) + "</td>";
+                    Print += "<td>" + string.Format("{0:N0}", SoldPrice) + "</td>";
+                    Print += "<td>" + string.Format("{0:N0}", RefundFee) + "</td>";
                     Print += "<td>" + string.Format("{0:N0}", SubTotal) + "</td>";
                     Print += "</tr>";
-
+                    TotalFee += RefundFee;
                     TotalOrder += SubTotal;
                     
                     if(t % 10 == 0)
@@ -139,6 +143,8 @@ namespace IM_PJ
                         Print += "<col class=\"name\" />";
                         Print += "<col class=\"quantity\" />";
                         Print += "<col class=\"price\" />";
+                        Print += "<col class=\"sold-price\" />";
+                        Print += "<col class=\"fee\" />";
                         Print += "<col class=\"subtotal\"/>";
                         Print += "</colgroup>";
                         Print += "<thead>";
@@ -146,7 +152,9 @@ namespace IM_PJ
                         Print += "<th>Hình ảnh</th>";
                         Print += "<th>Sản phẩm</th>";
                         Print += "<th>SL</th>";
-                        Print += "<th>Giá</th>";
+                        Print += "<th>Giá niêm yết</th>";
+                        Print += "<th>Giá đã bán</th>";
+                        Print += "<th>Phí đổi hàng</th>";
                         Print += "<th>Tổng</th>";
                         Print += "</thead>";
                         Print += "<tbody>";
@@ -161,7 +169,7 @@ namespace IM_PJ
             
             if (ID > 0)
             {
-                var order = OrderController.GetByID(ID);
+                var order = RefundGoodController.GetByID(ID);
                 
                 if (order != null)
                 {
@@ -170,24 +178,26 @@ namespace IM_PJ
 
                     double TotalQuantity = 0;
                     double TotalOrder = 0;
-
-                    var orderdetails = OrderDetailController.GetByIDSortBySKU(ID);
-
-                    var numberOfOrders = OrderController.GetByCustomerID(Convert.ToInt32(order.CustomerID));
+                    double TotalFee = 0;
+                    var orderdetails = RefundGoodDetailController.GetByRefundGoodsID(ID);
 
                     if (orderdetails.Count > 0)
                     {
-                        printItemList(ref ID, ref TotalQuantity, ref TotalOrder, ref Print);
+                        printItemList(ref ID, ref TotalQuantity, ref TotalOrder, ref Print, ref TotalFee);
 
                         string productPrint = "";
                         string shtml = "";
 
                         productPrint += "<div class=\"body\">";
                         productPrint += "<div class=\"table-1\">";
-                        productPrint += "<h1>XÁC NHẬN ĐƠN HÀNG #" + order.ID + "</h1>";
+                        productPrint += "<h1>ĐƠN HÀNG ĐỔI TRẢ #" + order.ID + "</h1>";
                         productPrint += "<div class=\"note\">";
+                        productPrint += "<p>- Miễn phí đổi size hoặc đổi hàng lỗi (cùng mẫu và cùng màu như lúc đầu).</p>";
+                        productPrint += "<p>- Tính phí 15.000đ/cái nếu đổi sang sản phẩm khác bất kỳ.</p>";
+                        productPrint += "<p>- Giá đã bán nếu nhỏ hơn giá niêm yết là do lúc bán ra có trừ chiết khấu.</p>";
+                        productPrint += "<p>- Chúng tôi chỉ đổi hàng mà không hoàn tiền đơn hàng trả.</p>";
+                        productPrint += "<p>- Đơn hàng đổi trả sẽ được trừ tiền vào đơn hàng mua sau đó.</p>";
                         productPrint += "<p>- Lưu ý hình ảnh sản phẩm trên đơn hàng có thể hiển thị không đúng.</p>";
-                        productPrint += "<p>- Quý khách vui lòng kiểm tra thuộc tính sản phẩm (Mã, Màu, Mẫu, Size).</p>";
                         productPrint += "<p>- Nếu có sai sót, quý khách có thể gọi điện thoại để thông báo cho nhân viên.</p>";
                         productPrint += "</div>";
                         productPrint += "<table>";
@@ -210,13 +220,6 @@ namespace IM_PJ
                         productPrint += "<td>" + date + "</td>";
                         productPrint += "</tr>";
                         
-                        if (!string.IsNullOrEmpty(order.DateDone.ToString()))
-                        {
-                            productPrint += "<tr>";
-                            productPrint += "<td>Hoàn tất</td>";
-                            string datedone = string.Format("{0:dd/MM/yyyy HH:mm}", order.DateDone);
-                            productPrint += "<td>" + datedone + "</td>";
-                        }
                             
                         productPrint += "</tr>";
                         productPrint += "<tr>";
@@ -224,10 +227,10 @@ namespace IM_PJ
                         productPrint += "<td>" + order.CreatedBy + "</td>";
                         productPrint += "</tr>";
 
-                        if (!string.IsNullOrEmpty(order.OrderNote)) {
+                        if (!string.IsNullOrEmpty(order.RefundNote)) {
                             productPrint += "<tr>";
                             productPrint += "<td>Ghi chú</td>";
-                            productPrint += "<td>" + order.OrderNote + "</td>";
+                            productPrint += "<td>" + order.RefundNote + "</td>";
                             productPrint += "</tr>";
                         }
 
@@ -242,6 +245,8 @@ namespace IM_PJ
                         productPrint += "<col class=\"name\" />";
                         productPrint += "<col class=\"quantity\" />";
                         productPrint += "<col class=\"price\" />";
+                        productPrint += "<col class=\"sold-price\" />";
+                        productPrint += "<col class=\"fee\" />";
                         productPrint += "<col class=\"subtotal\"/>";
                         productPrint += "</colgroup>";
                         productPrint += "<thead>";
@@ -249,83 +254,26 @@ namespace IM_PJ
                         productPrint += "<th>Hình ảnh</th>";
                         productPrint += "<th>Sản phẩm</th>";
                         productPrint += "<th>SL</th>";
-                        productPrint += "<th>Giá</th>";
+                        productPrint += "<th>Giá niêm yết</th>";
+                        productPrint += "<th>Giá đã bán</th>";
+                        productPrint += "<th>Phí đổi hàng</th>";
                         productPrint += "<th>Tổng</th>";
                         productPrint += "</thead>";
                         productPrint += "<tbody>";
                         productPrint += Print;
                         productPrint += "<tr>";
-                        productPrint += "<td colspan=\"5\" class=\"align-right\">Số lượng</td>";
+                        productPrint += "<td colspan=\"7\" class=\"align-right\">Số lượng</td>";
                         productPrint += "<td>" + TotalQuantity + "</td>";
                         productPrint += "</tr>";
                         productPrint += "<tr>";
-                        productPrint += "<td colspan=\"5\" class=\"align-right\">Thành tiền</td>";
+                        productPrint += "<td colspan=\"7\" class=\"align-right\">Thành tiền</td>";
                         productPrint += "<td>" + string.Format("{0:N0}", TotalOrder) + "</td>";
+                        productPrint += "</tr>";
+                        productPrint += "<td colspan=\"7\" class=\"align-right\">Phí đổi hàng</td>";
+                        productPrint += "<td>" + string.Format("{0:N0}", TotalFee) + "</td>";
                         productPrint += "</tr>";
 
                         double TotalPrice = TotalOrder;
-
-                        if (order.DiscountPerProduct > 0)
-                        {
-                            var TotalDiscount = Convert.ToDouble(order.DiscountPerProduct) * Convert.ToDouble(TotalQuantity);
-                            TotalOrder = TotalOrder - TotalDiscount;
-                            TotalPrice = TotalPrice - TotalDiscount;
-                            productPrint += "<tr>";
-                            productPrint += "<td colspan=\"5\" class=\"align-right\">Chiết khấu mỗi cái </td>";
-                            productPrint += "<td>" + string.Format("{0:N0}", Convert.ToDouble(order.DiscountPerProduct)) + "</td>";
-                            productPrint += "</tr>";
-                            productPrint += "<tr>";
-                            productPrint += "<td colspan=\"5\" class=\"align-right\">Trừ chiết khấu</td>";
-                            productPrint += "<td>" + string.Format("{0:N0}", TotalDiscount) + "</td>";
-                            productPrint += "</tr>";
-                            productPrint += "<tr>";
-                            productPrint += "<td colspan=\"5\" class=\"align-right\">Sau chiết khấu</td>";
-                            productPrint += "<td>" + string.Format("{0:N0}", TotalOrder) + "</td>";
-                            productPrint += "</tr>";
-                        }
-                        
-                        if (order.RefundsGoodsID != null)
-                        {
-                            var refund = RefundGoodController.GetByID(Convert.ToInt32(order.RefundsGoodsID));
-                            if (refund != null)
-                            {
-                                TotalOrder = TotalOrder - Convert.ToDouble(refund.TotalPrice);
-
-                                productPrint += "<tr>";
-                                productPrint += "<td colspan=\"5\" class=\"align-right\">Trừ tiền hàng trả (đơn " + order.RefundsGoodsID + ")</td>";
-                                productPrint += "<td>" + string.Format("{0:N0}", Convert.ToDouble(refund.TotalPrice)) + "</td>";
-                                productPrint += "</tr>";
-
-                                productPrint += "<tr>";
-                                productPrint += "<td colspan=\"5\" class=\"align-right\">Tổng tiền còn lại</td>";
-                                productPrint += "<td>" + string.Format("{0:N0}", TotalOrder) + "</td>";
-                                productPrint += "</tr>";
-                            }
-                            else
-                            {
-                                error += "Không tìm thấy đơn hàng đổi trả " + order.RefundsGoodsID.ToString();
-                            }
-                        }
-
-                        if (Convert.ToDouble(order.FeeShipping) > 0)
-                        {
-                            TotalOrder = TotalOrder + Convert.ToDouble(order.FeeShipping);
-                            TotalPrice = TotalPrice + Convert.ToDouble(order.FeeShipping);
-                            productPrint += "<tr>";
-                            productPrint += "<td colspan=\"5\" class=\"align-right\">Phí vận chuyển</td>";
-                            productPrint += "<td>" + string.Format("{0:N0}", Convert.ToDouble(order.FeeShipping)) + "</td>";
-                            productPrint += "</tr>";
-                        }
-
-                        if (Convert.ToDouble(order.OtherFeeValue) != 0)
-                        {
-                            TotalOrder = TotalOrder + Convert.ToDouble(order.OtherFeeValue);
-                            TotalPrice = TotalPrice + Convert.ToDouble(order.OtherFeeValue);
-                            productPrint += "<tr>";
-                            productPrint += "<td colspan=\"5\" class=\"align-right\">" + order.OtherFeeName + "</td>";
-                            productPrint += "<td>" + string.Format("{0:N0}", Convert.ToDouble(order.OtherFeeValue)) + "</td>";
-                            productPrint += "</tr>";
-                        }
 
                         if (TotalPrice != Convert.ToDouble(order.TotalPrice))
                         {
@@ -333,7 +281,7 @@ namespace IM_PJ
                         }
 
                         productPrint += "<tr>";
-                        productPrint += "<td class=\"strong align-right\" colspan=\"5\">TỔNG CỘNG</td>";
+                        productPrint += "<td class=\"strong align-right\" colspan=\"7\">TỔNG CỘNG (Đã trừ phí đổi hàng)</td>";
                         productPrint += "<td class=\"strong\">" + string.Format("{0:N0}", TotalOrder) + "</td>";
                         productPrint += "</tr>";
                         
@@ -343,39 +291,37 @@ namespace IM_PJ
                         productPrint += "</div>";
                         productPrint += "</div>";
 
-                        string dateOrder = string.Format("{0:dd/MM/yyyy HH:mm}", order.DateDone);
+                        string dateOrder = string.Format("{0:dd/MM/yyyy HH:mm}", order.CreatedDate);
 
                         shtml += "<div class=\"print-order-image\">";
                         shtml += "<div class=\"all print print-0\">";
                         
 
-                        if (numberOfOrders.Count < 4)
+
+                        shtml += "<div class=\"head\">";
+                        string address = "";
+                        string phone = "";
+                        var agent = AgentController.GetByID(Convert.ToInt32(order.AgentID));
+                        if (agent != null)
                         {
-                            shtml += "<div class=\"head\">";
-                            string address = "";
-                            string phone = "";
-                            var agent = AgentController.GetByID(Convert.ToInt32(order.AgentID));
-                            if (agent != null)
-                            {
-                                address = agent.AgentAddress;
-                                phone = agent.AgentPhone;
-                            }
-                            shtml += "<div class=\"logo\"><img src=\"App_Themes/Ann/image/logo.png\" /></div>";
-                            shtml += "<div class=\"info\">";
-
-                            shtml += "<div class=\"ct\">";
-                            shtml += "<div class=\"ct-title\"></div>";
-                            shtml += "<div class=\"ct-detail\"> " + address + "</div>";
-                            shtml += "</div>";
-
-                            shtml += "<div class=\"ct\">";
-                            shtml += "<div class=\"ct-title\"> </div>";
-                            shtml += "<div class=\"ct-detail\"> " + phone + "</div>";
-                            shtml += "</div>";
-
-                            shtml += "</div>";
-                            shtml += "</div>";
+                            address = agent.AgentAddress;
+                            phone = agent.AgentPhone;
                         }
+                        shtml += "<div class=\"logo\"><img src=\"App_Themes/Ann/image/logo.png\" /></div>";
+                        shtml += "<div class=\"info\">";
+
+                        shtml += "<div class=\"ct\">";
+                        shtml += "<div class=\"ct-title\"></div>";
+                        shtml += "<div class=\"ct-detail\"> " + address + "</div>";
+                        shtml += "</div>";
+
+                        shtml += "<div class=\"ct\">";
+                        shtml += "<div class=\"ct-title\"> </div>";
+                        shtml += "<div class=\"ct-detail\"> " + phone + "</div>";
+                        shtml += "</div>";
+
+                        shtml += "</div>";
+                        shtml += "</div>";
 
                         
 
