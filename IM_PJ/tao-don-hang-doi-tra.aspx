@@ -403,9 +403,22 @@
                 html += "    </td>\n";
                 html += "    <td>\n";
                 html += "           <select class='form-control changeType' onchange='changeRow($(this))'>\n";
-                html += "               <option value='1'>Đổi size</option>\n";
-                html += "               <option value='2'>Đổi sản phẩm khác</option>\n";
-                html += "               <option value='3'>Đổi hàng lỗi</option>\n";
+                if (item.ChangeType == 1) {
+                    html += "               <option value='1' selected>Đổi size</option>\n";
+                    html += "               <option value='2'>Đổi sản phẩm khác</option>\n";
+                    html += "               <option value='3'>Đổi hàng lỗi</option>\n";
+                }
+                else if (item.ChangeType == 2) {
+                    html += "               <option value='1'>Đổi size</option>\n";
+                    html += "               <option value='2' selected>Đổi sản phẩm khác</option>\n";
+                    html += "               <option value='3'>Đổi hàng lỗi</option>\n";
+                }
+                else {
+                    html += "               <option value='1'>Đổi size</option>\n";
+                    html += "               <option value='2'>Đổi sản phẩm khác</option>\n";
+                    html += "               <option value='3' selected>Đổi hàng lỗi</option>\n";
+                }
+                
                 html += "           </select>\n";
                 html += "    </td>\n";
                 html += "   <td class='feeRefund'>0</td>\n";
@@ -682,6 +695,67 @@
                 return s.substr(0, i + 3) + r +
                     (d ? '.' + Math.round(d * Math.pow(10, dp || 2)) : '');
             };
+
+            $(document).ready(function () {
+                let dataJSON = $("#<%=hdfListProduct.ClientID%>").val();
+
+                if (!isBlank(dataJSON)) {
+                    let refundGoodModel = jQuery.parseJSON(dataJSON);
+
+                    // Init header search Customer
+                    $("#<%=txtFullname.ClientID%>").val(refundGoodModel.CustomerName);
+                    $("#<%=txtPhone.ClientID%>").val(refundGoodModel.CustomerPhone);
+                    $("#<%=txtNick.ClientID%>").val(refundGoodModel.CustomerNick);
+                    $("#<%=txtAddress.ClientID%>").val(refundGoodModel.CustomerAddress);
+                    $("#<%=txtZalo.ClientID%>").val(refundGoodModel.CustomerZalo);
+                    $("#<%=txtFacebook.ClientID%>").val(refundGoodModel.CustomerFacebook);
+
+                    // Init detail refund product
+                    let rowIndexMax = 0
+                    refundGoodModel.RefundDetails.reverse().forEach(function (item) {
+                        rowIndexMax = rowIndexMax + 1;
+
+                        let product = new RefundDetailModel(
+                                        RowIndex = rowIndexMax
+                                        , ProductID = item.ProductID
+                                        , ProductVariableID = item.ProductVariableID
+                                        , ProductStyle = item.ProductStyle
+                                        , ProductImage = item.ProductImage
+                                        , ProductTitle = item.ProductTitle
+                                        , ParentSKU = item.ParentSKU
+                                        , ChildSKU = item.ChildSKU
+                                        , VariableValue = item.VariableValue
+                                        , Price = item.Price
+                                        , ReducedPrice = item.ReducedPrice
+                                        , QuantityRefund = item.QuantityRefund
+                                        , ChangeType = item.ChangeType
+                                        , FeeRefund = item.FeeRefund
+                                        , TotalFeeRefund = item.TotalFeeRefund
+                                    );
+
+                        productRefunds.push(product);
+
+                        addHtmlProductResult(product);
+
+                        getAllPrice();
+                    });
+
+                    // Init total refund product
+                    $(".totalPriceOrder").html(formatThousands(refundGoodModel.TotalPrice, ","));
+                    $(".totalProductQuantity").html(formatThousands(refundGoodModel.TotalQuantity, ","));
+                    $(".totalRefund").html(formatThousands(refundGoodModel.TotalFreeRefund, ","));
+
+                    // Init footer status
+                    $("#<%=ddlRefundStatus.ClientID%>").val(refundGoodModel.Status);
+                    $("#<%=txtRefundsNote.ClientID%>").val(refundGoodModel.Note);
+
+                    // Init hiden footer
+                    $("#<%=hdfPhone.ClientID%>").val(refundGoodModel.CustomerPhone);
+                    $("#<%=hdfTotalPrice.ClientID%>").val(refundGoodModel.TotalPrice);
+                    $("#<%=hdfTotalQuantity.ClientID%>").val(refundGoodModel.TotalQuantity);
+                    $("#<%=hdfTotalRefund.ClientID%>").val(refundGoodModel.TotalFreeRefund);
+                }
+            });
         </script>
     </telerik:RadScriptBlock>
 </asp:Content>

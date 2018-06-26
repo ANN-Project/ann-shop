@@ -89,6 +89,7 @@
                                     <thead>
                                         <tr>
                                             <th>#</th>
+                                            <th>Ảnh</th>
                                             <th>Sản phẩm</th>
                                             <th>Mã</th>
                                             <th>Giá niêm yết</th>
@@ -154,6 +155,8 @@
                                 <div class="post-table-links clear">
                                     <a href="javascript:;" class="btn link-btn" style="background-color: #f87703; float: right; color: #fff;" onclick="Update()">Cập nhật</a>
                                     <asp:Button ID="btnCreate" runat="server" CssClass="btn primary-btn fw-btn" Text="Tạo" OnClick="btnCreate_Click" Style="display: none" />
+                                    <a href="javascript:;" class="btn link-btn" style="background-color: #f87703; float: right; color: #fff; margin-right: 10px;" onclick="Delete()">Xóa đơn hàng đổi trả</a>
+                                    <asp:Button ID="btnDelete" runat="server" CssClass="btn primary-btn fw-btn" Text="Tạo" OnClick="btnDelete_Click" Style="display: none" />
                                     <a href="/danh-sach-don-tra-hang" class="btn link-btn" style="background-color: #f87703; float: right; color: #fff; margin-right: 10px;" >Trở về</a>
                                 </div>
                             </div>
@@ -188,8 +191,23 @@
     </telerik:RadAjaxManager>
 
     <script>
+        "use strict";
+
         function Update() {
             $("#<%=btnCreate.ClientID%>").click();
+        }
+
+        function Delete() {
+            let c = confirm('Bạn muốn xóa cái đơn đổi trả này?');
+
+            if (c) {
+                try {
+                    $("#<%=btnDelete.ClientID%>").click();
+                }
+                catch (err) {
+                    alter(err);
+                }
+            }
         }
     </script>
 </asp:Content>

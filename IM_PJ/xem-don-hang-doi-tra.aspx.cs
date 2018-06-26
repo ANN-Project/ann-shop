@@ -1,6 +1,7 @@
 ﻿using IM_PJ.Controllers;
 using IM_PJ.Models;
 using MB.Extensions;
+using Newtonsoft.Json;
 using NHST.Bussiness;
 using System;
 using System.Collections.Generic;
@@ -18,6 +19,8 @@ namespace IM_PJ
 {
     public partial class xem_don_hang_doi_tra : System.Web.UI.Page
     {
+        private static RefundGoodModel _refundGood;
+
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
@@ -28,7 +31,11 @@ namespace IM_PJ
                     var acc = AccountController.GetByUsername(username);
                     if (acc != null)
                     {
-
+                        if (_refundGood == null)
+                        {
+                            _refundGood = new RefundGoodModel();
+                            _refundGood.CreateBy = acc.Username;
+                        }
                     }
                 }
                 else
@@ -113,17 +120,56 @@ namespace IM_PJ
                             ltrInfo.Text += "    </div>";
                             ltrInfo.Text += "</div>";
                         }
-                        
 
                         ltrTotal.Text = string.Format("{0:N0}", Convert.ToDouble(r.TotalPrice));
                         ltrQuantity.Text = string.Format("{0:N0}", Convert.ToDouble(r.TotalQuantity));
                         ltrRefund.Text = string.Format("{0:N0}", Convert.ToDouble(r.TotalRefundFee));
+
+                        // get info tranfor page tao-don-hang-doi-tra.aspx
+                        _refundGood.RefundGoodsID = ID;
+                        _refundGood.CustomerName = r.CustomerName;
+                        _refundGood.CustomerPhone = r.CustomerPhone;
+                        _refundGood.CustomerNick = cus.Nick;
+                        _refundGood.CustomerAddress = cus.CustomerAddress;
+                        _refundGood.CustomerZalo = cus.Zalo;
+                        _refundGood.CustomerFacebook = cus.Facebook;
+                        _refundGood.RefundDetails = RefundGoodDetailController.GetInfoShowRefundDetail(ID);
+                        _refundGood.TotalPrice = Convert.ToDouble(r.TotalPrice);
+                        _refundGood.TotalQuantity = Convert.ToDouble(r.TotalQuantity);
+                        _refundGood.TotalFreeRefund = Convert.ToDouble(r.TotalRefundFee);
+                        _refundGood.Status = r.Status.Value;
+                        _refundGood.Note = txtRefundsNote.Text;
+
                         var rds = RefundGoodDetailController.GetByRefundGoodsID(ID);
-                        if (rds.Count > 0)
+
+                        var product = _refundGood.RefundDetails
+                            .Join(
+                                rds,
+                                p1 => p1.ProductStyle == 2 ? p1.ChildSKU : p1.ParentSKU,
+                                p2 => p2.SKU,
+                                (p1, p2) => new { p1, p2 })
+                            .Select(x => new {
+                                SKU = x.p2.SKU,
+                                OrderID = x.p2.OrderID,
+                                ProductName = x.p2.ProductName,
+                                ProductType = x.p2.ProductType,
+                                GiavonPerProduct = x.p2.GiavonPerProduct,
+                                SoldPricePerProduct = x.p2.SoldPricePerProduct,
+                                DiscountPricePerProduct = x.p2.DiscountPricePerProduct,
+                                Quantity = x.p2.Quantity,
+                                QuantityMax = x.p2.QuantityMax,
+                                RefundType = x.p2.RefundType,
+                                RefundFeePerProduct = x.p2.RefundFeePerProduct,
+                                TotalPriceRow = x.p2.TotalPriceRow,
+                                ProductImage = x.p1.ProductImage
+                            })
+                            .ToList();
+
+                        if (product.Count > 0)
                         {
                             string html = "";
                             int t = 0;
-                            foreach (var item in rds)
+                            foreach (var item in product)
                             {
                                 t++;
                                 html += "<tr class=\"product-result\" data-sku=\"" + item.SKU + "\" data-orderID=\"" + item.OrderID
@@ -133,6 +179,7 @@ namespace IM_PJ
                                                     + "\" data-TienGiam=\"" + item.DiscountPricePerProduct
                                                     + "\" data-Soluongtoida=\"" + item.QuantityMax + "\" data-RefundFee=\"" + item.RefundFeePerProduct + "\"  >";
                                 html += "   <td>" + t + "</td>";
+                                html += "   <td><img src='" + item.ProductImage + "'></td>";
                                 html += "   <td>" + item.ProductName + "</td>";
                                 html += "   <td>" + item.SKU + "</td>";
                                 html += "   <td class=\"giagoc\" data-giagoc=\"" + item.GiavonPerProduct + "\">" + string.Format("{0:N0}", Convert.ToDouble(item.GiavonPerProduct)) + "</td>";
@@ -152,12 +199,12 @@ namespace IM_PJ
                                 html += "   <td class=\"phidoihang\">" + string.Format("{0:N0}", Convert.ToDouble(item.RefundFeePerProduct)) + "</td>";
                                 html += "   <td class=\"thanhtien\">" + string.Format("{0:N0}", Convert.ToDouble(item.TotalPriceRow)) + "</td>";
                                 html += "</tr>";
-                                
+
                             }
+
                             ddlRefundStatus.SelectedValue = r.Status.ToString();
                             txtRefundsNote.Text = r.RefundNote;
                             ltrList.Text = html;
-
                         }
                         ltrPrint.Text = "<a href=\"/print-invoice-return.aspx?id=" + ID + "\" target=\"_blank\" class=\"btn primary-btn fw-btn not-fullwidth\"><i class=\"fa fa-print\" aria-hidden=\"true\"></i> In hóa đơn</a>";
                     }
@@ -181,6 +228,46 @@ namespace IM_PJ
                 {
                     PJUtils.ShowMessageBoxSwAlert("Thất bại", "e", false, Page);
                 }
+            }
+        }
+
+        protected void btnDelete_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                RefundGoodDetailController.DeleteByRefundGoodsID(_refundGood.RefundGoodsID);
+                RefundGoodController.DeleteByID(_refundGood.RefundGoodsID);
+
+                foreach(var product in _refundGood.RefundDetails)
+                {
+                    if (product.ChangeType != 3) // Change product error
+                    {
+                        StockManagerController.Insert(new tbl_StockManager()
+                        {
+                            AgentID = 1,
+                            ProductID = product.ProductID,
+                            ProductVariableID = product.ProductVariableID,
+                            Quantity = product.QuantityRefund,
+                            QuantityCurrent = 0,
+                            Type = 1,
+                            NoteID = "Xuất ra do phục hồi đơn hàng đổi trả",
+                            OrderID = product.OrderID,
+                            Status = 11,
+                            SKU = product.ProductStyle == 1 ? product.ParentSKU : product.ChildSKU,
+                            CreatedDate = DateTime.Now,
+                            CreatedBy = _refundGood.CreateBy,
+                            MoveProID = 0,
+                            ParentID = product.ProductID,
+                        });
+                    }
+                }
+
+                HttpContext.Current.Items.Add("xem-don-hang-doi-tra", JsonConvert.SerializeObject(_refundGood));
+                Server.Transfer("tao-don-hang-doi-tra.aspx");
+            }
+            catch (Exception)
+            {
+                throw;
             }
         }
     }

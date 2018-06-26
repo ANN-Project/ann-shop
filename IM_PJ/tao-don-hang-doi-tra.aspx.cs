@@ -41,12 +41,22 @@ namespace IM_PJ
                         {
                             Response.Redirect("/trang-chu");
                         }
+
+                        LoadData();
                     }
                 }
                 else
                 {
                     Response.Redirect("/dang-nhap");
                 }
+            }
+        }
+
+        private void LoadData()
+        {
+            if (HttpContext.Current.Items["xem-don-hang-doi-tra"] != null)
+            {
+                this.hdfListProduct.Value = HttpContext.Current.Items["xem-don-hang-doi-tra"].ToString();
             }
         }
 
@@ -173,28 +183,6 @@ namespace IM_PJ
             }
         }
 
-        public class RefundDetailModel
-        {
-            public int ProductID { get; set; }
-            public int ProductVariableID { get; set; }
-            public int ProductStyle { get; set; }
-            public string ProductImage { get; set; }
-            public string ProductTitle { get; set; }
-            public string ParentSKU { get; set; }
-            public string ChildSKU { get; set; }
-            public string VariableValue { get; set; }
-            public double Price { get; set; }
-            public double ReducedPrice { get; set; }
-            public double QuantityRefund { get; set; }
-            public int ChangeType { get; set; }
-            public double FeeRefund { get; set; }
-            public double TotalFeeRefund { get; set; }
-        }
-
-        public class RefundModel{
-            public List<RefundDetailModel> RefundDetails { get; set; }
-        }
-
         protected void btnSave_Click(object sender, EventArgs e)
         {
             DateTime currentDate = DateTime.Now;
@@ -250,7 +238,7 @@ namespace IM_PJ
 
                             if (rID > 0)
                             {
-                                RefundModel refundModel = JsonConvert.DeserializeObject<RefundModel>(hdfListProduct.Value);
+                                RefundGoodModel refundModel = JsonConvert.DeserializeObject<RefundGoodModel>(hdfListProduct.Value);
 
                                 foreach (RefundDetailModel item in refundModel.RefundDetails)
                                 {
@@ -259,7 +247,7 @@ namespace IM_PJ
                                         {
                                             RefundGoodsID = rID,
                                             AgentID = agentID,
-                                            OrderID = null,
+                                            OrderID = 0,
                                             ProductName = item.ProductTitle,
                                             CustomerID = custID,
                                             SKU = item.ProductStyle == 1 ? item.ParentSKU : item.ChildSKU,
@@ -309,7 +297,7 @@ namespace IM_PJ
                                                         QuantityCurrent = 0,
                                                         Type = 1,
                                                         NoteID = note,
-                                                        OrderID = null,
+                                                        OrderID = 0,
                                                         Status = typeRe,
                                                         SKU = item.ProductStyle == 1 ? item.ParentSKU : item.ChildSKU,
                                                         CreatedDate = currentDate,

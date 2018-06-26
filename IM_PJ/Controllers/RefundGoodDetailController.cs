@@ -58,6 +58,23 @@ namespace IM_PJ.Controllers
                 return kq;
             }
         }
+
+        public static bool DeleteByRefundGoodsID(int RefundGoodsID)
+        {
+            using (var con = new inventorymanagementEntities())
+            {
+                var listDelete = con.tbl_RefundGoodsDetails.Where(x => x.RefundGoodsID == RefundGoodsID);
+
+                if (listDelete != null)
+                {
+                    con.tbl_RefundGoodsDetails.RemoveRange(listDelete);
+                    con.SaveChanges();
+                    return true;
+                }
+
+                return false;
+            }
+        }
         #endregion
         #region Select        
         public static List<tbl_RefundGoodsDetails> GetAll(string s)
@@ -79,6 +96,75 @@ namespace IM_PJ.Controllers
             }
         }
 
+        public static List<RefundDetailModel> GetInfoShowRefundDetail(int RefundGoodsID)
+        {
+            using (var con = new inventorymanagementEntities())
+            {
+                var products = con.tbl_Product
+                    .GroupJoin(
+                        con.tbl_ProductVariable,
+                        product => product.ID,
+                        variable => variable.ProductID,
+                        (product, variable) => new { product, variable })
+                    .SelectMany(x => x.variable.DefaultIfEmpty(),
+                                (parent, child) => new
+                                {
+                                    ProductID = parent.product.ID,
+                                    ProductVariableID = parent.product.ProductStyle == 2 ? child.ID : 0,
+                                    ProductStyle = parent.product.ProductStyle,
+                                    ProductImage = parent.product.ProductStyle == 2 ? child.Image : parent.product.ProductImage,
+                                    ProductTitle = parent.product.ProductTitle,
+                                    ParentSKU = parent.product.ProductSKU,
+                                    ChildSKU = parent.product.ProductStyle == 2 ? child.SKU : String.Empty
+                                });
+
+                var refundDetail = con.tbl_RefundGoodsDetails
+                            .Where(x => x.RefundGoodsID == RefundGoodsID)
+                            .OrderByDescending(r => r.CreatedDate)
+                            .Join(
+                                products,
+                                refund => refund.SKU,
+                                product => product.ProductStyle == 2 ? product.ChildSKU : product.ParentSKU,
+                                (refund, product) => new
+                                {
+                                    OrderID = refund.OrderID.HasValue? refund.OrderID.Value : 0,
+                                    ProductID = product.ProductID,
+                                    ProductVariableID = product.ProductVariableID,
+                                    ProductStyle = product.ProductStyle.Value,
+                                    ProductImage = product.ProductImage,
+                                    ProductTitle = product.ProductTitle,
+                                    ParentSKU = product.ParentSKU,
+                                    ChildSKU = product.ChildSKU,
+                                    Price = refund.GiavonPerProduct,
+                                    ReducedPrice = refund.SoldPricePerProduct,
+                                    QuantityRefund = refund.Quantity.Value,
+                                    ChangeType = refund.RefundType.Value,
+                                    FeeRefund = refund.RefundFeePerProduct,
+                                    TotalFeeRefund = refund.TotalPriceRow
+                                }
+                            )
+                            .ToList();
+
+                return refundDetail.Select(x => new RefundDetailModel
+                            {
+                                OrderID = x.OrderID,
+                                ProductID = x.ProductID,
+                                ProductVariableID = x.ProductVariableID,
+                                ProductStyle = x.ProductStyle,
+                                ProductImage = x.ProductImage,
+                                ProductTitle = x.ProductTitle,
+                                ParentSKU = x.ParentSKU,
+                                ChildSKU = x.ChildSKU,
+                                Price = Convert.ToDouble(x.Price),
+                                ReducedPrice = Convert.ToDouble(x.ReducedPrice),
+                                QuantityRefund = x.QuantityRefund,
+                                ChangeType = x.ChangeType,
+                                FeeRefund = Convert.ToDouble(x.FeeRefund),
+                                TotalFeeRefund = Convert.ToDouble(x.TotalFeeRefund)
+                            })
+                            .ToList();
+            }
+        }
         public static List<tbl_RefundGoodsDetails> GetQuantityMax(int CustomerID, int OrderID, string SKU)
         {
             using (var dbe = new inventorymanagementEntities())
