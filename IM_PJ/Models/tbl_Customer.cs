@@ -36,5 +36,6 @@ namespace IM_PJ.Models
         public Nullable<int> PaymentType { get; set; }
         public Nullable<int> TransportCompanyID { get; set; }
         public Nullable<int> TransportCompanySubID { get; set; }
+        public string CustomerPhone2 { get; set; }
     }
 }

@@ -16,11 +16,7 @@ namespace IM_PJ
         {
             if (!IsPostBack)
             {
-                if (Session["userLoginSystem"] == null)
-                {
-                   
-                }
-                else
+                if (Request.Cookies["userLoginSystem"] != null)
                 {
                     Response.Redirect("/trang-chu");
                 }
@@ -35,7 +31,8 @@ namespace IM_PJ
 
             if (SecurityCode == p.SecurityCode)
             {
-                HttpContext.Current.Session["securityCode"] = SecurityCode;
+                HttpContext.Current.Response.Cookies["securityCode"].Value = SecurityCode;
+                HttpContext.Current.Response.Cookies["securityCode"].Expires = DateTime.Now.AddDays(1);
                 return "ok";
             }
             else
@@ -46,9 +43,9 @@ namespace IM_PJ
         protected void btnLogin_Click(object sender, EventArgs e)
         {
             string SecurityCode = "";
-            if (Session["securityCode"] != null)
+            if (Response.Cookies["securityCode"] != null)
             {
-                SecurityCode = Session["securityCode"].ToString();
+                SecurityCode = Request.Cookies["securityCode"].Value;
             }
 
             var p = ConfigController.GetByTop1();
@@ -64,6 +61,8 @@ namespace IM_PJ
                     {
                         Session["userLoginSystem"] = username;
                         Session.Timeout = 10080;
+                        Response.Cookies["userLoginSystem"].Value = username;
+                        Response.Cookies["userLoginSystem"].Expires = DateTime.Now.AddDays(7);
                         Response.Redirect("/trang-chu");
                     }
                     else
@@ -83,7 +82,9 @@ namespace IM_PJ
                 lblError.Text = "Sai mã bảo mật!";
                 lblError.Visible = true;
             }
-            
+
+            Response.Cookies["securityCode"].Expires = DateTime.Now.AddDays(-1d);
+            Response.Cookies.Add(Response.Cookies["securityCode"]);
         }
     }
 }

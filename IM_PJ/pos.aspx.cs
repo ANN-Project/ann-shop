@@ -26,9 +26,9 @@ namespace IM_PJ
             if (!IsPostBack)
             {
 
-                if (Session["userLoginSystem"] != null)
+                if (Request.Cookies["userLoginSystem"] != null)
                 {
-                    string username = Session["userLoginSystem"].ToString();
+                    string username = Request.Cookies["userLoginSystem"].Value;
                     var acc = AccountController.GetByUsername(username);
                     if (acc != null)
                     {
@@ -46,7 +46,7 @@ namespace IM_PJ
                             Response.Redirect("/trang-chu");
                         }
 
-                        Session["refund"] = "1";
+                        Response.Cookies["refund"].Value = "1";
 
                         var dc = DiscountController.GetAll();
                         if (dc != null)
@@ -86,7 +86,7 @@ namespace IM_PJ
         public static string getProduct(string textsearch)
         {
             List<ProductGetOut> ps = new List<ProductGetOut>();
-            string username = HttpContext.Current.Session["userLoginSystem"].ToString();
+            string username = HttpContext.Current.Request.Cookies["userLoginSystem"].Value;
             var acc = AccountController.GetByUsername(username);
             if (acc != null)
             {
@@ -304,7 +304,7 @@ namespace IM_PJ
                 var or = RefundGoodController.GetOrderByID(order.ToInt());
                 if (or != null)
                 {
-                    HttpContext.Current.Session["refund"] = or.ID + "|" + or.TotalPrice;
+                    HttpContext.Current.Response.Cookies["refund"].Value = or.ID + "|" + or.TotalPrice;
                     return serializer.Serialize(or);
                 }
                 else
@@ -314,7 +314,7 @@ namespace IM_PJ
             }
             else
             {
-                HttpContext.Current.Session["refund"] = 1;
+                HttpContext.Current.Response.Cookies["refund"].Value = "1";
                 return serializer.Serialize(null);
             }
         }
@@ -326,7 +326,6 @@ namespace IM_PJ
             {
                 var ci = new CustomerInfoWithDiscount();
                 ci.Customer = customer;
-                //ci.CreatedDate = string.Format("{0:dd/MM/yyyy}", customer.CreatedDate);
                 ci.CreatedDate = customer.CreatedDate.ToString();
                 List<DiscountCustomerGet> dc = new List<DiscountCustomerGet>();
                 var d = DiscountCustomerController.getbyCustID(ID);
@@ -396,7 +395,7 @@ namespace IM_PJ
         protected void btnOrder_Click(object sender, EventArgs e)
         {
             DateTime currentDate = DateTime.Now;
-            string username = Session["userLoginSystem"].ToString();
+            string username = Request.Cookies["userLoginSystem"].Value;
             var acc = AccountController.GetByUsername(username);
             if (acc != null)
             {
@@ -466,7 +465,7 @@ namespace IM_PJ
 
                     var ret = OrderController.InsertOnSystem(AgentID, OrderType, AdditionFee, DisCount, CustomerID, CustomerName, CustomerPhone, CustomerAddress,
                         CustomerEmail, totalPrice, totalPriceNotDiscount, PaymentStatus, ExcuteStatus, IsHidden, WayIn, currentDate, username, DiscountPerProduct,
-                        TotalDiscount, FeeShipping, GuestPaid, GuestChange, PaymentType, ShippingType, OrderNote, DateTime.Now, OtherFeeName, OtherFeeValue);
+                        TotalDiscount, FeeShipping, GuestPaid, GuestChange, PaymentType, ShippingType, OrderNote, DateTime.Now, OtherFeeName, OtherFeeValue, 1);
                     int OrderID = ret.ID;
 
                     if (OrderID > 0)
@@ -524,7 +523,7 @@ namespace IM_PJ
                         OrderDetailController.Insert(orderDetails);
                         StockManagerController.Insert(stockManager);
 
-                        string refund = HttpContext.Current.Session["refund"].ToString();
+                        string refund = Request.Cookies["refund"].Value;
                         if (refund != "1")
                         {
                             string[] RefundID = refund.Split('|');
@@ -532,7 +531,8 @@ namespace IM_PJ
                             var updateor = OrderController.UpdateRefund(OrderID, RefundID[0].ToInt(), username);
                         }
 
-                        HttpContext.Current.Session.Remove("refund");
+                        Response.Cookies["refund"].Expires = DateTime.Now.AddDays(-1d);
+                        Response.Cookies.Add(Response.Cookies["refund"]);
 
                         ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "script", "$(function () { printInvoice(" + OrderID + ") });", true);
                     }

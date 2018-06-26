@@ -21,9 +21,9 @@ namespace IM_PJ
         {
             if (!IsPostBack)
             {
-                if (Session["userLoginSystem"] != null)
+                if (Request.Cookies["userLoginSystem"] != null)
                 {
-                    string username = Session["userLoginSystem"].ToString();
+                    string username = Request.Cookies["userLoginSystem"].Value;
                     var acc = AccountController.GetByUsername(username);
                     if (acc != null)
                     {
@@ -87,6 +87,21 @@ namespace IM_PJ
                         leader = agent.AgentLeader;
                     }
 
+                    double TotalOrder = Convert.ToDouble(order.TotalPrice);
+
+                    if (order.RefundsGoodsID != null)
+                    {
+                        var refund = RefundGoodController.GetByID(Convert.ToInt32(order.RefundsGoodsID));
+                        if (refund != null)
+                        {
+                            TotalOrder = TotalOrder - Convert.ToDouble(refund.TotalPrice);
+                        }
+                        else
+                        {
+                            error += "Không tìm thấy đơn hàng đổi trả " + order.RefundsGoodsID.ToString();
+                        }
+                    }
+
                     rowHtml += Environment.NewLine + String.Format("<div class=\"table\">");
                     rowHtml += Environment.NewLine + String.Format("    <div class=\"top-left\">");
                     rowHtml += Environment.NewLine + String.Format("        <p><span>Người gửi: <span class=\"name\">{0}</span></span></p>", leader);
@@ -97,7 +112,7 @@ namespace IM_PJ
                     rowHtml += Environment.NewLine + String.Format("    <div class=\"bottom-left\">");
                     if(order.PaymentType == 3)
                     {
-                        rowHtml += Environment.NewLine + String.Format("        <p><span class=\"cod\">Thu hộ: {0}</span></p>", string.Format("{0:N0}", Convert.ToDouble(order.TotalPrice)));
+                        rowHtml += Environment.NewLine + String.Format("        <p><span class=\"cod\">Thu hộ: {0}</span></p>", string.Format("{0:N0}", TotalOrder));
                     }
                     else
                     {
@@ -132,9 +147,15 @@ namespace IM_PJ
 
                     if (order.ShippingType == 2)
                     {
+                        string PostalDeliveryType = "Thường";
+                        if (order.PostalDeliveryType == 2)
+                        {
+                            PostalDeliveryType = "Nhanh";
+                        }
+
                         if(!string.IsNullOrEmpty(order.ShippingCode))
                         {
-                            rowHtml += Environment.NewLine + String.Format("        <p class=\"delivery\"><span><strong>Gửi Bưu điện:</strong> {0}</span></p>", order.ShippingCode);
+                            rowHtml += Environment.NewLine + String.Format("        <p class=\"delivery\"><span><strong>Gửi Bưu điện - {0}:</strong> {1}</span></p>", PostalDeliveryType, order.ShippingCode);
                         }
                         else
                         {
@@ -163,7 +184,7 @@ namespace IM_PJ
 
                     if (order.PaymentType == 3)
                     {
-                        rowHtml += Environment.NewLine + String.Format("        <p><span class=\"cod\">Thu hộ: {0}</span></p>", string.Format("{0:N0}", Convert.ToDouble(order.TotalPrice)));
+                        rowHtml += Environment.NewLine + String.Format("        <p><span class=\"cod\">Thu hộ: {0}</span></p>", string.Format("{0:N0}", TotalOrder));
                     }
                     else
                     {
@@ -172,7 +193,16 @@ namespace IM_PJ
                     rowHtml += Environment.NewLine + String.Format("    </div>");
                     rowHtml += Environment.NewLine + String.Format("    <div class=\"bottom-right\">");
                     rowHtml += Environment.NewLine + String.Format("        <p><span>Người nhận: <span class=\"name\">{0}</span></span></p>", order.CustomerName);
-                    rowHtml += Environment.NewLine + String.Format("        <p><span>Điện thoại: <span class=\"phone\">{0}</span></span></p>", order.CustomerPhone);
+
+                    string CustomerPhone2 = "";
+
+                    var customer = CustomerController.GetByID(Convert.ToInt32(order.CustomerID));
+                    if(customer != null)
+                    {
+                        CustomerPhone2 = " - " + customer.CustomerPhone2;
+                    }
+
+                    rowHtml += Environment.NewLine + String.Format("        <p><span>Điện thoại: <span class=\"phone\">{0}{1}</span></span></p>", order.CustomerPhone, CustomerPhone2);
                     rowHtml += Environment.NewLine + String.Format("        <p><span>Địa chỉ: <span class=\"address\">{0}</span></span></p>", CustomerAddress);
                     rowHtml += Environment.NewLine + String.Format("    </div>");
                     rowHtml += Environment.NewLine + String.Format("</div>");
@@ -195,7 +225,7 @@ namespace IM_PJ
             else
             {
                 ltrShippingNote.Text = rowHtml;
-                ltrPrintEnable.Text = "<div class=\"print-enable true\"></div>";
+                ltrPrintEnable.Text = "<div><a class=\"btn\" href=\"javascript:;\" onclick=\"printIt()\">In phiếu gửi hàng</a></div>";
             }
         }
     }

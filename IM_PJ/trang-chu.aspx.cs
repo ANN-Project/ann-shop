@@ -17,9 +17,9 @@ namespace IM_PJ
         {
             if (!IsPostBack)
             {
-                if (Session["userLoginSystem"] != null)
+                if (Request.Cookies["userLoginSystem"] != null)
                 {
-
+                    Session["userLoginSystem"] = Request.Cookies["userLoginSystem"].Value;
                 }
                 else
                 {

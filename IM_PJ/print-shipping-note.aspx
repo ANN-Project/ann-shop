@@ -79,6 +79,29 @@
         margin-bottom: 10px;
         width: 45%;
     }
+    .btn {
+        display: inline-block;
+        appearance: none;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        -ms-appearance: none;
+        -o-appearance: none;
+        border: none;
+        color: #fff;
+        line-height: 20px;
+        background-color: #f87703;
+        -webkit-transition: all 0.3s ease-in-out;
+        -moz-transition: all 0.3s ease-in-out;
+        -o-transition: all 0.3s ease-in-out;
+        -ms-transition: all 0.3s ease-in-out;
+        transition: all 0.3s ease-in-out;
+        padding: 10px 15px;
+        border-radius: 2px;
+        text-align: center;
+        text-decoration: none;
+        margin-right: 30px;
+        float: left;
+    }
     @media print { 
         body {
             -ms-transform:rotate(-90deg);
@@ -95,12 +118,12 @@
     <asp:Literal ID="ltrShippingNote" runat="server"></asp:Literal>
     <asp:Literal ID="ltrPrintEnable"  runat="server"></asp:Literal>
     <script type="text/javascript">
-        window.onload = function () {
-            if ($(".print-enable").hasClass("true")) {
-                window.print();
-                setTimeout(function () { window.close(); }, 1);
-            }
-        }
+        //window.onload = function () {
+        //    if ($(".print-enable").hasClass("true")) {
+        //        window.print();
+        //        setTimeout(function () { window.close(); }, 1);
+        //    }
+        //}
     </script> 
 </body>
 </html>

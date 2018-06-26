@@ -25,14 +25,15 @@ namespace IM_PJ
 
             if (!IsPostBack)
             {
-                if (Session["userLoginSystem"] != null)
+                if (Request.Cookies["userLoginSystem"] != null)
                 {
-                    string username = Session["userLoginSystem"].ToString();
+                    string username = Request.Cookies["userLoginSystem"].Value;
                     var acc = AccountController.GetByUsername(username);
                     if (acc != null)
                     {
-                        
-                        Session["refund"] = "1";
+
+                        Response.Cookies["refund"].Value = "1";
+
                         var agent = acc.AgentID;
                         if (agent == 1)
                         {
@@ -73,7 +74,7 @@ namespace IM_PJ
                 var order = OrderController.GetByID(ID);
                 if (order != null)
                 {
-                    string username = HttpContext.Current.Session["userLoginSystem"].ToString();
+                    string username = HttpContext.Current.Request.Cookies["userLoginSystem"].Value;
                     var acc = AccountController.GetByUsername(username);
                     if(acc.RoleID != 0)
                     {
@@ -94,7 +95,9 @@ namespace IM_PJ
                         hdfChietKhau.Value = list;
                     }
                     ViewState["ID"] = ID;
-                    Session["odid"] = ID;
+
+                    Response.Cookies["odid"].Value = ID.ToString();
+
                     int AgentID = Convert.ToInt32(order.AgentID);
                     txtPhone.Text = order.CustomerPhone;
                     txtFullname.Text = order.CustomerName;
@@ -126,6 +129,7 @@ namespace IM_PJ
                     }
                     int customerID = Convert.ToInt32(order.CustomerID);
                     ltrViewDetail.Text = "<a href=\"javascript:;\" class=\"btn primary-btn fw-btn not-fullwidth\" onclick=\"viewCustomerDetail('" + customerID + "')\"><i class=\"fa fa-address-card-o\" aria-hidden=\"true\"></i> Xem chi tiết</a>";
+                    ltrViewDetail.Text += "<a href=\"javascript:;\" class=\"btn primary-btn fw-btn not-fullwidth edit-customer-btn\" onclick=\"refreshCustomerInfo('" + customerID + "')\"><i class=\"fa fa-refresh\" aria-hidden=\"true\"></i> Làm mới</a>";
                     ltrViewDetail.Text += "<a href=\"chi-tiet-khach-hang?id=" + customerID + "\" class=\"btn primary-btn fw-btn not-fullwidth edit-customer-btn\" target=\"_blank\"><i class=\"fa fa-pencil-square-o\" aria-hidden=\"true\"></i> Chỉnh sửa</a>";
                     ltrViewDetail.Text += "<a href=\"javascript:;\" class=\"btn primary-btn fw-btn not-fullwidth clear-btn\" onclick=\"clearCustomerDetail()\"><i class=\"fa fa-times\" aria-hidden=\"true\"></i> Bỏ qua</a>";
                     var d = DiscountCustomerController.getbyCustID(customerID);
@@ -192,6 +196,7 @@ namespace IM_PJ
                     int shipping = Convert.ToInt32(order.ShippingType);
                     int TransportCompanyID = Convert.ToInt32(order.TransportCompanyID);
                     int TransportCompanySubID = Convert.ToInt32(order.TransportCompanySubID);
+                    int PostalDeliveryType = Convert.ToInt32(order.PostalDeliveryType);
                     int paymenttype = Convert.ToInt32(order.PaymentType);
                     #region Lấy danh sách sản phẩm
                     var orderdetails = OrderDetailController.GetByOrderID(ID);
@@ -412,6 +417,7 @@ namespace IM_PJ
                     ddlExcuteStatus.SelectedValue = excuteStatus.ToString();
                     ddlPaymentType.SelectedValue = paymenttype.ToString();
                     ddlShippingType.SelectedValue = shipping.ToString();
+                    ddlPostalDeliveryType.SelectedValue = PostalDeliveryType.ToString();
 
                     LoadTransportCompanySubID(TransportCompanyID);
                     ddlTransportCompanyID.SelectedValue = TransportCompanyID.ToString();
@@ -498,7 +504,7 @@ namespace IM_PJ
         public static string getProduct(string textsearch, int gettotal)
         {
             List<ProductGetOut> ps = new List<ProductGetOut>();
-            string username = HttpContext.Current.Session["userLoginSystem"].ToString();
+            string username = HttpContext.Current.Request.Cookies["userLoginSystem"].Value;
             var acc = AccountController.GetByUsername(username);
             if (acc != null)
             {
@@ -703,7 +709,7 @@ namespace IM_PJ
                 var or = RefundGoodController.GetOrderByID(order.ToInt());
                 if (or != null)
                 {
-                    HttpContext.Current.Session["refund"] = or.ID + "|" + or.TotalPrice;
+                    HttpContext.Current.Response.Cookies["refund"].Value = or.ID + "|" + or.TotalPrice;
                     return serializer.Serialize(or);
                 }
                 else
@@ -713,7 +719,7 @@ namespace IM_PJ
             }
             else
             {
-                HttpContext.Current.Session["refund"] = 0;
+                HttpContext.Current.Response.Cookies["refund"].Value = "0";
                 return serializer.Serialize(null);
             }
         }
@@ -722,9 +728,9 @@ namespace IM_PJ
         public static string UpdateStatus()
         {
             JavaScriptSerializer serializer = new JavaScriptSerializer();
-            string username = HttpContext.Current.Session["userLoginSystem"].ToString();
+            string username = HttpContext.Current.Request.Cookies["userLoginSystem"].Value;
             var acc = AccountController.GetByUsername(username);
-            string orderid = HttpContext.Current.Session["odid"].ToString();
+            string orderid = HttpContext.Current.Request.Cookies["odid"].Value;
             var order = OrderController.GetByID(orderid.ToInt());
             if (order != null)
             {
@@ -769,7 +775,7 @@ namespace IM_PJ
         public static void Delete(List<tbl_OrderDetail> listOrderDetail)
         {
             DateTime currentDate = DateTime.Now;
-            string username = HttpContext.Current.Session["userLoginSystem"].ToString();
+            string username = HttpContext.Current.Request.Cookies["userLoginSystem"].Value;
             var acc = AccountController.GetByUsername(username);
             if (listOrderDetail != null && listOrderDetail.Count > 0)
             {
@@ -833,7 +839,7 @@ namespace IM_PJ
         protected void btnOrder_Click(object sender, EventArgs e)
         {
             DateTime currentDate = DateTime.Now;
-            string username = Session["userLoginSystem"].ToString();
+            string username = Request.Cookies["userLoginSystem"].Value;
             var acc = AccountController.GetByUsername(username);
 
             if (acc != null)
@@ -864,13 +870,13 @@ namespace IM_PJ
                             int ShippingType = ddlShippingType.SelectedValue.ToInt(0);
                             int TransportCompanyID = ddlTransportCompanyID.SelectedValue.ToInt(0);
                             int TransportCompanySubID = ddlTransportCompanySubID.SelectedValue.ToInt(0);
-
+                            int PostalDeliveryType = ddlPostalDeliveryType.SelectedValue.ToInt();
 
                             var Customer = CustomerController.GetByPhone(CustomerPhone);
                             if (Customer != null)
                             {
                                 CustomerID = Customer.ID;
-                                string kq = CustomerController.Update(CustomerID, CustomerName, CustomerPhone, CustomerAddress, "", Convert.ToInt32(Customer.CustomerLevelID), Convert.ToInt32(Customer.Status), Customer.CreatedBy, currentDate, username, false, Zalo, Facebook, Customer.Note, Customer.ProvinceID.ToString(), Nick, Customer.Avatar, ShippingType, PaymentType, TransportCompanyID, TransportCompanySubID);
+                                string kq = CustomerController.Update(CustomerID, CustomerName, CustomerPhone, CustomerAddress, "", Convert.ToInt32(Customer.CustomerLevelID), Convert.ToInt32(Customer.Status), Customer.CreatedBy, currentDate, username, false, Zalo, Facebook, Customer.Note, Customer.ProvinceID.ToString(), Nick, Customer.Avatar, ShippingType, PaymentType, TransportCompanyID, TransportCompanySubID, Customer.CustomerPhone2);
                             }
                             else
                             {
@@ -889,7 +895,7 @@ namespace IM_PJ
                             int ExcuteStatusOld = Convert.ToInt32(order.ExcuteStatus);
                             int PaymentStatus = ddlPaymentStatus.SelectedValue.ToInt(0);
                             int ExcuteStatus = ddlExcuteStatus.SelectedValue.ToInt(0);
-                            
+
                             string ShippingCode = txtShippingCode.Text;
                             string OrderNote = txtOrderNote.Text;
 
@@ -937,7 +943,7 @@ namespace IM_PJ
 
                             string ret = OrderController.UpdateOnSystem(OrderID, OrderType, AdditionFee, DisCount, CustomerID, CustomerName, CustomerPhone,
                                 CustomerAddress, "", totalPrice, totalPriceNotDiscount, PaymentStatus, ExcuteStatus, currentDate, username,
-                                Convert.ToDouble(pDiscount.Value), TotalDiscount, FeeShipping, Convert.ToDouble(order.GuestPaid), Convert.ToDouble(order.GuestChange), PaymentType, ShippingType, OrderNote, datedone, 0, ShippingCode, TransportCompanyID, TransportCompanySubID, OtherFeeName, OtherFeeValue);
+                                Convert.ToDouble(pDiscount.Value), TotalDiscount, FeeShipping, Convert.ToDouble(order.GuestPaid), Convert.ToDouble(order.GuestChange), PaymentType, ShippingType, OrderNote, datedone, 0, ShippingCode, TransportCompanyID, TransportCompanySubID, OtherFeeName, OtherFeeValue, PostalDeliveryType);
 
                             // Xử lý hủy hàng
                             if (ExcuteStatus == 3)
@@ -1319,7 +1325,7 @@ namespace IM_PJ
                                 }
 
                                 // thêm đơn hàng đổi trả
-                                string refund = HttpContext.Current.Session["refund"].ToString();
+                                string refund = Request.Cookies["refund"].Value;
                                 if (refund == "0")
                                 {
                                     if (hdfcheckR.Value != "")
@@ -1345,7 +1351,8 @@ namespace IM_PJ
                                     }
                                 }
 
-                                HttpContext.Current.Session.Remove("refund");
+                                Response.Cookies["refund"].Expires = DateTime.Now.AddDays(-1d);
+                                Response.Cookies.Add(Response.Cookies["refund"]);
 
                                 PJUtils.ShowMessageBoxSwAlertCallFunction("Cập nhật đơn hàng thành công", "s", true, "addPayAllClicked()", Page);
                             }

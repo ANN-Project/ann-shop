@@ -20,9 +20,9 @@ namespace IM_PJ
         {
             if (!IsPostBack)
             {
-                if (Session["userLoginSystem"] != null)
+                if (Request.Cookies["userLoginSystem"] != null)
                 {
-                    string username = Session["userLoginSystem"].ToString();
+                    string username = Request.Cookies["userLoginSystem"].Value;
                     var acc = AccountController.GetByUsername(username);
                     if (acc != null)
                     {
@@ -101,7 +101,7 @@ namespace IM_PJ
 
         protected void btnSubmit_Click(object sender, EventArgs e)
         {
-            string username = Session["userLoginSystem"].ToString();
+            string username = Request.Cookies["userLoginSystem"].Value;
             var acc = AccountController.GetByUsername(username);
             if (acc != null)
             {
@@ -150,7 +150,7 @@ namespace IM_PJ
                         }
                         
 
-                        CustomerController.Insert(txtCustomerName.Text, phone, txtAddress.Text, "", 0, 1, DateTime.Now, username, false, txtZalo.Text, txtFacebook.Text, txtNote.Text, ddlProvince.SelectedValue, txtNick.Text, Avatar, ShippingType, PaymentType, TransportCompanyID, TransportCompanySubID);
+                        CustomerController.Insert(txtCustomerName.Text, phone, txtAddress.Text, "", 0, 1, DateTime.Now, username, false, txtZalo.Text, txtFacebook.Text, txtNote.Text, ddlProvince.SelectedValue, txtNick.Text, Avatar, ShippingType, PaymentType, TransportCompanyID, TransportCompanySubID, txtCustomerPhone2.Text);
 
                         PJUtils.ShowMessageBoxSwAlert("Tạo khách hàng thành công", "s", true, Page);
                     }

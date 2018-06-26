@@ -23,9 +23,9 @@ namespace IM_PJ
 
             if (!IsPostBack)
             {
-                if (Session["userLoginSystem"] != null)
+                if (Request.Cookies["userLoginSystem"] != null)
                 {
-                    string username = Session["userLoginSystem"].ToString();
+                    string username = Request.Cookies["userLoginSystem"].Value;
                     var acc = AccountController.GetByUsername(username);
                     if (acc != null)
                     {
@@ -53,7 +53,9 @@ namespace IM_PJ
                             hdfChietKhau.Value = list;
                         }
                         var agent = acc.AgentID;
-                        Session["refundt"] = "1";
+
+                        Response.Cookies["refundt"].Value = "1";
+
                         if (agent == 1)
                         {
                             hdfIsMain.Value = "1";
@@ -72,6 +74,23 @@ namespace IM_PJ
             }
         }
         [WebMethod]
+        public static string checkPrepayTransport(int ID, int SubID)
+        {
+            var a = TransportCompanyController.GetReceivePlaceByID(ID, SubID);
+            if(a != null)
+            {
+                if(a.Prepay == true)
+                {
+                    return "yes";
+                }
+                else
+                {
+                    return "no";
+                }
+            }
+            return "null";
+        }
+        [WebMethod]
         public static string getReturnOrder(string order, string remove)
         {
             JavaScriptSerializer serializer = new JavaScriptSerializer();
@@ -80,7 +99,7 @@ namespace IM_PJ
                 var or = RefundGoodController.GetOrderByID(order.ToInt());
                 if (or != null)
                 {
-                    HttpContext.Current.Session["refundt"] = or.ID + "|" + or.TotalPrice;
+                    HttpContext.Current.Response.Cookies["refundt"].Value = or.ID + "|" + or.TotalPrice;
                     return serializer.Serialize(or);
                 }
                 else
@@ -90,7 +109,7 @@ namespace IM_PJ
             }
             else
             {
-                HttpContext.Current.Session["refundt"] = 1;
+                HttpContext.Current.Response.Cookies["refundt"].Value = "1";
                 return serializer.Serialize(null);
             }
         }
@@ -98,7 +117,7 @@ namespace IM_PJ
         public static string getProduct(string textsearch, int gettotal)
         {
             List<ProductGetOut> ps = new List<ProductGetOut>();
-            string username = HttpContext.Current.Session["userLoginSystem"].ToString();
+            string username = HttpContext.Current.Request.Cookies["userLoginSystem"].Value;
             var acc = AccountController.GetByUsername(username);
             if (acc != null)
             {
@@ -317,7 +336,7 @@ namespace IM_PJ
         protected void btnOrder_Click(object sender, EventArgs e)
         {
             DateTime currentDate = DateTime.Now;
-            string username = Session["userLoginSystem"].ToString();
+            string username = Request.Cookies["userLoginSystem"].Value;
             var acc = AccountController.GetByUsername(username);
             if (acc != null)
             {
@@ -399,7 +418,7 @@ namespace IM_PJ
 
                     var ret = OrderController.Insert(AgentID, OrderType, AdditionFee, DisCount, CustomerID, CustomerName, CustomerPhone, CustomerAddress,
                         "", totalPrice, totalPriceNotDiscount, PaymentStatus, ExcuteStatus, IsHidden, WayIn, currentDate, username, Convert.ToDouble(pDiscount.Value),
-                        TotalDiscount, FeeShipping, PaymentType, ShippingType, datedone, 0, 0, TransportCompanyID, TransportCompanySubID, OtherFeeName, OtherFeeValue);
+                        TotalDiscount, FeeShipping, PaymentType, ShippingType, datedone, 0, 0, TransportCompanyID, TransportCompanySubID, OtherFeeName, OtherFeeValue, 1);
 
                     int OrderID = ret.ID;
 
@@ -507,14 +526,16 @@ namespace IM_PJ
                             }
                         }
 
-                        string refund = HttpContext.Current.Session["refundt"].ToString();
+                        string refund = Request.Cookies["refundt"].Value;
                         if (refund != "1")
                         {
                             string[] RefundID = refund.Split('|');
                             var update = RefundGoodController.UpdateStatus(RefundID[0].ToInt(), username, 2);
                             var updateor = OrderController.UpdateRefund(OrderID, RefundID[0].ToInt(), username);
                         }
-                        HttpContext.Current.Session.Remove("refundt");
+
+                        Response.Cookies["refundt"].Expires = DateTime.Now.AddDays(-1d);
+                        Response.Cookies.Add(Response.Cookies["refundt"]);
 
                         PJUtils.ShowMessageBoxSwAlertCallFunction("Tạo đơn hàng thành công", "s", true, "redirectTo(" + OrderID + ")", Page);
                     }

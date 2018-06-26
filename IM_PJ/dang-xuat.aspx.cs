@@ -11,6 +11,12 @@ namespace IM_PJ
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            if (Request.Cookies["userLoginSystem"] != null)
+            {
+                HttpCookie userLoginSystem = new HttpCookie("userLoginSystem");
+                userLoginSystem.Expires = DateTime.Now.AddDays(-1d);
+                Response.Cookies.Add(userLoginSystem);
+            }
             Session.Abandon();
             Response.Redirect("/dang-nhap");
         }

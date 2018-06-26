@@ -19,9 +19,9 @@ namespace IM_PJ
         {
             if (!IsPostBack)
             {
-                if (Session["userLoginSystem"] != null)
+                if (Request.Cookies["userLoginSystem"] != null)
                 {
-                    string username = Session["userLoginSystem"].ToString();
+                    string username = Request.Cookies["userLoginSystem"].Value;
                     var acc = AccountController.GetByUsername(username);
                     if (acc != null)
                     {
@@ -112,7 +112,7 @@ namespace IM_PJ
         protected void btnLogin_Click(object sender, EventArgs e)
         {
             DateTime currentDate = DateTime.Now;
-            string username = Session["userLoginSystem"].ToString();
+            string username = Request.Cookies["userLoginSystem"].Value;
 
             int id = ViewState["ID"].ToString().ToInt(0);
             var pvv = ProductVariableValueController.GetByID(id);

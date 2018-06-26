@@ -289,7 +289,7 @@ namespace IM_PJ
                 int Wayin = 2;
 
                 var ret = OrderController.Insert(AgentID, OrderType, AdditionFee, DisCount, CustomerID, CustomerName, CustomerPhone, CustomerAddress,
-                        CustomerEmail, TotalPrice.ToString(), TotalPrice.ToString(), PaymentStatus, ExcuteStatus, IsHidden, Wayin, currentDate, CreatedBy, 0, 0, "0",0,0,DateTime.Now.ToString(),0,0, 0, 0, "", 0);
+                        CustomerEmail, TotalPrice.ToString(), TotalPrice.ToString(), PaymentStatus, ExcuteStatus, IsHidden, Wayin, currentDate, CreatedBy, 0, 0, "0",0,0,DateTime.Now.ToString(),0,0, 0, 0, "", 0, 1);
                 int OrderID = ret.ID;
                 if (OrderID > 0)
                 {
@@ -488,7 +488,7 @@ namespace IM_PJ
 
                 var ret = OrderController.Insert(AgentID, OrderType.ToInt(1), AdditionFee, DisCount, CustomerID, CustomerName, CustomerPhone, CustomerAddress,
                         CustomerEmail, totalleft.ToString(), TotalPrice.ToString(), PaymentStatus.ToInt(0), ExcuteStatus.ToInt(0), IsHidden, Wayin, currentDate, CreatedBy,
-                        amount, totalDiscount, FeeShipping.ToString(), PaymentType, ShippingType,DateTime.Now.ToString(),0,0, 0, 0, "", 0);
+                        amount, totalDiscount, FeeShipping.ToString(), PaymentType, ShippingType,DateTime.Now.ToString(),0,0, 0, 0, "", 0, 1);
                 int OrderID = ret.ID;
                 if (OrderID > 0)
                 {

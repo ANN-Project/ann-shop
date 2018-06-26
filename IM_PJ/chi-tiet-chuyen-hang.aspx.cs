@@ -21,9 +21,9 @@ namespace IM_PJ
         {
             if (!IsPostBack)
             {
-                if (Session["userLoginSystem"] != null)
+                if (Request.Cookies["userLoginSystem"] != null)
                 {
-                    string username = Session["userLoginSystem"].ToString();
+                    string username = Request.Cookies["userLoginSystem"].Value;
                     var acc = AccountController.GetByUsername(username);
                     if (acc != null)
                     {
@@ -43,7 +43,7 @@ namespace IM_PJ
             int ID = Request.QueryString["id"].ToInt(0);
             if (ID > 0)
             {
-                string username = Session["userLoginSystem"].ToString();
+                string username = Request.Cookies["userLoginSystem"].Value;
                 var acc = AccountController.GetByUsername(username);
                 if (acc != null)
                 {
@@ -274,7 +274,7 @@ namespace IM_PJ
         public static string getProduct(string textsearch, int typeinout)
         {
             List<ProductGetOut> ps = new List<ProductGetOut>();
-            string username = HttpContext.Current.Session["userLoginSystem"].ToString();
+            string username = HttpContext.Current.Request.Cookies["userLoginSystem"].Value;
             var acc = AccountController.GetByUsername(username);
             if (acc != null)
             {
@@ -577,7 +577,7 @@ namespace IM_PJ
         protected void btnImport_Click(object sender, EventArgs e)
         {
             DateTime currentDate = DateTime.Now;
-            string username = Session["userLoginSystem"].ToString();
+            string username = Request.Cookies["userLoginSystem"].Value;
             var acc = AccountController.GetByUsername(username);
             if (acc != null)
             {
@@ -916,7 +916,7 @@ namespace IM_PJ
         protected void btnDelete_Click(object sender, EventArgs e)
         {
             DateTime currentDate = DateTime.Now;
-            string username = Session["userLoginSystem"].ToString();
+            string username = Request.Cookies["userLoginSystem"].Value;
             var acc = AccountController.GetByUsername(username);
             if (acc != null)
             {

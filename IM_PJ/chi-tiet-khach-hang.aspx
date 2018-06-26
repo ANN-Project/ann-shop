@@ -37,7 +37,15 @@
                                     Điện thoại                                   
                                 </div>
                                 <div class="row-right">
-                                    <asp:Label ID="lblCustomerPhone" runat="server" CssClass="form-control" placeholder="Số điện thoại"></asp:Label>                                    
+                                    <asp:Label ID="lblCustomerPhone" runat="server" CssClass="form-control input-disabled" placeholder="Số điện thoại"></asp:Label>                                    
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="row-left">
+                                    Điện thoại 2
+                                </div>
+                                <div class="row-right">
+                                    <asp:TextBox ID="txtCustomerPhone2" runat="server" CssClass="form-control" placeholder="Số điện thoại 2 nếu có"></asp:TextBox>                                    
                                 </div>
                             </div>
                             <div class="form-row">
