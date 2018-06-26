@@ -509,17 +509,21 @@
             function addOtherFee() {
                 swal({
                     title: "Thêm phí khác",
-                    text: 'Nhập tên loại phí:',
+                    text: 'Nhập tên loại phí. Ghi cho rõ nha:',
                     type: 'input',
                     showCancelButton: true,
                     closeOnConfirm: false,
+                    cancelButtonText: "Đợi em tí!",
+                    confirmButtonText: "Tiếp đê..",
                 }, function (otherFeeName) {
                     swal({
                         title: "Thêm phí khác",
-                        text: 'Nhập số tiền:',
+                        text: 'Nhập số tiền nè. Nhập số âm nếu trừ phí:',
                         type: 'input',
                         showCancelButton: true,
                         closeOnConfirm: true,
+                        cancelButtonText: "Để em xem lại!",
+                        confirmButtonText: "OK nè..",
                     }, function (otherFeeValue) {
                         if (otherFeeValue != false) {
                             $(".otherfee-name").html(otherFeeName);
@@ -543,17 +547,93 @@
                 //getAllPrice();
             }
 
+            function warningShippingNote(ID) {
+                var check = false;
+                if ($("#<%=ddlShippingType.ClientID%>").find(":selected").val() == 2 && $("#<%=ddlPaymentType.ClientID%>").find(":selected").val() != 3) {
+                    swal({
+                        title: "Ê nhỏ:",
+                        text: "Đơn hàng này gửi Bưu điện nhưng <strong>Không Thu Hộ</strong> hở?",
+                        type: "warning",
+                        showCancelButton: true,
+                        confirmButtonColor: "#DD6B55",
+                        confirmButtonText: "Đúng rồi sếp!!",
+                        closeOnConfirm: false,
+                        cancelButtonText: "Để em xem lại..",
+                        html: true
+                    }, function (isConfirm) {
+                        if (isConfirm) {
+                            if ($("#<%=ddlPostalDeliveryType.ClientID%>").find(":selected").val() == 2) {
+                                swal({
+                                    title: "Còn nữa:",
+                                    text: "Đơn hàng này gửi Bưu điện <strong>Chuyển Phát Nhanh</strong> đúng không?",
+                                    type: "warning",
+                                    showCancelButton: true,
+                                    confirmButtonColor: "#DD6B55",
+                                    confirmButtonText: "OK sếp ơi!!",
+                                    closeOnConfirm: false,
+                                    cancelButtonText: "Em lộn zồi..",
+                                    html: true
+                                }, function (isConfirm) {
+                                    if (isConfirm) {
+                                        sweetAlert.close();
+                                        window.open("/print-shipping-note.aspx?id=" + ID, "_blank");
+                                    }
+                                    else {
+                                        check = false;
+                                    }
+                                });
+                            }
+                            else {
+                                sweetAlert.close();
+                                window.open("/print-shipping-note.aspx?id=" + ID, "_blank");
+                            }
+                        }
+                    });
+                }
+                else {
+                    window.open("/print-shipping-note.aspx?id=" + ID, "_blank");
+                }
+            }
+
+            function warningPrintInvoice(ID) {
+                var check = false;
+                if ($("#<%=ddlShippingType.ClientID%>").find(":selected").val() != 1 && $("#<%=pFeeShip.ClientID%>").val() == 0) {
+                    swal({
+                        title: "Nhỏ ơi:",
+                        text: "Đơn hàng này <strong>Miễn Phí Vận Chuyển</strong> đúng không?",
+                        type: "warning",
+                        showCancelButton: true,
+                        confirmButtonColor: "#DD6B55",
+                        confirmButtonText: "Chính xác ạ!!",
+                        closeOnConfirm: false,
+                        cancelButtonText: "Để em xem lại..",
+                        html: true
+                    }, function (isConfirm) {
+                        if (isConfirm) {
+                            sweetAlert.close();
+                            window.open("/print-invoice.aspx?id=" + ID, "_blank");
+                        }
+                        else {
+                            check = false;
+                        }
+                    });
+                }
+                else {
+                    window.open("/print-invoice.aspx?id=" + ID, "_blank");
+                }
+            }
+
             function warningGetOrderImage(ID) {
-                
                 swal({
-                    title: "Thông báo",
-                    text: "Hãy nhớ lưu đơn hàng trước khi lấy ảnh!",
-                    type: "info",
-                    showCancelButton: false,
+                    title: "Lưu ý nè",
+                    text: "Nhớ lưu đơn hàng trước khi lấy ảnh nha!",
+                    type: "warning",
+                    showCancelButton: true,
                     confirmButtonColor: "#DD6B55",
-                    confirmButtonText: "Yes sir!!",
+                    confirmButtonText: "Đã lưu rồi sếp ơi!!",
                     closeOnConfirm: true,
-                    html: false
+                    cancelButtonText: "Chờ tí! Để em lưu..",
+                    html: true
                 }, function () {
                     window.open("/print-order-image?id=" + ID, "_blank");
                 });
@@ -952,7 +1032,18 @@
                     if ($("#<%=pFeeShip.ClientID%>").val() == 0 && $("#<%=pFeeShip.ClientID%>").is(":disabled") == false) {
 
                         $("#<%=pFeeShip.ClientID%>").focus();
-                        swal("Thông báo", "Chưa nhập phí vận chuyển. Hãy chọn miễn phí vận chuyển nếu có!", "error");
+                        //swal("Có vấn đề nờ", "Chưa nhập phí vận chuyển nờ! Hỏng lẻ miễn phí vận chuyển luôn hở?", "error");
+                        swal({
+                            title: "Có vấn đề nờ:",
+                            text: "Chưa nhập phí vận chuyển nờ!<br><br>Hỏng lẻ miễn phí vận chuyển luôn hở?",
+                            type: "warning",
+                            showCancelButton: true,
+                            confirmButtonColor: "#DD6B55",
+                            confirmButtonText: "Để em tính phí!!",
+                            closeOnConfirm: false,
+                            cancelButtonText: "Để em bấm nút miễn phí",
+                            html: true
+                        });
 
                         checkShipFee = false;
                     }
@@ -968,9 +1059,18 @@
                             if (checkPrepay == 1) {
 
                                 $("#<%=pFeeShip.ClientID%>").focus();
-                                swal("Thông báo", "Chưa nhập phí vận chuyển vì nhà xe này trả cước trước. Hãy chọn miễn phí vận chuyển nếu có!", "error");
+                                swal({
+                                    title: "Coi nè:",
+                                    text: "Chưa nhập phí vận chuyển do nhà xe này <strong>trả cước trước</strong> nè!<br><br>Hay là miễn phí vận chuyển luôn hở?",
+                                    type: "warning",
+                                    showCancelButton: true,
+                                    confirmButtonColor: "#DD6B55",
+                                    confirmButtonText: "Để em nhập phí!!",
+                                    closeOnConfirm: false,
+                                    cancelButtonText: "Để em coi lại..",
+                                    html: true
+                                });
                                 checkShipFee = false;
-
                             }
                         }
                     }

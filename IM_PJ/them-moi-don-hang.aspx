@@ -343,13 +343,17 @@ $(document).keydown(function(e) {
             type: 'input',
             showCancelButton: true,
             closeOnConfirm: false,
+            cancelButtonText: "Đợi đợi em tí!",
+            confirmButtonText: "Tiếp luôn sếp..",
         }, function (otherFeeName) {
             swal({
                 title: "Thêm phí khác",
-                text: 'Nhập số tiền:',
+                text: 'Nhập số tiền. Nhập số âm nếu muốn trừ phí:',
                 type: 'input',
                 showCancelButton: true,
                 closeOnConfirm: true,
+                cancelButtonText: "Để em coi lại!",
+                confirmButtonText: "Đã nhập xong..",
             }, function (otherFeeValue) {
                 if (otherFeeValue != false) {
                     $(".otherfee-name").html(otherFeeName);
@@ -579,7 +583,17 @@ function payAll() {
             if ($("#<%=pFeeShip.ClientID%>").val() == 0 && $("#<%=pFeeShip.ClientID%>").is(":disabled") == false) {
                 closePopup();
                 $("#<%=pFeeShip.ClientID%>").focus();
-                swal("Thông báo", "Chưa nhập phí vận chuyển. Hãy chọn miễn phí vận chuyển nếu có!", "error");
+                swal({
+                    title: "Ủa ủa:",
+                    text: "Sao không nhập phí vận chuyển?<br><br>Hỏng lẻ miễn phí vận chuyển?",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#DD6B55",
+                    confirmButtonText: "Khoan.. để em nhập phí!!",
+                    closeOnConfirm: false,
+                    cancelButtonText: "Để em tạm thời cho miễn phí",
+                    html: true
+                });
             }
             else {
                 HoldOn.open();
@@ -933,20 +947,32 @@ function deleteRow(obj) {
 
 // delete all product by click button
 function deleteProduct() {
-    var c = confirm("Bạn muốn xóa tất cả sản phẩm?");
-    if (c == true) {
-        $(".product-result").remove();
-        getAllPrice();
-        $(".totalproductQuantity").html("0");
-        $(".totalpriceorder").html("0");
-        $("#<%=pDiscount.ClientID%>").val(0);
-        $(".priceafterchietkhau").html("0");
-        $("#<%=pFeeShip.ClientID%>").val(0);
-        $(".totalpriceorderall").html("0");
+    swal({
+        title: "Hết sức lưu ý:",
+        text: "Em muốn xóa hết sản phẩm trong đơn thiệt hả?",
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#DD6B55",
+        confirmButtonText: "Chính xác sếp ơi!!",
+        closeOnConfirm: false,
+        cancelButtonText: "Em bấm lộn zồi..",
+        html: true
+    }, function (isConfirm) {
+        if (isConfirm) {
+            $(".product-result").remove();
+            getAllPrice();
+            $(".totalproductQuantity").html("0");
+            $(".totalpriceorder").html("0");
+            $("#<%=pDiscount.ClientID%>").val(0);
+            $(".priceafterchietkhau").html("0");
+            $("#<%=pFeeShip.ClientID%>").val(0);
+            $(".totalpriceorderall").html("0");
 
-        $("#<%=hdfTotalPriceNotDiscount.ClientID%>").val(0);
-        $("#<%=hdfTotalPrice.ClientID%>").val(0);
-    }
+            $("#<%=hdfTotalPriceNotDiscount.ClientID%>").val(0);
+            $("#<%=hdfTotalPrice.ClientID%>").val(0);
+            sweetAlert.close();
+        }
+    });
 }
 
 // change quantity of product

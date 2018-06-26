@@ -135,7 +135,7 @@
                     <div class="col-md-12">
                         <div class="panel panelborderheading">
                             <div class="panel-heading clear">
-                                <h3 class="page-title left not-margin-bot">Thông tin trạng thái đơn</h3>
+                                <h3 class="page-title left not-margin-bot">Thông tin trạng thái đơn hàng đổi trả</h3>
                             </div>
                             <div class="panel-body">
                                 <div class="form-row">
@@ -157,9 +157,11 @@
                                         <asp:TextBox ID="txtRefundsNote" runat="server" CssClass="form-control" placeholder="Ghi chú"></asp:TextBox>
                                     </div>
                                 </div>
-                                <div class="post-table-links clear">
-                                    <a href="javascript:;" class="btn link-btn" style="background-color: #f87703; float: right; color: #fff;" onclick="payall()">Thanh toán</a>
-                                    <a href="javascript:;" class="btn link-btn" style="background-color: #f87703; float: right; margin-right: 10px; color: #fff;" onclick="deleteProduct()">Xóa</a>
+                                <div class="panel-post">
+                                    <div class="post-table-links clear">
+                                        <a href="javascript:;" class="btn link-btn" style="background-color: #f87703; float: right;" onclick="payall()"><i class="fa fa-floppy-o"></i> Xác nhận</a>
+                                        <a href="javascript:;" class="btn link-btn" style="background-color: #F44336; float: right;" onclick="deleteProduct()"><i class="fa fa-times" aria-hidden="true"></i> Làm lại</a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -421,7 +423,7 @@
                 
                 html += "           </select>\n";
                 html += "    </td>\n";
-                html += "   <td class='feeRefund'>0</td>\n";
+                html += "   <td class='feeRefund'>" + formatThousands(item.FeeRefund) + "</td>\n";
                 html += "   <td class='totalFeeRefund'>" + formatThousands(item.TotalFeeRefund) + "</td>\n";
                 html += "   <td><a href='javascript:;' class='link-btn' onclick='deleteRow($(this))'><i class='fa fa-trash'></i></a></td>\n";
                 html += "</tr>\n";
@@ -513,12 +515,39 @@
                 productVariableSearch = [];
 
                 if (isBlank(txtPhone)) {
-                    alert('Vui lòng nhập số điện thoại.');
+                    
+                    swal({
+                        title: "Từ từ nè",
+                        text: "Tìm khách hàng trước đã!<br><br>Nếu chưa có thì phải tạo khách hàng trước nha!",
+                        type: "warning",
+                        showCancelButton: true,
+                        closeOnConfirm: false,
+                        confirmButtonText: "Để em tìm",
+                        cancelButtonText: "Tạo khách hàng",
+                        html: true,
+                    }, function (isConfirm) {
+                        if (isConfirm) {
+                            swal.close();
+                            searchCustomer();
+                        }
+                        else
+                        {
+                            searchCustomer();
+                            window.open("/them-moi-khach-hang", "_blank");
+                        }
+                    });
                     return;
                 }
 
                 if (isBlank(txtSearch)) {
-                    alert('Vui lòng nhập nội dung tìm kiếm');
+                    swal({
+                        title: "Ủa Ủa",
+                        text: "Sao chưa nhập gì hết mà!",
+                        type: "warning",
+                        showCancelButton: false,
+                        closeOnConfirm: false,
+                        confirmButtonText: "Hehe em quên!",
+                    });
                     return;
                 }
 

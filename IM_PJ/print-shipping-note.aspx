@@ -4,7 +4,8 @@
 <head>
   <meta charset="utf-8">
   <title>ann</title>
-<script src="/App_Themes/Ann/js/jquery-2.1.3.min.js"></script>
+    <script src="/App_Themes/Ann/js/jquery-2.1.3.min.js"></script>
+    <link href="/App_Themes/NewUI/js/sweet/sweet-alert.css" rel="stylesheet" type="text/css" />
   <style>
     
     body {
@@ -117,13 +118,30 @@
 <body class="receipt">
     <asp:Literal ID="ltrShippingNote" runat="server"></asp:Literal>
     <asp:Literal ID="ltrPrintEnable"  runat="server"></asp:Literal>
+    <script src="/App_Themes/NewUI/js/sweet/sweet-alert.js" type="text/javascript"></script>
     <script type="text/javascript">
-        //window.onload = function () {
-        //    if ($(".print-enable").hasClass("true")) {
-        //        window.print();
-        //        setTimeout(function () { window.close(); }, 1);
-        //    }
-        //}
+        function printIt() {
+            swal({
+                title: "Coi lại lần cuối nờ",
+                text: "Phiếu gửi hàng đúng thông tin hết chưa?",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "Đúng rồi sếp! In ếp ơi..",
+                cancelButtonText: "Để em coi lại lần nữa..",
+                closeOnConfirm: true,
+                html: false
+            }, function () {
+                removeDiv();
+            });
+        }
+        function removeDiv() {
+            $(".print-it").hide();
+            $(".sweet-alert").hide().empty();
+            $(".sweet-overlay").hide().empty();
+            window.print();
+            window.close();
+        }
     </script> 
 </body>
 </html>

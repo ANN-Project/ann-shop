@@ -71,7 +71,7 @@ namespace IM_PJ
                         ltrInfo.Text += "<div class=\"col-md-6\">";
                         ltrInfo.Text += "<div class=\"form-group\">";
                         ltrInfo.Text += "<label>Họ tên</label>";
-                        ltrInfo.Text += "<span class=\"form-control\">" + r.CustomerName + "</span>";
+                        ltrInfo.Text += "<span class=\"form-control input-distabled\">" + r.CustomerName + "</span>";
                         ltrInfo.Text += "</div>";
                         ltrInfo.Text += "</div>";
                         ltrInfo.Text += "<div class=\"col-md-6\">";
@@ -250,7 +250,7 @@ namespace IM_PJ
                             Quantity = product.QuantityRefund,
                             QuantityCurrent = 0,
                             Type = 1,
-                            NoteID = "Xuất ra do phục hồi đơn hàng đổi trả",
+                            NoteID = "Xuất kho do phục hồi đơn hàng đổi trả",
                             OrderID = product.OrderID,
                             Status = 11,
                             SKU = product.ProductStyle == 1 ? product.ParentSKU : product.ChildSKU,

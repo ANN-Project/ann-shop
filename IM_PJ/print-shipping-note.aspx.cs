@@ -225,7 +225,7 @@ namespace IM_PJ
             else
             {
                 ltrShippingNote.Text = rowHtml;
-                ltrPrintEnable.Text = "<div><a class=\"btn\" href=\"javascript:;\" onclick=\"printIt()\">In phiếu gửi hàng</a></div>";
+                ltrPrintEnable.Text = "<div class=\"print-it\"><a class=\"btn\" href=\"javascript:;\" onclick=\"printIt()\">In phiếu gửi hàng</a></div>";
             }
         }
     }

@@ -59,7 +59,7 @@
             <script src="/App_Themes/NewUI/js/sweet/sweet-alert.js" type="text/javascript"></script>
             <script src="/App_Themes/NewUI/js/select2/select2.min.js"></script>
             <script src="/App_Themes/Ann/js/master.js"></script>
-            
+            <script src="/App_Themes/Ann/js/HoldOn.js"></script>
             <script type="text/javascript">
                 
                 function screenClass() {
@@ -190,6 +190,5 @@
             </script>
         </div>
     </form>
-    <script src="/App_Themes/Ann/js/HoldOn.js"></script>
 </body>
 </html>

@@ -130,7 +130,7 @@
                     <div class="col-md-12">
                         <div class="panel panelborderheading">
                             <div class="panel-heading clear">
-                                <h3 class="page-title left not-margin-bot">Thông tin trạng thái đơn</h3>
+                                <h3 class="page-title left not-margin-bot">Thông tin trạng thái đơn hàng đổi trả</h3>
                             </div>
                             <div class="panel-body">
                                 <div class="form-row">
@@ -152,12 +152,14 @@
                                         <asp:TextBox ID="txtRefundsNote" runat="server" CssClass="form-control" placeholder="Ghi chú"></asp:TextBox>
                                     </div>
                                 </div>
-                                <div class="post-table-links clear">
-                                    <a href="javascript:;" class="btn link-btn" style="background-color: #f87703; float: right; color: #fff;" onclick="Update()">Cập nhật</a>
-                                    <asp:Button ID="btnCreate" runat="server" CssClass="btn primary-btn fw-btn" Text="Tạo" OnClick="btnCreate_Click" Style="display: none" />
-                                    <a href="javascript:;" class="btn link-btn" style="background-color: #f87703; float: right; color: #fff; margin-right: 10px;" onclick="Delete()">Xóa đơn hàng đổi trả</a>
-                                    <asp:Button ID="btnDelete" runat="server" CssClass="btn primary-btn fw-btn" Text="Tạo" OnClick="btnDelete_Click" Style="display: none" />
-                                    <a href="/danh-sach-don-tra-hang" class="btn link-btn" style="background-color: #f87703; float: right; color: #fff; margin-right: 10px;" >Trở về</a>
+                                <div class="panel-post">
+                                    <div class="post-table-links clear">
+                                        <a href="javascript:;" class="btn link-btn" style="background-color: #f87703; float: right;" onclick="Update()"><i class="fa fa-floppy-o"></i> Xác nhận</a>
+                                        <asp:Button ID="btnCreate" runat="server" OnClick="btnCreate_Click" Style="display: none" />
+                                        <a href="javascript:;" class="btn link-btn" style="background-color: #F44336; float: right;" onclick="Delete()"><i class="fa fa-times" aria-hidden="true"></i> Làm lại đơn hàng này</a>
+                                        <asp:Button ID="btnDelete" runat="server" CssClass="btn primary-btn fw-btn" Text="Tạo" OnClick="btnDelete_Click" Style="display: none" />
+                                        <a href="/danh-sach-don-tra-hang" class="btn link-btn" style="background-color: #f87703; float: right;" ><i class="fa fa-reply" aria-hidden="true"></i> Trở về danh sách</a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -174,10 +176,8 @@
             padding-right: 10px;
         }
         .search-product-content {
-            height: 350px;
             background: #fff;
-            overflow-y: scroll;
-            padding: 5px;
+            min-height: 400px;
         }
     </style>
     <telerik:RadAjaxManager ID="rAjax" runat="server">
@@ -198,16 +198,19 @@
         }
 
         function Delete() {
-            let c = confirm('Bạn muốn xóa cái đơn đổi trả này?');
-
-            if (c) {
-                try {
-                    $("#<%=btnDelete.ClientID%>").click();
-                }
-                catch (err) {
-                    alter(err);
-                }
-            }
+            swal({
+                title: "Cơ hội cuối nha!",
+                text: "Đơn hàng trả này sẽ được xóa và tạo lại. Nhớ làm cho đúng á!!",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "OK sếp !!",
+                cancelButtonText: "Để em coi lại..",
+                closeOnConfirm: true,
+                html: false
+            }, function () {
+                $("#<%=btnDelete.ClientID%>").click();
+            });
         }
     </script>
 </asp:Content>
