@@ -9,7 +9,7 @@ function getCustomerDiscount(custID) {
         success: function (msg) {
             var data = msg.d;
             if (data !== 0) {
-                $(".discount-info").html("<strong>Khách hàng được chiết khấu: " + formatThousands(data, ",") + " vnđ/sản phẩm.</strong>").show();
+                $(".discount-info").html("<strong>Khách hàng được chiết khấu: " + formatThousands(data, ",") + "đ/cái.</strong>").show();
                 $("input[id$='_hdfIsDiscount']").val("1");
                 $("input[id$='_hdfDiscountAmount']").val(data);
             } else {
@@ -230,6 +230,56 @@ function showCustomerList() {
                     $("#txtSearchCustomer").select();
                     swal("Thông báo", "Không tìm thấy khách hàng", "error");
                 }
+            },
+            error: function (xmlhttprequest, textstatus, errorthrow) {
+                alert('lỗi');
+            }
+        });
+    } else {
+        $("#txtSearchCustomer").focus();
+        swal("Thông báo", "Hãy nhập nội dung tìm kiếm", "error");
+    }
+}
+
+function refreshCustomerInfo(ID) {
+    if (!isBlank(ID)) {
+        $.ajax({
+            type: "POST",
+            url: "/pos.aspx/getCustomerDetail",
+            data: "{ID:'" + ID + "'}",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (msg) {
+                if (msg.d !== "null") {
+                    var alldata = JSON.parse(msg.d);
+                    var data = alldata.Customer;
+                    var phone = data.CustomerPhone;
+                    var name = data.CustomerName;
+                    var nick = data.Nick;
+                    var address = data.CustomerAddress;
+                    var zalo = data.Zalo;
+                    var facebook = data.Facebook;
+                    var id = data.ID;
+                    $("input[id$='_txtPhone']").val(phone).prop('disabled', true);
+                    $("input[id$='_txtFullname']").val(name).prop('disabled', true);
+                    $("input[id$='_txtNick']").val(nick).prop('disabled', true);
+                    $("input[id$='_txtAddress']").val(address).prop('disabled', true);
+                    $("input[id$='_txtZalo']").val(zalo).prop('disabled', true);
+                    $("input[id$='_txtFacebook']").parent().removeClass("width-100");
+                    $("input[id$='_txtFacebook']").val(facebook).prop('disabled', true);
+                    if (facebook === null) {
+                        $(".link-facebook").hide();
+                        $("input[id$='_txtFacebook']").parent().addClass("width-100");
+                    }
+                    else {
+                        $("input[id$='_txtFacebook']").parent().removeClass("width-100");
+                        $(".link-facebook").html("<a href=\"" + facebook + "\" class=\"btn primary-btn fw-btn not-fullwidth\" target=\"_blank\">Xem</a>").show();
+                    }
+                    swal("Thông báo", "Đã làm mới thông tin khách hàng!", "success");
+                } else {
+                    swal("Thông báo", "Không tìm thấy khách hàng", "error");
+                }
+                getCustomerDiscount(id);
             },
             error: function (xmlhttprequest, textstatus, errorthrow) {
                 alert('lỗi');

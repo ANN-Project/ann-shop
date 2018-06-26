@@ -340,6 +340,17 @@
                                         </ContentTemplate>
                                     </asp:UpdatePanel>
                                 </div>
+                                <div id="row-postal-delivery-type" class="form-row postal-delivery-type hide">
+                                    <div class="row-left">
+                                        Hình thức chuyển phát
+                                    </div>
+                                    <div class="row-right">
+                                        <asp:DropDownList ID="ddlPostalDeliveryType" runat="server" CssClass="form-control">
+                                            <asp:ListItem Value="1" Text="Chuyển phát thường"></asp:ListItem>
+                                            <asp:ListItem Value="2" Text="Chuyển phát nhanh"></asp:ListItem>
+                                        </asp:DropDownList>
+                                    </div>
+                                </div>
                                 <div id="row-shipping" class="form-row shipping-code hide">
                                     <div class="row-left">
                                         Mã vận đơn
@@ -358,10 +369,10 @@
                                 </div>
                                 <div class="panel-post">
                                     <div class="post-table-links clear">
-                                        <a href="javascript:;" class="btn link-btn" id="payall" style="background-color: #f87703; float: right" onclick="payAll()"><i class="fa fa-floppy-o"></i> Xác nhận</a>
+                                        <a href="javascript:;" class="btn link-btn" id="payall" style="background-color: #f87703; float: right" title="Hoàn tất đơn hàng" onclick="payAll()"><i class="fa fa-floppy-o"></i> Xác nhận</a>
                                         <asp:Button ID="btnOrder" runat="server" OnClick="btnOrder_Click" Style="display: none" />
-                                        <a href="javascript:;" class="btn link-btn" style="background-color: #ffad00; float: right;" onclick="searchReturnOrder()"><i class="fa fa-refresh"></i> Đổi trả</a>
-                                        <a href="javascript:;" class="btn link-btn" style="background-color: #ffad00; float: right;" onclick="addOtherFee()"><i class="fa fa-refresh"></i> Thêm phí</a>
+                                        <a href="javascript:;" class="btn link-btn" style="background-color: #ffad00; float: right;" title="Nhập đơn hàng đổi trả" onclick="searchReturnOrder()"><i class="fa fa-refresh"></i> Đổi trả</a>
+                                        <a href="javascript:;" class="btn link-btn" style="background-color: #607D8B; float: right;" title="Thêm phí khác vào đơn hàng" onclick="addOtherFee()"><i class="fa fa-plus"></i> Thêm phí</a>
                                     </div>
                                     <div id="img-out"></div>
                                 </div>
@@ -573,7 +584,14 @@
                 if ($("#<%=ddlShippingType.ClientID%>").find(":selected").val() == 1) {
                     $(".transport-company").addClass("hide");
                 }
-                if ($("#<%=ddlShippingType.ClientID%>").find(":selected").val() == 2 || $("#<%=ddlShippingType.ClientID%>").find(":selected").val() == 3) {
+
+                if ($("#<%=ddlShippingType.ClientID%>").find(":selected").val() == 2) {
+                    $(".shipping-code").removeClass("hide");
+                    $(".postal-delivery-type").removeClass("hide");
+                    $(".transport-company").addClass("hide");
+                }
+
+                if ($("#<%=ddlShippingType.ClientID%>").find(":selected").val() == 3) {
                     $(".shipping-code").removeClass("hide");
                     $(".transport-company").addClass("hide");
                 }
@@ -587,32 +605,41 @@
                     switch(selected) {
                         case "1":
                             $(".shipping-code").addClass("hide");
+                            $(".postal-delivery-type").addClass("hide");
                             $(".transport-company").addClass("hide");
                             $("#<%=txtShippingCode.ClientID%>").val("");
+                            $("#<%=ddlPostalDeliveryType.ClientID%>").val(1);
                             $("#<%=ddlTransportCompanyID.ClientID%>").val(0);
                             $("#<%=ddlTransportCompanySubID.ClientID%>").val(0);
                             break;
                         case "2":
                             $(".shipping-code").removeClass("hide");
+                            $(".postal-delivery-type").removeClass("hide");
                             $(".transport-company").addClass("hide");
                             $("#<%=ddlTransportCompanyID.ClientID%>").val(0);
                             $("#<%=ddlTransportCompanySubID.ClientID%>").val(0);
                             break;
                         case "3":
                             $(".shipping-code").removeClass("hide");
+                            $(".postal-delivery-type").addClass("hide");
                             $(".transport-company").addClass("hide");
+                            $("#<%=ddlPostalDeliveryType.ClientID%>").val(1);
                             $("#<%=ddlTransportCompanyID.ClientID%>").val(0);
                             $("#<%=ddlTransportCompanySubID.ClientID%>").val(0);
                             break;
                         case "4":
                             $(".shipping-code").addClass("hide");
+                            $(".postal-delivery-type").addClass("hide");
                             $(".transport-company").removeClass("hide");
                             $("#<%=txtShippingCode.ClientID%>").val("");
+                            $("#<%=ddlPostalDeliveryType.ClientID%>").val(1);
                             break;
                         case "5":
                             $(".shipping-code").addClass("hide");
+                            $(".postal-delivery-type").addClass("hide");
                             $(".transport-company").addClass("hide");
                             $("#<%=txtShippingCode.ClientID%>").val("");
+                            $("#<%=ddlPostalDeliveryType.ClientID%>").val(1);
                             $("#<%=ddlTransportCompanyID.ClientID%>").val(0);
                             $("#<%=ddlTransportCompanySubID.ClientID%>").val(0);
                             break;
@@ -893,23 +920,63 @@
                 $("#payall").addClass("payall-clicked");
             }
 
+            function checkPrepayTransport(ID, SubID) {
+                var t = 0;
+                $.ajax({
+                    type: "POST",
+                    async: false,
+                    url: "/them-moi-don-hang.aspx/checkPrepayTransport",
+                    data: "{ID:" + ID + ", SubID:" + SubID + "}",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (msg) {
+                        if (msg.d == "yes") {
+                            t = 1;
+                        } else {
+                            t = 0;
+                        }
+                    },
+                    error: function (xmlhttprequest, textstatus, errorthrow) {
+                        alert('lỗi');
+                    }
+                });
+                return t;
+            }
 
             // insert order
             function insertOrder() {
-                shippingtype = $(".shipping-type").val();
+                var shippingtype = $(".shipping-type").val();
+                var checkShipFee = true;
 
                 if (shippingtype == 2 || shippingtype == 3) {
                     if ($("#<%=pFeeShip.ClientID%>").val() == 0 && $("#<%=pFeeShip.ClientID%>").is(":disabled") == false) {
 
                         $("#<%=pFeeShip.ClientID%>").focus();
                         swal("Thông báo", "Chưa nhập phí vận chuyển. Hãy chọn miễn phí vận chuyển nếu có!", "error");
-                    }
-                    else {
-                        HoldOn.open();
-                        $("#<%=btnOrder.ClientID%>").click();
+
+                        checkShipFee = false;
                     }
                 }
-                else
+                else if (shippingtype == 4) {
+                    if ($("#<%=pFeeShip.ClientID%>").val() == 0 && $("#<%=pFeeShip.ClientID%>").is(":disabled") == false) {
+
+                        var ID = $("#<%=ddlTransportCompanyID.ClientID%>").val();
+                        var SubID = $("#<%=ddlTransportCompanySubID.ClientID%>").val();
+
+                        if (ID != 0 && SubID != 0) {
+                            var checkPrepay = checkPrepayTransport(ID, SubID);
+                            if (checkPrepay == 1) {
+
+                                $("#<%=pFeeShip.ClientID%>").focus();
+                                swal("Thông báo", "Chưa nhập phí vận chuyển vì nhà xe này trả cước trước. Hãy chọn miễn phí vận chuyển nếu có!", "error");
+                                checkShipFee = false;
+
+                            }
+                        }
+                    }
+                }
+
+                if(checkShipFee == true)
                 {
                     HoldOn.open();
                     $("#<%=btnOrder.ClientID%>").click();

@@ -46,6 +46,15 @@
                             </div>
                             <div class="form-row">
                                 <div class="row-left">
+                                    Điện thoại 2
+                                    <asp:RequiredFieldValidator ID="RequiredFieldValidator4" runat="server" ControlToValidate="txtCustomerPhone2" ForeColor="Red" SetFocusOnError="true" ErrorMessage="(*)" Display="Dynamic"></asp:RequiredFieldValidator>
+                                </div>
+                                <div class="row-right">
+                                    <asp:TextBox ID="txtCustomerPhone2" runat="server" CssClass="form-control" placeholder="Số điện thoại 2 nếu có"></asp:TextBox>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="row-left">
                                     Zalo
                                 </div>
                                 <div class="row-right">

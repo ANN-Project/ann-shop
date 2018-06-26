@@ -20,9 +20,9 @@ namespace IM_PJ
         {
             if (!IsPostBack)
             {
-                if (Session["userLoginSystem"] != null)
+                if (Request.Cookies["userLoginSystem"] != null)
                 {
-                    string username = Session["userLoginSystem"].ToString();
+                    string username = Request.Cookies["userLoginSystem"].Value;
                     var acc = AccountController.GetByUsername(username);
                     int agent = acc.AgentID.ToString().ToInt();
                     
@@ -113,7 +113,7 @@ namespace IM_PJ
 
             if (get.Count() > 0)
             {
-                string username = Session["userLoginSystem"].ToString();
+                string username = Request.Cookies["userLoginSystem"].Value;
                 var aclog = AccountController.GetByUsername(username);
                 if (aclog.RoleID != 0)
                 {

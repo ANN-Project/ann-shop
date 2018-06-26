@@ -177,8 +177,8 @@
     </asp:Panel>
     <style>
         .search-product-content {
+            min-height: 200px;
             background: #fff;
-            padding: 5px;
         }
     </style>
     <telerik:RadAjaxManager ID="rAjax" runat="server">

@@ -25,9 +25,9 @@ namespace IM_PJ
         {
             if (!IsPostBack)
             {
-                if (Session["userLoginSystem"] != null)
+                if (Request.Cookies["userLoginSystem"] != null)
                 {
-                    string username = Session["userLoginSystem"].ToString();
+                    string username = Request.Cookies["userLoginSystem"].Value;
                     var acc = AccountController.GetByUsername(username);
                     if (acc != null)
                     {
@@ -47,7 +47,7 @@ namespace IM_PJ
         }
         public void LoadData()
         {
-            string username = Session["userLoginSystem"].ToString();
+            string username = Request.Cookies["userLoginSystem"].Value;
             var acc = AccountController.GetByUsername(username);
             if (acc != null)
             {
@@ -215,7 +215,7 @@ namespace IM_PJ
 
         protected void btnCreate_Click(object sender, EventArgs e)
         {
-            string username = Session["userLoginSystem"].ToString();
+            string username = Request.Cookies["userLoginSystem"].Value;
             var a = AccountController.GetByUsername(username);
             if (a != null)
             {

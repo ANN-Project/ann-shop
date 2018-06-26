@@ -15,9 +15,9 @@ namespace IM_PJ
             if (!IsPostBack)
             {
 
-                if (Session["userLoginSystem"] != null)
+                if (Request.Cookies["userLoginSystem"] != null)
                 {
-                    string username = Session["userLoginSystem"].ToString();
+                    string username = Request.Cookies["userLoginSystem"].Value;
                     var acc = AccountController.GetByUsername(username);
                     if (acc != null)
                     {

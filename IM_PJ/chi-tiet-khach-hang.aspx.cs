@@ -21,9 +21,9 @@ namespace IM_PJ
         {
             if (!IsPostBack)
             {
-                if (Session["userLoginSystem"] != null)
+                if (Request.Cookies["userLoginSystem"] != null)
                 {
-                    string username = Session["userLoginSystem"].ToString();
+                    string username = Request.Cookies["userLoginSystem"].Value;
                     var acc = AccountController.GetByUsername(username);
                     if (acc != null)
                     {
@@ -126,7 +126,7 @@ namespace IM_PJ
                 var d = CustomerController.GetByID(id);
                 if (d != null)
                 {
-                    string username = HttpContext.Current.Session["userLoginSystem"].ToString();
+                    string username = HttpContext.Current.Request.Cookies["userLoginSystem"].Value;
                     var acc = AccountController.GetByUsername(username);
                     if (acc.RoleID != 0)
                     {
@@ -139,6 +139,7 @@ namespace IM_PJ
                     ViewState["ID"] = id;
                     txtCustomerName.Text = d.CustomerName;
                     lblCustomerPhone.Text = d.CustomerPhone;
+                    txtCustomerPhone2.Text = d.CustomerPhone2;
                     txtSupplierAddress.Text = d.CustomerAddress;
                     txtNick.Text = d.Nick;
                     chkIsHidden.Checked = Convert.ToBoolean(d.IsHidden);
@@ -164,7 +165,7 @@ namespace IM_PJ
 
         protected void btnSubmit_Click(object sender, EventArgs e)
         {
-            string username = Session["userLoginSystem"].ToString();
+            string username = Request.Cookies["userLoginSystem"].Value;
             var acc = AccountController.GetByUsername(username);
             if (acc != null)
             {
@@ -206,7 +207,7 @@ namespace IM_PJ
                             int TransportCompanyID = ddlTransportCompanyID.SelectedValue.ToInt(0);
                             int TransportCompanySubID = ddlTransportCompanySubID.SelectedValue.ToInt(0);
 
-                            CustomerController.Update(id, txtCustomerName.Text, d.CustomerPhone, txtSupplierAddress.Text, "", 0, 1, ddlUser.SelectedItem.ToString(), DateTime.Now, username, chkIsHidden.Checked, txtZalo.Text, txtFacebook.Text, txtNote.Text, ddlProvince.SelectedValue, txtNick.Text, Avatar, ShippingType, PaymentType, TransportCompanyID, TransportCompanySubID);
+                            CustomerController.Update(id, txtCustomerName.Text, d.CustomerPhone, txtSupplierAddress.Text, "", 0, 1, ddlUser.SelectedItem.ToString(), DateTime.Now, username, chkIsHidden.Checked, txtZalo.Text, txtFacebook.Text, txtNote.Text, ddlProvince.SelectedValue, txtNick.Text, Avatar, ShippingType, PaymentType, TransportCompanyID, TransportCompanySubID, txtCustomerPhone2.Text);
                             PJUtils.ShowMessageBoxSwAlert("Cập nhật khách hàng thành công", "s", true, Page);
                         }
                     }

@@ -1,4 +1,7 @@
-﻿.btn-complete-order {
+﻿.input-disabled {
+    background-color: #eeeeee;
+}
+.btn-complete-order {
     background-color: #F44336;
     width: 100%!important;
     text-transform: uppercase;

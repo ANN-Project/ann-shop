@@ -16,7 +16,7 @@ namespace IM_PJ.Controllers
     {
         #region CRUD
         public static string Insert(string CustomerName, string CustomerPhone, string CustomerAddress, string CustomerEmail, int CustomerLevelID, int Status,
-            DateTime CreatedDate, string CreatedBy, bool IsHidden, string Zalo, string Facebook, string Note, string Province, string Nick, string Avatar = "", int ShippingType = 0, int PaymentType = 0, int TransportCompanyID = 0, int TransportCompanySubID = 0)
+            DateTime CreatedDate, string CreatedBy, bool IsHidden, string Zalo, string Facebook, string Note, string Province, string Nick, string Avatar = "", int ShippingType = 0, int PaymentType = 0, int TransportCompanyID = 0, int TransportCompanySubID = 0, string CustomerPhone2 = "")
         {
             using (var dbe = new inventorymanagementEntities())
             {
@@ -50,7 +50,7 @@ namespace IM_PJ.Controllers
                 ui.PaymentType = PaymentType;
                 ui.TransportCompanyID = TransportCompanyID;
                 ui.TransportCompanySubID = TransportCompanySubID;
-
+                ui.CustomerPhone2 = CustomerPhone2;
                 try
                 {
                     dbe.tbl_Customer.Add(ui);
@@ -71,7 +71,7 @@ namespace IM_PJ.Controllers
             }
         }
         public static string Update(int ID, string CustomerName, string CustomerPhone, string CustomerAddress, string CustomerEmail, int CustomerLevelID, int Status,
-           string CreatedBy, DateTime ModifiedDate, string ModifiedBy, bool IsHidden, string Zalo, string Facebook, string Note, string Province, string Nick, string Avatar, int ShippingType, int PaymentType, int TransportCompanyID, int TransportCompanySubID)
+           string CreatedBy, DateTime ModifiedDate, string ModifiedBy, bool IsHidden, string Zalo, string Facebook, string Note, string Province, string Nick, string Avatar, int ShippingType, int PaymentType, int TransportCompanyID, int TransportCompanySubID, string CustomerPhone2)
         {
             using (var dbe = new inventorymanagementEntities())
             {
@@ -97,6 +97,7 @@ namespace IM_PJ.Controllers
                     ui.PaymentType = PaymentType;
                     ui.TransportCompanyID = TransportCompanyID;
                     ui.TransportCompanySubID = TransportCompanySubID;
+                    ui.CustomerPhone2 = CustomerPhone2;
                     if (!string.IsNullOrEmpty(Province))
                         ui.ProvinceID = Province.ToInt();
                     int kq = dbe.SaveChanges();
@@ -112,7 +113,7 @@ namespace IM_PJ.Controllers
         {
             using (var dbe = new inventorymanagementEntities())
             {
-                tbl_Customer ai = dbe.tbl_Customer.Where(a => a.CustomerPhone == CustomerPhone).FirstOrDefault();
+                tbl_Customer ai = dbe.tbl_Customer.Where(a => a.CustomerPhone == CustomerPhone || a.CustomerPhone2 == CustomerPhone).FirstOrDefault();
                 if (ai != null)
                 {
                     return ai;
@@ -150,9 +151,9 @@ namespace IM_PJ.Controllers
         {
             string textsearch = '"' + text + '"';
             var list = new List<CustomerOut>();
-            var sql = @"select c.ID, c.CustomerName, c.Nick, c.CustomerPhone, c.Zalo, c.Facebook, c.CustomerAddress, c.ProvinceID as Province
+            var sql = @"select c.ID, c.CustomerName, c.Nick, c.CustomerPhone, c.CustomerPhone2, c.Zalo, c.Facebook, c.CustomerAddress, c.ProvinceID as Province
                         from tbl_Customer c
-                         WHERE (CONTAINS(c.CustomerName,'" + textsearch + "')  OR CONTAINS(c.Nick,'" + textsearch + "') OR c.CustomerPhone like '%" + text + "%' OR c.Facebook like '%" + text + "%' OR c.Zalo like '%" + text + "%')";
+                         WHERE (CONTAINS(c.CustomerName,'" + textsearch + "')  OR CONTAINS(c.Nick,'" + textsearch + "') OR c.CustomerPhone like '%" + text + "%' OR c.CustomerPhone2 like '%" + text + "%' OR c.Facebook like '%" + text + "%' OR c.Zalo like '%" + text + "%')";
             if (createdby != "")
             {
                 sql += " And c.CreatedBy = N'" + createdby + "'";
@@ -167,6 +168,8 @@ namespace IM_PJ.Controllers
                     entity.CustomerName = reader["CustomerName"].ToString();
                 if (reader["CustomerPhone"] != DBNull.Value)
                     entity.CustomerPhone = reader["CustomerPhone"].ToString();
+                if (reader["CustomerPhone2"] != DBNull.Value)
+                    entity.CustomerPhone2 = reader["CustomerPhone2"].ToString();
                 if (reader["CustomerAddress"] != DBNull.Value)
                     entity.CustomerAddress = reader["CustomerAddress"].ToString();
                 if (reader["Zalo"] != DBNull.Value)
@@ -275,12 +278,12 @@ namespace IM_PJ.Controllers
         {
             string textsearch = '"' + text + '"';
             var list = new List<CustomerOut>();
-            var sql = @"select c.ID, c.CustomerName, c.Nick, c.CustomerPhone, c.Zalo, c.Facebook, c.CreatedBy, c.CreatedDate, c.Avatar, c.ShippingType, c.PaymentType, c.TransportCompanyID, c.TransportCompanySubID, c.ProvinceID as Province
+            var sql = @"select c.ID, c.CustomerName, c.Nick, c.CustomerPhone, c.CustomerPhone2, c.Zalo, c.Facebook, c.CreatedBy, c.CreatedDate, c.Avatar, c.ShippingType, c.PaymentType, c.TransportCompanyID, c.TransportCompanySubID, c.ProvinceID as Province
                         from tbl_Customer c
                          WHERE 1 = 1";
             if (!string.IsNullOrEmpty(textsearch))
             {
-                sql += " And (CONTAINS(c.CustomerName,'" + textsearch + "')  OR CONTAINS(c.Nick,'" + textsearch + "') OR c.CustomerPhone like '%" + text + "%' OR c.Facebook like '%" + text + "%' OR c.Zalo like '%" + text + "%')";
+                sql += " And (CONTAINS(c.CustomerName,'" + textsearch + "') OR CONTAINS(c.Nick,'" + textsearch + "') OR c.CustomerPhone like '%" + text + "%' OR c.CustomerPhone2 like '%" + text + "%' OR c.Facebook like '%" + text + "%' OR c.Zalo like '%" + text + "%')";
             }
            
             if (Provice > 0)
@@ -301,6 +304,8 @@ namespace IM_PJ.Controllers
                     entity.CustomerName = reader["CustomerName"].ToString();
                 if (reader["CustomerPhone"] != DBNull.Value)
                     entity.CustomerPhone = reader["CustomerPhone"].ToString();
+                if (reader["CustomerPhone2"] != DBNull.Value)
+                    entity.CustomerPhone2 = reader["CustomerPhone2"].ToString();
                 if (reader["Zalo"] != DBNull.Value)
                     entity.Zalo = reader["Zalo"].ToString();
                 if (reader["Facebook"] != DBNull.Value)
@@ -436,6 +441,7 @@ namespace IM_PJ.Controllers
             public int PaymentType { get; set; }
             public int TransportCompanyID { get; set; }
             public int TransportCompanySubID { get; set; }
+            public string CustomerPhone2 { get; set; }
         }
         #endregion
     }

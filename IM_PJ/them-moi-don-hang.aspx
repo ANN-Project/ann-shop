@@ -177,11 +177,11 @@
                                 <div class="right totalpricedetail"></div>
                             </div>
                             <div class="post-table-links clear">
-                                <a href="javascript:;" class="btn link-btn" id="payall" style="background-color: #f87703; float: right" onclick="payAll()"><i class="fa fa-floppy-o"></i> Xác nhận</a>
+                                <a href="javascript:;" class="btn link-btn" id="payall" style="background-color: #f87703; float: right" title="Hoàn tất đơn hàng" onclick="payAll()"><i class="fa fa-floppy-o"></i> Xác nhận</a>
                                 <asp:Button ID="btnOrder" runat="server" OnClick="btnOrder_Click" Style="display: none" />
-                                <a href="javascript:;" class="btn link-btn" style="background-color: #ffad00; float: right;" onclick="searchReturnOrder()"><i class="fa fa-refresh"></i> Đổi trả</a>
-                                <a href="javascript:;" class="btn link-btn" style="background-color: #ffad00; float: right;" onclick="addOtherFee()"><i class="fa fa-refresh"></i> Thêm phí</a>
-                                <a href="javascript:;" class="btn link-btn" style="background-color: #F44336; float: right;" onclick="deleteProduct()"><i class="fa fa-times" aria-hidden="true"></i> Làm lại</a>
+                                <a href="javascript:;" class="btn link-btn" style="background-color: #ffad00; float: right;" title="Nhập đơn hàng đổi trả" onclick="searchReturnOrder()"><i class="fa fa-refresh"></i> Đổi trả</a>
+                                <a href="javascript:;" class="btn link-btn" style="background-color: #607D8B; float: right;" title="Thêm phí khác vào đơn hàng" onclick="addOtherFee()"><i class="fa fa-plus"></i> Thêm phí</a>
+                                <a href="javascript:;" class="btn link-btn" style="background-color: #F44336; float: right;" title="Xóa tất cả sản phẩm" onclick="deleteProduct()"><i class="fa fa-times" aria-hidden="true"></i> Làm lại</a>
                             </div>
                         </div>
                     </div>
@@ -251,6 +251,8 @@
     </telerik:RadAjaxManager>
     <telerik:RadScriptBlock ID="sc" runat="server">
 <script type="text/javascript">
+    "use strict";
+
 // order of item list
 var orderItem = 0;
 
@@ -593,7 +595,7 @@ function payAll() {
 
 // show popup Order status
 function showOrderStatus() {
-    fr = "         <div class=\"form-row\">";
+    var fr = "         <div class=\"form-row\">";
     fr += "             <h2>Hoàn tất đơn hàng</h2>";
     fr += "         </div>";
     fr += "         <div class=\"form-row\">";

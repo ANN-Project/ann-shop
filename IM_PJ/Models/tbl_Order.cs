@@ -50,5 +50,6 @@ namespace IM_PJ.Models
         public Nullable<int> TransportCompanySubID { get; set; }
         public string OtherFeeName { get; set; }
         public Nullable<double> OtherFeeValue { get; set; }
+        public Nullable<int> PostalDeliveryType { get; set; }
     }
 }

@@ -39,9 +39,9 @@
         <EntityTypeShape EntityType="inventorymanagementModel.tbl_OrderDetail" Width="1.5" PointX="4.75" PointY="17.75" />
         <EntityTypeShape EntityType="inventorymanagementModel.tbl_StockManager" Width="1.5" PointX="18.75" PointY="0.75" />
         <EntityTypeShape EntityType="inventorymanagementModel.tbl_TransportCompany" Width="1.5" PointX="0.75" PointY="19.75" />
-        <EntityTypeShape EntityType="inventorymanagementModel.tbl_Customer" Width="1.5" PointX="19.375" PointY="6.75" />
         <EntityTypeShape EntityType="inventorymanagementModel.tbl_Config" Width="1.5" PointX="7.375" PointY="20.75" />
-        <EntityTypeShape EntityType="inventorymanagementModel.tbl_Order" Width="1.5" PointX="19.375" PointY="12.75" />
+        <EntityTypeShape EntityType="inventorymanagementModel.tbl_Customer" Width="1.5" PointX="9.375" PointY="20.75" />
+        <EntityTypeShape EntityType="inventorymanagementModel.tbl_Order" Width="1.5" PointX="19.375" PointY="6.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
