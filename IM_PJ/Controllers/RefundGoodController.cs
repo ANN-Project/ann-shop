@@ -70,6 +70,23 @@ namespace IM_PJ.Controllers
             }
         }
 
+        public static bool DeleteByID(int ID)
+        {
+            using (var con = new inventorymanagementEntities())
+            {
+                var item = con.tbl_RefundGoods.Where(x => x.ID == ID).SingleOrDefault();
+
+                if (item != null)
+                {
+                    con.tbl_RefundGoods.Remove(item);
+                    con.SaveChanges();
+                    return true;
+                }
+
+                return false;
+            }
+        }
+
         #endregion
         #region Select        
         public static List<tbl_RefundGoods> GetAll(string s)
