@@ -423,7 +423,12 @@
                 
                 html += "           </select>\n";
                 html += "    </td>\n";
-                html += "   <td class='feeRefund'>" + formatThousands(item.FeeRefund) + "</td>\n";
+                if (item.ChangeType == 2) {
+                    html += "   <td class='feeRefund'>" + formatThousands(item.FeeRefund) + "</td>\n";
+                }
+                else {
+                    html += "   <td class='feeRefund'>0</td>\n";
+                }
                 html += "   <td class='totalFeeRefund'>" + formatThousands(item.TotalFeeRefund) + "</td>\n";
                 html += "   <td><a href='javascript:;' class='link-btn' onclick='deleteRow($(this))'><i class='fa fa-trash'></i></a></td>\n";
                 html += "</tr>\n";

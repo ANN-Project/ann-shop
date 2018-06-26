@@ -124,7 +124,7 @@ namespace IM_PJ
                                         Price = parent.product.ProductStyle == 2 ? child.Regular_Price.Value : parent.product.Regular_Price.Value,
                                         ReducedPrice = parent.product.ProductStyle == 2 ? child.Regular_Price.Value : parent.product.Regular_Price.Value,
                                         QuantityRefund = 1,
-                                        ChangeType = 1,
+                                        ChangeType = 2,
                                         FeeRefund = freeChange,
                                         TotalFeeRefund = parent.product.ProductStyle == 2 ? child.Regular_Price.Value : parent.product.Regular_Price.Value
                                     })
