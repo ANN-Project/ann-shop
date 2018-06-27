@@ -55,6 +55,7 @@ namespace IM_PJ
                     todate = fromdate.AddDays(1).AddMinutes(-1);
                 }
             }
+
             rFromDate.SelectedDate = fromdate;
             rToDate.SelectedDate = todate;
 
@@ -69,6 +70,9 @@ namespace IM_PJ
             }
 
             int totalrefund = 0;
+
+
+
 
             var refund = RefundGoodController.TotalRefund(fromdate.ToString(), todate.ToString());
             if (refund.Count() > 0)

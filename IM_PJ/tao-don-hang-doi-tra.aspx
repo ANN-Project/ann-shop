@@ -89,26 +89,26 @@
                         <div class="panel-post">
                             <div class="post-above clear">
                                 <div class="search-box left" style="width: 96%;">
-                                    <input type="text" id="txtSearch" class="form-control" placeholder="SKU (F3)">
+                                    <input type="text" id="txtSearch" class="form-control sku-input" placeholder="SKU (F3)">
                                 </div>
                                 <div class="right">
                                     <a href="javascript:;" class="link-btn" onclick="searchProduct()"><i class="fa fa-search"></i></a>
                                 </div>
                             </div>
                             <div class="post-body search-product-content clear">
-                                <table class="table table-checkable table-product custom-font-size-12 table-return-order">
+                                <table class="table table-checkable table-product table-return-order">
                                     <thead>
                                         <tr>
                                             <th class="image-column">Ảnh</th>
-                                            <th class="name-column">Tên sản phẩm</th>
-                                            <th class="sku-column">SKU</th>
-                                            <th class="price-column">Giá gốc</th>
-                                            <th class="price-column">Giá đã bán</th>
+                                            <th class="name-column">Sản phẩm</th>
+                                            <th class="sku-column">Mã</th>
+                                            <th class="price-column">Giá niêm yết</th>
+                                            <th class="sold-price-column">Giá đã bán</th>
                                             <th class="quantity-column">Cần đổi</th>
-                                            <th>Hình thức</th>
-                                            <th>Phí đổi hàng</th>
-                                            <th>Thành tiền</th>
-                                            <th></th>
+                                            <th class="type-column">Hình thức</th>
+                                            <th class="fee-column">Phí đổi hàng</th>
+                                            <th class="total-column">Thành tiền</th>
+                                            <th class="trash-column">Xóa</th>
                                         </tr>
                                     </thead>
                                     <tbody class="content-product">
@@ -430,7 +430,7 @@
                     html += "   <td class='feeRefund'>0</td>\n";
                 }
                 html += "   <td class='totalFeeRefund'>" + formatThousands(item.TotalFeeRefund) + "</td>\n";
-                html += "   <td><a href='javascript:;' class='link-btn' onclick='deleteRow($(this))'><i class='fa fa-trash'></i></a></td>\n";
+                html += "   <td class='trash-column'><a href='javascript:;' class='link-btn' onclick='deleteRow($(this))'><i class='fa fa-trash'></i></a></td>\n";
                 html += "</tr>\n";
 
                 $(".content-product").prepend(html);

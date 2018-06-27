@@ -161,9 +161,52 @@ function showCustomerList() {
             success: function (msg) {
                 var count = 0;
                 var data = JSON.parse(msg.d);
-                if (data.length > 0) {
+                if (data === null) {
+                    swal({
+                        title: "Thông báo",
+                        text: 'Không tìm thấy khách hàng !!',
+                        type: 'error',
+                        showCancelButton: true,
+                        closeOnConfirm: true,
+                        cancelButtonText: "Để em thêm khách mới..",
+                        confirmButtonText: "Để em tìm lại..",
+                        html: true,
+                    }, function (confirm) {
+                        if (confirm) {
+                            $("#txtSearchCustomer").focus();
+                        }
+                        else {
+                            $("input[id$='_txtFullname']").focus();
+                            closePopup();
+                        }
+                    });
+                }
+                else {
                     var html = "";
-                    var listGet = "";
+                    if (data.employee === 1 && $("input[id$='_notAcceptChangeUser']").val() === "1") {
+                        return swal({
+                            title: "Thông báo",
+                            text: 'Không tìm thấy khách hàng !!',
+                            type: 'error',
+                            showCancelButton: true,
+                            closeOnConfirm: true,
+                            cancelButtonText: "Để em thêm khách mới..",
+                            confirmButtonText: "Để em tìm lại..",
+                            html: true,
+                        }, function (confirm) {
+                            if (confirm) {
+                                $("#txtSearchCustomer").focus();
+                            }
+                            else {
+                                $("input[id$='_txtFullname']").focus();
+                                closePopup();
+                            }
+                        });
+                    }
+                    if (data.employee === 1) {
+                        swal("Thông báo", "Không tìm thấy khách hàng của bạn. Nhưng tìm thấy khách tương tự của nhân viên khác...", "error");
+                    }
+                    html = "";
                     html += ("<div class=\"margin-top-15\">");
                     html += ("<table class=\"table table-checkable table-product table-list-customer\">");
                     html += ("<thead>");
@@ -174,6 +217,7 @@ function showCustomerList() {
                     html += ("<th class=\"phone-column\">Điện thoại</th>");
                     html += ("<th class=\"zalo-column\">Zalo</th>");
                     html += ("<th class=\"facebook-column\">Facebook</th>");
+                    html += ("<th class=\"province-column\">Nhân viên</th>");
                     html += ("<th class=\"address-column\">Địa chỉ</th>");
                     html += ("<th class=\"province-column\">Tỉnh</th>");
                     html += ("</tr>");
@@ -183,11 +227,10 @@ function showCustomerList() {
                     html += ("<div class=\"form-row list-customer\">");
                     html += ("<table class=\"table table-checkable table-product table-list-customer\" id=\"tableCustomer\">");
                     html += ("<tbody>");
-                    for (var i = 0; i < data.length; i++) {
-                        var item = data[i];
 
+                    data.listCustomer.forEach(function (item) {
                         html += ("<tr>");
-                        
+
                         html += ("<td class=\"select-column\"><a class=\"btn primary-btn link-btn\" href=\"javascript:;\"><i class=\"fa fa-check-square-o\" aria-hidden=\"true\"></i></a></td>");
                         if (!isBlank(item.Nick)) {
                             html += ("<td class=\"nick nick-column\">" + item.Nick + "</td>");
@@ -202,33 +245,40 @@ function showCustomerList() {
                         } else {
                             html += ("<td></td>");
                         }
+
                         if (!isBlank(item.Facebook)) {
                             html += ("<td class=\"facebook\" data-value=\"" + item.Facebook + "\"><a class=\"link\" href=\"" + item.Facebook + "\" target=\"_blank\">Xem</a></td>");
                         } else {
                             html += ("<td></td>");
                         }
+
+                        if (!isBlank(item.CreatedBy)) {
+                            html += ("<td class=\"createdby province-column\">" + item.CreatedBy + "</td>");
+                        } else {
+                            html += ("<td></td>");
+                        }
+
                         if (!isBlank(item.CustomerAddress)) {
                             html += ("<td class=\"address address-column\">" + item.CustomerAddress + "</td>");
                         } else {
                             html += ("<td></td>");
                         }
+
                         if (!isBlank(item.Province)) {
                             html += ("<td class=\"province province-column\">" + item.Province + "</td>");
                         } else {
                             html += ("<td></td>");
                         }
                         html += ("</tr>");
-                    }
+                    });
+
                     html += ("</tbody>");
                     html += ("</table>");
                     html += ("</div>");
                     $("#txtSearchCustomer").val("");
                     $(".customer-list").html(html);
                     $(".customer-list").removeClass('hide').addClass('show');
-                    selectCustomer();
-                } else {
-                    $("#txtSearchCustomer").select();
-                    swal("Thông báo", "Không tìm thấy khách hàng", "error");
+                    selectCustomer(username);
                 }
             },
             error: function (xmlhttprequest, textstatus, errorthrow) {
@@ -291,7 +341,7 @@ function refreshCustomerInfo(ID) {
     }
 }
 
-function selectCustomer() {
+function selectCustomer(username) {
     $("#tableCustomer tr td").on('click', function (e) {
         var phone = $(this).closest('tr').find("td.phone").html();
         var name = $(this).closest('tr').find("td.name").html();
@@ -300,32 +350,84 @@ function selectCustomer() {
         var zalo = $(this).closest('tr').find("td.zalo").html();
         var facebook = $(this).closest('tr').find("td.facebook").attr("data-value");
         var id = $(this).closest('tr').find("td.id").html();
-        $("input[id$='_txtPhone']").val(phone).prop('disabled', true);
-        $("input[id$='_txtFullname']").val(name).prop('disabled', true);
-        $("input[id$='_txtNick']").val(nick).prop('disabled', true);
-        $("input[id$='_txtAddress']").val(address).prop('disabled', true);
-        $("input[id$='_txtZalo']").val(zalo).prop('disabled', true);
-        $("input[id$='_txtFacebook']").parent().removeClass("width-100");
-        $("input[id$='_txtFacebook']").val(facebook).prop('disabled', true);
-        if (facebook === null) {
-            $(".link-facebook").hide();
-            $("input[id$='_txtFacebook']").parent().addClass("width-100");
+        var createdby = $(this).closest('tr').find("td.createdby").html();
+        if (createdby !== username) {
+            swal({
+                title: "Lưu ý",
+                text: 'Chọn khách hàng này đồng nghĩa em đang tính tiền giúp nhân viên <strong>' + createdby + '</strong>.<br><br> Đồng ý không???',
+                type: 'warning',
+                showCancelButton: true,
+                closeOnConfirm: false,
+                cancelButtonText: "Để em suy nghỉ lại!",
+                confirmButtonText: "OK sếp ơi..",
+                html: true,
+            }, function (confirm) {
+                if (confirm) {
+                    $(".change-user").hide();
+                    $("input[id$='_txtPhone']").val(phone).prop('disabled', true);
+                    $("input[id$='_txtFullname']").val(name).prop('disabled', true);
+                    $("input[id$='_txtNick']").val(nick).prop('disabled', true);
+                    $("input[id$='_txtAddress']").val(address).prop('disabled', true);
+                    $("input[id$='_txtZalo']").val(zalo).prop('disabled', true);
+                    $("input[id$='_txtFacebook']").parent().removeClass("width-100");
+                    $("input[id$='_txtFacebook']").val(facebook).prop('disabled', true);
+                    if (facebook === null) {
+                        $(".link-facebook").hide();
+                        $("input[id$='_txtFacebook']").parent().addClass("width-100");
+                    }
+                    else {
+                        $("input[id$='_txtFacebook']").parent().removeClass("width-100");
+                        $(".link-facebook").html("<a href=\"" + facebook + "\" class=\"btn primary-btn fw-btn not-fullwidth\" target=\"_blank\">Xem</a>").show();
+                    }
+
+                    var button = "<a href=\"javascript:;\" class=\"btn primary-btn fw-btn not-fullwidth\" onclick=\"viewCustomerDetail('" + id + "')\"><i class=\"fa fa-address-card-o\" aria-hidden=\"true\"></i> Xem chi tiết</a>";
+                    button += "<a href=\"chi-tiet-khach-hang?id=" + id + "\" class=\"btn primary-btn fw-btn not-fullwidth edit-customer-btn\" target=\"_blank\"><i class=\"fa fa-pencil-square-o\" aria-hidden=\"true\"></i> Chỉnh sửa</a>";
+                    button += "<a href=\"javascript:;\" class=\"btn primary-btn fw-btn not-fullwidth clear-btn\" onclick=\"clearCustomerDetail()\"><i class=\"fa fa-times\" aria-hidden=\"true\"></i> Bỏ qua</a>";
+                    $(".view-detail").html(button).show();
+
+                    getCustomerDiscount(id);
+
+                    closePopup();
+                    if (typeof checkCustomer === 'function') {
+                        checkCustomer();
+                    }
+                    $("input[id$='_hdfUsernameCurrent']").val(createdby);
+                    swal.close();
+                }
+                else {
+                    $("#txtSearchCustomer").focus();
+                    swal.close();
+                }
+            });
         }
         else {
+            $("input[id$='_txtPhone']").val(phone).prop('disabled', true);
+            $("input[id$='_txtFullname']").val(name).prop('disabled', true);
+            $("input[id$='_txtNick']").val(nick).prop('disabled', true);
+            $("input[id$='_txtAddress']").val(address).prop('disabled', true);
+            $("input[id$='_txtZalo']").val(zalo).prop('disabled', true);
             $("input[id$='_txtFacebook']").parent().removeClass("width-100");
-            $(".link-facebook").html("<a href=\"" + facebook + "\" class=\"btn primary-btn fw-btn not-fullwidth\" target=\"_blank\">Xem</a>").show();
-        }
+            $("input[id$='_txtFacebook']").val(facebook).prop('disabled', true);
+            if (facebook === null) {
+                $(".link-facebook").hide();
+                $("input[id$='_txtFacebook']").parent().addClass("width-100");
+            }
+            else {
+                $("input[id$='_txtFacebook']").parent().removeClass("width-100");
+                $(".link-facebook").html("<a href=\"" + facebook + "\" class=\"btn primary-btn fw-btn not-fullwidth\" target=\"_blank\">Xem</a>").show();
+            }
 
-        var button = "<a href=\"javascript:;\" class=\"btn primary-btn fw-btn not-fullwidth\" onclick=\"viewCustomerDetail('" + id + "')\"><i class=\"fa fa-address-card-o\" aria-hidden=\"true\"></i> Xem chi tiết</a>";
-        button += "<a href=\"chi-tiet-khach-hang?id=" + id + "\" class=\"btn primary-btn fw-btn not-fullwidth edit-customer-btn\" target=\"_blank\"><i class=\"fa fa-pencil-square-o\" aria-hidden=\"true\"></i> Chỉnh sửa</a>";
-        button += "<a href=\"javascript:;\" class=\"btn primary-btn fw-btn not-fullwidth clear-btn\" onclick=\"clearCustomerDetail()\"><i class=\"fa fa-times\" aria-hidden=\"true\"></i> Bỏ qua</a>";
-        $(".view-detail").html(button).show();
+            var button = "<a href=\"javascript:;\" class=\"btn primary-btn fw-btn not-fullwidth\" onclick=\"viewCustomerDetail('" + id + "')\"><i class=\"fa fa-address-card-o\" aria-hidden=\"true\"></i> Xem chi tiết</a>";
+            button += "<a href=\"chi-tiet-khach-hang?id=" + id + "\" class=\"btn primary-btn fw-btn not-fullwidth edit-customer-btn\" target=\"_blank\"><i class=\"fa fa-pencil-square-o\" aria-hidden=\"true\"></i> Chỉnh sửa</a>";
+            button += "<a href=\"javascript:;\" class=\"btn primary-btn fw-btn not-fullwidth clear-btn\" onclick=\"clearCustomerDetail()\"><i class=\"fa fa-times\" aria-hidden=\"true\"></i> Bỏ qua</a>";
+            $(".view-detail").html(button).show();
 
-        getCustomerDiscount(id);
+            getCustomerDiscount(id);
 
-        closePopup();
-        if (typeof checkCustomer === 'function') {
-            checkCustomer();
+            closePopup();
+            if (typeof checkCustomer === 'function') {
+                checkCustomer();
+            }
         }
     });
 }
@@ -345,4 +447,128 @@ function clearCustomerDetail() {
     $("input[id$='_txtFacebook']").parent().addClass("width-100");
     $("input[id$='_txtFullname']").focus();
     getAllPrice();
+}
+
+function selectCustomerDetail(data) {
+    $("input[id$='_txtPhone']").val(data.CustomerPhone).prop('disabled', true);
+    $("input[id$='_txtFullname']").val(data.CustomerName).prop('disabled', true);
+    $("input[id$='_txtNick']").val(data.Nick).prop('disabled', true);
+    $("input[id$='_txtAddress']").val(data.CustomerAddress).prop('disabled', true);
+    $("input[id$='_txtZalo']").val(data.Zalo).prop('disabled', true);
+    $("input[id$='_txtFacebook']").parent().removeClass("width-100");
+    $("input[id$='_txtFacebook']").val(data.Facebook).prop('disabled', true);
+    if (data.Facebook === null) {
+        $(".link-facebook").hide();
+        $("input[id$='_txtFacebook']").parent().addClass("width-100");
+    }
+    else {
+        $("input[id$='_txtFacebook']").parent().removeClass("width-100");
+        $(".link-facebook").html("<a href=\"" + data.Facebook + "\" class=\"btn primary-btn fw-btn not-fullwidth\" target=\"_blank\">Xem</a>").show();
+    }
+
+    var button = "<a href=\"javascript:;\" class=\"btn primary-btn fw-btn not-fullwidth\" onclick=\"viewCustomerDetail('" + data.ID + "')\"><i class=\"fa fa-address-card-o\" aria-hidden=\"true\"></i> Xem chi tiết</a>";
+    button += "<a href=\"chi-tiet-khach-hang?id=" + data.ID + "\" class=\"btn primary-btn fw-btn not-fullwidth edit-customer-btn\" target=\"_blank\"><i class=\"fa fa-pencil-square-o\" aria-hidden=\"true\"></i> Chỉnh sửa</a>";
+    button += "<a href=\"javascript:;\" class=\"btn primary-btn fw-btn not-fullwidth clear-btn\" onclick=\"clearCustomerDetail()\"><i class=\"fa fa-times\" aria-hidden=\"true\"></i> Bỏ qua</a>";
+    $(".view-detail").html(button).show();
+
+    getCustomerDiscount(data.ID);
+
+    closePopup();
+    if (typeof checkCustomer === 'function') {
+        checkCustomer();
+    }
+}
+
+function ajaxCheckCustomer() {
+    var phone = $("input[id$='_txtPhone']").val();
+    $.ajax({
+        type: "POST",
+        url: "/pos.aspx/searchCustomerByPhone",
+        data: "{phone:'" + phone + "'}",
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        success: function (msg) {
+            var data = JSON.parse(msg.d);
+            var username = $("input[id$='_hdfUsername']").val();
+            if (data !== null) {
+                if (username !== data.CreatedBy) {
+                    swal({
+                        title: "Tin nửa vui nửa buồn!!",
+                        text: "Số điện thoại này đã được tạo cho khách hàng <strong>" + data.CustomerName + "</strong>. Nhưng khách này do <strong>" + data.CreatedBy + "</strong> phụ trách.<br><br>Cưng có lấy dữ liệu của khách này để tính tiền luôn không?",
+                        type: "info",
+                        showCancelButton: true,
+                        closeOnConfirm: false,
+                        cancelButtonText: "Để em kiểm tra lại..",
+                        confirmButtonText: "Lấy luôn sếp ơi..",
+                        html: true,
+                    }, function (isconfirm) {
+                        if (isconfirm) {
+                            if ($("input[id$='_notAcceptChangeUser']").val() === "1") {
+                                swal({
+                                    title: "Giởn thôi...",
+                                    text: "Làm vậy không ổn đâu cưng à!!<br><br>Bắt buộc bàn giao đơn hàng này cho <strong>" + data.CreatedBy + "</strong> thôi!<br><br>Hihi!",
+                                    type: "info",
+                                    showCancelButton: true,
+                                    closeOnConfirm: true,
+                                    cancelButtonText: "Để em kiểm tra lại..",
+                                    confirmButtonText: "Hihi OK sếp..",
+                                    html: true,
+                                }, function (confirm) {
+                                    if (confirm) {
+                                        $("input[id$='_txtPhone']").select();
+                                    }
+                                    else {
+                                        $("input[id$='_txtPhone']").select();
+                                    }
+                                });
+                            }
+                            else {
+                                swal({
+                                    title: "Nếu như vậy thì...",
+                                    text: "Đơn hàng này sẽ được cưng tính tiền dùm cho <strong>" + data.CreatedBy + "</strong>.<br><br>Cưng đồng ý không?",
+                                    type: "info",
+                                    showCancelButton: true,
+                                    closeOnConfirm: true,
+                                    cancelButtonText: "Để em suy nghỉ lại..",
+                                    confirmButtonText: "OK sếp ơi..",
+                                    html: true,
+                                }, function (confirm) {
+                                    if (confirm) {
+                                        $("input[id$='_hdfUsernameCurrent']").val(data.CreatedBy);
+                                        selectCustomerDetail(data);
+                                    }
+                                    else {
+                                        $("input[id$='_txtPhone']").select();
+                                    }
+                                });
+                            }
+                        }
+                        else {
+                            $("input[id$='_txtPhone']").select().focus();
+                        }
+                    });
+                }
+                else {
+                    swal({
+                        title: "Cười lên nào!!",
+                        text: "Số điện thoại này đã được tạo cho khách hàng <strong>" + data.CustomerName + "</strong>.<br><br>Cưng có lấy dữ liệu của khách này để tính tiền không?",
+                        type: "info",
+                        showCancelButton: true,
+                        closeOnConfirm: true,
+                        cancelButtonText: "Để em kiểm tra lại..",
+                        confirmButtonText: "Lấy luôn sếp ơi..",
+                        html: true,
+                    }, function (confirm) {
+                        if (confirm) {
+                            selectCustomerDetail(data);
+                        }
+                        else {
+                            $("input[id$='_txtPhone']").select().focus();
+                        }
+                    });
+                }
+
+            }
+        }
+    });
 }

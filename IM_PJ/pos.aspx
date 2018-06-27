@@ -26,7 +26,7 @@
                                 <div class="form-group">
                                     <label>Điện thoại</label>
                                     <asp:RequiredFieldValidator ID="re" runat="server" ControlToValidate="txtPhone" ErrorMessage="(*)" ForeColor="Red" Display="Dynamic"></asp:RequiredFieldValidator>
-                                    <asp:TextBox ID="txtPhone" CssClass="form-control" runat="server"></asp:TextBox>
+                                    <asp:TextBox ID="txtPhone" CssClass="form-control" onblur="ajaxCheckCustomer()" runat="server"></asp:TextBox>
                                 </div>
                                 <div class="form-group">
                                     <label>Nick đặt hàng</label>
@@ -145,7 +145,7 @@
                                 </div>
                             </div>
                             <div class="post-body clear">
-                                <table class="table table-checkable table-product custom-font-size-12">
+                                <table class="table table-checkable table-product table-pos-order">
                                     <thead>
                                         <tr>
                                             <th class="image-item">Ảnh</th>
@@ -156,12 +156,11 @@
                                             <th class="quantity-item">Mua</th>
                                             <th class="total-item">Tổng</th>
                                             <th class="trash-item"></th>
-                                            <th class="space-item"></th>
                                         </tr>
                                     </thead>
                                 </table>
-                                <div class="search-product-content">
-                                    <table class="table table-checkable table-product custom-font-size-12">
+                                <div class="search-product-content scrollbar">
+                                    <table class="table table-checkable table-product table-pos-order">
                                         <tbody class="content-product">
                                         </tbody>
                                     </table>

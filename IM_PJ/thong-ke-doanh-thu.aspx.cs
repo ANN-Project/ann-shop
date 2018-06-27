@@ -22,7 +22,7 @@ namespace IM_PJ
                     {
                         if (acc.RoleID != 0)
                         {
-                            Response.Redirect("/dang-nhap");
+                            Response.Redirect("/trang-chu");
                         }
                     }
                 }

@@ -411,7 +411,7 @@ namespace IM_PJ
                     int WayIn = 1;
 
                     string datedone = "";
-                    if(ExcuteStatus == 2)   
+                    if(ExcuteStatus == 2)
                     {
                         datedone = DateTime.Now.ToString();
                     }

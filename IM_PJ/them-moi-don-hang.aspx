@@ -28,7 +28,7 @@
                                         <div class="form-group">
                                             <label>Điện thoại</label>
                                             <asp:RequiredFieldValidator ID="re" runat="server" ControlToValidate="txtPhone" ErrorMessage="(*)" ForeColor="Red" Display="Dynamic"></asp:RequiredFieldValidator>
-                                            <asp:TextBox ID="txtPhone" CssClass="form-control" runat="server" placeholder="Số điện thoại khách hàng"></asp:TextBox>
+                                            <asp:TextBox ID="txtPhone" CssClass="form-control" onblur="ajaxCheckCustomer()" runat="server" placeholder="Số điện thoại khách hàng"></asp:TextBox>
                                         </div>
                                     </div>
                                 </div> 
@@ -95,24 +95,22 @@
                                 </div>
                             </div>
                             <div class="post-body search-product-content clear">
-                                <table class="table table-checkable table-product custom-font-size-12">
-                                    <thead>
-                                        <tr>
-                                            <th class="order-item-header">#</th>
-                                            <th class="image-item">Ảnh</th>
-                                            <th class="name-item">Sản phẩm</th>
-                                            <th class="sku-item">Mã</th>
-                                            <th class="variable-item">Thuộc tính</th>
-                                            <th class="price-item">Giá</th>
-                                            <th class="quantity-item">Kho</th>
-                                            <th class="quantity-item">Số lượng</th>
-                                            <th class="total-item">Thành tiền</th>
-                                            <th class="trash-item"></th>
-                                        </tr>
-                                    </thead>
-                                </table>
                                 <div class="search-product-content">
-                                    <table class="table table-checkable table-product custom-font-size-12">
+                                    <table class="table table-checkable table-product table-sale-order">
+                                        <thead>
+                                            <tr>
+                                                <th class="order-item">#</th>
+                                                <th class="image-item">Ảnh</th>
+                                                <th class="name-item">Sản phẩm</th>
+                                                <th class="sku-item">Mã</th>
+                                                <th class="variable-item">Thuộc tính</th>
+                                                <th class="price-item">Giá</th>
+                                                <th class="quantity-item">Kho</th>
+                                                <th class="quantity-item">Số lượng</th>
+                                                <th class="total-item">Thành tiền</th>
+                                                <th class="trash-item">Xóa</th>
+                                            </tr>
+                                        </thead>
                                         <tbody class="content-product">
                                         </tbody>
                                     </table>
@@ -187,6 +185,7 @@
                     </div>
                 </div>
             </div>
+            <asp:HiddenField ID="notAcceptChangeUser" Value="1" runat="server" />
             <asp:HiddenField ID="hdfUsername" runat="server" />
             <asp:HiddenField ID="hdfCheckCustomer" runat="server" Value="0" />
             <asp:HiddenField ID="hdfOrderType" runat="server" />
@@ -662,9 +661,9 @@ function showOrderStatus() {
 
 // reindex item order
 function reIndex() {
-    var item = $(".order-item");
+    var item = $(".table-sale-order > tbody > tr > td.order-item");
     for (var i = 0; i < item.length; i++) {
-        $(".order-item:eq(" + i + ")").html(i + 1);
+        $(".table-sale-order > tbody > tr > td.order-item:eq(" + i + ")").html(i + 1);
     }
 }
 

@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Text;
 using System.Web;
 using WebUI.Business;
 
@@ -208,13 +209,29 @@ namespace IM_PJ.Controllers
         {
 
             var list = new List<orderReport>();
+            var sql = new StringBuilder();
 
-            var sql = @"SELECT OD.ID, OD.SKU, OD.Quantity, OD.Price, O.ExcuteStatus, O.PaymentStatus FROM tbl_OrderDetail OD";
-            sql += " INNER JOIN tbl_Order as O ON OD.OrderID = O.ID";
-            sql += " WHERE (O.DateDone >= CONVERT(datetime, '" + fromdate + "', 121) AND O.DateDone < CONVERT(datetime, '" + todate + "', 121))";
-            sql += " AND O.ExcuteStatus = 2 AND O.PaymentStatus = 3";
+            sql.AppendLine(String.Format("SELECT"));
+            sql.AppendLine(String.Format("		ODD.ID"));
+            sql.AppendLine(String.Format(",		ODD.SKU"));
+            sql.AppendLine(String.Format(",		SUM(ISNULL(ODD.Quantity, 0)) AS Quantity"));
+            sql.AppendLine(String.Format(",		SUM(ISNULL(ODD.Price, 0)) AS Price"));
+            sql.AppendLine(String.Format(",		2 AS ExcuteStatus"));
+            sql.AppendLine(String.Format(",		3 AS PaymentStatus"));
+            sql.AppendLine(String.Format("FROM"));
+            sql.AppendLine(String.Format("		tbl_Order AS ORD"));
+            sql.AppendLine(String.Format("INNER JOIN tbl_OrderDetail AS ODD"));
+            sql.AppendLine(String.Format("	ON 	ORD.ID = ODD.OrderID"));
+            sql.AppendLine(String.Format("WHERE"));
+            sql.AppendLine(String.Format("		CONVERT(datetime, ORD.DateDone, 121) BETWEEN CONVERT(datetime, '{0}', 121) AND CONVERT(datetime, '{1}', 121)", fromdate, todate));
+            sql.AppendLine(String.Format("	AND ORD.ExcuteStatus = 2"));
+            sql.AppendLine(String.Format("	AND ORD.PaymentStatus = 3"));
+            sql.AppendLine(String.Format("GROUP BY"));
+            sql.AppendLine(String.Format("		ODD.ID"));
+            sql.AppendLine(String.Format(",		ODD.SKU"));
+            sql.AppendLine(String.Format(";"));
 
-            var reader = (IDataReader)SqlHelper.ExecuteDataReader(sql);
+            var reader = (IDataReader)SqlHelper.ExecuteDataReader(sql.ToString());
             while (reader.Read())
             {
                 var entity = new orderReport();

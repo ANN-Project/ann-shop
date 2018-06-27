@@ -7,6 +7,8 @@ namespace IM_PJ.Models
 {
     public class RefundDetailModel
     {
+        public int RefundGoodsID { get; set; }
+        public int RefundDetailID { get; set; }
         public int OrderID { get; set; }
         public int ProductID { get; set; }
         public int ProductVariableID { get; set; }

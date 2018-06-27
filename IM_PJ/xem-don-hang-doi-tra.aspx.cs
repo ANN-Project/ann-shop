@@ -145,8 +145,13 @@ namespace IM_PJ
                         var product = _refundGood.RefundDetails
                             .Join(
                                 rds,
-                                p1 => p1.ProductStyle == 2 ? p1.ChildSKU : p1.ParentSKU,
-                                p2 => p2.SKU,
+                                p1 => new {
+                                    RefundGoodsID = p1.RefundGoodsID,
+                                    RefundDetailID = p1.RefundDetailID
+                                },
+                                p2 => new {
+                                    RefundGoodsID = p2.RefundGoodsID.Value,
+                                    RefundDetailID = p2.ID },
                                 (p1, p2) => new { p1, p2 })
                             .Select(x => new {
                                 SKU = x.p2.SKU,
