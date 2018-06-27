@@ -188,7 +188,7 @@ namespace IM_PJ
                                 html += "   <td>" + item.ProductName + "</td>";
                                 html += "   <td>" + item.SKU + "</td>";
                                 html += "   <td class=\"giagoc\" data-giagoc=\"" + item.GiavonPerProduct + "\">" + string.Format("{0:N0}", Convert.ToDouble(item.GiavonPerProduct)) + "</td>";
-                                html += "   <td class=\"giadaban\" data-giadaban=\"" + item.SoldPricePerProduct + "\">" + string.Format("{0:N0}", Convert.ToDouble(item.SoldPricePerProduct)) + " ( CK: " + string.Format("{0:N0}", Convert.ToDouble(item.DiscountPricePerProduct)) + ")</td>";
+                                html += "   <td class=\"giadaban\" data-giadaban=\"" + item.SoldPricePerProduct + "\"><strong>" + string.Format("{0:N0}", Convert.ToDouble(item.SoldPricePerProduct)) + "</strong><br>(CK: " + string.Format("{0:N0}", Convert.ToDouble(item.DiscountPricePerProduct)) + ")</td>";
                                 html += "   <td class=\"slcandoi\">" + item.Quantity + "</td>";
                                 html += "   <td>";
                                 int refundType = Convert.ToInt32(item.RefundType);

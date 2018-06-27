@@ -161,6 +161,9 @@
                                     <div class="post-table-links clear">
                                         <a href="javascript:;" class="btn link-btn" style="background-color: #f87703; float: right;" onclick="payall()"><i class="fa fa-floppy-o"></i> Xác nhận</a>
                                         <a href="javascript:;" class="btn link-btn" style="background-color: #F44336; float: right;" onclick="deleteProduct()"><i class="fa fa-times" aria-hidden="true"></i> Làm lại</a>
+                                        <a href="javascript:;" class="btn link-btn minus-discount" style="background-color: #009688; float: right;" onclick="minusDiscount()"><i class="fa fa-arrow-down" aria-hidden="true"></i> Trừ chiết khấu</a>
+                                        <a href="javascript:;" class="btn link-btn restore-discount hide" style="background-color: #009688; float: right;" onclick="restoreDiscount()"><i class="fa fa-arrow-up" aria-hidden="true"></i> Khôi phục giá bán cũ</a>
+                                        <a href="javascript:;" class="btn link-btn" style="background-color: #607D8B; float: right;" onclick="changeFee()"><i class="fa fa-external-link" aria-hidden="true"></i> Nhập phí đổi hàng khác</a>
                                     </div>
                                 </div>
                             </div>
@@ -246,6 +249,85 @@
 
             function redirectTo(ID) {
                 window.location.href = "/xem-don-hang-doi-tra?id=" + ID;
+            }
+
+            function minusDiscount() {
+                swal({
+                    title: "Trừ chiết khấu",
+                    text: 'Nhập số tiền cần trừ:',
+                    type: 'input',
+                    showCancelButton: true,
+                    closeOnConfirm: true,
+                    cancelButtonText: "Để em xem lại",
+                    confirmButtonText: "OK sếp!!",
+                }, function (discount) {
+                    
+                    $("input.reducedPrice").each(function (index) {
+                        oldValue = $(this).val().replace(/,/g, "");
+
+                        if (parseInt(discount) > 0) {
+                            newValue = formatThousands(parseInt(oldValue) - parseInt(discount));
+                        }
+                        else {
+                            newValue = formatThousands(parseInt(oldValue) + parseInt(discount));
+                        }
+                        
+                        $(this).val(newValue);
+                        changeRow($(this));
+                    });
+
+                    $(".minus-discount").addClass("hide");
+                    $(".restore-discount").removeClass("hide");
+                });
+            }
+
+            function restoreDiscount() {
+                swal({
+                    title: "Khôi phục lại giá bán",
+                    text: "Giá bán sẽ khôi phục lại như lúc đầu (giống giá niêm yết).. OK không?",
+                    type: 'warning',
+                    showCancelButton: true,
+                    closeOnConfirm: true,
+                    cancelButtonText: "Để em coi lại..",
+                    confirmButtonText: "OK sếp !!!",
+                }, function (isConfirm) {
+                    if (isConfirm) {
+                        $("input.reducedPrice").each(function (index) {
+                            oldValue = $(this).parent().parent().find("td.Price").html();
+
+                            $(this).val(oldValue);
+                            changeRow($(this));
+                        });
+
+                        $(".minus-discount").removeClass("hide");
+                        $(".restore-discount").addClass("hide");
+                    }
+                });
+            }
+
+            function changeFee() {
+                swal({
+                    title: "Thay đổi phí đổi hàng",
+                    text: "Nhập phí mới cho <strong>sản phẩm đổi mẫu khác</strong> trong đơn hàng này:",
+                    type: "input",
+                    showCancelButton: true,
+                    closeOnConfirm: true,
+                    cancelButtonText: "Để em coi lại..",
+                    confirmButtonText: "Nhập thôi !!!",
+                    html: true
+                }, function (newFee) {
+                    $("input.reducedPrice").each(function (index) {
+                        oldFee = $(this).parent().parent().attr("data-feerefund");
+                        if (oldFee != "") {
+                            $(this).parent().parent().attr("data-feerefund", newFee);
+                            $(this).parent().parent().find(".feeRefund").html(formatThousands(newFee));
+                            changeRow($(this));
+                        }
+                    });
+
+                    $(".minus-discount").removeClass("hide");
+                    $(".restore-discount").addClass("hide");
+                });
             }
 
             // key press F1 - F4
@@ -366,6 +448,7 @@
                         item.ChangeType = ChangeType;
                         item.TotalFeeRefund = TotalFeeRefund;
                         item.ReducedPrice = ReducedPrice;
+                        item.FeeRefund = FeeRefund;
                         item.DiscountPricePerProduct = Price - ReducedPrice;
                     }
                 });

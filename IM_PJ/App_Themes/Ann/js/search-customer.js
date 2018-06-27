@@ -224,7 +224,7 @@ function showCustomerList() {
                     html += ("</thead>");
                     html += ("</table>");
                     html += ("</div>");
-                    html += ("<div class=\"form-row list-customer\">");
+                    html += ("<div class=\"form-row list-customer scrollbar\">");
                     html += ("<table class=\"table table-checkable table-product table-list-customer\" id=\"tableCustomer\">");
                     html += ("<tbody>");
 

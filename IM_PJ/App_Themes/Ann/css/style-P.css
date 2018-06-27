@@ -81,7 +81,7 @@
     width: 12%;
 }
 .table-return-order .name-column {
-    width: 23%;
+    width: 22%;
 }
 .table-return-order .sku-column {
     width: 9%;
@@ -96,10 +96,10 @@
     width: 6%;
 }
 .table-return-order .type-column {
-    width: 14%;
+    width: 13%;
 }
 .table-return-order .fee-column {
-    width: 7%;
+    width: 9%;
 }
 .table-return-order .total-column {
     width: 8%;
@@ -237,7 +237,7 @@
 }
 .list-customer {
     overflow-x: auto;
-    max-height: 450px;
+    max-height: 440px;
 }
 .table-list-customer thead th {
     background-color: #9e9e9e;
