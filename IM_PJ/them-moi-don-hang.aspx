@@ -21,14 +21,14 @@
                                         <div class="form-group">
                                             <label>Họ tên</label>
                                             <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" ControlToValidate="txtFullname" ErrorMessage="(*)" ForeColor="Red" Display="Dynamic"></asp:RequiredFieldValidator>
-                                            <asp:TextBox ID="txtFullname" CssClass="form-control capitalize" runat="server" placeholder="Họ tên thật của khách (F2)"></asp:TextBox>
+                                            <asp:TextBox ID="txtFullname" CssClass="form-control capitalize" runat="server" placeholder="Họ tên thật của khách (F2)" autocomplete="off"></asp:TextBox>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label>Điện thoại</label>
                                             <asp:RequiredFieldValidator ID="re" runat="server" ControlToValidate="txtPhone" ErrorMessage="(*)" ForeColor="Red" Display="Dynamic"></asp:RequiredFieldValidator>
-                                            <asp:TextBox ID="txtPhone" CssClass="form-control" onblur="ajaxCheckCustomer()" runat="server" placeholder="Số điện thoại khách hàng"></asp:TextBox>
+                                            <asp:TextBox ID="txtPhone" CssClass="form-control" autocomplete="off" onblur="ajaxCheckCustomer()" runat="server" placeholder="Số điện thoại khách hàng"></asp:TextBox>
                                         </div>
                                     </div>
                                 </div> 
@@ -37,14 +37,14 @@
                                         <div class="form-group">
                                             <label>Nick đặt hàng</label>
                                             <asp:RequiredFieldValidator ID="RequiredFieldValidator2" runat="server" ControlToValidate="txtNick" ErrorMessage="(*)" ForeColor="Red" Display="Dynamic"></asp:RequiredFieldValidator>
-                                            <asp:TextBox ID="txtNick" CssClass="form-control capitalize" runat="server" placeholder="Tên nick đặt hàng"></asp:TextBox>
+                                            <asp:TextBox ID="txtNick" CssClass="form-control capitalize" autocomplete="off" runat="server" placeholder="Tên nick đặt hàng"></asp:TextBox>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label>Địa chỉ</label>
                                             <asp:RequiredFieldValidator ID="RequiredFieldValidator3" runat="server" ControlToValidate="txtAddress" ErrorMessage="(*)" ForeColor="Red" Display="Dynamic"></asp:RequiredFieldValidator>
-                                            <asp:TextBox ID="txtAddress" CssClass="form-control capitalize" runat="server" placeholder="Địa chỉ khách hàng"></asp:TextBox>
+                                            <asp:TextBox ID="txtAddress" CssClass="form-control capitalize" autocomplete="off" runat="server" placeholder="Địa chỉ khách hàng"></asp:TextBox>
                                         </div>
                                     </div>
                                 </div> 
@@ -52,7 +52,7 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label>Zalo</label>
-                                            <asp:TextBox ID="txtZalo" CssClass="form-control" runat="server" placeholder="Số điện thoại Zalo"></asp:TextBox>
+                                            <asp:TextBox ID="txtZalo" CssClass="form-control" autocomplete="off" runat="server" placeholder="Số điện thoại Zalo"></asp:TextBox>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
@@ -60,7 +60,7 @@
                                             <label>Facebook</label>
                                             <div class="row">
                                                 <div class="col-md-10 fb width-100">
-                                                <asp:TextBox ID="txtFacebook" CssClass="form-control" runat="server" placeholder="Đường link chat Facebook"></asp:TextBox>
+                                                <asp:TextBox ID="txtFacebook" CssClass="form-control" autocomplete="off" runat="server" placeholder="Đường link chat Facebook"></asp:TextBox>
                                                 </div>
                                                 <div class="col-md-2">
                                                     <div class="row">
@@ -88,7 +88,7 @@
                             </select>
                             <div class="post-above clear">
                                 <div class="search-box left">
-                                    <input type="text" id="txtSearch" class="form-control sku-input" placeholder="SKU (F3)">
+                                    <input type="text" id="txtSearch" class="form-control sku-input" placeholder="SKU (F3)" autocomplete="off">
                                 </div>
                                 <div class="right">
                                     <a href="javascript:;" class="link-btn" onclick="searchProduct()"><i class="fa fa-search"></i></a>
@@ -490,7 +490,8 @@ function deleteReturnOrder() {
 }
 
 // pay order on click button
-function payAll() {
+    function payAll() {
+    ajaxCheckCustomer();
     var phone = $("#<%=txtPhone.ClientID%>").val();
     var name = $("#<%= txtFullname.ClientID%>").val();
     var nick = $("#<%= txtNick.ClientID%>").val();

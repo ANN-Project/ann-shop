@@ -99,7 +99,7 @@
                                     <asp:RequiredFieldValidator ID="rq" runat="server" ControlToValidate="txtProductTitle" ForeColor="Red" SetFocusOnError="true" ErrorMessage="(*)" Display="Dynamic"></asp:RequiredFieldValidator>
                                 </div>
                                 <div class="row-right">
-                                    <asp:TextBox ID="txtProductTitle" runat="server" CssClass="form-control" placeholder="Tên sản phẩm"></asp:TextBox>
+                                    <asp:TextBox ID="txtProductTitle" runat="server" CssClass="form-control" placeholder="Tên sản phẩm" autocomplete="off"></asp:TextBox>
                                 </div>
                             </div>
 
@@ -148,7 +148,7 @@
                                     Tồn kho ít nhất
                                 </div>
                                 <div class="row-right">
-                                    <asp:TextBox type="number" min="0" ID="pMinimumInventoryLevel" runat="server" CssClass="form-control" placeholder="Số lượng tồn kho ít nhất"></asp:TextBox>
+                                    <asp:TextBox type="number" min="0" value="3" ID="pMinimumInventoryLevel" runat="server" CssClass="form-control" placeholder="Số lượng tồn kho ít nhất"></asp:TextBox>
                                 </div>
                             </div>
                             <div class="form-row" id="Maximum">
@@ -156,7 +156,7 @@
                                     Tồn kho nhiều nhất
                                 </div>
                                 <div class="row-right">
-                                    <asp:TextBox type="number" min="0" ID="pMaximumInventoryLevel" runat="server" CssClass="form-control" placeholder="Số lượng tồn kho nhiều nhất"></asp:TextBox>
+                                    <asp:TextBox type="number" min="0" value="10" ID="pMaximumInventoryLevel" runat="server" CssClass="form-control" placeholder="Số lượng tồn kho nhiều nhất"></asp:TextBox>
                                 </div>
                             </div>
                             <div class="form-row">

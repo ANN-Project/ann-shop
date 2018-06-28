@@ -485,113 +485,116 @@ function selectCustomerDetail(data) {
 
 function ajaxCheckCustomer() {
     var phone = $("input[id$='_txtPhone']").val();
-    $.ajax({
-        type: "POST",
-        url: "/pos.aspx/searchCustomerByPhone",
-        data: "{phone:'" + phone + "'}",
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        success: function (msg) {
-            var data = JSON.parse(msg.d);
-            var username = $("input[id$='_hdfUsername']").val();
-            if (data !== null) {
-                if (username !== data.CreatedBy) {
-                    swal({
-                        title: "Tin nửa vui nửa buồn!!",
-                        text: "Số điện thoại này đã được tạo cho khách hàng <strong>" + data.CustomerName + "</strong>. Nhưng khách này do <strong>" + data.CreatedBy + "</strong> phụ trách.<br><br>Cưng có lấy dữ liệu của khách này để tính tiền luôn không?",
-                        type: "info",
-                        showCancelButton: true,
-                        closeOnConfirm: false,
-                        closeOnCancel: true,
-                        cancelButtonText: "Để em kiểm tra lại..",
-                        confirmButtonText: "Lấy luôn sếp ơi..",
-                        html: true,
-                    }, function (isconfirm) {
-                        if (isconfirm) {
-                            if ($("input[id$='_notAcceptChangeUser']").val() === "1") {
-                                swal({
-                                    title: "Giởn thôi...",
-                                    text: "Làm vậy không ổn đâu cưng à!!<br><br>Bắt buộc bàn giao đơn hàng này cho <strong>" + data.CreatedBy + "</strong> thôi!<br><br>Hihi!",
-                                    type: "info",
-                                    showCancelButton: true,
-                                    closeOnConfirm: true,
-                                    cancelButtonText: "Để em kiểm tra lại..",
-                                    confirmButtonText: "Hihi OK sếp..",
-                                    html: true,
-                                }, function (confirm) {
-                                    if (confirm) {
-                                        $("input[id$='_txtPhone']").select();
-                                        swal.close();
+    if (phone != "") {
+        $.ajax({
+            type: "POST",
+            url: "/pos.aspx/searchCustomerByPhone",
+            data: "{phone:'" + phone + "'}",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (msg) {
+                var data = JSON.parse(msg.d);
+                var username = $("input[id$='_hdfUsername']").val();
+                if (data !== null) {
+                    if (username !== data.CreatedBy) {
+                        swal({
+                            title: "Tin nửa vui nửa buồn!!",
+                            text: "Số điện thoại này đã được tạo cho khách hàng <strong>" + data.CustomerName + "</strong>. Nhưng khách này do <strong>" + data.CreatedBy + "</strong> phụ trách.<br><br>Cưng có lấy dữ liệu của khách này để tính tiền luôn không?",
+                            type: "info",
+                            showCancelButton: true,
+                            closeOnConfirm: false,
+                            closeOnCancel: true,
+                            cancelButtonText: "Để em kiểm tra lại..",
+                            confirmButtonText: "Lấy luôn sếp ơi..",
+                            html: true,
+                        }, function (isconfirm) {
+                            if (isconfirm) {
+                                if ($("input[id$='_notAcceptChangeUser']").val() === "1") {
+                                    swal({
+                                        title: "Giởn thôi...",
+                                        text: "Làm vậy không ổn đâu cưng à!!<br><br>Bắt buộc bàn giao đơn hàng này cho <strong>" + data.CreatedBy + "</strong> thôi!<br><br>Hihi!",
+                                        type: "info",
+                                        showCancelButton: true,
+                                        closeOnConfirm: true,
+                                        cancelButtonText: "Để em kiểm tra lại..",
+                                        confirmButtonText: "Hihi OK sếp..",
+                                        html: true,
+                                    }, function (confirm) {
+                                        if (confirm) {
+                                            $("input[id$='_txtPhone']").select();
+                                            swal.close();
+                                            $("body").removeClass("stop-scrolling");
+                                        }
+                                        else {
+                                            $("input[id$='_txtPhone']").select();
+                                            swal.close();
+                                            $("body").removeClass("stop-scrolling");
+                                        }
                                         $("body").removeClass("stop-scrolling");
-                                    }
-                                    else {
-                                        $("input[id$='_txtPhone']").select();
-                                        swal.close();
+                                    });
+                                }
+                                else {
+                                    swal({
+                                        title: "Nếu như vậy thì...",
+                                        text: "Đơn hàng này sẽ được cưng tính tiền dùm cho <strong>" + data.CreatedBy + "</strong>.<br><br>Cưng đồng ý không?",
+                                        type: "info",
+                                        showCancelButton: true,
+                                        closeOnConfirm: true,
+                                        cancelButtonText: "Để em suy nghỉ lại..",
+                                        confirmButtonText: "OK sếp ơi..",
+                                        html: true,
+                                    }, function (confirm) {
+                                        if (confirm) {
+                                            $("input[id$='_hdfUsernameCurrent']").val(data.CreatedBy);
+                                            selectCustomerDetail(data);
+                                            swal.close();
+                                            $("body").removeClass("stop-scrolling");
+                                        }
+                                        else {
+                                            $("input[id$='_txtPhone']").select();
+                                            swal.close();
+                                            $("body").removeClass("stop-scrolling");
+                                        }
                                         $("body").removeClass("stop-scrolling");
-                                    }
-                                    $("body").removeClass("stop-scrolling");
-                                });
+                                    });
+                                }
                             }
                             else {
-                                swal({
-                                    title: "Nếu như vậy thì...",
-                                    text: "Đơn hàng này sẽ được cưng tính tiền dùm cho <strong>" + data.CreatedBy + "</strong>.<br><br>Cưng đồng ý không?",
-                                    type: "info",
-                                    showCancelButton: true,
-                                    closeOnConfirm: true,
-                                    cancelButtonText: "Để em suy nghỉ lại..",
-                                    confirmButtonText: "OK sếp ơi..",
-                                    html: true,
-                                }, function (confirm) {
-                                    if (confirm) {
-                                        $("input[id$='_hdfUsernameCurrent']").val(data.CreatedBy);
-                                        selectCustomerDetail(data);
-                                        swal.close();
-                                        $("body").removeClass("stop-scrolling");
-                                    }
-                                    else {
-                                        $("input[id$='_txtPhone']").select();
-                                        swal.close();
-                                        $("body").removeClass("stop-scrolling");
-                                    }
-                                    $("body").removeClass("stop-scrolling");
-                                });
+                                $("input[id$='_txtPhone']").select().focus();
+                                swal.close();
+                                $("body").removeClass("stop-scrolling");
                             }
-                        }
-                        else {
-                            $("input[id$='_txtPhone']").select().focus();
-                            swal.close();
                             $("body").removeClass("stop-scrolling");
-                        }
-                        $("body").removeClass("stop-scrolling");
-                    });
-                }
-                else {
-                    swal({
-                        title: "Cười lên nào!!",
-                        text: "Số điện thoại này đã được tạo cho khách hàng <strong>" + data.CustomerName + "</strong>.<br><br>Cưng có lấy dữ liệu của khách này để tính tiền không?",
-                        type: "info",
-                        showCancelButton: true,
-                        closeOnConfirm: true,
-                        cancelButtonText: "Để em kiểm tra lại..",
-                        confirmButtonText: "Lấy luôn sếp ơi..",
-                        html: true,
-                    }, function (confirm) {
-                        if (confirm) {
-                            selectCustomerDetail(data);
-                            swal.close();
-                            $("body").removeClass("stop-scrolling");
-                        }
-                        else {
-                            $("input[id$='_txtPhone']").select().focus();
-                            swal.close();
-                            $("body").removeClass("stop-scrolling");
-                        }
-                    });
-                }
+                        });
+                    }
+                    else {
+                        swal({
+                            title: "Cười lên nào!!",
+                            text: "Số điện thoại này đã được tạo cho khách hàng <strong>" + data.CustomerName + "</strong>.<br><br>Cưng có lấy dữ liệu của khách này để tính tiền không?",
+                            type: "info",
+                            showCancelButton: true,
+                            closeOnConfirm: true,
+                            cancelButtonText: "Để em kiểm tra lại..",
+                            confirmButtonText: "Lấy luôn sếp ơi..",
+                            html: true,
+                        }, function (confirm) {
+                            if (confirm) {
+                                selectCustomerDetail(data);
+                                swal.close();
+                                $("body").removeClass("stop-scrolling");
+                            }
+                            else {
+                                $("input[id$='_txtPhone']").val("");
+                                swal.close();
+                                $("body").removeClass("stop-scrolling");
+                            }
+                        });
+                    }
 
+                }
             }
-        }
-    });
-    $("body").removeClass("stop-scrolling");
+        });
+        $("body").removeClass("stop-scrolling");
+    }
+    
 }

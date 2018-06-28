@@ -26,14 +26,14 @@
                                         <div class="form-group">
                                             <label>Họ tên</label>
                                             <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" ControlToValidate="txtFullname" ErrorMessage="(*)" ForeColor="Red" Display="Dynamic"></asp:RequiredFieldValidator>
-                                            <asp:TextBox ID="txtFullname" Enabled="false" CssClass="form-control" runat="server"></asp:TextBox>
+                                            <asp:TextBox ID="txtFullname" Enabled="false" CssClass="form-control" runat="server" autocomplete="off"></asp:TextBox>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label>Điện thoại</label>
                                             <asp:RequiredFieldValidator ID="re" runat="server" ControlToValidate="txtPhone" ErrorMessage="(*)" ForeColor="Red" Display="Dynamic"></asp:RequiredFieldValidator>
-                                            <asp:TextBox ID="txtPhone" Enabled="false" CssClass="form-control" runat="server" onchange="checkCustomer()" onpaste="checkCustomer()"></asp:TextBox>
+                                            <asp:TextBox ID="txtPhone" Enabled="false" CssClass="form-control" runat="server" onchange="checkCustomer()" onpaste="checkCustomer()" autocomplete="off"></asp:TextBox>
                                         </div>
                                     </div>
                                 </div> 
@@ -42,14 +42,14 @@
                                         <div class="form-group">
                                             <label>Nick đặt hàng</label>
                                             <asp:RequiredFieldValidator ID="RequiredFieldValidator2" runat="server" ControlToValidate="txtNick" ErrorMessage="(*)" ForeColor="Red" Display="Dynamic"></asp:RequiredFieldValidator>
-                                            <asp:TextBox ID="txtNick" Enabled="false" CssClass="form-control" runat="server"></asp:TextBox>
+                                            <asp:TextBox ID="txtNick" Enabled="false" CssClass="form-control" runat="server" autocomplete="off"></asp:TextBox>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label>Địa chỉ</label>
                                             <asp:RequiredFieldValidator ID="RequiredFieldValidator3" runat="server" ControlToValidate="txtAddress" ErrorMessage="(*)" ForeColor="Red" Display="Dynamic"></asp:RequiredFieldValidator>
-                                            <asp:TextBox ID="txtAddress" Enabled="false" CssClass="form-control" runat="server"></asp:TextBox>
+                                            <asp:TextBox ID="txtAddress" Enabled="false" CssClass="form-control" runat="server" autocomplete="off"></asp:TextBox>
                                         </div>
                                     </div>
                                 </div> 
@@ -57,7 +57,7 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label>Zalo</label>
-                                            <asp:TextBox ID="txtZalo" Enabled="false" CssClass="form-control" runat="server"></asp:TextBox>
+                                            <asp:TextBox ID="txtZalo" Enabled="false" CssClass="form-control" runat="server" autocomplete="off"></asp:TextBox>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
@@ -65,7 +65,7 @@
                                             <label>Facebook</label>
                                             <div class="row">
                                                 <div class="col-md-10 fb width-100">
-                                                <asp:TextBox ID="txtFacebook" Enabled="false" CssClass="form-control" runat="server"></asp:TextBox>
+                                                <asp:TextBox ID="txtFacebook" Enabled="false" CssClass="form-control" runat="server" autocomplete="off"></asp:TextBox>
                                                 </div>
                                                 <div class="col-md-2">
                                                     <div class="row">
@@ -89,7 +89,7 @@
                         <div class="panel-post">
                             <div class="post-above clear">
                                 <div class="search-box left" style="width: 96%;">
-                                    <input type="text" id="txtSearch" class="form-control sku-input" placeholder="SKU (F3)">
+                                    <input type="text" id="txtSearch" class="form-control sku-input" placeholder="SKU (F3)" autocomplete="off">
                                 </div>
                                 <div class="right">
                                     <a href="javascript:;" class="link-btn" onclick="searchProduct()"><i class="fa fa-search"></i></a>

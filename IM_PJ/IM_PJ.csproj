@@ -541,7 +541,7 @@
       <DependentUpon>IMModel.edmx</DependentUpon>
       <LastGenOutput>IMModel.cs</LastGenOutput>
     </Content>
-    <Content Include="pos.aspx" />
+    <Content Include="posx.aspx" />
     <Content Include="quan-ly-dai-ly.aspx" />
     <Content Include="quan-ly-danh-muc-san-pham.aspx" />
     <Content Include="quan-ly-danh-muc-thuoc-tinh.aspx" />
@@ -1163,12 +1163,12 @@
     <Compile Include="Models\View_ProductList.cs">
       <DependentUpon>IMModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="pos.aspx.cs">
-      <DependentUpon>pos.aspx</DependentUpon>
+    <Compile Include="posx.aspx.cs">
+      <DependentUpon>posx.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="pos.aspx.designer.cs">
-      <DependentUpon>pos.aspx</DependentUpon>
+    <Compile Include="posx.aspx.designer.cs">
+      <DependentUpon>posx.aspx</DependentUpon>
     </Compile>
     <Compile Include="print-shipping-note.aspx.cs">
       <DependentUpon>print-shipping-note.aspx</DependentUpon>
