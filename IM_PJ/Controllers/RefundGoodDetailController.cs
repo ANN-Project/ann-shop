@@ -100,7 +100,6 @@ namespace IM_PJ.Controllers
         {
             using (var con = new inventorymanagementEntities())
             {
-                var freeChange = ConfigController.GetByTop1().FeeChangeProduct.Value;
 
                 var products = con.tbl_Product
                     .GroupJoin(
@@ -143,7 +142,7 @@ namespace IM_PJ.Controllers
                                     ReducedPrice = refund.SoldPricePerProduct,
                                     QuantityRefund = refund.Quantity.Value,
                                     ChangeType = refund.RefundType.Value,
-                                    FeeRefund = freeChange,
+                                    FeeRefund = refund.RefundFeePerProduct,
                                     TotalFeeRefund = refund.TotalPriceRow
                                 }
                             )

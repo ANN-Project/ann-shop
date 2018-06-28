@@ -111,7 +111,7 @@ namespace IM_PJ
             {
                 foreach (var p in agent)
                 {
-                    ListItem listitem = new ListItem(p.Username, p.ID.ToString());
+                    ListItem listitem = new ListItem(p.Username, p.Username);
                     ddlUser.Items.Add(listitem);
                 }
                 ddlUser.DataBind();
@@ -157,8 +157,7 @@ namespace IM_PJ
                     AvatarThumbnail.ImageUrl = d.Avatar;
                     ListAvatarImage.Value = d.Avatar;
 
-                    int UID = acc.ID;
-                    ddlUser.SelectedValue = UID.ToString();
+                    ddlUser.SelectedValue = d.CreatedBy;
                 }
             }
         }

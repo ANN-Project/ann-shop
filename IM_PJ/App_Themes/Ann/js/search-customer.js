@@ -428,6 +428,9 @@ function selectCustomer(username) {
             if (typeof checkCustomer === 'function') {
                 checkCustomer();
             }
+
+            $("input[id$='_hdfUsernameCurrent']").val(createdby);
+            swal.close();
         }
     });
 }
@@ -446,6 +449,7 @@ function clearCustomerDetail() {
     $(".link-facebook").html("").hide();
     $("input[id$='_txtFacebook']").parent().addClass("width-100");
     $("input[id$='_txtFullname']").focus();
+    $("input[id$='_hdfUsernameCurrent']").val($("input[id$='_hdfUsername']").val());
     getAllPrice();
 }
 
@@ -498,6 +502,7 @@ function ajaxCheckCustomer() {
                         type: "info",
                         showCancelButton: true,
                         closeOnConfirm: false,
+                        closeOnCancel: true,
                         cancelButtonText: "Để em kiểm tra lại..",
                         confirmButtonText: "Lấy luôn sếp ơi..",
                         html: true,
@@ -516,10 +521,15 @@ function ajaxCheckCustomer() {
                                 }, function (confirm) {
                                     if (confirm) {
                                         $("input[id$='_txtPhone']").select();
+                                        swal.close();
+                                        $("body").removeClass("stop-scrolling");
                                     }
                                     else {
                                         $("input[id$='_txtPhone']").select();
+                                        swal.close();
+                                        $("body").removeClass("stop-scrolling");
                                     }
+                                    $("body").removeClass("stop-scrolling");
                                 });
                             }
                             else {
@@ -536,16 +546,24 @@ function ajaxCheckCustomer() {
                                     if (confirm) {
                                         $("input[id$='_hdfUsernameCurrent']").val(data.CreatedBy);
                                         selectCustomerDetail(data);
+                                        swal.close();
+                                        $("body").removeClass("stop-scrolling");
                                     }
                                     else {
                                         $("input[id$='_txtPhone']").select();
+                                        swal.close();
+                                        $("body").removeClass("stop-scrolling");
                                     }
+                                    $("body").removeClass("stop-scrolling");
                                 });
                             }
                         }
                         else {
                             $("input[id$='_txtPhone']").select().focus();
+                            swal.close();
+                            $("body").removeClass("stop-scrolling");
                         }
+                        $("body").removeClass("stop-scrolling");
                     });
                 }
                 else {
@@ -561,9 +579,13 @@ function ajaxCheckCustomer() {
                     }, function (confirm) {
                         if (confirm) {
                             selectCustomerDetail(data);
+                            swal.close();
+                            $("body").removeClass("stop-scrolling");
                         }
                         else {
                             $("input[id$='_txtPhone']").select().focus();
+                            swal.close();
+                            $("body").removeClass("stop-scrolling");
                         }
                     });
                 }
@@ -571,4 +593,5 @@ function ajaxCheckCustomer() {
             }
         }
     });
+    $("body").removeClass("stop-scrolling");
 }
