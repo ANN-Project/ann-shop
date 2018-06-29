@@ -16,7 +16,7 @@
     <RootNamespace>IM_PJ</RootNamespace>
     <AssemblyName>IM_PJ</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
-    <UseIISExpress>false</UseIISExpress>
+    <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort />
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
@@ -327,6 +327,7 @@
     <Content Include="App_Themes\Ann\js\master.js" />
     <Content Include="App_Themes\Ann\js\popup.js" />
     <Content Include="App_Themes\Ann\js\search-customer.js" />
+    <Content Include="App_Themes\Ann\js\search-product.js" />
     <Content Include="App_Themes\Ann\scss\style.css" />
     <Content Include="App_Themes\Ann\scss\style.min.css" />
     <Content Include="App_Themes\NewUI\css\bootstrap-editable.css" />
@@ -449,6 +450,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="print-shipping-note.aspx" />
+    <Content Include="ServiceCommon.asmx" />
     <Content Include="SQL\01CREATE_TABLE_Customer.sql" />
     <Content Include="SQL\01CREATE_TABLE_Order.sql" />
     <Content Include="SQL\01CREATE_TABLE_OrderDetail.sql" />
@@ -768,6 +770,7 @@
     <Compile Include="chi-tiet-noi-den-nha-xe.aspx.designer.cs">
       <DependentUpon>chi-tiet-noi-den-nha-xe.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Controllers\CommonController.cs" />
     <Compile Include="Controllers\TransportCompanyController.cs" />
     <Compile Include="danh-sach-nha-xe.aspx.cs">
       <DependentUpon>danh-sach-nha-xe.aspx</DependentUpon>
@@ -776,6 +779,7 @@
     <Compile Include="danh-sach-nha-xe.aspx.designer.cs">
       <DependentUpon>danh-sach-nha-xe.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Models\ProductModel.cs" />
     <Compile Include="Models\RefundDetailModel.cs" />
     <Compile Include="Models\RefundGoodModel.cs" />
     <Compile Include="Models\tbl_Customer.cs">
@@ -1227,6 +1231,10 @@
     <Compile Include="quan-ly-xuat-kho.aspx.designer.cs">
       <DependentUpon>quan-ly-xuat-kho.aspx</DependentUpon>
     </Compile>
+    <Compile Include="ServiceCommon.asmx.cs">
+      <DependentUpon>ServiceCommon.asmx</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Site.Master.cs">
       <DependentUpon>Site.Master</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -1589,7 +1597,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>60486</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost/</IISUrl>
+          <IISUrl>http://localhost:60486/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>
