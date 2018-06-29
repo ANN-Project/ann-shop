@@ -59,82 +59,27 @@ namespace IM_PJ
             rToDate.SelectedDate = todate;
             double day = (todate - fromdate).TotalDays;
 
-            int TotalCostOfSales = 0;
-            int TotalNumberOfOrder = 0;
-            int TotalSales = 0;
-            var od = OrderController.Report(fromdate.ToString(), todate.ToString());
-            if (od != null)
-            {
-                TotalNumberOfOrder = od.Count();
-                foreach (var item in od)
-                {
-                    TotalSales += Convert.ToInt32(item.TotalPrice);
-                    var orderItems = OrderDetailController.GetByOrderID(item.ID);
-                    if (orderItems != null)
-                    {
-                        foreach (var t in orderItems)
-                        {
-                            var productVariable = ProductVariableController.GetBySKU(t.SKU);
-                            if (productVariable != null)
-                            {
-                                TotalCostOfSales += Convert.ToInt32(productVariable.CostOfGood) * Convert.ToInt32(t.Quantity);
-                            }
-                            else
-                            {
-                                var productSimple = ProductController.GetBySKU(t.SKU);
-                                if (productSimple != null)
-                                {
-                                    TotalCostOfSales += Convert.ToInt32(productSimple.CostOfGood) * Convert.ToInt32(t.Quantity);
-                                }
-                            }
-                        }
-                    }
-                }
-            }
+            var reportModel = OrderController.GetProfitReport(fromdate, todate);
 
-            int TotalRefund = 0;
-            int TotalCostOfRefund = 0;
-            var refund = RefundGoodController.TotalRefund(fromdate.ToString(), todate.ToString());
-            if (refund.Count() > 0)
-            {
-                foreach (var temp in refund)
-                {
-                    TotalRefund += Convert.ToInt32(temp.TotalPrice);
-                    var redetail = RefundGoodDetailController.GetByRefundGoodsID(temp.ID);
-                    if (redetail.Count() > 0)
-                    {
-                        foreach (var vl in redetail)
-                        {
-                            var pr = ProductVariableController.GetBySKU(vl.SKU);
-                            if (pr != null)
-                            {
-                                TotalCostOfRefund += Convert.ToInt32(pr.CostOfGood) * Convert.ToInt32(vl.Quantity);
-                            }
-                        }
-                    }
+            double TotalRevenue = reportModel.TotalSales - reportModel.TotalRefund;
 
-                }
-            }
-
-            int TotalRevenue = TotalSales - TotalRefund;
-
-            int TotalCost = TotalCostOfSales - TotalCostOfRefund;
+            double TotalCost = reportModel.TotalCostOfSales - reportModel.TotalCostOfRefund;
             
-            int TotalProfit = TotalRevenue - TotalCost;
+            double TotalProfit = TotalRevenue - TotalCost;
 
             double TotalProfitPerDay = TotalProfit / day;
 
-            int TotalProfitPerOrder = 0;
+            double TotalProfitPerOrder = 0;
 
-            if (TotalNumberOfOrder > 0)
+            if (reportModel.TotalNumberOfOrder > 0)
             {
-                TotalProfitPerOrder = TotalProfit / TotalNumberOfOrder;
+                TotalProfitPerOrder = Math.Ceiling(TotalProfit / reportModel.TotalNumberOfOrder);
             }
             
 
             ltrTotalRevenue.Text = string.Format("{0:N0}", TotalRevenue);
-            ltrTotalCost.Text = string.Format("{0:N0}", TotalCostOfSales);
-            ltrTotalRefund.Text = string.Format("{0:N0}", TotalRefund);
+            ltrTotalCost.Text = string.Format("{0:N0}", reportModel.TotalCostOfSales);
+            ltrTotalRefund.Text = string.Format("{0:N0}", reportModel.TotalRefund);
             ltrTotalProfit.Text += string.Format("{0:N0}", TotalProfit);
 
             ltrProfitPerDay.Text += string.Format("{0:N0}", TotalProfitPerDay);

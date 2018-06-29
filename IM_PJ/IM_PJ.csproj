@@ -789,6 +789,7 @@
       <DependentUpon>danh-sach-nha-xe.aspx</DependentUpon>
     </Compile>
     <Compile Include="Models\ProductModel.cs" />
+    <Compile Include="Models\ProfitReportModel.cs" />
     <Compile Include="Models\RefundDetailModel.cs" />
     <Compile Include="Models\RefundGoodModel.cs" />
     <Compile Include="Models\tbl_Customer.cs">
