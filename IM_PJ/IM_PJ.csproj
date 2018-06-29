@@ -16,7 +16,7 @@
     <RootNamespace>IM_PJ</RootNamespace>
     <AssemblyName>IM_PJ</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
-    <UseIISExpress>true</UseIISExpress>
+    <UseIISExpress>false</UseIISExpress>
     <IISExpressSSLPort />
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
@@ -545,7 +545,7 @@
       <DependentUpon>IMModel.edmx</DependentUpon>
       <LastGenOutput>IMModel.cs</LastGenOutput>
     </Content>
-    <Content Include="posx.aspx" />
+    <Content Include="pos.aspx" />
     <Content Include="quan-ly-dai-ly.aspx" />
     <Content Include="quan-ly-danh-muc-san-pham.aspx" />
     <Content Include="quan-ly-danh-muc-thuoc-tinh.aspx" />
@@ -596,7 +596,7 @@
     <Content Include="them-don-tra-hang.aspx" />
     <Content Include="them-gia-tri-thuoc-tinh.aspx" />
     <Content Include="them-moi-danh-muc-thuoc-tinh.aspx" />
-    <Content Include="them-moi-don-hangx.aspx" />
+    <Content Include="them-moi-don-hang.aspx" />
     <Content Include="them-moi-giam-gia.aspx" />
     <Content Include="them-moi-khach-hang.aspx" />
     <Content Include="them-moi-nha-cung-cap.aspx" />
@@ -613,7 +613,7 @@
     <Content Include="thong-tin-anh-san-pham.aspx" />
     <Content Include="thong-tin-dai-ly.aspx" />
     <Content Include="thong-tin-danh-muc-san-pham.aspx" />
-    <Content Include="thong-tin-don-hangx.aspx" />
+    <Content Include="thong-tin-don-hang.aspx" />
     <Content Include="thong-tin-gia-tri-thuoc-tinh.aspx" />
     <Content Include="thong-tin-nhan-vien.aspx" />
     <Content Include="thong-tin-san-pham.aspx" />
@@ -1176,12 +1176,12 @@
     <Compile Include="Models\View_ProductList.cs">
       <DependentUpon>IMModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="posx.aspx.cs">
-      <DependentUpon>posx.aspx</DependentUpon>
+    <Compile Include="pos.aspx.cs">
+      <DependentUpon>pos.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="posx.aspx.designer.cs">
-      <DependentUpon>posx.aspx</DependentUpon>
+    <Compile Include="pos.aspx.designer.cs">
+      <DependentUpon>pos.aspx</DependentUpon>
     </Compile>
     <Compile Include="print-shipping-note.aspx.cs">
       <DependentUpon>print-shipping-note.aspx</DependentUpon>
@@ -1350,12 +1350,12 @@
     <Compile Include="them-moi-danh-muc-thuoc-tinh.aspx.designer.cs">
       <DependentUpon>them-moi-danh-muc-thuoc-tinh.aspx</DependentUpon>
     </Compile>
-    <Compile Include="them-moi-don-hangx.aspx.cs">
-      <DependentUpon>them-moi-don-hangx.aspx</DependentUpon>
+    <Compile Include="them-moi-don-hang.aspx.cs">
+      <DependentUpon>them-moi-don-hang.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="them-moi-don-hangx.aspx.designer.cs">
-      <DependentUpon>them-moi-don-hangx.aspx</DependentUpon>
+    <Compile Include="them-moi-don-hang.aspx.designer.cs">
+      <DependentUpon>them-moi-don-hang.aspx</DependentUpon>
     </Compile>
     <Compile Include="them-moi-giam-gia.aspx.cs">
       <DependentUpon>them-moi-giam-gia.aspx</DependentUpon>
@@ -1511,12 +1511,12 @@
     <Compile Include="thong-tin-don-hang-chuyen-hoan.aspx.designer.cs">
       <DependentUpon>thong-tin-don-hang-chuyen-hoan.aspx</DependentUpon>
     </Compile>
-    <Compile Include="thong-tin-don-hangx.aspx.cs">
-      <DependentUpon>thong-tin-don-hangx.aspx</DependentUpon>
+    <Compile Include="thong-tin-don-hang.aspx.cs">
+      <DependentUpon>thong-tin-don-hang.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="thong-tin-don-hangx.aspx.designer.cs">
-      <DependentUpon>thong-tin-don-hangx.aspx</DependentUpon>
+    <Compile Include="thong-tin-don-hang.aspx.designer.cs">
+      <DependentUpon>thong-tin-don-hang.aspx</DependentUpon>
     </Compile>
     <Compile Include="thong-tin-gia-tri-thuoc-tinh.aspx.cs">
       <DependentUpon>thong-tin-gia-tri-thuoc-tinh.aspx</DependentUpon>
@@ -1611,9 +1611,9 @@
         <WebProjectProperties>
           <UseIIS>True</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>60486</DevelopmentServerPort>
+          <DevelopmentServerPort>80</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:60486/</IISUrl>
+          <IISUrl>http://localhost/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>
