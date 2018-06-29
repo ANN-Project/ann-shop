@@ -53,6 +53,7 @@
             </footer>
 
             <a href="javascript:;" class="scroll-top-link" id="scroll-top"><i class="fa fa-angle-up"></i></a>
+            <%: Scripts.Render("~/ANN/common") %>
             <script src="/App_Themes/Ann/js/bootstrap.min.js"></script>
             <script src="/App_Themes/Ann/js/bootstrap-table/bootstrap-table.js"></script>
             <script src="/App_Themes/Ann/js/chartjs.min.js"></script>

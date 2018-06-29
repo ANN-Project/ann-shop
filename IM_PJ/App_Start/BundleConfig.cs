@@ -34,6 +34,10 @@ namespace IM_PJ
             bundles.Add(new ScriptBundle("~/bundles/modernizr").Include(
                             "~/Scripts/modernizr-*"));
 
+            // Common
+            bundles.Add(new ScriptBundle("~/ANN/common").Include(
+                            "~/App_Themes/Ann/js/search-product.js"));
+
             ScriptManager.ScriptResourceMapping.AddDefinition(
                 "respond",
                 new ScriptResourceDefinition

@@ -502,22 +502,22 @@ function deleteReturnOrder() {
             var count = 0;
             var ordertype = $(".customer-type").val();
             $(".product-result").each(function() {
-                var id = $(this).attr("data-id");
+                var id = $(this).attr("data-productid");
                 var sku = $(this).attr("data-sku");
                 var producttype = $(this).attr("data-producttype");
-                var productnariablename = $(this).attr("data-productnariablename");
+                var productvariablename = $(this).attr("data-productvariablename");
                 var productvariablevalue = $(this).attr("data-productvariablevalue");
                 var productname = $(this).attr("data-productname");
                 var productimageorigin = $(this).attr("data-productimageorigin");
                 var productvariable = $(this).attr("data-productvariable");
                 var price = $(this).find(".gia-san-pham").attr("data-price");
                 var productvariablesave = $(this).attr("data-productvariablesave");
-                var quantity = parseFloat($(this).find(".in-quanlity").val());
+                var quantity = parseFloat($(this).find(".in-quantity").val());
                 var quantityInstock = parseFloat($(this).attr("data-quantityinstock"));
 
                 if (quantity > 0) {
 
-                    list += id + "," + sku + "," + producttype + "," + productnariablename + "," + productvariablevalue + "," + quantity + "," +
+                    list += id + "," + sku + "," + producttype + "," + productvariablename + "," + productvariablevalue + "," + quantity + "," +
                         productname + "," + productimageorigin + "," + productvariablesave + "," + price + "," + productvariablesave + ";";
                     count++;
                 }
@@ -660,289 +660,16 @@ function showOrderStatus() {
     showPopup(fr);
 }
 
-// reindex item order
-function reIndex() {
-    var item = $(".table-sale-order > tbody > tr > td.order-item");
-    for (var i = 0; i < item.length; i++) {
-        $(".table-sale-order > tbody > tr > td.order-item:eq(" + i + ")").html(i + 1);
-    }
-}
-
 // search product by SKU
 function searchProduct() {
-    var textsearch = $("#txtSearch").val();
+    let textsearch = $("#txtSearch").val().trim().toUpperCase();
+
     $("#<%=hdfListSearch.ClientID%>").val(textsearch);
-    var customerType = $(".customer-type").val();
+
     $("#txtSearch").val("");
-    if (!isBlank(textsearch)) {
-        $.ajax({
-            type: "POST",
-            url: "/them-moi-don-hang.aspx/getProduct",
-            data: "{textsearch:'" + textsearch + "', gettotal: 0 }",
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            success: function(msg) {
-                var data = JSON.parse(msg.d);
-                if (data.length > 1) {
-                    var html = "";
-                    var listGet = "";
-                    html += ("<table class=\"table table-checkable table-product\">");
-                    html += ("<tr>");
-                    html += ("<td class=\"order-item\">");
-                    html += ("<input type=\"checkbox\" id=\"check-all\"onchange=\"check_all()\"/>");
-                    html += ("</td>");
-                    html += ("<td class=\"image-item\">Ảnh</td>");
-                    html += ("<td class=\"name-item\">Sản phẩm</td>");
-                    html += ("<td class=\"sku-item\">Mã</td>");
-                    html += ("<td class=\"variable-item\">Thuộc tính</td>");
-                    html += ("<td class=\"quantity-item\">Số lượng</td>");
-                    html += ("</tr>");
-                    for (var i = 0; i < data.length; i++) {
-                        var item = data[i];
-                        html += ("<tr class=\"search-popup\" id=\"search-key\";>");
-                        html += ("<td class=\"order-item\">");
-                        html += ("<input id=\"" + item.ID + "\" type=\"checkbox\" class=\"check-popup\" onchange=\"check($(this))\" />");
-                        html += ("</td>");
-                        html += ("<td class=\"image-item\">" + item.ProductImage + "</td>");
-                        html += ("<td class=\"namer-item\">" + item.ProductName + "</td>");
-                        html += ("<td class=\"sku-item key\">" + item.SKU + "</td>");
-                        html += ("<td class=\"variable-item\">" + item.ProductVariable + "</td>");
-                        html += ("<td class=\"quantity-item\"><input class=\"quantity\" type=\"text\" value=\"1\"></td>");
-                        html += ("</tr>");
-                    }
-                    html += ("</table>");
-                    html += ("<div>");
-                    html += ("<a href=\"javascript: ;\" class=\"btn link-btn\" style=\"background-color:#f87703;float:right;color:#fff;\" onclick=\"selectProduct()\">Chọn</a>");
-                    html += ("</div >");
-                    showPopup(html);
-                } else if (data.length == 1) {
 
-                    var item = data[0];
-                    var sku = item.SKU;
-                    var check = false;
-                    $(".product-result").each(function() {
-                        var existedSKU = $(this).attr("data-sku");
-                        if (sku == existedSKU) {
-                            check = true;
-                        }
-                    });
-                    if (check == false) {
-                        orderItem++;
-                        html += "<tr class=\"product-result\" data-giabansi=\"" + item.Giabansi + "\" data-giabanle=\"" + item.Giabanle + "\" " +
-                            "data-quantityinstock=\"" + item.QuantityInstock + "\" data-productimageorigin=\"" + item.ProductImageOrigin + "\" " +
-                            "data-productvariable=\"" + item.ProductVariable + "\" data-productname=\"" + item.ProductName + "\" " +
-                            "data-sku=\"" + item.SKU + "\" data-producttype=\"" + item.ProductType + "\" data-id=\"" + item.ID + "\" " +
-                            "data-productnariablename=\"" + item.ProductVariableName + "\" " +
-                            "data-productvariablevalue =\"" + item.ProductVariableValue + "\" " +
-                            "data-productvariablesave =\"" + item.ProductVariableSave + "\">";
-                        html += "   <td class=\"order-item\">" + orderItem + "</td>";
-                        html += "   <td class=\"image-item\">" + item.ProductImage + "</td>";
-                        html += "   <td class=\"name-item\">" + item.ProductName + "</td>";
-                        html += "   <td class=\"sku-item\">" + item.SKU + "</td>";
-                        html += "   <td class=\"variable-item\">" + item.ProductVariable + "</td>";
-                        if (customerType == 1) {
-                            if (item.Giabanle > 0)
-                                html += "   <td class=\"price-item gia-san-pham\" data-price=\"" + item.Giabanle + "\">" + item.stringGiabanle + "</td>";
-                            else
-                                html += "   <td class=\"price-item gia-san-pham\" data-price=\"" + item.Giabansi + "\">" + item.stringGiabansi + "</td>";
-                        } else {
-                            html += "   <td class=\"price-item gia-san-pham\" data-price=\"" + item.Giabansi + "\">" + item.stringGiabansi + "</td>";
-                        }
-
-                        html += "   <td class=\"quantity-item\">" + item.QuantityInstockString + "</td>";
-                        html += "   <td class=\"quantity-item\"><input type=\"text\" class=\"form-control in-quanlity\" value=\"1\" onblur=\"checkQuantiy($(this))\" onkeypress='return event.charCode >= 48 && event.charCode <= 57'/></td>";
-                        var t = parseFloat(item.Giabansi);
-
-                        html += "<td class=\"total-item totalprice-view\">" + formatThousands(t, '.') + "</td>";
-                        html += "<td class=\"trash-item\"><a href=\"javascript:;\" class=\"link-btn\" onclick=\"deleteRow($(this))\"><i class=\"fa fa-trash\"></i></a></td>";
-                        html += "</tr>";
-                    } else if (check == true) {
-                        $(".product-result").each(function() {
-                            var existedSKU = $(this).attr("data-sku");
-                            if (sku == existedSKU) {
-                                var quantityinstock = parseFloat($(this).attr("data-quantityinstock"));
-                                var quantityCurrent = parseFloat($(this).find(".in-quanlity").val());
-
-                                var newquantity = quantityCurrent + 1;
-                                $(this).find(".in-quanlity").val(newquantity);
-
-                                var price = parseFloat(newquantity) * parseFloat(item.Giabansi);
-                                $(this).find(".totalprice-view").html(formatThousands(price, '.'));
-
-                                getAllPrice();
-                            }
-                        });
-                    }
-
-                    $(".content-product").prepend(html);
-                    getAllPrice();
-                } else {
-                    $("#txtSearch").val(textsearch).select();
-                    swal("Thông báo", "Không tìm thấy sản phẩm", "error");
-                }
-            },
-            error: function(xmlhttprequest, textstatus, errorthrow) {
-                alert('lỗi');
-                $("#txtSearch").val(textsearch).select();
-            }
-        });
-    } else {
-        $("#txtSearch").focus();
-        swal("Thông báo", "Hãy nhập mã sản phẩm", "info");
-    }
-}
-
-// select all variable product
-function check_all() {
-    if ($('#check-all').is(":checked")) {
-        $(".check-popup").prop('checked', true);
-    } else {
-        $(".check-popup").prop('checked', false);
-    }
-}
-
-// checkbox a variable product
-function check(obj) {
-    var temp = 0;
-    var temp2 = 0;
-    $(".search-popup").each(function() {
-        if ($(this).find(".check-popup").is(':checked')) {
-            temp++;
-        } else {
-            temp2++;
-        }
-        if (temp2 > 0) {
-            obj.parent().parent().parent().find("#check-all").prop('checked', false);
-        } else {
-            obj.parent().parent().parent().find("#check-all").prop('checked', true);
-        }
-    });
-}
-
-// select a variable product
-function selectProduct() {
-    var list = "";
-    var value = "";
-    $(".search-popup").each(function() {
-        if ($(this).find(".check-popup").is(':checked')) {
-            var sku = $(this).find("td.key").html();
-            var quantity = $(this).find("input.quantity").val();
-            value += quantity + "*";
-            list += sku + "*";
-        }
-    });
-    var item = list.split("*");
-    var item2 = value.split("*");
-    GetProduct(item, item2);
-    closePopup();
-    $("#txtSearch").focus();
-}
-
-// get product when select multi variable
-function GetProduct(list, list2) {
-    var textsearch = $("#<%=hdfListSearch.ClientID%>").val();
-    var customerType = $(".customer-type").val();
-    $("#txtSearch").val("");
-    $.ajax({
-        type: "POST",
-        url: "/them-moi-don-hang.aspx/getProduct",
-        data: "{textsearch:'" + textsearch + "', gettotal: 1 }",
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        success: function(msg) {
-            var data = JSON.parse(msg.d);
-            if (data.length > 0) {
-                var html = "";
-                for (var j = 0; j < list.length - 1; j++) {
-                    var key = list[j];
-                    for (var i = 0; i < data.length; i++) {
-                        var item = data[i];
-                        var sku = item.SKU;
-                        var check = false;
-                        if (key == sku) {
-                            $(".product-result").each(function() {
-                                var existedSKU = $(this).attr("data-sku");
-                                if (sku == existedSKU) {
-                                    check = true;
-                                }
-                            });
-                            if (check == false) {
-                                orderItem++;
-                                html += "<tr class=\"product-result\" data-giabansi=\"" + item.Giabansi + "\" data-giabanle=\"" + item.Giabanle + "\" " +
-                                    "data-quantityinstock=\"" + item.QuantityInstock + "\" data-productimageorigin=\"" + item.ProductImageOrigin + "\" " +
-                                    "data-productvariable=\"" + item.ProductVariable + "\" data-productname=\"" + item.ProductName + "\" " +
-                                    "data-sku=\"" + item.SKU + "\" data-producttype=\"" + item.ProductType + "\" data-id=\"" + item.ID + "\" " +
-                                    "data-productnariablename=\"" + item.ProductVariableName + "\" " +
-                                    "data-productvariablevalue =\"" + item.ProductVariableValue + "\" " +
-                                    "data-productvariablesave =\"" + item.ProductVariableSave + "\">";
-                                html += "   <td class=\"order-item\">" + orderItem + "</td>";
-                                html += "   <td class=\"image-item\">" + item.ProductImage + "</td>";
-                                html += "   <td class=\"name-item\">" + item.ProductName + "</td>";
-                                html += "   <td class=\"sku-item\">" + item.SKU + "</td>";
-                                html += "   <td class=\"variable-item\">" + item.ProductVariable + "</td>";
-                                if (customerType == 1) {
-                                    if (item.Giabanle > 0)
-                                        html += "   <td class=\"price-item gia-san-pham\" data-price=\"" + item.Giabanle + "\">" + item.stringGiabanle + "</td>";
-                                    else
-                                        html += "   <td class=\"price-item gia-san-pham\" data-price=\"" + item.Giabansi + "\">" + item.stringGiabansi + "</td>";
-                                } else {
-                                    html += "   <td class=\"price-item gia-san-pham\" data-price=\"" + item.Giabansi + "\">" + item.stringGiabansi + "</td>";
-                                }
-
-                                var t = 0;
-                                html += "<td class=\"quantity-item\">" + item.QuantityInstockString + "</td>";
-
-                                html += "<td class=\"quantity-item\"><input type=\"text\" class=\"form-control in-quanlity\" value=\"" + list2[j] + "\" onblur=\"checkQuantiy($(this))\" onkeypress='return event.charCode >= 48 && event.charCode <= 57'/></td>";
-                                t = parseFloat(list2[j]) * parseFloat(item.Giabansi);
-
-                                html += "<td class=\"total-item totalprice-view\">" + formatThousands(t, '.') + "</td>";
-                                html += "<td class=\"trash-item\"><a href=\"javascript:;\" class=\"link-btn\" onclick=\"deleteRow($(this))\"><i class=\"fa fa-trash\"></i></a></td>";
-                                html += "</tr>";
-                            } else if (check == true) {
-                                $(".product-result").each(function() {
-                                    var existedSKU = $(this).attr("data-sku");
-                                    if (sku == existedSKU) {
-                                        var quantityinstock = parseFloat($(this).attr("data-quantityinstock"));
-                                        var quantityCurrent = parseFloat($(this).find(".in-quanlity").val());
-
-                                        var newquantity = quantityCurrent + parseInt(list2[j]);
-                                        $(this).find(".in-quanlity").val(newquantity);
-
-                                        var price = parseFloat(newquantity) * parseFloat(item.Giabansi);
-                                        $(this).find(".totalprice-view").html(formatThousands(price, '.'));
-
-                                        getAllPrice();
-                                    }
-                                });
-                            }
-                        }
-                    }
-                }
-                $(".content-product").prepend(html);
-                
-                getAllPrice();
-            } else {
-                $("#txtSearch").val(textsearch).select();
-                swal("Thông báo", "Không tìm thấy sản phẩm", "error");
-            }
-        },
-        error: function(xmlhttprequest, textstatus, errorthrow) {
-            alert('lỗi');
-            $("#txtSearch").val(textsearch).select();
-        }
-    });
-}
-
-// remove product form list
-function deleteRow(obj) {
-    var c = confirm('Bạn muốn xóa sản phẩm này?');
-    if (c) {
-        obj.parent().parent().remove();
-        if ($(".product-result").length == 0) {
-            $(".excute-in").hide();
-        }
-        getAllPrice();
-    }
+    //Get search product master
+    searchProductMaster(textsearch, true);
 }
 
 // delete all product by click button
@@ -987,16 +714,20 @@ function checkQuantiy(obj) {
 // get all price
 function getAllPrice() {
     if ($(".product-result").length > 0) {
-        var totalprice = 0;
-        var productquantity = 0;
+        let totalprice = 0;
+        let productquantity = 0;
         $(".product-result").each(function() {
-            var price = parseFloat($(this).find(".gia-san-pham").attr("data-price"));
-            var quantity = parseFloat($(this).find(".in-quanlity").val());
-            var total = price * quantity;
-            $(this).find(".totalprice-view").html(formatThousands(total, '.'));
+            let price = parseFloat($(this).find(".gia-san-pham").attr("data-price"));
+            let quantity = parseFloat($(this).find(".in-quantity").val());
+            let total = price * quantity;
+
+            $(this).find(".totalprice-view").html(formatThousands(total, ','));
+
             productquantity += quantity;
+
             totalprice += total;
         });
+
         $("#<%=hdfTotalPriceNotDiscount.ClientID%>").val(totalprice);
         $(".totalproductQuantity").html(formatThousands(productquantity, ',') + " sản phẩm");
         $("#<%=hdfTotalPriceNotDiscountNotFee.ClientID%>").val(totalprice);
