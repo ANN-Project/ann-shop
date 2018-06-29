@@ -22,7 +22,7 @@
         imageSize: null,
         timer: null,
         customClass: '',
-        html: false,
+        html: true,
         animation: true,
         allowEscapeKey: false,
         inputType: 'text'
@@ -358,14 +358,19 @@
           }
           break;
         case ("click"):
-          if (targetedConfirm && doneFunctionExists && modalIsVisible) { // Clicked "confirm"
-            handleConfirm();
-          } else if ((doneFunctionExists && modalIsVisible) || targetedOverlay) { // Clicked "cancel"
-            handleCancel();
-          } else if (isDescendant(modal, target) && target.tagName === "BUTTON") { 
-            sweetAlert.close();
-          }
-          break;
+            if (targetedOverlay) {
+
+            }
+            else if (targetedConfirm && doneFunctionExists && modalIsVisible) { // Clicked "confirm"
+                handleConfirm();
+            }
+            else if ((doneFunctionExists && modalIsVisible)) { // Clicked "cancel"
+                handleCancel();
+            }
+            else if (isDescendant(modal, target) && target.tagName === "BUTTON") {
+                sweetAlert.close();
+            }
+            break;
       }
     };
 

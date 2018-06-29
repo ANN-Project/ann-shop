@@ -228,6 +228,25 @@ namespace IM_PJ.Controllers
             }
         }
 
+        public static bool UpdateExcuteStatus4(int ID, string CreatedBy, string OrderNote)
+        {
+            using (var db = new inventorymanagementEntities())
+            {
+                var ui = db.tbl_Order.Where(x => x.ID == ID).FirstOrDefault();
+                if (ui != null)
+                {
+                    ui.PaymentStatus = 1;
+                    ui.ExcuteStatus = 4;
+                    ui.ModifiedDate = DateTime.Now;
+                    ui.ModifiedBy = CreatedBy;
+                    ui.OrderNote = OrderNote;
+                    int i = db.SaveChanges();
+                    return true;
+                }
+                return false;
+            }
+        }
+
         #endregion
         #region Select
         public static tbl_Order GetByID(int ID)

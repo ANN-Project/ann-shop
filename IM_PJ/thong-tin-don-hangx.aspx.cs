@@ -74,6 +74,13 @@ namespace IM_PJ
                 var order = OrderController.GetByID(ID);
                 if (order != null)
                 {
+                    // chuyển sang giao diện xem đơn chuyển hoàn nếu trạng thái xử lý đã chuyển hoàn
+                    if(order.ExcuteStatus == 4)
+                    {
+                        Response.Redirect("/thong-tin-don-hang-chuyen-hoan?id="+ID);
+                    }
+
+
                     string username = HttpContext.Current.Request.Cookies["userLoginSystem"].Value;
                     var acc = AccountController.GetByUsername(username);
                     if(acc.RoleID != 0)
@@ -453,8 +460,12 @@ namespace IM_PJ
                     ltrOrderType.Text = PJUtils.OrderType(Convert.ToInt32(order.OrderType));
                     ltrPrint.Text = "<a href=\"javascript:;\" onclick=\"warningPrintInvoice(" + ID + ")\" class=\"btn primary-btn fw-btn not-fullwidth\"><i class=\"fa fa-print\" aria-hidden=\"true\"></i> In hóa đơn</a>";
                     ltrPrint.Text += "<a href=\"/print-invoice.aspx?id=" + ID + "&merge=1\" target=\"_blank\" class=\"btn primary-btn fw-btn not-fullwidth print-invoice-merged\"><i class=\"fa fa-print\" aria-hidden=\"true\"></i> In hóa đơn gộp</a>";
-                    ltrPrint.Text += "<a href=\"javascript:;\" onclick=\"warningGetOrderImage(" + ID + ")\" target=\"_blank\" class=\"btn primary-btn fw-btn not-fullwidth print-invoice-merged\"><i class=\"fa fa-picture-o\" aria-hidden=\"true\"></i> Lấy ảnh đơn hàng</a>";
-                    ltrPrint.Text += "<a href=\"javascript:;\" onclick=\"warningShippingNote(" + ID + ")\" target=\"_blank\" class=\"btn primary-btn fw-btn not-fullwidth print-invoice-merged\"><i class=\"fa fa-file-text-o\" aria-hidden=\"true\"></i> In phiếu gửi hàng</a>";
+                    ltrPrint.Text += "<a href=\"javascript:;\" onclick=\"warningGetOrderImage(" + ID + ")\" class=\"btn primary-btn fw-btn not-fullwidth print-invoice-merged\"><i class=\"fa fa-picture-o\" aria-hidden=\"true\"></i> Lấy ảnh đơn hàng</a>";
+                    ltrPrint.Text += "<a href=\"javascript:;\" onclick=\"warningShippingNote(" + ID + ")\" class=\"btn primary-btn fw-btn not-fullwidth print-invoice-merged\"><i class=\"fa fa-file-text-o\" aria-hidden=\"true\"></i> In phiếu gửi hàng</a>";
+                    if(order.ShippingType == 3 && !string.IsNullOrEmpty(order.ShippingCode))
+                    {
+                        ltrPrint.Text += "<a href=\"https://khachhang.giaohangtietkiem.vn/khachhang?code=" + order.ShippingCode + "\" target=\"_blank\" class=\"btn primary-btn fw-btn not-fullwidth print-invoice-merged\"><i class=\"fa fa-file-text-o\" aria-hidden=\"true\"></i> Xem đơn GHTK</a>";
+                    }
                 }
             }
         }

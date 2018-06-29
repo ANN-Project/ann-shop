@@ -26,13 +26,7 @@
                         </tbody>
                     </table>
                 </div>
-                <div class="panel-footer clear">
-                    <div class="pagination">
-                        <%this.DisplayHtmlStringPaging1();%>
-                    </div>
-                </div>
             </div>
-
         </div>
     </main>
     <style>

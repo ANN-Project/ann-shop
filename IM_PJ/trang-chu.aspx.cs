@@ -110,13 +110,13 @@ namespace IM_PJ
 
             if (opdertop.Count() > 0)
             {
-                pagingall(opdertop.OrderByDescending(x => x.Quantity).Take(20).ToList());
+                pagingall(opdertop.OrderByDescending(x => x.Quantity).Take(10).ToList());
             }
         }
         #region Paging
         public void pagingall(List<OrderTop> acs)
         {
-            int PageSize = 20;
+            int PageSize = 10;
             StringBuilder html = new StringBuilder();
             if (acs.Count > 0)
             {

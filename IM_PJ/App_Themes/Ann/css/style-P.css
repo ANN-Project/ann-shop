@@ -547,7 +547,15 @@ img {
     font-size: 12px;
     border-radius: 6px;
 }
-
+.bg-brown {
+    background: #795548;
+    color: #fff;
+    width: 100%;
+    padding: 5px 6px;
+    white-space: nowrap;
+    font-size: 12px;
+    border-radius: 6px;
+}
 .bg-black {
     background: #2A2A2A;
     color: #fff;

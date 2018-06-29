@@ -15,7 +15,7 @@ using System.Web.UI.WebControls;
 
 namespace IM_PJ
 {
-    public partial class danh_sach_don_hang : System.Web.UI.Page
+    public partial class danh_sach_don_hang_chuyen_hoan : System.Web.UI.Page
     {
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -59,7 +59,6 @@ namespace IM_PJ
                 int agentID = Convert.ToInt32(acc.AgentID);
                 int orderType = 0;
                 int paymentStatus = 0;
-                int excuteStatus = 0;
                 int payment = 0;
                 int ship = 0;
                 string s = "";
@@ -72,10 +71,6 @@ namespace IM_PJ
                 if (Request.QueryString["p"] != null)
                 {
                     paymentStatus = Request.QueryString["p"].ToInt(0);
-                }
-                if (Request.QueryString["e"] != null)
-                {
-                    excuteStatus = Request.QueryString["e"].ToInt(0);
                 }
                 if (Request.QueryString["pay"] != null)
                 {
@@ -102,9 +97,7 @@ namespace IM_PJ
                     by = Request.QueryString["by"].ToInt(0);
                 }
                 txtAgentName.Text = s;
-                txtSKU.Text = sku;
                 ddlOrderType.SelectedValue = orderType.ToString();
-                ddlExcuteStatus.SelectedValue = excuteStatus.ToString();
                 ddlPaymentStatus.SelectedValue = paymentStatus.ToString();
                 ddlPaymentType.SelectedValue = payment.ToString();
                 ddlShippingType.SelectedValue = ship.ToString();
@@ -112,7 +105,7 @@ namespace IM_PJ
 
                 if (acc.RoleID == 0 || acc.RoleID == 2)
                 {
-                    var rs = OrderController.SearchByStatical(orderType, paymentStatus, excuteStatus, s, agentID, payment, ship, sku);
+                    var rs = OrderController.SearchByStatical(orderType, paymentStatus, 4, s, agentID, payment, ship, sku);
                     if (rs.Count > 0)
                     {
                         if (acc.RoleID == 0)
@@ -123,23 +116,19 @@ namespace IM_PJ
                                 var create = AccountController.GetByID(by);
                                 if(create != null)
                                 {
-                                    pagingall(rs.Where(x=>x.CreatedBy == create.Username && x.ExcuteStatus != 4).ToList());
+                                    pagingall(rs.Where(x=>x.CreatedBy == create.Username).ToList());
                                 }
                             }
                             else
                             {
-                                pagingall(rs.Where(x => x.ExcuteStatus != 4).ToList());
+                                pagingall(rs);
                             }
                         }
                         else
                         {
-                            pagingall(rs.Where(x => x.CreatedBy == acc.Username && x.ExcuteStatus != 4).ToList());
+                            pagingall(rs.Where(x => x.CreatedBy == acc.Username).ToList());
                         }
                     }
-                }
-                else
-                {
-
                 }
             }
         }
@@ -200,16 +189,16 @@ namespace IM_PJ
                     {
                         if (!string.IsNullOrEmpty(customer.Nick))
                         {
-                            html.Append("   <td><a class=\"customer-name-link capitalize\" href=\"/thong-tin-don-hang.aspx?id=" + item.ID + "\">" + customer.Nick + "</a><br><span class=\"name-bottom-nick\">(" + item.CustomerName + ")</span></td>");
+                            html.Append("   <td><a class=\"customer-name-link capitalize\" href=\"/thong-tin-don-hang-chuyen-hoan.aspx?id=" + item.ID + "\">" + customer.Nick + "</a><br><span class=\"name-bottom-nick\">(" + item.CustomerName + ")</span></td>");
                         }
                         else
                         {
-                            html.Append("   <td><a class=\"customer-name-link capitalize\" href=\"/thong-tin-don-hang.aspx?id=" + item.ID + "\">" + item.CustomerName + "</a></td>");
+                            html.Append("   <td><a class=\"customer-name-link capitalize\" href=\"/thong-tin-don-hang-chuyen-hoan.aspx?id=" + item.ID + "\">" + item.CustomerName + "</a></td>");
                         }
                     }
                     else
                     {
-                        html.Append("   <td><a class=\"customer-name-link capitalize\" href=\"/thong-tin-don-hang.aspx?id=" + item.ID + "\">" + item.CustomerName + "</a></td>");
+                        html.Append("   <td><a class=\"customer-name-link capitalize\" href=\"/thong-tin-don-hang-chuyen-hoan.aspx?id=" + item.ID + "\">" + item.CustomerName + "</a></td>");
                     }
                     
                     var orderdetails = OrderDetailController.GetByOrderID(item.ID);
@@ -240,8 +229,6 @@ namespace IM_PJ
                     html.Append("   <td>" + datedone + "</td>");
 
                     html.Append("   <td>");
-                    html.Append("       <a href=\"/print-invoice.aspx?id=" + item.ID + "\" title=\"In hóa đơn\" target=\"_blank\" class=\"btn primary-btn h45-btn\"><i class=\"fa fa-print\" aria-hidden=\"true\"></i></a>");
-                    html.Append("       <a href=\"/print-shipping-note.aspx?id=" + item.ID + "\" title=\"In phiếu gửi hàng\" target=\"_blank\" class=\"btn primary-btn btn-red h45-btn\"><i class=\"fa fa-file-text-o\" aria-hidden=\"true\"></i></a>");
                     html.Append("       <a href=\"/chi-tiet-khach-hang.aspx?id=" + item.CustomerID + "\" title=\"Thông tin khách hàng " + item.CustomerName + "\" target=\"_blank\" class=\"btn primary-btn btn-black h45-btn\"><i class=\"fa fa-user-circle\" aria-hidden=\"true\"></i></a>");
                     html.Append("   </td>");
                     html.Append("</tr>");
@@ -392,9 +379,7 @@ namespace IM_PJ
         protected void btnSearch_Click(object sender, EventArgs e)
         {
             string search = txtAgentName.Text;
-            string SKU = txtSKU.Text;
-            Response.Redirect("/danh-sach-don-hang?s=" + search + "&o=" + ddlOrderType.SelectedValue + "&p=" + ddlPaymentStatus.SelectedValue + "&e=" + ddlExcuteStatus.SelectedValue + "&pay=" + ddlPaymentType.SelectedValue + "&sh=" + ddlShippingType.SelectedValue + "&sku=" + SKU + "&by=" + ddlCreateBy.SelectedValue + "");
-
+            Response.Redirect("/danh-sach-don-hang-chuyen-hoan?s=" + search + "&o=" + ddlOrderType.SelectedValue + "&p=" + ddlPaymentStatus.SelectedValue + "&pay=" + ddlPaymentType.SelectedValue + "&sh=" + ddlShippingType.SelectedValue + "&by=" + ddlCreateBy.SelectedValue + "");
         }
         public class danhmuccon1
         {

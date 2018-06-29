@@ -287,7 +287,30 @@ namespace NHST.Bussiness
                     p = "success";
                     break;
             }
-            JavaScript.AfterPageLoad(page).ExecuteCustomScript("swal({ title: 'Thông báo',text:' " + txt + "',type: '" + p + "'}" + (Convert.ToBoolean(isRefresh.ToString()) ? ", function () { window.location.replace(window.location.href); });" : ");"));
+            JavaScript.AfterPageLoad(page).ExecuteCustomScript("swal({ title: 'Thông báo',text:' " + txt + "', type: '" + p + "'}" + (Convert.ToBoolean(isRefresh.ToString()) ? ", function () { window.location.replace(window.location.href); });" : ");"));
+        }
+        public static void ShowMessageBoxSwAlertError(string txt, string type, bool? isRefresh, string url, System.Web.UI.Page page)
+        {
+            txt = new JavaScriptSerializer().Serialize(txt);
+            string p;
+            switch (type)
+            {
+
+                case "e":
+                    p = "error";
+                    break;
+                case "i":
+                    p = "info";
+                    break;
+                case "w":
+                    p = "warning";
+                    break;
+
+                default:
+                    p = "success";
+                    break;
+            }
+            JavaScript.AfterPageLoad(page).ExecuteCustomScript("swal({ title: 'Thông báo',text:' " + txt + "', type: '" + p + "'}" + (Convert.ToBoolean(isRefresh.ToString()) ? ", function () { window.location.replace('" + url + "'); });" : ");"));
         }
         public static void ShowMessageBoxSwAlertCallFunction(string txt, string type, bool? isCall, string functionName, System.Web.UI.Page page)
         {
@@ -543,9 +566,13 @@ namespace NHST.Bussiness
             {
                 ret = "<span class=\"bg-green\">Đã hoàn tất</span>";
             }
-            else
+            else if(ExcuteStatus == 3)
             {
                 ret = "<span class=\"bg-red\">Đã hủy</span>";
+            }
+            else if(ExcuteStatus == 4)
+            {
+                ret = "<span class=\"bg-brown\">Chuyển hoàn</span>";
             }
             return ret;
         }
