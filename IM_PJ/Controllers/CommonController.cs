@@ -139,7 +139,7 @@ namespace IM_PJ.Controllers
                             });
 
                     productTarget = productTarget
-                        .Join(
+                        .GroupJoin(
                             stockCurrent,
                             product => new
                             {
@@ -151,22 +151,26 @@ namespace IM_PJ.Controllers
                                 ProductID = stock.ProductID,
                                 ProductVariableID = stock.ProductVariableID
                             },
-                            (product, stock) => new ProductModel() {
-                                CategoryID = product.CategoryID,
-                                ProductID = product.ProductID,
-                                ProductVariableID = product.ProductVariableID,
-                                ProductStyle = product.ProductStyle,
-                                ProductImage = product.ProductImage,
-                                ProductTitle = product.ProductTitle,
-                                VariableValue = product.VariableValue,
-                                ParentSKU = product.ParentSKU,
-                                ChildSKU = product.ChildSKU,
-                                RegularPrice = product.RegularPrice,
-                                CostOfGood = product.CostOfGood,
-                                RetailPrice = product.RetailPrice,
-                                QuantityCurrent = stock.Quantity
+                            (product, stock) => new { product, stock }
+                        )
+                        .SelectMany(x => x.stock.DefaultIfEmpty(),
+                            (parent, child) => new ProductModel
+                            {
+                                CategoryID = parent.product.CategoryID,
+                                ProductID = parent.product.ProductID,
+                                ProductVariableID = parent.product.ProductVariableID,
+                                ProductStyle = parent.product.ProductStyle,
+                                ProductImage = parent.product.ProductImage,
+                                ProductTitle = parent.product.ProductTitle,
+                                VariableValue = parent.product.VariableValue,
+                                ParentSKU = parent.product.ParentSKU,
+                                ChildSKU = parent.product.ChildSKU,
+                                RegularPrice = parent.product.RegularPrice,
+                                CostOfGood = parent.product.CostOfGood,
+                                RetailPrice = parent.product.RetailPrice,
+                                QuantityCurrent = child != null ? child.Quantity : 0
                             })
-                            .ToList();
+                        .ToList();
                 }
 
                 return productTarget;

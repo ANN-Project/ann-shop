@@ -514,23 +514,10 @@ function ajaxCheckCustomer() {
                                         title: "Giởn thôi...",
                                         text: "Làm vậy không ổn đâu cưng à!!<br><br>Bắt buộc bàn giao đơn hàng này cho <strong>" + data.CreatedBy + "</strong> thôi!<br><br>Hihi!",
                                         type: "info",
-                                        showCancelButton: true,
-                                        closeOnConfirm: true,
-                                        cancelButtonText: "Để em kiểm tra lại..",
                                         confirmButtonText: "Hihi OK sếp..",
                                         html: true,
-                                    }, function (confirm) {
-                                        if (confirm) {
-                                            $("input[id$='_txtPhone']").select();
-                                            swal.close();
-                                            $("body").removeClass("stop-scrolling");
-                                        }
-                                        else {
-                                            $("input[id$='_txtPhone']").select();
-                                            swal.close();
-                                            $("body").removeClass("stop-scrolling");
-                                        }
-                                        $("body").removeClass("stop-scrolling");
+                                    }, function () {
+                                        $("input[id$='_txtPhone']").val("");
                                     });
                                 }
                                 else {
@@ -547,24 +534,17 @@ function ajaxCheckCustomer() {
                                         if (confirm) {
                                             $("input[id$='_hdfUsernameCurrent']").val(data.CreatedBy);
                                             selectCustomerDetail(data);
-                                            swal.close();
-                                            $("body").removeClass("stop-scrolling");
                                         }
                                         else {
-                                            $("input[id$='_txtPhone']").select();
-                                            swal.close();
-                                            $("body").removeClass("stop-scrolling");
+                                            $("input[id$='_txtPhone']").val("");
                                         }
-                                        $("body").removeClass("stop-scrolling");
                                     });
                                 }
                             }
                             else {
-                                $("input[id$='_txtPhone']").select().focus();
-                                swal.close();
-                                $("body").removeClass("stop-scrolling");
+                                $("input[id$='_txtPhone']").val("");
+                                
                             }
-                            $("body").removeClass("stop-scrolling");
                         });
                     }
                     else {
@@ -580,13 +560,9 @@ function ajaxCheckCustomer() {
                         }, function (confirm) {
                             if (confirm) {
                                 selectCustomerDetail(data);
-                                swal.close();
-                                $("body").removeClass("stop-scrolling");
                             }
                             else {
                                 $("input[id$='_txtPhone']").val("");
-                                swal.close();
-                                $("body").removeClass("stop-scrolling");
                             }
                         });
                     }
@@ -594,7 +570,7 @@ function ajaxCheckCustomer() {
                 }
             }
         });
-        $("body").removeClass("stop-scrolling");
+
     }
     
 }
