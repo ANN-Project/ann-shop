@@ -100,7 +100,6 @@ namespace IM_PJ.Controllers
         {
             using (var con = new inventorymanagementEntities())
             {
-                var freeChange = ConfigController.GetByTop1().FeeChangeProduct.Value;
 
                 var products = con.tbl_Product
                     .GroupJoin(
@@ -129,6 +128,8 @@ namespace IM_PJ.Controllers
                                 product => product.ProductStyle == 2 ? product.ChildSKU : product.ParentSKU,
                                 (refund, product) => new
                                 {
+                                    RefundGoodsID = refund.RefundGoodsID.Value,
+                                    RefundDetailID = refund.ID,
                                     OrderID = refund.OrderID.HasValue? refund.OrderID.Value : 0,
                                     ProductID = product.ProductID,
                                     ProductVariableID = product.ProductVariableID,
@@ -141,7 +142,7 @@ namespace IM_PJ.Controllers
                                     ReducedPrice = refund.SoldPricePerProduct,
                                     QuantityRefund = refund.Quantity.Value,
                                     ChangeType = refund.RefundType.Value,
-                                    FeeRefund = freeChange,
+                                    FeeRefund = refund.RefundFeePerProduct,
                                     TotalFeeRefund = refund.TotalPriceRow
                                 }
                             )
@@ -149,6 +150,8 @@ namespace IM_PJ.Controllers
 
                 return refundDetail.Select(x => new RefundDetailModel
                             {
+                                RefundGoodsID = x.RefundGoodsID,
+                                RefundDetailID = x.RefundDetailID,
                                 OrderID = x.OrderID,
                                 ProductID = x.ProductID,
                                 ProductVariableID = x.ProductVariableID,

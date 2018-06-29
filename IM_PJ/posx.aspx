@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Máy tính tiền" Language="C#" MasterPageFile="~/MasterPage.Master" AutoEventWireup="true" CodeBehind="pos.aspx.cs" Inherits="IM_PJ.pos" EnableSessionState="ReadOnly" %>
+﻿<%@ Page Title="Máy tính tiền" Language="C#" MasterPageFile="~/MasterPage.Master" AutoEventWireup="true" CodeBehind="posx.aspx.cs" Inherits="IM_PJ.pos" EnableSessionState="ReadOnly" %>
 
 <%@ Register Assembly="Telerik.Web.UI" Namespace="Telerik.Web.UI" TagPrefix="telerik" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
@@ -21,21 +21,21 @@
                                 <div class="form-group">
                                     <label>Họ tên</label>
                                     <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" ControlToValidate="txtFullname" ErrorMessage="(*)" ForeColor="Red" Display="Dynamic"></asp:RequiredFieldValidator>
-                                    <asp:TextBox ID="txtFullname" CssClass="form-control capitalize" runat="server" placeholder="(F2)"></asp:TextBox>
+                                    <asp:TextBox ID="txtFullname" CssClass="form-control capitalize" runat="server" placeholder="(F2)" autocomplete="off"></asp:TextBox>
                                 </div>
                                 <div class="form-group">
                                     <label>Điện thoại</label>
                                     <asp:RequiredFieldValidator ID="re" runat="server" ControlToValidate="txtPhone" ErrorMessage="(*)" ForeColor="Red" Display="Dynamic"></asp:RequiredFieldValidator>
-                                    <asp:TextBox ID="txtPhone" CssClass="form-control" runat="server"></asp:TextBox>
+                                    <asp:TextBox ID="txtPhone" CssClass="form-control" onblur="ajaxCheckCustomer()" runat="server" autocomplete="off"></asp:TextBox>
                                 </div>
                                 <div class="form-group">
                                     <label>Nick đặt hàng</label>
-                                    <asp:TextBox ID="txtNick" CssClass="form-control capitalize" runat="server"></asp:TextBox>
+                                    <asp:TextBox ID="txtNick" CssClass="form-control capitalize" runat="server" autocomplete="off"></asp:TextBox>
                                 </div>
                                 <div class="form-group">
                                     <label>Địa chỉ</label>
                                     <asp:RequiredFieldValidator ID="RequiredFieldValidator2" runat="server" ControlToValidate="txtAddress" ErrorMessage="(*)" ForeColor="Red" Display="Dynamic"></asp:RequiredFieldValidator>
-                                    <asp:TextBox ID="txtAddress" CssClass="form-control capitalize" runat="server"></asp:TextBox>
+                                    <asp:TextBox ID="txtAddress" CssClass="form-control capitalize" runat="server" autocomplete="off"></asp:TextBox>
                                 </div>
                                 <div class="form-row view-detail" style="display: none">
                                 </div>
@@ -128,7 +128,6 @@
                             </div>
                         </div>
                     </div>
-
                     <div class="col-md-8">
                         <div class="panel-post">
                             <select class="form-control customer-type" onchange="getProductPrice($(this))">
@@ -137,7 +136,7 @@
                             </select>
                             <div class="post-above clear">
                                 <div class="search-box left" style="width: 80%;">
-                                    <input type="text" id="txtSearch" class="form-control sku-input" placeholder="SKU (F3)">
+                                    <input type="text" id="txtSearch" class="form-control sku-input" placeholder="SKU (F3)" autocomplete="off">
                                 </div>
                                 <div class="right">
                                     <a href="javascript:;" class="link-btn" onclick="searchProduct()" title="Tìm sản phẩm"><i class="fa fa-search"></i></a>
@@ -145,7 +144,7 @@
                                 </div>
                             </div>
                             <div class="post-body clear">
-                                <table class="table table-checkable table-product custom-font-size-12">
+                                <table class="table table-checkable table-product table-pos-order">
                                     <thead>
                                         <tr>
                                             <th class="image-item">Ảnh</th>
@@ -156,12 +155,11 @@
                                             <th class="quantity-item">Mua</th>
                                             <th class="total-item">Tổng</th>
                                             <th class="trash-item"></th>
-                                            <th class="space-item"></th>
                                         </tr>
                                     </thead>
                                 </table>
-                                <div class="search-product-content">
-                                    <table class="table table-checkable table-product custom-font-size-12">
+                                <div class="search-product-content scrollbar">
+                                    <table class="table table-checkable table-product table-pos-order">
                                         <tbody class="content-product">
                                         </tbody>
                                     </table>

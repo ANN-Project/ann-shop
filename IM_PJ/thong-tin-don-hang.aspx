@@ -89,14 +89,14 @@
                                         <div class="form-group">
                                             <label>Họ tên</label>
                                             <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" ControlToValidate="txtFullname" ErrorMessage="(*)" ForeColor="Red" Display="Dynamic"></asp:RequiredFieldValidator>
-                                            <asp:TextBox ID="txtFullname" CssClass="form-control capitalize" runat="server" Enabled="false" placeholder="Họ tên thật của khách (F2)"></asp:TextBox>
+                                            <asp:TextBox ID="txtFullname" CssClass="form-control capitalize" runat="server" Enabled="false" placeholder="Họ tên thật của khách (F2)" autocomplete="off"></asp:TextBox>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label>Điện thoại</label>
                                             <asp:RequiredFieldValidator ID="re" runat="server" ControlToValidate="txtPhone" ErrorMessage="(*)" ForeColor="Red" Display="Dynamic"></asp:RequiredFieldValidator>
-                                            <asp:TextBox ID="txtPhone" CssClass="form-control" runat="server" Enabled="false" placeholder="Số điện thoại khách hàng"></asp:TextBox>
+                                            <asp:TextBox ID="txtPhone" CssClass="form-control" onblur="ajaxCheckCustomer()" runat="server" Enabled="false" placeholder="Số điện thoại khách hàng" autocomplete="off"></asp:TextBox>
                                         </div>
                                     </div>
                                 </div>
@@ -105,14 +105,14 @@
                                         <div class="form-group">
                                             <label>Nick đặt hàng</label>
                                             <asp:RequiredFieldValidator ID="RequiredFieldValidator2" runat="server" ControlToValidate="txtNick" ErrorMessage="(*)" ForeColor="Red" Display="Dynamic"></asp:RequiredFieldValidator>
-                                            <asp:TextBox ID="txtNick" CssClass="form-control capitalize" runat="server" Enabled="false" placeholder="Tên nick đặt hàng"></asp:TextBox>
+                                            <asp:TextBox ID="txtNick" CssClass="form-control capitalize" runat="server" Enabled="false" placeholder="Tên nick đặt hàng" autocomplete="off"></asp:TextBox>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label>Địa chỉ</label>
                                             <asp:RequiredFieldValidator ID="RequiredFieldValidator3" runat="server" ControlToValidate="txtAddress" ErrorMessage="(*)" ForeColor="Red" Display="Dynamic"></asp:RequiredFieldValidator>
-                                            <asp:TextBox ID="txtAddress" CssClass="form-control capitalize" runat="server" Enabled="false" placeholder="Địa chỉ khách hàng"></asp:TextBox>
+                                            <asp:TextBox ID="txtAddress" CssClass="form-control capitalize" runat="server" Enabled="false" placeholder="Địa chỉ khách hàng" autocomplete="off"></asp:TextBox>
                                         </div>
                                     </div>
                                 </div>
@@ -120,7 +120,7 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label>Zalo</label>
-                                            <asp:TextBox ID="txtZalo" CssClass="form-control" runat="server" Enabled="false" placeholder="Số điện thoại Zalo"></asp:TextBox>
+                                            <asp:TextBox ID="txtZalo" CssClass="form-control" runat="server" Enabled="false" placeholder="Số điện thoại Zalo" autocomplete="off"></asp:TextBox>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
@@ -128,7 +128,7 @@
                                             <label>Facebook</label>
                                             <div class="row">
                                                 <div class="col-md-10 fb">
-                                                <asp:TextBox ID="txtFacebook" CssClass="form-control" runat="server" Enabled="false" placeholder="Đường link chat Facebook"></asp:TextBox>
+                                                <asp:TextBox ID="txtFacebook" CssClass="form-control" runat="server" Enabled="false" placeholder="Đường link chat Facebook" autocomplete="off"></asp:TextBox>
                                                 </div>
                                                 <div class="col-md-2">
                                                     <div class="row">
@@ -159,31 +159,29 @@
                             <asp:Literal ID="ltrCustomerType" runat="server"></asp:Literal>
                             <div class="post-above clear">
                                 <div class="search-box left">
-                                    <input type="text" id="txtSearch" class="form-control sku-input" placeholder="SKU (F3)">
+                                    <input type="text" id="txtSearch" class="form-control sku-input" placeholder="SKU (F3)" autocomplete="off">
                                 </div>
                                 <div class="right">
                                     <a href="javascript:;" class="link-btn" onclick="searchProduct()"><i class="fa fa-search"></i></a>
                                 </div>
                             </div>
                             <div class="post-body search-product-content clear">
-                                <table class="table table-checkable table-product custom-font-size-12">
-                                    <thead>
-                                        <tr>
-                                            <th class="order-item-header">#</th>
-                                            <th class="image-item">Ảnh</th>
-                                            <th class="name-item">Sản phẩm</th>
-                                            <th class="sku-item">Mã</th>
-                                            <th class="variable-item">Thuộc tính</th>
-                                            <th class="price-item">Giá</th>
-                                            <th class="quantity-item">Kho</th>
-                                            <th class="quantity-item">Số lượng</th>
-                                            <th class="total-item">Thành tiền</th>
-                                            <th class="trash-item"></th>
-                                        </tr>
-                                    </thead>
-                                </table>
                                 <div class="search-product-content">
-                                    <table class="table table-checkable table-product custom-font-size-12">
+                                    <table class="table table-checkable table-product table-sale-order">
+                                        <thead>
+                                            <tr>
+                                                <th class="order-item">#</th>
+                                                <th class="image-item">Ảnh</th>
+                                                <th class="name-item">Sản phẩm</th>
+                                                <th class="sku-item">Mã</th>
+                                                <th class="variable-item">Thuộc tính</th>
+                                                <th class="price-item">Giá</th>
+                                                <th class="quantity-item">Kho</th>
+                                                <th class="quantity-item">Số lượng</th>
+                                                <th class="total-item">Thành tiền</th>
+                                                <th class="trash-item">Xóa</th>
+                                            </tr>
+                                        </thead>
                                         <tbody class="content-product">
                                             <asp:Literal ID="ltrProducts" runat="server"></asp:Literal>
                                         </tbody>
@@ -381,6 +379,7 @@
                     </div>
                 </div>
             </div>
+            <asp:HiddenField ID="notAcceptChangeUser" Value="1" runat="server" />
             <asp:HiddenField ID="hdfDiscountInOrder" runat="server" />
             <asp:HiddenField ID="hdfUsername" runat="server" />
             <asp:HiddenField ID="hdfCheckCustomer" runat="server" Value="0" />

@@ -22,7 +22,7 @@
     <asp:ContentPlaceHolder ID="head" runat="server">
     </asp:ContentPlaceHolder>
 </head>
-<body class="menuin">
+<body class="menuin scrollbar2">
     <form id="form12" runat="server" enctype="multipart/form-data">
         <asp:ScriptManager runat="server" ID="scr">
         </asp:ScriptManager>
@@ -31,7 +31,7 @@
                 <a href="javascript:;" class="nav-toggle open">
                     <img src="/App_Themes/Ann/image/icon-menu.png" alt="">
                 </a>
-                <nav class="" id="main-nav">
+                <nav class="scrollbar2" id="main-nav">
                     <ul class="nav-ul">
                         <asp:Literal ID="ltrMenu" runat="server"></asp:Literal>
                     </ul>

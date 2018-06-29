@@ -197,7 +197,7 @@ namespace IM_PJ
                     string CustomerPhone2 = "";
 
                     var customer = CustomerController.GetByID(Convert.ToInt32(order.CustomerID));
-                    if(customer != null)
+                    if(!string.IsNullOrEmpty(customer.CustomerPhone2))
                     {
                         CustomerPhone2 = " - " + customer.CustomerPhone2;
                     }

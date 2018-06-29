@@ -151,7 +151,7 @@ namespace IM_PJ.Controllers
         {
             string textsearch = '"' + text + '"';
             var list = new List<CustomerOut>();
-            var sql = @"select c.ID, c.CustomerName, c.Nick, c.CustomerPhone, c.CustomerPhone2, c.Zalo, c.Facebook, c.CustomerAddress, c.ProvinceID as Province
+            var sql = @"select c.ID, c.CustomerName, c.Nick, c.CustomerPhone, c.CustomerPhone2, c.Zalo, c.Facebook, c.CustomerAddress, c.CreatedBy, c.ProvinceID as Province
                         from tbl_Customer c
                          WHERE (CONTAINS(c.CustomerName,'" + textsearch + "')  OR CONTAINS(c.Nick,'" + textsearch + "') OR c.CustomerPhone like '%" + text + "%' OR c.CustomerPhone2 like '%" + text + "%' OR c.Facebook like '%" + text + "%' OR c.Zalo like '%" + text + "%')";
             if (createdby != "")
@@ -170,6 +170,8 @@ namespace IM_PJ.Controllers
                     entity.CustomerPhone = reader["CustomerPhone"].ToString();
                 if (reader["CustomerPhone2"] != DBNull.Value)
                     entity.CustomerPhone2 = reader["CustomerPhone2"].ToString();
+                if (reader["CreatedBy"] != DBNull.Value)
+                    entity.CreatedBy = reader["CreatedBy"].ToString();
                 if (reader["CustomerAddress"] != DBNull.Value)
                     entity.CustomerAddress = reader["CustomerAddress"].ToString();
                 if (reader["Zalo"] != DBNull.Value)

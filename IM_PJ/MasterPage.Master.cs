@@ -40,7 +40,7 @@ namespace IM_PJ
                         ltrMenu.Text += "<li><a href=\"/quan-ly-danh-muc-san-pham\"><span class=\"icon-menu icon-product\"></span>Danh mục</a></li>";
                         ltrMenu.Text += "<li><a href=\"/quan-ly-danh-muc-thuoc-tinh\"><span class=\"icon-menu icon-product\"></span>Thuộc tính</a></li>";
                         ltrMenu.Text += "<li><a href=\"/danh-sach-khach-hang\"><span class=\"icon-menu icon-product\"></span>Khách hàng</a></li>";
-                        ltrMenu.Text += "<li><a href=\"/danh-sach-nhom-khach-hang\"><span class=\"icon-menu icon-product\"></span>Nhóm khách hàng</a></li>";
+                        ltrMenu.Text += "<li><a href=\"/danh-sach-nhom-khach-hang\"><span class=\"icon-menu icon-product\"></span>Nhóm KH</a></li>";
                         ltrMenu.Text += "<li><a href=\"/tao-ma-vach\"><span class=\"icon-menu icon-product\"></span>In mã vạch</a></li>";
                         ltrMenu.Text += "<li><a href=\"/quan-ly-nhap-kho\"><span class=\"icon-menu icon-product\"></span>Nhập kho</a></li>";
                         ltrMenu.Text += "<li><a href=\"/quan-ly-xuat-kho\"><span class=\"icon-menu icon-product\"></span>Xuất kho</a></li>";
@@ -51,9 +51,9 @@ namespace IM_PJ
                         ltrMenu.Text += "<li><a href=\"/quan-ly-dai-ly\"><span class=\"icon-menu icon-lib\"></span>Chi nhánh</a></li>";
                         ltrMenu.Text += "<li><a href=\"/tat-ca-nhan-vien\"><span class=\"icon-menu icon-lib\"></span>Nhân viên</a></li>";
                         ltrMenu.Text += "<li><a href=\"/danh-sach-nha-cung-cap\"><span class=\"icon-menu icon-product\"></span>Nhà cung cấp</a></li>";
-                        ltrMenu.Text += "<li><a href=\"/danh-sach-chiet-khau\"><span class=\"icon-menu icon-product\"></span>Mức chiết khấu</a></li>";
+                        ltrMenu.Text += "<li><a href=\"/danh-sach-chiet-khau\"><span class=\"icon-menu icon-product\"></span>Chiết khấu</a></li>";
                         ltrMenu.Text += "<li><a href=\"/bao-cao\"><span class=\"icon-menu icon-product\"></span>Báo cáo</a></li>";
-                        ltrMenu.Text += "<li><a href=\"/cai-dat\"><span class=\"icon-menu icon-product\"></span>Cài đặt chung</a></li>";
+                        ltrMenu.Text += "<li><a href=\"/cai-dat\"><span class=\"icon-menu icon-product\"></span>Cài đặt</a></li>";
                     }
                     else if (role == 1) //Nhân viên kho
                     {

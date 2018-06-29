@@ -85,19 +85,19 @@
                     <div class="col-md-12">
                         <div class="panel-post">
                             <div class="post-body search-product-content clear">
-                                <table class="table table-checkable table-product custom-font-size-12">
+                                <table class="table table-checkable table-product table-return-order">
                                     <thead>
                                         <tr>
-                                            <th>#</th>
-                                            <th>Ảnh</th>
-                                            <th>Sản phẩm</th>
-                                            <th>Mã</th>
-                                            <th>Giá niêm yết</th>
-                                            <th>Giá đã bán</th>
-                                            <th>Số lượng đổi</th>
-                                            <th>Hình thức</th>
-                                            <th>Phí đổi hàng</th>
-                                            <th>Thành tiền</th>
+                                            <th class="order-column">#</th>
+                                            <th class="image-column">Ảnh</th>
+                                            <th class="name-column">Sản phẩm</th>
+                                            <th class="sku-column">Mã</th>
+                                            <th class="price-column">Giá niêm yết</th>
+                                            <th class="sold-price-column">Giá đã bán</th>
+                                            <th class="quantity-column">Cần đổi</th>
+                                            <th class="type-column">Hình thức</th>
+                                            <th class="fee-column">Phí đổi hàng</th>
+                                            <th class="total-column">Thành tiền</th>
                                         </tr>
                                     </thead>
                                     <tbody class="content-product">

@@ -1,4 +1,68 @@
-﻿.input-disabled {
+﻿.scrollbar::-webkit-scrollbar-track
+{
+	-webkit-box-shadow: inset 0 0 0 rgba(0,0,0,0);
+	background-color: #fff;
+}
+
+.scrollbar::-webkit-scrollbar
+{
+	width: 5px;
+	background-color: #fff;
+}
+
+.scrollbar::-webkit-scrollbar-thumb
+{
+	background-color: #F90;	
+	background-image: -webkit-linear-gradient(45deg,
+	                                          rgba(255, 255, 255, .2) 25%,
+											  transparent 25%,
+											  transparent 50%,
+											  rgba(255, 255, 255, .2) 50%,
+											  rgba(255, 255, 255, .2) 75%,
+											  transparent 75%,
+											  transparent)
+}
+.scrollbar::-webkit-scrollbar-track
+{
+	-webkit-box-shadow: inset 0 0 0 rgba(0,0,0,0);
+	background-color: #fff;
+}
+
+.scrollbar::-webkit-scrollbar
+{
+	width: 5px;
+	background-color: #fff;
+}
+
+.scrollbar::-webkit-scrollbar-thumb
+{
+	background-color: #F90;	
+	background-image: -webkit-linear-gradient(45deg,
+	                                          rgba(255, 255, 255, .2) 25%,
+											  transparent 25%,
+											  transparent 50%,
+											  rgba(255, 255, 255, .2) 50%,
+											  rgba(255, 255, 255, .2) 75%,
+											  transparent 75%,
+											  transparent)
+}
+.scrollbar2::-webkit-scrollbar-track
+{
+	background-color: #32373c;
+}
+
+.scrollbar2::-webkit-scrollbar
+{
+	width: 8px;
+	background-color: #32373c;
+}
+
+.scrollbar2::-webkit-scrollbar-thumb
+{
+	background-color: #000;
+}
+
+.input-disabled {
     background-color: #eeeeee;
 }
 .btn-complete-order {
@@ -9,21 +73,136 @@
     height: 50px;
     font-size: 22px;
 }
-.table-return-order .image-column {
-    width: 10%;
+
+.table-return-order .order-column {
+    width: 5%;
 }
-.table-return-order .price-column {
-    width: 10%;
+.table-return-order .image-column {
+    width: 12%;
 }
 .table-return-order .name-column {
-    width: 18%;
+    width: 22%;
+}
+.table-return-order .sku-column {
+    width: 9%;
+}
+.table-return-order .price-column {
+    width: 8%;
+}
+.table-return-order .sold-price-column {
+    width: 8%;
 }
 .table-return-order .quantity-column {
-    width: 10%;
+    width: 6%;
 }
-.table-return-order .quantity-column {
-    width: 10%;
+.table-return-order .type-column {
+    width: 13%;
 }
+.table-return-order .fee-column {
+    width: 9%;
+}
+.table-return-order .total-column {
+    width: 8%;
+}
+.table-return-order .trash-column {
+    width: 5%;
+    text-align: right;
+    padding-right: 20px;
+}
+.table-return-order .trash-column a {
+    font-size: 24px;
+}
+.table-return-order .image-column img {
+    width: 100%;
+}
+
+
+.table-sale-order .order-item {
+    width: 5%;
+}
+.table-sale-order .image-item {
+    width: 12%;
+    text-align: left!important;
+}
+.table-sale-order .image-item img {
+    width: 100%;
+}
+.table-sale-order .name-item {
+    width: 30%;
+    text-align: left!important;
+}
+.table-sale-order .sku-item {
+    width: 11%;
+    text-align: left!important;
+}
+.table-sale-order .variable-item {
+    width: 11%;
+    text-align: left!important;
+}
+.table-sale-order .price-item {
+    width: 9%;
+    text-align: left!important;
+}
+.table-sale-order .quantity-item {
+    width: 7%;
+    text-align: left!important;
+}
+.table-sale-order .total-item {
+    width: 10%;
+    text-align: left!important;
+}
+.table-sale-order .trash-item {
+    width: 5%;
+    text-align: left!important;
+}
+.table-sale-order .trash-item a {
+    font-size: 24px;
+}
+
+.table-pos-order tbody > tr > td {
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+.table-pos-order .image-item {
+    width: 10%;
+    text-align: left!important;
+}
+.table-pos-order .name-item {
+    width: 30%;
+    text-align: left!important;
+}
+.table-pos-order .sku-item {
+    width: 10%;
+    text-align: left!important;
+}
+.table-pos-order .variable-item {
+    width: 12%;
+    text-align: left!important;
+}
+.table-pos-order .price-item {
+    width: 11%;
+    text-align: left!important;
+}
+.table-pos-order .quantity-item {
+    width: 9%;
+    text-align: left!important;
+}
+.table-pos-order .total-item {
+    width: 12%;
+    text-align: left!important;
+}
+.table-pos-order .trash-item {
+    width: 6%;
+    text-align: left!important;
+}
+.table-pos-order .trash-item a {
+    font-size: 20px;
+}
+.table-pos-order .image-item img {
+    width: 100%;
+}
+
+
 .customer-name-link {
     font-weight: bold;
 }
@@ -58,7 +237,7 @@
 }
 .list-customer {
     overflow-x: auto;
-    max-height: 450px;
+    max-height: 440px;
 }
 .table-list-customer thead th {
     background-color: #9e9e9e;
@@ -304,56 +483,6 @@ ul.image-gallery li {
 .price-red {
     color: #F44336;
     font-size: 18px!important;
-}
-.order-item-header {
-    width: 35px;
-}
-.order-item {
-    width: 35px;
-}
-.image-item {
-    width: 70px;
-    text-align: left!important;
-}
-.image-item img {
-    width: 60px;
-    height: 80px;
-}
-.name-item {
-    min-width: 200px;
-    width: 240px;
-    text-align: left!important;
-}
-.sku-item {
-    width: 135px;
-    text-align: left!important;
-}
-.variable-item {
-    width: 112px;
-    text-align: left!important;
-}
-.price-item {
-    width: 80px;
-    text-align: left!important;
-}
-.quantity-item {
-    width: 80px;
-    text-align: left!important;
-}
-.total-item {
-    width: 90px;
-    text-align: left!important;
-}
-.trash-item {
-    width: 30px;
-    text-align: left!important;
-}
-.trash-item a {
-    font-size: 20px;
-}
-.space-item {
-    width: 20px;
-    padding: 0!important;
 }
 .width-notfull {
     text-align: right;
@@ -631,8 +760,8 @@ img {
     display: block;
     height: 16px;
     position: absolute;
-    right: 15px !important;
-    top: 15px;
+    right: 5px !important;
+    top: 5px;
     width: 16px !important;
     cursor: pointer !important;
     z-index: 10;
@@ -885,17 +1014,17 @@ body {
         }
 
 .menuin #header {
-    padding-left: 190px;
+    padding-left: 160px;
 }
 
 .menuin #header:before {
-        left: 180px;
+        left: 150px;
     }
 
 .menuin #main-wrap {
-    left: 180px;
-    width: calc(100% - 180px);
-    width: -webkit-calc(100% - 180px);
+    left: 150px;
+    width: calc(100% - 150px);
+    width: -webkit-calc(100% - 150px);
     margin-bottom: 40px;
 }
 
@@ -905,7 +1034,7 @@ body {
 
 #main-nav {
     overflow: auto;
-    width: 180px;
+    width: 150px;
     background-color: #23282d;
     padding-top: 40px;
     color: #fff;
@@ -935,10 +1064,6 @@ body {
     height: 40px;
     line-height: 21px;
     padding: 10px;
-}
-
-.table-product {
-    font-size: 14px;
 }
 
 .pagination {
@@ -991,7 +1116,7 @@ body {
     font-weight: bold;
 }
 
-#popup_content {
+.content-popup {
     overflow-x: auto;
     max-height: 550px;
 }

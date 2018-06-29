@@ -26,14 +26,14 @@
                                         <div class="form-group">
                                             <label>Họ tên</label>
                                             <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" ControlToValidate="txtFullname" ErrorMessage="(*)" ForeColor="Red" Display="Dynamic"></asp:RequiredFieldValidator>
-                                            <asp:TextBox ID="txtFullname" Enabled="false" CssClass="form-control" runat="server"></asp:TextBox>
+                                            <asp:TextBox ID="txtFullname" Enabled="false" CssClass="form-control" runat="server" autocomplete="off"></asp:TextBox>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label>Điện thoại</label>
                                             <asp:RequiredFieldValidator ID="re" runat="server" ControlToValidate="txtPhone" ErrorMessage="(*)" ForeColor="Red" Display="Dynamic"></asp:RequiredFieldValidator>
-                                            <asp:TextBox ID="txtPhone" Enabled="false" CssClass="form-control" runat="server" onchange="checkCustomer()" onpaste="checkCustomer()"></asp:TextBox>
+                                            <asp:TextBox ID="txtPhone" Enabled="false" CssClass="form-control" runat="server" onchange="checkCustomer()" onpaste="checkCustomer()" autocomplete="off"></asp:TextBox>
                                         </div>
                                     </div>
                                 </div> 
@@ -42,14 +42,14 @@
                                         <div class="form-group">
                                             <label>Nick đặt hàng</label>
                                             <asp:RequiredFieldValidator ID="RequiredFieldValidator2" runat="server" ControlToValidate="txtNick" ErrorMessage="(*)" ForeColor="Red" Display="Dynamic"></asp:RequiredFieldValidator>
-                                            <asp:TextBox ID="txtNick" Enabled="false" CssClass="form-control" runat="server"></asp:TextBox>
+                                            <asp:TextBox ID="txtNick" Enabled="false" CssClass="form-control" runat="server" autocomplete="off"></asp:TextBox>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label>Địa chỉ</label>
                                             <asp:RequiredFieldValidator ID="RequiredFieldValidator3" runat="server" ControlToValidate="txtAddress" ErrorMessage="(*)" ForeColor="Red" Display="Dynamic"></asp:RequiredFieldValidator>
-                                            <asp:TextBox ID="txtAddress" Enabled="false" CssClass="form-control" runat="server"></asp:TextBox>
+                                            <asp:TextBox ID="txtAddress" Enabled="false" CssClass="form-control" runat="server" autocomplete="off"></asp:TextBox>
                                         </div>
                                     </div>
                                 </div> 
@@ -57,7 +57,7 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label>Zalo</label>
-                                            <asp:TextBox ID="txtZalo" Enabled="false" CssClass="form-control" runat="server"></asp:TextBox>
+                                            <asp:TextBox ID="txtZalo" Enabled="false" CssClass="form-control" runat="server" autocomplete="off"></asp:TextBox>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
@@ -65,7 +65,7 @@
                                             <label>Facebook</label>
                                             <div class="row">
                                                 <div class="col-md-10 fb width-100">
-                                                <asp:TextBox ID="txtFacebook" Enabled="false" CssClass="form-control" runat="server"></asp:TextBox>
+                                                <asp:TextBox ID="txtFacebook" Enabled="false" CssClass="form-control" runat="server" autocomplete="off"></asp:TextBox>
                                                 </div>
                                                 <div class="col-md-2">
                                                     <div class="row">
@@ -89,26 +89,26 @@
                         <div class="panel-post">
                             <div class="post-above clear">
                                 <div class="search-box left" style="width: 96%;">
-                                    <input type="text" id="txtSearch" class="form-control" placeholder="SKU (F3)">
+                                    <input type="text" id="txtSearch" class="form-control sku-input" placeholder="SKU (F3)" autocomplete="off">
                                 </div>
                                 <div class="right">
                                     <a href="javascript:;" class="link-btn" onclick="searchProduct()"><i class="fa fa-search"></i></a>
                                 </div>
                             </div>
                             <div class="post-body search-product-content clear">
-                                <table class="table table-checkable table-product custom-font-size-12 table-return-order">
+                                <table class="table table-checkable table-product table-return-order">
                                     <thead>
                                         <tr>
                                             <th class="image-column">Ảnh</th>
-                                            <th class="name-column">Tên sản phẩm</th>
-                                            <th class="sku-column">SKU</th>
-                                            <th class="price-column">Giá gốc</th>
-                                            <th class="price-column">Giá đã bán</th>
+                                            <th class="name-column">Sản phẩm</th>
+                                            <th class="sku-column">Mã</th>
+                                            <th class="price-column">Giá niêm yết</th>
+                                            <th class="sold-price-column">Giá đã bán</th>
                                             <th class="quantity-column">Cần đổi</th>
-                                            <th>Hình thức</th>
-                                            <th>Phí đổi hàng</th>
-                                            <th>Thành tiền</th>
-                                            <th></th>
+                                            <th class="type-column">Hình thức</th>
+                                            <th class="fee-column">Phí đổi hàng</th>
+                                            <th class="total-column">Thành tiền</th>
+                                            <th class="trash-column">Xóa</th>
                                         </tr>
                                     </thead>
                                     <tbody class="content-product">
@@ -161,6 +161,9 @@
                                     <div class="post-table-links clear">
                                         <a href="javascript:;" class="btn link-btn" style="background-color: #f87703; float: right;" onclick="payall()"><i class="fa fa-floppy-o"></i> Xác nhận</a>
                                         <a href="javascript:;" class="btn link-btn" style="background-color: #F44336; float: right;" onclick="deleteProduct()"><i class="fa fa-times" aria-hidden="true"></i> Làm lại</a>
+                                        <a href="javascript:;" class="btn link-btn minus-discount" style="background-color: #009688; float: right;" onclick="minusDiscount()"><i class="fa fa-arrow-down" aria-hidden="true"></i> Trừ chiết khấu</a>
+                                        <a href="javascript:;" class="btn link-btn restore-discount hide" style="background-color: #009688; float: right;" onclick="restoreDiscount()"><i class="fa fa-arrow-up" aria-hidden="true"></i> Khôi phục giá bán cũ</a>
+                                        <a href="javascript:;" class="btn link-btn" style="background-color: #607D8B; float: right;" onclick="changeFee()"><i class="fa fa-external-link" aria-hidden="true"></i> Nhập phí đổi hàng khác</a>
                                     </div>
                                 </div>
                             </div>
@@ -246,6 +249,85 @@
 
             function redirectTo(ID) {
                 window.location.href = "/xem-don-hang-doi-tra?id=" + ID;
+            }
+
+            function minusDiscount() {
+                swal({
+                    title: "Trừ chiết khấu",
+                    text: 'Nhập số tiền cần trừ:',
+                    type: 'input',
+                    showCancelButton: true,
+                    closeOnConfirm: true,
+                    cancelButtonText: "Để em xem lại",
+                    confirmButtonText: "OK sếp!!",
+                }, function (discount) {
+                    
+                    $("input.reducedPrice").each(function (index) {
+                        oldValue = $(this).val().replace(/,/g, "");
+
+                        if (parseInt(discount) > 0) {
+                            newValue = formatThousands(parseInt(oldValue) - parseInt(discount));
+                        }
+                        else {
+                            newValue = formatThousands(parseInt(oldValue) + parseInt(discount));
+                        }
+                        
+                        $(this).val(newValue);
+                        changeRow($(this));
+                    });
+
+                    $(".minus-discount").addClass("hide");
+                    $(".restore-discount").removeClass("hide");
+                });
+            }
+
+            function restoreDiscount() {
+                swal({
+                    title: "Khôi phục lại giá bán",
+                    text: "Giá bán sẽ khôi phục lại như lúc đầu (giống giá niêm yết).. OK không?",
+                    type: 'warning',
+                    showCancelButton: true,
+                    closeOnConfirm: true,
+                    cancelButtonText: "Để em coi lại..",
+                    confirmButtonText: "OK sếp !!!",
+                }, function (isConfirm) {
+                    if (isConfirm) {
+                        $("input.reducedPrice").each(function (index) {
+                            oldValue = $(this).parent().parent().find("td.Price").html();
+
+                            $(this).val(oldValue);
+                            changeRow($(this));
+                        });
+
+                        $(".minus-discount").removeClass("hide");
+                        $(".restore-discount").addClass("hide");
+                    }
+                });
+            }
+
+            function changeFee() {
+                swal({
+                    title: "Thay đổi phí đổi hàng",
+                    text: "Nhập phí mới cho <strong>sản phẩm đổi mẫu khác</strong> trong đơn hàng này:",
+                    type: "input",
+                    showCancelButton: true,
+                    closeOnConfirm: true,
+                    cancelButtonText: "Để em coi lại..",
+                    confirmButtonText: "Nhập thôi !!!",
+                    html: true
+                }, function (newFee) {
+                    $("input.reducedPrice").each(function (index) {
+                        oldFee = $(this).parent().parent().attr("data-feerefund");
+                        if (oldFee != "") {
+                            $(this).parent().parent().attr("data-feerefund", newFee);
+                            $(this).parent().parent().find(".feeRefund").html(formatThousands(newFee));
+                            changeRow($(this));
+                        }
+                    });
+
+                    $(".minus-discount").removeClass("hide");
+                    $(".restore-discount").addClass("hide");
+                });
             }
 
             // key press F1 - F4
@@ -366,6 +448,7 @@
                         item.ChangeType = ChangeType;
                         item.TotalFeeRefund = TotalFeeRefund;
                         item.ReducedPrice = ReducedPrice;
+                        item.FeeRefund = FeeRefund;
                         item.DiscountPricePerProduct = Price - ReducedPrice;
                     }
                 });
@@ -430,7 +513,7 @@
                     html += "   <td class='feeRefund'>0</td>\n";
                 }
                 html += "   <td class='totalFeeRefund'>" + formatThousands(item.TotalFeeRefund) + "</td>\n";
-                html += "   <td><a href='javascript:;' class='link-btn' onclick='deleteRow($(this))'><i class='fa fa-trash'></i></a></td>\n";
+                html += "   <td class='trash-column'><a href='javascript:;' class='link-btn' onclick='deleteRow($(this))'><i class='fa fa-trash'></i></a></td>\n";
                 html += "</tr>\n";
 
                 $(".content-product").prepend(html);

@@ -20,7 +20,7 @@
                         <div class="filter-control">
                             <div class="row">
                                 <div class="col-md-5">
-                                    <asp:TextBox ID="txtSearchProduct" runat="server" CssClass="form-control sku-input" placeholder="Tìm sản phẩm"></asp:TextBox>
+                                    <asp:TextBox ID="txtSearchProduct" runat="server" CssClass="form-control sku-input" placeholder="Tìm sản phẩm" autocomplete="off"></asp:TextBox>
                                 </div>
                                 <div class="col-md-3">
                                     <asp:DropDownList ID="ddlCategory" runat="server" CssClass="form-control"></asp:DropDownList>
@@ -53,7 +53,6 @@
                         <div class="responsive-table">
                             <table class="table table-checkable table-product all-product-table">
                                 <tbody>
-                                    
                                     <asp:Literal ID="ltrList" runat="server" EnableViewState="false"></asp:Literal>
                                 </tbody>
                             </table>

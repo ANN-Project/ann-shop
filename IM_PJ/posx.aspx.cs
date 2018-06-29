@@ -93,7 +93,7 @@ namespace IM_PJ
             }
             else
             {
-                return "0";
+                return null;
             }
         }
 
@@ -101,14 +101,23 @@ namespace IM_PJ
         public static string searchCustomerByText(string textsearch, string createdby = "")
         {
             var customer = CustomerController.Find(textsearch, createdby);
-            if (customer != null)
+            if (customer.Count > 0)
             {
                 JavaScriptSerializer serializer = new JavaScriptSerializer();
-                return serializer.Serialize(customer);
+                return serializer.Serialize(new { listCustomer = customer, employee = 0 });
             }
             else
             {
-                return "0";
+                var customer_other = CustomerController.Find(textsearch);
+                if(customer_other.Count > 0)
+                {
+                    JavaScriptSerializer serializer = new JavaScriptSerializer();
+                    return serializer.Serialize(new { listCustomer = customer_other, employee = 1 });
+                }
+                else
+                {
+                    return null;
+                }
             }
         }
 

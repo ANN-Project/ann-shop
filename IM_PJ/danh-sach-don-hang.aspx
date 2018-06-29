@@ -19,10 +19,10 @@
                         <div class="filter-control">
                             <div class="row">
                                 <div class="col-md-5">
-                                    <asp:TextBox ID="txtAgentName" runat="server" CssClass="form-control" placeholder="Tìm đơn hàng"></asp:TextBox>
+                                    <asp:TextBox ID="txtAgentName" runat="server" CssClass="form-control" placeholder="Tìm đơn hàng" autocomplete="off"></asp:TextBox>
                                 </div>
                                 <div class="col-md-6">
-                                    <asp:TextBox ID="txtSKU" runat="server" CssClass="form-control" placeholder="Tìm sản phẩm"></asp:TextBox>
+                                    <asp:TextBox ID="txtSKU" runat="server" CssClass="form-control" placeholder="Tìm sản phẩm" autocomplete="off"></asp:TextBox>
                                 </div>
                                 <div class="col-md-1">
                                     
