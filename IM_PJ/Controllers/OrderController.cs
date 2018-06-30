@@ -1111,5 +1111,159 @@ namespace IM_PJ.Controllers
 
         }
 
+        public static ProfitReportModel GetProfitReport(DateTime fromDate, DateTime toDate)
+        {
+            using (var con = new inventorymanagementEntities())
+            {
+                int TotalNumberOfOrder = 0;
+                double TotalCostOfSales = 0;
+                double TotalSales = 0;
+                double TotalRefund = 0;
+                double TotalCostOfRefund = 0;
+
+                // Get all infor product
+                var productTarget = con.tbl_Product
+                    .GroupJoin(
+                        con.tbl_ProductVariable,
+                        product => new
+                        {
+                            ProductStyle = product.ProductStyle.Value,
+                            ProductID = product.ID,
+                        },
+                        productVariable => new
+                        {
+                            ProductStyle = 2,
+                            ProductID = productVariable.ProductID.Value,
+                        },
+                        (product, productVariable) => new
+                        {
+                            product,
+                            productVariable
+                        })
+                    .SelectMany(x => x.productVariable.DefaultIfEmpty(),
+                                (parent, child) => new
+                                {
+                                    CategoryID = parent.product.CategoryID.Value,
+                                    ProductID = parent.product.ID,
+                                    ProductVariableID = child != null ? child.ID : 0,
+                                    ProductStyle = parent.product.ProductStyle.Value,
+                                    ProductImage = child != null ? child.Image : parent.product.ProductImage,
+                                    ProductTitle = parent.product.ProductTitle,
+                                    VariableValue = String.Empty,
+                                    SKU = child != null ? child.SKU : parent.product.ProductSKU,
+                                    RegularPrice = child != null ? child.Regular_Price.Value : parent.product.Regular_Price.Value,
+                                    CostOfGood = child != null ? child.CostOfGood.Value : parent.product.CostOfGood.Value,
+                                    RetailPrice = child != null ? child.RetailPrice.Value : parent.product.Retail_Price.Value
+                                })
+                    .OrderBy(x => x.SKU);
+
+                // Choose order in date target
+                var orderTarget = con.tbl_Order
+                    .Where(x => (x.DateDone >= fromDate && x.DateDone < toDate)
+                                && x.ExcuteStatus == 2
+                                && x.PaymentStatus == 3)
+                    .OrderBy(x => x.ID);
+
+                var orderDetailTarget = con.tbl_OrderDetail.OrderBy(x => x.OrderID).ThenBy(x => x.ID);
+
+                // Get info order
+                var inforOrder = orderTarget
+                    .Join(
+                        orderDetailTarget,
+                        order => order.ID,
+                        detail => detail.OrderID,
+                        (order, detail) => new
+                        {
+                            OrderID = order.ID,
+                            ProductID = detail.ProductID.Value,
+                            ProductVariableID = detail.ProductVariableID.Value,
+                            ProductStyle = detail.ProductType.Value,
+                            SKU = detail.SKU,
+                            Quantity = detail.Quantity.Value,
+                            TotalPrice = order.TotalPrice
+                        })
+                        .OrderBy(x => x.SKU)
+                    .Join(
+                        productTarget,
+                        order => order.SKU,
+                        product => product.SKU,
+                        (order, product) => new
+                        {
+                            OrderID = order.OrderID,
+                            ProductID = order.ProductID,
+                            ProductVariableID = order.ProductVariableID,
+                            ProductStyle = order.ProductStyle,
+                            SKU = order.SKU,
+                            Quantity = order.Quantity,
+                            CostOfGood = product.CostOfGood,
+                            TotalPrice = order.TotalPrice
+                        })
+                    .ToList();
+
+                // Choose refund good in date target
+                var refundTarget = con.tbl_RefundGoods
+                    .Where(x => x.CreatedDate >= fromDate && x.CreatedDate <= toDate)
+                    .OrderBy(x => x.ID);
+
+                var refundDetailTarget = con.tbl_RefundGoodsDetails.OrderBy(x => x.RefundGoodsID).ThenBy(x => x.ID);
+
+                var infoRefund = refundTarget
+                    .Join(
+                        refundDetailTarget,
+                        refund => refund.ID,
+                        detail => detail.RefundGoodsID,
+                        (refund, detail) => new
+                        {
+                            RefundGoodsID = refund.ID,
+                            ProductStyle = detail.ProductType.Value,
+                            SKU = detail.SKU,
+                            Quantity = detail.Quantity.Value,
+                            TotalRefundPrice = refund.TotalPrice
+                        })
+                    .OrderBy(x => x.SKU)
+                    .Join(
+                        productTarget,
+                        refund => refund.SKU,
+                        product => product.SKU,
+                        (refund, product) => new
+                        {
+                            RefundGoodsID = refund.RefundGoodsID,
+                            ProductStyle = refund.ProductStyle,
+                            SKU = refund.SKU,
+                            Quantity = refund.Quantity,
+                            CostOfGood = product.CostOfGood,
+                            TotalRefundPrice = refund.TotalRefundPrice
+                        })
+                      .ToList();
+
+                TotalNumberOfOrder = inforOrder.GroupBy(x => x.OrderID).Count();
+                TotalSales = inforOrder
+                    .GroupBy(x => x.OrderID)
+                    .Select(g => new { TotalPrice = g.Max(x => Convert.ToDouble(x.TotalPrice)) })
+                    .Sum(x => x.TotalPrice);
+
+                TotalCostOfSales = inforOrder
+                    .Select(x => new { TotalCostOfSales = x.Quantity * Convert.ToDouble(x.CostOfGood) })
+                    .Sum(x => x.TotalCostOfSales);
+
+                TotalRefund = infoRefund
+                    .GroupBy(x => x.RefundGoodsID)
+                    .Select(g => new { TotalRefundPrice = g.Max(x => Convert.ToDouble(x.TotalRefundPrice)) })
+                    .Sum(x => x.TotalRefundPrice);
+
+                TotalCostOfRefund = infoRefund
+                    .Select(x => new { TotalCostOfRefund = x.Quantity * Convert.ToDouble(x.CostOfGood) })
+                    .Sum(x => x.TotalCostOfRefund);
+
+                return new ProfitReportModel()
+                {
+                    TotalNumberOfOrder = TotalNumberOfOrder,
+                    TotalCostOfSales = TotalCostOfSales,
+                    TotalSales = TotalSales,
+                    TotalRefund = TotalRefund,
+                    TotalCostOfRefund = TotalCostOfRefund
+                };
+            }
+        }
     }
 }
