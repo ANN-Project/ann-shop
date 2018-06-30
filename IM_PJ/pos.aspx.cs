@@ -308,8 +308,8 @@ namespace IM_PJ
                                     AgentID = AgentID,
                                     OrderID = OrderID,
                                     SKU = item.SKU,
-                                    ProductID = item.ProductID,
-                                    ProductVariableID = item.ProductVariableID,
+                                    ProductID = item.ProductType == 1 ? item.ProductID : 0,
+                                    ProductVariableID = item.ProductType == 1 ? 0 : item.ProductVariableID,
                                     ProductVariableDescrition = item.ProductVariableSave,
                                     Quantity = item.QuantityInstock,
                                     Price = item.Giabanle,
@@ -327,8 +327,8 @@ namespace IM_PJ
                                 new tbl_StockManager()
                                 {
                                     AgentID = AgentID,
-                                    ProductID = item.ProductID,
-                                    ProductVariableID = item.ProductVariableID,
+                                    ProductID = item.ProductType == 1 ? item.ProductID : 0,
+                                    ProductVariableID = item.ProductType == 1 ? 0 : item.ProductVariableID,
                                     Quantity = item.QuantityInstock,
                                     QuantityCurrent = 0,
                                     Type = 2,

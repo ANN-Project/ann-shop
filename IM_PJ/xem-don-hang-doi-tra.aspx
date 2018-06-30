@@ -2,7 +2,7 @@
 
 <%@ Register Assembly="Telerik.Web.UI" Namespace="Telerik.Web.UI" TagPrefix="telerik" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
-    <script src="/App_Themes/Ann/js/search-customer.js"></script>
+    <script src="/App_Themes/Ann/js/search-customer.js?v=3006"></script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <asp:Panel ID="parent" runat="server">
@@ -160,6 +160,21 @@
                                         <asp:Button ID="btnDelete" runat="server" CssClass="btn primary-btn fw-btn" Text="Tạo" OnClick="btnDelete_Click" Style="display: none" />
                                         <a href="/danh-sach-don-tra-hang" class="btn link-btn" style="background-color: #f87703; float: right;" ><i class="fa fa-reply" aria-hidden="true"></i> Trở về danh sách</a>
                                     </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="buttonbar">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="panel-buttonbar">
+                            <div class="panel-post">
+                                <div class="post-table-links clear">
+                                    <a href="javascript:;" class="btn link-btn" style="background-color: #f87703; float: right;" onclick="Update()"><i class="fa fa-floppy-o"></i> Xác nhận</a>
+                                        <a href="javascript:;" class="btn link-btn" style="background-color: #F44336; float: right;" onclick="Delete()"><i class="fa fa-times" aria-hidden="true"></i> Làm lại đơn hàng này</a>
+                                        <a href="/danh-sach-don-tra-hang" class="btn link-btn" style="background-color: #f87703; float: right;" ><i class="fa fa-reply" aria-hidden="true"></i> Trở về danh sách</a>
                                 </div>
                             </div>
                         </div>

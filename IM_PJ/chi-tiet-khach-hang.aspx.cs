@@ -124,7 +124,11 @@ namespace IM_PJ
             if (id > 0)
             {
                 var d = CustomerController.GetByID(id);
-                if (d != null)
+                if (d == null)
+                {
+                    PJUtils.ShowMessageBoxSwAlertError("Không tìm thấy khách hàng " + id, "e", true, "/danh-sach-khach-hang", Page);
+                }
+                else
                 {
                     string username = HttpContext.Current.Request.Cookies["userLoginSystem"].Value;
                     var acc = AccountController.GetByUsername(username);

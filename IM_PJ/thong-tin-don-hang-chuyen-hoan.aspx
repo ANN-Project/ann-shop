@@ -2,7 +2,7 @@
 
 <%@ Register Assembly="Telerik.Web.UI" Namespace="Telerik.Web.UI" TagPrefix="telerik" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
-    <script src="/App_Themes/Ann/js/search-customer.js"></script>
+    <script src="/App_Themes/Ann/js/search-customer.js?v=3006"></script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <asp:Panel ID="parent" runat="server">
@@ -61,7 +61,7 @@
                                         </div>
                                     </div>
                                     <div class="col-md-4"> 
-                                        <label class="left pad10">Ghi chú: </label>
+                                        <label class="left pad10">Lý do chuyển hoàn: </label>
                                         <div class="ordernote">
                                             <asp:Literal ID="ltrOrderNote" runat="server"></asp:Literal>
                                         </div>
@@ -353,7 +353,7 @@
                                 </div>
                                 <div id="row-order-note" class="form-row">
                                     <div class="row-left">
-                                        Ghi chú đơn hàng
+                                        Lý do chuyển hoàn
                                     </div>
                                     <div class="row-right">
                                         <asp:TextBox ID="txtOrderNote" runat="server" CssClass="form-control" placeholder="Ghi chú"></asp:TextBox>
@@ -371,6 +371,20 @@
                     </div>
                 </div>
             </div>
+            <div id="buttonbar">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="panel-buttonbar">
+                            <div class="panel-post">
+                                <div class="post-table-links clear">
+                                    <a href="javascript:;" class="btn link-btn" style="background-color: #f87703; float: right" title="Chuyển hoàn đơn hàng" onclick="payAll()"><i class="fa fa-floppy-o"></i> Xác nhận</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <asp:HiddenField ID="hdfOrderID" runat="server" />
             <asp:HiddenField ID="notAcceptChangeUser" Value="1" runat="server" />
             <asp:HiddenField ID="hdfDiscountInOrder" runat="server" />
             <asp:HiddenField ID="hdfUsername" runat="server" />
@@ -529,23 +543,63 @@
             // pay order on click button
             function payAll() {
                 if ($("#<%=ddlExcuteStatus.ClientID%>").find(":selected").val() != 4) {
-                    swal({
-                        title: "Xác nhận lần cuối",
-                        text: "Cưng đã kiểm tra đúng đơn cần chuyển hoàn chưa?<br><br><strong>Không thể khôi phục lại nếu làm sai nhé!</strong>",
-                        type: "warning",
-                        showCancelButton: true,
-                        closeOnConfirm: true,
-                        cancelButtonText: "Để em xem lại..",
-                        confirmButtonText: "Chắc luôn sếp ơi!",
-                        html: true,
-                    }, function (confirm) {
-                        if (confirm) {
-                            $("#<%=btnOrder.ClientID%>").click();
-                        }
-                        else {
-                            
-                        }
-                    });
+
+                    var ID = $("#<%=hdfOrderID.ClientID%>").val();
+
+                    if ($("#<%=txtOrderNote.ClientID%>").val() == "") {
+                        swal({
+                            title: "Lý do chuyển hoàn",
+                            text: "Nhập lý do chuyển hoàn đơn hàng vào đây:",
+                            type: "input",
+                            showCancelButton: true,
+                            closeOnConfirm: false,
+                            cancelButtonText: "Để em xem lại..",
+                            confirmButtonText: "Tiếp sếp ơi!",
+                            html: true,
+                        }, function (input) {
+                            if (input != "") {
+
+                                $("#<%=txtOrderNote.ClientID%>").val(input);
+
+                                swal({
+                                    title: "Xác nhận lần cuối",
+                                    text: "Cưng đã kiểm tra đúng đơn cần chuyển hoàn chưa (" + ID + ")?<br><br><strong>Không thể khôi phục lại nếu làm sai nhé!</strong>",
+                                    type: "warning",
+                                    showCancelButton: true,
+                                    closeOnConfirm: true,
+                                    cancelButtonText: "Để em xem lại..",
+                                    confirmButtonText: "Chắc luôn sếp ơi!",
+                                    html: true,
+                                }, function (confirm) {
+                                    if (confirm) {
+                                        HoldOn.open();
+                                        $("#<%=btnOrder.ClientID%>").click();
+                                    }
+
+                                });
+                            }
+                        });
+                    }
+                    else {
+                        swal({
+                            title: "Xác nhận lần cuối",
+                            text: "Cưng đã kiểm tra đúng đơn cần chuyển hoàn chưa (" + ID + ")?<br><br><strong>Không thể khôi phục lại nếu làm sai nhé!</strong>",
+                            type: "warning",
+                            showCancelButton: true,
+                            closeOnConfirm: true,
+                            cancelButtonText: "Để em xem lại..",
+                            confirmButtonText: "Chắc luôn sếp ơi!",
+                            html: true,
+                        }, function (confirm) {
+                            if (confirm) {
+
+                                HoldOn.open();
+                                $("#<%=btnOrder.ClientID%>").click();
+                            }
+
+                        });
+                    }
+                    
                 }
                 else {
                     HoldOn.open();

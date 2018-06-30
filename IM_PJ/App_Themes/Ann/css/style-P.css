@@ -1,4 +1,31 @@
-﻿.scrollbar::-webkit-scrollbar-track
+﻿
+#buttonbar {
+    position: fixed;
+    right: 15px;
+    bottom: 0;
+    left: 150px;
+    width: calc(100% - 150px);
+    width: -webkit-calc(100% - 150px);
+    padding-left: 15px;
+    padding-right: 15px;
+    display:none;
+}
+#buttonbar .panel-buttonbar {
+    border: 1px solid transparent;
+    border-bottom: none;
+    border-radius: 0px;
+    -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
+}
+
+#buttonbar .panel-buttonbar .panel-post {
+    background-color: transparent!important;
+}
+#buttonbar .panel-buttonbar .post-table-links {
+    padding-right: 15px;
+    padding-left: 15px;
+}
+.scrollbar::-webkit-scrollbar-track
 {
 	-webkit-box-shadow: inset 0 0 0 rgba(0,0,0,0);
 	background-color: #fff;
@@ -73,6 +100,28 @@
     height: 50px;
     font-size: 22px;
 }
+.div-product-list {
+    max-height: 450px;
+    overflow-x: auto;
+}
+.table-popup-product .check-column {
+    width: 5%;
+}
+.table-popup-product .image-column {
+    width: 10%;
+}
+.table-popup-product .name-column {
+    width: 32%;
+}
+.table-popup-product .sku-column {
+    width: 21%;
+}
+.table-popup-product .variable-column {
+    width: 16%;
+}
+.table-popup-product .quantity-column {
+    width: 16%;
+}
 
 .table-return-order .order-column {
     width: 5%;
@@ -96,10 +145,10 @@
     width: 6%;
 }
 .table-return-order .type-column {
-    width: 13%;
+    width: 14%;
 }
 .table-return-order .fee-column {
-    width: 9%;
+    width: 8%;
 }
 .table-return-order .total-column {
     width: 8%;
@@ -168,19 +217,19 @@
     text-align: left!important;
 }
 .table-pos-order .name-item {
-    width: 30%;
+    width: 28%;
     text-align: left!important;
 }
 .table-pos-order .sku-item {
-    width: 10%;
-    text-align: left!important;
-}
-.table-pos-order .variable-item {
     width: 12%;
     text-align: left!important;
 }
+.table-pos-order .variable-item {
+    width: 18%;
+    text-align: left!important;
+}
 .table-pos-order .price-item {
-    width: 11%;
+    width: 8%;
     text-align: left!important;
 }
 .table-pos-order .quantity-item {
@@ -188,11 +237,11 @@
     text-align: left!important;
 }
 .table-pos-order .total-item {
-    width: 12%;
+    width: 10%;
     text-align: left!important;
 }
 .table-pos-order .trash-item {
-    width: 6%;
+    width: 5%;
     text-align: left!important;
 }
 .table-pos-order .trash-item a {

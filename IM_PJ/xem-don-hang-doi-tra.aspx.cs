@@ -57,7 +57,11 @@ namespace IM_PJ
                 {
                     ViewState["ID"] = ID;
                     var r = RefundGoodController.GetByIDAndAgentID(ID, AgentID);
-                    if (r != null)
+                    if (r == null)
+                    {
+                        PJUtils.ShowMessageBoxSwAlertError("Không tìm thấy đơn hàng " + ID, "e", true, "/danh-sach-don-tra-hang", Page);
+                    }
+                    else
                     {
                         ltrOrderID.Text = ID.ToString();
                         ltrCreateBy.Text = r.CreatedBy;

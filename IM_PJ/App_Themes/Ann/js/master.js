@@ -6,12 +6,19 @@ jQuery(document).ready(function($){
     // fade in #back-top
     $(function () {
         $(window).scroll(function () {
-            if ($(this).scrollTop() > 100) {
+            if ($(this).scrollTop() > 1500) {
                 $('#scroll-top').fadeIn();
                 $('#scroll-bottom').fadeOut();
             } else {
                 $('#scroll-bottom').fadeIn();
                 $('#scroll-top').fadeOut();
+            }
+
+            if (($(this).scrollTop() > 200) && ($(this).scrollTop() < ($(document).height() - $(window).height() - 100))) {
+                $('#buttonbar').show();
+            }
+            else {
+                $('#buttonbar').hide();
             }
         });
         // scroll body to 0px on click

@@ -39,7 +39,7 @@ namespace IM_PJ
                         }
                         else
                         {
-                            Response.Redirect("/dang-nhap");
+                            Response.Redirect("/trang-chu");
                         }
                     }
                 }
@@ -116,17 +116,17 @@ namespace IM_PJ
                                 var create = AccountController.GetByID(by);
                                 if(create != null)
                                 {
-                                    pagingall(rs.Where(x=>x.CreatedBy == create.Username).ToList());
+                                    pagingall(rs.Where(x=>x.CreatedBy == create.Username).OrderByDescending(x=>x.ModifiedDate).ToList());
                                 }
                             }
                             else
                             {
-                                pagingall(rs);
+                                pagingall(rs.OrderByDescending(x => x.ModifiedDate).ToList());
                             }
                         }
                         else
                         {
-                            pagingall(rs.Where(x => x.CreatedBy == acc.Username).ToList());
+                            pagingall(rs.Where(x => x.CreatedBy == acc.Username).OrderByDescending(x => x.ModifiedDate).ToList());
                         }
                     }
                 }
@@ -217,16 +217,9 @@ namespace IM_PJ
                     html.Append("   <td>" + PJUtils.ShippingType(Convert.ToInt32(item.ShippingType)) + "</td>");
                     html.Append("   <td>" + string.Format("{0:N0}", Convert.ToDouble(item.TotalPrice)) + "</td>");
 
-                    string date = string.Format("{0:dd/MM}", item.CreatedDate);
-                    html.Append("   <td>" + date + "</td>");
+                    html.Append("   <td>" + string.Format("{0:dd/MM}", item.DateDone) + "</td>");
 
-                    string datedone = "";
-                    if (item.ExcuteStatus == 2)
-                    {
-                        datedone = string.Format("{0:dd/MM}", item.DateDone);
-                        
-                    }
-                    html.Append("   <td>" + datedone + "</td>");
+                    html.Append("   <td>" + string.Format("{0:dd/MM}", item.ModifiedDate) + "</td>");
 
                     html.Append("   <td>");
                     html.Append("       <a href=\"/chi-tiet-khach-hang.aspx?id=" + item.CustomerID + "\" title=\"Thông tin khách hàng " + item.CustomerName + "\" target=\"_blank\" class=\"btn primary-btn btn-black h45-btn\"><i class=\"fa fa-user-circle\" aria-hidden=\"true\"></i></a>");

@@ -9,30 +9,34 @@ function showProductVariable(productVariables) {
     let html = "";
 
     // Header Popup
-    html += "<div class='row' style='max-height: 480px; overflow-x: auto;'>"
-    html += "   <table class='table table-checkable table-product'>";
+    html += "<div class='header-list'>"
+    html += "   <table class='table table-checkable table-product table-popup-product'>";
     html += "      <tr id='search-product-header'>";
-    html += "         <th class='order-item'>";
+    html += "         <th class='order-item check-column'>";
     html += "             <input type='checkbox' id='check-all'onchange='check_all()'/>";
     html += "         </th>";
-    html += "         <th class='image-item'>Ảnh</td>";
-    html += "         <th class='name-item'>Sản phẩm</td>";
-    html += "         <th class='sku-item'>Mã</td>";
-    html += "         <th class='variable-item'>Thuộc tính</td>";
-    html += "         <th class='quantity-item'>Số lượng</td>";
+    html += "         <th class='image-column'>Ảnh</td>";
+    html += "         <th class='name-column'>Sản phẩm</td>";
+    html += "         <th class='sku-column'>Mã</td>";
+    html += "         <th class='variable-column'>Thuộc tính</td>";
+    html += "         <th class='quantity-column'>Số lượng</td>";
     html += "      </tr>";
+    html += "   </table>";
+    html += "</div>"
+    html += "<div class='div-product-list scrollbar'>";
+    html += "   <table class='table table-checkable table-product table-popup-product'>";
 
     // Body Popup
     productVariables.forEach(function(item) {
         html += "      <tr class='search-popup' id='search-product-detail';>";
-        html += "         <td class='order-item'>";
+        html += "         <td class='order-item check-column'>";
         html += "             <input class='check-popup' data-productVariableID='" + item.ProductVariableID + "' type='checkbox' onchange='check($(this))' />";
         html += "         </td>";
-        html += "         <td class='image-item'><img src='" + item.ProductImage + "'></td>";
-        html += "         <td class='namer-item'>" + item.ProductTitle + "</td>";
-        html += "         <td class='sku-item key'>" + item.ChildSKU + "</td>";
-        html += "         <td class='variable-item'>" + item.VariableValue + "</td>";
-        html += "         <td class='quantity-item'>";
+        html += "         <td class='image-column'><img src='" + item.ProductImage + "'></td>";
+        html += "         <td class='name-column'>" + item.ProductTitle + "</td>";
+        html += "         <td class='sku-column key'>" + item.ChildSKU + "</td>";
+        html += "         <td class='variable-column'>" + item.VariableValue + "</td>";
+        html += "         <td class='quantity-column'>";
         html += "             <input type='text' class='form-control quantity in-quantity' "
                                   + "pattern='[0-9]{1,3}' "
                                   + "onblur='changeQuantityPopup($(this))' "
@@ -43,10 +47,11 @@ function showProductVariable(productVariables) {
         html += "      </tr>";
     });
 
-    // Footer Popup
     html += "   </table>";
     html += "</div>";
-    html += "<div class='row'>";
+
+    // Footer Popup
+    html += "<div class='footer-list'>";
     html += "   <a href='javascript: ;' class='btn link-btn' style='background-color:#f87703;float:right;color:#fff;' onclick='selectProduct()'>Chọn</a>";
     html += "</div >";
 

@@ -2,7 +2,7 @@
 
 <%@ Register Assembly="Telerik.Web.UI" Namespace="Telerik.Web.UI" TagPrefix="telerik" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
-    <script src="/App_Themes/Ann/js/search-customer.js"></script>
+    <script src="/App_Themes/Ann/js/search-customer.js?v=3006"></script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <asp:Panel ID="parent" runat="server">
@@ -18,7 +18,7 @@
                         <div class="panel panelborderheading">
                             <div class="panel-heading clear">
                                 <h3 class="page-title left not-margin-bot">Thông tin khách hàng</h3>
-                                <a href="javascript:;" class="search-customer" onclick="searchCustomer2()"><i class="fa fa-search" aria-hidden="true"></i> Tìm khách hàng (F1)</a>
+                                <a href="javascript:;" class="search-customer" onclick="searchCustomer()"><i class="fa fa-search" aria-hidden="true"></i> Tìm khách hàng (F1)</a>
                             </div>
                             <div class="panel-body">
                                 <div class="row">
@@ -165,6 +165,23 @@
                                         <a href="javascript:;" class="btn link-btn restore-discount hide" style="background-color: #009688; float: right;" onclick="restoreDiscount()"><i class="fa fa-arrow-up" aria-hidden="true"></i> Khôi phục giá bán cũ</a>
                                         <a href="javascript:;" class="btn link-btn" style="background-color: #607D8B; float: right;" onclick="changeFee()"><i class="fa fa-external-link" aria-hidden="true"></i> Nhập phí đổi hàng khác</a>
                                     </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="buttonbar">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="panel-buttonbar">
+                            <div class="panel-post">
+                                <div class="post-table-links clear">
+                                    <a href="javascript:;" class="btn link-btn" style="background-color: #f87703; float: right;" onclick="payall()"><i class="fa fa-floppy-o"></i> Xác nhận</a>
+                                    <a href="javascript:;" class="btn link-btn" style="background-color: #F44336; float: right;" onclick="deleteProduct()"><i class="fa fa-times" aria-hidden="true"></i> Làm lại</a>
+                                    <a href="javascript:;" class="btn link-btn minus-discount" style="background-color: #009688; float: right;" onclick="minusDiscount()"><i class="fa fa-arrow-down" aria-hidden="true"></i> Trừ chiết khấu</a>
+                                    <a href="javascript:;" class="btn link-btn restore-discount hide" style="background-color: #009688; float: right;" onclick="restoreDiscount()"><i class="fa fa-arrow-up" aria-hidden="true"></i> Khôi phục giá bán cũ</a>
+                                    <a href="javascript:;" class="btn link-btn" style="background-color: #607D8B; float: right;" onclick="changeFee()"><i class="fa fa-external-link" aria-hidden="true"></i> Nhập phí đổi hàng khác</a>
                                 </div>
                             </div>
                         </div>
@@ -355,10 +372,6 @@
                     return false;
                 }
             });
-
-            function searchCustomer2() {
-                searchCustomer();
-            }
 
             function checkCustomer() {
                 var txtPhone = $("#<%=txtPhone.ClientID%>").val();
@@ -557,48 +570,65 @@
             }
 
             // Show list product variable
-            function showProductVariable(productVariables){
-                var html = "";
+            function showProductVariable(productVariables) {
+                let html = "";
+
                 // Header Popup
-                html += "<table class='table table-checkable table-product'>\n";
-                html += "<tr>\n";
-                html += "   <td class='order-item'>\n";
-                html += "       <input type='checkbox' id='check-all'onchange='check_all()'/>\n";
-                html += "   </td>\n";
-                html += "   <td class='image-item'>Ảnh</td>\n";
-                html += "   <td class='name-item'>Sản phẩm</td>\n";
-                html += "   <td class='sku-item'>Mã</td>\n";
-                html += "   <td class='variable-item'>Thuộc tính</td>\n";
-                html += "   <td class='quantity-item'>Số lượng</td>\n";
-                html += "</tr>\n";
+                html += "<div class='header-list'>"
+                html += "   <table class='table table-checkable table-product table-popup-product'>";
+                html += "      <tr id='search-product-header'>";
+                html += "         <th class='order-item check-column'>";
+                html += "             <input type='checkbox' id='check-all'onchange='check_all()'/>";
+                html += "         </th>";
+                html += "         <th class='image-column'>Ảnh</td>";
+                html += "         <th class='name-column'>Sản phẩm</td>";
+                html += "         <th class='sku-column'>Mã</td>";
+                html += "         <th class='variable-column'>Thuộc tính</td>";
+                html += "         <th class='quantity-column'>Số lượng</td>";
+                html += "      </tr>";
+                html += "   </table>";
+                html += "</div>"
+                html += "<div class='div-product-list scrollbar'>";
+                html += "   <table class='table table-checkable table-product table-popup-product'>";
 
                 // Body Popup
-                productVariables.forEach(function(item) {
-                    html += "<tr class='search-popup' id='search-key';>\n";
-                    html += "   <td class='order-item'>\n";
-                    html += "       <input id='" + item.ProductVariableID + "' type='checkbox' class='check-popup' />\n";
-                    html += "   </td>\n";
-                    html += "   <td class='image-item'><img src='" + item.ProductImage + "'></td>\n";
-                    html += "   <td class='namer-item'>" + item.ProductTitle + "</td>\n";
-                    html += "   <td class='sku-item key'>" + item.ChildSKU + "</td>\n";
-                    html += "   <td class='variable-item'>" + item.VariableValue + "</td>\n";
-                    html += "   <td class='quantity-item'><input class='quantity' type='text' value='1' onkeypress='return event.charCode >= 48 && event.charCode <= 57'></td>\n";
-                    html += "</tr>\n";
+                productVariables.forEach(function (item) {
+                    html += "      <tr class='search-popup' id='search-product-detail';>";
+                    html += "         <td class='order-item check-column'>";
+                    html += "             <input class='check-popup' data-productVariableID='" + item.ProductVariableID + "' type='checkbox' onchange='check($(this))' />";
+                    html += "         </td>";
+                    html += "         <td class='image-column'><img src='" + item.ProductImage + "'></td>";
+                    html += "         <td class='name-column'>" + item.ProductTitle + "</td>";
+                    html += "         <td class='sku-column key'>" + item.ChildSKU + "</td>";
+                    html += "         <td class='variable-column'>" + item.VariableValue + "</td>";
+                    html += "         <td class='quantity-column'>";
+                    html += "             <input type='text' class='form-control quantity in-quantity' "
+                                              + "pattern='[0-9]{1,3}' "
+                                              + "onblur='changeQuantityPopup($(this))' "
+                                              + "onkeyup='pressKeyQuantityPopup($(this))' "
+                                              + "onkeypress='return event.charCode >= 48 && event.charCode <= 57' "
+                                              + "value='1' >";
+                    html += "         </td>";
+                    html += "      </tr>";
                 });
 
-                // Footer Popup
-                html += "</table>\n";
-                html += "<div>\n";
-                html += "   <a href='javascript: ;' class='btn link-btn' style='background-color:#f87703;float:right;color:#fff;' onclick='selectProduct()'>Chọn</a>\n";
-                html += "</div >\n";
+                html += "   </table>";
+                html += "</div>";
 
-                $("#txtSearch").val("");
+                // Footer Popup
+                html += "<div class='footer-list'>";
+                html += "   <a href='javascript: ;' class='btn link-btn' style='background-color:#f87703;float:right;color:#fff;' onclick='selectProduct()'>Chọn</a>";
+                html += "</div >";
+
                 showPopup(html);
             }
 
             function searchProduct() {
                 let txtPhone = $("#<%=txtPhone.ClientID%>").val();
                 let txtSearch = $("#txtSearch").val();
+
+                $("#txtSearch").val("");
+
                 var product = null;
 
                 productVariableSearch = [];
