@@ -173,7 +173,7 @@ namespace IM_PJ
                             p.ProductImage = "<img src=\"" + products.ProductImage + "\" />";
                             p.ProductImageOrigin = products.ProductImage;
                         }
-                        else if (img.ProductImage != null)
+                        else if (img != null)
                         {
                             p.ProductImage = "<img src=\"" + img.ProductImage + "\" />";
                             p.ProductImageOrigin = img.ProductImage;
