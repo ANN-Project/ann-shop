@@ -235,10 +235,13 @@ namespace IM_PJ.Controllers
                 var ui = db.tbl_Order.Where(x => x.ID == ID).FirstOrDefault();
                 if (ui != null)
                 {
+                    if (ui.ExcuteStatus != 4)
+                    {
+                        ui.ModifiedDate = DateTime.Now;
+                    }
+                    ui.ModifiedBy = CreatedBy;
                     ui.PaymentStatus = 1;
                     ui.ExcuteStatus = 4;
-                    ui.ModifiedDate = DateTime.Now;
-                    ui.ModifiedBy = CreatedBy;
                     ui.OrderNote = OrderNote;
                     int i = db.SaveChanges();
                     return true;

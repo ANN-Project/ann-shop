@@ -88,7 +88,11 @@ namespace IM_PJ
             if (id > 0)
             {
                 var p = ProductController.GetByID(id);
-                if (p != null)
+                if (p == null)
+                {
+                    PJUtils.ShowMessageBoxSwAlertError("Không tìm thấy sản phẩm " + id, "e", true, "/tat-ca-san-pham", Page);
+                }
+                else
                 {
                     ViewState["ID"] = id;
                     ViewState["cateID"] = p.CategoryID;

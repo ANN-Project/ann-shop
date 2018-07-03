@@ -72,10 +72,14 @@ namespace IM_PJ
             if (ID > 0)
             {
                 var order = OrderController.GetByID(ID);
-                if (order != null)
+                if (order == null)
+                {
+                    PJUtils.ShowMessageBoxSwAlertError("Không tìm thấy đơn hàng " + ID, "e", true, "/danh-sach-don-hang", Page);
+                }
+                else
                 {
                     // chuyển sang giao diện xem đơn chuyển hoàn nếu trạng thái xử lý đã chuyển hoàn
-                    if(order.ExcuteStatus == 4)
+                    if (order.ExcuteStatus == 4)
                     {
                         Response.Redirect("/thong-tin-don-hang-chuyen-hoan?id="+ID);
                     }

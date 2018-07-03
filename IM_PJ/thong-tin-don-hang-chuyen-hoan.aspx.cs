@@ -60,40 +60,70 @@ namespace IM_PJ
             if (ID > 0)
             {
                 var order = OrderController.GetByID(ID);
-                if (order != null)
+                if(order == null)
                 {
+                    PJUtils.ShowMessageBoxSwAlertError("Không tìm thấy đơn hàng " + ID, "e", true, "/danh-sach-don-hang-chuyen-hoan", Page);
+                }
+                else
+                {
+                    hdfOrderID.Value = order.ID.ToString();
                     string username = HttpContext.Current.Request.Cookies["userLoginSystem"].Value;
                     var acc = AccountController.GetByUsername(username);
 
                     // check order condition
                     if(acc.RoleID != 0)
                     {
-                        if (order.CreatedBy != acc.Username)
-                        {
-                            PJUtils.ShowMessageBoxSwAlertError("Đơn hàng này không phải của bạn", "e", true, "/danh-sach-don-hang-chuyen-hoan", Page);
-                        }
-
-                        if (order.ExcuteStatus == 3)
-                        {
-                            PJUtils.ShowMessageBoxSwAlertError("Đơn hàng này đã hủy nên không thể chuyển hoàn", "e", true, "/danh-sach-don-hang-chuyen-hoan", Page);
-                        }
-
                         if (order.ExcuteStatus == 4)
                         {
                             PJUtils.ShowMessageBoxSwAlertError("Đơn hàng này đã chuyển hoàn", "w", false, "", Page);
+                        }
+                        else
+                        {
+                            if (order.CreatedBy != acc.Username)
+                            {
+                                PJUtils.ShowMessageBoxSwAlertError("Đơn hàng này không phải của bạn", "e", true, "/danh-sach-don-hang-chuyen-hoan", Page);
+                            }
+
+                            if (order.ExcuteStatus == 1)
+                            {
+                                PJUtils.ShowMessageBoxSwAlertError("Đơn hàng này chưa hoàn tất nên không thể chuyển hoàn", "e", true, "/danh-sach-don-hang-chuyen-hoan", Page);
+                            }
+
+                            if (order.ExcuteStatus == 3)
+                            {
+                                PJUtils.ShowMessageBoxSwAlertError("Đơn hàng này đã hủy nên không thể chuyển hoàn", "e", true, "/danh-sach-don-hang-chuyen-hoan", Page);
+                            }
+
+                            if (order.ShippingType == 1)
+                            {
+                                PJUtils.ShowMessageBoxSwAlertError("Đơn hàng này lấy trực tiếp nên không thể chuyển hoàn", "e", true, "/danh-sach-don-hang-chuyen-hoan", Page);
+                            }
                         }
                     }
                     else
                     {
-                        if (order.ExcuteStatus == 3)
-                        {
-                            PJUtils.ShowMessageBoxSwAlertError("Đơn hàng này đã hủy nên không thể chuyển hoàn", "e", true, "/danh-sach-don-hang-chuyen-hoan", Page);
-                        }
-
                         if (order.ExcuteStatus == 4)
                         {
                             PJUtils.ShowMessageBoxSwAlertError("Đơn hàng này đã chuyển hoàn", "w", false, "", Page);
                         }
+                        else
+                        {
+                            if (order.ExcuteStatus == 1)
+                            {
+                                PJUtils.ShowMessageBoxSwAlertError("Đơn hàng này chưa hoàn tất nên không thể chuyển hoàn", "e", true, "/danh-sach-don-hang-chuyen-hoan", Page);
+                            }
+
+                            if (order.ExcuteStatus == 3)
+                            {
+                                PJUtils.ShowMessageBoxSwAlertError("Đơn hàng này đã hủy nên không thể chuyển hoàn", "e", true, "/danh-sach-don-hang-chuyen-hoan", Page);
+                            }
+
+                            if (order.ShippingType == 1)
+                            {
+                                PJUtils.ShowMessageBoxSwAlertError("Đơn hàng này lấy trực tiếp nên không thể chuyển hoàn", "e", true, "/danh-sach-don-hang-chuyen-hoan", Page);
+                            }
+                        }
+                        
                     }
 
                     ViewState["ID"] = ID;

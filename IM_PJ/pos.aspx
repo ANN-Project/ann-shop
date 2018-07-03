@@ -2,7 +2,8 @@
 
 <%@ Register Assembly="Telerik.Web.UI" Namespace="Telerik.Web.UI" TagPrefix="telerik" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
-    <script src="/App_Themes/Ann/js/search-customer.js"></script>
+    <script src="/App_Themes/Ann/js/search-customer.js?v=3006"></script>
+    <script src="/App_Themes/Ann/js/search-product.js?v=3006"></script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <asp:Panel ID="parent" runat="server">
@@ -556,24 +557,6 @@
                 $("#<%=btnOrder.ClientID%>").click();
             }
 
-            function pressKeyQuantity(e) {
-
-                $(".in-quantity").keyup(function (e) {
-                    if (/\D/g.test(this.value)) {
-                        // Filter non-digits from input value.
-                        this.value = this.value.replace(/\D/g, '');
-                    }
-                    else if (e.which == 40) {
-                        // press down 
-                        $(this).closest('tr').next().find('td:eq(' + $(this).closest('td').index() + ')').find(".in-quantity").focus().select();
-                    }
-                    else if (e.which == 38) {
-                        // press up
-                        $(this).closest('tr').prev().find('td:eq(' + $(this).closest('td').index() + ')').find(".in-quantity").focus().select();
-                    }
-                });
-            }
-
             // print invoice after submit order
             function printInvoice(id) {
                 swal({
@@ -715,13 +698,14 @@
                     $(".totalGuestChange").html(formatThousands(leftchange, ","));
                 }
             }
+
             function searchProduct() {
                 let textsearch = $("#txtSearch").val().trim().toUpperCase();
 
                 $("#<%=hdfListSearch.ClientID%>").val(textsearch);
 
                 $("#txtSearch").val("");
-                
+
                 //Get search product master
                 searchProductMaster(textsearch, false);
             }

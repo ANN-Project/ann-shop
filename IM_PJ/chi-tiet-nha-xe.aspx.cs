@@ -59,7 +59,11 @@ namespace IM_PJ
         {
             var company = TransportCompanyController.GetTransportCompanyByID(ID);
 
-            if (company != null)
+            if (company == null)
+            {
+                PJUtils.ShowMessageBoxSwAlertError("Không tìm thấy nhà xe " + ID, "e", true, "/danh-sach-nha-xe", Page);
+            }
+            else
             {
                 this.hdfID.Value = ID.ToString();
                 this.txtCompanyName.Text = company.CompanyName;
@@ -72,10 +76,6 @@ namespace IM_PJ
                 {
                     pagingall(transprots);
                 }
-            }
-            else
-            {
-                Response.Redirect("/danh-sach-nha-xe");
             }
         }
 
