@@ -209,21 +209,19 @@ namespace IM_PJ
                     int TransportCompanySubID = Convert.ToInt32(order.TransportCompanySubID);
                     int PostalDeliveryType = Convert.ToInt32(order.PostalDeliveryType);
                     int paymenttype = Convert.ToInt32(order.PaymentType);
+
                     #region Lấy danh sách sản phẩm
+
                     var orderdetails = OrderDetailController.GetByOrderID(ID);
                     StringBuilder html = new StringBuilder();
-                    string Print = "";
                     if (orderdetails.Count > 0)
                     {
-                        int t = 0;
                         int orderitem = 0;
                         foreach (var item in orderdetails)
                         {
                             ProductQuantity += Convert.ToDouble(item.Quantity);
 
                             int ProductType = Convert.ToInt32(item.ProductType);
-                            int ProductID = Convert.ToInt32(item.ProductID);
-                            int ProductVariableID = Convert.ToInt32(item.ProductVariableID);
                             double ItemPrice = Convert.ToDouble(item.Price);
                             string SKU = item.SKU;
                             double Giabansi = 0;
@@ -269,16 +267,10 @@ namespace IM_PJ
                                     QuantityInstock = mainstock;
                                     QuantityInstockString = string.Format("{0:N0}", mainstock);
 
-                                    var img = ProductImageController.GetFirstByProductID(product.ID);
                                     if (!string.IsNullOrEmpty(product.ProductImage))
                                     {
                                         ProductImage = "<img src=\"" + product.ProductImage + "\" />";
                                         ProductImageOrigin = product.ProductImage;
-                                    }
-                                    else if (img != null)
-                                    {
-                                        ProductImage = "<img src=\"" + img.ProductImage + "\" />";
-                                        ProductImageOrigin = img.ProductImage;
                                     }
                                     else
                                     {
@@ -361,8 +353,6 @@ namespace IM_PJ
                                     if (_product != null)
                                         ProductName = _product.ProductTitle;
 
-                                    ProductID = _product.ID;
-
                                     QuantityMainInstock = mainstock;
                                     QuantityMainInstockString = string.Format("{0:N0}", mainstock);
                                     ProductVariableSave = item.ProductVariableDescrition;
@@ -384,8 +374,8 @@ namespace IM_PJ
                             html.AppendLine(String.Format("        data-productname='{0}'", ProductName));
                             html.AppendLine(String.Format("        data-sku='{0}'", SKU));
                             html.AppendLine(String.Format("        data-producttype='{0}'", ProductType));
-                            html.AppendLine(String.Format("        data-productid='{0}'", ProductID));
-                            html.AppendLine(String.Format("        data-productvariableid='{0}'", ProductVariableID));
+                            html.AppendLine(String.Format("        data-productid='{0}'", item.ProductID));
+                            html.AppendLine(String.Format("        data-productvariableid='{0}'", item.ProductVariableID));
                             html.AppendLine(String.Format("        data-productvariablename='{0}'", ProductVariableName));
                             html.AppendLine(String.Format("        data-productvariablevalue ='{0}'", ProductVariableValue));
                             html.AppendLine(String.Format("        data-productvariablesave ='{0}'", ProductVariableSave));
@@ -408,20 +398,8 @@ namespace IM_PJ
                             html.AppendLine(String.Format("    <td class='total-item totalprice-view'>{0:N0}</td>", k));
                             html.AppendLine(String.Format("   <td class='trash-item'><a href='javascript:;' class='link-btn' onclick='deleteRow($(this))'><i class='fa fa-trash'></i></a></td>"));
                             html.AppendLine(String.Format("</tr>"));
-
-
-                            Print += " <tr>";
-                            t++;
-                            Print += "<td>" + t + "</td>";
-                            Print += "<td>" + SKU + " - " + ProductName + " - " + ProductVariableSave.Replace("|", ", ") + "</td> ";
-                            Print += "<td>" + item.Quantity + "</td>";
-                            Print += "<td>" + string.Format("{0:N0}", ItemPrice) + "</td>";
-
-                            Print += "<td> " + string.Format("{0:N0}", k) + "</td>";
-
-                            Print += "</tr>";
-
                         }
+
                         ltrProducts.Text = html.ToString();
 
                     }
@@ -826,30 +804,17 @@ namespace IM_PJ
                                         var item = items[i];
                                         string[] itemValue = item.Split(',');
 
-                                        int ProductID = 0;
-                                        int ProductVariableID = 0;
+                                        int ProductID = itemValue[0].ToInt();
+                                        int ProductVariableID = itemValue[11].ToInt();
                                         string SKU = itemValue[1].ToString();
-                                        int ID = itemValue[0].ToInt();
+                                        int ProductType = itemValue[2].ToInt();
 
                                         // Tìm parentID
-                                        int parentID = ID;
+                                        int parentID = ProductID;
                                         var variable = ProductVariableController.GetBySKU(SKU);
                                         if (variable != null)
                                         {
                                             parentID = Convert.ToInt32(variable.ProductID);
-                                        }
-
-                                        // Tìm ProductID và ProductVariableID
-                                        int producttype = itemValue[2].ToInt();
-                                        if (producttype == 1)
-                                        {
-                                            ProductID = ID;
-                                            ProductVariableID = 0;
-                                        }
-                                        else
-                                        {
-                                            ProductID = 0;
-                                            ProductVariableID = variable.ID;
                                         }
 
                                         string ProductVariableName = itemValue[3];
@@ -1000,7 +965,7 @@ namespace IM_PJ
                                         // nếu sản phẩm này chưa có trong đơn thì thêm vào
                                         else
                                         {
-                                            OrderDetailController.Insert(AgentID, OrderID, SKU, ProductID, ProductVariableID, ProductVariableSave, Quantity, Price, 1, 0, producttype, currentDate, username, true);
+                                            OrderDetailController.Insert(AgentID, OrderID, SKU, ProductID, ProductVariableID, ProductVariableSave, Quantity, Price, 1, 0, ProductType, currentDate, username, true);
 
                                             StockManagerController.Insert(
                                                 new tbl_StockManager

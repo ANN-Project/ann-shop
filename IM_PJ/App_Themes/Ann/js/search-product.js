@@ -243,8 +243,8 @@ function addHtmlProductResult(item) {
 // reindex item order
 function reIndex() {
     var item = $(".order-item");
-    for (var i = 0; i < item.length; i++) {
-        $(".order-item:eq(" + i + ")").html(i + 1);
+    for (var i = 1; i < item.length + 1; i++) {
+        $(".order-item:eq(" + i + ")").html(i);
     }
 }
 
@@ -278,41 +278,50 @@ function pressKeyQuantity(obj) {
 
 // remove product form list
 function deleteRow(obj) {
-    var c = confirm('Bạn muốn xóa sản phẩm này?');
-    if (c) {
-        let row = obj.parent().parent();
+    swal({
+        title: "Xác nhận",
+        text: "Bạn muốn xóa sản phẩm này?",
+        type: "warning",
+        showCancelButton: true,
+        closeOnConfirm: true,
+        cancelButtonText: "Để em xem lại...",
+        confirmButtonText: "Đúng rồi sếp!",
+    }, function (confirm) {
+        if (confirm) {
+            let row = obj.parent().parent();
 
-        if (row.attr("data-orderdetailid") > 0) {
-            let id = 0;
-            let sku = "";
-            let productID = 0;
-            let quantity = 0;
+            if (row.attr("data-orderdetailid") > 0) {
+                let id = 0;
+                let sku = "";
+                let productID = 0;
+                let quantity = 0;
 
-            id = row.attr("data-orderdetailid");
-            sku = row.attr("data-sku");
+                id = row.attr("data-orderdetailid");
+                sku = row.attr("data-sku");
 
-            if (row.attr("data-producttype") == 1) {
-                productID = row.attr("data-productid");
+                if (row.attr("data-producttype") == 1) {
+                    productID = row.attr("data-productid");
+                }
+                else {
+                    productID = row.attr("data-productvariableid");
+                }
+
+                quantity = row.find(".in-quantity").val();
+
+                listOrderDetail.push(
+                    new OrderDetailModel(
+                        ID = id,
+                        SKU = sku,
+                        ProductID = productID,
+                        Quantity = quantity)
+                    );
             }
-            else {
-                productID = row.attr("data-productvariableid");
-            }
-            
-            quantity = row.find(".in-quantity").val();
 
-            listOrderDetail.push(
-                new OrderDetailModel(
-                    ID = id,
-                    SKU = sku,
-                    ProductID = productID,
-                    Quantity = quantity)
-                );
+            row.remove();
+            getAllPrice();
+            $("#txtSearch").focus();
         }
-
-        row.remove();
-        getAllPrice();
-        $("#txtSearch").focus();
-    }
+    });
 }
 
 // Check product exists. Then add table or increase product old

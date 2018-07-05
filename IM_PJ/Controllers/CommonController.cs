@@ -84,7 +84,7 @@ namespace IM_PJ.Controllers
                         return new ProductModel
                         {
                             CategoryID = x.CategoryID,
-                            ProductID = x.ProductID,
+                            ProductID = x.ProductVariableID == 0 ? x.ProductID : 0,
                             ProductVariableID = x.ProductVariableID,
                             ProductStyle = x.ProductStyle,
                             ProductImage = x.ProductImage,

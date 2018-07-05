@@ -322,6 +322,12 @@ namespace IM_PJ
                                 }
                             );
 
+                            int parentID = item.ProductID;
+                            var variable = ProductVariableController.GetByID(item.ProductVariableID);
+                            if (variable != null)
+                            {
+                                parentID = Convert.ToInt32(variable.ProductID);
+                            }
 
                             stockManager.Add(
                                 new tbl_StockManager()
@@ -339,7 +345,7 @@ namespace IM_PJ
                                     CreatedDate = currentDate,
                                     CreatedBy = username,
                                     MoveProID = 0,
-                                    ParentID = item.ProductID != 0 ? item.ProductID : item.ProductVariableID
+                                    ParentID = parentID
                                 }
                                 );
                         }

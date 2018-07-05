@@ -213,6 +213,7 @@ namespace IM_PJ
                     int WayIn = 1;
 
                     string datedone = "";
+
                     if(ExcuteStatus == 2)
                     {
                         datedone = DateTime.Now.ToString();
@@ -237,29 +238,17 @@ namespace IM_PJ
                                 var item = items[i];
                                 string[] itemValue = item.Split(',');
 
-                                int ProductID = 0;
-                                int ProductVariableID = 0;
+                                int ProductID = itemValue[0].ToInt();
+                                int ProductVariableID = itemValue[11].ToInt();
                                 string SKU = itemValue[1].ToString();
-                                int ID = itemValue[0].ToInt();
+                                int ProductType = itemValue[2].ToInt();
 
-                                int parentID = ID;
+                                // Tìm parentID
+                                int parentID = ProductID;
                                 var variable = ProductVariableController.GetBySKU(SKU);
                                 if (variable != null)
                                 {
                                     parentID = Convert.ToInt32(variable.ProductID);
-                                }
-                                
-
-                                int producttype = itemValue[2].ToInt();
-                                if (producttype == 1)
-                                {
-                                    ProductID = ID;
-                                    ProductVariableID = 0;
-                                }
-                                else
-                                {
-                                    ProductID = 0;
-                                    ProductVariableID = variable.ID;
                                 }
 
                                 string ProductVariableName = itemValue[3];
@@ -272,7 +261,7 @@ namespace IM_PJ
                                 string ProductVariableSave = itemValue[10];
 
                                 OrderDetailController.Insert(AgentID, OrderID, SKU, ProductID, ProductVariableID, ProductVariableSave, Quantity, Price, 1, 0,
-                                    producttype, currentDate, username, true);
+                                    ProductType, currentDate, username, true);
 
                                 StockManagerController.Insert(
                                     new tbl_StockManager
