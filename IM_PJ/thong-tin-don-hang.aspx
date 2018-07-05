@@ -928,6 +928,7 @@
                             var productvariablesave = $(this).attr("data-productvariablesave");
                             var quantity = parseFloat($(this).find(".in-quantity").val());
                             var quantityInstock = parseFloat($(this).attr("data-quantityinstock"));
+                            var productvariableid = $(this).attr("data-productvariableid");
 
                             if (quantity > 0) {
                                 if (quantity > quantityInstock) {
@@ -936,7 +937,7 @@
 
                                 list += id + "," + sku + "," + producttype + "," + productvariablename + "," + productvariablevalue + "," + quantity + "," +
                                     productname + "," + productimageorigin + "," + productvariablesave + "," + price + "," + productvariablesave + "," +
-                                    orderDetailID + ";";
+                                    orderDetailID + "," + productvariableid + ";";
                             }
                         });
 

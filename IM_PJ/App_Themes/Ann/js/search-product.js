@@ -200,7 +200,7 @@ function addHtmlProductResult(item) {
 
     if (customerType == 1) {
         if (item.RetailPrice > 0) {
-            html += "   <td class='price-item gia-san-pham' data-price='" + item.RetailPrice + "'>" + formatThousands(item.stringRetailPrice, ',') + "</td>";
+            html += "   <td class='price-item gia-san-pham' data-price='" + item.RetailPrice + "'>" + formatThousands(item.RetailPrice, ',') + "</td>";
         }
         else {
             html += "   <td class='price-item gia-san-pham' data-price='" + item.RegularPrice + "'>" + formatThousands(item.RegularPrice, ',') + "</td>";
@@ -319,7 +319,6 @@ function deleteRow(obj) {
 
             row.remove();
             getAllPrice();
-            $("#txtSearch").focus();
         }
     });
 }

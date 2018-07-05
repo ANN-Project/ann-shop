@@ -147,16 +147,10 @@ namespace IM_PJ
                         p.ProductVariableValue = "";
                         p.ProductType = 1;
 
-                        var img = ProductImageController.GetFirstByProductID(product.ID);
                         if (!string.IsNullOrEmpty(product.ProductImage))
                         {
                             p.ProductImage = "<img src=\"" + product.ProductImage + "\" />";
                             p.ProductImageOrigin = product.ProductImage;
-                        }
-                        else if (img != null)
-                        {
-                            p.ProductImage = "<img src=\"" + img.ProductImage + "\" />";
-                            p.ProductImageOrigin = img.ProductImage;
                         }
                         else
                         {
@@ -201,6 +195,7 @@ namespace IM_PJ
                                 variablename += v.VariableName + "|";
                                 variablevalue += v.VariableValue + "|";
                             }
+
                             double mainstock = PJUtils.TotalProductQuantityInstock(1, SKU);
 
                             ProductGetOut p = new ProductGetOut();
@@ -221,7 +216,7 @@ namespace IM_PJ
                                 p.ProductImage = "<img src=\"" + productvariable.Image + "\" />";
                                 p.ProductImageOrigin = productvariable.Image;
                             }
-                            else if (!string.IsNullOrEmpty(_product.ProductImage))
+                            else if (_product != null && !string.IsNullOrEmpty(_product.ProductImage))
                             {
                                 p.ProductImage = "<img src=\"" + _product.ProductImage + "\" />";
                                 p.ProductImageOrigin = _product.ProductImage;

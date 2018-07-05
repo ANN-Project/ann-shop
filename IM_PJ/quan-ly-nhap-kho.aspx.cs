@@ -94,7 +94,6 @@ namespace IM_PJ
                     {
                         foreach (var pv in productvariable)
                         {
-
                             var variables = ProductVariableValueController.GetByProductVariableSKU(pv.SKU);
 
                             if (variables.Count > 0)
@@ -118,30 +117,34 @@ namespace IM_PJ
                                 p.ProductVariableValue = variablevalue;
                                 p.ProductType = 2;
 
-                                var product = ProductController.GetBySKU(pv.ParentSKU);
-
                                 if (!string.IsNullOrEmpty(pv.Image))
                                 {
                                     p.ProductImage = "<img src=\"" + pv.Image + "\" />";
                                     p.ProductImageOrigin = pv.Image;
                                 }
-                                else if (!string.IsNullOrEmpty(product.ProductImage))
-                                {
-                                    p.ProductImage = "<img src=\"" + product.ProductImage + "\" />";
-                                    p.ProductImageOrigin = product.ProductImage;
-                                }
                                 else
                                 {
-                                    p.ProductImage = "<img src=\"/App_Themes/Ann/image/placeholder.png\" />";
-                                    p.ProductImageOrigin = "";
+                                    if (!string.IsNullOrEmpty(products.ProductImage))
+                                    {
+                                        p.ProductImage = "<img src=\"" + products.ProductImage + "\" />";
+                                        p.ProductImageOrigin = products.ProductImage;
+                                    }
+                                    else
+                                    {
+                                        p.ProductImage = "<img src=\"/App_Themes/Ann/image/placeholder.png\" />";
+                                        p.ProductImageOrigin = "";
+                                    }
                                 }
 
                                 p.SKU = pv.SKU.Trim().ToUpper();
+
                                 int supplierID = 0;
                                 if (pv.SupplierID != null)
                                     supplierID = pv.SupplierID.ToString().ToInt(0);
                                 p.SupplierID = supplierID;
+
                                 string supplierName = "";
+
                                 if (!string.IsNullOrEmpty(pv.SupplierName))
                                     supplierName = pv.SupplierName;
                                 p.SupplierName = supplierName;
@@ -166,17 +169,10 @@ namespace IM_PJ
                         p.ProductVariableValue = variablevalue;
                         p.ProductType = 1;
 
-                        var img = ProductImageController.GetFirstByProductID(products.ID);
-
                         if (!string.IsNullOrEmpty(products.ProductImage))
                         {
                             p.ProductImage = "<img src=\"" + products.ProductImage + "\" />";
                             p.ProductImageOrigin = products.ProductImage;
-                        }
-                        else if (img != null)
-                        {
-                            p.ProductImage = "<img src=\"" + img.ProductImage + "\" />";
-                            p.ProductImageOrigin = img.ProductImage;
                         }
                         else
                         {
@@ -306,120 +302,85 @@ namespace IM_PJ
                 {
                     note = hdfNote.Value;
                 }
-                string jsonurl = "";
+
                 string[] items = list.Split(';');
                 if (items.Length - 1 > 0)
                 {
-                    int SessionInOutID = SessionInOutController.Insert(currentDate, note, AgentID, 1, currentDate, username).ToInt(0);
-                    if (SessionInOutID > 0)
+                    for (int i = 0; i < items.Length - 1; i++)
                     {
-                        for (int i = 0; i < items.Length - 1; i++)
+                        var item = items[i];
+                        string[] itemValue = item.Split(',');
+                        int ID = itemValue[0].ToInt();
+                        string SKU = itemValue[1];
+                        int producttype = itemValue[2].ToInt();
+                        string ProductVariableName = itemValue[3];
+                        string ProductVariableValue = itemValue[4];
+                        double Quantity = Convert.ToDouble(itemValue[5]);
+                        string ProductName = itemValue[6];
+                        string ProductImageOrigin = itemValue[7];
+                        string ProductVariable = itemValue[8];
+                        var productV = ProductVariableController.GetByID(ID);
+                        string parentSKU = "";
+                        parentSKU = productV.ParentSKU;
+
+                        if (producttype == 1)
                         {
-                            var item = items[i];
-                            string[] itemValue = item.Split(',');
-                            int ID = itemValue[0].ToInt();
-                            string SKU = itemValue[1];
-                            int producttype = itemValue[2].ToInt();
-                            string ProductVariableName = itemValue[3];
-                            string ProductVariableValue = itemValue[4];
-                            double Quantity = Convert.ToDouble(itemValue[5]);
-                            string ProductName = itemValue[6];
-                            string ProductImageOrigin = itemValue[7];
-                            string ProductVariable = itemValue[8];
-                            var productV = ProductVariableController.GetByID(ID);
-                            string parentSKU = "";
-                            parentSKU = productV.ParentSKU;
-                            if (producttype == 1)
-                            {
-                                ProductController.UpdateStockStatus(parentSKU, 1, false, currentDate, username);
-                                StockManagerController.Insert(
-                                    new tbl_StockManager {
-                                        AgentID = AgentID,
-                                        ProductID = ID,
-                                        ProductVariableID = 0,
-                                        Quantity = Quantity,
-                                        QuantityCurrent = 0,
-                                        Type = 1,
-                                        NoteID = note,
-                                        OrderID = 0,
-                                        Status = 1,
-                                        SKU = SKU,
-                                        CreatedDate = currentDate,
-                                        CreatedBy = username,
-                                        MoveProID = 0,
-                                        ParentID = ID
-                                    });
-                            }
-                            else
-                            {
-                                int parentID = 0;
-                                if (productV != null)
-                                    if (!string.IsNullOrEmpty(parentSKU))
-                                    {
-                                        var product = ProductController.GetBySKU(parentSKU);
-                                        if (product != null)
-                                            parentID = product.ID;
-                                    }
-                                StockManagerController.Insert(
-                                    new tbl_StockManager {
-                                        AgentID = AgentID,
-                                        ProductID = 0,
-                                        ProductVariableID = ID,
-                                        Quantity = Quantity,
-                                        QuantityCurrent = 0,
-                                        Type = 1,
-                                        NoteID = note,
-                                        OrderID = 0,
-                                        Status = 1,
-                                        SKU = SKU,
-                                        CreatedDate = currentDate,
-                                        CreatedBy = username,
-                                        MoveProID = 0,
-                                        ParentID = parentID
-                                    });
-                            }
-                            ProductVariableController.UpdateStockStatus(ID, 1, false, currentDate, username);
+                            ProductController.UpdateStockStatus(parentSKU, 1, false, currentDate, username);
 
-                            double total = PJUtils.TotalProductQuantityInstock(AgentID, itemValue[1]);
-
-                            if (i == items.Length - 2)
-                            {
-                                jsonurl += "{\"id\":\"" + itemValue[0] + "\"," + "\"stock\":\"" + total + "\"}]";
-                            }
-                            else
-                            {
-                                jsonurl += "[{\"id\":\"" + itemValue[0] + "\"," + "\"stock\":\"" + total + "\"},";
-
-                            }
+                            StockManagerController.Insert(
+                                new tbl_StockManager
+                                {
+                                    AgentID = AgentID,
+                                    ProductID = ID,
+                                    ProductVariableID = 0,
+                                    Quantity = Quantity,
+                                    QuantityCurrent = 0,
+                                    Type = 1,
+                                    NoteID = note,
+                                    OrderID = 0,
+                                    Status = 1,
+                                    SKU = SKU,
+                                    CreatedDate = currentDate,
+                                    CreatedBy = username,
+                                    MoveProID = 0,
+                                    ParentID = ID
+                                });
                         }
+                        else
+                        {
+                            int parentID = 0;
+                            var variable = ProductVariableController.GetByID(ID);
+                            if (variable != null)
+                            {
+                                parentID = Convert.ToInt32(variable.ProductID);
+                            }
+
+                            StockManagerController.Insert(
+                                new tbl_StockManager
+                                {
+                                    AgentID = AgentID,
+                                    ProductID = 0,
+                                    ProductVariableID = ID,
+                                    Quantity = Quantity,
+                                    QuantityCurrent = 0,
+                                    Type = 1,
+                                    NoteID = note,
+                                    OrderID = 0,
+                                    Status = 1,
+                                    SKU = SKU,
+                                    CreatedDate = currentDate,
+                                    CreatedBy = username,
+                                    MoveProID = 0,
+                                    ParentID = parentID
+                                });
+                        }
+
+                        ProductVariableController.UpdateStockStatus(ID, 1, false, currentDate, username);
+
+                        double total = PJUtils.TotalProductQuantityInstock(AgentID, itemValue[1]);
                     }
 
-                    var domain = WhiteDomainController.GetAll();
-                    if (domain != null)
-                    {
-                        foreach (var item in domain)
-                        {
-                            var httpWebRequest = (HttpWebRequest)WebRequest.Create("" + item.Domain + "");
-                            httpWebRequest.ContentType = "application/json";
-                            httpWebRequest.Method = "POST";
-
-                            using (var streamWriter = new StreamWriter(httpWebRequest.GetRequestStream()))
-                            {
-                                string json = "{\"key\":\"asdasdasd\"," +
-                                                "\"list_stock\":"+jsonurl+"}";
-
-                                streamWriter.Write(json);
-                                streamWriter.Flush();
-                                streamWriter.Close();
-                            }
-
-                            var httpResponse = (HttpWebResponse)httpWebRequest.GetResponse();
-                            using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
-                            {
-                                var result = streamReader.ReadToEnd();
-                            }
-                        }
-                    }
+                    // IN MÃ VẠCH
 
                     string barcodeValue = "";
                     string productPrint = "";
@@ -460,6 +421,8 @@ namespace IM_PJ
                         {
                             File.Delete(filePath);
                         }
+
+                        // in mã vạch
 
                         ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "script", "$(function () { printBarcode() });", true);
                     }

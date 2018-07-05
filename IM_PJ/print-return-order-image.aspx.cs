@@ -95,6 +95,7 @@ namespace IM_PJ
                             if (parent_product != null)
                             {
                                 ProductName = parent_product.ProductTitle;
+
                                 if (string.IsNullOrEmpty(productvariable.Image))
                                 {
                                     ProductImage = parent_product.ProductImage;

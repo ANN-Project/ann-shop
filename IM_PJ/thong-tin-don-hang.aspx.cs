@@ -332,12 +332,15 @@ namespace IM_PJ
 
                                     var _product = ProductController.GetByID(Convert.ToInt32(productvariable.ProductID));
 
+                                    if (_product != null)
+                                        ProductName = _product.ProductTitle;
+
                                     if (!string.IsNullOrEmpty(productvariable.Image))
                                     {
                                         ProductImage = "<img src=\"" + productvariable.Image + "\" />";
                                         ProductImageOrigin = productvariable.Image;
                                     }
-                                    else if (!string.IsNullOrEmpty(_product.ProductImage))
+                                    else if (_product != null && !string.IsNullOrEmpty(_product.ProductImage))
                                     {
                                         ProductImage = "<img src=\"" + _product.ProductImage + "\" />";
                                         ProductImageOrigin = _product.ProductImage;
@@ -349,9 +352,6 @@ namespace IM_PJ
                                     }
 
                                     ProductVariable = variable;
-
-                                    if (_product != null)
-                                        ProductName = _product.ProductTitle;
 
                                     QuantityMainInstock = mainstock;
                                     QuantityMainInstockString = string.Format("{0:N0}", mainstock);
@@ -805,13 +805,13 @@ namespace IM_PJ
                                         string[] itemValue = item.Split(',');
 
                                         int ProductID = itemValue[0].ToInt();
-                                        int ProductVariableID = itemValue[11].ToInt();
+                                        int ProductVariableID = itemValue[12].ToInt();
                                         string SKU = itemValue[1].ToString();
                                         int ProductType = itemValue[2].ToInt();
 
                                         // Tìm parentID
                                         int parentID = ProductID;
-                                        var variable = ProductVariableController.GetBySKU(SKU);
+                                        var variable = ProductVariableController.GetByID(ProductVariableID);
                                         if (variable != null)
                                         {
                                             parentID = Convert.ToInt32(variable.ProductID);

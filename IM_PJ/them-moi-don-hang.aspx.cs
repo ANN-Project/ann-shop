@@ -245,7 +245,7 @@ namespace IM_PJ
 
                                 // Tìm parentID
                                 int parentID = ProductID;
-                                var variable = ProductVariableController.GetBySKU(SKU);
+                                var variable = ProductVariableController.GetByID(ProductVariableID);
                                 if (variable != null)
                                 {
                                     parentID = Convert.ToInt32(variable.ProductID);

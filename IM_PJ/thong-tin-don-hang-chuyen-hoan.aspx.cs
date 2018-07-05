@@ -359,7 +359,7 @@ namespace IM_PJ
                                         ProductImage = "<img src=\"" + productvariable.Image + "\" />";
                                         ProductImageOrigin = productvariable.Image;
                                     }
-                                    else if (!string.IsNullOrEmpty(_product.ProductImage))
+                                    else if (_product != null && !string.IsNullOrEmpty(_product.ProductImage))
                                     {
                                         ProductImage = "<img src=\"" + _product.ProductImage + "\" />";
                                         ProductImageOrigin = _product.ProductImage;
