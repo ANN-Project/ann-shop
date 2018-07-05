@@ -239,15 +239,16 @@ namespace IM_PJ
 
                                 int ProductID = 0;
                                 int ProductVariableID = 0;
-
+                                string SKU = itemValue[1].ToString();
                                 int ID = itemValue[0].ToInt();
+
                                 int parentID = ID;
-                                var parent = ProductVariableController.GetBySKU(itemValue[1].ToString());
-                                if (parent != null)
+                                var variable = ProductVariableController.GetBySKU(SKU);
+                                if (variable != null)
                                 {
-                                    parentID = Convert.ToInt32(parent.ProductID);
+                                    parentID = Convert.ToInt32(variable.ProductID);
                                 }
-                                string SKU = itemValue[1];
+                                
 
                                 int producttype = itemValue[2].ToInt();
                                 if (producttype == 1)
@@ -258,7 +259,7 @@ namespace IM_PJ
                                 else
                                 {
                                     ProductID = 0;
-                                    ProductVariableID = ID;
+                                    ProductVariableID = variable.ID;
                                 }
 
                                 string ProductVariableName = itemValue[3];
@@ -273,57 +274,24 @@ namespace IM_PJ
                                 OrderDetailController.Insert(AgentID, OrderID, SKU, ProductID, ProductVariableID, ProductVariableSave, Quantity, Price, 1, 0,
                                     producttype, currentDate, username, true);
 
-                                if (producttype == 1)
-                                {
-                                    StockManagerController.Insert(
-                                        new tbl_StockManager {
-                                            AgentID = AgentID,
-                                            ProductID = ID,
-                                            ProductVariableID = 0,
-                                            Quantity = Quantity,
-                                            QuantityCurrent = 0,
-                                            Type = 2,
-                                            NoteID = "Xuất kho khi tạo đơn",
-                                            OrderID = OrderID,
-                                            Status = 3,
-                                            SKU = SKU,
-                                            CreatedDate = currentDate,
-                                            CreatedBy = username,
-                                            MoveProID = 0,
-                                            ParentID = parentID,
-                                        });
-                                }
-                                else
-                                {
-                                    string parentSKU = "";
-                                    var productV = ProductVariableController.GetByID(ID);
-                                    if (productV != null)
-                                        parentSKU = productV.ParentSKU;
-                                    if (!string.IsNullOrEmpty(parentSKU))
+                                StockManagerController.Insert(
+                                    new tbl_StockManager
                                     {
-                                        var product = ProductController.GetBySKU(parentSKU);
-                                        if (product != null)
-                                            parentID = product.ID;
-                                    }
-
-                                    StockManagerController.Insert(
-                                        new tbl_StockManager {
-                                            AgentID = AgentID,
-                                            ProductID = 0,
-                                            ProductVariableID = ID,
-                                            Quantity = Quantity,
-                                            QuantityCurrent = 0,
-                                            Type = 2,
-                                            NoteID = "Xuất kho khi tạo đơn",
-                                            OrderID = OrderID,
-                                            Status = 3,
-                                            SKU = SKU,
-                                            CreatedDate = currentDate,
-                                            CreatedBy = username,
-                                            MoveProID = 0,
-                                            ParentID = parentID,
-                                        });
-                                }
+                                        AgentID = AgentID,
+                                        ProductID = ProductID,
+                                        ProductVariableID = ProductVariableID,
+                                        Quantity = Quantity,
+                                        QuantityCurrent = 0,
+                                        Type = 2,
+                                        NoteID = "Xuất kho khi tạo đơn",
+                                        OrderID = OrderID,
+                                        Status = 3,
+                                        SKU = SKU,
+                                        CreatedDate = currentDate,
+                                        CreatedBy = username,
+                                        MoveProID = 0,
+                                        ParentID = parentID,
+                                    });
                                 totalQuantity += Quantity;
                             }
                         }

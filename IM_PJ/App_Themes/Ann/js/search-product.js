@@ -221,7 +221,7 @@ function addHtmlProductResult(item) {
                         + "onkeyup='pressKeyQuantity($(this))' "
                         + "onkeypress='return event.charCode >= 48 && event.charCode <= 57' ";
 
-    // if product exists in table, increase quantityty
+    // if product exists in table, increase quantity
     if (item.Quantity !== undefined) {
         html += "              value='" + formatThousands(item.Quantity, ',') + "' />";
     }
@@ -322,7 +322,7 @@ function addProduct(products) {
         let sku = item.SKU;
         let check = false;
 
-        let target = $(".product-result[data-productID='" + item.ProductID + "'][data-productVariableID='" + item.ProductVariableID + "']");
+        let target = $(".product-result[data-productid='" + item.ProductID + "'][data-productvariableid='" + item.ProductVariableID + "']");
 
         // Check SKU exists in table.
         if (target.length > 0) {

@@ -342,8 +342,6 @@ namespace IM_PJ
                                     ParentID = item.ProductID != 0 ? item.ProductID : item.ProductVariableID
                                 }
                                 );
-
-
                         }
 
                         OrderDetailController.Insert(orderDetails);

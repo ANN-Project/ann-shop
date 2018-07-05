@@ -46,7 +46,7 @@ namespace IM_PJ.Controllers
                                     ProductID = parent.product.ID,
                                     ProductVariableID = child != null ? child.ID : 0,
                                     ProductStyle = parent.product.ProductStyle.Value,
-                                    ProductImage = child != null ? child.Image : parent.product.ProductImage,
+                                    ProductImage = child != null ? (!string.IsNullOrEmpty(child.Image) ? child.Image : (!string.IsNullOrEmpty(parent.product.ProductImage) ? parent.product.ProductImage : "/App_Themes/Ann/image/placeholder.png" )) : (!string.IsNullOrEmpty(parent.product.ProductImage) ? parent.product.ProductImage : "/App_Themes/Ann/image/placeholder.png"),
                                     ProductTitle = parent.product.ProductTitle,
                                     VariableValue = String.Empty,
                                     ParentSKU = parent.product.ProductSKU,

@@ -1047,7 +1047,7 @@
                     if ($("#<%=pFeeShip.ClientID%>").val() == 0 && $("#<%=pFeeShip.ClientID%>").is(":disabled") == false) {
 
                         $("#<%=pFeeShip.ClientID%>").focus();
-                        //swal("Có vấn đề nờ", "Chưa nhập phí vận chuyển nờ! Hỏng lẻ miễn phí vận chuyển luôn hở?", "error");
+
                         swal({
                             title: "Có vấn đề nờ:",
                             text: "Chưa nhập phí vận chuyển nờ!<br><br>Hỏng lẻ miễn phí vận chuyển luôn hở?",
@@ -1379,11 +1379,12 @@
 
                     $.ajax({
                         type: "POST",
+                        async: false,
                         url: "/thong-tin-don-hang.aspx/Delete",
                         data: getDataJSON(),
                         contentType: "application/json; charset=utf-8",
                         dataType: "json"
-                    })
+                    });
                 }
             }
 
