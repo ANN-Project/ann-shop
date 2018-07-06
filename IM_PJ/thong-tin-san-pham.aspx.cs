@@ -27,6 +27,19 @@ namespace IM_PJ
                     var acc = AccountController.GetByUsername(username);
                     if (acc != null)
                     {
+                        if (acc.RoleID == 0)
+                        {
+
+                        }
+                        else if (acc.RoleID == 1)
+                        {
+
+                        }
+                        else
+                        {
+                            Response.Redirect("/trang-chu");
+                        }
+
                         hdfUserRole.Value = acc.RoleID.ToString();
                     }
                 }
@@ -71,7 +84,7 @@ namespace IM_PJ
         {
             var supplier = SupplierController.GetAllWithIsHidden(false);
             ddlSupplier.Items.Clear();
-            ddlSupplier.Items.Insert(0, new ListItem("-- Chọn nhà cung cấp --", "0"));
+            ddlSupplier.Items.Insert(0, new ListItem("Chọn nhà cung cấp", "0"));
             if (supplier.Count > 0)
             {
                 foreach (var p in supplier)
@@ -125,76 +138,69 @@ namespace IM_PJ
         {
             string username = Request.Cookies["userLoginSystem"].Value;
             var acc = AccountController.GetByUsername(username);
-            if (acc != null)
+            int cateID = ViewState["cateID"].ToString().ToInt(0);
+            int id = ViewState["ID"].ToString().ToInt(0);
+            if (cateID > 0)
             {
-                if (acc.RoleID == 0)
+                string ProductTitle = txtProductTitle.Text;
+                string ProductContent = pContent.Content;
+                string ProductSKU = ViewState["SKU"].ToString();
+                double ProductStock = 0;
+                int StockStatus = 0;
+                bool ManageStock = true;
+                double Regular_Price = Convert.ToDouble(pRegular_Price.Text);
+                double CostOfGood = Convert.ToDouble(pCostOfGood.Text);
+                double Retail_Price = Convert.ToDouble(pRetailPrice.Text);
+                bool IsHidden = chkIsHidden.Checked;
+                int CategoryID = hdfParentID.Value.ToInt();
+
+                double MinimumInventoryLevel = 0;
+                if(pMinimumInventoryLevel.Text != "")
                 {
-                    int cateID = ViewState["cateID"].ToString().ToInt(0);
-                    int id = ViewState["ID"].ToString().ToInt(0);
-                    if (cateID > 0)
+                    MinimumInventoryLevel = Convert.ToDouble(pMinimumInventoryLevel.Text);
+                }
+
+                double MaximumInventoryLevel = 0;
+                if (pMaximumInventoryLevel.Text != "")
+                {
+                    MaximumInventoryLevel = Convert.ToDouble(pMaximumInventoryLevel.Text);
+                }
+
+                //Phần thêm ảnh đại diện sản phẩm
+                string path = "/uploads/images/";
+                string ProductImage = ListProductThumbnail.Value;
+                if (ProductThumbnailImage.UploadedFiles.Count > 0)
+                {
+                    foreach (UploadedFile f in ProductThumbnailImage.UploadedFiles)
                     {
-                        string ProductTitle = txtProductTitle.Text;
-                        string ProductContent = pContent.Content;
-                        string ProductSKU = ViewState["SKU"].ToString();
-                        double ProductStock = 0;
-                        int StockStatus = 0;
-                        bool ManageStock = true;
-                        double Regular_Price = Convert.ToDouble(pRegular_Price.Text);
-                        double CostOfGood = Convert.ToDouble(pCostOfGood.Text);
-                        double Retail_Price = Convert.ToDouble(pRetailPrice.Text);
-                        bool IsHidden = chkIsHidden.Checked;
-                        int CategoryID = hdfParentID.Value.ToInt();
-
-                        double MinimumInventoryLevel = 0;
-                        if(pMinimumInventoryLevel.Text != "")
+                        var o = path + Guid.NewGuid() + f.GetExtension();
+                        try
                         {
-                            MinimumInventoryLevel = Convert.ToDouble(pMinimumInventoryLevel.Text);
+                            f.SaveAs(Server.MapPath(o));
+                            ProductImage = o;
                         }
-
-                        double MaximumInventoryLevel = 0;
-                        if (pMaximumInventoryLevel.Text != "")
-                        {
-                            MaximumInventoryLevel = Convert.ToDouble(pMaximumInventoryLevel.Text);
-                        }
-
-                        //Phần thêm ảnh đại diện sản phẩm
-                        string path = "/uploads/images/";
-                        string ProductImage = ListProductThumbnail.Value;
-                        if (ProductThumbnailImage.UploadedFiles.Count > 0)
-                        {
-                            foreach (UploadedFile f in ProductThumbnailImage.UploadedFiles)
-                            {
-                                var o = path + Guid.NewGuid() + f.GetExtension();
-                                try
-                                {
-                                    f.SaveAs(Server.MapPath(o));
-                                    ProductImage = o;
-                                }
-                                catch { }
-                            }
-                        }
-
-                        if(ProductImage != ListProductThumbnail.Value)
-                        {
-                            if (File.Exists(Server.MapPath(ListProductThumbnail.Value)))
-                            {
-                                File.Delete(Server.MapPath(ListProductThumbnail.Value));
-                            }
-                        }
-
-                        string kq = ProductController.Update(id, CategoryID, 0, ProductTitle, ProductContent, ProductSKU, ProductStock,
-                            StockStatus, ManageStock, Regular_Price, CostOfGood, Retail_Price, ProductImage, 0,
-                            IsHidden, DateTime.Now, username, ddlSupplier.SelectedValue.ToInt(0), ddlSupplier.SelectedItem.ToString(),
-                            txtMaterials.Text, MinimumInventoryLevel, MaximumInventoryLevel);
-
-                        if (kq.ToInt(0) > 0)
-                        {
-                            PJUtils.ShowMessageBoxSwAlert("Cập nhật sản phẩm thành công", "s", true, Page);
-                        }
+                        catch { }
                     }
                 }
-            }
 
+                if(ProductImage != ListProductThumbnail.Value)
+                {
+                    if (File.Exists(Server.MapPath(ListProductThumbnail.Value)))
+                    {
+                        File.Delete(Server.MapPath(ListProductThumbnail.Value));
+                    }
+                }
+
+                string kq = ProductController.Update(id, CategoryID, 0, ProductTitle, ProductContent, ProductSKU, ProductStock,
+                    StockStatus, ManageStock, Regular_Price, CostOfGood, Retail_Price, ProductImage, 0,
+                    IsHidden, DateTime.Now, username, ddlSupplier.SelectedValue.ToInt(0), ddlSupplier.SelectedItem.ToString(),
+                    txtMaterials.Text, MinimumInventoryLevel, MaximumInventoryLevel);
+
+                if (kq.ToInt(0) > 0)
+                {
+                    PJUtils.ShowMessageBoxSwAlert("Cập nhật sản phẩm thành công", "s", true, Page);
+                }
+            }
         }
     }
 }

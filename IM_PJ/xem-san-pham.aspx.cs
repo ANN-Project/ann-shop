@@ -95,8 +95,13 @@ namespace IM_PJ
                     ViewState["ID"] = id;
                     ViewState["cateID"] = p.CategoryID;
                     ViewState["SKU"] = p.ProductSKU;
-                    ltrEdit1.Text = "<a href=\"/thong-tin-san-pham.aspx?id=" + p.ID + "\" class=\"btn primary-btn fw-btn not-fullwidth\">Chỉnh sửa</a>";
-                    ltrEdit2.Text = "<a href=\"/thong-tin-san-pham.aspx?id=" + p.ID + "\" class=\"btn primary-btn fw-btn not-fullwidth\">Chỉnh sửa</a>";
+
+                    if(Convert.ToInt32(ViewState["role"]) == 0 || Convert.ToInt32(ViewState["role"]) == 1)
+                    {
+                        ltrEdit1.Text = "<a href=\"/thong-tin-san-pham.aspx?id=" + p.ID + "\" class=\"btn primary-btn fw-btn not-fullwidth\">Chỉnh sửa</a>";
+                        ltrEdit2.Text = "<a href=\"/thong-tin-san-pham.aspx?id=" + p.ID + "\" class=\"btn primary-btn fw-btn not-fullwidth\">Chỉnh sửa</a>";
+                    }
+
                     lbProductTitle.Text = p.ProductTitle;
                     pContent.Text = p.ProductContent;
                     lblSKU.Text = p.ProductSKU;

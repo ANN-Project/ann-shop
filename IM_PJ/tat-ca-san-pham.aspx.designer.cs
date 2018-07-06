@@ -13,13 +13,13 @@ namespace IM_PJ {
     public partial class tat_ca_san_pham {
         
         /// <summary>
-        /// ltrBack control.
+        /// ltrAddProduct control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal ltrBack;
+        protected global::System.Web.UI.WebControls.Literal ltrAddProduct;
         
         /// <summary>
         /// txtSearchProduct control.

@@ -25,21 +25,23 @@ namespace IM_PJ
                 {
                     string username = Request.Cookies["userLoginSystem"].Value;
                     var acc = AccountController.GetByUsername(username);
+                    int agent = acc.AgentID.ToString().ToInt();
+
                     if (acc != null)
                     {
                         if(acc.RoleID == 0)
                         {
-
+                            LoadCreatedBy(agent);
                         }
                         else if(acc.RoleID == 2)
                         {
-
+                            LoadCreatedBy(agent, acc);
                         }
                         else
                         {
                             Response.Redirect("/trang-chu");
                         }
-                        LoadDLLCreateBy();
+                        
                     }
                 }
                 else
@@ -48,7 +50,6 @@ namespace IM_PJ
                 }
                 LoadData();
                 LoadDLL();
-
             }
         }
         public void LoadDLL()
@@ -67,21 +68,27 @@ namespace IM_PJ
             }
         }
 
-
-        //ddl nhân viên tạo đơn
-        public void LoadDLLCreateBy()
+        public void LoadCreatedBy(int AgentID, tbl_Account acc = null)
         {
-            var CreateBy = AccountController.GetAllNotSearch();
-            ddlCreateBy.Items.Clear();
-            ddlCreateBy.Items.Insert(0, new ListItem("Nhân viên", "0"));
-            if (CreateBy.Count > 0)
+            if (acc != null)
             {
-                foreach (var p in CreateBy)
+                ddlCreateBy.Items.Clear();
+                ddlCreateBy.Items.Insert(0, new ListItem(acc.Username, acc.ID.ToString()));
+            }
+            else
+            {
+                var CreateBy = AccountController.GetAllNotSearch();
+                ddlCreateBy.Items.Clear();
+                ddlCreateBy.Items.Insert(0, new ListItem("Nhân viên", "0"));
+                if (CreateBy.Count > 0)
                 {
-                    ListItem listitem = new ListItem(p.Username, p.ID.ToString());
-                    ddlCreateBy.Items.Add(listitem);
+                    foreach (var p in CreateBy)
+                    {
+                        ListItem listitem = new ListItem(p.Username, p.ID.ToString());
+                        ddlCreateBy.Items.Add(listitem);
+                    }
+                    ddlCreateBy.DataBind();
                 }
-                ddlCreateBy.DataBind();
             }
         }
         public void LoadData()
@@ -128,7 +135,7 @@ namespace IM_PJ
                     var r = RefundGoodController.Search(s, n, status, acc.Username);
                     if (r.Count > 0)
                     {
-                        pagingall(r);
+                        pagingall(r.Where(x => x.CreatedBy == acc.Username).ToList());
                     }
                 }
 
@@ -137,6 +144,9 @@ namespace IM_PJ
         #region Paging
         public void pagingall(List<tbl_RefundGoods> acs)
         {
+            string username = Request.Cookies["userLoginSystem"].Value;
+            var acc = AccountController.GetByUsername(username);
+
             int PageSize = 30;
             StringBuilder html = new StringBuilder();
             if (acs.Count > 0)
@@ -154,6 +164,23 @@ namespace IM_PJ
                 int ToRow = Page * PageSize - 1;
                 if (ToRow >= TotalItems)
                     ToRow = TotalItems - 1;
+
+                html.Append("<tr>");
+                html.Append("    <th>Mã</th>");
+                html.Append("    <th>Khách hàng</th>");
+                html.Append("    <th>Điện thoại</th>");
+                html.Append("    <th>Số lượng</th>");
+                html.Append("    <th>Phí đổi hàng</th>");
+                html.Append("    <th>Tổng tiền</th>");
+                html.Append("    <th>Trạng thái</th>");
+                if (acc.RoleID == 0)
+                {
+                    html.Append("    <th>Nhân viên</th>");
+                }
+                html.Append("    <th>Ngày tạo</th>");
+                html.Append("    <th></th>");
+                html.Append("</tr>");
+
                 for (int i = FromRow; i < ToRow + 1; i++)
                 {
                     var item = acs[i];
@@ -180,10 +207,15 @@ namespace IM_PJ
                     html.Append("   <td>" + item.CustomerPhone + "</td>");
                     html.Append("   <td>" + string.Format("{0:N0}", Convert.ToDouble(item.TotalQuantity)) + "</td>");
                     html.Append("   <td>" + string.Format("{0:N0}", Convert.ToDouble(item.TotalRefundFee)) + "</td>");
-                    html.Append("   <td>" + string.Format("{0:N0}", Convert.ToDouble(item.TotalPrice)) + "</td>");
+                    html.Append("   <td><strong>" + string.Format("{0:N0}", Convert.ToDouble(item.TotalPrice)) + "</strong></td>");
                     string date = string.Format("{0:dd/MM/yyyy}", item.CreatedDate);
                     html.Append("   <td>" + PJUtils.RefundStatus(Convert.ToInt32(item.Status)) + "</td>");
-                    html.Append("   <td>" + item.CreatedBy + "</td>");
+
+                    if (acc.RoleID == 0)
+                    {
+                        html.Append("   <td>" + item.CreatedBy + "</td>");
+                    }
+
                     html.Append("   <td>" + date + "</td>");
                     html.Append("   <td>");
                     html.Append("       <a href=\"/print-invoice-return.aspx?id=" + item.ID + "\" title=\"In hóa đơn\" target=\"_blank\" class=\"btn primary-btn h45-btn\"><i class=\"fa fa-print\" aria-hidden=\"true\"></i></a>");

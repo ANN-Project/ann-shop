@@ -266,18 +266,6 @@
                                 <h3 class="page-title left not-margin-bot">Trạng thái đơn hàng</h3>
                             </div>
                             <div class="panel-body">
-                                <div id="row-payment-status" class="form-row">
-                                    <div class="row-left">
-                                        Trạng thái thanh toán
-                                    </div>
-                                    <div class="row-right">
-                                        <asp:DropDownList ID="ddlPaymentStatus" runat="server" CssClass="form-control">
-                                            <asp:ListItem Value="1" Text="Chưa thanh toán"></asp:ListItem>
-                                            <asp:ListItem Value="2" Text="Thanh toán thiếu"></asp:ListItem>
-                                            <asp:ListItem Value="3" Text="Đã thanh toán"></asp:ListItem>
-                                        </asp:DropDownList>
-                                    </div>
-                                </div>
                                 <div id="row-excute-status" class="form-row">
                                     <div class="row-left">
                                         Trạng thái xử lý
@@ -287,6 +275,18 @@
                                             <asp:ListItem Value="1" Text="Đang xử lý"></asp:ListItem>
                                             <asp:ListItem Value="2" Text="Đã hoàn tất"></asp:ListItem>
                                             <asp:ListItem Value="3" Text="Đã hủy"></asp:ListItem>
+                                        </asp:DropDownList>
+                                    </div>
+                                </div>
+                                <div id="row-payment-status" class="form-row">
+                                    <div class="row-left">
+                                        Trạng thái thanh toán
+                                    </div>
+                                    <div class="row-right">
+                                        <asp:DropDownList ID="ddlPaymentStatus" runat="server" CssClass="form-control">
+                                            <asp:ListItem Value="1" Text="Chưa thanh toán"></asp:ListItem>
+                                            <asp:ListItem Value="2" Text="Thanh toán thiếu"></asp:ListItem>
+                                            <asp:ListItem Value="3" Text="Đã thanh toán"></asp:ListItem>
                                         </asp:DropDownList>
                                     </div>
                                 </div>
@@ -398,7 +398,6 @@
             <asp:HiddenField ID="notAcceptChangeUser" Value="1" runat="server" />
             <asp:HiddenField ID="hdfDiscountInOrder" runat="server" />
             <asp:HiddenField ID="hdfUsername" runat="server" />
-            <asp:HiddenField ID="hdfCheckCustomer" runat="server" Value="0" />
             <asp:HiddenField ID="hdfOrderType" runat="server" />
             <asp:HiddenField ID="hdfTotalPrice" runat="server" />
             <asp:HiddenField ID="hdfTotalPriceNotDiscount" runat="server" />

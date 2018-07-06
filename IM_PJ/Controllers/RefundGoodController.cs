@@ -201,25 +201,23 @@ namespace IM_PJ.Controllers
                         {
                             if (!string.IsNullOrEmpty(by))
                             {
-                                ags = dbe.tbl_RefundGoods.Where(x => x.CustomerName.Contains(s) && x.AgentID == n && x.Status == status && x.CreatedBy == by || x.CreatedBy == by && x.CustomerPhone.Contains(s) && x.AgentID == n && x.Status == status).ToList();
+                                ags = dbe.tbl_RefundGoods.Where(x => x.CustomerName.Contains(s) && x.AgentID == n && x.Status == status && x.CreatedBy == by || x.CreatedBy == by && x.CustomerPhone.Contains(s) && x.AgentID == n && x.Status == status || x.ID.ToString().Contains(s) && x.CreatedBy == by && x.AgentID == n && x.Status == status).ToList();
                             }
                             else
                             {
-                                ags = dbe.tbl_RefundGoods.Where(x => x.CustomerName.Contains(s) && x.AgentID == n && x.Status == status || x.CustomerPhone.Contains(s) && x.AgentID == n && x.Status == status).ToList();
-
+                                ags = dbe.tbl_RefundGoods.Where(x => x.CustomerName.Contains(s) && x.AgentID == n && x.Status == status || x.CustomerPhone.Contains(s) && x.AgentID == n && x.Status == status || x.ID.ToString().Contains(s) && x.AgentID == n && x.Status == status).ToList();
                             }
                         }
                         else
                         {
                             if (!string.IsNullOrEmpty(by))
                             {
-                                ags = dbe.tbl_RefundGoods.Where(x => x.CustomerName.Contains(s) && x.AgentID == n && x.CreatedBy == by || x.CreatedBy == by && x.CustomerPhone.Contains(s) && x.AgentID == n).ToList();
+                                ags = dbe.tbl_RefundGoods.Where(x => x.CustomerName.Contains(s) && x.AgentID == n && x.CreatedBy == by || x.CreatedBy == by && x.CustomerPhone.Contains(s) && x.AgentID == n || x.ID.ToString().Contains(s) && x.AgentID == n && x.CreatedBy == by).ToList();
 
                             }
                             else
                             {
-                                ags = dbe.tbl_RefundGoods.Where(x => x.CustomerName.Contains(s) && x.AgentID == n || x.CustomerPhone.Contains(s) && x.AgentID == n).ToList();
-
+                                ags = dbe.tbl_RefundGoods.Where(x => x.CustomerName.Contains(s) && x.AgentID == n || x.CustomerPhone.Contains(s) && x.AgentID == n || x.ID.ToString().Contains(s) && x.AgentID == n).ToList();
                             }
                         }
                     }
@@ -228,11 +226,11 @@ namespace IM_PJ.Controllers
                         if (status > 0)
                         {
 
-                            ags = dbe.tbl_RefundGoods.Where(x => x.CustomerName.Contains(s) && x.AgentID == n && x.Status == status || x.CustomerPhone.Contains(s) && x.AgentID == n && x.Status == status).ToList();
+                            ags = dbe.tbl_RefundGoods.Where(x => x.CustomerName.Contains(s) && x.AgentID == n && x.Status == status || x.CustomerPhone.Contains(s) && x.AgentID == n && x.Status == status || x.ID.ToString().Contains(s) && x.AgentID == n && x.Status == status).ToList();
                         }
                         else
                         {
-                            ags = dbe.tbl_RefundGoods.Where(x => x.CustomerName.Contains(s) || x.CustomerPhone.Contains(s)).ToList();
+                            ags = dbe.tbl_RefundGoods.Where(x => x.CustomerName.Contains(s) || x.CustomerPhone.Contains(s) || x.ID.ToString().Contains(s)).ToList();
                         }
 
                     }

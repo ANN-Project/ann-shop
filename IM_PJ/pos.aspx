@@ -172,7 +172,6 @@
             </div>
             <asp:HiddenField ID="hdfUsername" runat="server" />
             <asp:HiddenField ID="hdfUsernameCurrent" runat="server" />
-            <asp:HiddenField ID="hdfCheckCustomer" runat="server" Value="0" />
             <asp:HiddenField ID="hdfOrderType" runat="server" />
             <asp:HiddenField ID="hdfTotalPrice" runat="server" />
             <asp:HiddenField ID="hdfTotalPriceNotDiscount" runat="server" />

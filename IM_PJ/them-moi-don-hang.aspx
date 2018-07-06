@@ -204,7 +204,6 @@
             </div>
             <asp:HiddenField ID="notAcceptChangeUser" Value="1" runat="server" />
             <asp:HiddenField ID="hdfUsername" runat="server" />
-            <asp:HiddenField ID="hdfCheckCustomer" runat="server" Value="0" />
             <asp:HiddenField ID="hdfOrderType" runat="server" />
             <asp:HiddenField ID="hdfTotalPrice" runat="server" />
             <asp:HiddenField ID="hdfTotalPriceNotDiscount" runat="server" />
@@ -630,21 +629,21 @@ function showOrderStatus() {
     fr += "             <h2>Hoàn tất đơn hàng</h2>";
     fr += "         </div>";
     fr += "         <div class=\"form-row\">";
+    fr += "             <div class=\"row-left\">Trạng thái xử lý:</div>";
+    fr += "             <div class=\"row-right\">"
+    fr += "                 <select class=\"form-control excute-status\">";
+    fr += "                     <option value=\"1\">Đang xử lý</option>";
+    fr += "                     <option value=\"2\">Đã hoàn tất</option>";
+    fr += "                 </select>";
+    fr += "             </div>";
+    fr += "         </div>";
+    fr += "         <div class=\"form-row\">";
     fr += "             <div class=\"row-left\">Trạng thái thanh toán:</div>";
     fr += "             <div class=\"row-right\">"
     fr += "                 <select class=\"form-control payment-status\">";
     fr += "                     <option value=\"1\">Chưa thanh toán</option>";
     fr += "                     <option value=\"2\">Thanh toán thiếu</option>";
     fr += "                     <option value=\"3\">Đã thanh toán</option>";
-    fr += "                 </select>";
-    fr += "             </div>";
-    fr += "         </div>";
-    fr += "         <div class=\"form-row\">";
-    fr += "             <div class=\"row-left\">Trạng thái xử lý:</div>";
-    fr += "             <div class=\"row-right\">"
-    fr += "                 <select class=\"form-control excute-status\">";
-    fr += "                     <option value=\"1\">Đang xử lý</option>";
-    fr += "                     <option value=\"2\">Đã hoàn tất</option>";
     fr += "                 </select>";
     fr += "             </div>";
     fr += "         </div>";

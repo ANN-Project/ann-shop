@@ -51,6 +51,8 @@ namespace IM_PJ
             var acc = AccountController.GetByUsername(username);
             if (acc != null)
             {
+                
+
                 int AgentID = Convert.ToInt32(acc.AgentID);
                 int ID = Request.QueryString["id"].ToInt(0);
                 if (ID > 0)
@@ -63,6 +65,13 @@ namespace IM_PJ
                     }
                     else
                     {
+                        if (acc.RoleID != 0)
+                        {
+                            if (r.CreatedBy != acc.Username)
+                            {
+                                PJUtils.ShowMessageBoxSwAlertError("Đơn hàng này không phải của bạn", "e", true, "/danh-sach-don-tra-hang", Page);
+                            }
+                        }
                         ltrOrderID.Text = ID.ToString();
                         ltrCreateBy.Text = r.CreatedBy;
                         ltrCreateDate.Text = r.CreatedDate.ToString();

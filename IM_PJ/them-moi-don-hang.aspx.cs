@@ -149,7 +149,6 @@ namespace IM_PJ
                     string AdditionFee = "0";
                     string DisCount = "0";
                     int CustomerID = 0;
-                    int checkCustomer = hdfCheckCustomer.Value.ToInt();
 
                     string CustomerPhone = txtPhone.Text.Trim();
                     string CustomerName = txtFullname.Text.Trim();
@@ -162,28 +161,19 @@ namespace IM_PJ
                     int PaymentType = hdfPaymentType.Value.ToInt(1);
                     int ShippingType = hdfShippingType.Value.ToInt(1);
 
-                    if (checkCustomer == 0)
+                    var checkCustomer = CustomerController.GetByPhone(CustomerPhone);
+
+                    if (checkCustomer != null)
                     {
-                        var checkphone = CustomerController.GetByPhone(CustomerPhone);
-                        if (checkphone != null)
-                        {
-                            CustomerID = checkphone.ID;
-                        }
-                        else
-                        {
-                            string kq = CustomerController.Insert(CustomerName, CustomerPhone, CustomerAddress, "", 0, 0, currentDate, username, false, Zalo, Facebook, "","", Nick, "", ShippingType, PaymentType);
-                            if (kq.ToInt(0) > 0)
-                            {
-                                CustomerID = kq.ToInt(0);
-                            }
-                        }
+                        CustomerID = checkCustomer.ID;
+                        string kq = CustomerController.Update(CustomerID, CustomerName, checkCustomer.CustomerPhone, CustomerAddress, "", Convert.ToInt32(checkCustomer.CustomerLevelID), Convert.ToInt32(checkCustomer.Status), checkCustomer.CreatedBy, currentDate, username, false, Zalo, Facebook, checkCustomer.Note, checkCustomer.ProvinceID.ToString(), Nick, checkCustomer.Avatar, Convert.ToInt32(checkCustomer.ShippingType), Convert.ToInt32(checkCustomer.PaymentType), Convert.ToInt32(checkCustomer.TransportCompanyID), Convert.ToInt32(checkCustomer.TransportCompanySubID), checkCustomer.CustomerPhone2);
                     }
                     else
                     {
-                        var checkphone = CustomerController.GetByPhone(CustomerPhone);
-                        if (checkphone != null)
+                        string kq = CustomerController.Insert(CustomerName, CustomerPhone, CustomerAddress, "", 0, 0, currentDate, username, false, Zalo, Facebook, "", "", Nick, "", ShippingType, PaymentType);
+                        if (kq.ToInt(0) > 0)
                         {
-                            CustomerID = checkphone.ID;
+                            CustomerID = kq.ToInt();
                         }
                     }
 

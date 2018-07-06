@@ -166,11 +166,14 @@ namespace IM_PJ
                     ddlCreateBy.DataBind();
                 }
             }
-            
         }
+
         #region Paging
         public void pagingall(List<tbl_Order> acs)
         {
+            string username = Request.Cookies["userLoginSystem"].Value;
+            var acc = AccountController.GetByUsername(username);
+
             int PageSize = 30;
             StringBuilder html = new StringBuilder();
             if (acs.Count > 0)
@@ -188,13 +191,32 @@ namespace IM_PJ
                 int ToRow = Page * PageSize - 1;
                 if (ToRow >= TotalItems)
                     ToRow = TotalItems - 1;
+
+                html.Append("<tr>");
+                html.Append("    <th>Mã</th>");
+                html.Append("    <th>Loại</th>");
+                html.Append("    <th>Khách hàng</th>");
+                html.Append("    <th>Mua</th>");
+                html.Append("    <th>Xử lý</th>");
+                html.Append("    <th>Thanh toán</th>");
+                html.Append("    <th>Thanh toán</th>");
+                html.Append("    <th>Giao hàng</th>");
+                html.Append("    <th>Tổng tiền</th>");
+                if (acc.RoleID == 0)
+                {
+                    html.Append("    <th>Nhân viên</th>");
+                }
+                html.Append("    <th>Ngày tạo</th>");
+                html.Append("    <th>Hoàn tất</th>");
+                html.Append("    <th></th>");
+                html.Append("</tr>");
+
                 for (int i = FromRow; i < ToRow + 1; i++)
                 {
                     var item = acs[i];
                     html.Append("<tr>");
                     html.Append("   <td><a href=\"/thong-tin-don-hang.aspx?id=" + item.ID + "\">" + item.ID + "</a></td>");
                     html.Append("   <td>" + PJUtils.OrderTypeStatus(Convert.ToInt32(item.OrderType)) + "</td>");
-                    html.Append("   <td>" + item.CustomerPhone + "</td>");
                     var customer = CustomerController.GetByID(Convert.ToInt32(item.CustomerID));
                     if(customer != null)
                     {
@@ -222,11 +244,16 @@ namespace IM_PJ
                         }
                     }
                     html.Append("   <td>" + quantity + "</td>");
-                    html.Append("   <td>" + PJUtils.OrderPaymentStatus(Convert.ToInt32(item.PaymentStatus)) + "</td>");
                     html.Append("   <td>" + PJUtils.OrderExcuteStatus(Convert.ToInt32(item.ExcuteStatus)) + "</td>");
+                    html.Append("   <td>" + PJUtils.OrderPaymentStatus(Convert.ToInt32(item.PaymentStatus)) + "</td>");
                     html.Append("   <td>" + PJUtils.PaymentType(Convert.ToInt32(item.PaymentType)) + "</td>");
                     html.Append("   <td>" + PJUtils.ShippingType(Convert.ToInt32(item.ShippingType)) + "</td>");
-                    html.Append("   <td>" + string.Format("{0:N0}", Convert.ToDouble(item.TotalPrice)) + "</td>");
+                    html.Append("   <td><strong>" + string.Format("{0:N0}", Convert.ToDouble(item.TotalPrice)) + "</strong></td>");
+
+                    if (acc.RoleID == 0)
+                    {
+                        html.Append("   <td>" + item.CreatedBy + "</td>");
+                    }
 
                     string date = string.Format("{0:dd/MM}", item.CreatedDate);
                     html.Append("   <td>" + date + "</td>");

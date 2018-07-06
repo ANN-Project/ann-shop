@@ -2,7 +2,7 @@
 
 <%@ Register Assembly="Telerik.Web.UI" Namespace="Telerik.Web.UI" TagPrefix="telerik" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
-    <script src="/App_Themes/Ann/js/search-customer.js?v=3006"></script>
+    <script src="/App_Themes/Ann/js/search-customer.js?v=0607"></script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <asp:Panel ID="parent" runat="server">
@@ -26,14 +26,14 @@
                                         <div class="form-group">
                                             <label>Họ tên</label>
                                             <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" ControlToValidate="txtFullname" ErrorMessage="(*)" ForeColor="Red" Display="Dynamic"></asp:RequiredFieldValidator>
-                                            <asp:TextBox ID="txtFullname" Enabled="false" CssClass="form-control" runat="server" autocomplete="off"></asp:TextBox>
+                                            <asp:TextBox ID="txtFullname" CssClass="form-control" runat="server" autocomplete="off" placeholder="Họ tên thật của khách"></asp:TextBox>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label>Điện thoại</label>
                                             <asp:RequiredFieldValidator ID="re" runat="server" ControlToValidate="txtPhone" ErrorMessage="(*)" ForeColor="Red" Display="Dynamic"></asp:RequiredFieldValidator>
-                                            <asp:TextBox ID="txtPhone" Enabled="false" CssClass="form-control" runat="server" onchange="checkCustomer()" onpaste="checkCustomer()" autocomplete="off"></asp:TextBox>
+                                            <asp:TextBox ID="txtPhone" CssClass="form-control" runat="server" autocomplete="off" placeholder="Số điện thoại khách hàng"></asp:TextBox>
                                         </div>
                                     </div>
                                 </div> 
@@ -42,14 +42,14 @@
                                         <div class="form-group">
                                             <label>Nick đặt hàng</label>
                                             <asp:RequiredFieldValidator ID="RequiredFieldValidator2" runat="server" ControlToValidate="txtNick" ErrorMessage="(*)" ForeColor="Red" Display="Dynamic"></asp:RequiredFieldValidator>
-                                            <asp:TextBox ID="txtNick" Enabled="false" CssClass="form-control" runat="server" autocomplete="off"></asp:TextBox>
+                                            <asp:TextBox ID="txtNick" CssClass="form-control" runat="server" autocomplete="off" placeholder="Tên nick đặt hàng"></asp:TextBox>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label>Địa chỉ</label>
                                             <asp:RequiredFieldValidator ID="RequiredFieldValidator3" runat="server" ControlToValidate="txtAddress" ErrorMessage="(*)" ForeColor="Red" Display="Dynamic"></asp:RequiredFieldValidator>
-                                            <asp:TextBox ID="txtAddress" Enabled="false" CssClass="form-control" runat="server" autocomplete="off"></asp:TextBox>
+                                            <asp:TextBox ID="txtAddress" CssClass="form-control" runat="server" autocomplete="off" placeholder="Địa chỉ khách hàng"></asp:TextBox>
                                         </div>
                                     </div>
                                 </div> 
@@ -57,7 +57,7 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label>Zalo</label>
-                                            <asp:TextBox ID="txtZalo" Enabled="false" CssClass="form-control" runat="server" autocomplete="off"></asp:TextBox>
+                                            <asp:TextBox ID="txtZalo" CssClass="form-control" runat="server" autocomplete="off" placeholder="Số điện thoại Zalo"></asp:TextBox>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
@@ -65,7 +65,7 @@
                                             <label>Facebook</label>
                                             <div class="row">
                                                 <div class="col-md-10 fb width-100">
-                                                <asp:TextBox ID="txtFacebook" Enabled="false" CssClass="form-control" runat="server" autocomplete="off"></asp:TextBox>
+                                                <asp:TextBox ID="txtFacebook" CssClass="form-control" runat="server" autocomplete="off" placeholder="Đường link chat Facebook"></asp:TextBox>
                                                 </div>
                                                 <div class="col-md-2">
                                                     <div class="row">
@@ -214,6 +214,15 @@
     </telerik:RadAjaxManager>
     <telerik:RadScriptBlock ID="sc" runat="server">
         <script type="text/javascript">
+
+            //disable input
+            $("#<%= txtPhone.ClientID%>").prop('readonly', true);
+            $("#<%= txtFullname.ClientID%>").prop('readonly', true);
+            $("#<%= txtAddress.ClientID%>").prop('readonly', true);
+            $("#<%= txtNick.ClientID%>").prop('readonly', true);
+            $("#<%= txtZalo.ClientID%>").prop('readonly', true);
+            $("#<%= txtFacebook.ClientID%>").prop('readonly', true);
+
             // Create model entity
             class RefundDetailModel{
                 constructor(RowIndex
@@ -372,29 +381,6 @@
                     return false;
                 }
             });
-
-            function checkCustomer() {
-                var txtPhone = $("#<%=txtPhone.ClientID%>").val();
-
-                $.ajax({
-                    type: "POST",
-                    url: "/tao-don-hang-doi-tra.aspx/checkphone",
-                    data: "{phonefullname:'" + txtPhone + "'}",
-                    contentType: "application/json; charset=utf-8",
-                    dataType: "json",
-                    success: function (msg) {
-                        if (msg.d == "nocustomer") {
-                            alert('Không tìm thấy khách hàng trong hệ thống');
-                        }
-                        else {
-                            $("#<%=hdfPhone.ClientID%>").val(txtPhone);
-                        }
-                    },
-                    error: function (xmlhttprequest, textstatus, errorthrow) {
-                        alert('lỗi');
-                    }
-                });
-            }
 
             function getAllPrice() {
                 let totalPrice = 0;
@@ -820,20 +806,45 @@
             }
 
             function payall() {
-                if (productRefunds.length > 0) {
-                    let dataJSON = "{ 'RefundDetails' : ["
+                var phone = $("#<%=txtPhone.ClientID%>").val();
+                var name = $("#<%= txtFullname.ClientID%>").val();
+                var nick = $("#<%= txtNick.ClientID%>").val();
+                var address = $("#<%= txtAddress.ClientID%>").val();
+                if (phone != "" && name != "" && nick != "" && address != "") {
+                    if (productRefunds.length > 0) {
+                        let dataJSON = '{ "RefundDetails" : [';
 
-                    productRefunds.forEach(function (item) {
-                        dataJSON += item.stringJSON() + ","
-                    });
+                        productRefunds.forEach(function (item) {
+                            dataJSON += item.stringJSON() + ","
+                        });
 
-                    dataJSON = dataJSON.replace(/.$/, "") + "]}";
-
-                    $("#<%=hdfListProduct.ClientID%>").val(dataJSON);
-                    $("#<%=btnSave.ClientID%>").click();
-                }
-                else {
-                    alert('Vui lòng chọn sản phẩm đổi trả');
+                        dataJSON = dataJSON.replace(/.$/, "") + "]}";
+                        
+                        HoldOn.open();
+                        $("#<%=hdfListProduct.ClientID%>").val(dataJSON);
+                        $("#<%=btnSave.ClientID%>").click();
+                    }
+                    else {
+                        $("#txtSearch").focus();
+                        swal("Thông báo", "Hãy nhập sản phẩm cần đổi trả!");
+                    }
+                } else {
+                    if (name == "") {
+                        $("#<%= txtFullname.ClientID%>").focus();
+                        swal("Thông báo", "Hãy nhập tên khách hàng!", "error");
+                    }
+                    else if (phone == "") {
+                        $("#<%= txtPhone.ClientID%>").focus();
+                        swal("Thông báo", "Hãy nhập số điện thoại khách hàng!", "error");
+                    }
+                    else if (nick == "") {
+                        $("#<%= txtNick.ClientID%>").focus();
+                        swal("Thông báo", "Hãy nhập Nick đặt hàng của khách hàng!", "error");
+                    }
+                    else if (address == "") {
+                        $("#<%= txtAddress.ClientID%>").focus();
+                        swal("Thông báo", "Hãy nhập địa chỉ khách hàng!", "error");
+                    }
                 }
             }
 

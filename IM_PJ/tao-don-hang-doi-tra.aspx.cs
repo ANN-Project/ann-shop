@@ -56,6 +56,7 @@ namespace IM_PJ
         {
             if (HttpContext.Current.Items["xem-don-hang-doi-tra"] != null)
             {
+                
                 this.hdfListProduct.Value = HttpContext.Current.Items["xem-don-hang-doi-tra"].ToString();
             }
         }
@@ -185,6 +186,7 @@ namespace IM_PJ
 
         protected void btnSave_Click(object sender, EventArgs e)
         {
+           
             DateTime currentDate = DateTime.Now;
             int agentID = 0;
             string username = Request.Cookies["userLoginSystem"].Value;
@@ -196,15 +198,24 @@ namespace IM_PJ
                 if (a != null)
                 {
                     agentID = Convert.ToInt32(a.AgentID);
-                    string phone = hdfPhone.Value;
 
-                    if (!string.IsNullOrEmpty(phone))
+                    string CustomerPhone = txtPhone.Text;
+                    string CustomerName = txtFullname.Text;
+                    string Nick = txtNick.Text.Trim();
+                    string CustomerAddress = txtAddress.Text.Trim();
+                    string Zalo = txtZalo.Text.Trim();
+                    string Facebook = txtFacebook.Text.Trim();
+
+                    if (!string.IsNullOrEmpty(CustomerPhone))
                     {
-                        var cust = CustomerController.GetByPhone(phone);
+                        var checkCustomer = CustomerController.GetByPhone(CustomerPhone);
 
-                        if (cust != null)
+                        if (checkCustomer != null)
                         {
-                            int custID = cust.ID;
+                            int custID = checkCustomer.ID;
+
+                            string kq = CustomerController.Update(custID, CustomerName, checkCustomer.CustomerPhone, CustomerAddress, "", Convert.ToInt32(checkCustomer.CustomerLevelID), Convert.ToInt32(checkCustomer.Status), checkCustomer.CreatedBy, currentDate, username, false, Zalo, Facebook, checkCustomer.Note, checkCustomer.ProvinceID.ToString(), Nick, checkCustomer.Avatar, Convert.ToInt32(checkCustomer.ShippingType), Convert.ToInt32(checkCustomer.PaymentType), Convert.ToInt32(checkCustomer.TransportCompanyID), Convert.ToInt32(checkCustomer.TransportCompanySubID), checkCustomer.CustomerPhone2);
+
                             double totalPrice = Convert.ToDouble(hdfTotalPrice.Value);
                             double totalQuantity = Convert.ToDouble(hdfTotalQuantity.Value);
                             double totalRefund = Convert.ToDouble(hdfTotalRefund.Value);
@@ -230,8 +241,8 @@ namespace IM_PJ
                                     TotalRefundFee = totalRefund.ToString(),
                                     CreatedDate = currentDate,
                                     CreatedBy = username,
-                                    CustomerName = cust.CustomerName,
-                                    CustomerPhone = cust.CustomerPhone,
+                                    CustomerName = checkCustomer.CustomerName,
+                                    CustomerPhone = checkCustomer.CustomerPhone,
                                     AgentName = agentName,
                                     RefundNote = RefundsNote
                                 });

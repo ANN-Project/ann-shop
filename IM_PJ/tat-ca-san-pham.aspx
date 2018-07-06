@@ -9,8 +9,7 @@
                 <div class="col-md-12">
                     <h3 class="page-title left">Danh sách sản phẩm</h3>
                     <div class="right above-list-btn">
-                        <asp:Literal ID="ltrBack" runat="server"></asp:Literal>
-                        <a href="/tao-san-pham" class="h45-btn btn primary-btn">Thêm mới</a>
+                        <asp:Literal ID="ltrAddProduct" runat="server"></asp:Literal>
                     </div>
                 </div>
             </div>

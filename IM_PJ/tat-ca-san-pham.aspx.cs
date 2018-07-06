@@ -65,6 +65,16 @@ namespace IM_PJ
         }
         public void LoadData()
         {
+            string username = Request.Cookies["userLoginSystem"].Value;
+            var acc = AccountController.GetByUsername(username);
+            if (acc != null)
+            {
+                if (acc.RoleID == 0 || acc.RoleID == 1)
+                {
+                    ltrAddProduct.Text = "<a href=\"/tao-san-pham\" class=\"h45-btn btn primary-btn\">Thêm mới</a>";
+                }
+            }
+            
             string s = "";
             int categoryID = 0;
             int type = 0;
@@ -91,7 +101,6 @@ namespace IM_PJ
         public void pagingall(List<ProductSQL> acs)
         {
             string username = Request.Cookies["userLoginSystem"].Value;
-
             var acc = AccountController.GetByUsername(username);
 
             int PageSize = 30;
@@ -111,6 +120,7 @@ namespace IM_PJ
                 int ToRow = Page * PageSize - 1;
                 if (ToRow >= TotalItems)
                     ToRow = TotalItems - 1;
+
                 html.Append("<tr>");
                 html.Append("    <th class='image-column'>Ảnh</th>");
                 html.Append("    <th class='name-column'>Sản phẩm</th>");
@@ -127,6 +137,7 @@ namespace IM_PJ
                 html.Append("    <th class='date-column'>Ngày tạo</th>");
                 html.Append("    <th class='action-column'></th>");
                 html.Append("</tr>");
+
                 for (int i = FromRow; i < ToRow + 1; i++)
                 {
                     var item = acs[i];

@@ -35,7 +35,7 @@ function viewCustomerDetail(custID) {
         dataType: "json",
         success: function (msg) {
             if (msg.d !== "null") {
-                $("input[id$='_hdfCheckCustomer']").val("1");
+                
                 var alldata = JSON.parse(msg.d);
 
                 var data = alldata.Customer;
@@ -243,31 +243,31 @@ function showCustomerList() {
                         if (!isBlank(item.Zalo)) {
                             html += ("<td class=\"zalo zalo-column\">" + item.Zalo + "</td>");
                         } else {
-                            html += ("<td></td>");
+                            html += ("<td class=\"zalo zalo-column\"></td>");
                         }
 
                         if (!isBlank(item.Facebook)) {
                             html += ("<td class=\"facebook\" data-value=\"" + item.Facebook + "\"><a class=\"link\" href=\"" + item.Facebook + "\" target=\"_blank\">Xem</a></td>");
                         } else {
-                            html += ("<td></td>");
+                            html += ("<td class=\"facebook\" data-value=\"null\"></td>");
                         }
 
                         if (!isBlank(item.CreatedBy)) {
                             html += ("<td class=\"createdby province-column\">" + item.CreatedBy + "</td>");
                         } else {
-                            html += ("<td></td>");
+                            html += ("<td class=\"createdby province-column\"></td>");
                         }
 
                         if (!isBlank(item.CustomerAddress)) {
                             html += ("<td class=\"address address-column\">" + item.CustomerAddress + "</td>");
                         } else {
-                            html += ("<td></td>");
+                            html += ("<td class=\"address address-column\"></td>");
                         }
 
                         if (!isBlank(item.Province)) {
                             html += ("<td class=\"province province-column\">" + item.Province + "</td>");
                         } else {
-                            html += ("<td></td>");
+                            html += ("<td class=\"province province-column\"></td>");
                         }
                         html += ("</tr>");
                     });
@@ -310,13 +310,13 @@ function refreshCustomerInfo(ID) {
                     var zalo = data.Zalo;
                     var facebook = data.Facebook;
                     var id = data.ID;
-                    $("input[id$='_txtPhone']").val(phone).prop('disabled', true);
-                    $("input[id$='_txtFullname']").val(name).prop('disabled', true);
-                    $("input[id$='_txtNick']").val(nick).prop('disabled', true);
-                    $("input[id$='_txtAddress']").val(address).prop('disabled', true);
-                    $("input[id$='_txtZalo']").val(zalo).prop('disabled', true);
+                    $("input[id$='_txtPhone']").val(phone).prop('readonly', true);
+                    $("input[id$='_txtFullname']").val(name).prop('readonly', true);
+                    $("input[id$='_txtNick']").val(nick).prop('readonly', true);
+                    $("input[id$='_txtAddress']").val(address).prop('readonly', true);
+                    $("input[id$='_txtZalo']").val(zalo).prop('readonly', true);
                     $("input[id$='_txtFacebook']").parent().removeClass("width-100");
-                    $("input[id$='_txtFacebook']").val(facebook).prop('disabled', true);
+                    $("input[id$='_txtFacebook']").val(facebook).prop('readonly', true);
                     if (facebook === null) {
                         $(".link-facebook").hide();
                         $("input[id$='_txtFacebook']").parent().addClass("width-100");
@@ -354,7 +354,7 @@ function selectCustomer(username) {
         if (createdby !== username) {
             swal({
                 title: "Lưu ý",
-                text: 'Chọn khách hàng này đồng nghĩa em đang tính tiền giúp nhân viên <strong>' + createdby + '</strong>.<br><br> Đồng ý không???',
+                text: 'Chọn khách hàng này đồng nghĩa em đang tính tiền giúp nhân viên <strong>' + createdby + '</strong>.<br><br>Đồng ý không???',
                 type: 'warning',
                 showCancelButton: true,
                 closeOnConfirm: false,
@@ -364,18 +364,39 @@ function selectCustomer(username) {
             }, function (confirm) {
                 if (confirm) {
                     $(".change-user").hide();
-                    $("input[id$='_txtPhone']").val(phone).prop('disabled', true);
-                    $("input[id$='_txtFullname']").val(name).prop('disabled', true);
-                    $("input[id$='_txtNick']").val(nick).prop('disabled', true);
-                    $("input[id$='_txtAddress']").val(address).prop('disabled', true);
-                    $("input[id$='_txtZalo']").val(zalo).prop('disabled', true);
+                    $("input[id$='_txtPhone']").val(phone).prop('readonly', true);
+                    $("input[id$='_txtFullname']").val(name).prop('readonly', true);
+
+                    if (nick != "") {
+                        $("input[id$='_txtNick']").val(nick).prop('readonly', true);
+                    }
+                    else {
+                        $("input[id$='_txtNick']").val("").prop('readonly', false);
+                    }
+
+                    if (address != "") {
+                        $("input[id$='_txtAddress']").val(address).prop('readonly', true);
+                    }
+                    else {
+                        $("input[id$='_txtAddress']").val("").prop('readonly', false);
+                    }
+
+                    if (zalo != "") {
+                        $("input[id$='_txtZalo']").val(zalo).prop('readonly', true);
+                    }
+                    else {
+                        $("input[id$='_txtZalo']").val("").prop('readonly', false);
+                    }
+
                     $("input[id$='_txtFacebook']").parent().removeClass("width-100");
-                    $("input[id$='_txtFacebook']").val(facebook).prop('disabled', true);
-                    if (facebook === null) {
+                    
+                    if (facebook === "null") {
+                        $("input[id$='_txtFacebook']").val("").prop('readonly', false);
                         $(".link-facebook").hide();
                         $("input[id$='_txtFacebook']").parent().addClass("width-100");
                     }
                     else {
+                        $("input[id$='_txtFacebook']").val(facebook).prop('readonly', true);
                         $("input[id$='_txtFacebook']").parent().removeClass("width-100");
                         $(".link-facebook").html("<a href=\"" + facebook + "\" class=\"btn primary-btn fw-btn not-fullwidth\" target=\"_blank\">Xem</a>").show();
                     }
@@ -401,18 +422,39 @@ function selectCustomer(username) {
             });
         }
         else {
-            $("input[id$='_txtPhone']").val(phone).prop('disabled', true);
-            $("input[id$='_txtFullname']").val(name).prop('disabled', true);
-            $("input[id$='_txtNick']").val(nick).prop('disabled', true);
-            $("input[id$='_txtAddress']").val(address).prop('disabled', true);
-            $("input[id$='_txtZalo']").val(zalo).prop('disabled', true);
+            $("input[id$='_txtPhone']").val(phone).prop('readonly', true);
+            $("input[id$='_txtFullname']").val(name).prop('readonly', true);
+
+            if (nick != "") {
+                $("input[id$='_txtNick']").val(nick).prop('readonly', true);
+            }
+            else {
+                $("input[id$='_txtNick']").val("").prop('readonly', false);
+            }
+
+            if (address != "") {
+                $("input[id$='_txtAddress']").val(address).prop('readonly', true);
+            }
+            else {
+                $("input[id$='_txtAddress']").val("").prop('readonly', false);
+            }
+
+            if (zalo != "") {
+                $("input[id$='_txtZalo']").val(zalo).prop('readonly', true);
+            }
+            else {
+                $("input[id$='_txtZalo']").val("").prop('readonly', false);
+            }
+
             $("input[id$='_txtFacebook']").parent().removeClass("width-100");
-            $("input[id$='_txtFacebook']").val(facebook).prop('disabled', true);
-            if (facebook === null) {
+            
+            if (facebook === "null") {
+                $("input[id$='_txtFacebook']").val("").prop('readonly', false);
                 $(".link-facebook").hide();
                 $("input[id$='_txtFacebook']").parent().addClass("width-100");
             }
             else {
+                $("input[id$='_txtFacebook']").val(facebook).prop('readonly', true);
                 $("input[id$='_txtFacebook']").parent().removeClass("width-100");
                 $(".link-facebook").html("<a href=\"" + facebook + "\" class=\"btn primary-btn fw-btn not-fullwidth\" target=\"_blank\">Xem</a>").show();
             }
@@ -437,13 +479,13 @@ function selectCustomer(username) {
 
 // clear customer detail
 function clearCustomerDetail() {
-    $("input[id$='_hdfCheckCustomer']").val("0");
-    $("input[id$='_txtPhone']").val("").prop('disabled', false);
-    $("input[id$='_txtFullname']").val("").prop('disabled', false);
-    $("input[id$='_txtNick']").val("").prop('disabled', false);
-    $("input[id$='_txtAddress']").val("").prop('disabled', false);
-    $("input[id$='_txtZalo']").val("").prop('disabled', false);
-    $("input[id$='_txtFacebook']").val("").prop('disabled', false);
+
+    $("input[id$='_txtPhone']").val("").prop('readonly', false).prop('disabled', false);
+    $("input[id$='_txtFullname']").val("").prop('readonly', false).prop('disabled', false);
+    $("input[id$='_txtNick']").val("").prop('readonly', false).prop('disabled', false);
+    $("input[id$='_txtAddress']").val("").prop('readonly', false).prop('disabled', false);
+    $("input[id$='_txtZalo']").val("").prop('readonly', false).prop('disabled', false);
+    $("input[id$='_txtFacebook']").val("").prop('readonly', false).prop('disabled', false);
     $(".view-detail").html("").hide();
     $(".discount-info").html("").hide();
     $(".link-facebook").html("").hide();
@@ -454,13 +496,13 @@ function clearCustomerDetail() {
 }
 
 function selectCustomerDetail(data) {
-    $("input[id$='_txtPhone']").val(data.CustomerPhone).prop('disabled', true);
-    $("input[id$='_txtFullname']").val(data.CustomerName).prop('disabled', true);
-    $("input[id$='_txtNick']").val(data.Nick).prop('disabled', true);
-    $("input[id$='_txtAddress']").val(data.CustomerAddress).prop('disabled', true);
-    $("input[id$='_txtZalo']").val(data.Zalo).prop('disabled', true);
+    $("input[id$='_txtPhone']").val(data.CustomerPhone).prop('readonly', true);
+    $("input[id$='_txtFullname']").val(data.CustomerName).prop('readonly', true);
+    $("input[id$='_txtNick']").val(data.Nick).prop('readonly', true);
+    $("input[id$='_txtAddress']").val(data.CustomerAddress).prop('readonly', true);
+    $("input[id$='_txtZalo']").val(data.Zalo).prop('readonly', true);
     $("input[id$='_txtFacebook']").parent().removeClass("width-100");
-    $("input[id$='_txtFacebook']").val(data.Facebook).prop('disabled', true);
+    $("input[id$='_txtFacebook']").val(data.Facebook).prop('readonly', true);
     if (data.Facebook === null) {
         $(".link-facebook").hide();
         $("input[id$='_txtFacebook']").parent().addClass("width-100");

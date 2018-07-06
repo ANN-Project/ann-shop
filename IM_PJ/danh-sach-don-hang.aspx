@@ -41,19 +41,19 @@
                                     </asp:DropDownList>
                                 </div>
                                 <div class="col-md-2">
-                                    <asp:DropDownList ID="ddlPaymentStatus" runat="server" CssClass="form-control">
-                                        <asp:ListItem Value="0" Text="Thanh toán"></asp:ListItem>
-                                        <asp:ListItem Value="1" Text="Chưa thanh toán"></asp:ListItem>
-                                        <asp:ListItem Value="2" Text="Thanh toán thiếu"></asp:ListItem>
-                                        <asp:ListItem Value="3" Text="Đã thanh toán"></asp:ListItem>
-                                    </asp:DropDownList>
-                                </div>
-                                <div class="col-md-2">
                                     <asp:DropDownList ID="ddlExcuteStatus" runat="server" CssClass="form-control">
                                         <asp:ListItem Value="0" Text="Xử lý"></asp:ListItem>
                                         <asp:ListItem Value="1" Text="Đang xử lý"></asp:ListItem>
                                         <asp:ListItem Value="2" Text="Đã hoàn tất"></asp:ListItem>
                                         <asp:ListItem Value="3" Text="Đã hủy"></asp:ListItem>
+                                    </asp:DropDownList>
+                                </div>
+                                <div class="col-md-2">
+                                    <asp:DropDownList ID="ddlPaymentStatus" runat="server" CssClass="form-control">
+                                        <asp:ListItem Value="0" Text="Thanh toán"></asp:ListItem>
+                                        <asp:ListItem Value="1" Text="Chưa thanh toán"></asp:ListItem>
+                                        <asp:ListItem Value="2" Text="Thanh toán thiếu"></asp:ListItem>
+                                        <asp:ListItem Value="3" Text="Đã thanh toán"></asp:ListItem>
                                     </asp:DropDownList>
                                 </div>
                                 <div class="col-md-2">
@@ -94,21 +94,6 @@
                         <div class="responsive-table">
                             <table class="table table-checkable table-product">
                                 <tbody>
-                                    <tr>
-                                        <th>Mã</th>
-                                        <th>Loại</th>
-                                        <th>Điện thoại</th>
-                                        <th>Khách hàng</th>
-                                        <th>Mua</th>
-                                        <th>Thanh toán</th>
-                                        <th>Xử lý</th>
-                                        <th>Kiểu thanh toán</th>
-                                        <th>Giao hàng</th>
-                                        <th>Tổng tiền</th>
-                                        <th>Ngày tạo</th>
-                                        <th>Hoàn tất</th>
-                                        <th></th>
-                                    </tr>
                                     <asp:Literal ID="ltrList" runat="server" EnableViewState="false"></asp:Literal>
                                 </tbody>
                             </table>

@@ -54,7 +54,7 @@ namespace IM_PJ
                         }
                         else
                         {
-                            Response.Redirect("/dang-nhap");
+                            Response.Redirect("/trang-chu");
                         }
                     }
                 }
@@ -405,7 +405,7 @@ namespace IM_PJ
                     }
                     #endregion
                     #region HiddenField
-                    hdfCheckCustomer.Value = "1";
+                    
                     hdfOrderType.Value = customerType.ToString();
                     hdfTotalPrice.Value = totalPrice.ToString();
                     hdfTotalPriceNotDiscount.Value = totalPriceNotDiscount.ToString();
@@ -662,7 +662,6 @@ namespace IM_PJ
                             string AdditionFee = "0";
                             string DisCount = "0";
                             int CustomerID = 0;
-                            int checkCustomer = hdfCheckCustomer.Value.ToInt();
 
                             string CustomerPhone = txtPhone.Text.Trim();
                             string CustomerName = txtFullname.Text.Trim();
@@ -681,7 +680,7 @@ namespace IM_PJ
                             if (Customer != null)
                             {
                                 CustomerID = Customer.ID;
-                                string kq = CustomerController.Update(CustomerID, CustomerName, CustomerPhone, CustomerAddress, "", Convert.ToInt32(Customer.CustomerLevelID), Convert.ToInt32(Customer.Status), Customer.CreatedBy, currentDate, username, false, Zalo, Facebook, Customer.Note, Customer.ProvinceID.ToString(), Nick, Customer.Avatar, ShippingType, PaymentType, TransportCompanyID, TransportCompanySubID, Customer.CustomerPhone2);
+                                string kq = CustomerController.Update(CustomerID, CustomerName, Customer.CustomerPhone, CustomerAddress, "", Convert.ToInt32(Customer.CustomerLevelID), Convert.ToInt32(Customer.Status), Customer.CreatedBy, currentDate, username, false, Zalo, Facebook, Customer.Note, Customer.ProvinceID.ToString(), Nick, Customer.Avatar, ShippingType, PaymentType, TransportCompanyID, TransportCompanySubID, Customer.CustomerPhone2);
                             }
                             else
                             {
@@ -691,7 +690,6 @@ namespace IM_PJ
                                     CustomerID = kq.ToInt(0);
                                 }
                             }
-
 
                             string totalPrice = hdfTotalPrice.Value.ToString();
 

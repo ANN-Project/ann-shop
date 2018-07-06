@@ -239,35 +239,26 @@ namespace IM_PJ
                     string AdditionFee = "0";
                     string DisCount = "0";
                     int CustomerID = 0;
-                    int checkCustomer = hdfCheckCustomer.Value.ToInt();
 
                     string CustomerPhone = txtPhone.Text.Trim();
                     string CustomerName = txtFullname.Text.Trim();
-                    string CustomerNick = txtNick.Text.Trim();
+                    string Nick = txtNick.Text.Trim();
                     string CustomerEmail = "";
                     string CustomerAddress = txtAddress.Text.Trim();
-                    if (checkCustomer == 0)
+
+                    var checkCustomer = CustomerController.GetByPhone(CustomerPhone);
+
+                    if (checkCustomer != null)
                     {
-                        var checkphone = CustomerController.GetByPhone(CustomerPhone);
-                        if (checkphone != null)
-                        {
-                            CustomerID = checkphone.ID;
-                        }
-                        else
-                        {
-                            string kq = CustomerController.Insert(CustomerName, CustomerPhone, CustomerAddress, CustomerEmail, 0, 0, currentDate, username, false, "", "", "", "", CustomerNick);
-                            if (kq.ToInt(0) > 0)
-                            {
-                                CustomerID = kq.ToInt(0);
-                            }
-                        }
+                        CustomerID = checkCustomer.ID;
+                        string kq = CustomerController.Update(CustomerID, CustomerName, checkCustomer.CustomerPhone, CustomerAddress, "", Convert.ToInt32(checkCustomer.CustomerLevelID), Convert.ToInt32(checkCustomer.Status), checkCustomer.CreatedBy, currentDate, username, false, checkCustomer.Zalo, checkCustomer.Facebook, checkCustomer.Note, checkCustomer.ProvinceID.ToString(), Nick, checkCustomer.Avatar, Convert.ToInt32(checkCustomer.ShippingType), Convert.ToInt32(checkCustomer.PaymentType), Convert.ToInt32(checkCustomer.TransportCompanyID), Convert.ToInt32(checkCustomer.TransportCompanySubID), checkCustomer.CustomerPhone2);
                     }
                     else
                     {
-                        var checkphone = CustomerController.GetByPhone(CustomerPhone);
-                        if (checkphone != null)
+                        string kq = CustomerController.Insert(CustomerName, CustomerPhone, CustomerAddress, CustomerEmail, 0, 0, currentDate, username, false, "", "", "", "", Nick);
+                        if (kq.ToInt(0) > 0)
                         {
-                            CustomerID = checkphone.ID;
+                            CustomerID = kq.ToInt(0);
                         }
                     }
 

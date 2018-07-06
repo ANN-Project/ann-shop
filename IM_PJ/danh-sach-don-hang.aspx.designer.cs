@@ -40,15 +40,6 @@ namespace IM_PJ {
         protected global::System.Web.UI.WebControls.DropDownList ddlOrderType;
         
         /// <summary>
-        /// ddlPaymentStatus control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlPaymentStatus;
-        
-        /// <summary>
         /// ddlExcuteStatus control.
         /// </summary>
         /// <remarks>
@@ -56,6 +47,15 @@ namespace IM_PJ {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList ddlExcuteStatus;
+        
+        /// <summary>
+        /// ddlPaymentStatus control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlPaymentStatus;
         
         /// <summary>
         /// ddlPaymentType control.
