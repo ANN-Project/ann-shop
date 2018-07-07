@@ -342,17 +342,19 @@
                     confirmButtonText: "Nhập thôi !!!",
                     html: true
                 }, function (newFee) {
-                    $("input.reducedPrice").each(function (index) {
-                        oldFee = $(this).parent().parent().attr("data-feerefund");
-                        if (oldFee != "") {
-                            $(this).parent().parent().attr("data-feerefund", newFee);
-                            $(this).parent().parent().find(".feeRefund").html(formatThousands(newFee));
-                            changeRow($(this));
-                        }
-                    });
+                    if (newFee != "") {
+                        $("input.reducedPrice").each(function (index) {
+                            oldFee = $(this).parent().parent().attr("data-feerefund");
+                            if (oldFee != "") {
+                                $(this).parent().parent().attr("data-feerefund", newFee);
+                                $(this).parent().parent().find(".feeRefund").val(formatThousands(newFee));
+                                changeRow($(this));
+                            }
+                        });
 
-                    $(".minus-discount").removeClass("hide");
-                    $(".restore-discount").addClass("hide");
+                        $(".minus-discount").removeClass("hide");
+                        $(".restore-discount").addClass("hide");
+                    }
                 });
             }
 
@@ -408,6 +410,11 @@
                 $("#<%=hdfTotalRefund.ClientID%>").val(totalRefund);
             }
 
+            function changeRowFeeRefund(obj) {
+                obj.parent().parent().attr("data-feerefund", obj.val().replace(/,/g, ""));
+                changeRow(obj);
+            }
+
             function changeRow(obj)
             {
                 let row = obj.parent().parent();
@@ -422,8 +429,8 @@
                 let TotalFeeRefund = 0;
 
                 // Ruler Price - ReducedPrice >= 10,000 VND
-                if ((Price - ReducedPrice) > 10000) {
-                    alert("Giá đã bán không thể giảm hơn 10,000đ..");
+                if ((Price - ReducedPrice) > 11000) {
+                    alert("Giá đã bán không thể giảm hơn 11,000đ..");
                     row.find(".reducedPrice").val(formatThousands(Price, ","));
                     return;
                 }
@@ -431,13 +438,13 @@
                 if (ChangeType == 2) {
                     TotalFeeRefund = (ReducedPrice - FeeRefund) * Quantity;
 
-                    row.find(".feeRefund").html(formatThousands(FeeRefund, ","));
+                    row.find(".feeRefund").val(formatThousands(FeeRefund, ","));
                     row.find(".totalFeeRefund").html(formatThousands(TotalFeeRefund, ","));
                 }
                 else {
                     TotalFeeRefund = ReducedPrice * Quantity;
 
-                    row.find(".feeRefund").html(0);
+                    row.find(".feeRefund").val(0);
                     row.find(".totalFeeRefund").html(formatThousands(TotalFeeRefund, ","));
                 }
 
@@ -506,10 +513,10 @@
                 html += "           </select>\n";
                 html += "    </td>\n";
                 if (item.ChangeType == 2) {
-                    html += "   <td class='feeRefund'>" + formatThousands(item.FeeRefund) + "</td>\n";
+                    html += "   <td><input type='text' class='form-control feeRefund' min='0' value='" + formatThousands(item.FeeRefund) + "' onblur='changeRowFeeRefund($(this))' onkeypress='return event.charCode >= 48 && event.charCode <= 57'/></td>\n";
                 }
                 else {
-                    html += "   <td class='feeRefund'>0</td>\n";
+                    html += "   <td><input type='text' class='form-control feeRefund' min='0' value='0' onblur='changeRowFeeRefund($(this))' onkeypress='return event.charCode >= 48 && event.charCode <= 57'/></td>\n";
                 }
                 html += "   <td class='totalFeeRefund'>" + formatThousands(item.TotalFeeRefund) + "</td>\n";
                 html += "   <td class='trash-column'><a href='javascript:;' class='link-btn' onclick='deleteRow($(this))'><i class='fa fa-trash'></i></a></td>\n";

@@ -215,14 +215,14 @@
         function Delete() {
             swal({
                 title: "Cơ hội cuối nha!",
-                text: "Đơn hàng trả này sẽ được xóa và tạo lại. Nhớ làm cho đúng á!!",
+                text: "Đơn hàng trả này sẽ được xóa và tạo lại. <br><br><strong>Nhớ làm cho đúng á!!</strong>",
                 type: "warning",
                 showCancelButton: true,
                 confirmButtonColor: "#DD6B55",
                 confirmButtonText: "OK sếp !!",
                 cancelButtonText: "Để em coi lại..",
                 closeOnConfirm: true,
-                html: false
+                html: true
             }, function () {
                 $("#<%=btnDelete.ClientID%>").click();
             });
