@@ -118,12 +118,12 @@ namespace IM_PJ
 
         [WebMethod]
         [ScriptMethod(UseHttpGet = false, ResponseFormat = ResponseFormat.Json)]
-        public void GetProductByCategory(int CategoryID, string username, string password)
+        public void GetProductByCategory(int CategoryID, int limit, string username, string password)
         {
             var rs = new ResponseClass();
             if (Login(username, password))
             {
-                var Product = ProductController.GetAllSql(CategoryID, "");
+                var Product = ProductController.GetProductAPI(CategoryID, limit);
                 if (Product.Count > 0)
                 {
                     rs.Code = APIUtils.GetResponseCode(APIUtils.ResponseCode.SUCCESS);
@@ -131,13 +131,20 @@ namespace IM_PJ
 
                     foreach (var item in Product)
                     {
+                        if (!string.IsNullOrEmpty(item.ProductImage))
+                        {
+                            item.ProductContent += String.Format("<p><img src='/wp-content/uploads/{0}' alt='{1}'/></p>", item.ProductImage.Split('/')[3], item.ProductTitle);
+                        }
+                        
                         var productImage = ProductImageController.GetByProductID(item.ID);
 
-                        item.ProductContent = String.Format("<p><img src='/wp-content/uploads/{0}' alt='{1}'/></p>", item.ProductImage.Split('/')[3], item.ProductTitle);
-                        foreach (var image in productImage)
+                        if (productImage.Count() > 0)
                         {
-                            item.ProductImage += "|" + image.ProductImage;
-                            item.ProductContent += String.Format("<p><img src='/wp-content/uploads/{0}' alt='{1}'/></p>", image.ProductImage.Split('/')[3], item.ProductTitle);
+                            foreach (var image in productImage)
+                            {
+                                item.ProductImage += "|" + image.ProductImage;
+                                item.ProductContent += String.Format("<p><img src='/wp-content/uploads/{0}' alt='{1}'/></p>", image.ProductImage.Split('/')[3], item.ProductTitle);
+                            }
                         }
                     }
                     rs.Product = Product;
@@ -206,10 +213,20 @@ namespace IM_PJ
 
                     foreach (var item in ProductVariable)
                     {
-                        item.Stock = PJUtils.TotalProductQuantityInstock(1, item.SKU);
+                        item.Stock = PJUtils.GetSotckProduct(1, item.SKU);
 
-                        item.StockStatus = item.Stock > 0 ? 1 : 0;
-
+                        if(item.Stock > 0)
+                        {
+                            item.StockStatus = 1;
+                        }
+                        else if (item.Stock == 0)
+                        {
+                            item.StockStatus = 2;
+                        }
+                        else if (item.StockStatus < 0)
+                        {
+                            item.StockStatus = 3;
+                        }
                     }
                     rs.ProductVariable = ProductVariable;
                 }
@@ -713,207 +730,221 @@ namespace IM_PJ
         }
         [WebMethod]
         [ScriptMethod(UseHttpGet = false)]
-        public void GetStockAll()
+        public void GetStockAll(string username, string password)
         {
-            var StockManager = StockManagerController.GetStockAll();
-
-            if (StockManager.Count > 0)
+            if (Login(username, password))
             {
-                var dataToExportToCSV = StockManager.Select(x => {
-                    var quantityCurrent = 0D;
+                var StockManager = StockManagerController.GetStockAll();
 
-                    if (x.Type == 1)
-                    {
-                        quantityCurrent = x.QuantityCurrent.Value + x.Quantity.Value;
-                    }
-                    else
-                    {
-                        quantityCurrent = x.QuantityCurrent.Value - x.Quantity.Value;
-                    }
-
-                    return new StockManager()
-                    {
-                        SKU = x.SKU,
-                        Quantity = quantityCurrent,
-                    };
-                }).ToList();
-
-                string attachment = String.Format("attachment; filename={0}_stock-all.csv", DateTime.Now.ToString("yyyyMMddHHmmss"));
-                HttpContext.Current.Response.Clear();
-                HttpContext.Current.Response.ClearHeaders();
-                HttpContext.Current.Response.ClearContent();
-                HttpContext.Current.Response.AddHeader("content-disposition", attachment);
-                HttpContext.Current.Response.ContentType = "text/csv";
-                HttpContext.Current.Response.AddHeader("Pragma", "public");
-                HttpContext.Current.Response.ContentEncoding = System.Text.Encoding.UTF8;
-
-                var sb = new StringBuilder();
-                sb.AppendLine("sku, stock, stock_status");
-                foreach (var line in dataToExportToCSV)
+                if (StockManager.Count > 0)
                 {
-                    var parentProduct = ProductVariableController.GetBySKU(line.SKU);
-                    string parentSKU = "";
-                    if (parentProduct != null)
+                    var dataToExportToCSV = StockManager.Select(x =>
                     {
-                        parentSKU = parentProduct.ParentSKU;
+                        var quantityCurrent = 0D;
+
+                        if (x.Type == 1)
+                        {
+                            quantityCurrent = x.QuantityCurrent.Value + x.Quantity.Value;
+                        }
+                        else
+                        {
+                            quantityCurrent = x.QuantityCurrent.Value - x.Quantity.Value;
+                        }
+
+                        return new StockManager()
+                        {
+                            SKU = x.SKU,
+                            Quantity = quantityCurrent,
+                        };
+                    }).ToList();
+
+                    string attachment = String.Format("attachment; filename={0}_stock-all.csv", DateTime.Now.ToString("yyyyMMddHHmmss"));
+                    HttpContext.Current.Response.Clear();
+                    HttpContext.Current.Response.ClearHeaders();
+                    HttpContext.Current.Response.ClearContent();
+                    HttpContext.Current.Response.AddHeader("content-disposition", attachment);
+                    HttpContext.Current.Response.ContentType = "text/csv";
+                    HttpContext.Current.Response.AddHeader("Pragma", "public");
+                    HttpContext.Current.Response.ContentEncoding = System.Text.Encoding.UTF8;
+
+                    var sb = new StringBuilder();
+                    sb.AppendLine("parent_sku, sku, stock, stock_status");
+                    foreach (var line in dataToExportToCSV)
+                    {
+                        var parentProduct = ProductVariableController.GetBySKU(line.SKU);
+                        string parentSKU = "";
+                        if (parentProduct != null)
+                        {
+                            parentSKU = parentProduct.ParentSKU;
+                        }
+                        sb.AppendLine(String.Format("{0}, {1}, {2}, {3}", parentSKU, line.SKU, line.Quantity, line.Quantity > 0 ? "instock" : "outofstock"));
                     }
-                    sb.AppendLine(String.Format("{0}, {1}, {2}, {3}", parentSKU, line.SKU, line.Quantity, line.Quantity > 0 ? "instock" : "outofstock"));
+
+                    HttpContext.Current.Response.Write(sb.ToString());
                 }
-
-                HttpContext.Current.Response.Write(sb.ToString());
-            }
-
-        }
-        [WebMethod]
-        [ScriptMethod(UseHttpGet = false)]
-        public void GetStockVariable()
-        {
-            var StockManager = StockManagerController.GetStockAll();
-
-            if (StockManager.Count > 0)
-            {
-                var dataToExportToCSV = StockManager.Select(x => {
-                    var quantityCurrent = 0D;
-
-                    if (x.Type == 1)
-                    {
-                        quantityCurrent = x.QuantityCurrent.Value + x.Quantity.Value;
-                    }
-                    else
-                    {
-                        quantityCurrent = x.QuantityCurrent.Value - x.Quantity.Value;
-                    }
-
-                    return new StockManager()
-                    {
-                        SKU = x.SKU,
-                        Quantity = quantityCurrent,
-                    };
-                }).ToList();
-
-                string attachment = String.Format("attachment; filename={0}_stock-variable.csv", DateTime.Now.ToString("yyyyMMddHHmmss"));
-                HttpContext.Current.Response.Clear();
-                HttpContext.Current.Response.ClearHeaders();
-                HttpContext.Current.Response.ClearContent();
-                HttpContext.Current.Response.AddHeader("content-disposition", attachment);
-                HttpContext.Current.Response.ContentType = "text/csv";
-                HttpContext.Current.Response.AddHeader("Pragma", "public");
-                HttpContext.Current.Response.ContentEncoding = System.Text.Encoding.UTF8;
-
-                var sb = new StringBuilder();
-                sb.AppendLine("parent_sku, sku, stock, stock_status, manage_stock");
-                foreach (var line in dataToExportToCSV)
-                {
-                    var parentProduct = ProductVariableController.GetBySKU(line.SKU);
-                    string parentSKU = "";
-                    if(parentProduct != null)
-                    {
-                        parentSKU = parentProduct.ParentSKU;
-                        sb.AppendLine(String.Format("{0}, {1}, {2}, {3}, {4}", parentSKU, line.SKU, line.Quantity, line.Quantity > 0 ? "instock" : "outofstock", "yes"));
-                    }
-                }
-
-                HttpContext.Current.Response.Write(sb.ToString());
             }
         }
         [WebMethod]
         [ScriptMethod(UseHttpGet = false)]
-        public void GetStockProduct()
+        public void GetStockVariable(string username, string password)
         {
-            var StockManager = StockManagerController.GetStockAll();
-
-            if (StockManager.Count > 0)
+            if (Login(username, password))
             {
-                var dataToExportToCSV = StockManager.Select(x => {
-                    var quantityCurrent = 0D;
+                var StockManager = StockManagerController.GetStockAll();
 
-                    if (x.Type == 1)
-                    {
-                        quantityCurrent = x.QuantityCurrent.Value + x.Quantity.Value;
-                    }
-                    else
-                    {
-                        quantityCurrent = x.QuantityCurrent.Value - x.Quantity.Value;
-                    }
-
-                    return new StockManager()
-                    {
-                        SKU = x.SKU,
-                        Quantity = quantityCurrent,
-                    };
-                }).ToList();
-
-                string attachment = String.Format("attachment; filename={0}_stock-product.csv", DateTime.Now.ToString("yyyyMMddHHmmss"));
-                HttpContext.Current.Response.Clear();
-                HttpContext.Current.Response.ClearHeaders();
-                HttpContext.Current.Response.ClearContent();
-                HttpContext.Current.Response.AddHeader("content-disposition", attachment);
-                HttpContext.Current.Response.ContentType = "text/csv";
-                HttpContext.Current.Response.AddHeader("Pragma", "public");
-                HttpContext.Current.Response.ContentEncoding = System.Text.Encoding.UTF8;
-
-                var sb = new StringBuilder();
-                sb.AppendLine("sku, stock, stock_status, manage_stock");
-                foreach (var line in dataToExportToCSV)
+                if (StockManager.Count > 0)
                 {
-                    var Product = ProductController.GetBySKU(line.SKU);
-                    string parentSKU = "";
-                    if (Product != null)
+                    var dataToExportToCSV = StockManager.Select(x =>
                     {
-                        parentSKU = Product.ProductSKU;
-                        sb.AppendLine(String.Format("{0}, {1}, {2}, {3}", line.SKU, line.Quantity, line.Quantity > 0 ? "instock" : "outofstock", "yes"));
-                    }
-                }
+                        var quantityCurrent = 0D;
 
-                HttpContext.Current.Response.Write(sb.ToString());
+                        if (x.Type == 1)
+                        {
+                            quantityCurrent = x.QuantityCurrent.Value + x.Quantity.Value;
+                        }
+                        else
+                        {
+                            quantityCurrent = x.QuantityCurrent.Value - x.Quantity.Value;
+                        }
+
+                        return new StockManager()
+                        {
+                            SKU = x.SKU,
+                            Quantity = quantityCurrent,
+                        };
+                    }).ToList();
+
+                    string attachment = String.Format("attachment; filename={0}_stock-variable.csv", DateTime.Now.ToString("yyyyMMddHHmmss"));
+                    HttpContext.Current.Response.Clear();
+                    HttpContext.Current.Response.ClearHeaders();
+                    HttpContext.Current.Response.ClearContent();
+                    HttpContext.Current.Response.AddHeader("content-disposition", attachment);
+                    HttpContext.Current.Response.ContentType = "text/csv";
+                    HttpContext.Current.Response.AddHeader("Pragma", "public");
+                    HttpContext.Current.Response.ContentEncoding = System.Text.Encoding.UTF8;
+
+                    var sb = new StringBuilder();
+                    sb.AppendLine("parent_sku, sku, stock, stock_status, manage_stock");
+                    foreach (var line in dataToExportToCSV)
+                    {
+                        var parentProduct = ProductVariableController.GetBySKU(line.SKU);
+                        string parentSKU = "";
+                        if (parentProduct != null)
+                        {
+                            parentSKU = parentProduct.ParentSKU;
+                            sb.AppendLine(String.Format("{0}, {1}, {2}, {3}, {4}", parentSKU, line.SKU, line.Quantity, line.Quantity > 0 ? "instock" : "outofstock", "yes"));
+                        }
+                    }
+
+                    HttpContext.Current.Response.Write(sb.ToString());
+                }
             }
         }
         [WebMethod]
         [ScriptMethod(UseHttpGet = false)]
-        public void GetStockToDay()
+        public void GetStockProduct(string username, string password)
         {
-            var StockManager = StockManagerController.GetStockToDay();
-
-            if (StockManager.Count > 0)
+            if (Login(username, password))
             {
-                var dataToExportToCSV = StockManager.Select(x => {
-                    var quantityCurrent = 0D;
+                var StockManager = StockManagerController.GetStockAll();
 
-                    if (x.Type == 1)
-                    {
-                        quantityCurrent = x.QuantityCurrent.Value + x.Quantity.Value;
-                    }
-                    else
-                    {
-                        quantityCurrent = x.QuantityCurrent.Value - x.Quantity.Value;
-                    }
-
-                    return new StockManager()
-                    {
-                        SKU = x.SKU,
-                        Quantity = quantityCurrent,
-                    };
-                }).ToList();
-
-                string attachment = String.Format("attachment; filename={0}_stock-today.csv", DateTime.Now.ToString("yyyyMMddHHmmss"));
-                HttpContext.Current.Response.Clear();
-                HttpContext.Current.Response.ClearHeaders();
-                HttpContext.Current.Response.ClearContent();
-                HttpContext.Current.Response.AddHeader("content-disposition", attachment);
-                HttpContext.Current.Response.ContentType = "text/csv";
-                HttpContext.Current.Response.AddHeader("Pragma", "public");
-                HttpContext.Current.Response.ContentEncoding = System.Text.Encoding.UTF8;
-
-                var sb = new StringBuilder();
-                sb.AppendLine("SKU,Quantity");
-                foreach (var line in dataToExportToCSV)
+                if (StockManager.Count > 0)
                 {
-                    sb.AppendLine(String.Format("{0}, {1}", line.SKU, line.Quantity));
+                    var dataToExportToCSV = StockManager.Select(x =>
+                    {
+                        var quantityCurrent = 0D;
+
+                        if (x.Type == 1)
+                        {
+                            quantityCurrent = x.QuantityCurrent.Value + x.Quantity.Value;
+                        }
+                        else
+                        {
+                            quantityCurrent = x.QuantityCurrent.Value - x.Quantity.Value;
+                        }
+
+                        return new StockManager()
+                        {
+                            SKU = x.SKU,
+                            Quantity = quantityCurrent,
+                        };
+                    }).ToList();
+
+                    string attachment = String.Format("attachment; filename={0}_stock-product.csv", DateTime.Now.ToString("yyyyMMddHHmmss"));
+                    HttpContext.Current.Response.Clear();
+                    HttpContext.Current.Response.ClearHeaders();
+                    HttpContext.Current.Response.ClearContent();
+                    HttpContext.Current.Response.AddHeader("content-disposition", attachment);
+                    HttpContext.Current.Response.ContentType = "text/csv";
+                    HttpContext.Current.Response.AddHeader("Pragma", "public");
+                    HttpContext.Current.Response.ContentEncoding = System.Text.Encoding.UTF8;
+
+                    var sb = new StringBuilder();
+                    sb.AppendLine("sku, stock, stock_status, manage_stock");
+                    foreach (var line in dataToExportToCSV)
+                    {
+                        var Product = ProductController.GetBySKU(line.SKU);
+                        string parentSKU = "";
+                        if (Product != null)
+                        {
+                            parentSKU = Product.ProductSKU;
+                            sb.AppendLine(String.Format("{0}, {1}, {2}, {3}", line.SKU, line.Quantity, line.Quantity > 0 ? "instock" : "outofstock", "yes"));
+                        }
+                    }
+
+                    HttpContext.Current.Response.Write(sb.ToString());
                 }
-
-                HttpContext.Current.Response.Write(sb.ToString());
             }
+        }
+        [WebMethod]
+        [ScriptMethod(UseHttpGet = false)]
+        public void GetStockToDay(string username, string password)
+        {
+            if (Login(username, password))
+            {
+                var StockManager = StockManagerController.GetStockToDay();
 
+                if (StockManager.Count > 0)
+                {
+                    var dataToExportToCSV = StockManager.Select(x =>
+                    {
+                        var quantityCurrent = 0D;
+
+                        if (x.Type == 1)
+                        {
+                            quantityCurrent = x.QuantityCurrent.Value + x.Quantity.Value;
+                        }
+                        else
+                        {
+                            quantityCurrent = x.QuantityCurrent.Value - x.Quantity.Value;
+                        }
+
+                        return new StockManager()
+                        {
+                            SKU = x.SKU,
+                            Quantity = quantityCurrent,
+                        };
+                    }).ToList();
+
+                    string attachment = String.Format("attachment; filename={0}_stock-today.csv", DateTime.Now.ToString("yyyyMMddHHmmss"));
+                    HttpContext.Current.Response.Clear();
+                    HttpContext.Current.Response.ClearHeaders();
+                    HttpContext.Current.Response.ClearContent();
+                    HttpContext.Current.Response.AddHeader("content-disposition", attachment);
+                    HttpContext.Current.Response.ContentType = "text/csv";
+                    HttpContext.Current.Response.AddHeader("Pragma", "public");
+                    HttpContext.Current.Response.ContentEncoding = System.Text.Encoding.UTF8;
+
+                    var sb = new StringBuilder();
+                    sb.AppendLine("SKU, Stock");
+                    foreach (var line in dataToExportToCSV)
+                    {
+                        sb.AppendLine(String.Format("{0}, {1}", line.SKU, line.Quantity));
+                    }
+
+                    HttpContext.Current.Response.Write(sb.ToString());
+                }
+            }
         }
 
         public class ResponseClass
@@ -971,6 +1002,7 @@ namespace IM_PJ
         public class StockManager
         {
             public string SKU { get; set; }
+            public string ProductType { get; set; }
             public double Quantity { get; set; }
         }
     }

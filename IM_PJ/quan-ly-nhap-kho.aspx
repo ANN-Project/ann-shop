@@ -138,7 +138,7 @@
             var divToPrint = document.getElementById('' + divid + '');
             var newWin = window.open('', 'Print-Window');
             newWin.document.open();
-            newWin.document.write('<html><head><link rel="stylesheet" href="/App_Themes/Ann/css/Barcode.css" type="text/css"/><link rel="stylesheet" href="/App_Themes/Ann/barcode/style.css" type="text/css"/><link rel="stylesheet" href="/App_Themes/Ann/css/responsive.css" type="text/css"/></head><body><script>window.onload = setTimeout(function () {window.print();setTimeout(function () { window.close(); }, 1);}, 2000);<\/script>' + divToPrint.innerHTML + '</body></html>');
+            newWin.document.write('<html><head><link rel="stylesheet" href="/App_Themes/Ann/css/Barcode.css" type="text/css"/><link rel="stylesheet" href="/App_Themes/Ann/barcode/style.css" type="text/css"/><link rel="stylesheet" href="/App_Themes/Ann/css/responsive.css" type="text/css"/></head><body><script>window.onload = setTimeout(function () {window.print();setTimeout(function () { window.close(); }, 1);}, 1500);<\/script>' + divToPrint.innerHTML + '</body></html>');
             newWin.document.close();
         }
 
@@ -199,7 +199,7 @@
                                             html += "   <td>" + item.ProductImage + "";
                                             html += "   <td>" + item.ProductName + "</td>";
                                             html += "   <td>" + item.SKU + "</td>";
-                                            html += "   <td>" + item.ProductVariable + "</td>";
+                                            html += "   <td>" + item.ProductVariable.replace(/\|/g, "<br>") + "</td>";
                                             html += "   <td>" + item.SupplierName + "</td>";
                                             html += "   <td>" + item.WarehouseQuantity + "</td>";
                                             html += "   <td><input type=\"text\" class=\"form-control in-quantity\" pattern=\"[0-9]{1,3}\" onkeyup=\"pressKeyQuantity($(this))\" onkeypress=\"return event.charCode >= 48 && event.charCode <= 57\" value=\"1\" /></td>";
@@ -229,7 +229,7 @@
                                         html += "   <td>" + item.ProductImage + "";
                                         html += "   <td>" + item.ProductName + "</td>";
                                         html += "   <td>" + item.SKU + "</td>";
-                                        html += "   <td>" + item.ProductVariable + "</td>";
+                                        html += "   <td>" + item.ProductVariable.replace(/\|/g, "<br>") + "</td>";
                                         html += "   <td>" + item.SupplierName + "</td>";
                                         html += "   <td>" + item.WarehouseQuantity + "</td>";
                                         html += "   <td><input type=\"text\" class=\"form-control in-quantity\" pattern=\"[0-9]{1,3}\" onkeyup=\"pressKeyQuantity($(this))\" onkeypress=\"return event.charCode >= 48 && event.charCode <= 57\" value=\"1\" /></td>";

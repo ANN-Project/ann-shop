@@ -279,7 +279,7 @@ namespace IM_PJ
                         if (refund != "1")
                         {
                             string[] RefundID = refund.Split('|');
-                            var update = RefundGoodController.UpdateStatus(RefundID[0].ToInt(), username, 2);
+                            var update = RefundGoodController.UpdateStatus(RefundID[0].ToInt(), username, 2, OrderID);
                             var updateor = OrderController.UpdateRefund(OrderID, RefundID[0].ToInt(), username);
                         }
 

@@ -16,43 +16,51 @@
                             </div>
                             <div class="panel-body">
                                 <div class="row pad">
-                                    <div class="col-md-4">
+                                    <div class="col-md-3">
                                         <label class="left pad10">Nhân viên tạo đơn: </label>
                                         <div class="ordercreateby">
                                             <asp:Literal ID="ltrCreateBy" runat="server"></asp:Literal>
                                         </div>
                                     </div>
-                                    <div class="col-md-4">
+                                    <div class="col-md-3">
                                         <label class="left pad10">Ngày tạo: </label>
                                         <div class="ordercreatedate">
                                             <asp:Literal ID="ltrCreateDate" runat="server"></asp:Literal>
                                         </div>
                                     </div>
-                                    <div class="col-md-4">
+                                    <div class="col-md-3">
                                         <label class="left pad10">Trạng thái: </label>
                                         <div class="orderstatus">
                                             <asp:Literal ID="ltrOrderStatus" runat="server"></asp:Literal>
                                         </div>
                                     </div>
+                                    <div class="col-md-3">
+                                        <label class="left pad10">Đơn hàng trừ tiền: </label>
+                                        <div class="orderstatus">
+                                            <asp:Literal ID="ltrOrderSaleID" runat="server"></asp:Literal>
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="row pad">
-                                    <div class="col-md-4">
+                                    <div class="col-md-3">
                                         <label class="left pad10">Số lượng: </label>
                                         <div class="orderquantity">
                                             <asp:Literal ID="ltrOrderQuantity" runat="server"></asp:Literal>
                                         </div>
                                     </div>
-                                    <div class="col-md-4">
+                                    <div class="col-md-3">
                                         <label class="left pad10">Tổng tiền: </label>
                                         <div class="ordertotalprice">
                                             <asp:Literal ID="ltrOrderTotalPrice" runat="server"></asp:Literal>
                                         </div>
                                     </div>
-                                    <div class="col-md-4">
+                                    <div class="col-md-3">
                                         <label class="left pad10">Phí đổi hàng: </label>
                                         <div class="ordernote">
                                             <asp:Literal ID="ltrTotalRefundFee" runat="server"></asp:Literal>
                                         </div>
+                                    </div>
+                                    <div class="col-md-3">
                                     </div>
                                 </div>
                                 <div class="row">

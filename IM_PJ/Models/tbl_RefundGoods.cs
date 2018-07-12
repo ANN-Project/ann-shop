@@ -29,5 +29,6 @@ namespace IM_PJ.Models
         public string CustomerPhone { get; set; }
         public string AgentName { get; set; }
         public string RefundNote { get; set; }
+        public Nullable<int> OrderSaleID { get; set; }
     }
 }

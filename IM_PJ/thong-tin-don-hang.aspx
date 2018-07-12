@@ -2,8 +2,8 @@
 
 <%@ Register Assembly="Telerik.Web.UI" Namespace="Telerik.Web.UI" TagPrefix="telerik" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
-    <script src="/App_Themes/Ann/js/search-customer.js?v=0507"></script>
-    <script src="/App_Themes/Ann/js/search-product.js?v=0507"></script>
+    <script src="/App_Themes/Ann/js/search-customer.js?v=0907"></script>
+    <script src="/App_Themes/Ann/js/search-product.js?v=0907"></script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <asp:Panel ID="parent" runat="server">
@@ -17,7 +17,7 @@
                             </div>
                             <div class="panel-body">
                                 <div class="row pad">
-                                    <div class="col-md-2">
+                                    <div class="col-md-3">
                                         <label class="left pad10">Loại đơn: </label>
                                         <div class="ordertype">
                                             <asp:Literal ID="ltrOrderType" runat="server"></asp:Literal>
@@ -35,7 +35,7 @@
                                             <asp:Literal ID="ltrCreateDate" runat="server"></asp:Literal>
                                         </div>
                                     </div>
-                                    <div class="col-md-4">
+                                    <div class="col-md-3">
                                         <label class="left pad10">Ngày hoàn tất: </label>
                                         <div class="orderdatedone">
                                             <asp:Literal ID="ltrDateDone" runat="server"></asp:Literal>
@@ -43,7 +43,7 @@
                                     </div>
                                 </div>
                                 <div class="row pad">
-                                    <div class="col-md-2">
+                                    <div class="col-md-3">
                                         <label class="left pad10">Số lượng: </label>
                                         <div class="orderquantity">
                                             <asp:Literal ID="ltrOrderQuantity" runat="server"></asp:Literal>
@@ -61,7 +61,7 @@
                                             <asp:Literal ID="ltrOrderStatus" runat="server"></asp:Literal>
                                         </div>
                                     </div>
-                                    <div class="col-md-4"> 
+                                    <div class="col-md-3"> 
                                         <label class="left pad10">Ghi chú: </label>
                                         <div class="ordernote">
                                             <asp:Literal ID="ltrOrderNote" runat="server"></asp:Literal>

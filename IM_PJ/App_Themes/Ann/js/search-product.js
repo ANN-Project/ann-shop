@@ -361,43 +361,50 @@ function addProduct(products) {
 
 // search product by SKU
 function searchProductMaster(textsearch, isStock) {
-    _productVariable = [];
-    _isStock = isStock;
+    var regex = /^[\x20-\x7E]*$/;
+    if (!regex.test(textsearch)) {
+        $("#txtSearch").val(textsearch).select();
+        swal("Thông báo", "Hãy tắt bộ gõ tiếng việt", "error");
+    }
+    else {
+        _productVariable = [];
+        _isStock = isStock;
 
-    if (!isBlank(textsearch)) {
-        $.ajax({
-            type: "POST",
-            url: "ServiceCommon.asmx/GetProduct",
-            data: JSON.stringify({ SKU: textsearch, isStock: _isStock }),
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            success: function (msg) {
-                let data = JSON.parse(msg.d);
+        if (!isBlank(textsearch)) {
+            $.ajax({
+                type: "POST",
+                url: "ServiceCommon.asmx/GetProduct",
+                data: JSON.stringify({ SKU: textsearch, isStock: _isStock }),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (msg) {
+                    let data = JSON.parse(msg.d);
 
-                if (data != null && data.length > 0) {
-                    if (data.length > 1) {
-                        // init value array product variable
-                        _productVariable = data;
+                    if (data != null && data.length > 0) {
+                        if (data.length > 1) {
+                            // init value array product variable
+                            _productVariable = data;
 
-                        // show popup which choose product
-                        showProductVariable(_productVariable);
+                            // show popup which choose product
+                            showProductVariable(_productVariable);
+                        }
+                        else {
+                            addProduct(data);
+                        }
                     }
                     else {
-                        addProduct(data);
+                        $("#txtSearch").val(textsearch).select();
+                        swal("Thông báo", "Không tìm thấy sản phẩm", "error");
                     }
-                }
-                else {
+                },
+                error: function (xmlhttprequest, textstatus, errorthrow) {
+                    alert('lỗi');
                     $("#txtSearch").val(textsearch).select();
-                    swal("Thông báo", "Không tìm thấy sản phẩm", "error");
                 }
-            },
-            error: function (xmlhttprequest, textstatus, errorthrow) {
-                alert('lỗi');
-                $("#txtSearch").val(textsearch).select();
-            }
-        });
-    } else {
-        $("#txtSearch").focus();
-        swal("Thông báo", "Hãy nhập mã sản phẩm", "error");
+            });
+        } else {
+            $("#txtSearch").focus();
+            swal("Thông báo", "Hãy nhập mã sản phẩm", "error");
+        }
     }
 }

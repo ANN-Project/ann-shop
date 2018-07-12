@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Text;
 using System.Web;
 using WebUI.Business;
 
@@ -319,6 +320,57 @@ namespace IM_PJ.Controllers
                     .OrderByDescending(o => o.ID).ToList();
                 return ags;
             }
+        }
+
+        public static List<OrderList> Filter()
+        {
+            var list = new List<OrderList>();
+            var sql = new StringBuilder();
+
+            sql.AppendLine(String.Format("SELECT Ord.ID, Ord.CustomerName, Customer.Nick, Customer.ID as CustomerID, Ord.OrderType, Ord.ExcuteStatus, Ord.PaymentStatus, Ord.PaymentType, Ord.ShippingType, Ord.TotalPrice, Ord.CreatedBy, Ord.CreatedDate, Ord.DateDone, Ord.RefundsGoodsID,  SUM(ISNULL(OrdDetail.Quantity, 0)) AS Quantity "));
+            sql.AppendLine(String.Format("FROM tbl_Order AS Ord"));
+            sql.AppendLine(String.Format("INNER JOIN tbl_OrderDetail AS OrdDetail"));
+            sql.AppendLine(String.Format("ON 	Ord.ID = OrdDetail.OrderID"));
+            sql.AppendLine(String.Format("INNER JOIN tbl_Customer AS Customer"));
+            sql.AppendLine(String.Format("ON 	Ord.CustomerID = Customer.ID"));
+            sql.AppendLine(String.Format("WHERE 1 = 1"));
+            sql.AppendLine(String.Format("	AND ((Ord.ID = '4535') OR CONTAINS(Ord.CustomerName, '4535') OR (Ord.CustomerPhone = '4535') OR (Ord.ShippingCode = '4535'))"));
+            sql.AppendLine(String.Format("	AND Ord.OrderType = 2"));
+            sql.AppendLine(String.Format("	AND Ord.ExcuteStatus != 4"));
+            sql.AppendLine(String.Format("	AND Ord.PaymentStatus = 1"));
+            sql.AppendLine(String.Format("	AND Ord.PaymentType = 2"));
+            sql.AppendLine(String.Format("	AND Ord.ShippingType = 4"));
+            sql.AppendLine(String.Format("	AND Ord.CreatedBy = 'nhom_zalo406'"));
+            sql.AppendLine(String.Format("GROUP BY Ord.ID, Ord.CustomerName, Customer.Nick, Customer.ID, Ord.OrderType, Ord.ExcuteStatus, Ord.PaymentStatus, Ord.PaymentType, Ord.ShippingType, Ord.TotalPrice, Ord.CreatedBy, Ord.CreatedDate, Ord.DateDone, Ord.RefundsGoodsID"));
+            sql.AppendLine(String.Format("ORDER BY Ord.ID DESC"));
+
+            var reader = (IDataReader)SqlHelper.ExecuteDataReader(sql.ToString());
+            while (reader.Read())
+            {
+                var entity = new OrderList();
+
+                entity.ID = Convert.ToInt32(reader["ID"]);
+                entity.CustomerName = reader["CustomerName"].ToString();
+                entity.CustomerID = Convert.ToInt32(reader["CustomerID"]);
+                entity.Nick = reader["Nick"].ToString();
+                entity.OrderType = Convert.ToInt32(reader["OrderType"]);
+                entity.ExcuteStatus = Convert.ToInt32(reader["ExcuteStatus"]);
+                entity.PaymentStatus = Convert.ToInt32(reader["PaymentStatus"]);
+                entity.PaymentType = Convert.ToInt32(reader["PaymentType"]);
+                entity.ShippingType = Convert.ToInt32(reader["ShippingType"]);
+                entity.TotalPrice = Convert.ToInt32(reader["TotalPrice"]);
+                entity.CreatedBy = reader["CreatedBy"].ToString();
+                entity.CreatedDate = Convert.ToDateTime(reader["CreatedDate"]);
+                if (reader["DateDone"] != DBNull.Value)
+                    entity.DateDone = Convert.ToDateTime(reader["DateDone"]);
+                if (reader["RefundsGoodsID"] != DBNull.Value)
+                    entity.RefundsGoodsID = Convert.ToInt32(reader["RefundsGoodsID"]);
+                entity.Quantity = Convert.ToInt32(reader["Quantity"]);
+
+                list.Add(entity);
+            }
+            reader.Close();
+            return list;
         }
 
         public static List<tbl_Order> SearchByStatical(int orderType, int PaymentStatus, int ExcuteStatus, string s, int agentID, int PaymentType, int ShippingType, string sku)
@@ -1092,6 +1144,26 @@ namespace IM_PJ.Controllers
         }
 
         #endregion
+
+        public class OrderList
+        {
+            public int ID { get; set; }
+            public int OrderType { get; set; }
+            public string CustomerName { get; set; }
+            public int CustomerID { get; set; }
+            public string Nick { get; set; }
+            public string CustomerPhone { get; set; }
+            public double TotalPrice { get; set; }
+            public string CreatedBy { get; set; }
+            public DateTime CreatedDate { get; set; }
+            public Nullable<System.DateTime> DateDone { get; set; }
+            public int PaymentStatus { get; set; }
+            public int ExcuteStatus { get; set; }
+            public int PaymentType { get; set; }
+            public int ShippingType { get; set; }
+            public Nullable<int> RefundsGoodsID { get; set; }
+            public int Quantity { get; set; }
+        }
 
         public class OrderSQL
         {

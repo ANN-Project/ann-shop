@@ -40,12 +40,57 @@ namespace IM_PJ {
         protected global::System.Web.UI.WebControls.Button btnSearch;
         
         /// <summary>
-        /// ltrList control.
+        /// ltrTotalRemain control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal ltrList;
+        protected global::System.Web.UI.WebControls.Literal ltrTotalRemain;
+        
+        /// <summary>
+        /// ltrAverageTotalRemain control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Literal ltrAverageTotalRemain;
+        
+        /// <summary>
+        /// ltrTotalSales control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Literal ltrTotalSales;
+        
+        /// <summary>
+        /// ltrAverageTotalSales control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Literal ltrAverageTotalSales;
+        
+        /// <summary>
+        /// ltrTotalRefund control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Literal ltrTotalRefund;
+        
+        /// <summary>
+        /// ltrAverageTotalRefund control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Literal ltrAverageTotalRefund;
     }
 }

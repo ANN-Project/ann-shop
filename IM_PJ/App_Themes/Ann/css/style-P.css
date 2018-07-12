@@ -431,19 +431,19 @@ ul.image-gallery li {
     width: 3%;
 }
 .import-stock .image-column {
-    width: 11%;
+    width: 17%;
 }
 .import-stock .name-column {
     width: 22%;
 }
 .import-stock .sku-column {
-    width: 12%;
-}
-.import-stock .supplier-column {
-    width: 13%;
+    width: 11%;
 }
 .import-stock .variable-column {
-    width: 17%;
+    width: 14%;
+}
+.import-stock .supplier-column {
+    width: 12%;
 }
 .import-stock .stock-column {
     width: 7%;

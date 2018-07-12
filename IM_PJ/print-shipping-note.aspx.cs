@@ -181,6 +181,10 @@ namespace IM_PJ
                             rowHtml += Environment.NewLine + String.Format("        <p class=\"delivery\"><span>Gửi xe: {0}</span></p>", transportCompany);
                         }
                     }
+                    else if (order.ShippingType == 5)
+                    {
+                        rowHtml += Environment.NewLine + String.Format("        <p class=\"delivery\"><span>Nhân viên giao hàng</span></p>");
+                    }
 
                     if (order.PaymentType == 3)
                     {

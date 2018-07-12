@@ -994,14 +994,14 @@ namespace IM_PJ
                                     if (hdfcheckR.Value != "")
                                     {
                                         string[] b = hdfcheckR.Value.Split(',');
-                                        var update_returnorder = RefundGoodController.UpdateStatus(b[0].ToInt(), acc.Username, 1);
+                                        var update_returnorder = RefundGoodController.UpdateStatus(b[0].ToInt(), acc.Username, 1, 0);
                                         var update_order = OrderController.UpdateRefund(OrderID, 0, acc.Username);
                                     }
                                 }
                                 else if (refund != "1")
                                 {
                                     string[] RefundID = refund.Split('|');
-                                    var update_returnorder = RefundGoodController.UpdateStatus(RefundID[0].ToInt(), acc.Username, 2);
+                                    var update_returnorder = RefundGoodController.UpdateStatus(RefundID[0].ToInt(), acc.Username, 2, OrderID);
                                     var update_order = OrderController.UpdateRefund(OrderID, RefundID[0].ToInt(), acc.Username);
 
                                     if(hdfcheckR.Value != "")
@@ -1009,7 +1009,7 @@ namespace IM_PJ
                                         string[] k = hdfcheckR.Value.Split(',');
                                         if (k[0] != RefundID[0])
                                         {
-                                            var update_oldreturnorder = RefundGoodController.UpdateStatus(k[0].ToInt(), acc.Username, 1);
+                                            var update_oldreturnorder = RefundGoodController.UpdateStatus(k[0].ToInt(), acc.Username, 1, 0);
                                         }
                                     }
                                 }

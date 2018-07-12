@@ -76,6 +76,14 @@ namespace IM_PJ
                         ltrCreateBy.Text = r.CreatedBy;
                         ltrCreateDate.Text = r.CreatedDate.ToString();
                         ltrOrderStatus.Text = PJUtils.RefundStatus(Convert.ToInt32(r.Status));
+                        if(r.OrderSaleID > 0)
+                        {
+                            ltrOrderSaleID.Text = "<td><a class=\"customer-name-link\" target=\"_blank\" title=\"Bấm vào xem đơn hàng trừ tiền\" href=\"/thong-tin-don-hang.aspx?id=" + r.OrderSaleID + "\">" + r.OrderSaleID + " (Xem đơn)</a>";
+                        }
+                        else
+                        {
+                            ltrOrderSaleID.Text = "";
+                        }
                         ltrOrderQuantity.Text = r.TotalQuantity.ToString();
                         ltrOrderTotalPrice.Text = string.Format("{0:N0}", (Convert.ToDouble(r.TotalPrice)));
                         ltrTotalRefundFee.Text = string.Format("{0:N0}", (Convert.ToDouble(r.TotalRefundFee)));
@@ -189,6 +197,17 @@ namespace IM_PJ
                             int t = 0;
                             foreach (var item in product)
                             {
+                                
+                                var variables = ProductVariableValueController.GetByProductVariableSKU(item.SKU);
+                                string variable = "";
+                                if (variables.Count > 0)
+                                {
+                                    variable += "<br><br>";
+                                    foreach (var v in variables)
+                                    {
+                                        variable += v.VariableName.Trim() + ": " + v.VariableValue.Trim() + "<br>";
+                                    }
+                                }
                                 t++;
                                 html += "<tr class=\"product-result\" data-sku=\"" + item.SKU + "\" data-orderID=\"" + item.OrderID
                                                     + "\" data-ProductName=\"" + item.ProductName
@@ -198,7 +217,7 @@ namespace IM_PJ
                                                     + "\" data-Soluongtoida=\"" + item.QuantityMax + "\" data-RefundFee=\"" + item.RefundFeePerProduct + "\"  >";
                                 html += "   <td>" + t + "</td>";
                                 html += "   <td><img src='" + item.ProductImage + "'></td>";
-                                html += "   <td>" + item.ProductName + "</td>";
+                                html += "   <td>" + item.ProductName + variable + "</td>";
                                 html += "   <td>" + item.SKU + "</td>";
                                 html += "   <td class=\"giagoc\" data-giagoc=\"" + item.GiavonPerProduct + "\">" + string.Format("{0:N0}", Convert.ToDouble(item.GiavonPerProduct)) + "</td>";
                                 html += "   <td class=\"giadaban\" data-giadaban=\"" + item.SoldPricePerProduct + "\"><strong>" + string.Format("{0:N0}", Convert.ToDouble(item.SoldPricePerProduct)) + "</strong><br>(CK: " + string.Format("{0:N0}", Convert.ToDouble(item.DiscountPricePerProduct)) + ")</td>";
@@ -238,7 +257,7 @@ namespace IM_PJ
             var a = AccountController.GetByUsername(username);
             if (a != null)
             {
-                var re = RefundGoodController.updatestatus((ViewState["ID"].ToString()).ToInt(), Convert.ToInt32(ddlRefundStatus.SelectedValue),DateTime.Now, a.Username,txtRefundsNote.Text);
+                var re = RefundGoodController.updatestatus((ViewState["ID"].ToString()).ToInt(), Convert.ToInt32(ddlRefundStatus.SelectedValue), DateTime.Now, a.Username,txtRefundsNote.Text);
                 if(re != null)
                 {
                     PJUtils.ShowMessageBoxSwAlert("Cập nhật đơn hàng đổi trả thành công", "s", true, Page);
@@ -259,17 +278,31 @@ namespace IM_PJ
 
                 foreach(var product in _refundGood.RefundDetails)
                 {
+                    if (!string.IsNullOrEmpty(product.ChildSKU))
+                    {
+                        var ProductVariable = ProductVariableValueController.GetByProductVariableSKU(product.ChildSKU);
+                        string VariableValue = "";
+                        if (ProductVariable.Count > 0)
+                        {
+                            foreach (var v in ProductVariable)
+                            {
+                                VariableValue += v.VariableName.Trim() + ": " + v.VariableValue.Trim() + "|";
+                            }
+                        }
+                        product.VariableValue = VariableValue;
+                    }
+                    
                     if (product.ChangeType != 3) // Change product error
                     {
                         StockManagerController.Insert(new tbl_StockManager()
                         {
                             AgentID = 1,
-                            ProductID = product.ProductID,
+                            ProductID = product.ProductStyle == 1 ? product.ProductID : 0,
                             ProductVariableID = product.ProductVariableID,
                             Quantity = product.QuantityRefund,
                             QuantityCurrent = 0,
                             Type = 1,
-                            NoteID = "Xuất kho do phục hồi đơn hàng đổi trả",
+                            NoteID = "Xuất kho do làm lại đơn hàng đổi trả",
                             OrderID = product.OrderID,
                             Status = 11,
                             SKU = product.ProductStyle == 1 ? product.ParentSKU : product.ChildSKU,

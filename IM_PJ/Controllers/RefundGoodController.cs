@@ -171,7 +171,7 @@ namespace IM_PJ.Controllers
             }
         }
 
-        public static int UpdateStatus(int ID, string createdby, int status)
+        public static int UpdateStatus(int ID, string createdby, int status, int orderSale)
         {
             using (var dbe = new inventorymanagementEntities())
             {
@@ -179,9 +179,18 @@ namespace IM_PJ.Controllers
                 if (las != null)
                 {
                     las.Status = status;
+                    if(orderSale > 0)
+                    {
+                        las.RefundNote = "Đã trừ tiền trong đơn " + orderSale.ToString();
+                    }
+                    else
+                    {
+                        las.RefundNote = "";
+                    }
+                    las.OrderSaleID = orderSale;
                     las.ModifiedBy = createdby;
                     las.ModifiedDate = DateTime.Now;
-                   int i = dbe.SaveChanges();
+                    int i = dbe.SaveChanges();
                     return i;
                 }
                 return 0;

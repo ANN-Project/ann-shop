@@ -491,6 +491,7 @@
           <Property Name="CustomerPhone" Type="nvarchar(max)" />
           <Property Name="AgentName" Type="nvarchar(max)" />
           <Property Name="RefundNote" Type="nvarchar(max)" />
+          <Property Name="OrderSaleID" Type="int" />
         </EntityType>
         <EntityType Name="tbl_RefundGoodsDetails">
           <Key>
@@ -751,7 +752,6 @@ warning 6002: The table/view 'inventorymanagement.dbo.View_ProductList' does not
           <EntitySet Name="tbl_ProductVariableImage" EntityType="inventorymanagementModel.tbl_ProductVariableImage" />
           <EntitySet Name="tbl_ProductVariableValue" EntityType="inventorymanagementModel.tbl_ProductVariableValue" />
           <EntitySet Name="tbl_Province" EntityType="inventorymanagementModel.tbl_Province" />
-          <EntitySet Name="tbl_RefundGoods" EntityType="inventorymanagementModel.tbl_RefundGoods" />
           <EntitySet Name="tbl_RefundGoodsDetails" EntityType="inventorymanagementModel.tbl_RefundGoodsDetails" />
           <EntitySet Name="tbl_Role" EntityType="inventorymanagementModel.tbl_Role" />
           <EntitySet Name="tbl_SessionInOu" EntityType="inventorymanagementModel.tbl_SessionInOu" />
@@ -766,6 +766,7 @@ warning 6002: The table/view 'inventorymanagement.dbo.View_ProductList' does not
           <EntitySet Name="tbl_Config" EntityType="inventorymanagementModel.tbl_Config" />
           <EntitySet Name="tbl_Customer" EntityType="inventorymanagementModel.tbl_Customer" />
           <EntitySet Name="tbl_Order" EntityType="inventorymanagementModel.tbl_Order" />
+          <EntitySet Name="tbl_RefundGoods" EntityType="inventorymanagementModel.tbl_RefundGoods" />
         </EntityContainer>
         <EntityType Name="tbl_Account">
           <Key>
@@ -1126,26 +1127,6 @@ warning 6002: The table/view 'inventorymanagement.dbo.View_ProductList' does not
           <Property Name="ProvinceCode" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="IsHidden" Type="Boolean" />
         </EntityType>
-        <EntityType Name="tbl_RefundGoods">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="AgentID" Type="Int32" />
-          <Property Name="TotalPrice" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="Status" Type="Int32" />
-          <Property Name="CustomerID" Type="Int32" />
-          <Property Name="TotalQuantity" Type="Double" />
-          <Property Name="TotalRefundFee" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
-          <Property Name="CreatedBy" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
-          <Property Name="ModifiedBy" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="CustomerName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="CustomerPhone" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="AgentName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="RefundNote" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-        </EntityType>
         <EntityType Name="tbl_RefundGoodsDetails">
           <Key>
             <PropertyRef Name="ID" />
@@ -1426,6 +1407,27 @@ warning 6002: The table/view 'inventorymanagement.dbo.View_ProductList' does not
           <Property Name="OtherFeeName" Type="String" MaxLength="100" FixedLength="true" Unicode="true" />
           <Property Name="OtherFeeValue" Type="Double" />
           <Property Name="PostalDeliveryType" Type="Int32" />
+        </EntityType>
+        <EntityType Name="tbl_RefundGoods">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AgentID" Type="Int32" />
+          <Property Name="TotalPrice" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Status" Type="Int32" />
+          <Property Name="CustomerID" Type="Int32" />
+          <Property Name="TotalQuantity" Type="Double" />
+          <Property Name="TotalRefundFee" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="CreatedBy" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CustomerName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CustomerPhone" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="AgentName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="RefundNote" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="OrderSaleID" Type="Int32" />
         </EntityType>
         </Schema>
     </edmx:ConceptualModels>
@@ -1814,27 +1816,6 @@ warning 6002: The table/view 'inventorymanagement.dbo.View_ProductList' does not
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="tbl_RefundGoods">
-            <EntityTypeMapping TypeName="inventorymanagementModel.tbl_RefundGoods">
-              <MappingFragment StoreEntitySet="tbl_RefundGoods">
-                <ScalarProperty Name="RefundNote" ColumnName="RefundNote" />
-                <ScalarProperty Name="AgentName" ColumnName="AgentName" />
-                <ScalarProperty Name="CustomerPhone" ColumnName="CustomerPhone" />
-                <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
-                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
-                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
-                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
-                <ScalarProperty Name="TotalRefundFee" ColumnName="TotalRefundFee" />
-                <ScalarProperty Name="TotalQuantity" ColumnName="TotalQuantity" />
-                <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
-                <ScalarProperty Name="TotalPrice" ColumnName="TotalPrice" />
-                <ScalarProperty Name="AgentID" ColumnName="AgentID" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="tbl_RefundGoodsDetails">
             <EntityTypeMapping TypeName="inventorymanagementModel.tbl_RefundGoodsDetails">
               <MappingFragment StoreEntitySet="tbl_RefundGoodsDetails">
@@ -2124,6 +2105,28 @@ warning 6002: The table/view 'inventorymanagement.dbo.View_ProductList' does not
                 <ScalarProperty Name="DisCount" ColumnName="DisCount" />
                 <ScalarProperty Name="AdditionFee" ColumnName="AdditionFee" />
                 <ScalarProperty Name="OrderType" ColumnName="OrderType" />
+                <ScalarProperty Name="AgentID" ColumnName="AgentID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_RefundGoods">
+            <EntityTypeMapping TypeName="inventorymanagementModel.tbl_RefundGoods">
+              <MappingFragment StoreEntitySet="tbl_RefundGoods">
+                <ScalarProperty Name="OrderSaleID" ColumnName="OrderSaleID" />
+                <ScalarProperty Name="RefundNote" ColumnName="RefundNote" />
+                <ScalarProperty Name="AgentName" ColumnName="AgentName" />
+                <ScalarProperty Name="CustomerPhone" ColumnName="CustomerPhone" />
+                <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="TotalRefundFee" ColumnName="TotalRefundFee" />
+                <ScalarProperty Name="TotalQuantity" ColumnName="TotalQuantity" />
+                <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="TotalPrice" ColumnName="TotalPrice" />
                 <ScalarProperty Name="AgentID" ColumnName="AgentID" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>

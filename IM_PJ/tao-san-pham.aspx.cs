@@ -352,6 +352,11 @@ namespace IM_PJ
                                 a = hdfsetStyle.Value.ToInt();
                             }
 
+                            
+                            
+                            
+                            string kq = ProductController.Insert(cateID, 0, ProductTitle, ProductContent, ProductSKU, ProductStock, StockStatus, true, Regular_Price, CostOfGood, Retail_Price, "", 0, false, currentDate, username, supplierID, supplierName, txtMaterials.Text, MinimumInventoryLevel, MaximumInventoryLevel, a);
+
                             //Phần thêm ảnh đại diện sản phẩm
                             string path = "/uploads/images/";
                             string ProductImage = "";
@@ -359,7 +364,7 @@ namespace IM_PJ
                             {
                                 foreach (UploadedFile f in ProductThumbnailImage.UploadedFiles)
                                 {
-                                    var o = path + Guid.NewGuid() + f.GetExtension();
+                                    var o = path + kq + '-' + Path.GetFileName(f.FileName);
                                     try
                                     {
                                         f.SaveAs(Server.MapPath(o));
@@ -368,8 +373,25 @@ namespace IM_PJ
                                     catch { }
                                 }
                             }
+                            string updateImage = ProductController.UpdateImage(kq.ToInt(), ProductImage);
+
+                            //Phần thêm thư viện ảnh sản phẩm
+                            string IMG = "";
+                            if (hinhDaiDien.UploadedFiles.Count > 0)
+                            {
+                                foreach (UploadedFile f in hinhDaiDien.UploadedFiles)
+                                {
+                                    var o = path + kq + '-' + Path.GetFileName(f.FileName);
+                                    try
+                                    {
+                                        f.SaveAs(Server.MapPath(o));
+                                        IMG = o;
+                                        ProductImageController.Insert(kq.ToInt(), IMG, false, currentDate, username);
+                                    }
+                                    catch { }
+                                }
+                            }
                             
-                            string kq = ProductController.Insert(cateID, 0, ProductTitle, ProductContent, ProductSKU, ProductStock, StockStatus, true, Regular_Price, CostOfGood, Retail_Price, ProductImage, 0, false, currentDate, username, supplierID, supplierName, txtMaterials.Text, MinimumInventoryLevel, MaximumInventoryLevel, a);
 
                             if (kq.ToInt(0) > 0)
                             {
@@ -403,7 +425,7 @@ namespace IM_PJ
                                         string image = "";
                                         if (postedFile != null && postedFile.ContentLength > 0)
                                         {
-                                            string filePath = Server.MapPath("/uploads/images/") + Path.GetFileName(postedFile.FileName);
+                                            string filePath = Server.MapPath("/uploads/images/") + kq + '-' + Path.GetFileName(postedFile.FileName);
                                             postedFile.SaveAs(filePath);
                                             image = "/uploads/images/" + Path.GetFileName(postedFile.FileName);
                                         }
@@ -434,22 +456,7 @@ namespace IM_PJ
                                     }
                                 }
 
-                                //Phần thêm thư viện ảnh sản phẩm
-                                string IMG = "";
-                                if (hinhDaiDien.UploadedFiles.Count > 0)
-                                {
-                                    foreach (UploadedFile f in hinhDaiDien.UploadedFiles)
-                                    {
-                                        var o = path + Guid.NewGuid() + f.GetExtension();
-                                        try
-                                        {
-                                            f.SaveAs(Server.MapPath(o));
-                                            IMG = o;
-                                            ProductImageController.Insert(ProductID, IMG, false, currentDate, username);
-                                        }
-                                        catch { }
-                                    }
-                                }
+                                
                                 PJUtils.ShowMessageBoxSwAlertCallFunction("Tạo sản phẩm thành công", "s", true, "redirectTo("+ kq +")", Page);
                             }
                         }

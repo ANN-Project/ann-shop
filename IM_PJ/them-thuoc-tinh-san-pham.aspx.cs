@@ -4,6 +4,7 @@ using MB.Extensions;
 using NHST.Bussiness;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -117,7 +118,7 @@ namespace IM_PJ
                 {
                     foreach (UploadedFile f in ProductThumbnailImage.UploadedFiles)
                     {
-                        var o = path + Guid.NewGuid() + f.GetExtension();
+                        var o = path + parentID.ToString() + '-' + Path.GetFileName(f.FileName);
                         try
                         {
                             f.SaveAs(Server.MapPath(o));

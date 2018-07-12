@@ -56,7 +56,8 @@ namespace IM_PJ
 
             rFromDate.SelectedDate = fromdate;
             rToDate.SelectedDate = todate;
-            double day = (todate - fromdate).TotalDays;
+
+            int day = Convert.ToInt32((todate - fromdate).TotalDays);
 
             int tongdonhang = 0;
             int total = 0;
@@ -84,16 +85,16 @@ namespace IM_PJ
 
             int tong = total - totalrefund;
             ltrTotalNumberOfOrder.Text =  tongdonhang.ToString() + " đơn";
-            ltrNumberOfOrderPerDay.Text = Convert.ToInt32(tongdonhang / day).ToString() + " đơn/ngày";
+            ltrNumberOfOrderPerDay.Text = (tongdonhang / day).ToString() + " đơn / ngày";
             ltrTotalRevenue.Text = string.Format("{0:N0}", tong) + "đ";
-            ltrAverageRevenue.Text = string.Format("{0:N0}", tong / day) + "đ/ngày";
+            ltrAverageRevenue.Text = string.Format("{0:N0}", tong / day) + "đ / ngày";
             if (tongdonhang == 0)
             {
                 ltrRevenuePerOrder.Text = "0";
             }
             else
             {
-                ltrRevenuePerOrder.Text = string.Format("{0:N0}", tong / tongdonhang) + "đ/đơn";
+                ltrRevenuePerOrder.Text = string.Format("{0:N0}", tong / tongdonhang) + "đ/ đơn";
             }
         }
         protected void btnSearch_Click(object sender, EventArgs e)

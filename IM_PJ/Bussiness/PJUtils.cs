@@ -1458,6 +1458,47 @@ namespace NHST.Bussiness
             return currentQuantity;
         }
 
+        public static double GetSotckProduct(int AgentID, string SKU)
+        {
+            double currentQuantity = 0;
+            var ps = StockManagerController.GetBySKU(AgentID, SKU).OrderByDescending(x => x.CreatedDate).FirstOrDefault();
+
+            if (ps != null)
+            {
+                double quantity = 0;
+                double quantityCurrent = 0;
+
+                if (ps.Quantity.HasValue)
+                {
+                    quantity = ps.Quantity.Value;
+                }
+
+                if (ps.QuantityCurrent.HasValue)
+                {
+                    quantityCurrent = ps.QuantityCurrent.Value;
+                }
+
+                switch (ps.Type)
+                {
+                    case 1:
+                        currentQuantity = quantityCurrent + quantity;
+                        break;
+                    case 2:
+                        currentQuantity = quantityCurrent - quantity;
+                        break;
+                    default:
+                        currentQuantity = 0;
+                        break;
+                }
+            }
+            else
+            {
+                currentQuantity = -1;
+            }
+
+            return currentQuantity;
+        }
+
         public static string StockStatusBySKU(int AgentID, string SKU)
         {
             double currentQuantity = 0;

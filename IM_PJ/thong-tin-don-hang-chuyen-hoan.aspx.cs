@@ -576,7 +576,7 @@ namespace IM_PJ
                                             Quantity = product.Quantity,
                                             QuantityCurrent = 0,
                                             Type = 1,
-                                            NoteID = "Nhập kho do chuyển hoàn",
+                                            NoteID = "Nhập kho do chuyển hoàn đơn " + product.OrderID,
                                             OrderID = product.OrderID,
                                             Status = 13,
                                             SKU = product.SKU,

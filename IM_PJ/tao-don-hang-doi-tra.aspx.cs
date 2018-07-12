@@ -95,6 +95,7 @@ namespace IM_PJ
 
                 using (var con = new inventorymanagementEntities())
                 {
+
                     var productTarget = con.tbl_Product
                         .GroupJoin(
                             con.tbl_ProductVariable,
@@ -134,46 +135,45 @@ namespace IM_PJ
                         .ThenBy(x => x.ProductVariableID)
                         .ToList();
 
-                    if (productTarget.Count > 1)
-                    {
-                        var variableValue = con.tbl_ProductVariableValue
-                            .Where(x => x.ProductvariableSKU.Contains(sku.Trim().ToUpper()))
-                            .OrderBy(x => x.ProductVariableID)
-                            .ThenBy(x => x.ID)
+
+                    var variableValue = con.tbl_ProductVariableValue
+                        .Where(x => x.ProductvariableSKU.Contains(sku.Trim().ToUpper()))
+                        .OrderBy(x => x.ProductVariableID)
+                        .ThenBy(x => x.ID)
+                        .ToList();
+
+                    productTarget = productTarget.Select(x => {
+                        string properties = String.Empty;
+
+                        variableValue
+                            .Where(y => y.ProductVariableID == x.ProductVariableID)
+                            .Select(y => {
+                                properties += String.Format("{0}: {1}|", y.VariableName, y.VariableValue);
+                                return y;
+                            })
                             .ToList();
 
-                        productTarget = productTarget.Select(x => {
-                            string properties = String.Empty;
+                        return new RefundDetailModel
+                        {
 
-                            variableValue
-                                .Where(y => y.ProductVariableID == x.ProductVariableID)
-                                .Select(y => {
-                                    properties += String.Format("{0}: {1}<br/>", y.VariableName, y.VariableValue);
-                                    return y;
-                                })
-                                .ToList();
+                            ProductID = x.ProductID,
+                            ProductVariableID = x.ProductVariableID,
+                            ProductStyle = x.ProductStyle,
+                            ProductImage = x.ProductImage,
+                            ProductTitle = x.ProductTitle,
+                            ParentSKU = x.ParentSKU,
+                            ChildSKU = x.ChildSKU,
+                            VariableValue = properties,
+                            Price = x.Price,
+                            ReducedPrice = x.ReducedPrice,
+                            QuantityRefund = x.QuantityRefund,
+                            ChangeType = x.ChangeType,
+                            FeeRefund = x.FeeRefund,
+                            TotalFeeRefund = x.TotalFeeRefund
+                        };
+                    })
+                    .ToList();
 
-                            return new RefundDetailModel
-                            {
-
-                                ProductID = x.ProductID,
-                                ProductVariableID = x.ProductVariableID,
-                                ProductStyle = x.ProductStyle,
-                                ProductImage = x.ProductImage,
-                                ProductTitle = x.ProductTitle,
-                                ParentSKU = x.ParentSKU,
-                                ChildSKU = x.ChildSKU,
-                                VariableValue = properties,
-                                Price = x.Price,
-                                ReducedPrice = x.ReducedPrice,
-                                QuantityRefund = x.QuantityRefund,
-                                ChangeType = x.ChangeType,
-                                FeeRefund = x.FeeRefund,
-                                TotalFeeRefund = x.TotalFeeRefund
-                            };
-                        })
-                        .ToList();
-                    }
 
                     return new JavaScriptSerializer().Serialize(productTarget);
                 }
@@ -252,9 +252,11 @@ namespace IM_PJ
                                 RefundGoodModel refundModel = JsonConvert.DeserializeObject<RefundGoodModel>(hdfListProduct.Value);
 
                                 int t = 0;
+                                int time = 0;
                                 foreach (RefundDetailModel item in refundModel.RefundDetails)
                                 {
                                     t++;
+                                    time += 20;
                                     int rdID = RefundGoodDetailController.Insert(
                                         new tbl_RefundGoodsDetails()
                                         {
@@ -276,7 +278,7 @@ namespace IM_PJ
                                             DiscountPricePerProduct = (item.Price - item.ReducedPrice).ToString(),
                                             SoldPricePerProduct = item.ReducedPrice.ToString(),
                                             TotalPriceRow = item.TotalFeeRefund.ToString(),
-                                            CreatedDate = currentDate,
+                                            CreatedDate = currentDate.AddMilliseconds(time),
                                             CreatedBy = username
                                         });
                                     
@@ -289,12 +291,12 @@ namespace IM_PJ
 
                                             if (item.ChangeType == 1)
                                             {
-                                                note = "Đổi size";
+                                                note = "Đổi size đơn " + rdID;
                                                 typeRe = 8;
                                             }
                                             else if (item.ChangeType == 2)
                                             {
-                                                note = "Đổi sản phẩm";
+                                                note = "Đổi sản phẩm khác đơn " + rdID;
                                                 typeRe = 9;
                                             }
 
@@ -304,7 +306,7 @@ namespace IM_PJ
                                                     new tbl_StockManager
                                                     {
                                                         AgentID = agentID,
-                                                        ProductID = item.ProductID,
+                                                        ProductID = item.ProductStyle == 1 ? item.ProductID : 0,
                                                         ProductVariableID = item.ProductVariableID,
                                                         Quantity = item.QuantityRefund,
                                                         QuantityCurrent = 0,
@@ -313,7 +315,7 @@ namespace IM_PJ
                                                         OrderID = 0,
                                                         Status = typeRe,
                                                         SKU = item.ProductStyle == 1 ? item.ParentSKU : item.ChildSKU,
-                                                        CreatedDate = currentDate,
+                                                        CreatedDate = currentDate.AddMilliseconds(time),
                                                         CreatedBy = username,
                                                         MoveProID = 0,
                                                         ParentID = item.ProductID,

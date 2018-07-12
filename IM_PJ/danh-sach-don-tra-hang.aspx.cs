@@ -168,11 +168,11 @@ namespace IM_PJ
                 html.Append("<tr>");
                 html.Append("    <th>Mã</th>");
                 html.Append("    <th>Khách hàng</th>");
-                html.Append("    <th>Điện thoại</th>");
                 html.Append("    <th>Số lượng</th>");
                 html.Append("    <th>Phí đổi hàng</th>");
                 html.Append("    <th>Tổng tiền</th>");
                 html.Append("    <th>Trạng thái</th>");
+                html.Append("    <th>Đơn hàng trừ tiền</th>");
                 if (acc.RoleID == 0)
                 {
                     html.Append("    <th>Nhân viên</th>");
@@ -204,21 +204,29 @@ namespace IM_PJ
                         html.Append("   <td><a class=\"customer-name-link capitalize\" href=\"/xem-don-hang-doi-tra.aspx?id=" + item.ID + "\">" + item.CustomerName + "</a></td>");
                     }
 
-                    html.Append("   <td>" + item.CustomerPhone + "</td>");
                     html.Append("   <td>" + string.Format("{0:N0}", Convert.ToDouble(item.TotalQuantity)) + "</td>");
                     html.Append("   <td>" + string.Format("{0:N0}", Convert.ToDouble(item.TotalRefundFee)) + "</td>");
                     html.Append("   <td><strong>" + string.Format("{0:N0}", Convert.ToDouble(item.TotalPrice)) + "</strong></td>");
-                    string date = string.Format("{0:dd/MM/yyyy}", item.CreatedDate);
                     html.Append("   <td>" + PJUtils.RefundStatus(Convert.ToInt32(item.Status)) + "</td>");
+                    if(item.OrderSaleID > 0)
+                    {
+                        html.Append("   <td><a class=\"customer-name-link\" target=\"_blank\" title=\"Bấm vào xem đơn hàng trừ tiền\" href=\"/thong-tin-don-hang.aspx?id=" + item.OrderSaleID + "\">" + item.OrderSaleID + " (Xem đơn)</a></td>");
+                    }
+                    else
+                    {
+                        html.Append("   <td></td>");
+                    }
 
                     if (acc.RoleID == 0)
                     {
                         html.Append("   <td>" + item.CreatedBy + "</td>");
                     }
 
+                    string date = string.Format("{0:dd/MM}", item.CreatedDate);
                     html.Append("   <td>" + date + "</td>");
                     html.Append("   <td>");
                     html.Append("       <a href=\"/print-invoice-return.aspx?id=" + item.ID + "\" title=\"In hóa đơn\" target=\"_blank\" class=\"btn primary-btn h45-btn\"><i class=\"fa fa-print\" aria-hidden=\"true\"></i></a>");
+                    html.Append("       <a href=\"/print-return-order-image.aspx?id=" + item.ID + "\" title=\"Lấy ảnh đơn hàng\" target=\"_blank\" class=\"btn primary-btn btn-red h45-btn\"><i class=\"fa fa-picture-o\" aria-hidden=\"true\"></i></a>");
                     html.Append("   </td>");
                     html.Append("</tr>");
                 }

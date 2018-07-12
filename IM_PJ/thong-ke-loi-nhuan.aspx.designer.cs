@@ -40,33 +40,6 @@ namespace IM_PJ {
         protected global::System.Web.UI.WebControls.Button btnSearch;
         
         /// <summary>
-        /// ltrTotalRevenue control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal ltrTotalRevenue;
-        
-        /// <summary>
-        /// ltrTotalCost control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal ltrTotalCost;
-        
-        /// <summary>
-        /// ltrTotalRefund control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal ltrTotalRefund;
-        
-        /// <summary>
         /// ltrTotalProfit control.
         /// </summary>
         /// <remarks>
@@ -92,5 +65,32 @@ namespace IM_PJ {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Literal ltrProfitPerOrder;
+        
+        /// <summary>
+        /// ltrTotalRevenue control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Literal ltrTotalRevenue;
+        
+        /// <summary>
+        /// ltrTotalCost control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Literal ltrTotalCost;
+        
+        /// <summary>
+        /// ltrTotalRefund control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Literal ltrTotalRefund;
     }
 }

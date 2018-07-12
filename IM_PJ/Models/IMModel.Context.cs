@@ -47,7 +47,6 @@ namespace IM_PJ.Models
         public virtual DbSet<tbl_ProductVariableImage> tbl_ProductVariableImage { get; set; }
         public virtual DbSet<tbl_ProductVariableValue> tbl_ProductVariableValue { get; set; }
         public virtual DbSet<tbl_Province> tbl_Province { get; set; }
-        public virtual DbSet<tbl_RefundGoods> tbl_RefundGoods { get; set; }
         public virtual DbSet<tbl_RefundGoodsDetails> tbl_RefundGoodsDetails { get; set; }
         public virtual DbSet<tbl_Role> tbl_Role { get; set; }
         public virtual DbSet<tbl_SessionInOu> tbl_SessionInOu { get; set; }
@@ -62,5 +61,6 @@ namespace IM_PJ.Models
         public virtual DbSet<tbl_Config> tbl_Config { get; set; }
         public virtual DbSet<tbl_Customer> tbl_Customer { get; set; }
         public virtual DbSet<tbl_Order> tbl_Order { get; set; }
+        public virtual DbSet<tbl_RefundGoods> tbl_RefundGoods { get; set; }
     }
 }

@@ -4,6 +4,7 @@ using MB.Extensions;
 using NHST.Bussiness;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -75,13 +76,13 @@ namespace IM_PJ
                     int productID = ViewState["productid"].ToString().ToInt(0);
                     bool isHidden = chkIsHidden.Checked;
                     ///Lưu ảnh
-                    string duongdan = "/uploads/images/";
+                    string path = "/uploads/images/";
                     string IMG = "";
                     if (hinhDaiDien.UploadedFiles.Count > 0)
                     {
                         foreach (UploadedFile f in hinhDaiDien.UploadedFiles)
                         {
-                            var o = duongdan + Guid.NewGuid() + f.GetExtension();
+                            var o = path + productID.ToString() + '-' + Path.GetFileName(f.FileName);
                             try
                             {
                                 f.SaveAs(Server.MapPath(o));

@@ -124,16 +124,8 @@ namespace IM_PJ
                                 }
                                 else
                                 {
-                                    if (!string.IsNullOrEmpty(products.ProductImage))
-                                    {
-                                        p.ProductImage = "<img src=\"" + products.ProductImage + "\" />";
-                                        p.ProductImageOrigin = products.ProductImage;
-                                    }
-                                    else
-                                    {
-                                        p.ProductImage = "<img src=\"/App_Themes/Ann/image/placeholder.png\" />";
-                                        p.ProductImageOrigin = "";
-                                    }
+                                    p.ProductImage = "<img src=\"/App_Themes/Ann/image/placeholder.png\" />";
+                                    p.ProductImageOrigin = "";
                                 }
 
                                 p.SKU = pv.SKU.Trim().ToUpper();
@@ -236,11 +228,6 @@ namespace IM_PJ
                                 {
                                     p.ProductImage = "<img src=\"" + value.Image + "\" />";
                                     p.ProductImageOrigin = value.Image;
-                                }
-                                else if (!string.IsNullOrEmpty(product.ProductImage))
-                                {
-                                    p.ProductImage = "<img src=\"" + product.ProductImage + "\" />";
-                                    p.ProductImageOrigin = product.ProductImage;
                                 }
                                 else
                                 {

@@ -23,7 +23,7 @@ namespace IM_PJ
                     {
                         if (acc.RoleID != 0)
                         {
-                            Response.Redirect("/dang-nhap");
+                            Response.Redirect("/trang-chu");
                         }
                     }
                 }
@@ -59,36 +59,34 @@ namespace IM_PJ
             rFromDate.SelectedDate = fromdate;
             rToDate.SelectedDate = todate;
 
-            var od = OrderDetailController.Report(fromdate.ToString(), todate.ToString());
-            int tongbanra = 0;
-            if (od != null)
+            int day = Convert.ToInt32((todate - fromdate).TotalDays);
+
+            int TotalSales = 0;
+            var order = OrderDetailController.Report(fromdate.ToString(), todate.ToString());
+            if (order != null)
             {
-                foreach (var item in od)
+                foreach (var item in order)
                 {
-                    tongbanra += Convert.ToInt32(item.Quantity);
+                    TotalSales += Convert.ToInt32(item.Quantity);
                 }
             }
 
-            int totalrefund = 0;
-
-
-
-
+            int TotalRefund = 0;
             var refund = RefundGoodController.TotalRefund(fromdate.ToString(), todate.ToString());
             if (refund.Count() > 0)
             {
                 foreach (var vl in refund)
                 {
-                    totalrefund += Convert.ToInt32(vl.TotalQuantity);
+                    TotalRefund += Convert.ToInt32(vl.TotalQuantity);
                 }
             }
 
-            ltrList.Text += "<tr>";
-            ltrList.Text += "<td>"+tongbanra+"</td>";
-            ltrList.Text += "<td>" + totalrefund + "</td>";
-            ltrList.Text += "<td>" + (tongbanra - totalrefund) + "</td>";
-          
-            ltrList.Text += "</tr>";
+            ltrTotalRemain.Text = (TotalSales - TotalRefund).ToString() + " cái";
+            ltrAverageTotalRemain.Text = ((TotalSales - TotalRefund) / day).ToString() + " cái / ngày";
+            ltrTotalSales.Text = TotalSales.ToString() + " cái";
+            ltrAverageTotalSales.Text = (TotalSales / day).ToString() + " cái / ngày";
+            ltrTotalRefund.Text = TotalRefund.ToString() + " cái";
+            ltrAverageTotalRefund.Text = (TotalRefund / day).ToString() + " cái / ngày";
 
         }
 

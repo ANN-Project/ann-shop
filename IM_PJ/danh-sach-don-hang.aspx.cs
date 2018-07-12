@@ -39,7 +39,7 @@ namespace IM_PJ
                         }
                         else
                         {
-                            Response.Redirect("/dang-nhap");
+                            Response.Redirect("/trang-chu");
                         }
                     }
                 }

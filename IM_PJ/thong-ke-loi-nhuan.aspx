@@ -36,73 +36,73 @@
                                     </telerik:RadDatePicker>
                                 </div>
                                 <div class="col-md-1">
-                                    <a href="javascript:;" onclick="searchAgent()" class="btn primary-btn h45-btn"><i class="fa fa-search"></i></a>
+                                    <a href="javascript:;" onclick="search()" class="btn primary-btn h45-btn"><i class="fa fa-search"></i></a>
                                     <asp:Button ID="btnSearch" runat="server" CssClass="btn primary-btn h45-btn" OnClick="btnSearch_Click" Style="display: none" />
                                 </div>
                             </div>
                         </div>
                     </div>
-
                     <div class="panel-table clear">
                         <div class="responsive-table">
                             <div class="row">
-                            <div class="col-md-2">
-                                <div class="report-column">
-                                    <div class="report-label">
-                                        Tổng doanh thu:
-                                    </div>
-                                    <div class="report-value">
-                                        <asp:Literal ID="ltrTotalRevenue" runat="server" EnableViewState="false"></asp:Literal>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-2">
-                                <div class="report-column">
-                                    <div class="report-label">
-                                        Tổng giá vốn:
-                                    </div>
-                                    <div class="report-value">
-                                        <asp:Literal ID="ltrTotalCost" runat="server" EnableViewState="false"></asp:Literal>
+                                <div class="col-md-2">
+                                    <div class="report-column">
+                                        <div class="report-label">
+                                            Tổng lợi nhuận:
+                                        </div>
+                                        <div class="report-value">
+                                            <asp:Literal ID="ltrTotalProfit" runat="server" EnableViewState="false"></asp:Literal>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="col-md-2">
-                                <div class="report-column">
-                                    <div class="report-label">
-                                        Tổng trả hàng:
-                                    </div>
-                                    <div class="report-value">
-                                        <asp:Literal ID="ltrTotalRefund" runat="server" EnableViewState="false"></asp:Literal>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-2">
-                                <div class="report-column">
-                                    <div class="report-label">
-                                        Tổng lợi nhuận:
-                                    </div>
-                                    <div class="report-value">
-                                        <asp:Literal ID="ltrTotalProfit" runat="server" EnableViewState="false"></asp:Literal>
+                                <div class="col-md-2">
+                                    <div class="report-column">
+                                        <div class="report-label">
+                                            Lợi nhuận mỗi ngày:
+                                        </div>
+                                        <div class="report-value">
+                                            <asp:Literal ID="ltrProfitPerDay" runat="server" EnableViewState="false"></asp:Literal>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="col-md-2">
-                                <div class="report-column">
-                                    <div class="report-label">
-                                        Lợi nhuận mỗi ngày:
-                                    </div>
-                                    <div class="report-value">
-                                        <asp:Literal ID="ltrProfitPerDay" runat="server" EnableViewState="false"></asp:Literal>
+                                <div class="col-md-2">
+                                    <div class="report-column">
+                                        <div class="report-label">
+                                            Lợi nhuận mỗi đơn hàng:
+                                        </div>
+                                        <div class="report-value">
+                                            <asp:Literal ID="ltrProfitPerOrder" runat="server" EnableViewState="false"></asp:Literal>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="col-md-2">
-                                <div class="report-column">
-                                    <div class="report-label">
-                                        Lợi nhuận mỗi đơn hàng:
+                                <div class="col-md-2">
+                                    <div class="report-column">
+                                        <div class="report-label">
+                                            Tổng doanh thu:
+                                        </div>
+                                        <div class="report-value">
+                                            <asp:Literal ID="ltrTotalRevenue" runat="server" EnableViewState="false"></asp:Literal>
+                                        </div>
                                     </div>
-                                    <div class="report-value">
-                                        <asp:Literal ID="ltrProfitPerOrder" runat="server" EnableViewState="false"></asp:Literal>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="report-column">
+                                        <div class="report-label">
+                                            Tổng giá vốn:
+                                        </div>
+                                        <div class="report-value">
+                                            <asp:Literal ID="ltrTotalCost" runat="server" EnableViewState="false"></asp:Literal>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="report-column">
+                                        <div class="report-label">
+                                            Tổng trả hàng:
+                                        </div>
+                                        <div class="report-value">
+                                            <asp:Literal ID="ltrTotalRefund" runat="server" EnableViewState="false"></asp:Literal>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -111,10 +111,12 @@
                 </div>
             </div>
         </div>
+
         <script type="text/javascript">
-            function searchAgent() {
+            function search() {
                 $("#<%= btnSearch.ClientID%>").click();
             }
         </script>
+
     </main>
 </asp:Content>

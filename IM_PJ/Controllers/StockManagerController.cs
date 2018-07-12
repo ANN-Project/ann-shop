@@ -695,24 +695,23 @@ namespace IM_PJ.Controllers
         {
             using (var con = new inventorymanagementEntities())
             {
-                var today = DateTime.Today;
-                var tomorrow = today.AddDays(1);
+                var today = DateTime.Today.AddDays(-1);
+                var tomorrow = today.AddDays(2);
 
                 var stockToDay = con.tbl_StockManager
                     .Where(x => today <= x.CreatedDate && x.CreatedDate < tomorrow)
-                    .GroupBy(x => new {x.ProductID, x.ProductVariableID })
+                    .GroupBy(x => new {x.SKU})
                     .Select(x => new
                     {
-                        ProductID = x.Key.ProductID,
-                        ProductVariableID = x.Key.ProductVariableID,
+                        SKU = x.Key.SKU,
                         CreatedDate = x.Max(row => row.CreatedDate)
                     });
 
                 return con.tbl_StockManager
                             .Join(
                                 stockToDay,
-                                stock => new { stock.ProductID, stock.ProductVariableID, stock.CreatedDate },
-                                stock_max => new { stock_max.ProductID, stock_max.ProductVariableID, stock_max.CreatedDate },
+                                stock => new { stock.SKU, stock.CreatedDate },
+                                stock_max => new { stock_max.SKU, stock_max.CreatedDate },
                                 (stock, stock_max) => stock)
                              .ToList();
             }
