@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Text;
 using System.Web;
 using WebUI.Business;
 
@@ -197,6 +198,111 @@ namespace IM_PJ.Controllers
             }
         }
 
+        public static List<RefundOrder> Filter(string TextSearch, int Status, string RefundFee, string CreatedBy, string CreatedDate)
+        {
+            var list = new List<RefundOrder>();
+            var sql = new StringBuilder();
+
+            sql.AppendLine(String.Format("SELECT Ord.ID, Ord.CustomerName, Ord.CustomerPhone, Customer.Nick, Ord.CustomerID, Ord.Status, Ord.TotalPrice, Ord.TotalRefundFee, Ord.CreatedBy, Ord.CreatedDate, Ord.RefundNote, Ord.OrderSaleID, SUM(ISNULL(OrdDetail.Quantity, 0)) AS Quantity "));
+            sql.AppendLine(String.Format("FROM tbl_RefundGoods AS Ord"));
+            sql.AppendLine(String.Format("INNER JOIN tbl_RefundGoodsDetails AS OrdDetail"));
+            sql.AppendLine(String.Format("ON 	Ord.ID = OrdDetail.RefundGoodsID"));
+            sql.AppendLine(String.Format("INNER JOIN tbl_Customer AS Customer"));
+            sql.AppendLine(String.Format("ON 	Ord.CustomerID = Customer.ID"));
+            sql.AppendLine(String.Format("WHERE 1 = 1"));
+
+            if (Status > 0)
+            {
+                sql.AppendLine(String.Format("	AND Ord.Status = {0}", Status));
+            }
+
+            if (RefundFee != "")
+            {
+                if(RefundFee == "yes")
+                {
+                    sql.AppendLine(String.Format("	AND Ord.TotalRefundFee > 0"));
+                }
+                else
+                {
+                    sql.AppendLine(String.Format("	AND Ord.TotalRefundFee = 0"));
+                }
+            }
+
+            if (TextSearch != "")
+            {
+                string TextSearchName = '"' + TextSearch + '"';
+                sql.AppendLine(String.Format("	AND (  CONTAINS(Ord.CustomerName, '{1}') OR CONTAINS(Customer.Nick, '{1}') OR (Ord.CustomerPhone = '{0}') OR (convert(nvarchar, Ord.ID) = '{0}') OR (convert(nvarchar, Ord.OrderSaleID) = '{0}') OR (OrdDetail.SKU LIKE '{0}%')  )", TextSearch, TextSearchName));
+            }
+
+            if (CreatedBy != "")
+            {
+                sql.AppendLine(String.Format("	AND Ord.CreatedBy = '{0}'", CreatedBy));
+            }
+
+            if (CreatedDate != "")
+            {
+                DateTime fromdate = DateTime.Today;
+                DateTime todate = DateTime.Now;
+                switch (CreatedDate)
+                {
+                    case "today":
+                        fromdate = DateTime.Today;
+                        todate = DateTime.Now;
+                        break;
+                    case "yesterday":
+                        fromdate = fromdate.AddDays(-1);
+                        todate = DateTime.Today;
+                        break;
+                    case "week":
+                        fromdate = fromdate.AddDays(-(int)fromdate.DayOfWeek + 1);
+                        todate = DateTime.Now;
+                        break;
+                    case "month":
+                        fromdate = new DateTime(fromdate.Year, fromdate.Month, 1);
+                        todate = DateTime.Now;
+                        break;
+                    case "7days":
+                        fromdate = DateTime.Today.AddDays(-6);
+                        todate = DateTime.Now;
+                        break;
+                    case "30days":
+                        fromdate = DateTime.Today.AddDays(-29);
+                        todate = DateTime.Now;
+                        break;
+                }
+                sql.AppendLine(String.Format("	AND	(CONVERT(datetime, Ord.CreatedDate, 121) BETWEEN CONVERT(datetime, '{0}', 121) AND CONVERT(datetime, '{1}', 121))", fromdate.ToString(), todate.ToString()));
+            }
+
+            sql.AppendLine(String.Format("GROUP BY Ord.ID, Ord.CustomerName, Ord.CustomerPhone, Customer.Nick, Ord.CustomerID, Ord.Status, Ord.TotalPrice, Ord.TotalRefundFee, Ord.CreatedBy, Ord.CreatedDate, Ord.RefundNote, Ord.OrderSaleID"));
+            sql.AppendLine(String.Format("ORDER BY Ord.ID DESC"));
+
+            var reader = (IDataReader)SqlHelper.ExecuteDataReader(sql.ToString());
+            while (reader.Read())
+            {
+                var entity = new RefundOrder();
+
+                entity.ID = Convert.ToInt32(reader["ID"]);
+                entity.CustomerName = reader["CustomerName"].ToString();
+                entity.CustomerPhone = reader["CustomerPhone"].ToString();
+                entity.CustomerID = Convert.ToInt32(reader["CustomerID"]);
+                entity.Nick = reader["Nick"].ToString();
+                entity.Status = Convert.ToInt32(reader["Status"]);
+                entity.TotalPrice = Convert.ToInt32(reader["TotalPrice"]);
+                entity.TotalRefundFee = Convert.ToInt32(reader["TotalRefundFee"]);
+                entity.CreatedBy = reader["CreatedBy"].ToString();
+                entity.CreatedDate = Convert.ToDateTime(reader["CreatedDate"]);
+                if (reader["RefundNote"] != DBNull.Value)
+                    entity.RefundNote = reader["RefundNote"].ToString();
+                if (reader["OrderSaleID"] != DBNull.Value)
+                    entity.OrderSaleID = Convert.ToInt32(reader["OrderSaleID"]);
+                entity.Quantity = Convert.ToInt32(reader["Quantity"]);
+
+                list.Add(entity);
+            }
+            reader.Close();
+            return list;
+        }
+
         public static List<tbl_RefundGoods> Search(string s, int n, int status, string by)
         {
             using (var dbe = new inventorymanagementEntities())
@@ -375,5 +481,21 @@ namespace IM_PJ.Controllers
             }
         }
         #endregion
+        public class RefundOrder
+        {
+            public int ID { get; set; }
+            public int CustomerID { get; set; }
+            public string CustomerName { get; set; }
+            public string CustomerPhone { get; set; }
+            public string Nick { get; set; }
+            public int Status { get; set; }
+            public int Quantity { get; set; }
+            public double TotalPrice { get; set; }
+            public double TotalRefundFee { get; set; }
+            public DateTime CreatedDate { get; set; }
+            public string CreatedBy { get; set; }
+            public string RefundNote { get; set; }
+            public Nullable<int> OrderSaleID { get; set; }
+        }
     }
 }

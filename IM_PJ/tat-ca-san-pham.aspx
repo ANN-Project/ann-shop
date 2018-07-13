@@ -7,7 +7,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
-                    <h3 class="page-title left">Danh sách sản phẩm</h3>
+                    <h3 class="page-title left">Danh sách sản phẩm <span>(<asp:Literal ID="ltrNumberOfProduct" runat="server" EnableViewState="false"></asp:Literal> sản phẩm)</span></h3>
                     <div class="right above-list-btn">
                         <asp:Literal ID="ltrAddProduct" runat="server"></asp:Literal>
                     </div>
@@ -18,18 +18,29 @@
                     <div class="filter-above-wrap clear">
                         <div class="filter-control">
                             <div class="row">
-                                <div class="col-md-5">
+                                <div class="col-md-4">
                                     <asp:TextBox ID="txtSearchProduct" runat="server" CssClass="form-control sku-input" placeholder="Tìm sản phẩm" autocomplete="off"></asp:TextBox>
                                 </div>
                                 <div class="col-md-3">
                                     <asp:DropDownList ID="ddlCategory" runat="server" CssClass="form-control"></asp:DropDownList>
                                 </div>
-                                <div class="col-md-3">
-                                    <asp:DropDownList ID="ddlType" runat="server" CssClass="form-control">
+                                <div class="col-md-2">
+                                    <asp:DropDownList ID="ddlStockStatus" runat="server" CssClass="form-control">
                                         <asp:ListItem Value="0" Text="Trạng thái"></asp:ListItem>
                                         <asp:ListItem Value="1" Text="Còn hàng"></asp:ListItem>
                                         <asp:ListItem Value="2" Text="Hết hàng"></asp:ListItem>
                                         <asp:ListItem Value="3" Text="Nhập hàng"></asp:ListItem>
+                                    </asp:DropDownList>
+                                </div>
+                                <div class="col-md-2">
+                                    <asp:DropDownList ID="ddlCreatedDate" runat="server" CssClass="form-control">
+                                        <asp:ListItem Value="0" Text="Thời gian tạo"></asp:ListItem>
+                                        <asp:ListItem Value="today" Text="Hôm nay"></asp:ListItem>
+                                        <asp:ListItem Value="yesterday" Text="Hôm qua"></asp:ListItem>
+                                        <asp:ListItem Value="week" Text="Tuần này"></asp:ListItem>
+                                        <asp:ListItem Value="month" Text="Tháng này"></asp:ListItem>
+                                        <asp:ListItem Value="7days" Text="7 ngày"></asp:ListItem>
+                                        <asp:ListItem Value="30days" Text="30 ngày"></asp:ListItem>
                                     </asp:DropDownList>
                                 </div>
                                 <div class="col-md-1">

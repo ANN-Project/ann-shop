@@ -18,15 +18,12 @@
                     <div class="filter-above-wrap clear">
                         <div class="filter-control">
                             <div class="row">
-                                <div class="col-md-5">
+                                <div class="col-md-9">
                                     <asp:TextBox ID="txtSearchOrder" runat="server" CssClass="form-control" placeholder="Tìm đơn hàng" autocomplete="off"></asp:TextBox>
-                                </div>
-                                <div class="col-md-4">
-                                    <asp:TextBox ID="txtSKU" runat="server" CssClass="form-control" placeholder="Tìm mã sản phẩm" autocomplete="off"></asp:TextBox>
                                 </div>
                                 <div class="col-md-2">
                                     <asp:DropDownList ID="ddlCreatedDate" runat="server" CssClass="form-control">
-                                        <asp:ListItem Value="0" Text="Thời gian đơn hàng"></asp:ListItem>
+                                        <asp:ListItem Value="" Text="Thời gian đơn hàng"></asp:ListItem>
                                         <asp:ListItem Value="today" Text="Hôm nay"></asp:ListItem>
                                         <asp:ListItem Value="yesterday" Text="Hôm qua"></asp:ListItem>
                                         <asp:ListItem Value="week" Text="Tuần này"></asp:ListItem>
@@ -45,14 +42,14 @@
                             <div class="row">
                                 <div class="col-md-1">
                                     <asp:DropDownList ID="ddlOrderType" runat="server" CssClass="form-control">
-                                        <asp:ListItem Value="0" Text="Loại"></asp:ListItem>
+                                        <asp:ListItem Value="" Text="Loại"></asp:ListItem>
                                         <asp:ListItem Value="1" Text="Lẻ"></asp:ListItem>
                                         <asp:ListItem Value="2" Text="Sỉ"></asp:ListItem>
                                     </asp:DropDownList>
                                 </div>
                                 <div class="col-md-2">
                                     <asp:DropDownList ID="ddlExcuteStatus" runat="server" CssClass="form-control">
-                                        <asp:ListItem Value="0" Text="Xử lý"></asp:ListItem>
+                                        <asp:ListItem Value="" Text="Xử lý"></asp:ListItem>
                                         <asp:ListItem Value="1" Text="Đang xử lý"></asp:ListItem>
                                         <asp:ListItem Value="2" Text="Đã hoàn tất"></asp:ListItem>
                                         <asp:ListItem Value="3" Text="Đã hủy"></asp:ListItem>
@@ -60,7 +57,7 @@
                                 </div>
                                 <div class="col-md-2">
                                     <asp:DropDownList ID="ddlPaymentStatus" runat="server" CssClass="form-control">
-                                        <asp:ListItem Value="0" Text="Thanh toán"></asp:ListItem>
+                                        <asp:ListItem Value="" Text="Thanh toán"></asp:ListItem>
                                         <asp:ListItem Value="1" Text="Chưa thanh toán"></asp:ListItem>
                                         <asp:ListItem Value="2" Text="Thanh toán thiếu"></asp:ListItem>
                                         <asp:ListItem Value="3" Text="Đã thanh toán"></asp:ListItem>
@@ -68,7 +65,7 @@
                                 </div>
                                 <div class="col-md-2">
                                     <asp:DropDownList ID="ddlPaymentType" runat="server" CssClass="form-control">
-                                        <asp:ListItem Value="0" Text="Kiểu thanh toán"></asp:ListItem>
+                                        <asp:ListItem Value="" Text="Kiểu thanh toán"></asp:ListItem>
                                         <asp:ListItem Value="1" Text="Tiền mặt"></asp:ListItem>
                                         <asp:ListItem Value="2" Text="Chuyển khoản"></asp:ListItem>
                                         <asp:ListItem Value="3" Text="Thu hộ"></asp:ListItem>
@@ -77,7 +74,7 @@
                                 </div>
                                 <div class="col-md-2">
                                     <asp:DropDownList ID="ddlShippingType" runat="server" CssClass="form-control">
-                                        <asp:ListItem Value="0" Text="Giao hàng"></asp:ListItem>
+                                        <asp:ListItem Value="" Text="Giao hàng"></asp:ListItem>
                                         <asp:ListItem Value="1" Text="Lấy trực tiếp"></asp:ListItem>
                                         <asp:ListItem Value="2" Text="Chuyển bưu điện"></asp:ListItem>
                                         <asp:ListItem Value="3" Text="Chuyển GHTK"></asp:ListItem>

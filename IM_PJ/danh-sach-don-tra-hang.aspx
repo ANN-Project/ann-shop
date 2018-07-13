@@ -7,7 +7,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
-                    <h3 class="page-title left">Danh sách đổi trả hàng</h3>
+                    <h3 class="page-title left">Danh sách đổi trả hàng <span>(<asp:Literal ID="ltrNumberOfOrder" runat="server" EnableViewState="false"></asp:Literal> đơn)</span></h3>
                     <div class="right above-list-btn">
                         <a href="/tao-don-hang-doi-tra" class="h45-btn primary-btn btn">Thêm mới</a>
                     </div>
@@ -19,12 +19,9 @@
                         <div class="filter-control">
                             <div class="row">
                                 <div class="col-md-3">
-                                    <asp:TextBox ID="txtAgentName" runat="server" CssClass="form-control" placeholder="Tìm đơn hàng" autocomplete="off"></asp:TextBox>
+                                    <asp:TextBox ID="txtSearchOrder" runat="server" CssClass="form-control" placeholder="Tìm đơn hàng" autocomplete="off"></asp:TextBox>
                                 </div>
-                                <div class="col-md-3">
-                                    <asp:DropDownList ID="ddlAgentName" runat="server" CssClass="form-control"></asp:DropDownList>
-                                </div>
-                                <div class="col-md-3">
+                                <div class="col-md-2">
                                     <asp:DropDownList ID="ddlStatus" runat="server" CssClass="form-control">
                                         <asp:ListItem Value="0">Trạng thái</asp:ListItem>
                                         <asp:ListItem Value="1">Chưa trừ tiền</asp:ListItem>
@@ -32,7 +29,25 @@
                                     </asp:DropDownList>
                                 </div>
                                 <div class="col-md-2">
-                                    <asp:DropDownList ID="ddlCreateBy" runat="server" CssClass="form-control create"></asp:DropDownList>
+                                    <asp:DropDownList ID="ddlRefundFee" runat="server" CssClass="form-control">
+                                        <asp:ListItem Value="">Phí đổi hàng</asp:ListItem>
+                                        <asp:ListItem Value="yes">Có phí</asp:ListItem>
+                                        <asp:ListItem Value="no">Miễn phí</asp:ListItem>
+                                    </asp:DropDownList>
+                                </div>
+                                <div class="col-md-2">
+                                    <asp:DropDownList ID="ddlCreatedDate" runat="server" CssClass="form-control">
+                                        <asp:ListItem Value="" Text="Thời gian đơn hàng"></asp:ListItem>
+                                        <asp:ListItem Value="today" Text="Hôm nay"></asp:ListItem>
+                                        <asp:ListItem Value="yesterday" Text="Hôm qua"></asp:ListItem>
+                                        <asp:ListItem Value="week" Text="Tuần này"></asp:ListItem>
+                                        <asp:ListItem Value="month" Text="Tháng này"></asp:ListItem>
+                                        <asp:ListItem Value="7days" Text="7 ngày"></asp:ListItem>
+                                        <asp:ListItem Value="30days" Text="30 ngày"></asp:ListItem>
+                                    </asp:DropDownList>
+                                </div>
+                                <div class="col-md-2">
+                                    <asp:DropDownList ID="ddlCreatedBy" runat="server" CssClass="form-control create"></asp:DropDownList>
                                 </div>
                                 <div class="col-md-1">
                                     <a href="javascript:;" onclick="searchAgent()" class="btn primary-btn h45-btn"><i class="fa fa-search"></i></a>

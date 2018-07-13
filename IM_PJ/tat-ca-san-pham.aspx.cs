@@ -75,27 +75,66 @@ namespace IM_PJ
                 }
             }
             
-            string s = "";
-            int categoryID = 0;
-            int type = 0;
-            if (Request.QueryString["s"] != null)
-                s = Request.QueryString["s"].Trim();
-            if (Request.QueryString["type"] != null)
-                type = Request.QueryString["type"].ToInt(0);
-            if (Request.QueryString["categoryid"] != null)
-                categoryID = Request.QueryString["categoryid"].ToInt(0);
+            string TextSearch = "";
+            string CreatedDate = "0";
+            int CategoryID = 0;
+            int StockStatus = 0;
 
-            txtSearchProduct.Text = s;
-            ddlCategory.SelectedValue = categoryID.ToString();
-            ddlType.SelectedValue = type.ToString();
+            if (Request.QueryString["textsearch"] != null)
+                TextSearch = Request.QueryString["textsearch"].Trim();
+            if (Request.QueryString["stockstatus"] != null)
+                StockStatus = Request.QueryString["stockstatus"].ToInt(0);
+            if (Request.QueryString["categoryid"] != null)
+                CategoryID = Request.QueryString["categoryid"].ToInt(0);
+            if (Request.QueryString["createddate"] != null)
+                CreatedDate = Request.QueryString["createddate"];
+
+            txtSearchProduct.Text = TextSearch;
+            ddlCategory.SelectedValue = CategoryID.ToString();
+            ddlCreatedDate.SelectedValue = CreatedDate.ToString();
+            ddlStockStatus.SelectedValue = StockStatus.ToString();
 
             List<ProductSQL> a = new List<ProductSQL>();
-            a = ProductController.GetAllSql(categoryID, s);
-            if (type != 0)
+            a = ProductController.GetAllSql(CategoryID, TextSearch);
+            if (StockStatus != 0)
             {
-                a = a.Where(p => p.StockStatus == type).ToList();
+                a = a.Where(p => p.StockStatus == StockStatus).ToList();
+            }
+            if (CreatedDate != "0")
+            {
+                DateTime fromdate = DateTime.Today;
+                DateTime todate = DateTime.Now;
+                switch (CreatedDate)
+                {
+                    case "today":
+                        fromdate = DateTime.Today;
+                        todate = DateTime.Now;
+                        break;
+                    case "yesterday":
+                        fromdate = fromdate.AddDays(-1);
+                        todate = DateTime.Today;
+                        break;
+                    case "week":
+                        fromdate = fromdate.AddDays(-(int)fromdate.DayOfWeek + 1);
+                        todate = DateTime.Now;
+                        break;
+                    case "month":
+                        fromdate = new DateTime(fromdate.Year, fromdate.Month, 1);
+                        todate = DateTime.Now;
+                        break;
+                    case "7days":
+                        fromdate = DateTime.Today.AddDays(-6);
+                        todate = DateTime.Now;
+                        break;
+                    case "30days":
+                        fromdate = DateTime.Today.AddDays(-29);
+                        todate = DateTime.Now;
+                        break;
+                }
+                a = a.Where(p => p.CreatedDate >= fromdate && p.CreatedDate <= todate ).ToList();
             }
             pagingall(a);
+            ltrNumberOfProduct.Text = a.Count().ToString();
         }
         #region Paging
         public void pagingall(List<ProductSQL> acs)
@@ -105,6 +144,23 @@ namespace IM_PJ
 
             int PageSize = 30;
             StringBuilder html = new StringBuilder();
+            html.Append("<tr>");
+            html.Append("    <th class='image-column'>Ảnh</th>");
+            html.Append("    <th class='name-column'>Sản phẩm</th>");
+            html.Append("    <th class='sku-column'>Mã</th>");
+            html.Append("    <th class='wholesale-price-column'>Giá sỉ</th>");
+            if (acc.RoleID == 0)
+            {
+                html.Append("    <th class='cost-price-column'>Giá vốn</th> ");
+            }
+            html.Append("    <th class='retail-price-column'>Giá lẻ</th>");
+            html.Append("    <th class='stock-column'>Kho</th>");
+            html.Append("    <th class='stock-status-column'>Trạng thái</th>");
+            html.Append("    <th class='category-column'>Danh mục</th>");
+            html.Append("    <th class='date-column'>Ngày tạo</th>");
+            html.Append("    <th class='action-column'></th>");
+            html.Append("</tr>");
+
             if (acs.Count > 0)
             {
                 int TotalItems = acs.Count;
@@ -120,23 +176,6 @@ namespace IM_PJ
                 int ToRow = Page * PageSize - 1;
                 if (ToRow >= TotalItems)
                     ToRow = TotalItems - 1;
-
-                html.Append("<tr>");
-                html.Append("    <th class='image-column'>Ảnh</th>");
-                html.Append("    <th class='name-column'>Sản phẩm</th>");
-                html.Append("    <th class='sku-column'>Mã</th>");
-                html.Append("    <th class='wholesale-price-column'>Giá sỉ</th>");
-                if(acc.RoleID == 0)
-                {
-                    html.Append("    <th class='cost-price-column'>Giá vốn</th> ");
-                }
-                html.Append("    <th class='retail-price-column'>Giá lẻ</th>");
-                html.Append("    <th class='stock-column'>Kho</th>");
-                html.Append("    <th class='stock-status-column'>Trạng thái</th>");
-                html.Append("    <th class='category-column'>Danh mục</th>");
-                html.Append("    <th class='date-column'>Ngày tạo</th>");
-                html.Append("    <th class='action-column'></th>");
-                html.Append("</tr>");
 
                 for (int i = FromRow; i < ToRow + 1; i++)
                 {
@@ -166,6 +205,10 @@ namespace IM_PJ
                     html.Append("  </td>");
                     html.Append("</tr>");
                 }
+            }
+            else
+            {
+                html.Append("<tr><td colspan=\"11\">Không tìm thấy sản phẩm...</td></tr>");
             }
             ltrList.Text = html.ToString();
         }
@@ -312,7 +355,28 @@ namespace IM_PJ
         protected void btnSearch_Click(object sender, EventArgs e)
         {
             string search = txtSearchProduct.Text;
-            Response.Redirect("/tat-ca-san-pham?s=" + search + "&type=" + ddlType.SelectedValue + "&categoryid=" + ddlCategory.SelectedValue + "");
+            string request = "/tat-ca-san-pham?";
+
+            if (search != "")
+            {
+                request += "&textsearch=" + search;
+            }
+
+            if (ddlStockStatus.SelectedValue != "0")
+            {
+                request += "&stockstatus=" + ddlStockStatus.SelectedValue;
+            }
+
+            if (ddlCategory.SelectedValue != "0")
+            {
+                request += "&categoryid=" + ddlCategory.SelectedValue;
+            }
+
+            if (ddlCreatedDate.SelectedValue != "0")
+            {
+                request += "&createddate=" + ddlCreatedDate.SelectedValue;
+            }
+            Response.Redirect(request);
         }
         public class danhmuccon1
         {

@@ -13,6 +13,15 @@ namespace IM_PJ {
     public partial class tat_ca_san_pham {
         
         /// <summary>
+        /// ltrNumberOfProduct control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Literal ltrNumberOfProduct;
+        
+        /// <summary>
         /// ltrAddProduct control.
         /// </summary>
         /// <remarks>
@@ -40,13 +49,22 @@ namespace IM_PJ {
         protected global::System.Web.UI.WebControls.DropDownList ddlCategory;
         
         /// <summary>
-        /// ddlType control.
+        /// ddlStockStatus control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlType;
+        protected global::System.Web.UI.WebControls.DropDownList ddlStockStatus;
+        
+        /// <summary>
+        /// ddlCreatedDate control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlCreatedDate;
         
         /// <summary>
         /// btnSearch control.

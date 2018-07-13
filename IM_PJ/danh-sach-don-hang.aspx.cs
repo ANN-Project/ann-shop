@@ -63,9 +63,8 @@ namespace IM_PJ
                 int PaymentType = 0;
                 int ShippingType = 0;
                 string TextSearch = "";
-                string CreatedBy = "0";
-                string ProductSKU = "";
-                string CreatedDate = "0";
+                string CreatedBy = "";
+                string CreatedDate = "";
                 
                 if (Request.QueryString["ordertype"] != null)
                 {
@@ -95,10 +94,6 @@ namespace IM_PJ
                 {
                     CreatedBy = Request.QueryString["createdby"];
                 }
-                if (Request.QueryString["productsku"] != null)
-                {
-                    ProductSKU = Request.QueryString["productsku"];
-                }
                 if (Request.QueryString["createdby"] != null)
                 {
                     CreatedBy = Request.QueryString["createdby"];
@@ -108,8 +103,6 @@ namespace IM_PJ
                     CreatedDate = Request.QueryString["createddate"];
                 }
 
-                
-                txtSKU.Text = ProductSKU;
                 txtSearchOrder.Text = TextSearch;
                 ddlOrderType.SelectedValue = OrderType.ToString();
                 ddlExcuteStatus.SelectedValue = ExcuteStatus.ToString();
@@ -120,11 +113,11 @@ namespace IM_PJ
                 ddlCreatedDate.SelectedValue = CreatedDate.ToString();
 
                 List<OrderList> rs = new List<OrderList>();
-                rs = OrderController.Filter(TextSearch, OrderType, ExcuteStatus, PaymentStatus, PaymentType, ShippingType, CreatedBy, ProductSKU, CreatedDate);
+                rs = OrderController.Filter(TextSearch, OrderType, ExcuteStatus, PaymentStatus, PaymentType, ShippingType, CreatedBy, CreatedDate);
                 if (acc.RoleID == 0)
                 {
                     hdfcreate.Value = "1";
-                    if (CreatedBy != "0")
+                    if (CreatedBy != "")
                     {
                         pagingall(rs.Where(x => x.CreatedBy == CreatedBy && x.ExcuteStatus != 4).ToList());
                     }
@@ -153,7 +146,7 @@ namespace IM_PJ
             {
                 var CreateBy = AccountController.GetAllNotSearch();
                 ddlCreatedBy.Items.Clear();
-                ddlCreatedBy.Items.Insert(0, new ListItem("Nhân viên", "0"));
+                ddlCreatedBy.Items.Insert(0, new ListItem("Nhân viên", ""));
                 if (CreateBy.Count > 0)
                 {
                     foreach (var p in CreateBy)
@@ -405,8 +398,7 @@ namespace IM_PJ
 
         protected void btnSearch_Click(object sender, EventArgs e)
         {
-            string search = txtSearchOrder.Text;
-            string SKU = txtSKU.Text;
+            string search = txtSearchOrder.Text.Trim();
             string request = "/danh-sach-don-hang?";
 
             if (search != "")
@@ -414,42 +406,37 @@ namespace IM_PJ
                 request += "&textsearch=" + search;
             }
 
-            if(ddlOrderType.SelectedValue != "0")
+            if(ddlOrderType.SelectedValue != "")
             {
                 request += "&ordertype=" + ddlOrderType.SelectedValue;
             }
 
-            if (ddlPaymentStatus.SelectedValue != "0")
+            if (ddlPaymentStatus.SelectedValue != "")
             {
                 request += "&paymentstatus=" + ddlPaymentStatus.SelectedValue;
             }
 
-            if (ddlExcuteStatus.SelectedValue != "0")
+            if (ddlExcuteStatus.SelectedValue != "")
             {
                 request += "&excutestatus=" + ddlExcuteStatus.SelectedValue;
             }
 
-            if (ddlPaymentType.SelectedValue != "0")
+            if (ddlPaymentType.SelectedValue != "")
             {
                 request += "&paymenttype=" + ddlPaymentType.SelectedValue;
             }
 
-            if (ddlShippingType.SelectedValue != "0")
+            if (ddlShippingType.SelectedValue != "")
             {
                 request += "&shippingtype=" + ddlShippingType.SelectedValue;
             }
 
-            if (SKU != "")
-            {
-                request += "&productsku=" + SKU;
-            }
-
-            if (ddlCreatedBy.SelectedValue != "0")
+            if (ddlCreatedBy.SelectedValue != "")
             {
                 request += "&createdby=" + ddlCreatedBy.SelectedValue;
             }
 
-            if (ddlCreatedDate.SelectedValue != "0")
+            if (ddlCreatedDate.SelectedValue != "")
             {
                 request += "&createddate=" + ddlCreatedDate.SelectedValue;
             }

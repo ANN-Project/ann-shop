@@ -13,22 +13,22 @@ namespace IM_PJ {
     public partial class danh_sach_don_tra_hang {
         
         /// <summary>
-        /// txtAgentName control.
+        /// ltrNumberOfOrder control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtAgentName;
+        protected global::System.Web.UI.WebControls.Literal ltrNumberOfOrder;
         
         /// <summary>
-        /// ddlAgentName control.
+        /// txtSearchOrder control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlAgentName;
+        protected global::System.Web.UI.WebControls.TextBox txtSearchOrder;
         
         /// <summary>
         /// ddlStatus control.
@@ -40,13 +40,31 @@ namespace IM_PJ {
         protected global::System.Web.UI.WebControls.DropDownList ddlStatus;
         
         /// <summary>
-        /// ddlCreateBy control.
+        /// ddlRefundFee control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlCreateBy;
+        protected global::System.Web.UI.WebControls.DropDownList ddlRefundFee;
+        
+        /// <summary>
+        /// ddlCreatedDate control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlCreatedDate;
+        
+        /// <summary>
+        /// ddlCreatedBy control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlCreatedBy;
         
         /// <summary>
         /// btnSearch control.
