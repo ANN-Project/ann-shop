@@ -322,7 +322,7 @@ namespace IM_PJ.Controllers
             }
         }
 
-        public static List<OrderList> Filter()
+        public static List<OrderList> Filter(string TextSearch, int OrderType, int ExcuteStatus, int PaymentStatus, int PaymentType, int ShippingType, string CreatedBy, string ProductSKU, string CreatedDate)
         {
             var list = new List<OrderList>();
             var sql = new StringBuilder();
@@ -334,13 +334,89 @@ namespace IM_PJ.Controllers
             sql.AppendLine(String.Format("INNER JOIN tbl_Customer AS Customer"));
             sql.AppendLine(String.Format("ON 	Ord.CustomerID = Customer.ID"));
             sql.AppendLine(String.Format("WHERE 1 = 1"));
-            sql.AppendLine(String.Format("	AND ((Ord.ID = '4535') OR CONTAINS(Ord.CustomerName, '4535') OR (Ord.CustomerPhone = '4535') OR (Ord.ShippingCode = '4535'))"));
-            sql.AppendLine(String.Format("	AND Ord.OrderType = 2"));
-            sql.AppendLine(String.Format("	AND Ord.ExcuteStatus != 4"));
-            sql.AppendLine(String.Format("	AND Ord.PaymentStatus = 1"));
-            sql.AppendLine(String.Format("	AND Ord.PaymentType = 2"));
-            sql.AppendLine(String.Format("	AND Ord.ShippingType = 4"));
-            sql.AppendLine(String.Format("	AND Ord.CreatedBy = 'nhom_zalo406'"));
+
+            if(ProductSKU != "")
+            {
+                sql.AppendLine(String.Format("	AND OrdDetail.SKU LIKE '{0}%'", ProductSKU));
+            }
+
+            if(ExcuteStatus > 0)
+            {
+                sql.AppendLine(String.Format("	AND Ord.ExcuteStatus = {0}", ExcuteStatus));
+            }
+
+            if(TextSearch != "")
+            {
+                string TextSearchName = '"' + TextSearch + '"';
+                sql.AppendLine(String.Format("	AND ( (convert(nvarchar, Ord.ID) LIKE '{0}') OR CONTAINS(Ord.CustomerName, '{1}') OR CONTAINS(Customer.Nick, '{1}') OR (Ord.CustomerPhone = '{0}') OR (Ord.ShippingCode = '{0}'))", TextSearch, TextSearchName));
+            }
+            
+            if(OrderType > 0)
+            {
+                sql.AppendLine(String.Format("	AND Ord.OrderType = {0}", OrderType));
+            }
+
+            if(PaymentStatus > 0)
+            {
+                sql.AppendLine(String.Format("	AND Ord.PaymentStatus = {0}", PaymentStatus));
+            }
+
+            if(PaymentType > 0)
+            {
+                sql.AppendLine(String.Format("	AND Ord.PaymentType = {0}", PaymentType));
+            }
+            
+            if(ShippingType > 0)
+            {
+                sql.AppendLine(String.Format("	AND Ord.ShippingType = {0}", ShippingType));
+            }
+            
+            if(CreatedBy != "0")
+            {
+                sql.AppendLine(String.Format("	AND Ord.CreatedBy = '{0}'", CreatedBy));
+            }
+
+            if (CreatedDate != "0")
+            {
+                string column = "CreatedDate";
+                if (ExcuteStatus == 2)
+                {
+                    column = "DateDone";
+                }
+                DateTime fromdate = DateTime.Today;
+                DateTime todate = DateTime.Now;
+                switch (CreatedDate)
+                {
+                    case "today":
+                        fromdate = DateTime.Today;
+                        todate = DateTime.Now;
+                        break;
+                    case "yesterday":
+                        fromdate = fromdate.AddDays(-1);
+                        todate = DateTime.Today;
+                        break;
+                    case "week":
+                        fromdate = fromdate.AddDays(-(int)fromdate.DayOfWeek + 1);
+                        todate = DateTime.Now;
+                        break;
+                    case "month":
+                        fromdate = new DateTime(fromdate.Year, fromdate.Month, 1);
+                        todate = DateTime.Now;
+                        break;
+                    case "7days":
+                        fromdate = DateTime.Today.AddDays(-6);
+                        todate = DateTime.Now;
+                        break;
+                    case "30days":
+                        fromdate = DateTime.Today.AddDays(-29);
+                        todate = DateTime.Now;
+                        break;
+                }
+                sql.AppendLine(String.Format("	AND	CONVERT(datetime, Ord." + column + ", 121) BETWEEN CONVERT(datetime, '{0}', 121) AND CONVERT(datetime, '{1}', 121)", fromdate.ToString(), todate.ToString()));
+            }
+
+            
+
             sql.AppendLine(String.Format("GROUP BY Ord.ID, Ord.CustomerName, Customer.Nick, Customer.ID, Ord.OrderType, Ord.ExcuteStatus, Ord.PaymentStatus, Ord.PaymentType, Ord.ShippingType, Ord.TotalPrice, Ord.CreatedBy, Ord.CreatedDate, Ord.DateDone, Ord.RefundsGoodsID"));
             sql.AppendLine(String.Format("ORDER BY Ord.ID DESC"));
 

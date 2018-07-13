@@ -425,9 +425,9 @@ namespace IM_PJ
                                         string image = "";
                                         if (postedFile != null && postedFile.ContentLength > 0)
                                         {
-                                            string filePath = Server.MapPath("/uploads/images/") + kq + '-' + Path.GetFileName(postedFile.FileName);
-                                            postedFile.SaveAs(filePath);
-                                            image = "/uploads/images/" + Path.GetFileName(postedFile.FileName);
+                                            var o = path + kq + '-' + Path.GetFileName(postedFile.FileName);
+                                            postedFile.SaveAs(Server.MapPath(o));
+                                            image = o;
                                         }
 
                                         string kq1 = ProductVariableController.Insert(ProductID, ProductSKU, productvariablesku, 0, stockstatus, Convert.ToDouble(regularprice),

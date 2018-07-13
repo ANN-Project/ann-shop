@@ -12,6 +12,7 @@ using System.Web.Script.Serialization;
 using System.Web.Services;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using static IM_PJ.Controllers.OrderController;
 
 namespace IM_PJ
 {
@@ -26,14 +27,14 @@ namespace IM_PJ
                     string username = Request.Cookies["userLoginSystem"].Value;
                     var acc = AccountController.GetByUsername(username);
                     int agent = acc.AgentID.ToString().ToInt();
-                    
+
                     if (acc != null)
                     {
-                        if(acc.RoleID == 0)
+                        if (acc.RoleID == 0)
                         {
                             LoadCreatedBy(agent);
                         }
-                        else if(acc.RoleID == 2)
+                        else if (acc.RoleID == 2)
                         {
                             LoadCreatedBy(agent, acc);
                         }
@@ -56,126 +57,143 @@ namespace IM_PJ
             var acc = AccountController.GetByUsername(username);
             if (acc != null)
             {
-                int agentID = Convert.ToInt32(acc.AgentID);
-                int orderType = 0;
-                int paymentStatus = 0;
-                int excuteStatus = 0;
-                int payment = 0;
-                int ship = 0;
-                string s = "";
-                string sku = "";
-                int by = 0;
-                if (Request.QueryString["o"] != null)
+                int OrderType = 0;
+                int PaymentStatus = 0;
+                int ExcuteStatus = 0;
+                int PaymentType = 0;
+                int ShippingType = 0;
+                string TextSearch = "";
+                string CreatedBy = "0";
+                string ProductSKU = "";
+                string CreatedDate = "0";
+                
+                if (Request.QueryString["ordertype"] != null)
                 {
-                    orderType = Request.QueryString["o"].ToInt(0);
+                    OrderType = Request.QueryString["ordertype"].ToInt(0);
                 }
-                if (Request.QueryString["p"] != null)
+                if (Request.QueryString["paymentstatus"] != null)
                 {
-                    paymentStatus = Request.QueryString["p"].ToInt(0);
+                    PaymentStatus = Request.QueryString["paymentstatus"].ToInt(0);
                 }
-                if (Request.QueryString["e"] != null)
+                if (Request.QueryString["excutestatus"] != null)
                 {
-                    excuteStatus = Request.QueryString["e"].ToInt(0);
+                    ExcuteStatus = Request.QueryString["excutestatus"].ToInt(0);
                 }
-                if (Request.QueryString["pay"] != null)
+                if (Request.QueryString["paymenttype"] != null)
                 {
-                    payment = Request.QueryString["pay"].ToInt(0);
+                    PaymentType = Request.QueryString["paymenttype"].ToInt(0);
                 }
-                if (Request.QueryString["sh"] != null)
+                if (Request.QueryString["shippingtype"] != null)
                 {
-                    ship = Request.QueryString["sh"].ToInt(0);
+                    ShippingType = Request.QueryString["shippingtype"].ToInt(0);
                 }
-                if (Request.QueryString["s"] != null)
+                if (Request.QueryString["textsearch"] != null)
                 {
-                    s = Request.QueryString["s"];
+                    TextSearch = Request.QueryString["textsearch"];
                 }
-                if (Request.QueryString["sku"] != null)
+                if (Request.QueryString["createdby"] != null)
                 {
-                    sku = Request.QueryString["sku"];
+                    CreatedBy = Request.QueryString["createdby"];
                 }
-                if (Request.QueryString["sku"] != null)
+                if (Request.QueryString["productsku"] != null)
                 {
-                    sku = Request.QueryString["sku"];
+                    ProductSKU = Request.QueryString["productsku"];
                 }
-                if (Request.QueryString["by"] != null)
+                if (Request.QueryString["createdby"] != null)
                 {
-                    by = Request.QueryString["by"].ToInt(0);
+                    CreatedBy = Request.QueryString["createdby"];
                 }
-                txtAgentName.Text = s;
-                txtSKU.Text = sku;
-                ddlOrderType.SelectedValue = orderType.ToString();
-                ddlExcuteStatus.SelectedValue = excuteStatus.ToString();
-                ddlPaymentStatus.SelectedValue = paymentStatus.ToString();
-                ddlPaymentType.SelectedValue = payment.ToString();
-                ddlShippingType.SelectedValue = ship.ToString();
-                ddlCreateBy.SelectedValue = by.ToString();
+                if(Request.QueryString["createddate"] != null)
+                {
+                    CreatedDate = Request.QueryString["createddate"];
+                }
 
-                if (acc.RoleID == 0 || acc.RoleID == 2)
+                
+                txtSKU.Text = ProductSKU;
+                txtSearchOrder.Text = TextSearch;
+                ddlOrderType.SelectedValue = OrderType.ToString();
+                ddlExcuteStatus.SelectedValue = ExcuteStatus.ToString();
+                ddlPaymentStatus.SelectedValue = PaymentStatus.ToString();
+                ddlPaymentType.SelectedValue = PaymentType.ToString();
+                ddlShippingType.SelectedValue = ShippingType.ToString();
+                ddlCreatedBy.SelectedValue = CreatedBy.ToString();
+                ddlCreatedDate.SelectedValue = CreatedDate.ToString();
+
+                List<OrderList> rs = new List<OrderList>();
+                rs = OrderController.Filter(TextSearch, OrderType, ExcuteStatus, PaymentStatus, PaymentType, ShippingType, CreatedBy, ProductSKU, CreatedDate);
+                if (acc.RoleID == 0)
                 {
-                    var rs = OrderController.SearchByStatical(orderType, paymentStatus, excuteStatus, s, agentID, payment, ship, sku);
-                    if (rs.Count > 0)
+                    hdfcreate.Value = "1";
+                    if (CreatedBy != "0")
                     {
-                        if (acc.RoleID == 0)
-                        {
-                            hdfcreate.Value = "1";
-                            if (by > 0)
-                            {
-                                var create = AccountController.GetByID(by);
-                                if(create != null)
-                                {
-                                    pagingall(rs.Where(x=>x.CreatedBy == create.Username && x.ExcuteStatus != 4).ToList());
-                                }
-                            }
-                            else
-                            {
-                                pagingall(rs.Where(x => x.ExcuteStatus != 4).ToList());
-                            }
-                        }
-                        else
-                        {
-                            pagingall(rs.Where(x => x.CreatedBy == acc.Username && x.ExcuteStatus != 4).ToList());
-                        }
+                        pagingall(rs.Where(x => x.CreatedBy == CreatedBy && x.ExcuteStatus != 4).ToList());
+                    }
+                    else
+                    {
+                        pagingall(rs.Where(x => x.ExcuteStatus != 4).ToList());
                     }
                 }
                 else
                 {
-
+                    pagingall(rs.Where(x => x.CreatedBy == acc.Username && x.ExcuteStatus != 4).ToList());
                 }
+
+                ltrNumberOfOrder.Text = rs.Count().ToString();
             }
         }
 
         public void LoadCreatedBy(int AgentID, tbl_Account acc = null)
         {
-            if(acc != null)
+            if (acc != null)
             {
-                ddlCreateBy.Items.Clear();
-                ddlCreateBy.Items.Insert(0, new ListItem(acc.Username, acc.ID.ToString()));
+                ddlCreatedBy.Items.Clear();
+                ddlCreatedBy.Items.Insert(0, new ListItem(acc.Username, acc.Username));
             }
             else
             {
                 var CreateBy = AccountController.GetAllNotSearch();
-                ddlCreateBy.Items.Clear();
-                ddlCreateBy.Items.Insert(0, new ListItem("Nhân viên", "0"));
+                ddlCreatedBy.Items.Clear();
+                ddlCreatedBy.Items.Insert(0, new ListItem("Nhân viên", "0"));
                 if (CreateBy.Count > 0)
                 {
                     foreach (var p in CreateBy)
                     {
-                        ListItem listitem = new ListItem(p.Username, p.ID.ToString());
-                        ddlCreateBy.Items.Add(listitem);
+                        ListItem listitem = new ListItem(p.Username, p.Username);
+                        ddlCreatedBy.Items.Add(listitem);
                     }
-                    ddlCreateBy.DataBind();
+                    ddlCreatedBy.DataBind();
                 }
             }
         }
 
         #region Paging
-        public void pagingall(List<tbl_Order> acs)
+        public void pagingall(List<OrderList> acs)
         {
             string username = Request.Cookies["userLoginSystem"].Value;
             var acc = AccountController.GetByUsername(username);
 
             int PageSize = 30;
+
             StringBuilder html = new StringBuilder();
+            html.Append("<tr>");
+            html.Append("    <th>Mã</th>");
+            html.Append("    <th>Loại</th>");
+            html.Append("    <th>Khách hàng</th>");
+            html.Append("    <th>Mua</th>");
+            html.Append("    <th>Xử lý</th>");
+            html.Append("    <th>Thanh toán</th>");
+            html.Append("    <th>Thanh toán</th>");
+            html.Append("    <th>Giao hàng</th>");
+            html.Append("    <th>Tổng tiền</th>");
+            if (acc.RoleID == 0)
+            {
+                html.Append("    <th>Nhân viên</th>");
+            }
+            html.Append("    <th>Ngày tạo</th>");
+            html.Append("    <th>Hoàn tất</th>");
+            html.Append("    <th></th>");
+            html.Append("</tr>");
+
             if (acs.Count > 0)
             {
                 int TotalItems = acs.Count;
@@ -192,58 +210,24 @@ namespace IM_PJ
                 if (ToRow >= TotalItems)
                     ToRow = TotalItems - 1;
 
-                html.Append("<tr>");
-                html.Append("    <th>Mã</th>");
-                html.Append("    <th>Loại</th>");
-                html.Append("    <th>Khách hàng</th>");
-                html.Append("    <th>Mua</th>");
-                html.Append("    <th>Xử lý</th>");
-                html.Append("    <th>Thanh toán</th>");
-                html.Append("    <th>Thanh toán</th>");
-                html.Append("    <th>Giao hàng</th>");
-                html.Append("    <th>Tổng tiền</th>");
-                if (acc.RoleID == 0)
-                {
-                    html.Append("    <th>Nhân viên</th>");
-                }
-                html.Append("    <th>Ngày tạo</th>");
-                html.Append("    <th>Hoàn tất</th>");
-                html.Append("    <th></th>");
-                html.Append("</tr>");
-
+                
                 for (int i = FromRow; i < ToRow + 1; i++)
                 {
                     var item = acs[i];
                     html.Append("<tr>");
                     html.Append("   <td><a href=\"/thong-tin-don-hang.aspx?id=" + item.ID + "\">" + item.ID + "</a></td>");
                     html.Append("   <td>" + PJUtils.OrderTypeStatus(Convert.ToInt32(item.OrderType)) + "</td>");
-                    var customer = CustomerController.GetByID(Convert.ToInt32(item.CustomerID));
-                    if(customer != null)
+
+                    if (!string.IsNullOrEmpty(item.Nick))
                     {
-                        if (!string.IsNullOrEmpty(customer.Nick))
-                        {
-                            html.Append("   <td><a class=\"customer-name-link capitalize\" href=\"/thong-tin-don-hang.aspx?id=" + item.ID + "\">" + customer.Nick + "</a><br><span class=\"name-bottom-nick\">(" + item.CustomerName + ")</span></td>");
-                        }
-                        else
-                        {
-                            html.Append("   <td><a class=\"customer-name-link capitalize\" href=\"/thong-tin-don-hang.aspx?id=" + item.ID + "\">" + item.CustomerName + "</a></td>");
-                        }
+                        html.Append("   <td><a class=\"customer-name-link capitalize\" href=\"/thong-tin-don-hang.aspx?id=" + item.ID + "\">" + item.Nick + "</a><br><span class=\"name-bottom-nick\">(" + item.CustomerName + ")</span></td>");
                     }
                     else
                     {
                         html.Append("   <td><a class=\"customer-name-link capitalize\" href=\"/thong-tin-don-hang.aspx?id=" + item.ID + "\">" + item.CustomerName + "</a></td>");
                     }
-                    
-                    var orderdetails = OrderDetailController.GetByOrderID(item.ID);
-                    int quantity = 0;
-                    if (orderdetails.Count > 0)
-                    {
-                        foreach (var temp in orderdetails)
-                        {
-                            quantity += Convert.ToInt32(temp.Quantity);
-                        }
-                    }
-                    html.Append("   <td>" + quantity + "</td>");
+
+                    html.Append("   <td>" + item.Quantity + "</td>");
                     html.Append("   <td>" + PJUtils.OrderExcuteStatus(Convert.ToInt32(item.ExcuteStatus)) + "</td>");
                     html.Append("   <td>" + PJUtils.OrderPaymentStatus(Convert.ToInt32(item.PaymentStatus)) + "</td>");
                     html.Append("   <td>" + PJUtils.PaymentType(Convert.ToInt32(item.PaymentType)) + "</td>");
@@ -262,7 +246,6 @@ namespace IM_PJ
                     if (item.ExcuteStatus == 2)
                     {
                         datedone = string.Format("{0:dd/MM}", item.DateDone);
-                        
                     }
                     html.Append("   <td>" + datedone + "</td>");
 
@@ -273,6 +256,10 @@ namespace IM_PJ
                     html.Append("   </td>");
                     html.Append("</tr>");
                 }
+            }
+            else
+            {
+                html.Append("<tr><td colspan=\"13\">Không tìm thấy đơn hàng...</td></tr>");
             }
             ltrList.Text = html.ToString();
         }
@@ -418,10 +405,56 @@ namespace IM_PJ
 
         protected void btnSearch_Click(object sender, EventArgs e)
         {
-            string search = txtAgentName.Text;
+            string search = txtSearchOrder.Text;
             string SKU = txtSKU.Text;
-            Response.Redirect("/danh-sach-don-hang?s=" + search + "&o=" + ddlOrderType.SelectedValue + "&p=" + ddlPaymentStatus.SelectedValue + "&e=" + ddlExcuteStatus.SelectedValue + "&pay=" + ddlPaymentType.SelectedValue + "&sh=" + ddlShippingType.SelectedValue + "&sku=" + SKU + "&by=" + ddlCreateBy.SelectedValue + "");
+            string request = "/danh-sach-don-hang?";
 
+            if (search != "")
+            {
+                request += "&textsearch=" + search;
+            }
+
+            if(ddlOrderType.SelectedValue != "0")
+            {
+                request += "&ordertype=" + ddlOrderType.SelectedValue;
+            }
+
+            if (ddlPaymentStatus.SelectedValue != "0")
+            {
+                request += "&paymentstatus=" + ddlPaymentStatus.SelectedValue;
+            }
+
+            if (ddlExcuteStatus.SelectedValue != "0")
+            {
+                request += "&excutestatus=" + ddlExcuteStatus.SelectedValue;
+            }
+
+            if (ddlPaymentType.SelectedValue != "0")
+            {
+                request += "&paymenttype=" + ddlPaymentType.SelectedValue;
+            }
+
+            if (ddlShippingType.SelectedValue != "0")
+            {
+                request += "&shippingtype=" + ddlShippingType.SelectedValue;
+            }
+
+            if (SKU != "")
+            {
+                request += "&productsku=" + SKU;
+            }
+
+            if (ddlCreatedBy.SelectedValue != "0")
+            {
+                request += "&createdby=" + ddlCreatedBy.SelectedValue;
+            }
+
+            if (ddlCreatedDate.SelectedValue != "0")
+            {
+                request += "&createddate=" + ddlCreatedDate.SelectedValue;
+            }
+
+            Response.Redirect(request);
         }
         public class danhmuccon1
         {
