@@ -34,7 +34,7 @@
                                 </div>
                                 <div class="col-md-2">
                                     <asp:DropDownList ID="ddlCreatedDate" runat="server" CssClass="form-control">
-                                        <asp:ListItem Value="0" Text="Thời gian tạo"></asp:ListItem>
+                                        <asp:ListItem Value="" Text="Thời gian tạo"></asp:ListItem>
                                         <asp:ListItem Value="today" Text="Hôm nay"></asp:ListItem>
                                         <asp:ListItem Value="yesterday" Text="Hôm qua"></asp:ListItem>
                                         <asp:ListItem Value="week" Text="Tuần này"></asp:ListItem>
@@ -76,6 +76,8 @@
                 </div>
             </div>
         </div>
+
+        
         <script type="text/javascript">
             function searchAgent() {
                 $("#<%= btnSearch.ClientID%>").click();

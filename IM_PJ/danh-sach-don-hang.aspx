@@ -18,12 +18,26 @@
                     <div class="filter-above-wrap clear">
                         <div class="filter-control">
                             <div class="row">
-                                <div class="col-md-9">
+                                <div class="col-md-5">
                                     <asp:TextBox ID="txtSearchOrder" runat="server" CssClass="form-control" placeholder="Tìm đơn hàng" autocomplete="off"></asp:TextBox>
                                 </div>
                                 <div class="col-md-2">
+                                    <asp:DropDownList ID="ddlDiscount" runat="server" CssClass="form-control">
+                                        <asp:ListItem Value="" Text="Chiết khấu"></asp:ListItem>
+                                        <asp:ListItem Value="yes" Text="Có"></asp:ListItem>
+                                        <asp:ListItem Value="no" Text="Không"></asp:ListItem>
+                                    </asp:DropDownList>
+                                </div>
+                                <div class="col-md-2">
+                                    <asp:DropDownList ID="ddlOtherFee" runat="server" CssClass="form-control">
+                                        <asp:ListItem Value="" Text="Phí khác"></asp:ListItem>
+                                        <asp:ListItem Value="yes" Text="Có"></asp:ListItem>
+                                        <asp:ListItem Value="no" Text="Không"></asp:ListItem>
+                                    </asp:DropDownList>
+                                </div>
+                                <div class="col-md-2">
                                     <asp:DropDownList ID="ddlCreatedDate" runat="server" CssClass="form-control">
-                                        <asp:ListItem Value="" Text="Thời gian đơn hàng"></asp:ListItem>
+                                        <asp:ListItem Value="" Text="Thời gian"></asp:ListItem>
                                         <asp:ListItem Value="today" Text="Hôm nay"></asp:ListItem>
                                         <asp:ListItem Value="yesterday" Text="Hôm qua"></asp:ListItem>
                                         <asp:ListItem Value="week" Text="Tuần này"></asp:ListItem>
@@ -113,7 +127,97 @@
                     </div>
                 </div>
             </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="panel panelborderheading">
+                        <div class="panel-heading clear">
+                            <h3 class="page-title left not-margin-bot">Thống kê đơn hàng</h3>
+                        </div>
+                        <div class="panel-body">
+                            <div class="row pad">
+                                <div class="col-md-3">
+                                    <label class="left pad10">Tổng số đơn hàng: </label>
+                                    <div class="ordertype">
+                                        <asp:Literal ID="ltrTotalOrders" runat="server"></asp:Literal>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="left pad10">Số đơn hàng sỉ: </label>
+                                    <div class="ordercreateby">
+                                        <asp:Literal ID="ltrType2Orders" runat="server"></asp:Literal>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="left pad10">Số đơn hàng lẻ: </label>
+                                    <div class="ordercreatedate">
+                                        <asp:Literal ID="ltrType1Orders" runat="server"></asp:Literal>
+                                    </div>
+                                </div>
+                                <div class="col-md-3"> 
+                                    <label class="left pad10">Tổng sản phẩm: </label>
+                                    <div class="ordernote">
+                                        <asp:Literal ID="ltrTotalProducts" runat="server"></asp:Literal>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row pad">
+                                <div class="col-md-3">
+                                    <label class="left pad10">Tổng số tiền: </label>
+                                    <div class="orderquantity">
+                                        <asp:Literal ID="ltrTotalMoney" runat="server"></asp:Literal>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="left pad10">Tổng chiết khấu: </label>
+                                    <div class="ordertotalprice">
+                                        <asp:Literal ID="ltrDiscount" runat="server"></asp:Literal>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="left pad10">Tổng phí vận chuyển: </label>
+                                    <div class="ordertotalprice">
+                                        <asp:Literal ID="ltrFeeShipping" runat="server"></asp:Literal>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="left pad10">Tổng phí khác: </label>
+                                    <div class="ordertotalprice">
+                                        <asp:Literal ID="ltrOtherFee" runat="server"></asp:Literal>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row pad">
+                                <div class="col-md-3">
+                                    <label class="left pad10">Số đơn lấy trực tiếp: </label>
+                                    <div class="orderquantity">
+                                        <asp:Literal ID="ltrShippingType1" runat="server"></asp:Literal>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="left pad10">Số đơn chuyển bưu điện: </label>
+                                    <div class="ordertotalprice">
+                                        <asp:Literal ID="ltrShippingType2" runat="server"></asp:Literal>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="left pad10">Số đơn gửi dịch vụ: </label>
+                                    <div class="orderstatus">
+                                        <asp:Literal ID="ltrShippingType3" runat="server"></asp:Literal>
+                                    </div>
+                                </div>
+                                <div class="col-md-3"> 
+                                    <label class="left pad10">Số đơn chuyển xe: </label>
+                                    <div class="ordernote">
+                                        <asp:Literal ID="ltrShippingType4" runat="server"></asp:Literal>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
+        
         <asp:HiddenField ID="hdfcreate" runat="server" />
         <script type="text/javascript">
             function searchOrder() {

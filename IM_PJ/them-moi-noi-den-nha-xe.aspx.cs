@@ -85,7 +85,7 @@ namespace IM_PJ
             receivePlaceNew.Address = this.txtAddress.Text;
             receivePlaceNew.Prepay = Convert.ToBoolean(this.rdbPrepay.SelectedValue);
             receivePlaceNew.COD = Convert.ToBoolean(this.rdbCOD.SelectedValue);
-            receivePlaceNew.Note = this.pNote.Content;
+            receivePlaceNew.Note = this.pNote.Text;
             receivePlaceNew.CreatedBy = username;
 
             TransportCompanyController.InsertReceivePlace(receivePlaceNew);

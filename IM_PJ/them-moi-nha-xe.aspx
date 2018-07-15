@@ -13,21 +13,18 @@
                         </div>
                         <div class="panel-body">
                             <div class="form-row">
-                                <asp:Label ID="lblError" runat="server" Visible="false" ForeColor="Red"></asp:Label>
-                            </div>
-                            <div class="form-row">
                                 <div class="row-left">
                                     Tên nhà xe
                                     <asp:RequiredFieldValidator ID="rqfCompanyName" runat="server" ControlToValidate="txtCompanyName" ForeColor="Red"
                                         SetFocusOnError="true" ErrorMessage="(*)" Display="Dynamic"></asp:RequiredFieldValidator>
                                 </div>
                                 <div class="row-right">
-                                    <asp:TextBox ID="txtCompanyName" runat="server" CssClass="form-control" TabIndex="1"></asp:TextBox>
+                                    <asp:TextBox ID="txtCompanyName" runat="server" CssClass="form-control capitalize" TabIndex="1"></asp:TextBox>
                                 </div>
                             </div>
                             <div class="form-row">
                                 <div class="row-left">
-                                    Số điện thoại
+                                    Điện thoại nơi gửi
                                     <asp:RequiredFieldValidator ID="rqfCompanyPhone" runat="server" ControlToValidate="txtCompanyPhone" ForeColor="Red"
                                         SetFocusOnError="true" ErrorMessage="(*)" Display="Dynamic"></asp:RequiredFieldValidator>
                                 </div>
@@ -37,29 +34,47 @@
                             </div>
                             <div class="form-row">
                                 <div class="row-left">
-                                    Địa chỉ chành xe gửi
+                                    Địa chỉ nơi gửi
                                     <asp:RequiredFieldValidator ID="rqfCompanyAddress" runat="server" ControlToValidate="txtCompanyAddress" ForeColor="Red"
                                         SetFocusOnError="true" ErrorMessage="(*)" Display="Dynamic"></asp:RequiredFieldValidator>
                                 </div>
                                 <div class="row-right">
-                                    <asp:TextBox ID="txtCompanyAddress" runat="server" CssClass="form-control" TabIndex="3"></asp:TextBox>
+                                    <asp:TextBox ID="txtCompanyAddress" runat="server" CssClass="form-control capitalize" TabIndex="3"></asp:TextBox>
                                 </div>
                             </div>
                             <div class="form-row">
                                 <div class="row-left">
-                                    Mô tả
+                                    Trả cước
                                 </div>
                                 <div class="row-right">
-                                    <telerik:RadEditor runat="server" ID="pNote" Width="100%"
-                                        Height="600px" ToolsFile="~/FilesResources/ToolContent.xml" Skin="Metro"
-                                        DialogHandlerUrl="~/Telerik.Web.UI.DialogHandler.axd" AutoResizeHeight="True" TabIndex="7">
-                                        <ImageManager ViewPaths="~/uploads/images" UploadPaths="~/uploads/images" DeletePaths="~/uploads/images" />
-                                    </telerik:RadEditor>
+                                    <asp:RadioButtonList ID="rdbPrepay" runat="server" RepeatDirection="Horizontal" TabIndex="4">
+                                        <asp:ListItem Value="true">Trả trước</asp:ListItem>
+                                        <asp:ListItem Value="false" Selected="True">Trả sau</asp:ListItem>
+                                    </asp:RadioButtonList>
                                 </div>
                             </div>
                             <div class="form-row">
-                                <asp:Button ID="btnAdd" runat="server" CssClass="btn primary-btn fw-btn not-fullwidth" Text="Tạo mới" OnClick="btnAdd_Click" TabIndex="8" />
-                                <a href="/danh-sach-nha-xe" class="btn primary-btn fw-btn not-fullwidth" tabindex="9">Trở về</a>
+                                <div class="row-left">
+                                    Thu hộ
+                                </div>
+                                <div class="row-right">
+                                    <asp:RadioButtonList ID="rdbCOD" runat="server" RepeatDirection="Horizontal" TabIndex="5">
+                                        <asp:ListItem Value="true">Có</asp:ListItem>
+                                        <asp:ListItem Value="false" Selected="True">Không</asp:ListItem>
+                                    </asp:RadioButtonList>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="row-left">
+                                    Ghi chú
+                                </div>
+                                <div class="row-right">
+                                    <asp:TextBox ID="pNote" runat="server" CssClass="form-control" TabIndex="6"></asp:TextBox>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <asp:Button ID="btnAdd" runat="server" CssClass="btn primary-btn fw-btn not-fullwidth" Text="Tạo mới" OnClick="btnAdd_Click" TabIndex="7" />
+                                <a href="/danh-sach-nha-xe" class="btn primary-btn fw-btn not-fullwidth" tabindex="8">Trở về</a>
                             </div>
                         </div>
                     </div>

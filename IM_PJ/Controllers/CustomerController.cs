@@ -276,26 +276,65 @@ namespace IM_PJ.Controllers
             return list;
         }
 
-        public static List<CustomerOut> GetKH(string text, string by, int Provice)
+        public static List<CustomerOut> Filter(string text, string by, int Provice, string CreatedDate)
         {
             string textsearch = '"' + text + '"';
             var list = new List<CustomerOut>();
             var sql = @"select c.ID, c.CustomerName, c.Nick, c.CustomerPhone, c.CustomerPhone2, c.Zalo, c.Facebook, c.CreatedBy, c.CreatedDate, c.Avatar, c.ShippingType, c.PaymentType, c.TransportCompanyID, c.TransportCompanySubID, c.ProvinceID as Province
                         from tbl_Customer c
                          WHERE 1 = 1";
+
             if (!string.IsNullOrEmpty(textsearch))
             {
-                sql += " And (CONTAINS(c.CustomerName,'" + textsearch + "') OR CONTAINS(c.Nick,'" + textsearch + "') OR c.CustomerPhone like '%" + text + "%' OR c.CustomerPhone2 like '%" + text + "%' OR c.Facebook like '%" + text + "%' OR c.Zalo like '%" + text + "%')";
+                sql += " AND (CONTAINS(c.CustomerName,'" + textsearch + "') OR CONTAINS(c.Nick,'" + textsearch + "') OR c.CustomerPhone like '%" + text + "%' OR c.CustomerPhone2 like '%" + text + "%' OR c.Facebook like '%" + text + "%' OR c.Zalo like '%" + text + "%')";
             }
            
             if (Provice > 0)
             {
                 sql += " AND c.ProvinceID  = " + Provice;
             }
+
             if (!string.IsNullOrEmpty(by))
             {
-                sql += " And c.CreatedBy = N'" + by + "'";
+                sql += " AND c.CreatedBy = N'" + by + "'";
             }
+
+            if (CreatedDate != "")
+            {
+                DateTime fromdate = DateTime.Today;
+                DateTime todate = DateTime.Now;
+                switch (CreatedDate)
+                {
+                    case "today":
+                        fromdate = DateTime.Today;
+                        todate = DateTime.Now;
+                        break;
+                    case "yesterday":
+                        fromdate = fromdate.AddDays(-1);
+                        todate = DateTime.Today;
+                        break;
+                    case "week":
+                        int days = DateTime.Today.DayOfWeek == DayOfWeek.Sunday ? 7 : (int)DateTime.Today.DayOfWeek;
+                        fromdate = fromdate.AddDays(-days + 1);
+                        todate = DateTime.Now;
+                        break;
+                    case "month":
+                        fromdate = new DateTime(fromdate.Year, fromdate.Month, 1);
+                        todate = DateTime.Now;
+                        break;
+                    case "7days":
+                        fromdate = DateTime.Today.AddDays(-6);
+                        todate = DateTime.Now;
+                        break;
+                    case "30days":
+                        fromdate = DateTime.Today.AddDays(-29);
+                        todate = DateTime.Now;
+                        break;
+                }
+
+                sql += "	AND	CONVERT(datetime, c.CreatedDate, 121) BETWEEN CONVERT(datetime, '" + fromdate.ToString() + "', 121) AND CONVERT(datetime, '" + todate.ToString() + "', 121)";
+            }
+
             var reader = (IDataReader)SqlHelper.ExecuteDataReader(sql);
             while (reader.Read())
             {
@@ -338,6 +377,7 @@ namespace IM_PJ.Controllers
                     entity.TransportCompanySubID = reader["TransportCompanySubID"].ToString().ToInt(0);
                 list.Add(entity);
             }
+
             reader.Close();
             return list;
         }

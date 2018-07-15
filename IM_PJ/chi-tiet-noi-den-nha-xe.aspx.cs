@@ -65,7 +65,7 @@ namespace IM_PJ
                 this.txtAddress.Text = transportCompany.Address;
                 this.rdbPrepay.SelectedValue = transportCompany.Prepay? "true" : "false";
                 this.rdbCOD.SelectedValue = transportCompany.COD ? "true" : "false";
-                this.pNote.Content = transportCompany.Note;
+                this.pNote.Text = transportCompany.Note;
             }
             else {
                 Response.Redirect("/danh-sach-nha-xe");
@@ -88,7 +88,7 @@ namespace IM_PJ
             receivePlaceUpdate.Address = this.txtAddress.Text;
             receivePlaceUpdate.Prepay = Convert.ToBoolean(this.rdbPrepay.SelectedValue);
             receivePlaceUpdate.COD = Convert.ToBoolean(this.rdbCOD.SelectedValue);
-            receivePlaceUpdate.Note = this.pNote.Content;
+            receivePlaceUpdate.Note = this.pNote.Text;
             receivePlaceUpdate.ModifiedBy = username;
 
             TransportCompanyController.UpdateReceivePlace(receivePlaceUpdate);

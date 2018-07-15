@@ -10,78 +10,105 @@
 namespace IM_PJ {
     
     
-    public partial class danh_sach_nha_xe {
+    public partial class sua_thong_tin_nha_xe {
         
         /// <summary>
-        /// ltrNumberOfTransport control.
+        /// rqfCompanyName control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal ltrNumberOfTransport;
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator rqfCompanyName;
         
         /// <summary>
-        /// txtTextSearch control.
+        /// txtCompanyName control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtTextSearch;
+        protected global::System.Web.UI.WebControls.TextBox txtCompanyName;
         
         /// <summary>
-        /// ddlCOD control.
+        /// rqfCompanyPhone control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlCOD;
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator rqfCompanyPhone;
         
         /// <summary>
-        /// ddlPrepay control.
+        /// txtCompanyPhone control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlPrepay;
+        protected global::System.Web.UI.WebControls.TextBox txtCompanyPhone;
         
         /// <summary>
-        /// ddlCreatedDate control.
+        /// rqfCompanyAddress control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlCreatedDate;
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator rqfCompanyAddress;
         
         /// <summary>
-        /// ddlCreatedBy control.
+        /// txtCompanyAddress control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlCreatedBy;
+        protected global::System.Web.UI.WebControls.TextBox txtCompanyAddress;
         
         /// <summary>
-        /// btnSearch control.
+        /// rdbPrepay control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnSearch;
+        protected global::System.Web.UI.WebControls.RadioButtonList rdbPrepay;
         
         /// <summary>
-        /// ltrList control.
+        /// rdbCOD control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal ltrList;
+        protected global::System.Web.UI.WebControls.RadioButtonList rdbCOD;
+        
+        /// <summary>
+        /// pNote control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox pNote;
+        
+        /// <summary>
+        /// btnUpdate control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnUpdate;
+        
+        /// <summary>
+        /// hdfID control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hdfID;
     }
 }

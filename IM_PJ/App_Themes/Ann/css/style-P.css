@@ -1,4 +1,34 @@
-﻿.page-title span {
+﻿.pad {
+    padding-bottom: 15px;
+}
+.pad10 {
+    padding-right: 10px;
+}
+.table-transport .column-name {
+    width: 17%;
+}
+.table-transport .column-phone {
+    width: 11%;
+}
+.table-transport .column-address {
+    width: 25%;
+}
+.table-transport .column-prepay {
+    width: 8%;
+}
+.table-transport .column-cod {
+    width: 8%;
+}
+.table-transport .column-createddate {
+    width: 8%;
+}
+.table-transport .column-createdby {
+    width: 10%;
+}
+.table-transport .column-action {
+    width: 13%;
+}
+.page-title span {
     font-weight: 300;
     font-size: 16px;
 }

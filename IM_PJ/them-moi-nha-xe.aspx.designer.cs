@@ -13,15 +13,6 @@ namespace IM_PJ {
     public partial class them_moi_nha_xe {
         
         /// <summary>
-        /// lblError control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblError;
-        
-        /// <summary>
         /// rqfCompanyName control.
         /// </summary>
         /// <remarks>
@@ -76,13 +67,31 @@ namespace IM_PJ {
         protected global::System.Web.UI.WebControls.TextBox txtCompanyAddress;
         
         /// <summary>
+        /// rdbPrepay control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RadioButtonList rdbPrepay;
+        
+        /// <summary>
+        /// rdbCOD control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RadioButtonList rdbCOD;
+        
+        /// <summary>
         /// pNote control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::Telerik.Web.UI.RadEditor pNote;
+        protected global::System.Web.UI.WebControls.TextBox pNote;
         
         /// <summary>
         /// btnAdd control.

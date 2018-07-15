@@ -120,10 +120,10 @@ namespace IM_PJ
             {
                 if (acc.RoleID == 0)
                 {
-                    hdfcreate.Value = "1";
                     if (CreatedBy != "")
                     {
-                        pagingall(rs.Where(x => x.CreatedBy == CreatedBy).ToList());
+                        rs = rs.Where(x => x.CreatedBy == CreatedBy).ToList();
+                        pagingall(rs);
                     }
                     else
                     {
@@ -132,11 +132,11 @@ namespace IM_PJ
                 }
                 else
                 {
-                    pagingall(rs.Where(x => x.CreatedBy == acc.Username).ToList());
+                    rs = rs.Where(x => x.CreatedBy == acc.Username).ToList();
+                    pagingall(rs);
                 }
 
                 ltrNumberOfOrder.Text = rs.Count().ToString();
-
             }
         }
         #region Paging
@@ -225,8 +225,16 @@ namespace IM_PJ
             }
             else
             {
-                html.Append("<tr><td colspan=\"10\">Không tìm thấy đơn hàng...</td></tr>");
+                if (acc.RoleID == 0)
+                {
+                    html.Append("<tr><td colspan=\"10\">Không tìm thấy đơn hàng...</td></tr>");
+                }
+                else
+                {
+                    html.Append("<tr><td colspan=\"9\">Không tìm thấy đơn hàng...</td></tr>");
+                }
             }
+
             ltrList.Text = html.ToString();
         }
         public static Int32 GetIntFromQueryString(String key)

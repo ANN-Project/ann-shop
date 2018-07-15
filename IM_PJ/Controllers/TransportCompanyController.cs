@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Text;
 using System.Web;
 using WebUI.Business;
 
@@ -17,7 +18,7 @@ namespace IM_PJ.Controllers
         /// Insert transport company new
         /// </summary>
         /// <param name="company"></param>
-        public static void InsertTransportCompany(tbl_TransportCompany company)
+        public static int InsertTransportCompany(tbl_TransportCompany company)
         {
             using (var connect = new inventorymanagementEntities())
             {
@@ -30,8 +31,8 @@ namespace IM_PJ.Controllers
                 companyNew.CompanyAddress = company.CompanyAddress;
                 companyNew.ShipTo = null;
                 companyNew.Address = null;
-                companyNew.Prepay = false;
-                companyNew.COD = false;
+                companyNew.Prepay = company.Prepay;
+                companyNew.COD = company.COD;
                 companyNew.Note = company.Note;
                 companyNew.CreatedDate = DateTime.Now;
                 companyNew.CreatedBy = company.CreatedBy;
@@ -40,6 +41,7 @@ namespace IM_PJ.Controllers
 
                 connect.tbl_TransportCompany.Add(companyNew);
                 connect.SaveChanges();
+                return companyNew.ID;
             }
         }
 
@@ -77,7 +79,7 @@ namespace IM_PJ.Controllers
         /// update info of transport company
         /// </summary>
         /// <param name="company"></param>
-        public static void UpdateTransportCompany(tbl_TransportCompany company)
+        public static int UpdateTransportCompany(tbl_TransportCompany company)
         {
             using (var connect = new inventorymanagementEntities())
             {
@@ -91,12 +93,15 @@ namespace IM_PJ.Controllers
                     target.CompanyPhone = company.CompanyPhone;
                     target.CompanyAddress = company.CompanyAddress;
                     target.Note = company.Note;
+                    target.Prepay = company.Prepay;
+                    target.COD = company.COD;
                     target.ModifiedDate = DateTime.Now;
                     target.ModifiedBy = company.ModifiedBy;
 
                     connect.SaveChanges();
                 }
             }
+            return company.ID;
         }
 
         /// <summary>
@@ -201,6 +206,46 @@ namespace IM_PJ.Controllers
                         .Where(x => x.ID == ID && x.SubID == SubID)
                         .SingleOrDefault();
             }
+        }
+
+        public static List<tbl_TransportCompany> Filter(string TextSearch)
+        {
+            var list = new List<tbl_TransportCompany>();
+            var sql = new StringBuilder();
+
+            sql.AppendLine(String.Format("SELECT * "));
+            sql.AppendLine(String.Format("FROM tbl_TransportCompany"));
+            sql.AppendLine(String.Format("WHERE SubID = 0"));
+
+            if (TextSearch != "")
+            {
+                sql.AppendLine(String.Format("	AND ( (CompanyName LIKE N'%{0}%') OR (CompanyAddress LIKE N'%{0}%') OR (ShipTo LIKE N'%{0}%') OR (Address LIKE N'%{0}%') OR (CompanyPhone = '{0}') )", TextSearch));
+            }
+
+            sql.AppendLine(String.Format("ORDER BY CompanyName"));
+
+            var reader = (IDataReader)SqlHelper.ExecuteDataReader(sql.ToString());
+            while (reader.Read())
+            {
+                var entity = new tbl_TransportCompany();
+
+                entity.ID = Convert.ToInt32(reader["ID"]);
+                entity.SubID = Convert.ToInt32(reader["ID"]);
+                entity.CompanyName = reader["CompanyName"].ToString();
+                entity.CompanyPhone = reader["CompanyPhone"].ToString();
+                entity.CompanyAddress = reader["CompanyAddress"].ToString();
+                entity.ShipTo = reader["ShipTo"].ToString();
+                entity.Address = reader["Address"].ToString();
+                entity.Prepay = Convert.ToBoolean(reader["Prepay"]);
+                entity.COD = Convert.ToBoolean(reader["COD"]);
+                entity.Note = reader["Note"].ToString();
+                entity.CreatedBy = reader["CreatedBy"].ToString();
+                entity.CreatedDate = Convert.ToDateTime(reader["CreatedDate"]);
+
+                list.Add(entity);
+            }
+            reader.Close();
+            return list;
         }
 
         /// <summary>

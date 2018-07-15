@@ -51,89 +51,6 @@ namespace IM_PJ
                 LoadData();
             }
         }
-        public void LoadData()
-        {
-            string username = Request.Cookies["userLoginSystem"].Value;
-            var acc = AccountController.GetByUsername(username);
-            if (acc != null)
-            {
-                int OrderType = 0;
-                int PaymentStatus = 0;
-                int ExcuteStatus = 0;
-                int PaymentType = 0;
-                int ShippingType = 0;
-                string TextSearch = "";
-                string CreatedBy = "";
-                string CreatedDate = "";
-                
-                if (Request.QueryString["ordertype"] != null)
-                {
-                    OrderType = Request.QueryString["ordertype"].ToInt(0);
-                }
-                if (Request.QueryString["paymentstatus"] != null)
-                {
-                    PaymentStatus = Request.QueryString["paymentstatus"].ToInt(0);
-                }
-                if (Request.QueryString["excutestatus"] != null)
-                {
-                    ExcuteStatus = Request.QueryString["excutestatus"].ToInt(0);
-                }
-                if (Request.QueryString["paymenttype"] != null)
-                {
-                    PaymentType = Request.QueryString["paymenttype"].ToInt(0);
-                }
-                if (Request.QueryString["shippingtype"] != null)
-                {
-                    ShippingType = Request.QueryString["shippingtype"].ToInt(0);
-                }
-                if (Request.QueryString["textsearch"] != null)
-                {
-                    TextSearch = Request.QueryString["textsearch"];
-                }
-                if (Request.QueryString["createdby"] != null)
-                {
-                    CreatedBy = Request.QueryString["createdby"];
-                }
-                if (Request.QueryString["createdby"] != null)
-                {
-                    CreatedBy = Request.QueryString["createdby"];
-                }
-                if(Request.QueryString["createddate"] != null)
-                {
-                    CreatedDate = Request.QueryString["createddate"];
-                }
-
-                txtSearchOrder.Text = TextSearch;
-                ddlOrderType.SelectedValue = OrderType.ToString();
-                ddlExcuteStatus.SelectedValue = ExcuteStatus.ToString();
-                ddlPaymentStatus.SelectedValue = PaymentStatus.ToString();
-                ddlPaymentType.SelectedValue = PaymentType.ToString();
-                ddlShippingType.SelectedValue = ShippingType.ToString();
-                ddlCreatedBy.SelectedValue = CreatedBy.ToString();
-                ddlCreatedDate.SelectedValue = CreatedDate.ToString();
-
-                List<OrderList> rs = new List<OrderList>();
-                rs = OrderController.Filter(TextSearch, OrderType, ExcuteStatus, PaymentStatus, PaymentType, ShippingType, CreatedBy, CreatedDate);
-                if (acc.RoleID == 0)
-                {
-                    hdfcreate.Value = "1";
-                    if (CreatedBy != "")
-                    {
-                        pagingall(rs.Where(x => x.CreatedBy == CreatedBy && x.ExcuteStatus != 4).ToList());
-                    }
-                    else
-                    {
-                        pagingall(rs.Where(x => x.ExcuteStatus != 4).ToList());
-                    }
-                }
-                else
-                {
-                    pagingall(rs.Where(x => x.CreatedBy == acc.Username && x.ExcuteStatus != 4).ToList());
-                }
-
-                ltrNumberOfOrder.Text = rs.Count().ToString();
-            }
-        }
 
         public void LoadCreatedBy(int AgentID, tbl_Account acc = null)
         {
@@ -158,6 +75,180 @@ namespace IM_PJ
                 }
             }
         }
+        public void LoadData()
+        {
+            string username = Request.Cookies["userLoginSystem"].Value;
+            var acc = AccountController.GetByUsername(username);
+            if (acc != null)
+            {
+                int OrderType = 0;
+                int PaymentStatus = 0;
+                int ExcuteStatus = 0;
+                int PaymentType = 0;
+                int ShippingType = 0;
+                string Discount = "";
+                string OtherFee = "";
+                string TextSearch = "";
+                string CreatedBy = "";
+                string CreatedDate = "";
+                
+                if (Request.QueryString["ordertype"] != null)
+                {
+                    OrderType = Request.QueryString["ordertype"].ToInt(0);
+                }
+                if (Request.QueryString["paymentstatus"] != null)
+                {
+                    PaymentStatus = Request.QueryString["paymentstatus"].ToInt(0);
+                }
+                if (Request.QueryString["excutestatus"] != null)
+                {
+                    ExcuteStatus = Request.QueryString["excutestatus"].ToInt(0);
+                }
+                if (Request.QueryString["paymenttype"] != null)
+                {
+                    PaymentType = Request.QueryString["paymenttype"].ToInt(0);
+                }
+                if (Request.QueryString["shippingtype"] != null)
+                {
+                    ShippingType = Request.QueryString["shippingtype"].ToInt(0);
+                }
+                if (Request.QueryString["discount"] != null)
+                {
+                    Discount = Request.QueryString["discount"].ToString();
+                }
+                if (Request.QueryString["otherfee"] != null)
+                {
+                    OtherFee = Request.QueryString["otherfee"].ToString();
+                }
+                if (Request.QueryString["textsearch"] != null)
+                {
+                    TextSearch = Request.QueryString["textsearch"];
+                }
+                if (Request.QueryString["createdby"] != null)
+                {
+                    CreatedBy = Request.QueryString["createdby"];
+                }
+                if (Request.QueryString["createdby"] != null)
+                {
+                    CreatedBy = Request.QueryString["createdby"];
+                }
+                if(Request.QueryString["createddate"] != null)
+                {
+                    CreatedDate = Request.QueryString["createddate"];
+                }
+
+                txtSearchOrder.Text = TextSearch;
+                ddlOrderType.SelectedValue = OrderType.ToString();
+                ddlExcuteStatus.SelectedValue = ExcuteStatus.ToString();
+                ddlPaymentStatus.SelectedValue = PaymentStatus.ToString();
+                ddlPaymentType.SelectedValue = PaymentType.ToString();
+                ddlShippingType.SelectedValue = ShippingType.ToString();
+                ddlDiscount.SelectedValue = Discount.ToString();
+                ddlOtherFee.SelectedValue = OtherFee.ToString();
+                ddlCreatedBy.SelectedValue = CreatedBy.ToString();
+                ddlCreatedDate.SelectedValue = CreatedDate.ToString();
+                
+
+                List<OrderList> rs = new List<OrderList>();
+                rs = OrderController.Filter(TextSearch, OrderType, ExcuteStatus, PaymentStatus, PaymentType, ShippingType, Discount, OtherFee, CreatedBy, CreatedDate);
+                if (acc.RoleID == 0)
+                {
+                    hdfcreate.Value = "1";
+                    if (CreatedBy != "")
+                    {
+                        rs = rs.Where(x => x.CreatedBy == CreatedBy && x.ExcuteStatus != 4).ToList();
+                        pagingall(rs);
+                    }
+                    else
+                    {
+                        rs = rs.Where(x => x.ExcuteStatus != 4).ToList();
+                        pagingall(rs);
+                    }
+                }
+                else
+                {
+                    rs = rs.Where(x => x.CreatedBy == acc.Username && x.ExcuteStatus != 4).ToList();
+                    pagingall(rs);
+                }
+
+                ltrNumberOfOrder.Text = rs.Count().ToString();
+
+                // THỐNG KÊ ĐƠN HÀNG
+                int TotalOrders = rs.Count;
+                int Type1Orders = 0;
+                int Type2Orders = 0;
+                int TotalProducts = 0;
+
+                int ShippingType1 = 0;
+                int ShippingType2 = 0;
+                int ShippingType3 = 0;
+                int ShippingType4 = 0;
+
+                double TotalMoney = 0;
+                double TotalDiscount = 0;
+                double FeeShipping = 0;
+                double OtherFeeValue = 0;
+
+                for (int i = 0; i < rs.Count; i++)
+                {
+                    var item = rs[i];
+
+                    // Tính tổng số sản phẩm trong tổng số đơn hàng
+                    TotalProducts += item.Quantity;
+                    // Tính tổng đơn hàng sỉ và lẻ
+
+                    if (item.OrderType == 2)
+                    {
+                        Type2Orders++;
+                    }
+                    if (item.OrderType == 1)
+                    {
+                        Type1Orders++;
+                    }
+
+                    // Tính số đơn dựa vào kiểu vận chuyển
+                    if (item.ShippingType == 1)
+                    {
+                        ShippingType1++;
+                    }
+                    if (item.ShippingType == 2)
+                    {
+                        ShippingType2++;
+                    }
+                    if (item.ShippingType == 3)
+                    {
+                        ShippingType3++;
+                    }
+                    if (item.ShippingType == 4)
+                    {
+                        ShippingType4++;
+                    }
+
+                    // Tính số tiền
+                    TotalMoney += item.TotalPrice;
+                    TotalDiscount += item.TotalDiscount;
+                    FeeShipping += item.FeeShipping;
+                    OtherFeeValue += item.OtherFeeValue;
+                }
+
+                ltrTotalOrders.Text = TotalOrders.ToString();
+                ltrType2Orders.Text = Type2Orders.ToString();
+                ltrType1Orders.Text = Type1Orders.ToString();
+                ltrTotalProducts.Text = TotalProducts.ToString();
+
+
+                ltrTotalMoney.Text = string.Format("{0:N0}", Convert.ToDouble(TotalMoney)).ToString();
+                ltrDiscount.Text = string.Format("{0:N0}", Convert.ToDouble(TotalDiscount)).ToString();
+                ltrFeeShipping.Text = string.Format("{0:N0}", Convert.ToDouble(FeeShipping)).ToString();
+                ltrOtherFee.Text = string.Format("{0:N0}", Convert.ToDouble(OtherFeeValue)).ToString();
+
+                ltrShippingType1.Text = ShippingType1.ToString();
+                ltrShippingType2.Text = ShippingType2.ToString();
+                ltrShippingType3.Text = ShippingType3.ToString();
+                ltrShippingType4.Text = ShippingType4.ToString();
+            }
+        }
+
 
         #region Paging
         public void pagingall(List<OrderList> acs)
@@ -249,11 +340,21 @@ namespace IM_PJ
                     html.Append("   </td>");
                     html.Append("</tr>");
                 }
+
+                
             }
             else
             {
-                html.Append("<tr><td colspan=\"13\">Không tìm thấy đơn hàng...</td></tr>");
+                if (acc.RoleID == 0)
+                {
+                    html.Append("<tr><td colspan=\"13\">Không tìm thấy đơn hàng...</td></tr>");
+                }
+                else
+                {
+                    html.Append("<tr><td colspan=\"12\">Không tìm thấy đơn hàng...</td></tr>");
+                }
             }
+
             ltrList.Text = html.ToString();
         }
         public static Int32 GetIntFromQueryString(String key)
@@ -429,6 +530,16 @@ namespace IM_PJ
             if (ddlShippingType.SelectedValue != "")
             {
                 request += "&shippingtype=" + ddlShippingType.SelectedValue;
+            }
+
+            if (ddlDiscount.SelectedValue != "")
+            {
+                request += "&discount=" + ddlDiscount.SelectedValue;
+            }
+
+            if (ddlOtherFee.SelectedValue != "")
+            {
+                request += "&otherfee=" + ddlOtherFee.SelectedValue;
             }
 
             if (ddlCreatedBy.SelectedValue != "")

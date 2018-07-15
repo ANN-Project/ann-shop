@@ -407,6 +407,7 @@
     <Content Include="App_Themes\NewUI\js\waves\waves.js" />
     <Content Include="App_Themes\NewUI\js\waves\waves.min.js" />
     <Content Include="bao-cao.aspx" />
+    <Content Include="sua-thong-tin-nha-xe.aspx" />
     <Content Include="chi-tiet-nha-xe.aspx" />
     <Content Include="chi-tiet-noi-den-nha-xe.aspx" />
     <Content Include="danh-sach-don-hang-chuyen-hoan.aspx" />
@@ -758,6 +759,13 @@
     </Compile>
     <Compile Include="bao-cao.aspx.designer.cs">
       <DependentUpon>bao-cao.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="sua-thong-tin-nha-xe.aspx.cs">
+      <DependentUpon>sua-thong-tin-nha-xe.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="sua-thong-tin-nha-xe.aspx.designer.cs">
+      <DependentUpon>sua-thong-tin-nha-xe.aspx</DependentUpon>
     </Compile>
     <Compile Include="chi-tiet-nha-xe.aspx.cs">
       <DependentUpon>chi-tiet-nha-xe.aspx</DependentUpon>

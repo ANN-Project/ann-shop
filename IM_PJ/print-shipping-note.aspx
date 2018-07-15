@@ -21,7 +21,7 @@
     }
     .table {
         display: block;
-        width: 190mm;
+        width: 200mm;
         height: 79mm;
         position: relative;
         border-right: dashed 2px #000;
@@ -37,7 +37,7 @@
         position: absolute;
         top: 0;
         right: 3mm;
-        width: 100mm;
+        width: 130mm;
         text-align: right;
     }
     .bottom-left {
@@ -77,8 +77,8 @@
     }
     .img {
         margin-top: 5px;
-        margin-bottom: 10px;
-        width: 45%;
+        margin-bottom: 5px;
+        width: 30%;
     }
     .btn {
         display: inline-block;
@@ -103,12 +103,19 @@
         margin-right: 30px;
         float: left;
     }
+    .transport-info {
+        display: none;
+        font-size: 15px;
+    }
+    .capitalize {
+        text-transform: capitalize;
+    }
     @media print { 
         body {
             -ms-transform:rotate(-90deg);
             -o-transform:rotate(-90deg);
             transform:rotate(-90deg);
-            margin-top: 127mm;
+            margin-top: 125mm;
             margin-left: 0;
         }
     }
@@ -117,7 +124,7 @@
 
 <body class="receipt">
     <asp:Literal ID="ltrShippingNote" runat="server"></asp:Literal>
-    <asp:Literal ID="ltrPrintEnable"  runat="server"></asp:Literal>
+    <asp:Literal ID="ltrPrintButton"  runat="server"></asp:Literal>
     <script src="/App_Themes/NewUI/js/sweet/sweet-alert.js" type="text/javascript"></script>
     <script type="text/javascript">
         function printIt() {
@@ -137,10 +144,21 @@
         }
         function removeDiv() {
             $(".print-it").hide();
+            $(".show-transport-info").hide();
             $(".sweet-alert").hide().empty();
             $(".sweet-overlay").hide().empty();
             window.print();
             window.close();
+        }
+        function showTransportInfo() {
+            if ($(".transport-info").is(":hidden")) {
+                $(".transport-info").show();
+                $(".show-transport-info").html("Ẩn thông tin nhà xe");
+            }
+            else {
+                $(".transport-info").hide();
+                $(".show-transport-info").html("Hiện thông tin nhà xe");
+            }
         }
     </script> 
 </body>

@@ -254,7 +254,8 @@ namespace IM_PJ.Controllers
                         todate = DateTime.Today;
                         break;
                     case "week":
-                        fromdate = fromdate.AddDays(-(int)fromdate.DayOfWeek + 1);
+                        int days = DateTime.Today.DayOfWeek == DayOfWeek.Sunday ? 7 : (int)DateTime.Today.DayOfWeek;
+                        fromdate = fromdate.AddDays(-days + 1);
                         todate = DateTime.Now;
                         break;
                     case "month":

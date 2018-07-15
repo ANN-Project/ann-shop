@@ -69,6 +69,11 @@ namespace IM_PJ
                 this.txtCompanyName.Text = company.CompanyName;
                 this.txtCompanyPhone.Text = company.CompanyPhone;
                 this.txtCompanyAddress.Text = company.CompanyAddress;
+                this.txtNote.Text = company.Note;
+                this.txtPrepay.Text = company.Prepay ? "Trả cước trước" : "Trả cước sau";
+                this.txtCOD.Text = company.COD ? "Có thu hộ" : "Không thu hộ";
+
+                ltrEditButton.Text = "<a href=\"/sua-thong-tin-nha-xe?id=" + ID.ToString() + "\" class=\"btn primary-btn fw-btn not-fullwidth\">Chỉnh sửa</a>";
 
                 var transprots = TransportCompanyController.GetReceivePlace(ID);
 
@@ -82,7 +87,7 @@ namespace IM_PJ
         #region Paging
         public void pagingall(List<tbl_TransportCompany> transprots)
         {
-            int PageSize = 15;
+            int PageSize = 40;
 
             StringBuilder html = new StringBuilder();
 
@@ -115,11 +120,12 @@ namespace IM_PJ
 
                     rowHtml += Environment.NewLine + String.Format("<tr>");
                     rowHtml += Environment.NewLine + String.Format("    <td>{0}</td>", i + 1);
-                    rowHtml += Environment.NewLine + String.Format("    <td>{0}</td>", company.ShipTo);
-                    rowHtml += Environment.NewLine + String.Format("    <td>{0}</td>", company.Address);
-                    rowHtml += Environment.NewLine + String.Format("    <td>{0}</td>", company.Prepay ? "Có" : "Không");
+                    rowHtml += Environment.NewLine + String.Format("    <td class=\"customer-name-link capitalize\"><a href=\"/chi-tiet-noi-den-nha-xe?id={0}&subid={1}\">{2}</a></td>", company.ID, company.SubID, company.ShipTo);
+                    rowHtml += Environment.NewLine + String.Format("    <td class=\"capitalize\">{0}</td>", company.Address);
+                    rowHtml += Environment.NewLine + String.Format("    <td>{0}</td>", company.Prepay ? "Trả trước" : "Trả sau");
                     rowHtml += Environment.NewLine + String.Format("    <td>{0}</td>", company.COD ? "Có" : "Không");
                     rowHtml += Environment.NewLine + String.Format("    <td>{0:dd/MM/yyyy}</td>", company.CreatedDate);
+                    rowHtml += Environment.NewLine + String.Format("    <td>{0}</td>", company.CreatedBy);
                     rowHtml += Environment.NewLine + String.Format("    <td>");
                     rowHtml += Environment.NewLine + String.Format("        <a href=\"/chi-tiet-noi-den-nha-xe?id={0}&subid={1}\" class=\"btn primary-btn h45-btn\">Chi tiết</a>", company.ID, company.SubID);
                     rowHtml += Environment.NewLine + String.Format("    </td>");

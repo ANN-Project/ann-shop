@@ -322,12 +322,12 @@ namespace IM_PJ.Controllers
             }
         }
 
-        public static List<OrderList> Filter(string TextSearch, int OrderType, int ExcuteStatus, int PaymentStatus, int PaymentType, int ShippingType, string CreatedBy, string CreatedDate)
+        public static List<OrderList> Filter(string TextSearch, int OrderType, int ExcuteStatus, int PaymentStatus, int PaymentType, int ShippingType, string Discount, string OtherFee, string CreatedBy, string CreatedDate)
         {
             var list = new List<OrderList>();
             var sql = new StringBuilder();
 
-            sql.AppendLine(String.Format("SELECT Ord.ID, Ord.CustomerName, Ord.CustomerPhone, Customer.Nick, Ord.CustomerID, Ord.OrderType, Ord.ExcuteStatus, Ord.PaymentStatus, Ord.PaymentType, Ord.ShippingType, Ord.TotalPrice, Ord.CreatedBy, Ord.CreatedDate, Ord.DateDone, Ord.RefundsGoodsID,  SUM(ISNULL(OrdDetail.Quantity, 0)) AS Quantity "));
+            sql.AppendLine(String.Format("SELECT Ord.ID, Ord.CustomerName, Ord.CustomerPhone, Customer.Nick, Ord.CustomerID, Ord.OrderType, Ord.ExcuteStatus, Ord.PaymentStatus, Ord.PaymentType, Ord.ShippingType, Ord.TotalPrice, Ord.TotalDiscount, Ord.FeeShipping, Ord.OtherFeeName, Ord.OtherFeeValue, Ord.CreatedBy, Ord.CreatedDate, Ord.DateDone, Ord.RefundsGoodsID,  SUM(ISNULL(OrdDetail.Quantity, 0)) AS Quantity "));
             sql.AppendLine(String.Format("FROM tbl_Order AS Ord"));
             sql.AppendLine(String.Format("INNER JOIN tbl_OrderDetail AS OrdDetail"));
             sql.AppendLine(String.Format("ON 	Ord.ID = OrdDetail.OrderID"));
@@ -365,8 +365,33 @@ namespace IM_PJ.Controllers
             {
                 sql.AppendLine(String.Format("	AND Ord.ShippingType = {0}", ShippingType));
             }
-            
-            if(CreatedBy != "")
+
+            if (OtherFee != "")
+            {
+                if (OtherFee == "yes")
+                {
+                    sql.AppendLine(String.Format("	AND Ord.OtherFeeValue != 0", OtherFee));
+                }
+                else
+                {
+                    sql.AppendLine(String.Format("	AND Ord.OtherFeeValue = 0", OtherFee));
+                }
+            }
+
+            if (Discount != "")
+            {
+                if (Discount == "yes")
+                {
+                    sql.AppendLine(String.Format("	AND Ord.TotalDiscount > 0", OtherFee));
+                }
+                else
+                {
+                    sql.AppendLine(String.Format("	AND Ord.TotalDiscount = 0", OtherFee));
+                }
+            }
+                
+
+            if (CreatedBy != "")
             {
                 sql.AppendLine(String.Format("	AND Ord.CreatedBy = '{0}'", CreatedBy));
             }
@@ -388,10 +413,11 @@ namespace IM_PJ.Controllers
                         break;
                     case "yesterday":
                         fromdate = fromdate.AddDays(-1);
-                        todate = DateTime.Today;
+                        todate = DateTime.Now;
                         break;
                     case "week":
-                        fromdate = fromdate.AddDays(-(int)fromdate.DayOfWeek + 1);
+                        int days = DateTime.Today.DayOfWeek == DayOfWeek.Sunday ? 7 : (int)DateTime.Today.DayOfWeek;
+                        fromdate = fromdate.AddDays(-days + 1);
                         todate = DateTime.Now;
                         break;
                     case "month":
@@ -399,11 +425,11 @@ namespace IM_PJ.Controllers
                         todate = DateTime.Now;
                         break;
                     case "7days":
-                        fromdate = DateTime.Today.AddDays(-6);
+                        fromdate = fromdate.AddDays(-6);
                         todate = DateTime.Now;
                         break;
                     case "30days":
-                        fromdate = DateTime.Today.AddDays(-29);
+                        fromdate = fromdate.AddDays(-29);
                         todate = DateTime.Now;
                         break;
                 }
@@ -411,7 +437,7 @@ namespace IM_PJ.Controllers
             }
 
 
-            sql.AppendLine(String.Format("GROUP BY Ord.ID, Ord.CustomerName, Ord.CustomerPhone, Customer.Nick, Ord.CustomerID, Ord.OrderType, Ord.ExcuteStatus, Ord.PaymentStatus, Ord.PaymentType, Ord.ShippingType, Ord.TotalPrice, Ord.CreatedBy, Ord.CreatedDate, Ord.DateDone, Ord.RefundsGoodsID"));
+            sql.AppendLine(String.Format("GROUP BY Ord.ID, Ord.CustomerName, Ord.CustomerPhone, Customer.Nick, Ord.CustomerID, Ord.OrderType, Ord.ExcuteStatus, Ord.PaymentStatus, Ord.PaymentType, Ord.ShippingType, Ord.TotalPrice, Ord.TotalDiscount, Ord.FeeShipping, Ord.OtherFeeName, Ord.OtherFeeValue, Ord.CreatedBy, Ord.CreatedDate, Ord.DateDone, Ord.RefundsGoodsID"));
             sql.AppendLine(String.Format("ORDER BY Ord.ID DESC"));
 
             var reader = (IDataReader)SqlHelper.ExecuteDataReader(sql.ToString());
@@ -429,7 +455,14 @@ namespace IM_PJ.Controllers
                 entity.PaymentStatus = Convert.ToInt32(reader["PaymentStatus"]);
                 entity.PaymentType = Convert.ToInt32(reader["PaymentType"]);
                 entity.ShippingType = Convert.ToInt32(reader["ShippingType"]);
+                entity.FeeShipping = Convert.ToInt32(reader["FeeShipping"]);
+                entity.OtherFeeName = reader["OtherFeeName"].ToString();
+                if(reader["OtherFeeValue"] != DBNull.Value)
+                    entity.OtherFeeValue = Convert.ToInt32(reader["OtherFeeValue"]);
+                else
+                    entity.OtherFeeValue = 0;
                 entity.TotalPrice = Convert.ToInt32(reader["TotalPrice"]);
+                entity.TotalDiscount = Convert.ToInt32(reader["TotalDiscount"]);
                 entity.CreatedBy = reader["CreatedBy"].ToString();
                 entity.CreatedDate = Convert.ToDateTime(reader["CreatedDate"]);
                 if (reader["DateDone"] != DBNull.Value)
@@ -1117,7 +1150,6 @@ namespace IM_PJ.Controllers
                 las = dbe.tbl_Order.Where(x => x.CustomerID == ID).OrderByDescending(x => x.ID).ToList();
                 return las;
             }
-
         }
 
         public static List<tbl_Order> Report(string fromdate, string todate)
@@ -1225,6 +1257,10 @@ namespace IM_PJ.Controllers
             public string Nick { get; set; }
             public int CustomerID { get; set; }
             public double TotalPrice { get; set; }
+            public double TotalDiscount { get; set; }
+            public double FeeShipping { get; set; }
+            public string OtherFeeName { get; set; }
+            public double OtherFeeValue { get; set; }
             public string CreatedBy { get; set; }
             public DateTime CreatedDate { get; set; }
             public Nullable<System.DateTime> DateDone { get; set; }

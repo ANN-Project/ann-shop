@@ -76,7 +76,7 @@ namespace IM_PJ
             }
             
             string TextSearch = "";
-            string CreatedDate = "0";
+            string CreatedDate = "";
             int CategoryID = 0;
             int StockStatus = 0;
 
@@ -100,7 +100,7 @@ namespace IM_PJ
             {
                 a = a.Where(p => p.StockStatus == StockStatus).ToList();
             }
-            if (CreatedDate != "0")
+            if (CreatedDate != "")
             {
                 DateTime fromdate = DateTime.Today;
                 DateTime todate = DateTime.Now;
@@ -115,7 +115,8 @@ namespace IM_PJ
                         todate = DateTime.Today;
                         break;
                     case "week":
-                        fromdate = fromdate.AddDays(-(int)fromdate.DayOfWeek + 1);
+                        int days = DateTime.Today.DayOfWeek == DayOfWeek.Sunday ? 7 : (int)DateTime.Today.DayOfWeek;
+                        fromdate = fromdate.AddDays(-days + 1);
                         todate = DateTime.Now;
                         break;
                     case "month":
@@ -133,7 +134,9 @@ namespace IM_PJ
                 }
                 a = a.Where(p => p.CreatedDate >= fromdate && p.CreatedDate <= todate ).ToList();
             }
+
             pagingall(a);
+
             ltrNumberOfProduct.Text = a.Count().ToString();
         }
         #region Paging
@@ -204,13 +207,17 @@ namespace IM_PJ
 
                     html.Append("  </td>");
                     html.Append("</tr>");
+
                 }
+
             }
             else
             {
                 html.Append("<tr><td colspan=\"11\">Không tìm thấy sản phẩm...</td></tr>");
             }
+
             ltrList.Text = html.ToString();
+
         }
         public static Int32 GetIntFromQueryString(String key)
         {

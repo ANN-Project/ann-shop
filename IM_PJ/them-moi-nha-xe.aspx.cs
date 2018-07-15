@@ -56,12 +56,14 @@ namespace IM_PJ
             transportCompanyNew.CompanyName = this.txtCompanyName.Text;
             transportCompanyNew.CompanyPhone = this.txtCompanyPhone.Text;
             transportCompanyNew.CompanyAddress = this.txtCompanyAddress.Text;
-            transportCompanyNew.Note = this.pNote.Content;
+            transportCompanyNew.Prepay = Convert.ToBoolean(this.rdbPrepay.SelectedValue);
+            transportCompanyNew.COD = Convert.ToBoolean(this.rdbCOD.SelectedValue);
+            transportCompanyNew.Note = this.pNote.Text;
             transportCompanyNew.CreatedBy = username;
 
-            TransportCompanyController.InsertTransportCompany(transportCompanyNew);
+            int ID = TransportCompanyController.InsertTransportCompany(transportCompanyNew);
 
-            Response.Redirect("/danh-sach-nha-xe");
+            Response.Redirect(String.Format("/chi-tiet-nha-xe?id={0}", ID));
         }
     }
 }

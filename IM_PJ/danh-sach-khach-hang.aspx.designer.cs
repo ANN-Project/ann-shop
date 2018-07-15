@@ -13,13 +13,22 @@ namespace IM_PJ {
     public partial class danh_sach_khach_hang {
         
         /// <summary>
-        /// txtAgentName control.
+        /// ltrNumberOfCustomer control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtAgentName;
+        protected global::System.Web.UI.WebControls.Literal ltrNumberOfCustomer;
+        
+        /// <summary>
+        /// txtTextSearch control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtTextSearch;
         
         /// <summary>
         /// ddlProvince control.
@@ -31,13 +40,22 @@ namespace IM_PJ {
         protected global::System.Web.UI.WebControls.DropDownList ddlProvince;
         
         /// <summary>
-        /// ddlCreateBy control.
+        /// ddlCreatedDate control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlCreateBy;
+        protected global::System.Web.UI.WebControls.DropDownList ddlCreatedDate;
+        
+        /// <summary>
+        /// ddlCreatedBy control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlCreatedBy;
         
         /// <summary>
         /// btnSearch control.
@@ -56,14 +74,5 @@ namespace IM_PJ {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Literal ltrList;
-        
-        /// <summary>
-        /// hdfcreate control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.HiddenField hdfcreate;
     }
 }

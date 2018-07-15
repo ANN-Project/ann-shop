@@ -81,7 +81,6 @@
         <div id="printOrder" style="display: none">
             <asp:Literal ID="ltrPrintOrder" runat="server"></asp:Literal>
         </div>
-        <asp:HiddenField ID="hdfcreate" runat="server" />
         <script type="text/javascript">
 
             function searchAgent() {
