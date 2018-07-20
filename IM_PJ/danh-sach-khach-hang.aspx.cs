@@ -99,7 +99,7 @@ namespace IM_PJ
 
             if (Request.QueryString["textsearch"] != null)
             {
-                TextSearch = Request.QueryString["textsearch"];
+                TextSearch = Request.QueryString["textsearch"].Trim();
             }
             if (Request.QueryString["createdby"] != null)
             {
@@ -167,13 +167,14 @@ namespace IM_PJ
             StringBuilder html = new StringBuilder();
             html.Append("<tr>");
             html.Append("     <th class='image-column'>Ảnh</th>");
+            html.Append("     <th class='nick-column'>Nick đặt hàng</th>");
             html.Append("     <th class='name-column'>Họ tên</th>");
-            html.Append("     <th class='nick-column'>Nick</th>");
             html.Append("     <th class='phone-column'>Điện thoại</th>");
             html.Append("     <th class='zalo-column'>Zalo</th>");
             html.Append("     <th class='facebook-column'>FB</th>");
             html.Append("     <th class='province-column'>Tỉnh</th>");
-            html.Append("     <th class='buy-column'>Đã mua</th>");
+            html.Append("     <th class='buy-column'>Đơn</th>");
+            html.Append("     <th class='buy-column'>Mua</th>");
             if (acc.RoleID == 0)
             {
                 html.Append("     <th class='staff-column'>Nhân viên</th>");
@@ -205,12 +206,14 @@ namespace IM_PJ
                     
                     var order = OrderController.GetByCustomerID(item.ID);
                     int TotalQuantity = 0;
+                    int TotalOrder = 0;
                     if (order != null)
                     {
 
                         foreach (var temp in order)
                         {
                             var detail = OrderDetailController.GetByOrderID(temp.ID);
+                            TotalOrder++;
                             if (detail != null)
                             {
                                 foreach (var vl in detail)
@@ -222,8 +225,8 @@ namespace IM_PJ
                     }
 
                     html.Append("   <td><a href=\"/chi-tiet-khach-hang?id=" + item.ID + "\"><img src=\"" + item.Avatar + "\"/></a></td>");
-                    html.Append("   <td><a class=\"capitalize\" href=\"/chi-tiet-khach-hang?id=" + item.ID + "\">" + item.CustomerName + "</a></td>");
-                    html.Append("   <td class=\"capitalize\">" + item.Nick + "</td>");
+                    html.Append("   <td class=\"customer-name-link capitalize\">" + item.Nick + "</td>");
+                    html.Append("   <td class=\"customer-name-link capitalize\"><a href=\"/chi-tiet-khach-hang?id=" + item.ID + "\">" + item.CustomerName + "</a></td>");
                     html.Append("   <td>" + item.CustomerPhone + "</td>");
                     html.Append("   <td>" + item.Zalo + "</td>");
 
@@ -253,8 +256,19 @@ namespace IM_PJ
                         html.Append("   <td></td>");
                     }
 
+                    if (TotalOrder > 0)
+                    {
+                        html.Append("   <td>" + TotalOrder + " đơn</td>");
+                    }
+                    else
+                    {
+                        html.Append("   <td></td>");
+                    }
+
                     if (TotalQuantity > 0)
-                        html.Append("   <td>" + TotalQuantity + "</td>");
+                    {
+                        html.Append("   <td>" + TotalQuantity + " cái</td>");
+                    }
                     else
                     {
                         html.Append("   <td></td>");
@@ -291,7 +305,7 @@ namespace IM_PJ
                     }
 
                     html.Append("   <td>");
-                    html.Append("       <a href=\"/danh-sach-don-hang?s=" + item.CustomerPhone + "\" title=\"Xem đơn hàng\" class=\"btn primary-btn h45-btn\"><i class=\"fa fa-shopping-cart\" aria-hidden=\"true\"></i></a>");
+                    html.Append("       <a href=\"/danh-sach-don-hang?textsearch=" + item.CustomerPhone + "\" title=\"Xem đơn hàng\" class=\"btn primary-btn h45-btn\"><i class=\"fa fa-shopping-cart\" aria-hidden=\"true\"></i></a>");
                     html.Append("   </td>");
                     html.Append("</tr>");
                 }

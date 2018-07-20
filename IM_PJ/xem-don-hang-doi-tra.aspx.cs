@@ -209,7 +209,7 @@ namespace IM_PJ
                                     }
                                 }
                                 t++;
-                                html += "<tr class=\"product-result\" data-sku=\"" + item.SKU + "\" data-orderID=\"" + item.OrderID
+                                html += "<tr ondblclick=\"clickrow($(this))\" class=\"product-result\" data-sku=\"" + item.SKU + "\" data-orderID=\"" + item.OrderID
                                                     + "\" data-ProductName=\"" + item.ProductName
                                                     + "\" data-ProductType=\"" + item.ProductType + "\" data-Giagoc=\"" + item.GiavonPerProduct
                                                     + "\" data-Giadaban=\"" + item.SoldPricePerProduct

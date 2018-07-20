@@ -88,6 +88,15 @@
             }
         });
 
+        function clickrow(obj) {
+            if (!obj.find("td").eq(1).hasClass("checked")) {
+                obj.find("td").addClass("checked");
+            }
+            else {
+                obj.find("td").removeClass("checked");
+            }
+        }
+
         // quick input quantity
         function quickInput() {
             if ($(".product-result").length == 0) {
@@ -194,7 +203,7 @@
                                 if (supplier != 0) {
                                     if (supplierID == supplier) {
                                         if (check == false) {
-                                            html += "<tr class=\"product-result\" data-productimageorigin=\"" + item.ProductImageOrigin + "\" data-productvariable=\"" + item.ProductVariable + "\" data-productname=\"" + item.ProductName + "\" data-sku=\"" + item.SKU + "\" data-producttype=\"" + item.ProductType + "\" data-id=\"" + item.ID + "\" data-productnariablename=\"" + item.ProductVariableName + "\" data-productvariablevalue =\"" + item.ProductVariableValue + "\">";
+                                            html += "<tr ondblclick=\"clickrow($(this))\" class=\"product-result\" data-productimageorigin=\"" + item.ProductImageOrigin + "\" data-productvariable=\"" + item.ProductVariable + "\" data-productname=\"" + item.ProductName + "\" data-sku=\"" + item.SKU + "\" data-producttype=\"" + item.ProductType + "\" data-id=\"" + item.ID + "\" data-productnariablename=\"" + item.ProductVariableName + "\" data-productvariablevalue =\"" + item.ProductVariableValue + "\">";
                                             html += " <td><input type=\"checkbox\" class=\"check-popup\" onchange=\"check()\"  /></td>";
                                             html += "   <td>" + item.ProductImage + "";
                                             html += "   <td>" + item.ProductName + "</td>";
@@ -224,7 +233,7 @@
                                 }
                                 else {
                                     if (check == false) {
-                                        html += "<tr class=\"product-result\" data-productimageorigin=\"" + item.ProductImageOrigin + "\" data-productvariable=\"" + item.ProductVariable + "\" data-productname=\"" + item.ProductName + "\" data-sku=\"" + item.SKU + "\" data-producttype=\"" + item.ProductType + "\" data-id=\"" + item.ID + "\" data-productnariablename=\"" + item.ProductVariableName + "\" data-productvariablevalue =\"" + item.ProductVariableValue + "\">";
+                                        html += "<tr ondblclick=\"clickrow($(this))\" class=\"product-result\" data-productimageorigin=\"" + item.ProductImageOrigin + "\" data-productvariable=\"" + item.ProductVariable + "\" data-productname=\"" + item.ProductName + "\" data-sku=\"" + item.SKU + "\" data-producttype=\"" + item.ProductType + "\" data-id=\"" + item.ID + "\" data-productnariablename=\"" + item.ProductVariableName + "\" data-productvariablevalue =\"" + item.ProductVariableValue + "\">";
                                         html += " <td><input type=\"checkbox\" class=\"check-popup\" onchange=\"check()\" /></td>";
                                         html += "   <td>" + item.ProductImage + "";
                                         html += "   <td>" + item.ProductName + "</td>";

@@ -216,6 +216,15 @@
     <script>
         "use strict";
 
+        function clickrow(obj) {
+            if (!obj.find("td").eq(1).hasClass("checked")) {
+                obj.find("td").addClass("checked");
+            }
+            else {
+                obj.find("td").removeClass("checked");
+            }
+        }
+
         function Update() {
             $("#<%=btnCreate.ClientID%>").click();
         }

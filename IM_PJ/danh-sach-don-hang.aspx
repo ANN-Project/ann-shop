@@ -40,6 +40,7 @@
                                         <asp:ListItem Value="" Text="Thời gian"></asp:ListItem>
                                         <asp:ListItem Value="today" Text="Hôm nay"></asp:ListItem>
                                         <asp:ListItem Value="yesterday" Text="Hôm qua"></asp:ListItem>
+                                        <asp:ListItem Value="beforeyesterday" Text="Hôm kia"></asp:ListItem>
                                         <asp:ListItem Value="week" Text="Tuần này"></asp:ListItem>
                                         <asp:ListItem Value="month" Text="Tháng này"></asp:ListItem>
                                         <asp:ListItem Value="7days" Text="7 ngày"></asp:ListItem>
@@ -47,6 +48,8 @@
                                     </asp:DropDownList>
                                 </div>
                                 <div class="col-md-1">
+                                    <a href="javascript:;" onclick="searchOrder()" class="btn primary-btn h45-btn"><i class="fa fa-search"></i></a>
+                                    <asp:Button ID="btnSearch" runat="server" CssClass="btn primary-btn h45-btn" OnClick="btnSearch_Click" Style="display: none" />
                                 </div>
                             </div>
                         </div>
@@ -100,8 +103,7 @@
                                     <asp:DropDownList ID="ddlCreatedBy" runat="server" CssClass="form-control"></asp:DropDownList>
                                 </div>
                                 <div class="col-md-1">
-                                    <a href="javascript:;" onclick="searchOrder()" class="btn primary-btn h45-btn"><i class="fa fa-search"></i></a>
-                                    <asp:Button ID="btnSearch" runat="server" CssClass="btn primary-btn h45-btn" OnClick="btnSearch_Click" Style="display: none" />
+                                    <a href="/danh-sach-don-hang" class="btn primary-btn h45-btn"><i class="fa fa-times" aria-hidden="true"></i></a>
                                 </div>
                             </div>
                         </div>

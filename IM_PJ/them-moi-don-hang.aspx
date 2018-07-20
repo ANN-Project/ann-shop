@@ -289,6 +289,8 @@ $("#txtSearch").keydown(function(event) {
 $(document).ready(function() {
     $("#txtSearch").focus();
 
+    
+
     $("#<%=txtPhone.ClientID%>").keyup(function (e) {
         if (/\D/g.test(this.value)) {
             // Filter non-digits from input value.

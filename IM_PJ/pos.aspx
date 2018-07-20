@@ -266,6 +266,15 @@
             $(document).ready(function() {
                 $("#txtSearch").focus();
 
+                $(".product-result").dblclick(function () {
+                    if (!$(this).find("td").eq(1).hasClass("checked")) {
+                        $(this).find("td").addClass("checked");
+                    }
+                    else {
+                        $(this).find("td").removeClass("checked");
+                    }
+                });
+
                 $("#<%=txtPhone.ClientID%>").keyup(function (e) {
                     if (/\D/g.test(this.value)) {
                         // Filter non-digits from input value.

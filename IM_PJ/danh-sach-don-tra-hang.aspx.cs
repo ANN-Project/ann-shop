@@ -86,11 +86,11 @@ namespace IM_PJ
 
             if (Request.QueryString["textsearch"] != null)
             {
-                TextSearch = Request.QueryString["textsearch"];
+                TextSearch = Request.QueryString["textsearch"].Trim();
             }
             if (Request.QueryString["status"] != null)
             {
-                Status = Request.QueryString["status"].ToInt(0);
+                Status = Request.QueryString["status"].ToInt();
             }
             if (Request.QueryString["refundfee"] != null)
             {
@@ -135,8 +135,48 @@ namespace IM_PJ
                     rs = rs.Where(x => x.CreatedBy == acc.Username).ToList();
                     pagingall(rs);
                 }
+                
 
-                ltrNumberOfOrder.Text = rs.Count().ToString();
+                // THỐNG KÊ ĐƠN HÀNG
+                int TotalOrders = rs.Count;
+                int Type1Orders = 0;
+                int Type2Orders = 0;
+
+                int TotalProducts = 0;
+                double TotalMoney = 0;
+                double TotalRefundFee = 0;
+
+                for (int i = 0; i < rs.Count; i++)
+                {
+                    var item = rs[i];
+
+                    // Tính tổng số sản phẩm trong tổng số đơn hàng
+                    TotalProducts += item.Quantity;
+                    // Tính tổng đơn hàng sỉ và lẻ
+
+                    if (item.Status == 2)
+                    {
+                        Type2Orders++;
+                    }
+                    if (item.Status == 1)
+                    {
+                        Type1Orders++;
+                    }
+
+                    // Tính số tiền
+                    TotalMoney += item.TotalPrice;
+                    TotalRefundFee += item.TotalRefundFee;
+                }
+
+                ltrTotalOrders.Text = TotalOrders.ToString();
+                ltrType2Orders.Text = Type2Orders.ToString();
+                ltrType1Orders.Text = Type1Orders.ToString();
+
+                ltrTotalProducts.Text = TotalProducts.ToString();
+                ltrTotalMoney.Text = string.Format("{0:N0}", Convert.ToDouble(TotalMoney)).ToString();
+                ltrTotalRefundFee.Text = string.Format("{0:N0}", Convert.ToDouble(TotalRefundFee)).ToString();
+
+                ltrNumberOfOrder.Text = TotalOrders.ToString();
             }
         }
         #region Paging

@@ -253,6 +253,10 @@ namespace IM_PJ.Controllers
                         fromdate = fromdate.AddDays(-1);
                         todate = DateTime.Today;
                         break;
+                    case "beforeyesterday":
+                        fromdate = DateTime.Today.AddDays(-2);
+                        todate = DateTime.Today.AddDays(-1);
+                        break;
                     case "week":
                         int days = DateTime.Today.DayOfWeek == DayOfWeek.Sunday ? 7 : (int)DateTime.Today.DayOfWeek;
                         fromdate = fromdate.AddDays(-days + 1);

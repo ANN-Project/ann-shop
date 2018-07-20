@@ -464,6 +464,7 @@
             pointer-events: none;
             opacity: 0.4;
         }
+
     </style>
     <telerik:RadAjaxManager ID="rAjax" runat="server">
         <AjaxSettings>
@@ -504,6 +505,8 @@
                     return false;
                 }
             });
+
+            
 
             // cal fee ship
             function calFeeShip() {

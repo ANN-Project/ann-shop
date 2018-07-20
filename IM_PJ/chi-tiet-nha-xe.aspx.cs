@@ -73,14 +73,11 @@ namespace IM_PJ
                 this.txtPrepay.Text = company.Prepay ? "Trả cước trước" : "Trả cước sau";
                 this.txtCOD.Text = company.COD ? "Có thu hộ" : "Không thu hộ";
 
-                ltrEditButton.Text = "<a href=\"/sua-thong-tin-nha-xe?id=" + ID.ToString() + "\" class=\"btn primary-btn fw-btn not-fullwidth\">Chỉnh sửa</a>";
+                ltrEditButton.Text = "<a href=\"/sua-thong-tin-nha-xe?id=" + ID.ToString() + "\" class=\"btn primary-btn fw-btn not-fullwidth\"><i class=\"fa fa-pencil-square-o\" aria-hidden=\"true\"></i> Chỉnh sửa</a>";
 
                 var transprots = TransportCompanyController.GetReceivePlace(ID);
 
-                if (transprots.Count > 0)
-                {
-                    pagingall(transprots);
-                }
+                pagingall(transprots);
             }
         }
 
@@ -90,6 +87,16 @@ namespace IM_PJ
             int PageSize = 40;
 
             StringBuilder html = new StringBuilder();
+            html.Append("<tr>");
+            html.Append("     <th>#</th>");
+            html.Append("     <th>Nơi nhận</th>");
+            html.Append("     <th>Địa chỉ chành</th>");
+            html.Append("     <th>Trả cước</th>");
+            html.Append("     <th>Thu hộ</th>");
+            html.Append("     <th>Ngày tạo</th>");
+            html.Append("     <th>Nhân viên</th>");
+            html.Append("     <th></th>");
+            html.Append("</tr>");
 
             if (transprots.Count > 0)
             {
@@ -127,12 +134,16 @@ namespace IM_PJ
                     rowHtml += Environment.NewLine + String.Format("    <td>{0:dd/MM/yyyy}</td>", company.CreatedDate);
                     rowHtml += Environment.NewLine + String.Format("    <td>{0}</td>", company.CreatedBy);
                     rowHtml += Environment.NewLine + String.Format("    <td>");
-                    rowHtml += Environment.NewLine + String.Format("        <a href=\"/chi-tiet-noi-den-nha-xe?id={0}&subid={1}\" class=\"btn primary-btn h45-btn\">Chi tiết</a>", company.ID, company.SubID);
+                    rowHtml += Environment.NewLine + String.Format("        <a href=\"/chi-tiet-noi-den-nha-xe?id={0}&subid={1}\" title=\"Sửa thông tin nơi nhận\" class=\"btn primary-btn h45-btn\"><i class=\"fa fa-pencil-square-o\" aria-hidden=\"true\"></i></a>", company.ID, company.SubID);
                     rowHtml += Environment.NewLine + String.Format("    </td>");
                     rowHtml += Environment.NewLine + String.Format("</tr>");
 
                     html.AppendLine(rowHtml);
                 }
+            }
+            else
+            {
+                html.Append("<tr><td colspan=\"8\">Chưa có nơi nhận...</td></tr>");
             }
 
             this.ltrList.Text = html.ToString();

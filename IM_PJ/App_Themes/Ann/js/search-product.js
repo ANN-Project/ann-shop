@@ -166,7 +166,7 @@ function addHtmlProductResult(item) {
         updateTemplateStock(item);
     }
 
-    html += "<tr class='product-result' ";
+    html += "<tr ondblclick='clickrow($(this))' class='product-result' ";
 
     if (typeof searchRemovedList === "function") {
         let data_orderdetail = searchRemovedList(SKU);
@@ -257,6 +257,15 @@ function checkQuantiy(obj) {
     }
 
     getAllPrice();
+}
+
+function clickrow(obj) {
+    if (!obj.find("td").eq(1).hasClass("checked")) {
+        obj.find("td").addClass("checked");
+    }
+    else {
+        obj.find("td").removeClass("checked");
+    }
 }
 
 function pressKeyQuantity(obj) {

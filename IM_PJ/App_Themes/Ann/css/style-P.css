@@ -1,4 +1,7 @@
-﻿.pad {
+﻿.checked {
+    background: #fff0c5!important;
+}
+.pad {
     padding-bottom: 15px;
 }
 .pad10 {
@@ -11,7 +14,7 @@
     width: 11%;
 }
 .table-transport .column-address {
-    width: 25%;
+    width: 29%;
 }
 .table-transport .column-prepay {
     width: 8%;
@@ -26,7 +29,7 @@
     width: 10%;
 }
 .table-transport .column-action {
-    width: 13%;
+    width: 9%;
 }
 .page-title span {
     font-weight: 300;

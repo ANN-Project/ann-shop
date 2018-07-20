@@ -83,9 +83,9 @@ namespace IM_PJ
             if (Request.QueryString["textsearch"] != null)
                 TextSearch = Request.QueryString["textsearch"].Trim();
             if (Request.QueryString["stockstatus"] != null)
-                StockStatus = Request.QueryString["stockstatus"].ToInt(0);
+                StockStatus = Request.QueryString["stockstatus"].ToInt();
             if (Request.QueryString["categoryid"] != null)
-                CategoryID = Request.QueryString["categoryid"].ToInt(0);
+                CategoryID = Request.QueryString["categoryid"].ToInt();
             if (Request.QueryString["createddate"] != null)
                 CreatedDate = Request.QueryString["createddate"];
 
@@ -113,6 +113,10 @@ namespace IM_PJ
                     case "yesterday":
                         fromdate = fromdate.AddDays(-1);
                         todate = DateTime.Today;
+                        break;
+                    case "beforeyesterday":
+                        fromdate = DateTime.Today.AddDays(-2);
+                        todate = DateTime.Today.AddDays(-1);
                         break;
                     case "week":
                         int days = DateTime.Today.DayOfWeek == DayOfWeek.Sunday ? 7 : (int)DateTime.Today.DayOfWeek;
@@ -185,8 +189,8 @@ namespace IM_PJ
                     var item = acs[i];
                     html.Append("<tr>");
                     html.Append("   <td><a href=\"/xem-san-pham.aspx?id=" + item.ID + "\"><img src=\"" + item.ProductImage + "\"/></a></td>");
-                    html.Append("   <td><a href=\"/xem-san-pham.aspx?id=" + item.ID + "\">" + item.ProductTitle + "</a></td>");
-                    html.Append("   <td>" + item.ProductSKU + "</td>");
+                    html.Append("   <td class=\"customer-name-link\"><a href=\"/xem-san-pham.aspx?id=" + item.ID + "\">" + item.ProductTitle + "</a></td>");
+                    html.Append("   <td class=\"customer-name-link\">" + item.ProductSKU + "</td>");
                     html.Append("   <td>" + string.Format("{0:N0}", item.RegularPrice) + "</td>");
                     if (acc.RoleID == 0)
                     {
@@ -369,7 +373,7 @@ namespace IM_PJ
                 request += "&textsearch=" + search;
             }
 
-            if (ddlStockStatus.SelectedValue != "0")
+            if (ddlStockStatus.SelectedValue != "")
             {
                 request += "&stockstatus=" + ddlStockStatus.SelectedValue;
             }
@@ -379,7 +383,7 @@ namespace IM_PJ
                 request += "&categoryid=" + ddlCategory.SelectedValue;
             }
 
-            if (ddlCreatedDate.SelectedValue != "0")
+            if (ddlCreatedDate.SelectedValue != "")
             {
                 request += "&createddate=" + ddlCreatedDate.SelectedValue;
             }

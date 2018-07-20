@@ -91,7 +91,11 @@ namespace IM_PJ
                 string TextSearch = "";
                 string CreatedBy = "";
                 string CreatedDate = "";
-                
+
+                if (Request.QueryString["textsearch"] != null)
+                {
+                    TextSearch = Request.QueryString["textsearch"].Trim();
+                }
                 if (Request.QueryString["ordertype"] != null)
                 {
                     OrderType = Request.QueryString["ordertype"].ToInt(0);
@@ -120,10 +124,6 @@ namespace IM_PJ
                 {
                     OtherFee = Request.QueryString["otherfee"].ToString();
                 }
-                if (Request.QueryString["textsearch"] != null)
-                {
-                    TextSearch = Request.QueryString["textsearch"];
-                }
                 if (Request.QueryString["createdby"] != null)
                 {
                     CreatedBy = Request.QueryString["createdby"];
@@ -151,6 +151,7 @@ namespace IM_PJ
 
                 List<OrderList> rs = new List<OrderList>();
                 rs = OrderController.Filter(TextSearch, OrderType, ExcuteStatus, PaymentStatus, PaymentType, ShippingType, Discount, OtherFee, CreatedBy, CreatedDate);
+
                 if (acc.RoleID == 0)
                 {
                     hdfcreate.Value = "1";

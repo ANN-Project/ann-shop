@@ -89,7 +89,7 @@ namespace IM_PJ
 
             if (Request.QueryString["textsearch"] != null)
             {
-                TextSearch = Request.QueryString["textsearch"];
+                TextSearch = Request.QueryString["textsearch"].Trim();
             }
             if (Request.QueryString["cod"] != null)
             {
@@ -141,6 +141,10 @@ namespace IM_PJ
                     case "yesterday":
                         fromdate = fromdate.AddDays(-1);
                         todate = DateTime.Today;
+                        break;
+                    case "beforeyesterday":
+                        fromdate = DateTime.Today.AddDays(-2);
+                        todate = DateTime.Today.AddDays(-1);
                         break;
                     case "week":
                         int days = DateTime.Today.DayOfWeek == DayOfWeek.Sunday ? 7 : (int)DateTime.Today.DayOfWeek;
@@ -257,8 +261,8 @@ namespace IM_PJ
                     rowHtml += Environment.NewLine + String.Format("    <td>{0:dd/MM/yyyy}</td>", company.CreatedDate);
                     rowHtml += Environment.NewLine + String.Format("    <td>{0}</td>", company.CreatedBy);
                     rowHtml += Environment.NewLine + String.Format("    <td>");
-                    rowHtml += Environment.NewLine + String.Format("        <a href=\"/chi-tiet-nha-xe?id={0}\" class=\"btn primary-btn h45-btn\">Quản lý</a>", company.ID);
-                    rowHtml += Environment.NewLine + String.Format("        <a href=\"/sua-thong-tin-nha-xe?id={0}\" class=\"btn primary-btn h45-btn\">Sửa</a>", company.ID);
+                    rowHtml += Environment.NewLine + String.Format("        <a href=\"/chi-tiet-nha-xe?id={0}\" title=\"Quản lý nơi nhận\" class=\"btn primary-btn h45-btn\"><i class=\"fa fa-list\" aria-hidden=\"true\"></i></a>", company.ID);
+                    rowHtml += Environment.NewLine + String.Format("        <a href=\"/sua-thong-tin-nha-xe?id={0}\" title=\"Sửa thông tin nhà xe\" class=\"btn primary-btn h45-btn\"><i class=\"fa fa-pencil-square-o\" aria-hidden=\"true\"></i></a>", company.ID);
                     rowHtml += Environment.NewLine + String.Format("    </td>");
                     rowHtml += Environment.NewLine + String.Format("</tr>");
 

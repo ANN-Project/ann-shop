@@ -40,6 +40,7 @@
                                         <asp:ListItem Value="" Text="Thời gian đơn hàng"></asp:ListItem>
                                         <asp:ListItem Value="today" Text="Hôm nay"></asp:ListItem>
                                         <asp:ListItem Value="yesterday" Text="Hôm qua"></asp:ListItem>
+                                        <asp:ListItem Value="beforeyesterday" Text="Hôm kia"></asp:ListItem>
                                         <asp:ListItem Value="week" Text="Tuần này"></asp:ListItem>
                                         <asp:ListItem Value="month" Text="Tháng này"></asp:ListItem>
                                         <asp:ListItem Value="7days" Text="7 ngày"></asp:ListItem>
@@ -72,6 +73,58 @@
                         <div class="panel-footer clear">
                             <div class="pagination">
                                 <%this.DisplayHtmlStringPaging1();%>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="panel panelborderheading">
+                        <div class="panel-heading clear">
+                            <h3 class="page-title left not-margin-bot">Thống kê đơn hàng đổi trả</h3>
+                        </div>
+                        <div class="panel-body">
+                            <div class="row pad">
+                                <div class="col-md-4">
+                                    <label class="left pad10">Tổng số đơn hàng: </label>
+                                    <div class="ordertype">
+                                        <asp:Literal ID="ltrTotalOrders" runat="server"></asp:Literal>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="left pad10">Số đơn đã trừ tiền: </label>
+                                    <div class="ordercreateby">
+                                        <asp:Literal ID="ltrType2Orders" runat="server"></asp:Literal>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="left pad10">Số đơn chưa trừ tiền: </label>
+                                    <div class="ordercreatedate">
+                                        <asp:Literal ID="ltrType1Orders" runat="server"></asp:Literal>
+                                    </div>
+                                </div>
+                                
+                            </div>
+                            <div class="row pad">
+                                <div class="col-md-4"> 
+                                    <label class="left pad10">Tổng sản phẩm: </label>
+                                    <div class="ordernote">
+                                        <asp:Literal ID="ltrTotalProducts" runat="server"></asp:Literal>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="left pad10">Tổng số tiền: </label>
+                                    <div class="orderquantity">
+                                        <asp:Literal ID="ltrTotalMoney" runat="server"></asp:Literal>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="left pad10">Tổng phí đổi hàng: </label>
+                                    <div class="ordertotalprice">
+                                        <asp:Literal ID="ltrTotalRefundFee" runat="server"></asp:Literal>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>

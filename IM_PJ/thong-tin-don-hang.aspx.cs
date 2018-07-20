@@ -364,7 +364,7 @@ namespace IM_PJ
                             orderitem++;
                             int k = Convert.ToInt32(ItemPrice) * Convert.ToInt32(item.Quantity);
 
-                            html.AppendLine(String.Format("<tr class='product-result'"));
+                            html.AppendLine(String.Format("<tr ondblclick='clickrow($(this))' class='product-result'"));
                             html.AppendLine(String.Format("        data-orderdetailid='{0}'", item.ID));
                             html.AppendLine(String.Format("        data-giabansi='{0}'", Giabansi));
                             html.AppendLine(String.Format("        data-giabanle='{0}'", Giabanle));

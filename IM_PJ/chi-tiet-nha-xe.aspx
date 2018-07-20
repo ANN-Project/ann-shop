@@ -86,16 +86,6 @@
                         <div class="responsive-table">
                             <table class="table table-checkable table-product">
                                 <tbody>
-                                    <tr>
-                                        <th>#</th>
-                                        <th>Nơi nhận</th>
-                                        <th>Địa chỉ chành</th>
-                                        <th>Trả cước</th>
-                                        <th>Thu hộ</th>
-                                        <th>Ngày tạo</th>
-                                        <th>Nhân viên</th>
-                                        <th>Thao tác</th>
-                                    </tr>
                                     <asp:Literal ID="ltrList" runat="server" EnableViewState="false"></asp:Literal>
                                 </tbody>
                             </table>

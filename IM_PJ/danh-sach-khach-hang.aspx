@@ -29,6 +29,7 @@
                                         <asp:ListItem Value="" Text="Thời gian"></asp:ListItem>
                                         <asp:ListItem Value="today" Text="Hôm nay"></asp:ListItem>
                                         <asp:ListItem Value="yesterday" Text="Hôm qua"></asp:ListItem>
+                                        <asp:ListItem Value="beforeyesterday" Text="Hôm kia"></asp:ListItem>
                                         <asp:ListItem Value="week" Text="Tuần này"></asp:ListItem>
                                         <asp:ListItem Value="month" Text="Tháng này"></asp:ListItem>
                                         <asp:ListItem Value="7days" Text="7 ngày"></asp:ListItem>

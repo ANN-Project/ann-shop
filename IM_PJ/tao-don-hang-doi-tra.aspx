@@ -462,13 +462,22 @@
                 getAllPrice();
             }
 
+            function clickrow(obj) {
+                if (!obj.find("td").eq(1).hasClass("checked")) {
+                    obj.find("td").addClass("checked");
+                }
+                else {
+                    obj.find("td").removeClass("checked");
+                }
+            }
+
             function addHtmlProductResult(item) {
                 let html = "";
                 let variable = "";
                 if (item.ProductStyle == 2) {
                     variable = "<br><br>" + item.VariableValue.replace(/\|/g, "<br>");
                 }
-                html += "<tr class='product-result' "
+                html += "<tr ondblclick='clickrow($(this))' class='product-result' "
                                 + "data-rowIndex='" + item.RowIndex + "' "
                                 + "data-productID='" + item.ProductID + "' "
                                 + "data-productVariableID='" + item.ProductVariableID + "' "

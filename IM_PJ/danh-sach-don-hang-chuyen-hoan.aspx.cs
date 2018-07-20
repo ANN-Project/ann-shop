@@ -82,7 +82,7 @@ namespace IM_PJ
                 }
                 if (Request.QueryString["s"] != null)
                 {
-                    s = Request.QueryString["s"];
+                    s = Request.QueryString["s"].Trim();
                 }
                 if (Request.QueryString["sku"] != null)
                 {
