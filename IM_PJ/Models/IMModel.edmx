@@ -147,6 +147,8 @@
           <Property Name="ModifiedDate" Type="datetime" />
           <Property Name="ModifiedBy" Type="nvarchar(max)" />
           <Property Name="SecurityCode" Type="nvarchar" MaxLength="60" />
+          <Property Name="RetailReturnRule" Type="nvarchar(max)" />
+          <Property Name="CSSPrintBarcode" Type="text" />
         </EntityType>
         <EntityType Name="tbl_Customer">
           <Key>
@@ -763,10 +765,10 @@ warning 6002: The table/view 'inventorymanagement.dbo.View_ProductList' does not
           <EntitySet Name="tbl_OrderDetail" EntityType="inventorymanagementModel.tbl_OrderDetail" />
           <EntitySet Name="tbl_StockManager" EntityType="inventorymanagementModel.tbl_StockManager" />
           <EntitySet Name="tbl_TransportCompany" EntityType="inventorymanagementModel.tbl_TransportCompany" />
-          <EntitySet Name="tbl_Config" EntityType="inventorymanagementModel.tbl_Config" />
           <EntitySet Name="tbl_Customer" EntityType="inventorymanagementModel.tbl_Customer" />
           <EntitySet Name="tbl_Order" EntityType="inventorymanagementModel.tbl_Order" />
           <EntitySet Name="tbl_RefundGoods" EntityType="inventorymanagementModel.tbl_RefundGoods" />
+          <EntitySet Name="tbl_Config" EntityType="inventorymanagementModel.tbl_Config" />
         </EntityContainer>
         <EntityType Name="tbl_Account">
           <Key>
@@ -1322,22 +1324,6 @@ warning 6002: The table/view 'inventorymanagement.dbo.View_ProductList' does not
           <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
           <Property Name="ModifiedBy" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
-        <EntityType Name="tbl_Config">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="NumOfDateToChangeProduct" Type="Double" />
-          <Property Name="NumOfProductCanChange" Type="Double" />
-          <Property Name="FeeChangeProduct" Type="Double" />
-          <Property Name="FeeDiscountPerProduct" Type="Double" />
-          <Property Name="ChangeGoodsRule" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
-          <Property Name="CreatedBy" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
-          <Property Name="ModifiedBy" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="SecurityCode" Type="String" MaxLength="60" FixedLength="false" Unicode="true" />
-        </EntityType>
         <EntityType Name="tbl_Customer">
           <Key>
             <PropertyRef Name="ID" />
@@ -1428,6 +1414,24 @@ warning 6002: The table/view 'inventorymanagement.dbo.View_ProductList' does not
           <Property Name="AgentName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="RefundNote" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="OrderSaleID" Type="Int32" />
+        </EntityType>
+        <EntityType Name="tbl_Config">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NumOfDateToChangeProduct" Type="Double" />
+          <Property Name="NumOfProductCanChange" Type="Double" />
+          <Property Name="FeeChangeProduct" Type="Double" />
+          <Property Name="FeeDiscountPerProduct" Type="Double" />
+          <Property Name="ChangeGoodsRule" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="CreatedBy" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="SecurityCode" Type="String" MaxLength="60" FixedLength="false" Unicode="true" />
+          <Property Name="RetailReturnRule" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CSSPrintBarcode" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
         </EntityType>
         </Schema>
     </edmx:ConceptualModels>
@@ -2021,23 +2025,6 @@ warning 6002: The table/view 'inventorymanagement.dbo.View_ProductList' does not
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="tbl_Config">
-            <EntityTypeMapping TypeName="inventorymanagementModel.tbl_Config">
-              <MappingFragment StoreEntitySet="tbl_Config">
-                <ScalarProperty Name="SecurityCode" ColumnName="SecurityCode" />
-                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
-                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
-                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
-                <ScalarProperty Name="ChangeGoodsRule" ColumnName="ChangeGoodsRule" />
-                <ScalarProperty Name="FeeDiscountPerProduct" ColumnName="FeeDiscountPerProduct" />
-                <ScalarProperty Name="FeeChangeProduct" ColumnName="FeeChangeProduct" />
-                <ScalarProperty Name="NumOfProductCanChange" ColumnName="NumOfProductCanChange" />
-                <ScalarProperty Name="NumOfDateToChangeProduct" ColumnName="NumOfDateToChangeProduct" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="tbl_Customer">
             <EntityTypeMapping TypeName="inventorymanagementModel.tbl_Customer">
               <MappingFragment StoreEntitySet="tbl_Customer">
@@ -2128,6 +2115,25 @@ warning 6002: The table/view 'inventorymanagement.dbo.View_ProductList' does not
                 <ScalarProperty Name="Status" ColumnName="Status" />
                 <ScalarProperty Name="TotalPrice" ColumnName="TotalPrice" />
                 <ScalarProperty Name="AgentID" ColumnName="AgentID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_Config">
+            <EntityTypeMapping TypeName="inventorymanagementModel.tbl_Config">
+              <MappingFragment StoreEntitySet="tbl_Config">
+                <ScalarProperty Name="CSSPrintBarcode" ColumnName="CSSPrintBarcode" />
+                <ScalarProperty Name="RetailReturnRule" ColumnName="RetailReturnRule" />
+                <ScalarProperty Name="SecurityCode" ColumnName="SecurityCode" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="ChangeGoodsRule" ColumnName="ChangeGoodsRule" />
+                <ScalarProperty Name="FeeDiscountPerProduct" ColumnName="FeeDiscountPerProduct" />
+                <ScalarProperty Name="FeeChangeProduct" ColumnName="FeeChangeProduct" />
+                <ScalarProperty Name="NumOfProductCanChange" ColumnName="NumOfProductCanChange" />
+                <ScalarProperty Name="NumOfDateToChangeProduct" ColumnName="NumOfDateToChangeProduct" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>

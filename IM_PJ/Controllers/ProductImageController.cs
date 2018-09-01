@@ -44,6 +44,20 @@ namespace IM_PJ.Controllers
                     return null;
             }
         }
+        public static string Delete(int ID)
+        {
+            using (var dbe = new inventorymanagementEntities())
+            {
+                var ui = dbe.tbl_ProductImage.Where(o => o.ID == ID).FirstOrDefault();
+                if (ui != null)
+                {
+                    dbe.tbl_ProductImage.Remove(ui);
+                    int kq = dbe.SaveChanges();
+                    return kq.ToString();
+                }
+                return "0";
+            }
+        }
         #endregion
         #region Select
         public static tbl_ProductImage GetByID(int ID)

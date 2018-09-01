@@ -351,8 +351,6 @@ namespace IM_PJ
                                 MaximumInventoryLevel = 0;
                                 a = hdfsetStyle.Value.ToInt();
                             }
-
-                            
                             
                             
                             string kq = ProductController.Insert(cateID, 0, ProductTitle, ProductContent, ProductSKU, ProductStock, StockStatus, true, Regular_Price, CostOfGood, Retail_Price, "", 0, false, currentDate, username, supplierID, supplierName, txtMaterials.Text, MinimumInventoryLevel, MaximumInventoryLevel, a);
@@ -433,9 +431,11 @@ namespace IM_PJ
                                         string kq1 = ProductVariableController.Insert(ProductID, ProductSKU, productvariablesku, 0, stockstatus, Convert.ToDouble(regularprice),
                                             Convert.ToDouble(costofgood), Convert.ToDouble(retailprice), image, true, false, currentDate, username,
                                             supplierID, supplierName, _MinimumInventoryLevel, _MaximumInventoryLevel);
+
                                         string color = "";
                                         string size = "";
                                         int ProductVariableID = 0;
+
                                         if (kq1.ToInt(0) > 0)
                                         {
                                             ProductVariableID = kq1.ToInt(0);

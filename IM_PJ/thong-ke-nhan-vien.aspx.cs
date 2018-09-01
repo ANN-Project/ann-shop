@@ -61,12 +61,7 @@ namespace IM_PJ
 
             if (!String.IsNullOrEmpty(Request.QueryString["todate"]))
             {
-                todate = Convert.ToDateTime(Request.QueryString["todate"]);
-
-                if(fromdate == todate)
-                {
-                    todate = fromdate.AddDays(1).AddMinutes(-1);
-                }
+                todate = Convert.ToDateTime(Request.QueryString["todate"]).AddDays(1).AddMinutes(-1);
             }
 
             ddlAccountInfo.SelectedValue = accountName;

@@ -25,5 +25,7 @@ namespace IM_PJ.Models
         public Nullable<System.DateTime> ModifiedDate { get; set; }
         public string ModifiedBy { get; set; }
         public string SecurityCode { get; set; }
+        public string RetailReturnRule { get; set; }
+        public string CSSPrintBarcode { get; set; }
     }
 }

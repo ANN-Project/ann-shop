@@ -144,7 +144,6 @@ namespace IM_PJ
                     var image = ProductImageController.GetByProductID(id);
 
                     imageGallery.Text = "<ul class=\"image-gallery\">";
-
                     if (image != null)
                     {
                         foreach(var img in image)

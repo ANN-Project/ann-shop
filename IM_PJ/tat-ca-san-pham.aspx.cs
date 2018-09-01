@@ -204,11 +204,7 @@ namespace IM_PJ
                     html.Append("   <td>" + date + "</td>");
                     html.Append("   <td>");
                     html.Append("       <a href=\"/danh-sach-anh-san-pham.aspx?id=" + item.ID + "\" title=\"Xem hình ảnh\" class=\"btn primary-btn h45-btn\"><i class=\"fa fa-file-image-o\" aria-hidden=\"true\"></i></a>");
-                    if (item.ProductStyle == 2)
-                    {
-                        html.Append(" <a href=\"/thuoc-tinh-san-pham.aspx?id=" + item.ID + "\" title=\"Xem thuộc tính\" class=\"btn primary-btn btn-black h45-btn\"><i class=\"fa fa-cogs\" aria-hidden=\"true\"></i></a>");
-                    }
-
+                    html.Append("       <a target=\"_blank\" href=\"https://www.facebook.com/search/posts/?q=" + item.ProductSKU + "&filters_rp_author=%7B%22name%22%3A%22author%22%2C%22args%22%3A%22100012594165130%22%7D&filters_rp_chrono_sort=%7B%22name%22%3A%22chronosort%22%2C%22args%22%3A%22%22%7D\" title=\"Tìm trên facebook\" class=\"btn primary-btn btn-black h45-btn\"><i class=\"fa fa-facebook-official\" aria-hidden=\"true\"></i></a>");
                     html.Append("  </td>");
                     html.Append("</tr>");
 

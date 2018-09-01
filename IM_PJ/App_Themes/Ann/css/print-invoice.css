@@ -1,4 +1,7 @@
-﻿.hoadon {
+﻿.capitalize {
+    text-transform: capitalize;
+}
+.hoadon {
   font-size: 11px;
   color: #000;
   margin-right: 3px;

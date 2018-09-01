@@ -37,13 +37,15 @@
                                 </div>
                                 <div class="col-md-2">
                                     <asp:DropDownList ID="ddlCreatedDate" runat="server" CssClass="form-control">
-                                        <asp:ListItem Value="" Text="Thời gian"></asp:ListItem>
+                                        <asp:ListItem Value="" Text="Tất cả thời gian"></asp:ListItem>
                                         <asp:ListItem Value="today" Text="Hôm nay"></asp:ListItem>
                                         <asp:ListItem Value="yesterday" Text="Hôm qua"></asp:ListItem>
                                         <asp:ListItem Value="beforeyesterday" Text="Hôm kia"></asp:ListItem>
                                         <asp:ListItem Value="week" Text="Tuần này"></asp:ListItem>
-                                        <asp:ListItem Value="month" Text="Tháng này"></asp:ListItem>
                                         <asp:ListItem Value="7days" Text="7 ngày"></asp:ListItem>
+                                        <asp:ListItem Value="thismonth" Text="Tháng này"></asp:ListItem>
+                                        <asp:ListItem Value="lastmonth" Text="Tháng trước"></asp:ListItem>
+                                        <asp:ListItem Value="beforelastmonth" Text="Tháng trước nữa"></asp:ListItem>
                                         <asp:ListItem Value="30days" Text="30 ngày"></asp:ListItem>
                                     </asp:DropDownList>
                                 </div>
@@ -94,7 +96,7 @@
                                         <asp:ListItem Value="" Text="Giao hàng"></asp:ListItem>
                                         <asp:ListItem Value="1" Text="Lấy trực tiếp"></asp:ListItem>
                                         <asp:ListItem Value="2" Text="Chuyển bưu điện"></asp:ListItem>
-                                        <asp:ListItem Value="3" Text="Chuyển GHTK"></asp:ListItem>
+                                        <asp:ListItem Value="3" Text="Dịch vụ ship"></asp:ListItem>
                                         <asp:ListItem Value="4" Text="Chuyển xe"></asp:ListItem>
                                         <asp:ListItem Value="5" Text="Nhân viên giao"></asp:ListItem>
                                     </asp:DropDownList>

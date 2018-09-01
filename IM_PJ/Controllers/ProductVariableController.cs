@@ -70,7 +70,7 @@ namespace IM_PJ.Controllers
                     ui.MinimumInventoryLevel = MinimumInventoryLevel;
                     ui.MaximumInventoryLevel = MaximumInventoryLevel;
                     int kq = dbe.SaveChanges();
-                    return kq.ToString();
+                    return ui.ID.ToString();
                 }
                 else
                     return null;
@@ -206,7 +206,7 @@ namespace IM_PJ.Controllers
             using (var dbe = new inventorymanagementEntities())
             {
                 List<tbl_ProductVariable> ags = new List<tbl_ProductVariable>();
-                ags = dbe.tbl_ProductVariable.Where(p => p.ProductID == ProductID).OrderByDescending(o => o.ID).ToList();
+                ags = dbe.tbl_ProductVariable.Where(p => p.ProductID == ProductID && p.IsHidden == false).OrderByDescending(o => o.ID).ToList();
                 return ags;
             }
         }

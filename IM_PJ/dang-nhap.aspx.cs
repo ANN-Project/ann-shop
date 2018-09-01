@@ -60,9 +60,9 @@ namespace IM_PJ
                     if (ac.Status == 1)
                     {
                         Session["userLoginSystem"] = username;
-                        Session.Timeout = 10080;
+                        Session.Timeout = 43200;
                         Response.Cookies["userLoginSystem"].Value = username;
-                        Response.Cookies["userLoginSystem"].Expires = DateTime.Now.AddDays(7);
+                        Response.Cookies["userLoginSystem"].Expires = DateTime.Now.AddDays(30);
                         Response.Redirect("/trang-chu");
                     }
                     else

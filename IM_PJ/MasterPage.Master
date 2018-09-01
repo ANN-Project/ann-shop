@@ -9,8 +9,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=yes">
     <meta name="format-detection" content="telephone=no">
     <meta name="robots" content="noindex, nofollow">
-    <link rel="stylesheet" href="/App_Themes/Ann/css/style.css?v=1507" media="all">
-    <link rel="stylesheet" href="/App_Themes/Ann/css/style-P.css?v=1507" media="all">
+    <link rel="stylesheet" href="/App_Themes/Ann/css/style.css?v=2007" media="all">
+    <link rel="stylesheet" href="/App_Themes/Ann/css/style-P.css?v=2007" media="all">
     <link href="/App_Themes/NewUI/js/sweet/sweet-alert.css" rel="stylesheet" type="text/css" />
     <link href="/App_Themes/NewUI/js/select2/select2.css" rel="stylesheet" />
     <link href="/App_Themes/Ann/css/HoldOn.css" rel="stylesheet" type="text/css" />
@@ -75,7 +75,7 @@
                     if (event.which === 13) {
                         var value = $("#txtsearchcustomer").val();
                         if (!isBlank(value)) {
-                            window.open("/danh-sach-khach-hang?s=" + value, "_blank");
+                            window.open("/danh-sach-khach-hang?textsearch=" + value, "_blank");
                         }
                         event.preventDefault();
                         return false;

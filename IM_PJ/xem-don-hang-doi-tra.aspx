@@ -61,6 +61,10 @@
                                         </div>
                                     </div>
                                     <div class="col-md-3">
+                                        <label class="left pad10">Ghi chú: </label>
+                                        <div class="ordernote">
+                                            <asp:Literal ID="ltrRefundNote" runat="server"></asp:Literal>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="row">

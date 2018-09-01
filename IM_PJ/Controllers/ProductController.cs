@@ -400,56 +400,54 @@ namespace IM_PJ.Controllers
                 if (!string.IsNullOrEmpty(reader["ProductImage"].ToString()))
                 {
                     entity.ProductImage = reader["ProductImage"].ToString();
-                }
-                else
-                {
-                    entity.ProductImage = "";
-                }
 
-                if (reader["ProductTitle"] != DBNull.Value)
-                    entity.ProductTitle = reader["ProductTitle"].ToString();
-                if (reader["ProductSKU"] != DBNull.Value)
-                    entity.ProductSKU = reader["ProductSKU"].ToString();
+                    if (reader["ProductTitle"] != DBNull.Value)
+                        entity.ProductTitle = reader["ProductTitle"].ToString();
+                    if (reader["ProductSKU"] != DBNull.Value)
+                        entity.ProductSKU = reader["ProductSKU"].ToString();
 
 
-                if (reader["QuantityLeft"] != DBNull.Value)
-                {
-                    quantityLeft = Convert.ToDouble(reader["QuantityLeft"]);
-
-                    if (quantityLeft > 0)
+                    if (reader["QuantityLeft"] != DBNull.Value)
                     {
-                        entity.StockStatus = 1;
+                        quantityLeft = Convert.ToDouble(reader["QuantityLeft"]);
+
+                        if (quantityLeft > 0)
+                        {
+                            entity.StockStatus = 1;
+                        }
+                        else
+                        {
+                            entity.StockStatus = 2;
+                        }
                     }
                     else
                     {
-                        entity.StockStatus = 2;
+                        entity.StockStatus = 3;
                     }
-                }
-                else
-                {
-                    entity.StockStatus = 3;
-                }
 
-                entity.TotalProductInstockQuantityLeft = quantityLeft;
-                if (reader["Regular_Price"] != DBNull.Value)
-                    entity.RegularPrice = Convert.ToDouble(reader["Regular_Price"].ToString());
-                if (reader["CostOfGood"] != DBNull.Value)
-                    entity.CostOfGood = Convert.ToDouble(reader["CostOfGood"].ToString());
-                if (reader["Retail_Price"] != DBNull.Value)
-                    entity.RetailPrice = Convert.ToDouble(reader["Retail_Price"].ToString());
-                if (reader["CategoryName"] != DBNull.Value)
-                    entity.CategoryName = reader["CategoryName"].ToString();
-                if (reader["CategoryID"] != DBNull.Value)
-                    entity.CategoryID = reader["CategoryID"].ToString().ToInt(0);
-                if (reader["CreatedDate"] != DBNull.Value)
-                    entity.CreatedDate = Convert.ToDateTime(reader["CreatedDate"]);
-                if (reader["ProductContent"] != DBNull.Value)
-                    entity.ProductContent = reader["ProductContent"].ToString();
-                if (reader["ProductStyle"] != DBNull.Value)
-                    entity.ProductStyle = reader["ProductStyle"].ToString().ToInt(0);
+                    entity.TotalProductInstockQuantityLeft = quantityLeft;
+                    if (reader["Regular_Price"] != DBNull.Value)
+                        entity.RegularPrice = Convert.ToDouble(reader["Regular_Price"].ToString());
+                    if (reader["CostOfGood"] != DBNull.Value)
+                        entity.CostOfGood = Convert.ToDouble(reader["CostOfGood"].ToString());
+                    if (reader["Retail_Price"] != DBNull.Value)
+                        entity.RetailPrice = Convert.ToDouble(reader["Retail_Price"].ToString());
+                    if (reader["CategoryName"] != DBNull.Value)
+                        entity.CategoryName = reader["CategoryName"].ToString();
+                    if (reader["CategoryID"] != DBNull.Value)
+                        entity.CategoryID = reader["CategoryID"].ToString().ToInt(0);
+                    if (reader["CreatedDate"] != DBNull.Value)
+                        entity.CreatedDate = Convert.ToDateTime(reader["CreatedDate"]);
+                    if (reader["ProductContent"] != DBNull.Value)
+                        entity.ProductContent = reader["ProductContent"].ToString();
+                    if (reader["ProductStyle"] != DBNull.Value)
+                        entity.ProductStyle = reader["ProductStyle"].ToString().ToInt(0);
 
-                list.Add(entity);
+                    list.Add(entity);
+                }
+                
             }
+
             reader.Close();
             return list.OrderByDescending(x => x.ID).Take(limit).ToList();
         }

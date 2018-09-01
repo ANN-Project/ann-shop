@@ -87,6 +87,7 @@ namespace IM_PJ
                         ltrOrderQuantity.Text = r.TotalQuantity.ToString();
                         ltrOrderTotalPrice.Text = string.Format("{0:N0}", (Convert.ToDouble(r.TotalPrice)));
                         ltrTotalRefundFee.Text = string.Format("{0:N0}", (Convert.ToDouble(r.TotalRefundFee)));
+                        ltrRefundNote.Text = r.RefundNote;
 
                         ltrInfo.Text += "<div class=\"row\">";
                         ltrInfo.Text += "<div class=\"col-md-6\">";

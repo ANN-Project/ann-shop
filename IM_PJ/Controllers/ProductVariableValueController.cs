@@ -52,6 +52,22 @@ namespace IM_PJ.Controllers
                     return null;
             }
         }
+        public static bool DeleteByProductVariableID(int ProductVariableID)
+        {
+            using (var con = new inventorymanagementEntities())
+            {
+                var listDelete = con.tbl_ProductVariableValue.Where(x => x.ProductVariableID == ProductVariableID);
+
+                if (listDelete != null)
+                {
+                    con.tbl_ProductVariableValue.RemoveRange(listDelete);
+                    con.SaveChanges();
+                    return true;
+                }
+
+                return false;
+            }
+        }
         #endregion
         #region Select
         public static tbl_ProductVariableValue GetByID(int ID)

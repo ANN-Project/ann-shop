@@ -19,7 +19,7 @@
                             <div class="form-row">
                                 <h3 class="no-margin float-left">Kết quả tìm kiếm: <span class="result-numsearch"></span></h3>
                                 <div class="excute-in">
-                                    <a href="javascript:;" style="background-color: #f87703; float: right;" class="btn primary-btn link-btn" onclick="noteImportStock()">Nhập kho</a>
+                                    <a href="javascript:;" style="background-color: #f87703; float: right;" class="btn primary-btn link-btn" onclick="inProduct()">Nhập kho</a>
                                     <a href="javascript:;" style="background-color: #ffad00; float: right;" class="btn primary-btn link-btn" onclick="quickInput()">Nhập nhanh số lượng (F2)</a>
                                 </div>
                             </div>
@@ -45,7 +45,7 @@
                                 </table>
                             </div>
                             <div class="post-table-links excute-in clear">
-                                <a href="javascript:;" style="background-color: #f87703; float: right;" class="btn primary-btn link-btn" onclick="noteImportStock()">Nhập kho</a>
+                                <a href="javascript:;" style="background-color: #f87703; float: right;" class="btn primary-btn link-btn" onclick="inProduct()">Nhập kho</a>
                                 <a href="javascript:;" style="background-color: #ffad00; float: right;" class="btn primary-btn link-btn" onclick="quickInput()">Nhập nhanh số lượng (F2)</a>
                             </div>
                         </div>
@@ -56,6 +56,7 @@
         <asp:HiddenField ID="hdfvalue" runat="server" />
         <asp:HiddenField ID="hdfNote" runat="server" />
         <asp:HiddenField ID="hdfBarcode" runat="server" />
+        <asp:HiddenField ID="hdfCSSPrintBarcode" runat="server" />
         <asp:Button ID="btnImport" runat="server" OnClick="btnImport_Click" Style="display: none" />
         <div id="printcontent" style="display: none">
             <asp:Literal ID="ltrprint" runat="server"></asp:Literal>
@@ -145,9 +146,10 @@
 
         function printDiv(divid) {
             var divToPrint = document.getElementById('' + divid + '');
+            var css = $("#<%=hdfCSSPrintBarcode.ClientID%>").val();
             var newWin = window.open('', 'Print-Window');
             newWin.document.open();
-            newWin.document.write('<html><head><link rel="stylesheet" href="/App_Themes/Ann/css/Barcode.css" type="text/css"/><link rel="stylesheet" href="/App_Themes/Ann/barcode/style.css" type="text/css"/><link rel="stylesheet" href="/App_Themes/Ann/css/responsive.css" type="text/css"/></head><body><script>window.onload = setTimeout(function () {window.print();setTimeout(function () { window.close(); }, 1);}, 1500);<\/script>' + divToPrint.innerHTML + '</body></html>');
+            newWin.document.write('<html><head><style>' + css + '</style></head><body><script>window.onload = setTimeout(function () {window.print();setTimeout(function () { window.close(); }, 1);}, 1500);<\/script>' + divToPrint.innerHTML + '</body></html>');
             newWin.document.close();
         }
 

@@ -101,7 +101,7 @@ namespace IM_PJ
                             if (product != null)
                             {
                                 ProductName = product.ProductTitle;
-                                Print += "<td><strong>" + SKU + "</strong> - " + ProductName + "</td> ";
+                                Print += "<td><strong>" + SKU + "</strong> - " + PJUtils.Truncate(ProductName, 20) + "</td> ";
                             }
                         }
                         else
@@ -114,7 +114,7 @@ namespace IM_PJ
                                 {
                                     ProductName = parent_product.ProductTitle;
                                 }
-                                Print += "<td><strong>" + SKU + "</strong> - " + ProductName + " - " + item.ProductVariableDescrition.Replace("|", ". ") + "</td> ";
+                                Print += "<td><strong>" + SKU + "</strong> - " + PJUtils.Truncate(ProductName, 20) + " - " + item.ProductVariableDescrition.Replace("|", ". ") + "</td> ";
                             }
                         }
 
@@ -197,6 +197,7 @@ namespace IM_PJ
                     var orderdetails = OrderDetailController.GetByIDSortBySKU(ID);
 
                     var numberOfOrders = OrderController.GetByCustomerID(Convert.ToInt32(order.CustomerID));
+                    var customer = CustomerController.GetByID(Convert.ToInt32(order.CustomerID));
 
                     if (orderdetails.Count > 0)
                     {
@@ -224,23 +225,30 @@ namespace IM_PJ
                         productPrint += "<td>Khách hàng</td>";
                         productPrint += "<td class=\"capitalize\">" + order.CustomerName + "</td>";
                         productPrint += "</tr>";
+
+                        if (!string.IsNullOrEmpty(customer.Nick))
+                        {
+                            productPrint += "<tr>";
+                            productPrint += "<td>Nick đặt hàng</td>";
+                            productPrint += "<td class=\"capitalize\">" + customer.Nick + "</td>";
+                            productPrint += "</tr>";
+                        }
+
                         productPrint += "<tr>";
                         productPrint += "<td>Điện thoại</td>";
                         productPrint += "<td>" + order.CustomerPhone + "</td>";
                         productPrint += "</tr>";
                         productPrint += "<tr>";
-                        productPrint += "<td>Loại đơn</td>";
-                        if (order.OrderType == 1)
-                            productPrint += "<td>Mua lẻ</td>";
-                        if (order.OrderType == 2)
-                            productPrint += "<td>Mua sỉ</td>";
-                        productPrint += "</tr>";
-                        productPrint += "<tr>";
-                        productPrint += "<td>Ngày tạo</td>";
-                        string date = string.Format("{0:dd/MM/yyyy HH:mm}", order.CreatedDate);
-                        productPrint += "<td>" + date + "</td>";
-                        productPrint += "</tr>";
-                        
+
+                        if (numberOfOrders.Count < 3)
+                        {
+                            productPrint += "<td>Loại đơn</td>";
+                            if (order.OrderType == 1)
+                                productPrint += "<td>Mua lẻ</td>";
+                            if (order.OrderType == 2)
+                                productPrint += "<td>Mua sỉ</td>";
+                            productPrint += "</tr>";
+                        }
                         if (!string.IsNullOrEmpty(order.DateDone.ToString()))
                         {
                             productPrint += "<tr>";
@@ -399,7 +407,7 @@ namespace IM_PJ
 
                         shtml += "<div class=\"logo\"><div class=\"img\"><img src=\"App_Themes/Ann/image/logo.png\" /></div></div>";
 
-                        if (numberOfOrders.Count < 4)
+                        if (numberOfOrders.Count < 3)
                         {
                             shtml += "<div class=\"info\">";
 
@@ -426,11 +434,21 @@ namespace IM_PJ
                         shtml += productPrint;
 
                         shtml += "<div class=\"footer\"><h3>CẢM ƠN QUÝ KHÁCH !!!</h3></div> ";
-                        
+
                         var config = ConfigController.GetByTop1();
-                        if(config.ChangeGoodsRule != "" && numberOfOrders.Count < 4)
+                        string rule = "";
+                        if(order.OrderType == 2)
                         {
-                            shtml += "<div class=\"footer\">" + config.ChangeGoodsRule +"</div> ";
+                            rule = config.ChangeGoodsRule;
+                        }
+                        else
+                        {
+                            rule = config.RetailReturnRule;
+                        }
+                        
+                        if(numberOfOrders.Count < 3)
+                        {
+                            shtml += "<div class=\"footer\">" + rule +"</div> ";
                         }
                         else
                         {

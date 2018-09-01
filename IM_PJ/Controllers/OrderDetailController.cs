@@ -89,7 +89,7 @@ namespace IM_PJ.Controllers
             }
         }
 
-        public static string UpdateQuantity(int ID, double Quantity, DateTime CreatedDate, string CreatedBy)
+        public static string UpdateQuantity(int ID, double Quantity, double Price, DateTime CreatedDate, string CreatedBy)
         {
             using (var dbe = new inventorymanagementEntities())
             {
@@ -97,6 +97,7 @@ namespace IM_PJ.Controllers
                 if (ui != null)
                 {
                     ui.Quantity = Quantity;
+                    ui.Price = Price;
                     ui.CreatedDate = CreatedDate;
                     ui.CreatedBy = CreatedBy;
                     int kq = dbe.SaveChanges();

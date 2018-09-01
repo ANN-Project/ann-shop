@@ -81,7 +81,7 @@ namespace IM_PJ
                                 ProductImage = product.ProductImage;
                             }
                             Print += "<td><image src=\"" + ProductImage + "\" /></td> ";
-                            Print += "<td><strong>" + SKU + "</strong> - " + ProductName + "</td> ";
+                            Print += "<td><strong>" + SKU + "</strong> - " + PJUtils.Truncate(ProductName, 30) + "</td> ";
                         }
                     }
                     else
@@ -105,7 +105,7 @@ namespace IM_PJ
                             }
                             
                             Print += "<td><image src=\"" + ProductImage + "\" /></td>";
-                            Print += "<td><p><strong>" + SKU + "</strong> - " + ProductName + "</p><p class=\"variable\">" + item.ProductVariableDescrition.Replace("|", ". ") + "</p></td> ";
+                            Print += "<td><p><strong>" + SKU + "</strong> - " + PJUtils.Truncate(ProductName, 30) + "</p><p class=\"variable\">" + item.ProductVariableDescrition.Replace("|", ". ") + "</p></td> ";
                         }
                     }
 

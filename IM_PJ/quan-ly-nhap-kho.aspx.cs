@@ -73,6 +73,14 @@ namespace IM_PJ
             }
             html.Append("</select>");
             ltrSupplier.Text = html.ToString();
+
+            // Lấy css print barcode từ cài đặt
+
+            var p = ConfigController.GetByTop1();
+            if (p != null)
+            {
+                hdfCSSPrintBarcode.Value = p.CSSPrintBarcode;
+            }
         }
 
         [WebMethod]

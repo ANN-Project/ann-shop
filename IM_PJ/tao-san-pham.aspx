@@ -108,7 +108,7 @@
                                     Danh mục
                                 </div>
                                 <div class="row-right parent">
-                                    <select id="ddlCategory" date-name="parentID" runat="server" class="form-control slparent" data-level="1" onchange="chooseParent($(this))"></select>
+                                    <select id="ddlCategory" date-name="parentID" runat="server" class="form-control slparent" data-level="1" onchange="selectCategory($(this))"></select>
                                 </div>
                             </div>
 
@@ -136,7 +136,7 @@
                                     Loại sản phẩm
                                 </div>
                                 <div class="row-right">
-                                    <select id="ddlProductStyle" class="form-control" onchange="choosetype()">
+                                    <select id="ddlProductStyle" class="form-control" onchange="selectProductType()">
                                         <option value="1">Đơn giản</option>
                                         <option value="2">Có biến thể</option>
                                     </select>
@@ -271,21 +271,23 @@
                                             .generat-variable-content .item-var-gen {
                                                 float: left;
                                                 width: 100%;
-                                                margin: 20px 0;
+                                                margin: 15px 0;
                                                 border: dotted 1px #ccc;
-                                                padding: 20px;
+                                                padding: 15px 0;
                                             }
                                     </style>
                                     <div class="generat-variable-content">
                                         <div class="row">
                                             <div class="col-md-10">
-                                                <h3>Danh sách thuộc tính sản phẩm</h3>
+                                                <h3>Danh sách biến thể</h3>
                                             </div>
                                             <div class="col-md-2 delete" style="display: none;">
-                                                <a href="javascript:;" onclick="deleteAll()" id="delete" class="btn primary-btn fw-btn not-fullwidth">Xóa tất cả</a>
+                                                <a href="javascript:;" onclick="deleteAllVariable()" id="delete" class="btn primary-btn fw-btn not-fullwidth">Xóa tất cả</a>
                                             </div>
                                         </div>
-                                        <div class="list-item-genred">
+                                        <div class="row list-item-genred">
+                                            <div class="col-md-12">
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -321,7 +323,7 @@
                 }
 
                 $("#<%=pRegular_Price.ClientID%>").blur(function () {
-                    var cost = parseInt($("#<%=pRegular_Price.ClientID%>").val()) - 15000;
+                    var cost = parseInt($("#<%=pRegular_Price.ClientID%>").val()) - 20000;
                     $("input.cost-price").val(cost);
                 });
 
@@ -451,7 +453,7 @@
                 }
             }
 
-            function chooseParent(obj) {
+            function selectCategory(obj) {
                 var parentID = obj.val();
                 $("#<%=hdfParentID.ClientID%>").val(parentID);
                 var lv = parseFloat(obj.attr('data-level'));
@@ -462,6 +464,7 @@
                         $(this).remove();
                     }
                 })
+
                 $.ajax({
                     type: "POST",
                     url: "/tao-san-pham.aspx/getParent",
@@ -473,7 +476,7 @@
                         var html = "";
                         //var sl = "";
                         if (data.length > 0) {
-                            html += "<select class=\"form-control slparent\" style=\"margin-top:15px;\" data-level=" + level + " onchange=\"chooseParent($(this))\">";
+                            html += "<select class=\"form-control slparent\" style=\"margin-top:15px;\" data-level=" + level + " onchange=\"selectCategory($(this))\">";
                             html += "<option  value=\"0\">Chọn danh mục</option>";
                             for (var i = 0; i < data.length; i++) {
                                 html += "<option value=\"" + data[i].ID + "\">" + data[i].CategoryName + "</option>";
@@ -485,7 +488,7 @@
                 })
             }
 
-            function choosetype() {
+            function selectProductType() {
                 var vl = $("#ddlProductStyle").val();
                 $("#<%=hdfsetStyle.ClientID%>").val(vl);
                 if (vl == 2) {
@@ -563,6 +566,8 @@
                                 parentlist += parent[j] + "|";
                             }
                         }
+
+
                         $.ajax({
                             type: "POST",
                             url: "/tao-san-pham.aspx/getVariable",
@@ -589,59 +594,64 @@
                                         });
 
                                         if (checkExisted == false) {
-                                            html += "<div class=\"item-var-gen\" data-name-id=\"" + item.VariableListValue
-                                            + "|\" data-value-id=\"" + item.VariableValue
-                                            + "|\" data-name-text=\"" + item.VariableNameList
-                                            + "|\" data-value-text=\"" + item.VariableValueName
-                                            + "\" data-name-value=\"" + item.ProductVariable + "\">";
-                                            html += "<div class=\"form-row\">";
-                                            html += "<div class=\"row-left\">Thông tin</div>";
-                                            html += "<div class=\"row-right\">";
+
+                                            html += "<div class='item-var-gen' data-name-id='" + item.VariableListValue + "|' data-value-id='" + item.VariableValue + "|' data-name-text='" + item.VariableNameList + "|' data-value-text='" + item.VariableValueName + "' data-name-value='" + item.ProductVariable + "'>";
+                                            html += "	<div class='col-md-12 variable-label margin-bottom-15' onclick='showVariableContent($(this))'>";
+                                            html += "<strong>#" + (i + 1) + "</strong>";
                                             for (var j = 0; j < temp1.length - 1; j++) {
-                                                html += "<p><strong>" + temp1[j] + " </strong></p>";
+                                                html += " - " + temp1[j] + "";
                                             }
-                                            html += "</div>";
-                                            html += "</div>";
-                                            html += "<div class=\"form-row\">";
-                                            html += "<div class=\"row-left\">Mã sản phẩm</div>";
-                                            html += "<div class=\"row-right\"><input type=\"text\" class=\"form-control productvariablesku sku-input\" value=\"" + SKU + item.VariableSKUText + "\" /></div>";
-                                            html += "</div>";
-                                            html += "<div class=\"form-row\">";
-                                            html += "<div class=\"row-left\">Giá sỉ</div>";
-                                            html += "<div class=\"row-right\"><input class=\"form-control regularprice\" type=\"text\" value=\"" + giasi + "\" /> </div>";
-                                            html += "</div>";
-                                            html += "<div class=\"form-row cost-of-goods\">";
-                                            html += "<div class=\"row-left\">Giá vốn</div>";
-                                            html += "<div class=\"row-right\"><input class=\"form-control costofgood cost-price\" type=\"text\" value=\"" + giavon + "\" /></div>";
-                                            html += "</div>";
-                                            html += "<div class=\"form-row\">";
-                                            html += "<div class=\"row-left\">Giá bán lẻ</div>";
-                                            html += "<div class=\"row-right\"><input class=\"form-control retailprice\" type=\"text\" value=\"" + giale + "\" /></div>";
-                                            html += "</div>";
-                                            html += "<div class=\"form-row\">";
-                                            html += "<div class=\"row-left\">Tồn kho ít nhất</div>";
-                                            html += "<div class=\"row-right\"><input class=\"form-control minimum\" type=\"text\" value=\"" + MinimumInventoryLevel + "\" /></div>";
-                                            html += "</div>";
-                                            html += "<div class=\"form-row\">";
-                                            html += "<div class=\"row-left\">Tồn kho nhiều nhất</div>";
-                                            html += "<div class=\"row-right\"><input class=\"form-control maximum\" type=\"text\" value=\"" + MaximumInventoryLevel + "\" /></div>";
-                                            html += "</div>";
-                                            html += "<div class=\"form-row\">";
-                                            html += "<input type='file' class=\"productVariableImage\" onchange=\"imagepreview(this,$(this));\" name=\"" + item.ProductVariable + "\"/>";
-                                            html += "<img class=\"imgpreview\" src=\"#\" style=\"width: 40%;\"  />";
-                                            html += "<span class=\"remove\" style=\"display:none\">Xóa</span>";
-                                            html += "</div>";
-                                            html += "<div class=\"form-row\">";
-                                            html += "<div class=\"row-left\"><a href=\"javascript:;\" onclick=\"deleteItemGen($(this))\" class=\"btn primary-btn fw-btn not-fullwidth\">Xóa</a></div>";
-                                            html += "<div class=\"row-right\">";
-                                            html += "</div>";
-                                            html += "</div>";
+                                            html += " - <span class='sku-input'>" + SKU + item.VariableSKUText + "</span>";
+                                            html += "    </div>";
+                                            html += "    <div class='col-md-12 variable-content show'>";
+                                            html += "    	<div class='row'>";
+                                            html += "		    <div class='col-md-2'>";
+                                            html += "		    	<input type='file' class='productVariableImage upload-btn' onchange='imagepreview(this,$(this));' name='" + item.ProductVariable + "'/>";
+                                            html += "				<img class='imgpreview' onclick='openUploadImage($(this))' src='/App_Themes/Ann/image/placeholder.png' />";
+                                            html += "				<a href='javascript:;' onclick='deleteImageVariable($(this))' class='btn-delete hide'><i class='fa fa-times' aria-hidden='true'></i> Xóa hình</a>";
+                                            html += "			</div>";
+                                            html += "		    <div class='col-md-5'>";
+                                            html += "			    <div class='row margin-bottom-15'>";
+                                            html += "			    	    <div class='col-md-5'>Mã sản phẩm</div>";
+                                            html += "			    	    <div class='col-md-7'><input type='text' disabled class='form-control productvariablesku sku-input' value='" + SKU + item.VariableSKUText + "'></div>";
+                                            html += "			    	</div>";
+                                            html += "			    </div>";
+                                            html += "		    <div class='col-md-5'>";
+                                            html += "		    	<div class='row margin-bottom-15'>";
+                                            html += "		    	    <div class='col-md-5'>Giá sỉ</div>";
+                                            html += "		    	    <div class='col-md-7'><input class='form-control regularprice' type='text' value='" + giasi + "'> </div>";
+                                            html += "		    	</div>";
+                                            html += "		    	<div class='row margin-bottom-15 cost-of-goods'>";
+                                            html += "		    	    <div class='col-md-5'>Giá vốn</div>";
+                                            html += "		    	    <div class='col-md-7'><input class='form-control costofgood cost-price' type='text' value='" + giavon + "'></div>";
+                                            html += "		    	</div>";
+                                            html += "		    	<div class='row margin-bottom-15'>";
+                                            html += "		    	    <div class='col-md-5'>Giá bán lẻ</div>";
+                                            html += "		    	    <div class='col-md-7'><input class='form-control retailprice' type='text' value='" + giale + "'></div>";
+                                            html += "		    	</div>";
+                                            html += "		    	<div class='row margin-bottom-15'>";
+                                            html += "		    	    <div class='col-md-5'>Tồn kho ít nhất</div>";
+                                            html += "		    	    <div class='col-md-7'><input class='form-control minimum' type='text' value='" + MinimumInventoryLevel + "'></div>";
+                                            html += "		    	</div>";
+                                            html += "		    	<div class='row margin-bottom-15'>";
+                                            html += "		    	    <div class='col-md-5'>Tồn kho nhiều nhất</div>";
+                                            html += "		    	    <div class='col-md-7'><input class='form-control maximum' type='text' value='" + MaximumInventoryLevel + "'></div>";
+                                            html += "		    	</div>";
+                                            html += "		    	<div class='row margin-bottom-15'>";
+                                            html += "		    	    <div class='col-md-5'></div>";
+                                            html += "		    	    <div class='col-md-7'><a href='javascript:;' onclick='deleteVariableItem($(this))' class='btn primary-btn fw-btn not-fullwidth'>Xóa</a></div>";
+                                            html += "		    	</div>";
+                                            html += "			</div>";
+                                            html += "		</div>";
+                                            html += "	</div>";
                                             html += "</div>";
                                             numberCreated++;
                                         }
                                     }
-                                    $(".list-item-genred").append(html);
+
+                                    $(".list-item-genred > .col-md-12").append(html);
                                     $(".delete").show();
+
                                     if (data.length == numberCreated) {
                                         swal("Thông báo", "Đã tạo thành công " + numberCreated + " biến thể sản phẩm", "success");
                                     }
@@ -652,7 +662,6 @@
                                         else {
                                             swal("Thông báo", "Đã tạo đầy đủ " + data.length + " biến thể sản phẩm trước đó", "info");
                                         }
-                                        
                                     }
                                     
                                     HoldOn.close();
@@ -675,37 +684,51 @@
                 }
             }
 
+            function openUploadImage(obj) {
+                obj.parent().find(".productVariableImage").click();
+            }
+
+            function deleteImageVariable(obj) {
+                obj.parent().find(".imgpreview").attr("src", "/App_Themes/Ann/image/placeholder.png").attr("data-file-name", "/App_Themes/Ann/image/placeholder.png");
+                obj.addClass("hide");
+            }
+
+            function showVariableContent(obj) {
+                var content = obj.parent().find(".variable-content");
+                if (content.is(":hidden")) {
+                    content.addClass("show");
+                    obj.addClass("margin-bottom-15");
+                }
+                else {
+                    content.removeClass("show");
+                    obj.removeClass("margin-bottom-15");
+                }
+            }
+
             function imagepreview(input, obj) {
                 if (input.files && input.files[0]) {
                     var reader = new FileReader();
 
                     reader.onload = function (e) {
-                        obj.parent().find('.imgpreview').attr('src', e.target.result);
-                        //$('.imgpreview').attr('src', e.target.result);
-
-                        $(".remove").show();
-                        obj.parent().find(".remove").click(function () {
-                            obj.parent().find('.imgpreview').attr('src', "");
-                            obj.parent().find('input:file').val("");
-                            $(".remove").hide();
-                        });
+                        obj.parent().find(".imgpreview").attr("src", e.target.result);
+                        obj.parent().find(".imgpreview").attr("data-file-name", obj.parent().find("input:file").val());
+                        obj.parent().find(".btn-delete").removeClass("hide");
                     }
 
                     reader.readAsDataURL(input.files[0]);
                 }
             }
 
-            function deleteItemGen(obj) {
-                var c = confirm("Bạn muốn xóa thuộc tính này?");
+            function deleteVariableItem(obj) {
+                var c = confirm("Bạn muốn xóa biến thể này?");
                 if (c == true) {
-                    obj.parent().parent().parent().remove();
+                    obj.closest(".item-var-gen").remove();
                 }
             }
 
-            function deleteAll() {
-                var c = confirm("Bạn muốn xóa tất cả thuộc tính này?");
+            function deleteAllVariable() {
+                var c = confirm("Bạn muốn xóa tất cả biến thể?");
                 if (c == true) {
-                    //$(".generat-variable-content").remove();
                     $(".list-item-genred").remove();
                     var html = "<div class=\"list-item-genred\"></div>";
                     $(".generat-variable-content").append(html);
@@ -879,18 +902,6 @@
             function isBlank(str) {
                 return (!str || /^\s*$/.test(str));
             }
-            function AddNewProduct() {
-                if ($(".row-variable-selected").length > 0) {
-                    var check = true;
-                    var listva = "";
-                    $(".row-variable-selected").each(function () {
-                        var sku = $(this).find(".sku-variable").val();
-                        if (!isBlank(sku)) {
-
-                        }
-                    });
-                }
-            }
 
             function CheckSKU() {
                 var sku = $("#<%=txtProductSKU.ClientID%>").val();
@@ -902,92 +913,13 @@
                     dataType: "json",
                     success: function (msg) {
                         if (msg.d != "ok") {
-                            swal("Thông báo", "Trùng mã sản phẩm vui lòng kiểm tra lại :)", "error");
+                            swal("Thông báo", "Trùng mã sản phẩm.. Hãy kiểm tra lại :)", "error");
                             $("#<%=txtProductSKU.ClientID%>").select().focus();
                             $("body").removeClass("stop-scrolling");
                         }
                     }
-                })
-            }
-
-            function addVariable() {
-                var variable_selected = "";
-                var valu_list = "";
-                var select_count = 0;
-                var current_selected = $("#<%= hdfTempVariable.ClientID%>").val();
-                $(".variable-row").each(function () {
-                    var v_name = $(this).find(".variable-name").attr("data-name");
-                    var vl_id = $(this).find(".variable-value").val();
-                    var vl_name = $(this).find(".variable-value :selected").text();
-
-                    if (vl_id > 0) {
-                        variable_selected += v_name + ":" + vl_name + ":" + vl_id + "|";
-                        select_count++;
-                    }
                 });
-                if (select_count > 0) {
-                    var check = false;
-                    var itemcur = current_selected.split(',');
-                    if (itemcur.length - 1 > 0) {
-                        for (var j = 0; j < itemcur.length - 1; j++) {
-                            if (itemcur[j] == variable_selected)
-                                check = true;
-                        }
-                    }
-                    if (check == false) {
-                        itemcur += variable_selected + ",";
-                        $("#<%= hdfTempVariable.ClientID%>").val(itemcur);
-                        var html = "";
-                        var vs = variable_selected.split('|');
-                        if (vs.length - 1 > 0) {
-                            html += "<div class=\"row-variable-selected\">";
-                            html += "   <div class=\"v-element\"><input type=\"text\" class=\"form-control sku-variable\" placeholder=\"Mã sản phẩm\"></div>";
-                            html += "   <div class=\"v-element\"><input type=\"number\" min=\"0\" class=\"form-control stock-variable\" placeholder=\"Stock\"></div>";
-                            html += "   <div class=\"v-element\"><select class=\"form-control stock-status\"><option value=\"1\">Instock</option><option value=\"2\">Out of stock</option></select></div>";
-                            html += "   <div class=\"v-element\"><input type=\"number\" min=\"0\" class=\"form-control regularprice-variable\" placeholder=\"Regular Price\"></div>";
-                            html += "   <div class=\"v-element\"><input type=\"number\" min=\"0\" class=\"form-control costofgood-variable\" placeholder=\"Cost Of Good\"></div>";
-                            html += "   <div class=\"v-element\"><input type=\"checkbox\" class=\"form-control managestock-variable\"></div>";
-                            html += "   <div class=\"v-element\"><input type=\"checkbox\" class=\"form-control managestock-variable\"></div>";
-                            for (var i = 0; i < vs.length - 1; i++) {
-                                var item = vs[i];
-                                var item_element = item.split(':');
-                                var v_name1 = item_element[0];
-                                var vl_name1 = item_element[1];
-                                var vl_id1 = item_element[2];
-                                html += "<div class=\"v-element content-vari-value\" data-vname=\"" + v_name1 + "\" data-vl_name=\"" + vl_name1 + "\" data-vl_id=\"" + vl_id1 + "\">" + v_name1 + ": " + vl_name1 + "</div>";
-
-                            }
-                            html += "   <div class=\"v-element delete-value\"><a href=\"javascript:;\" onclick=\"deleterowva($(this))\" class=\"btn primary-btn fw-btn not-fullwidth\">Xóa</a></div>";
-                            html += "</div>";
-                        }
-                        $(".variable-selected").append(html);
-                    }
-
-
-                }
-                else {
-
-                }
             }
-
-            function deleterowva(obj) {
-                var c = confirm("Bạn muốn xóa thuộc tính này?");
-                if (c == true) {
-                    obj.parent().parent().remove();
-                    var newc = "";
-                    $(".row-variable-selected").each(function () {
-                        $(this).find(".content-vari-value").each(function () {
-                            var vname = $(this).attr("data-vname");
-                            var vl_name = $(this).attr("data-vl_name");
-                            var vl_id = $(this).attr("data-vl_id");
-                            newc += vname + ":" + vl_name + ":" + vl_id + "|";
-                        });
-                        newc += ",";
-                    });
-                    $("#<%=hdfTempVariable.ClientID%>").val(newc);
-                }
-            }
-
 
             function OnClientFileSelected1(sender, args) {
                 if ($telerik.isIE) return;

@@ -36,7 +36,7 @@
                                     </telerik:RadDatePicker>
                                 </div>
                                 <div class="col-md-1">
-                                    <a href="javascript:;" onclick="search()" class="btn primary-btn h45-btn"><i class="fa fa-search"></i></a>
+                                    <a href="javascript:;" onclick="submitReport()" class="btn primary-btn h45-btn"><i class="fa fa-search"></i></a>
                                     <asp:Button ID="btnSearch" runat="server" CssClass="btn primary-btn h45-btn" OnClick="btnSearch_Click" Style="display: none" />
                                 </div>
                             </div>
@@ -44,8 +44,8 @@
                     </div>
                     <div class="panel-table clear">
                         <div class="responsive-table">
-                            <div class="row">
-                                <div class="col-md-2">
+                            <div class="row margin-bottom-15">
+                                <div class="col-md-4">
                                     <div class="report-column">
                                         <div class="report-label">
                                             Tổng lợi nhuận:
@@ -55,7 +55,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-2">
+                                <div class="col-md-4">
                                     <div class="report-column">
                                         <div class="report-label">
                                             Lợi nhuận mỗi ngày:
@@ -65,7 +65,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-2">
+                                <div class="col-md-4">
                                     <div class="report-column">
                                         <div class="report-label">
                                             Lợi nhuận mỗi đơn hàng:
@@ -75,35 +75,93 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-2">
+                            </div>
+                            <div class="row margin-bottom-15">
+                                <div class="col-md-4">
                                     <div class="report-column">
                                         <div class="report-label">
-                                            Tổng doanh thu:
+                                            Tổng doanh thu bán ra:
                                         </div>
                                         <div class="report-value">
-                                            <asp:Literal ID="ltrTotalRevenue" runat="server" EnableViewState="false"></asp:Literal>
+                                            <asp:Literal ID="ltrTotalSalePrice" runat="server" EnableViewState="false"></asp:Literal>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-2">
+                                <div class="col-md-4">
                                     <div class="report-column">
                                         <div class="report-label">
-                                            Tổng giá vốn:
+                                            Tổng giá vốn bán ra:
                                         </div>
                                         <div class="report-value">
-                                            <asp:Literal ID="ltrTotalCost" runat="server" EnableViewState="false"></asp:Literal>
+                                            <asp:Literal ID="ltrTotalSaleCost" runat="server" EnableViewState="false"></asp:Literal>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-2">
+                                <div class="col-md-4">
                                     <div class="report-column">
                                         <div class="report-label">
-                                            Tổng trả hàng:
+                                            Tổng chiết khấu:
                                         </div>
                                         <div class="report-value">
-                                            <asp:Literal ID="ltrTotalRefund" runat="server" EnableViewState="false"></asp:Literal>
+                                            <asp:Literal ID="ltrTotalDisount" runat="server" EnableViewState="false"></asp:Literal>
                                         </div>
                                     </div>
+                                </div>
+                            </div>
+                            <div class="row margin-bottom-15">
+                                <div class="col-md-4">
+                                    <div class="report-column">
+                                        <div class="report-label">
+                                            Tổng tiền hàng trả:
+                                        </div>
+                                        <div class="report-value">
+                                            <asp:Literal ID="ltrTotalRefundPrice" runat="server" EnableViewState="false"></asp:Literal>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="report-column">
+                                        <div class="report-label">
+                                            Tổng vốn hàng trả:
+                                        </div>
+                                        <div class="report-value">
+                                            <asp:Literal ID="ltrTotalRefundCost" runat="server" EnableViewState="false"></asp:Literal>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="report-column">
+                                        <div class="report-label">
+                                            Tổng phí hàng trả:
+                                        </div>
+                                        <div class="report-value">
+                                            <asp:Literal ID="ltrTotalRefundFee" runat="server" EnableViewState="false"></asp:Literal>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row margin-bottom-15">
+                                <div class="col-md-4">
+                                    <div class="report-column">
+                                        <div class="report-label">
+                                            Tổng phí vận chuyển:
+                                        </div>
+                                        <div class="report-value">
+                                            <asp:Literal ID="ltrTotalShippingFee" runat="server" EnableViewState="false"></asp:Literal>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="report-column">
+                                        <div class="report-label">
+                                            Tổng phí khác:
+                                        </div>
+                                        <div class="report-value">
+                                            <asp:Literal ID="ltrTotalOtherFee" runat="server" EnableViewState="false"></asp:Literal>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
                                 </div>
                             </div>
                         </div>
@@ -113,7 +171,7 @@
         </div>
 
         <script type="text/javascript">
-            function search() {
+            function submitReport() {
                 $("#<%= btnSearch.ClientID%>").click();
             }
         </script>

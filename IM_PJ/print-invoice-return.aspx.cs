@@ -72,7 +72,7 @@ namespace IM_PJ
                         if (product != null)
                         {
                             ProductName = product.ProductTitle;
-                            Print += "<td><strong>" + SKU + "</strong> - " + ProductName + "</td>";
+                            Print += "<td><strong>" + SKU + "</strong> - " + PJUtils.Truncate(ProductName, 20) + "</td>";
                         }
                     }
                     else
@@ -85,7 +85,7 @@ namespace IM_PJ
                             {
                                 ProductName = parent_product.ProductTitle;
                             }
-                            Print += "<td><strong>" + SKU + "</strong> - " + ProductName + "</td>";
+                            Print += "<td><strong>" + SKU + "</strong> - " + PJUtils.Truncate(ProductName, 20) + "</td>";
                         }
                     }
 

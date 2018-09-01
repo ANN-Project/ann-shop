@@ -424,9 +424,19 @@ namespace IM_PJ.Controllers
                         fromdate = fromdate.AddDays(-days + 1);
                         todate = DateTime.Now;
                         break;
-                    case "month":
+                    case "thismonth":
                         fromdate = new DateTime(fromdate.Year, fromdate.Month, 1);
                         todate = DateTime.Now;
+                        break;
+                    case "lastmonth":
+                        var thismonth = new DateTime(fromdate.Year, fromdate.Month, 1);
+                        fromdate = thismonth.AddMonths(-1);
+                        todate = thismonth;
+                        break;
+                    case "beforelastmonth":
+                        thismonth = new DateTime(fromdate.Year, fromdate.Month, 1);
+                        fromdate = thismonth.AddMonths(-2);
+                        todate = thismonth.AddMonths(-1);
                         break;
                     case "7days":
                         fromdate = fromdate.AddDays(-6);
@@ -1168,7 +1178,7 @@ namespace IM_PJ.Controllers
                         DateTime fd = Convert.ToDateTime(fromdate);
                         DateTime td = Convert.ToDateTime(todate);
                         or = db.tbl_Order
-                            .Where(r => r.DateDone >= fd && r.DateDone < td)
+                            .Where(r => r.DateDone >= fd && r.DateDone <= td)
                             .Where(r => r.ExcuteStatus == 2)
                             .Where(r => r.PaymentStatus == 3)
                             .ToList();
@@ -1299,11 +1309,16 @@ namespace IM_PJ.Controllers
             using (var con = new inventorymanagementEntities())
             {
                 int TotalNumberOfOrder = 0;
-                double TotalCostOfSales = 0;
-                double TotalSales = 0;
-                double TotalRefund = 0;
-                double TotalCostOfRefund = 0;
+                double TotalSalePrice = 0;
+                double TotalSaleCost = 0;
+                double TotalSaleDiscount = 0;
+                double TotalOtherFee = 0;
+                double TotalShippingFee = 0;
 
+                double TotalRefundPrice = 0;
+                double TotalRefundFee = 0;
+                double TotalRefundCost = 0;
+                
                 // Get all infor product
                 var productTarget = con.tbl_Product
                     .GroupJoin(
@@ -1342,7 +1357,7 @@ namespace IM_PJ.Controllers
 
                 // Choose order in date target
                 var orderTarget = con.tbl_Order
-                    .Where(x => (x.DateDone >= fromDate && x.DateDone < toDate)
+                    .Where(x => (x.DateDone >= fromDate && x.DateDone <= toDate)
                                 && x.ExcuteStatus == 2
                                 && x.PaymentStatus == 3)
                     .OrderBy(x => x.ID);
@@ -1362,8 +1377,12 @@ namespace IM_PJ.Controllers
                             ProductVariableID = detail.ProductVariableID.Value,
                             ProductStyle = detail.ProductType.Value,
                             SKU = detail.SKU,
+                            Price = detail.Price,
                             Quantity = detail.Quantity.Value,
-                            TotalPrice = order.TotalPrice
+                            TotalPrice = order.TotalPrice,
+                            TotalDiscount = order.TotalDiscount,
+                            TotalOtherFee = order.OtherFeeValue,
+                            TotalShippingFee = order.FeeShipping
                         })
                         .OrderBy(x => x.SKU)
                     .Join(
@@ -1377,9 +1396,13 @@ namespace IM_PJ.Controllers
                             ProductVariableID = order.ProductVariableID,
                             ProductStyle = order.ProductStyle,
                             SKU = order.SKU,
+                            Price = order.Price,
                             Quantity = order.Quantity,
                             CostOfGood = product.CostOfGood,
-                            TotalPrice = order.TotalPrice
+                            TotalPrice = order.TotalPrice,
+                            TotalDiscount = order.TotalDiscount,
+                            TotalOtherFee = order.TotalOtherFee,
+                            TotalShippingFee = order.TotalShippingFee
                         })
                     .ToList();
 
@@ -1400,8 +1423,10 @@ namespace IM_PJ.Controllers
                             RefundGoodsID = refund.ID,
                             ProductStyle = detail.ProductType.Value,
                             SKU = detail.SKU,
+                            SoldPrice = detail.SoldPricePerProduct,
                             Quantity = detail.Quantity.Value,
-                            TotalRefundPrice = refund.TotalPrice
+                            TotalRefundPrice = refund.TotalPrice,
+                            TotalRefundFee = refund.TotalRefundFee
                         })
                     .OrderBy(x => x.SKU)
                     .Join(
@@ -1414,37 +1439,62 @@ namespace IM_PJ.Controllers
                             ProductStyle = refund.ProductStyle,
                             SKU = refund.SKU,
                             Quantity = refund.Quantity,
+                            SoldPrice = refund.SoldPrice,
                             CostOfGood = product.CostOfGood,
-                            TotalRefundPrice = refund.TotalRefundPrice
+                            TotalRefundPrice = refund.TotalRefundPrice,
+                            TotalRefundFee = refund.TotalRefundFee
                         })
                       .ToList();
 
                 TotalNumberOfOrder = inforOrder.GroupBy(x => x.OrderID).Count();
-                TotalSales = inforOrder
+
+                TotalSalePrice = inforOrder
+                    .Select(x => new { TotalSalePrice = x.Quantity * Convert.ToDouble(x.Price)  })
+                    .Sum(x => x.TotalSalePrice);
+
+                TotalSaleCost = inforOrder
+                    .Select(x => new { TotalSaleCost = x.Quantity * Convert.ToDouble(x.CostOfGood) })
+                    .Sum(x => x.TotalSaleCost);
+
+                TotalSaleDiscount = inforOrder
                     .GroupBy(x => x.OrderID)
-                    .Select(g => new { TotalPrice = g.Max(x => Convert.ToDouble(x.TotalPrice)) })
-                    .Sum(x => x.TotalPrice);
+                    .Select(g => new { TotalSaleDiscount = g.Max(x => Convert.ToDouble(x.TotalDiscount)) })
+                    .Sum(x => x.TotalSaleDiscount);
 
-                TotalCostOfSales = inforOrder
-                    .Select(x => new { TotalCostOfSales = x.Quantity * Convert.ToDouble(x.CostOfGood) })
-                    .Sum(x => x.TotalCostOfSales);
+                TotalOtherFee = inforOrder
+                    .GroupBy(x => x.OrderID)
+                    .Select(g => new { TotalOtherFee = g.Max(x => Convert.ToDouble(x.TotalOtherFee)) })
+                    .Sum(x => x.TotalOtherFee);
 
-                TotalRefund = infoRefund
-                    .GroupBy(x => x.RefundGoodsID)
-                    .Select(g => new { TotalRefundPrice = g.Max(x => Convert.ToDouble(x.TotalRefundPrice)) })
+                TotalShippingFee = inforOrder
+                    .GroupBy(x => x.OrderID)
+                    .Select(g => new { TotalShippingFee = g.Max(x => Convert.ToDouble(x.TotalShippingFee)) })
+                    .Sum(x => x.TotalShippingFee);
+
+                TotalRefundPrice = infoRefund
+                    .Select(x => new { TotalRefundPrice = x.Quantity * Convert.ToDouble(x.SoldPrice) })
                     .Sum(x => x.TotalRefundPrice);
 
-                TotalCostOfRefund = infoRefund
-                    .Select(x => new { TotalCostOfRefund = x.Quantity * Convert.ToDouble(x.CostOfGood) })
-                    .Sum(x => x.TotalCostOfRefund);
+                TotalRefundCost = infoRefund
+                    .Select(x => new { TotalRefundCost = x.Quantity * Convert.ToDouble(x.CostOfGood) })
+                    .Sum(x => x.TotalRefundCost);
+
+                TotalRefundFee = infoRefund
+                    .GroupBy(x => x.RefundGoodsID)
+                    .Select(g => new { TotalRefundFee = g.Max(x => Convert.ToDouble(x.TotalRefundFee)) })
+                    .Sum(x => x.TotalRefundFee);
 
                 return new ProfitReportModel()
                 {
                     TotalNumberOfOrder = TotalNumberOfOrder,
-                    TotalCostOfSales = TotalCostOfSales,
-                    TotalSales = TotalSales,
-                    TotalRefund = TotalRefund,
-                    TotalCostOfRefund = TotalCostOfRefund
+                    TotalSalePrice = TotalSalePrice,
+                    TotalSaleCost = TotalSaleCost,
+                    TotalSaleDiscount = TotalSaleDiscount,
+                    TotalOtherFee = TotalOtherFee,
+                    TotalShippingFee = TotalShippingFee,
+                    TotalRefundPrice = TotalRefundPrice,
+                    TotalRefundCost = TotalRefundCost,
+                    TotalRefundFee = TotalRefundFee
                 };
             }
         }

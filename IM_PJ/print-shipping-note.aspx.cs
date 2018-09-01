@@ -60,6 +60,11 @@ namespace IM_PJ
 
             if (order != null)
             {
+                if (order.PaymentStatus == 1)
+                {
+                    error += "<p>- Đơn hàng này <strong>chưa thanh toán</strong>!</p>";
+                }
+
                 if (order.ExcuteStatus != 2)
                 {
                     error += "<p>- Đơn hàng này <strong>chưa hoàn tất</strong>!</p>";
@@ -175,10 +180,14 @@ namespace IM_PJ
                 }
                 else if (order.ShippingType == 3)
                 {
-                    rowHtml += Environment.NewLine + String.Format("        <p class=\"delivery\"><span>GHTK</span></p>");
+                    rowHtml += Environment.NewLine + String.Format("        <p class=\"delivery\"><span>Dịch vụ ship</span></p>");
                     if (!string.IsNullOrEmpty(order.ShippingCode))
                     {
                         rowHtml += Environment.NewLine + String.Format("        <p class=\"delivery\"><span>{0}</span></p>", order.ShippingCode);
+                    }
+                    else
+                    {
+                        error += "- Đơn hàng này <strong>gửi Dịch vụ ship</strong> nhưng <strong>chưa nhập</strong> MÃ VẬN ĐƠN!";
                     }
                 }
                 else if (order.ShippingType == 4)

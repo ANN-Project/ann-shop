@@ -47,25 +47,21 @@ namespace IM_PJ
 
             if (!String.IsNullOrEmpty(Request.QueryString["todate"]))
             {
-                todate = Convert.ToDateTime(Request.QueryString["todate"]);
-
-                if (fromdate == todate)
-                {
-                    todate = fromdate.AddDays(1).AddMinutes(-1);
-                }
+                todate = Convert.ToDateTime(Request.QueryString["todate"]).AddDays(1).AddMinutes(-1);
             }
 
             rFromDate.SelectedDate = fromdate;
             rToDate.SelectedDate = todate;
-            double day = (todate - fromdate).TotalDays;
+
+            int day = Convert.ToInt32((todate - fromdate).TotalDays);
 
             var reportModel = OrderController.GetProfitReport(fromdate, todate);
 
-            double TotalRevenue = reportModel.TotalSales - reportModel.TotalRefund;
+            double TotalRevenue = reportModel.TotalSalePrice - reportModel.TotalRefundPrice;
 
-            double TotalCost = reportModel.TotalCostOfSales - reportModel.TotalCostOfRefund;
+            double TotalCost = reportModel.TotalSaleCost - reportModel.TotalRefundCost;
             
-            double TotalProfit = TotalRevenue - TotalCost;
+            double TotalProfit = TotalRevenue - TotalCost - reportModel.TotalSaleDiscount + reportModel.TotalRefundFee + reportModel.TotalOtherFee;
 
             double TotalProfitPerDay = TotalProfit / day;
 
@@ -75,16 +71,22 @@ namespace IM_PJ
             {
                 TotalProfitPerOrder = Math.Ceiling(TotalProfit / reportModel.TotalNumberOfOrder);
             }
-            
 
-            ltrTotalRevenue.Text = string.Format("{0:N0}", TotalRevenue);
-            ltrTotalCost.Text = string.Format("{0:N0}", reportModel.TotalCostOfSales);
-            ltrTotalRefund.Text = string.Format("{0:N0}", reportModel.TotalRefund);
             ltrTotalProfit.Text += string.Format("{0:N0}", TotalProfit);
-
             ltrProfitPerDay.Text += string.Format("{0:N0}", TotalProfitPerDay);
             ltrProfitPerOrder.Text += string.Format("{0:N0}", TotalProfitPerOrder);
 
+            ltrTotalSalePrice.Text = string.Format("{0:N0}", reportModel.TotalSalePrice);
+            ltrTotalSaleCost.Text = string.Format("{0:N0}", reportModel.TotalSaleCost);
+            ltrTotalDisount.Text = string.Format("{0:N0}", reportModel.TotalSaleDiscount);
+
+            ltrTotalRefundPrice.Text = string.Format("{0:N0}", reportModel.TotalRefundPrice);
+            ltrTotalRefundCost.Text = string.Format("{0:N0}", reportModel.TotalRefundCost);
+            ltrTotalRefundFee.Text = string.Format("{0:N0}", reportModel.TotalRefundFee);
+
+            ltrTotalOtherFee.Text = string.Format("{0:N0}", reportModel.TotalOtherFee);
+
+            ltrTotalShippingFee.Text = string.Format("{0:N0}", reportModel.TotalShippingFee);
         }
 
         protected void btnSearch_Click(object sender, EventArgs e)

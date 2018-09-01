@@ -197,6 +197,14 @@ namespace IM_PJ
 
                 if (a != null)
                 {
+                    // Change user
+                    string RefundNote = "";
+                    if (username != hdfUsernameCurrent.Value)
+                    {
+                        RefundNote = "Được tạo giúp bởi " + username;
+                        username = hdfUsernameCurrent.Value;
+                    }
+
                     agentID = Convert.ToInt32(a.AgentID);
 
                     string CustomerPhone = txtPhone.Text;
@@ -229,7 +237,7 @@ namespace IM_PJ
 
                             //insert ddlstatus, refundnote
                             int status = ddlRefundStatus.SelectedValue.ToInt();
-                            string RefundsNote = txtRefundsNote.Text;
+                            RefundNote += ". " + txtRefundsNote.Text;
                             int rID = RefundGoodController.Insert(
                                 new tbl_RefundGoods()
                                 {
@@ -244,7 +252,7 @@ namespace IM_PJ
                                     CustomerName = checkCustomer.CustomerName,
                                     CustomerPhone = checkCustomer.CustomerPhone,
                                     AgentName = agentName,
-                                    RefundNote = RefundsNote
+                                    RefundNote = RefundNote
                                 });
 
                             if (rID > 0)

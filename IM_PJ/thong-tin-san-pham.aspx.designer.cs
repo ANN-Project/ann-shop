@@ -49,13 +49,13 @@ namespace IM_PJ {
         protected global::System.Web.UI.WebControls.DropDownList ddlCategory;
         
         /// <summary>
-        /// lblSKU control.
+        /// txtProductSKU control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox lblSKU;
+        protected global::System.Web.UI.WebControls.TextBox txtProductSKU;
         
         /// <summary>
         /// txtMaterials control.
@@ -184,6 +184,24 @@ namespace IM_PJ {
         protected global::Telerik.Web.UI.RadEditor pContent;
         
         /// <summary>
+        /// UploadImages control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.FileUpload UploadImages;
+        
+        /// <summary>
+        /// imageGallery control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Literal imageGallery;
+        
+        /// <summary>
         /// chkIsHidden control.
         /// </summary>
         /// <remarks>
@@ -191,6 +209,15 @@ namespace IM_PJ {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.CheckBox chkIsHidden;
+        
+        /// <summary>
+        /// ltrVariables control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Literal ltrVariables;
         
         /// <summary>
         /// btnSubmit control.
@@ -220,6 +247,33 @@ namespace IM_PJ {
         protected global::System.Web.UI.WebControls.HiddenField hdfTempVariable;
         
         /// <summary>
+        /// hdfUploadGallery control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hdfUploadGallery;
+        
+        /// <summary>
+        /// hdfDeleteImageGallery control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hdfDeleteImageGallery;
+        
+        /// <summary>
+        /// hdfsetStyle control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hdfsetStyle;
+        
+        /// <summary>
         /// hdfVariableFull control.
         /// </summary>
         /// <remarks>
@@ -227,6 +281,15 @@ namespace IM_PJ {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.HiddenField hdfVariableFull;
+        
+        /// <summary>
+        /// hdfVariableListInsert control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hdfVariableListInsert;
         
         /// <summary>
         /// hdfParentID control.

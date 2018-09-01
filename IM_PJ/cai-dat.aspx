@@ -63,12 +63,30 @@
                             </div>
                             <div class="form-row">
                                 <div class="row-left">
-                                    Nội quy đổi trả hàng
+                                    Nội quy đổi trả hàng mua sỉ
                                 </div>
                                 <div class="row-right">
-                                    <telerik:RadEditor runat="server" ID="pContent" Width="100%" Height="600px" ToolsFile="~/FilesResources/ToolContent.xml" Skin="Metro" DialogHandlerUrl="~/Telerik.Web.UI.DialogHandler.axd" AutoResizeHeight="True">
+                                    <telerik:RadEditor runat="server" ID="pReturnRule1" Width="100%" Height="500px" ToolsFile="~/FilesResources/ToolContent.xml" Skin="Metro" DialogHandlerUrl="~/Telerik.Web.UI.DialogHandler.axd" AutoResizeHeight="True">
                                         <ImageManager ViewPaths="~/uploads/images" UploadPaths="~/uploads/images" DeletePaths="~/uploads/images" />
                                     </telerik:RadEditor>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="row-left">
+                                    Nội quy đổi trả hàng mua lẻ
+                                </div>
+                                <div class="row-right">
+                                    <telerik:RadEditor runat="server" ID="pReturnRule2" Width="100%" Height="500px" ToolsFile="~/FilesResources/ToolContent.xml" Skin="Metro" DialogHandlerUrl="~/Telerik.Web.UI.DialogHandler.axd" AutoResizeHeight="True">
+                                        <ImageManager ViewPaths="~/uploads/images" UploadPaths="~/uploads/images" DeletePaths="~/uploads/images" />
+                                    </telerik:RadEditor>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="row-left">
+                                    CSS print barcode
+                                </div>
+                                <div class="row-right">
+                                    <asp:TextBox ID="pCSSPrintBarcode" TextMode="MultiLine" runat="server" CssClass="form-control" Height="400px"></asp:TextBox>
                                 </div>
                             </div>
                             <div class="form-row">

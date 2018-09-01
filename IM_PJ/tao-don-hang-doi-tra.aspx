@@ -190,6 +190,7 @@
             </div>
             <asp:Button ID="btnSave" runat="server" OnClick="btnSave_Click" Style="display: none" />
             <asp:HiddenField ID="hdfUsername" runat="server" />
+            <asp:HiddenField ID="hdfUsernameCurrent" runat="server" />
             <asp:HiddenField ID="hdfPhone" runat="server" />
             <asp:HiddenField ID="hdfTotalPrice" runat="server" Value="0" />
             <asp:HiddenField ID="hdfTotalQuantity" runat="server" Value="0" />

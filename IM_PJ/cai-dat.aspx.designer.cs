@@ -94,13 +94,31 @@ namespace IM_PJ {
         protected global::Telerik.Web.UI.RadNumericTextBox pFeeChangeProduct;
         
         /// <summary>
-        /// pContent control.
+        /// pReturnRule1 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::Telerik.Web.UI.RadEditor pContent;
+        protected global::Telerik.Web.UI.RadEditor pReturnRule1;
+        
+        /// <summary>
+        /// pReturnRule2 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::Telerik.Web.UI.RadEditor pReturnRule2;
+        
+        /// <summary>
+        /// pCSSPrintBarcode control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox pCSSPrintBarcode;
         
         /// <summary>
         /// btnLogin control.

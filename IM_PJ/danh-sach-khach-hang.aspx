@@ -26,7 +26,7 @@
                                 </div>
                                 <div class="col-md-2">
                                     <asp:DropDownList ID="ddlCreatedDate" runat="server" CssClass="form-control">
-                                        <asp:ListItem Value="" Text="Thời gian"></asp:ListItem>
+                                        <asp:ListItem Value="" Text="Tất cả thời gian"></asp:ListItem>
                                         <asp:ListItem Value="today" Text="Hôm nay"></asp:ListItem>
                                         <asp:ListItem Value="yesterday" Text="Hôm qua"></asp:ListItem>
                                         <asp:ListItem Value="beforeyesterday" Text="Hôm kia"></asp:ListItem>

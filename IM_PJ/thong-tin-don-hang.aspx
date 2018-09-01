@@ -3,7 +3,7 @@
 <%@ Register Assembly="Telerik.Web.UI" Namespace="Telerik.Web.UI" TagPrefix="telerik" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
     <script src="/App_Themes/Ann/js/search-customer.js?v=0907"></script>
-    <script src="/App_Themes/Ann/js/search-product.js?v=0907"></script>
+    <script src="/App_Themes/Ann/js/search-product.js?v=2007"></script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <asp:Panel ID="parent" runat="server">
@@ -311,7 +311,7 @@
                                         <asp:DropDownList ID="ddlShippingType" runat="server" CssClass="form-control shipping-type">
                                             <asp:ListItem Value="1" Text="Lấy trực tiếp"></asp:ListItem>
                                             <asp:ListItem Value="2" Text="Chuyển bưu điện"></asp:ListItem>
-                                            <asp:ListItem Value="3" Text="Chuyển GHTK"></asp:ListItem>
+                                            <asp:ListItem Value="3" Text="Dịch vụ ship"></asp:ListItem>
                                             <asp:ListItem Value="4" Text="Chuyển xe"></asp:ListItem>
                                             <asp:ListItem Value="5" Text="Nhân viên giao hàng"></asp:ListItem>
                                         </asp:DropDownList>
@@ -398,6 +398,7 @@
             <asp:HiddenField ID="notAcceptChangeUser" Value="1" runat="server" />
             <asp:HiddenField ID="hdfDiscountInOrder" runat="server" />
             <asp:HiddenField ID="hdfUsername" runat="server" />
+            <asp:HiddenField ID="hdfRoleID" runat="server" />
             <asp:HiddenField ID="hdfOrderType" runat="server" />
             <asp:HiddenField ID="hdfTotalPrice" runat="server" />
             <asp:HiddenField ID="hdfTotalPriceNotDiscount" runat="server" />
@@ -565,7 +566,7 @@
             }
 
             function warningShippingNote(ID) {
-                var check = false;
+
                 if ($("#<%=ddlShippingType.ClientID%>").find(":selected").val() == 2 && $("#<%=ddlPaymentType.ClientID%>").find(":selected").val() != 3) {
                     swal({
                         title: "Ê nhỏ:",
@@ -595,9 +596,6 @@
                                         sweetAlert.close();
                                         window.open("/print-shipping-note.aspx?id=" + ID, "_blank");
                                     }
-                                    else {
-                                        check = false;
-                                    }
                                 });
                             }
                             else {
@@ -613,7 +611,6 @@
             }
 
             function warningPrintInvoice(ID) {
-                var check = false;
                 if ($("#<%=ddlShippingType.ClientID%>").find(":selected").val() != 1 && $("#<%=pFeeShip.ClientID%>").val() == 0) {
                     swal({
                         title: "Nhỏ ơi:",
@@ -629,9 +626,6 @@
                         if (isConfirm) {
                             sweetAlert.close();
                             window.open("/print-invoice.aspx?id=" + ID, "_blank");
-                        }
-                        else {
-                            check = false;
                         }
                     });
                 }
@@ -911,6 +905,7 @@
                 var address = $("#<%= txtAddress.ClientID%>").val();
                 if (phone != "" && name != "" && nick != "" && address != "") {
                     
+                    // Nếu có sản phẩm trong đơn hàng
                     if ($(".product-result").length > 0) {
                         var list = "";
                         var ordertype = $(".customer-type").val();
@@ -943,48 +938,135 @@
                             }
                         });
 
+                        // Kiểm tra trạng thái xử lý
                         let excuteStatus = Number($("#<%=ddlExcuteStatus.ClientID%>").val());
 
+                        // Nếu chọn trạng thái hủy
                         if (excuteStatus == 3) {
 
-                            let c = confirm('Đơn hàng này sẽ được lưu ở trạng thái hủy');
+                            // Nếu trạng thái cũ là đã hủy thì thông báo hủy rồi
+                            if ($("#<%=hdfExcuteStatus.ClientID%>").val() == 3) {
+                                swal("Thông báo", "Đơn hàng này đã hủy trước đó!", "warning");
+                            }
+                            else {
+                                swal({
+                                    title: "Xác nhận",
+                                    text: "Cưng có chắc hủy đơn hàng này không?",
+                                    type: "warning",
+                                    showCancelButton: true,
+                                    closeOnConfirm: false,
+                                    cancelButtonText: "Đợi em xem tí!",
+                                    confirmButtonText: "Chắc chắn sếp ơi..",
+                                }, function (isConfirm) {
+                                    if (isConfirm) {
+                                        swal({
+                                            title: "Nhập lý do",
+                                            text: "Nhập lý do hủy đơn hàng:",
+                                            type: "input",
+                                            showCancelButton: true,
+                                            closeOnConfirm: false,
+                                            cancelButtonText: "Đợi em suy nghĩ!",
+                                            confirmButtonText: "Hủy thôi..",
+                                        }, function (orderNote) {
 
-                            if (!c)
-                                return;
-                        }
+                                            // Kiểm tra xem có nhập lý do hủy không? Không nhập thì không cho hủy
+                                            if (orderNote != "") {
 
-                        deleteOrder();
-
-                        $("#<%=hdfOrderType.ClientID %>").val(ordertype);
-                        $("#<%=hdfListProduct.ClientID%>").val(list);
-                        insertOrder();
-
-                    } else {
-                        let excuteStatus = Number($("#<%=ddlExcuteStatus.ClientID%>").val());
-
-                        if (excuteStatus == 3) {
-                            let c = confirm('Đơn hàng này sẽ được lưu ở trạng thái hủy');
-
-                            if (c) {
-                                deleteOrder();
-
-                                $.ajax({
-                                    type: "POST",
-                                    url: "/thong-tin-don-hang.aspx/UpdateStatus",
-                                    data: "{}",
-                                    contentType: "application/json; charset=utf-8",
-                                    dataType: "json",
-                                    success: function (msg) {
-                                        if (msg.d != null) {
-                                            window.location.assign("/danh-sach-don-hang.aspx");
-                                        }
-                                    },
-                                    error: function (xmlhttprequest, textstatus, errorthrow) {
-                                        alert('lỗi');
+                                                $("#<%=txtOrderNote.ClientID %>").val(orderNote);
+                                                $("#<%=ddlPaymentStatus.ClientID %>").val(1);
+                                                deleteOrder();
+                                                $("#<%=hdfOrderType.ClientID%>").val(ordertype);
+                                                $("#<%=hdfListProduct.ClientID%>").val(list);
+                                                insertOrder();
+                                            }
+                                            else {
+                                                swal("Hủy đơn hàng thất bại!", "Chưa nhập lý do nên không được hủy", "error");
+                                            }
+                                        });
                                     }
                                 });
-
                             }
+                            
+                        }
+                            // Khôi phục đơn hàng đã hủy
+                        else if (excuteStatus != 3 && $("#<%=hdfExcuteStatus.ClientID%>").val() == 3 ) {
+
+                            // Chỉ admin mới được khôi phục đơn hàng hủy
+                            if ($("#<%=hdfRoleID.ClientID%>").val() == 0) {
+
+                                $("#<%=txtOrderNote.ClientID %>").val("Đã khôi phục từ trạng thái hủy bởi " + $("#<%=hdfUsername.ClientID%>").val());
+                                deleteOrder();
+                                $("#<%=hdfOrderType.ClientID %>").val(ordertype);
+                                $("#<%=hdfListProduct.ClientID%>").val(list);
+                                insertOrder();
+                            }
+                            else {
+                                swal("Không thể khôi phục đơn hàng đã hủy!", "Hãy báo cáo chị Ngọc để khôi phục", "error");
+                            }
+                        }
+                            // Nếu trạng thái không liên quan đến hủy thì xử lý..
+                        else {
+                            deleteOrder(); 
+                            $("#<%=hdfOrderType.ClientID %>").val(ordertype);
+                            $("#<%=hdfListProduct.ClientID%>").val(list);
+                            insertOrder();
+                        }
+                    }
+                        // Nếu không có sản phẩm trong đơn
+                    else {
+                        let excuteStatus = Number($("#<%=ddlExcuteStatus.ClientID%>").val());
+
+                        if (excuteStatus == 3) {
+
+                            swal({
+                                title: "Xác nhận",
+                                text: "Đơn hàng này sẽ bị hủy. Cưng có chắc hủy đơn này không?",
+                                type: "warning",
+                                showCancelButton: true,
+                                closeOnConfirm: false,
+                                cancelButtonText: "Đợi em xem tí!",
+                                confirmButtonText: "Chắc chắn sếp ơi..",
+                            }, function (isConfirm) {
+                                if (isConfirm) {
+                                    swal({
+                                        title: "Nhập lý do",
+                                        text: "Nhập lý do hủy đơn hàng:",
+                                        type: "input",
+                                        showCancelButton: true,
+                                        closeOnConfirm: false,
+                                        cancelButtonText: "Đợi em suy nghĩ!",
+                                        confirmButtonText: "Hủy thôi..",
+                                    }, function (orderNote) {
+                                        if (orderNote != "") {
+
+                                            $("#<%=txtOrderNote.ClientID %>").val(orderNote);
+                                            $("#<%=ddlPaymentStatus.ClientID %>").val(1);
+
+                                            deleteOrder();
+
+                                            $.ajax({
+                                                type: "POST",
+                                                url: "/thong-tin-don-hang.aspx/UpdateStatus",
+                                                data: "{}",
+                                                contentType: "application/json; charset=utf-8",
+                                                dataType: "json",
+                                                success: function (msg) {
+                                                    if (msg.d != null) {
+                                                        window.location.assign("/danh-sach-don-hang.aspx");
+                                                    }
+                                                },
+                                                error: function (xmlhttprequest, textstatus, errorthrow) {
+                                                    alert('lỗi');
+                                                }
+                                            });
+                                        }
+                                        else {
+                                            swal("Hủy đơn hàng thất bại!", "Chưa nhập lý do nên không được hủy", "error");
+                                        }
+                                    });
+                                }
+                            });
+
                         } else {
                             $("#txtSearch").focus();
                             swal("Thông báo", "Hãy nhập sản phẩm!", "error");

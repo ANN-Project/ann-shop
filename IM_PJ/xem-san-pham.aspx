@@ -153,7 +153,6 @@
                         <div class="responsive-table">
                             <table class="table table-checkable table-product all-product-table">
                                 <tbody>
-                                    
                                     <asp:Literal ID="ltrList" runat="server" EnableViewState="false"></asp:Literal>
                                 </tbody>
                             </table>

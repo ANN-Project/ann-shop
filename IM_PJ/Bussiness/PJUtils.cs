@@ -32,6 +32,13 @@ namespace NHST.Bussiness
 {
     public class PJUtils
     {
+        public static string Truncate(string input, int length)
+        {
+            if (input == null || input.Length < length)
+                return input;
+            int iNextSpace = input.LastIndexOf(" ", length, StringComparison.Ordinal);
+            return string.Format("{0}..", input.Substring(0, (iNextSpace > 0) ? iNextSpace : length).Trim());
+        }
         public static string Encrypt(string key, string data)
         {
             data = data.Trim();
@@ -539,7 +546,7 @@ namespace NHST.Bussiness
             }
             else if (ShippingType == 3)
             {
-                ret = "<span class=\"bg-yellow\">Chuyển GHTK</span>";
+                ret = "<span class=\"bg-yellow\">Dịch vụ ship</span>";
             }
             else if (ShippingType == 4)
             {
@@ -1576,4 +1583,5 @@ namespace NHST.Bussiness
             return currentQuantity;
         }
     }
+
 }

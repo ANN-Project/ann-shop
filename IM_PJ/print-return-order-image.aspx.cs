@@ -117,7 +117,7 @@ namespace IM_PJ
                     Print += "<td>" + string.Format("{0:N0}", RefundFee) + "</td>";
                     Print += "<td>" + string.Format("{0:N0}", SubTotal) + "</td>";
                     Print += "</tr>";
-                    TotalFee += RefundFee;
+                    TotalFee += Convert.ToInt32(item.RefundFeePerProduct) * Convert.ToInt32(item.Quantity);
                     TotalOrder += SubTotal;
                     
                     if(t % 10 == 0)

@@ -59,6 +59,7 @@
             </div>
 
             <asp:HiddenField ID="hdfListProduct" runat="server" />
+            <asp:HiddenField ID="hdfCSSPrintBarcode" runat="server" />
             <asp:HiddenField ID="hdfListSearch" runat="server" />
             <asp:HiddenField ID="hdfcheck" runat="server" />
             <div id="printcontent" style="display: none">
@@ -127,9 +128,10 @@
 
             function printDiv(divid) {
                 var divToPrint = document.getElementById('' + divid + '');
+                var css = $("#<%=hdfCSSPrintBarcode.ClientID%>").val();
                 var newWin = window.open('', 'Print-Window');
                 newWin.document.open();
-                newWin.document.write('<html><head><link rel="stylesheet" href="/App_Themes/Ann/css/Barcode.css" type="text/css"/><link rel="stylesheet" href="/App_Themes/Ann/barcode/style.css" type="text/css"/><link rel="stylesheet" href="/App_Themes/Ann/css/responsive.css" type="text/css"/></head><body><script>window.onload = setTimeout(function () {window.print();setTimeout(function () { window.close(); }, 1);}, 2000);<\/script>' + divToPrint.innerHTML + '</body></html>');
+                newWin.document.write('<html><head><style>' + css + '</style></head><body><script>window.onload = setTimeout(function () {window.print();setTimeout(function () { window.close(); }, 1);}, 1500);<\/script>' + divToPrint.innerHTML + '</body></html>');
                 newWin.document.close();
             }
 

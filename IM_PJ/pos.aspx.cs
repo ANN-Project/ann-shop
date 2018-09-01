@@ -227,13 +227,14 @@ namespace IM_PJ
             {
                 if (acc.RoleID == 0 || acc.RoleID == 2)
                 {
+                    // Change user
                     string OrderNote = "";
-                    // change user
-                    if(username != hdfUsernameCurrent.Value)
+                    if (username != hdfUsernameCurrent.Value)
                     {
                         OrderNote = "Được tính tiền giúp bởi " + username;
                         username = hdfUsernameCurrent.Value;
                     }
+
                     int AgentID = Convert.ToInt32(acc.AgentID);
                     int OrderType = hdfOrderType.Value.ToInt();
                     string AdditionFee = "0";

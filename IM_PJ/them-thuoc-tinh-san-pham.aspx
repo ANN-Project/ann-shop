@@ -109,7 +109,7 @@
                 }
 
                 $("#<%=pRegular_Price.ClientID%>").blur(function () {
-                    var cost = parseInt($("#<%=pRegular_Price.ClientID%>").val()) - 15000;
+                    var cost = parseInt($("#<%=pRegular_Price.ClientID%>").val()) - 20000;
                     $("input.cost-price").val(cost);
                 });
 

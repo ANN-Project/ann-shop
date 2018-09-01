@@ -262,9 +262,14 @@ namespace IM_PJ.Controllers
                         fromdate = fromdate.AddDays(-days + 1);
                         todate = DateTime.Now;
                         break;
-                    case "month":
+                    case "thismonth":
                         fromdate = new DateTime(fromdate.Year, fromdate.Month, 1);
                         todate = DateTime.Now;
+                        break;
+                    case "lastmonth":
+                        var thismonth = new DateTime(fromdate.Year, fromdate.Month, 1);
+                        fromdate = thismonth.AddMonths(-1);
+                        todate = thismonth;
                         break;
                     case "7days":
                         fromdate = DateTime.Today.AddDays(-6);

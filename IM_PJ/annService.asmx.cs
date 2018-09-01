@@ -936,10 +936,10 @@ namespace IM_PJ
                     HttpContext.Current.Response.ContentEncoding = System.Text.Encoding.UTF8;
 
                     var sb = new StringBuilder();
-                    sb.AppendLine("SKU, Stock");
+                    sb.AppendLine("SKU, Stock, StockStatus");
                     foreach (var line in dataToExportToCSV)
                     {
-                        sb.AppendLine(String.Format("{0}, {1}", line.SKU, line.Quantity));
+                        sb.AppendLine(String.Format("{0}, {1}", line.SKU, line.Quantity, line.Quantity > 0 ? "instock" : "outofstock"));
                     }
 
                     HttpContext.Current.Response.Write(sb.ToString());

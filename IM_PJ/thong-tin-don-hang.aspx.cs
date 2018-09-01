@@ -412,6 +412,7 @@ namespace IM_PJ
                     hdfPaymentStatus.Value = paymentStatus.ToString();
                     hdfExcuteStatus.Value = excuteStatus.ToString();
                     hdftotal.Value = ProductQuantity.ToString();
+                    hdfRoleID.Value = acc.RoleID.ToString();
 
                     #endregion
                     ddlPaymentStatus.SelectedValue = paymentStatus.ToString();
@@ -458,7 +459,7 @@ namespace IM_PJ
                     ltrPrint.Text += "<a href=\"javascript:;\" onclick=\"warningShippingNote(" + ID + ")\" class=\"btn primary-btn fw-btn not-fullwidth print-invoice-merged\"><i class=\"fa fa-file-text-o\" aria-hidden=\"true\"></i> In phiếu gửi hàng</a>";
                     if(order.ShippingType == 3 && !string.IsNullOrEmpty(order.ShippingCode))
                     {
-                        ltrPrint.Text += "<a href=\"https://khachhang.giaohangtietkiem.vn/khachhang?code=" + order.ShippingCode + "\" target=\"_blank\" class=\"btn primary-btn fw-btn not-fullwidth print-invoice-merged\"><i class=\"fa fa-file-text-o\" aria-hidden=\"true\"></i> Xem đơn GHTK</a>";
+                        ltrPrint.Text += "<a href=\"https://proship.vn/quan-ly-van-don/?isInvoiceFilter=1&generalInfo=" + order.ShippingCode + "\" target=\"_blank\" class=\"btn primary-btn fw-btn not-fullwidth print-invoice-merged\"><i class=\"fa fa-file-text-o\" aria-hidden=\"true\"></i> Xem đơn dịch vụ ship</a>";
                     }
                 }
             }
@@ -550,8 +551,9 @@ namespace IM_PJ
                 }
             }
             else
+            {
                 return serializer.Serialize(null);
-
+            }
         }
 
         public class ProductGetOut
@@ -704,7 +706,10 @@ namespace IM_PJ
 
                             double DiscountPerProduct = 0;
                             if (!string.IsNullOrEmpty(hdfDiscountAmount.Value))
+                            {
                                 DiscountPerProduct = Convert.ToDouble(hdfDiscountAmount.Value);
+                            }
+                                
                             string sl = hdftotal.Value;
                             if (!string.IsNullOrEmpty(hdfTotalQuantity.Value))
                             {
@@ -748,7 +753,8 @@ namespace IM_PJ
                                 CustomerAddress, "", totalPrice, totalPriceNotDiscount, PaymentStatus, ExcuteStatus, currentDate, username,
                                 Convert.ToDouble(pDiscount.Value), TotalDiscount, FeeShipping, Convert.ToDouble(order.GuestPaid), Convert.ToDouble(order.GuestChange), PaymentType, ShippingType, OrderNote, datedone, 0, ShippingCode, TransportCompanyID, TransportCompanySubID, OtherFeeName, OtherFeeValue, PostalDeliveryType);
 
-                            // Xử lý hủy hàng
+
+                            // Xử lý hủy đơn hàng
                             if (ExcuteStatus == 3)
                             {
                                 var productRefund = OrderDetailController.GetByOrderID(order.ID);
@@ -825,14 +831,14 @@ namespace IM_PJ
                                         string ProductVariableSave = itemValue[10];
                                         int OrderDetailID = itemValue[11].ToInt(0);
                                         
-                                        // Xử lý với trạng thái của đơn hàng đã hy
+                                        // Xử lý với trạng thái của đơn hàng đã hủy
                                         if (ExcuteStatusOld == 3)
                                         {
                                             var orderDetail = OrderDetailController.GetByID(OrderDetailID);
 
                                             if(orderDetail != null)
                                             {
-                                                OrderDetailController.UpdateQuantity(OrderDetailID, Quantity, currentDate, username);
+                                                OrderDetailController.UpdateQuantity(OrderDetailID, Quantity, Price, currentDate, username);
                                             }
                                             else
                                             {
@@ -958,7 +964,7 @@ namespace IM_PJ
                                             }
 
                                             // cập nhật số lượng sản phẩm trong đơn hàng
-                                            OrderDetailController.UpdateQuantity(OrderDetailID, Quantity, currentDate, username);
+                                            OrderDetailController.UpdateQuantity(OrderDetailID, Quantity, Price, currentDate, username);
                                         }
                                         // nếu sản phẩm này chưa có trong đơn thì thêm vào
                                         else
