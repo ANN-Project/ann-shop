@@ -76,14 +76,13 @@ namespace IM_PJ
                 }
 
                 string address = "";
-                string phone = "";
+                string phone = "0914615408 - 0918567409";
                 string leader = "";
                 var agent = AgentController.GetByID(Convert.ToInt32(order.AgentID));
 
                 if (agent != null)
                 {
                     address = agent.AgentAddress;
-                    phone = agent.AgentPhone;
                     leader = agent.AgentLeader;
                 }
 

@@ -157,6 +157,22 @@ namespace IM_PJ.Controllers
                 return null;
             }
         }
+        public static string UpdateCustomerPhone(int ID, string CustomerPhone)
+        {
+            using (var dbe = new inventorymanagementEntities())
+            {
+                var ui = dbe.tbl_Order.Where(o => o.ID == ID).FirstOrDefault();
+                if (ui != null)
+                {
+                    ui.OrderNote = ui.OrderNote + ". Số điện thoại cũ của khách hàng này là " + ui.CustomerPhone;
+                    ui.CustomerPhone = CustomerPhone;
+                    dbe.SaveChanges();
+                    int kq = ui.ID;
+                    return kq.ToString();
+                }
+                return null;
+            }
+        }
         public static string UpdateOnSystem(int ID, int OrderType, string AdditionFee, string DisCount, int CustomerID, string CustomerName,
             string CustomerPhone, string CustomerAddress, string CustomerEmail, string TotalPrice, string TotalPriceNotDiscount, int PaymentStatus,
             int ExcuteStatus, DateTime ModifiedDate, string ModifiedBy, double DiscountPerProduct, double TotalDiscount,
@@ -327,7 +343,7 @@ namespace IM_PJ.Controllers
             var list = new List<OrderList>();
             var sql = new StringBuilder();
 
-            sql.AppendLine(String.Format("SELECT Ord.ID, Ord.CustomerName, Ord.CustomerPhone, Customer.Nick, Ord.CustomerID, Ord.OrderType, Ord.ExcuteStatus, Ord.PaymentStatus, Ord.PaymentType, Ord.ShippingType, Ord.TotalPrice, Ord.TotalDiscount, Ord.FeeShipping, Ord.OtherFeeName, Ord.OtherFeeValue, Ord.CreatedBy, Ord.CreatedDate, Ord.DateDone, Ord.RefundsGoodsID,  SUM(ISNULL(OrdDetail.Quantity, 0)) AS Quantity "));
+            sql.AppendLine(String.Format("SELECT Ord.ID, Ord.CustomerName, Ord.CustomerPhone, Customer.Nick, Ord.CustomerID, Ord.OrderType, Ord.ExcuteStatus, Ord.PaymentStatus, Ord.PaymentType, Ord.ShippingType, Ord.TotalPrice, Ord.TotalDiscount, Ord.FeeShipping, Ord.OtherFeeName, Ord.OtherFeeValue, Ord.CreatedBy, Ord.CreatedDate, Ord.DateDone, Ord.OrderNote, Ord.RefundsGoodsID,  SUM(ISNULL(OrdDetail.Quantity, 0)) AS Quantity "));
             sql.AppendLine(String.Format("FROM tbl_Order AS Ord"));
             sql.AppendLine(String.Format("INNER JOIN tbl_OrderDetail AS OrdDetail"));
             sql.AppendLine(String.Format("ON 	Ord.ID = OrdDetail.OrderID"));
@@ -343,7 +359,7 @@ namespace IM_PJ.Controllers
             if(TextSearch != "")
             {
                 string TextSearchName = '"' + TextSearch + '"';
-                sql.AppendLine(String.Format("	AND ( (convert(nvarchar, Ord.ID) LIKE '{0}') OR CONTAINS(Ord.CustomerName, '{1}') OR CONTAINS(Customer.Nick, '{1}') OR (Ord.CustomerPhone = '{0}') OR (Ord.ShippingCode = '{0}') OR (OrdDetail.SKU LIKE '{0}%'))", TextSearch, TextSearchName));
+                sql.AppendLine(String.Format("	AND ( (convert(nvarchar, Ord.ID) LIKE '{0}') OR CONTAINS(Ord.CustomerName, '{1}') OR CONTAINS(Customer.Nick, '{1}') OR (Ord.CustomerPhone = '{0}') OR (Ord.CustomerNewPhone = '{0}') OR (Ord.ShippingCode = '{0}') OR (OrdDetail.SKU LIKE '{0}%') OR (Ord.OrderNote LIKE '%{0}%'))", TextSearch, TextSearchName));
             }
             
             if(OrderType > 0)
@@ -451,7 +467,7 @@ namespace IM_PJ.Controllers
             }
 
 
-            sql.AppendLine(String.Format("GROUP BY Ord.ID, Ord.CustomerName, Ord.CustomerPhone, Customer.Nick, Ord.CustomerID, Ord.OrderType, Ord.ExcuteStatus, Ord.PaymentStatus, Ord.PaymentType, Ord.ShippingType, Ord.TotalPrice, Ord.TotalDiscount, Ord.FeeShipping, Ord.OtherFeeName, Ord.OtherFeeValue, Ord.CreatedBy, Ord.CreatedDate, Ord.DateDone, Ord.RefundsGoodsID"));
+            sql.AppendLine(String.Format("GROUP BY Ord.ID, Ord.CustomerName, Ord.CustomerPhone, Customer.Nick, Ord.CustomerID, Ord.OrderType, Ord.ExcuteStatus, Ord.PaymentStatus, Ord.PaymentType, Ord.ShippingType, Ord.TotalPrice, Ord.TotalDiscount, Ord.FeeShipping, Ord.OtherFeeName, Ord.OtherFeeValue, Ord.CreatedBy, Ord.CreatedDate, Ord.DateDone, Ord.OrderNote, Ord.RefundsGoodsID"));
             sql.AppendLine(String.Format("ORDER BY Ord.ID DESC"));
 
             var reader = (IDataReader)SqlHelper.ExecuteDataReader(sql.ToString());

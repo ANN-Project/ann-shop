@@ -142,13 +142,15 @@ namespace IM_PJ
 
                     ViewState["ID"] = id;
                     txtCustomerName.Text = d.CustomerName;
-                    lblCustomerPhone.Text = d.CustomerPhone;
+                    txtCustomerPhone.Text = d.CustomerPhone;
                     txtCustomerPhone2.Text = d.CustomerPhone2;
+                    txtCustomerPhoneBackup.Text = d.CustomerPhoneBackup;
                     txtSupplierAddress.Text = d.CustomerAddress;
                     txtNick.Text = d.Nick;
                     chkIsHidden.Checked = Convert.ToBoolean(d.IsHidden);
                     txtZalo.Text = d.Zalo;
                     txtFacebook.Text = d.Facebook;
+                    txtNote.Text = d.Note;
                     if (!string.IsNullOrEmpty(d.ProvinceID.ToString()))
                         ddlProvince.SelectedValue = d.ProvinceID.ToString();
 
@@ -209,9 +211,56 @@ namespace IM_PJ
                             int ShippingType = ddlShippingType.SelectedValue.ToInt(0);
                             int TransportCompanyID = ddlTransportCompanyID.SelectedValue.ToInt(0);
                             int TransportCompanySubID = ddlTransportCompanySubID.SelectedValue.ToInt(0);
+                            string note = txtNote.Text;
 
-                            CustomerController.Update(id, txtCustomerName.Text, d.CustomerPhone, txtSupplierAddress.Text, "", 0, 1, ddlUser.SelectedItem.ToString(), DateTime.Now, username, chkIsHidden.Checked, txtZalo.Text, txtFacebook.Text, txtNote.Text, ddlProvince.SelectedValue, txtNick.Text, Avatar, ShippingType, PaymentType, TransportCompanyID, TransportCompanySubID, txtCustomerPhone2.Text);
-                            PJUtils.ShowMessageBoxSwAlert("Cập nhật khách hàng thành công", "s", true, Page);
+                            string warning = "Cập nhật khách hàng thành công";
+                            string CustomerPhone = d.CustomerPhone;
+                            // kiểm tra số điện thoại mới
+                            if (txtCustomerPhone.Text != d.CustomerPhone)
+                            {
+                                // kiểm tra số điện thoại mới có khả dụng ko?
+                                var c = CustomerController.GetByPhone(txtCustomerPhone.Text.Trim().Replace(" ", ""));
+                                if(c!= null && c.ID != d.ID)
+                                {
+                                    warning = "Số điện thoại này đã tồn tại!";
+                                }
+                                else
+                                {
+                                    warning = "Cập nhật khách hàng thành công! Số điện thoại khách hàng đã được đổi.<br>Lưu ý: Các đơn hàng cũ của khách này cũng đã được đổi số điện thoại.";
+                                    note = "Số điện thoại cũ: " + d.CustomerPhone + ". " + note;
+
+                                    CustomerPhone = txtCustomerPhone.Text.Trim().Replace(" ", "");
+
+                                    // đổi số mới cho đơn hàng cũ
+                                    var orders = OrderController.GetByCustomerID(d.ID);
+                                    foreach(var order in orders)
+                                    {
+                                        string update = OrderController.UpdateCustomerPhone(order.ID, CustomerPhone);
+                                    }
+
+                                    // đổi số mới cho đơn hàng đổi trả cũ
+                                    var refundorders = RefundGoodController.GetByCustomerID(d.ID);
+                                    foreach (var refundorder in refundorders)
+                                    {
+                                        string update = RefundGoodController.UpdateCustomerPhone(refundorder.ID, CustomerPhone);
+                                    }
+                                }
+                            }
+
+                            string CustomerPhone2 = "";
+                            // kiểm tra số điện thoại 2
+                            var b = CustomerController.GetByPhone(txtCustomerPhone2.Text.Trim().Replace(" ", ""));
+                            if(b == null)
+                            {
+                                CustomerPhone2 = txtCustomerPhone2.Text.Trim().Replace(" ", "");
+                            }
+                            else
+                            {
+                                warning = "Số điện thoại 2 đã tồn tại!";
+                            }
+
+                            CustomerController.Update(id, txtCustomerName.Text, CustomerPhone, txtSupplierAddress.Text, "", 0, 1, ddlUser.SelectedItem.ToString(), DateTime.Now, username, chkIsHidden.Checked, txtZalo.Text, txtFacebook.Text, note, ddlProvince.SelectedValue, txtNick.Text, Avatar, ShippingType, PaymentType, TransportCompanyID, TransportCompanySubID, CustomerPhone2);
+                            PJUtils.ShowMessageBoxSwAlert(warning, "s", true, Page);
                         }
                     }
                 }

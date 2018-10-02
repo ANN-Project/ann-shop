@@ -118,12 +118,12 @@ namespace IM_PJ
 
         [WebMethod]
         [ScriptMethod(UseHttpGet = false, ResponseFormat = ResponseFormat.Json)]
-        public void GetProductByCategory(int CategoryID, int limit, string username, string password)
+        public void GetProductByCategory(int CategoryID, int limit, string username, string password, int showHomePage)
         {
             var rs = new ResponseClass();
             if (Login(username, password))
             {
-                var Product = ProductController.GetProductAPI(CategoryID, limit);
+                var Product = ProductController.GetProductAPI(CategoryID, limit, showHomePage);
                 if (Product.Count > 0)
                 {
                     rs.Code = APIUtils.GetResponseCode(APIUtils.ResponseCode.SUCCESS);

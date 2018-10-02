@@ -40,6 +40,8 @@ namespace IM_PJ
         {
             var cate = CategoryController.API_GetAllCategory();
             ltrList.Text = "";
+            double totalCost = 0;
+            int totalProduct = 0;
             if (cate.Count > 0)
             {
                 foreach (var item in cate)
@@ -47,8 +49,8 @@ namespace IM_PJ
                     ltrList.Text += "<tr>";
 
                     int quantity = 0;
-                    int totalprice = 0;
-                    var list = ProductController.GetAllSql(item.ID, "");
+                    double totalprice = 0;
+                    var list = ProductController.GetProductReport(item.ID);
                     {
                         foreach (var temp in list)
                         {
@@ -56,11 +58,15 @@ namespace IM_PJ
                             totalprice += Convert.ToInt32(temp.CostOfGood) * Convert.ToInt32(temp.TotalProductInstockQuantityLeft);
                         }
                     }
-                    ltrList.Text += "<td style=\"text-align:center\">" + item.CategoryName + ": " + quantity +" sản phẩm"+ "</td>";
-                    ltrList.Text += "<td>" + item.CategoryName + ": " + string.Format("{0:N0}", totalprice) + " VNĐ" + "</td>";
+                    totalProduct += quantity;
+                    totalCost += totalprice;
+                    ltrList.Text += "<td>" + item.CategoryName + ": " + quantity +" cái"+ "</td>";
+                    ltrList.Text += "<td>Tổng vốn: " + item.CategoryName + ": " + string.Format("{0:N0}", totalprice) + " VNĐ" + "</td>";
                     ltrList.Text += "</tr>";
                 }
             }
+            ltrTotalCost.Text = "<p>Tổng vốn: " + string.Format("{0:N0}",totalCost) + " VNĐ</p>";
+            ltrTotalProduct.Text = "<p>Tổng số lượng: " + string.Format("{0:N0}", totalProduct) + " cái</p>";
         }
     }
 }

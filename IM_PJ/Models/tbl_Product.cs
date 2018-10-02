@@ -39,5 +39,6 @@ namespace IM_PJ.Models
         public Nullable<int> SupplierID { get; set; }
         public string SupplierName { get; set; }
         public Nullable<int> ProductStyle { get; set; }
+        public Nullable<int> ShowHomePage { get; set; }
     }
 }

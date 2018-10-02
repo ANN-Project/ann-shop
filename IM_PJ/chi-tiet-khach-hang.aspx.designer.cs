@@ -49,13 +49,13 @@ namespace IM_PJ {
         protected global::System.Web.UI.WebControls.TextBox txtNick;
         
         /// <summary>
-        /// lblCustomerPhone control.
+        /// txtCustomerPhone control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblCustomerPhone;
+        protected global::System.Web.UI.WebControls.TextBox txtCustomerPhone;
         
         /// <summary>
         /// txtCustomerPhone2 control.
@@ -65,6 +65,15 @@ namespace IM_PJ {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtCustomerPhone2;
+        
+        /// <summary>
+        /// txtCustomerPhoneBackup control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtCustomerPhoneBackup;
         
         /// <summary>
         /// txtZalo control.

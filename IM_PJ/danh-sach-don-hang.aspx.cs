@@ -91,6 +91,10 @@ namespace IM_PJ
                 string TextSearch = "";
                 string CreatedBy = "";
                 string CreatedDate = "";
+                string QuantityFilter = "";
+                int Quantity = 0;
+                int QuantityMin = 0;
+                int QuantityMax = 0;
 
                 if (Request.QueryString["textsearch"] != null)
                 {
@@ -136,6 +140,20 @@ namespace IM_PJ
                 {
                     CreatedDate = Request.QueryString["createddate"];
                 }
+                if (Request.QueryString["quantityfilter"] != null)
+                {
+                    QuantityFilter = Request.QueryString["quantityfilter"];
+
+                    if (QuantityFilter == "greaterthan" || QuantityFilter == "lessthan")
+                    {
+                        Quantity = Request.QueryString["quantity"].ToInt();
+                    }
+                    if (QuantityFilter == "between")
+                    {
+                        QuantityMin = Request.QueryString["quantitymin"].ToInt();
+                        QuantityMax = Request.QueryString["quantitymax"].ToInt();
+                    }
+                }
 
                 txtSearchOrder.Text = TextSearch;
                 ddlOrderType.SelectedValue = OrderType.ToString();
@@ -147,7 +165,12 @@ namespace IM_PJ
                 ddlOtherFee.SelectedValue = OtherFee.ToString();
                 ddlCreatedBy.SelectedValue = CreatedBy.ToString();
                 ddlCreatedDate.SelectedValue = CreatedDate.ToString();
-                
+
+                ddlQuantityFilter.SelectedValue = QuantityFilter.ToString();
+                txtQuantity.Text = Quantity.ToString();
+                txtQuantityMin.Text = QuantityMin.ToString();
+                txtQuantityMax.Text = QuantityMax.ToString();
+
 
                 List<OrderList> rs = new List<OrderList>();
                 rs = OrderController.Filter(TextSearch, OrderType, ExcuteStatus, PaymentStatus, PaymentType, ShippingType, Discount, OtherFee, CreatedBy, CreatedDate);
@@ -158,19 +181,36 @@ namespace IM_PJ
                     if (CreatedBy != "")
                     {
                         rs = rs.Where(x => x.CreatedBy == CreatedBy && x.ExcuteStatus != 4).ToList();
-                        pagingall(rs);
                     }
                     else
                     {
                         rs = rs.Where(x => x.ExcuteStatus != 4).ToList();
-                        pagingall(rs);
                     }
                 }
                 else
                 {
                     rs = rs.Where(x => x.CreatedBy == acc.Username && x.ExcuteStatus != 4).ToList();
-                    pagingall(rs);
                 }
+
+                if (QuantityFilter != "")
+                {
+                    if (QuantityFilter == "greaterthan")
+                    {
+                        rs = rs.Where(p => p.Quantity >= Quantity).ToList();
+                    }
+                    else if (QuantityFilter == "lessthan")
+                    {
+                        rs = rs.Where(p => p.Quantity <= Quantity).ToList();
+                    }
+                    else if (QuantityFilter == "between")
+                    {
+                        rs = rs.Where(p => p.Quantity >= QuantityMin && p.Quantity <= QuantityMax).ToList();
+                    }
+                }
+
+                pagingall(rs);
+
+
 
                 ltrNumberOfOrder.Text = rs.Count().ToString();
 
@@ -553,6 +593,18 @@ namespace IM_PJ
                 request += "&createddate=" + ddlCreatedDate.SelectedValue;
             }
 
+            if (ddlQuantityFilter.SelectedValue != "")
+            {
+                if (ddlQuantityFilter.SelectedValue == "greaterthan" || ddlQuantityFilter.SelectedValue == "lessthan")
+                {
+                    request += "&quantityfilter=" + ddlQuantityFilter.SelectedValue + "&quantity=" + txtQuantity.Text;
+                }
+
+                if (ddlQuantityFilter.SelectedValue == "between")
+                {
+                    request += "&quantityfilter=" + ddlQuantityFilter.SelectedValue + "&quantitymin=" + txtQuantityMin.Text + "&quantitymax=" + txtQuantityMax.Text;
+                }
+            }
             Response.Redirect(request);
         }
         public class danhmuccon1

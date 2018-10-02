@@ -22,14 +22,14 @@
                                         <th>Tổng giá vốn tồn kho theo danh mục</th>
                                     </tr>
                                     <asp:Literal ID="ltrList" runat="server" EnableViewState="false"></asp:Literal>
+                                    <asp:Literal ID="ltrTotalCost" runat="server" EnableViewState="false"></asp:Literal>
+                                    <asp:Literal ID="ltrTotalProduct" runat="server" EnableViewState="false"></asp:Literal>
                                 </tbody>
                             </table>
                         </div>
-
                     </div>
                 </div>
             </div>
         </div>
-
     </main>
 </asp:Content>

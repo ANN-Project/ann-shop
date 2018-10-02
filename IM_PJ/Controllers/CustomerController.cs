@@ -98,6 +98,7 @@ namespace IM_PJ.Controllers
                     ui.TransportCompanyID = TransportCompanyID;
                     ui.TransportCompanySubID = TransportCompanySubID;
                     ui.CustomerPhone2 = CustomerPhone2;
+
                     if (!string.IsNullOrEmpty(Province))
                         ui.ProvinceID = Province.ToInt();
                     int kq = dbe.SaveChanges();
@@ -113,7 +114,7 @@ namespace IM_PJ.Controllers
         {
             using (var dbe = new inventorymanagementEntities())
             {
-                tbl_Customer ai = dbe.tbl_Customer.Where(a => a.CustomerPhone == CustomerPhone || a.CustomerPhone2 == CustomerPhone).FirstOrDefault();
+                tbl_Customer ai = dbe.tbl_Customer.Where(a => a.CustomerPhone == CustomerPhone || a.CustomerPhone2 == CustomerPhone || a.CustomerPhoneBackup == CustomerPhone).FirstOrDefault();
                 if (ai != null)
                 {
                     return ai;
@@ -153,7 +154,7 @@ namespace IM_PJ.Controllers
             var list = new List<CustomerOut>();
             var sql = @"select c.ID, c.CustomerName, c.Nick, c.CustomerPhone, c.CustomerPhone2, c.Zalo, c.Facebook, c.CustomerAddress, c.CreatedBy, c.ProvinceID as Province
                         from tbl_Customer c
-                         WHERE (CONTAINS(c.CustomerName,'" + textsearch + "')  OR CONTAINS(c.Nick,'" + textsearch + "') OR c.CustomerPhone like '%" + text + "%' OR c.CustomerPhone2 like '%" + text + "%' OR c.Facebook like '%" + text + "%' OR c.Zalo like '%" + text + "%')";
+                         WHERE (CONTAINS(c.CustomerName,'" + textsearch + "')  OR CONTAINS(c.Nick,'" + textsearch + "') OR c.CustomerPhone like '%" + text + "%' OR c.CustomerPhone2 like '%" + text + "%' OR c.CustomerPhoneBackup like '%" + text + "%' OR c.Facebook like '%" + text + "%' OR c.Zalo like '%" + text + "%')";
             if (createdby != "")
             {
                 sql += " And c.CreatedBy = N'" + createdby + "'";
@@ -286,7 +287,7 @@ namespace IM_PJ.Controllers
 
             if (!string.IsNullOrEmpty(textsearch))
             {
-                sql += " AND (CONTAINS(c.CustomerName,'" + textsearch + "') OR CONTAINS(c.Nick,'" + textsearch + "') OR c.CustomerPhone like '%" + text + "%' OR c.CustomerPhone2 like '%" + text + "%' OR c.Facebook like '%" + text + "%' OR c.Zalo like '%" + text + "%')";
+                sql += " AND (CONTAINS(c.CustomerName,'" + textsearch + "') OR CONTAINS(c.Nick,'" + textsearch + "') OR c.CustomerPhone like '%" + text + "%' OR c.CustomerPhone2 like '%" + text + "%' OR c.CustomerPhoneBackup like '%" + text + "%' OR c.Facebook like '%" + text + "%' OR c.Zalo like '%" + text + "%')";
             }
            
             if (Provice > 0)

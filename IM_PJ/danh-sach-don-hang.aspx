@@ -110,6 +110,37 @@
                             </div>
                         </div>
                     </div>
+                    <div class="filter-above-wrap clear">
+                        <div class="filter-control">
+                            <div class="row">
+                                <div class="col-md-7">
+                                </div>
+                                <div class="col-md-2">
+                                    <asp:DropDownList ID="ddlQuantityFilter" runat="server" CssClass="form-control" onchange="changeQuantityFilter($(this))">
+                                        <asp:ListItem Value="" Text="Số lượng"></asp:ListItem>
+                                        <asp:ListItem Value="greaterthan" Text="Lớn hơn"></asp:ListItem>
+                                        <asp:ListItem Value="lessthan" Text="Nhỏ hơn"></asp:ListItem>
+                                        <asp:ListItem Value="between" Text="Trong khoảng"></asp:ListItem>
+                                    </asp:DropDownList>
+                                </div>
+                                <div class="col-md-2 greaterthan lessthan">
+                                    <asp:TextBox ID="txtQuantity" runat="server" CssClass="form-control" placeholder="Số lượng" autocomplete="off"></asp:TextBox>
+                                </div>
+                                <div class="col-md-2 between hide">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <asp:TextBox ID="txtQuantityMin" runat="server" CssClass="form-control" placeholder="Min" autocomplete="off"></asp:TextBox>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <asp:TextBox ID="txtQuantityMax" runat="server" CssClass="form-control" placeholder="Max" autocomplete="off"></asp:TextBox>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-1">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <div class="panel-table clear">
                         <div class="panel-footer clear">
                             <div class="pagination">
@@ -224,6 +255,43 @@
         
         <asp:HiddenField ID="hdfcreate" runat="server" />
         <script type="text/javascript">
+            // Parse URL Queries
+            function url_query(query) {
+                query = query.replace(/[\[]/, "\\\[").replace(/[\]]/, "\\\]");
+                var expr = "[\\?&]" + query + "=([^&#]*)";
+                var regex = new RegExp(expr);
+                var results = regex.exec(window.location.href);
+                if (results !== null) {
+                    return results[1];
+                } else {
+                    return false;
+                }
+            }
+
+            var url_param = url_query('quantityfilter');
+            if (url_param) {
+                if (url_param == "greaterthan" || url_param == "lessthan") {
+                    $(".greaterthan").removeClass("hide");
+                    $(".between").addClass("hide");
+                }
+                else if (url_param == "between") {
+                    $(".between").removeClass("hide");
+                    $(".greaterthan").addClass("hide");
+                }
+            }
+
+            function changeQuantityFilter(obj) {
+                var value = obj.val();
+                if (value == "greaterthan" || value == "lessthan") {
+                    $(".greaterthan").removeClass("hide");
+                    $(".between").addClass("hide");
+                }
+                else if (value == "between") {
+                    $(".between").removeClass("hide");
+                    $(".greaterthan").addClass("hide");
+                }
+            }
+
             function searchOrder() {
                 $("#<%= btnSearch.ClientID%>").click();
             }

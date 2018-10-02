@@ -71,6 +71,24 @@ namespace IM_PJ.Controllers
             }
         }
 
+        public static string UpdateCustomerPhone(int ID, string CustomerPhone)
+        {
+            using (var dbe = new inventorymanagementEntities())
+            {
+
+                var a = dbe.tbl_RefundGoods.Where(ac => ac.ID == ID).FirstOrDefault();
+                if (a != null)
+                {
+                    a.RefundNote = a.RefundNote + ". Số điện thoại cũ của khách hàng này là " + a.CustomerPhone;
+                    a.CustomerPhone = CustomerPhone;
+                    string kq = dbe.SaveChanges().ToString();
+                    return kq;
+                }
+                else
+                    return null;
+            }
+        }
+
         public static bool DeleteByID(int ID)
         {
             using (var con = new inventorymanagementEntities())

@@ -211,6 +211,17 @@
                             </div>
                             <div class="form-row">
                                 <div class="row-left">
+                                    Hiện trang chủ
+                                </div>
+                                <div class="row-right">
+                                    <asp:DropDownList ID="ddlShowHomePage" runat="server" CssClass="form-control">
+                                        <asp:ListItem Text="Không" Value="0"></asp:ListItem>
+                                        <asp:ListItem Text="Có" Value="1"></asp:ListItem>
+                                    </asp:DropDownList>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="row-left">
                                     Nội dung
                                 </div>
                                 <div class="row-right">

@@ -10,6 +10,8 @@ using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using System.Web.Script.Serialization;
+using System.Web.Services;
 using static IM_PJ.Controllers.ProductController;
 
 namespace IM_PJ
@@ -79,6 +81,11 @@ namespace IM_PJ
             string CreatedDate = "";
             int CategoryID = 0;
             int StockStatus = 0;
+            string ShowHomePage = "";
+            string QuantityFilter = "";
+            int Quantity = 0;
+            int QuantityMin = 0;
+            int QuantityMax = 0;
 
             if (Request.QueryString["textsearch"] != null)
                 TextSearch = Request.QueryString["textsearch"].Trim();
@@ -88,17 +95,45 @@ namespace IM_PJ
                 CategoryID = Request.QueryString["categoryid"].ToInt();
             if (Request.QueryString["createddate"] != null)
                 CreatedDate = Request.QueryString["createddate"];
+            if (Request.QueryString["showhomepage"] != null)
+                ShowHomePage = Request.QueryString["showhomepage"];
+
+            if (Request.QueryString["quantityfilter"] != null)
+            {
+                QuantityFilter = Request.QueryString["quantityfilter"];
+
+                if (QuantityFilter == "greaterthan" || QuantityFilter == "lessthan")
+                {
+                    Quantity = Request.QueryString["quantity"].ToInt();
+                }
+                if(QuantityFilter == "between")
+                {
+                    QuantityMin = Request.QueryString["quantitymin"].ToInt();
+                    QuantityMax = Request.QueryString["quantitymax"].ToInt();
+                }
+            }
+
 
             txtSearchProduct.Text = TextSearch;
             ddlCategory.SelectedValue = CategoryID.ToString();
             ddlCreatedDate.SelectedValue = CreatedDate.ToString();
             ddlStockStatus.SelectedValue = StockStatus.ToString();
+            ddlShowHomePage.SelectedValue = ShowHomePage.ToString();
+
+            ddlQuantityFilter.SelectedValue = QuantityFilter.ToString();
+            txtQuantity.Text = Quantity.ToString();
+            txtQuantityMin.Text = QuantityMin.ToString();
+            txtQuantityMax.Text = QuantityMax.ToString();
 
             List<ProductSQL> a = new List<ProductSQL>();
             a = ProductController.GetAllSql(CategoryID, TextSearch);
             if (StockStatus != 0)
             {
                 a = a.Where(p => p.StockStatus == StockStatus).ToList();
+            }
+            if(ShowHomePage != "")
+            {
+                a = a.Where(p => p.ShowHomePage == ShowHomePage.ToInt()).ToList();
             }
             if (CreatedDate != "")
             {
@@ -139,9 +174,39 @@ namespace IM_PJ
                 a = a.Where(p => p.CreatedDate >= fromdate && p.CreatedDate <= todate ).ToList();
             }
 
+            if(QuantityFilter != "")
+            {
+                if (QuantityFilter == "greaterthan")
+                {
+                    a = a.Where(p => p.TotalProductInstockQuantityLeft >= Quantity).ToList();
+                }
+                else if(QuantityFilter == "lessthan")
+                {
+                    a = a.Where(p => p.TotalProductInstockQuantityLeft <= Quantity).ToList();
+                }
+                else if (QuantityFilter == "between")
+                {
+                    a = a.Where(p => p.TotalProductInstockQuantityLeft >= QuantityMin && p.TotalProductInstockQuantityLeft <= QuantityMax).ToList();
+                }
+            }
+
+
             pagingall(a);
 
             ltrNumberOfProduct.Text = a.Count().ToString();
+        }
+        [WebMethod]
+        public static string updateShowHomePage(int id, int value)
+        {
+            string update = ProductController.updateShowHomePage(id, value);
+            if(update != null)
+            {
+                return "true";
+            }
+            else
+            {
+                return "false";
+            }
         }
         #region Paging
         public void pagingall(List<ProductSQL> acs)
@@ -165,6 +230,10 @@ namespace IM_PJ
             html.Append("    <th class='stock-status-column'>Trạng thái</th>");
             html.Append("    <th class='category-column'>Danh mục</th>");
             html.Append("    <th class='date-column'>Ngày tạo</th>");
+            if (acc.RoleID == 0)
+            {
+                html.Append("    <th class='show-homepage-column'>Trang chủ</th>");
+            }
             html.Append("    <th class='action-column'></th>");
             html.Append("</tr>");
 
@@ -202,6 +271,17 @@ namespace IM_PJ
                     html.Append("   <td>" + item.CategoryName + "</td>");
                     string date = string.Format("{0:dd/MM/yyyy}", item.CreatedDate);
                     html.Append("   <td>" + date + "</td>");
+                    if (acc.RoleID == 0)
+                    {
+                        if (item.ShowHomePage == 0)
+                        {
+                            html.Append("   <td><span id='showHomePage_" + item.ID + "'><a href='javascript:;' data-product-id='" + item.ID + "' data-value='0' class='bg-black bg-button' onclick='changeShowHomePage($(this))'>Đang ẩn</a></span></td>");
+                        }
+                        else
+                        {
+                            html.Append("   <td><span id='showHomePage_" + item.ID + "'><a href='javascript:;' data-product-id='" + item.ID + "' data-value='1' class='bg-green bg-button' onclick='changeShowHomePage($(this))'>Đang hiện</a></span></td>");
+                        }
+                    }
                     html.Append("   <td>");
                     html.Append("       <a href=\"/danh-sach-anh-san-pham.aspx?id=" + item.ID + "\" title=\"Xem hình ảnh\" class=\"btn primary-btn h45-btn\"><i class=\"fa fa-file-image-o\" aria-hidden=\"true\"></i></a>");
                     html.Append("       <a target=\"_blank\" href=\"https://www.facebook.com/search/posts/?q=" + item.ProductSKU + "&filters_rp_author=%7B%22name%22%3A%22author%22%2C%22args%22%3A%22100012594165130%22%7D&filters_rp_chrono_sort=%7B%22name%22%3A%22chronosort%22%2C%22args%22%3A%22%22%7D\" title=\"Tìm trên facebook\" class=\"btn primary-btn btn-black h45-btn\"><i class=\"fa fa-facebook-official\" aria-hidden=\"true\"></i></a>");
@@ -383,6 +463,25 @@ namespace IM_PJ
             {
                 request += "&createddate=" + ddlCreatedDate.SelectedValue;
             }
+
+            if (ddlShowHomePage.SelectedValue != "")
+            {
+                request += "&showhomepage=" + ddlShowHomePage.SelectedValue;
+            }
+
+            if (ddlQuantityFilter.SelectedValue != "")
+            {
+                if (ddlQuantityFilter.SelectedValue == "greaterthan" || ddlQuantityFilter.SelectedValue == "lessthan")
+                {
+                    request += "&quantityfilter=" + ddlQuantityFilter.SelectedValue + "&quantity=" + txtQuantity.Text;
+                }
+
+                if (ddlQuantityFilter.SelectedValue == "between")
+                {
+                    request += "&quantityfilter=" + ddlQuantityFilter.SelectedValue + "&quantitymin=" + txtQuantityMin.Text + "&quantitymax=" + txtQuantityMax.Text;
+                }
+            }
+
             Response.Redirect(request);
         }
         public class danhmuccon1

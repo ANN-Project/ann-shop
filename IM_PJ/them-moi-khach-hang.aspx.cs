@@ -107,7 +107,7 @@ namespace IM_PJ
             {
                 if (acc.RoleID != 1)
                 {
-                    string phone = txtCustomerPhone.Text.ToLower().Trim();
+                    string phone = txtCustomerPhone.Text.Trim().Replace(" ", "");
                     var checkPhone = CustomerController.GetByPhone(phone);
                     if (checkPhone != null)
                     {

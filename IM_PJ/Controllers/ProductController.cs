@@ -17,7 +17,7 @@ namespace IM_PJ.Controllers
         public static string Insert(int CategoryID, int ProductOldID, string ProductTitle, string ProductContent, string ProductSKU, double ProductStock,
             int StockStatus, bool ManageStock, double Regular_Price, double CostOfGood, double Retail_Price, string ProductImage, int ProductType,
             bool IsHidden, DateTime CreatedDate, string CreatedBy, int SupplierID, string SupplierName, string Materials,
-            double MinimumInventoryLevel, double MaximumInventoryLevel, int ProductStyle)
+            double MinimumInventoryLevel, double MaximumInventoryLevel, int ProductStyle, int ShowHomePage)
         {
             using (var dbe = new inventorymanagementEntities())
             {
@@ -44,6 +44,7 @@ namespace IM_PJ.Controllers
                 ui.MinimumInventoryLevel = MinimumInventoryLevel;
                 ui.MaximumInventoryLevel = MaximumInventoryLevel;
                 ui.ProductStyle = ProductStyle;
+                ui.ShowHomePage = ShowHomePage;
                 dbe.tbl_Product.Add(ui);
                 dbe.SaveChanges();
                 int kq = ui.ID;
@@ -126,6 +127,22 @@ namespace IM_PJ.Controllers
                     return null;
             }
         }
+        public static string updateShowHomePage(int id, int value)
+        {
+            using (var dbe = new inventorymanagementEntities())
+            {
+                tbl_Product ui = dbe.tbl_Product.Where(a => a.ID == id).SingleOrDefault();
+                if (ui != null)
+                {
+
+                    ui.ShowHomePage = value;
+                    int kq = dbe.SaveChanges();
+                    return kq.ToString();
+                }
+                else
+                    return null;
+            }
+        }
         #endregion
         #region Select
         public static List<tbl_Product> GetByTextSearchIsHidden(string s, bool IsHidden)
@@ -190,8 +207,7 @@ namespace IM_PJ.Controllers
                 return ags;
             }
         }
-
-        public static List<ProductSQL> GetProductAPI(int categoryID, int limit)
+        public static List<ProductSQL> GetProductReport(int categoryID)
         {
             var list = new List<ProductSQL>();
             StringBuilder sql = new StringBuilder();
@@ -397,10 +413,249 @@ namespace IM_PJ.Controllers
 
                 entity.ID = Convert.ToInt32(reader["ID"]);
 
-                if (!string.IsNullOrEmpty(reader["ProductImage"].ToString()))
+                if (reader["QuantityLeft"] != DBNull.Value)
+                {
+                    quantityLeft = Convert.ToDouble(reader["QuantityLeft"]);
+                }
+
+                entity.TotalProductInstockQuantityLeft = quantityLeft;
+
+                if (reader["Regular_Price"] != DBNull.Value)
+                    entity.RegularPrice = Convert.ToDouble(reader["Regular_Price"].ToString());
+                if (reader["CostOfGood"] != DBNull.Value)
+                    entity.CostOfGood = Convert.ToDouble(reader["CostOfGood"].ToString());
+
+                list.Add(entity);
+            }
+
+            reader.Close();
+            return list.ToList();
+        }
+        public static List<ProductSQL> GetProductAPI(int categoryID, int limit, int showHomePage)
+        {
+            var list = new List<ProductSQL>();
+            StringBuilder sql = new StringBuilder();
+
+            sql.AppendLine("BEGIN");
+
+            if (categoryID > 0)
+            {
+                sql.AppendLine(String.Empty);
+                sql.AppendLine("WITH category AS(");
+                sql.AppendLine("    SELECT");
+                sql.AppendLine("            ID");
+                sql.AppendLine("    ,       CategoryName");
+                sql.AppendLine("    ,       ParentID");
+                sql.AppendLine("    FROM");
+                sql.AppendLine("            tbl_Category");
+                sql.AppendLine("    WHERE");
+                sql.AppendLine("            1 = 1");
+                sql.AppendLine("    AND     ID = " + categoryID);
+                sql.AppendLine(")");
+                sql.AppendLine("SELECT");
+                sql.AppendLine("        ID");
+                sql.AppendLine(",       CategoryName");
+                sql.AppendLine(",       ParentID");
+                sql.AppendLine("INTO #category");
+                sql.AppendLine("FROM category");
+            }
+
+            sql.AppendLine(String.Empty);
+            sql.AppendLine("    SELECT");
+            sql.AppendLine("            PRD.*");
+            sql.AppendLine("    INTO #Product");
+            sql.AppendLine("    FROM");
+            sql.AppendLine("            tbl_product AS PRD");
+            sql.AppendLine("    WHERE");
+            sql.AppendLine("            1 = 1");
+
+            if (categoryID > 0)
+            {
+                sql.AppendLine("    AND EXISTS(");
+                sql.AppendLine("            SELECT");
+                sql.AppendLine("                    NULL AS DUMMY");
+                sql.AppendLine("            FROM");
+                sql.AppendLine("                    #category");
+                sql.AppendLine("            WHERE");
+                sql.AppendLine("                    ID = PRD.CategoryID");
+                sql.AppendLine("    )");
+            }
+
+            sql.AppendLine("     ORDER BY");
+            sql.AppendLine("             PRD.ProductStyle");
+            sql.AppendLine("     ,       PRD.ID");
+            sql.AppendLine("     ;");
+            sql.AppendLine(String.Empty);
+            sql.AppendLine("     CREATE INDEX [ID_PROCDUCT] ON #Product([ProductStyle], [ID])");
+            sql.AppendLine(String.Empty);
+            sql.AppendLine("     SELECT");
+            sql.AppendLine("             STM.ProductID");
+            sql.AppendLine("     ,       STM.Quantity");
+            sql.AppendLine("     ,       STM.QuantityCurrent");
+            sql.AppendLine("     ,       STM.Type");
+            sql.AppendLine("     ,       STM.CreatedDate");
+            sql.AppendLine("     ,       STM.ParentID");
+            sql.AppendLine("     INTO #StockProduct");
+            sql.AppendLine("     FROM");
+            sql.AppendLine("             #Product AS PRD");
+            sql.AppendLine("     INNER JOIN tbl_StockManager AS STM");
+            sql.AppendLine("         ON  PRD.ProductStyle = 1");
+            sql.AppendLine("         AND PRD.ID = STM.ParentID");
+            sql.AppendLine("     ORDER BY");
+            sql.AppendLine("             STM.ProductID");
+            sql.AppendLine("     ,       STM.CreatedDate");
+            sql.AppendLine("     ;");
+            sql.AppendLine(String.Empty);
+            sql.AppendLine("     CREATE INDEX [ID_PROCDUCT] ON #StockProduct(");
+            sql.AppendLine("             [ProductID] ASC");
+            sql.AppendLine("     ,       [CreatedDate] DESC");
+            sql.AppendLine("     )");
+            sql.AppendLine(String.Empty);
+            sql.AppendLine("     SELECT");
+            sql.AppendLine("             STM.ProductVariableID");
+            sql.AppendLine("     ,       STM.Quantity");
+            sql.AppendLine("     ,       STM.QuantityCurrent");
+            sql.AppendLine("     ,       STM.Type");
+            sql.AppendLine("     ,       STM.CreatedDate");
+            sql.AppendLine("     ,       STM.ParentID");
+            sql.AppendLine("     INTO #StockProductVariable");
+            sql.AppendLine("     FROM");
+            sql.AppendLine("             #Product AS PRD");
+            sql.AppendLine("     INNER JOIN tbl_StockManager AS STM");
+            sql.AppendLine("         ON  PRD.ProductStyle = 2");
+            sql.AppendLine("         AND PRD.ID = STM.ParentID");
+            sql.AppendLine("     ORDER BY");
+            sql.AppendLine("             STM.ProductVariableID");
+            sql.AppendLine("     ,       STM.CreatedDate");
+            sql.AppendLine("     ;");
+            sql.AppendLine(String.Empty);
+            sql.AppendLine("     CREATE INDEX [ID_PROCDUCT] ON #StockProductVariable(");
+            sql.AppendLine("             [ProductVariableID] ASC");
+            sql.AppendLine("     ,       [CreatedDate] DESC");
+            sql.AppendLine("     )");
+            sql.AppendLine(String.Empty);
+            sql.AppendLine("     SELECT");
+            sql.AppendLine("             PRQ.ProductStyle");
+            sql.AppendLine("     ,       PRQ.ParentID");
+            sql.AppendLine("     ,       SUM(ISNULL(PRQ.QuantityLeft, 0)) AS QuantityLeft");
+            sql.AppendLine("     INTO #ProductQuantity");
+            sql.AppendLine("     FROM (");
+            sql.AppendLine("         SELECT");
+            sql.AppendLine("                 1 AS ProductStyle");
+            sql.AppendLine("         ,       STP.ParentID");
+            sql.AppendLine("         ,       (");
+            sql.AppendLine("                     CASE STP.Type");
+            sql.AppendLine("                         WHEN 1");
+            sql.AppendLine("                             THEN STP.QuantityCurrent + STP.Quantity");
+            sql.AppendLine("                         WHEN 2");
+            sql.AppendLine("                             THEN STP.QuantityCurrent - STP.Quantity");
+            sql.AppendLine("                         ELSE");
+            sql.AppendLine("                             0");
+            sql.AppendLine("                     END");
+            sql.AppendLine("                 ) AS QuantityLeft");
+            sql.AppendLine("         FROM ");
+            sql.AppendLine("                 #StockProduct AS STP");
+            sql.AppendLine("         INNER JOIN (");
+            sql.AppendLine("                 SELECT");
+            sql.AppendLine("                         ProductID");
+            sql.AppendLine("                 ,       MAX(CreatedDate) AS CreatedDate");
+            sql.AppendLine("                 FROM");
+            sql.AppendLine("                         #StockProduct");
+            sql.AppendLine("                 GROUP BY");
+            sql.AppendLine("                         ProductID");
+            sql.AppendLine("             ) AS SPM");
+            sql.AppendLine("             ON  STP.ProductID = SPM.ProductID");
+            sql.AppendLine("             AND STP.CreatedDate = SPM.CreatedDate");
+            sql.AppendLine(String.Empty);
+            sql.AppendLine("         UNION ALL");
+            sql.AppendLine(String.Empty);
+            sql.AppendLine("         SELECT");
+            sql.AppendLine("                 2 AS ProductStyle");
+            sql.AppendLine("         ,       STP.ParentID");
+            sql.AppendLine("         ,       (");
+            sql.AppendLine("                     CASE STP.Type");
+            sql.AppendLine("                         WHEN 1");
+            sql.AppendLine("                             THEN STP.QuantityCurrent + STP.Quantity");
+            sql.AppendLine("                         WHEN 2");
+            sql.AppendLine("                             THEN STP.QuantityCurrent - STP.Quantity");
+            sql.AppendLine("                         ELSE");
+            sql.AppendLine("                             0");
+            sql.AppendLine("                     END");
+            sql.AppendLine("                 ) AS QuantityLeft");
+            sql.AppendLine("         FROM ");
+            sql.AppendLine("                 #StockProductVariable AS STP");
+            sql.AppendLine("         INNER JOIN (");
+            sql.AppendLine("                 SELECT");
+            sql.AppendLine("                         ProductVariableID");
+            sql.AppendLine("                 ,       MAX(CreatedDate) AS CreatedDate");
+            sql.AppendLine("                 FROM");
+            sql.AppendLine("                         #StockProductVariable");
+            sql.AppendLine("                 GROUP BY");
+            sql.AppendLine("                         ProductVariableID");
+            sql.AppendLine("             ) AS SPM");
+            sql.AppendLine("             ON  STP.ProductVariableID = SPM.ProductVariableID");
+            sql.AppendLine("             AND STP.CreatedDate = SPM.CreatedDate");
+            sql.AppendLine("     ) AS PRQ");
+            sql.AppendLine("     GROUP BY");
+            sql.AppendLine("             PRQ.ProductStyle");
+            sql.AppendLine("     ,       PRQ.ParentID");
+            sql.AppendLine("     ;");
+            sql.AppendLine(String.Empty);
+            sql.AppendLine("     CREATE INDEX [ID_PROCDUCT] ON #ProductQuantity([ProductStyle], [ParentID])");
+            sql.AppendLine(String.Empty);
+            sql.AppendLine("     SELECT");
+            sql.AppendLine("             p.ProductStyle AS ProductStyle");
+            sql.AppendLine("     ,       c.CategoryName");
+            sql.AppendLine("     ,       p.*");
+            sql.AppendLine("     ,       PRQ.QuantityLeft");
+            sql.AppendLine("     FROM");
+            sql.AppendLine("             #Product AS p");
+            sql.AppendLine("     LEFT JOIN #ProductQuantity AS PRQ");
+            sql.AppendLine("         ON  p.ProductStyle = PRQ.ProductStyle");
+            sql.AppendLine("         AND p.ID = PRQ.ParentID");
+            sql.AppendLine("     LEFT JOIN (");
+            sql.AppendLine("             SELECT");
+            sql.AppendLine("                     ID");
+            sql.AppendLine("             ,       CategoryName");
+            sql.AppendLine("             FROM");
+            sql.AppendLine("                     dbo.tbl_Category");
+            sql.AppendLine("     ) AS c");
+            sql.AppendLine("     ON c.ID = p.CategoryID");
+            sql.AppendLine("     ORDER BY");
+            sql.AppendLine("             p.ID");
+            sql.AppendLine("     ;");
+            sql.AppendLine(String.Empty);
+            sql.AppendLine(" END");
+
+            var reader = (IDataReader)SqlHelper.ExecuteDataReader(sql.ToString());
+
+            while (reader.Read())
+            {
+                double quantityLeft = 0;
+
+                var entity = new ProductSQL();
+
+                entity.ID = Convert.ToInt32(reader["ID"]);
+
+                bool check = true;
+                if(showHomePage == 1)
+                {
+                    if (string.IsNullOrEmpty(reader["ProductImage"].ToString()) || reader["ShowHomePage"].ToString().ToInt(0) == 0)
+                    {
+                        check = false;
+                    }
+                }
+                else
+                {
+                    if (string.IsNullOrEmpty(reader["ProductImage"].ToString()))
+                    {
+                        check = false;
+                    }
+                }
+
+                if(check == true)
                 {
                     entity.ProductImage = reader["ProductImage"].ToString();
-
                     if (reader["ProductTitle"] != DBNull.Value)
                         entity.ProductTitle = reader["ProductTitle"].ToString();
                     if (reader["ProductSKU"] != DBNull.Value)
@@ -445,7 +700,6 @@ namespace IM_PJ.Controllers
 
                     list.Add(entity);
                 }
-                
             }
 
             reader.Close();
@@ -727,7 +981,8 @@ namespace IM_PJ.Controllers
                     entity.ProductContent = reader["ProductContent"].ToString();
                 if (reader["ProductStyle"] != DBNull.Value)
                     entity.ProductStyle = reader["ProductStyle"].ToString().ToInt(0);
-
+                if (reader["ShowHomePage"] != DBNull.Value)
+                    entity.ShowHomePage = reader["ShowHomePage"].ToString().ToInt(0);
                 list.Add(entity);
             }
             reader.Close();
@@ -795,6 +1050,7 @@ namespace IM_PJ.Controllers
             public DateTime CreatedDate { get; set; }
             public int StockStatus { get; set; }
             public int ProductStyle { get; set; }
+            public int ShowHomePage { get; set; }
         }
 
         public class ProductStock

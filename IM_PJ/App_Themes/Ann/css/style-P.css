@@ -1,4 +1,10 @@
-﻿.show {
+﻿a.bg-button {
+    color:#fff!important;
+}
+a.bg-button:hover {
+    color:#fff!important;
+}
+.show {
     display: block!important;
 }
 .variable-label {
@@ -445,7 +451,7 @@ ul.image-gallery li {
     width: 13%;
 }
 .all-product-table .name-column {
-    width: 23%;
+    width: 21%;
 }
 .all-product-table .sku-column {
     width: 6%;
@@ -463,16 +469,19 @@ ul.image-gallery li {
     width: 5%;
 }
 .all-product-table .stock-status-column {
-    width: 7%;
+    width: 6%;
 }
 .all-product-table .category-column {
-    width: 12%;
+    width: 10%;
 }
 .all-product-table .date-column {
     width: 7%;
 }
+.all-product-table .show-homepage-column {
+    width: 7%;
+}
 .all-product-table .action-column {
-    width: 9%;
+    width: 7%;
 }
 .all-product-table .variable-column {
     width: 20%;

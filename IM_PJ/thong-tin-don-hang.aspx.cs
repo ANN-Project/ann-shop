@@ -665,7 +665,7 @@ namespace IM_PJ
                             string DisCount = "0";
                             int CustomerID = 0;
 
-                            string CustomerPhone = txtPhone.Text.Trim();
+                            string CustomerPhone = txtPhone.Text.Trim().Replace(" ", "");
                             string CustomerName = txtFullname.Text.Trim();
                             string Nick = txtNick.Text.Trim();
                             string CustomerAddress = txtAddress.Text.Trim();
@@ -701,7 +701,7 @@ namespace IM_PJ
                             int PaymentStatus = ddlPaymentStatus.SelectedValue.ToInt(0);
                             int ExcuteStatus = ddlExcuteStatus.SelectedValue.ToInt(0);
 
-                            string ShippingCode = txtShippingCode.Text;
+                            string ShippingCode = txtShippingCode.Text.Trim().Replace("#", "").Replace(" ", "");
                             string OrderNote = txtOrderNote.Text;
 
                             double DiscountPerProduct = 0;

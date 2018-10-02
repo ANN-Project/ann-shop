@@ -351,9 +351,11 @@ namespace IM_PJ
                                 MaximumInventoryLevel = 0;
                                 a = hdfsetStyle.Value.ToInt();
                             }
-                            
-                            
-                            string kq = ProductController.Insert(cateID, 0, ProductTitle, ProductContent, ProductSKU, ProductStock, StockStatus, true, Regular_Price, CostOfGood, Retail_Price, "", 0, false, currentDate, username, supplierID, supplierName, txtMaterials.Text, MinimumInventoryLevel, MaximumInventoryLevel, a);
+
+                            int ShowHomePage = ddlShowHomePage.SelectedValue.ToInt(0);
+
+
+                            string kq = ProductController.Insert(cateID, 0, ProductTitle, ProductContent, ProductSKU, ProductStock, StockStatus, true, Regular_Price, CostOfGood, Retail_Price, "", 0, false, currentDate, username, supplierID, supplierName, txtMaterials.Text, MinimumInventoryLevel, MaximumInventoryLevel, a, ShowHomePage);
 
                             //Phần thêm ảnh đại diện sản phẩm
                             string path = "/uploads/images/";

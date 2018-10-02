@@ -463,7 +463,7 @@
 
         .disable {
             pointer-events: none;
-            opacity: 0.4;
+            opacity: 0.8;
         }
 
     </style>
@@ -1004,6 +1004,22 @@
                                 swal("Không thể khôi phục đơn hàng đã hủy!", "Hãy báo cáo chị Ngọc để khôi phục", "error");
                             }
                         }
+                            // Đổi trạng thái Đã hoàn tất sang trạng thái Đang xử lý
+                        else if (excuteStatus == 1 && $("#<%=hdfExcuteStatus.ClientID%>").val() == 2) {
+
+                            // Chỉ admin mới được đổi trạng thái Đã hoàn tất sang trạng thái Đang xử lý
+                            if ($("#<%=hdfRoleID.ClientID%>").val() == 0) {
+
+                                $("#<%=txtOrderNote.ClientID %>").val("Đã đổi trạng thái từ Đã hoàn tất sang Đang xử lý bởi " + $("#<%=hdfUsername.ClientID%>").val());
+                                deleteOrder();
+                                $("#<%=hdfOrderType.ClientID %>").val(ordertype);
+                                $("#<%=hdfListProduct.ClientID%>").val(list);
+                                insertOrder();
+                            }
+                            else {
+                                swal("Không thể đổi trạng thái từ Đã hoàn tất sang Đang xử lý!", "Hãy báo cáo chị Ngọc để khôi phục", "error");
+                            }
+                        }
                             // Nếu trạng thái không liên quan đến hủy thì xử lý..
                         else {
                             deleteOrder(); 
@@ -1477,6 +1493,18 @@
                 let excuteStatus = Number($("#<%=ddlExcuteStatus.ClientID%>").val());
 
                 switch (excuteStatus) {
+                    case 2:
+                        $("#infor-customer").addClass("disable");
+                        $("#detail").addClass("disable");
+                        if ($("#<%=hdfExcuteStatus.ClientID%>").val() == 2) {
+                            $("#row-payment-status").removeClass("disable");
+                            $("#row-payment-type").removeClass("disable");
+                            $("#row-shipping-type").removeClass("disable");
+                            $("#row-transport-company").removeClass("disable");
+                            $("#row-shipping").removeClass("disable");
+                            $("#row-order-note").removeClass("disable");
+                        }
+                        break;
                     case 3:
                         $("#infor-order").addClass("disable");
                         $("#infor-customer").addClass("disable");
@@ -1490,17 +1518,31 @@
                         $("#row-order-note").addClass("disable");
 
                         break;
-                    default:
-                        $("#infor-order").removeClass("disable");
-                        $("#infor-customer").removeClass("disable");
-                        $("#detail").removeClass("disable");
-                        $("#status .panel-heading").removeClass("disable");
-                        $("#row-payment-status").removeClass("disable");
-                        $("#row-payment-type").removeClass("disable");
-                        $("#row-shipping-type").removeClass("disable");
-                        $("#row-transport-company").removeClass("disable");
-                        $("#row-shipping").removeClass("disable");
-                        $("#row-order-note").removeClass("disable");
+                    case 1:
+                        
+                        if ($("#<%=hdfExcuteStatus.ClientID%>").val() == 1) {
+                            $("#infor-order").removeClass("disable");
+                            $("#infor-customer").removeClass("disable");
+                            $("#detail").removeClass("disable");
+                            $("#status .panel-heading").removeClass("disable");
+                            $("#row-payment-status").removeClass("disable");
+                            $("#row-payment-type").removeClass("disable");
+                            $("#row-shipping-type").removeClass("disable");
+                            $("#row-transport-company").removeClass("disable");
+                            $("#row-shipping").removeClass("disable");
+                            $("#row-order-note").removeClass("disable");
+                        }
+                        else {
+                            $("#infor-customer").addClass("disable");
+                            $("#detail").addClass("disable");
+                            $("#status .panel-heading").addClass("disable");
+                            $("#row-payment-status").addClass("disable");
+                            $("#row-payment-type").addClass("disable");
+                            $("#row-shipping-type").addClass("disable");
+                            $("#row-transport-company").addClass("disable");
+                            $("#row-shipping").addClass("disable");
+                            $("#row-order-note").addClass("disable");
+                        }
 
                         break;
                 }

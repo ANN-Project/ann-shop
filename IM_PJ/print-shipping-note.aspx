@@ -110,6 +110,24 @@
     .capitalize {
         text-transform: capitalize;
     }
+    .h2-guide {
+        text-align: center!important;
+        font-size: 18px!important;
+        background: #00BCD4!important;
+        color: #fff!important;
+        padding: 6px!important;
+        margin-top: 0;
+        margin-bottom: 0;
+    }
+    .p-guide {
+        text-align: center!important;
+        font-size: 18px!important;
+        margin-bottom: 15px!important;
+        background: #000!important;
+        color: #fff!important;
+        padding: 3px!important;
+        margin-top: 0;
+    }
     @media print { 
         body {
             -ms-transform:rotate(-90deg);
@@ -123,14 +141,33 @@
 </head>
 
 <body class="receipt">
+    <h2 class="h2guide" style="display:none">Gửi phiếu này cho khách xem để xác nhận thông tin!</h2>
+    <p class="pguide" style="display:none">Click chuột phải vào ảnh -> Chọn Sao chép hình ảnh -> Dán vào Zalo hoặc Facebook</p>
+    <div id="previewImage"></div>
     <asp:Literal ID="ltrShippingNote" runat="server"></asp:Literal>
     <asp:Literal ID="ltrPrintButton"  runat="server"></asp:Literal>
+
     <script src="/App_Themes/NewUI/js/sweet/sweet-alert.js" type="text/javascript"></script>
+    <script src="/App_Themes/Ann/js/html2canvas.js"></script>
     <script type="text/javascript">
+        $(document).ready(printImage());
+
+        function printImage () {
+            html2canvas(document.querySelector(".table"), {
+                allowTaint: true,
+                logging: false
+            }).then(canvas => {
+                $("#previewImage").append(canvas);
+                $(".table").hide();
+                $(".h2guide").addClass("h2-guide").show();
+                $(".pguide").addClass("p-guide").show();
+            });
+        }
+
         function printIt() {
             swal({
                 title: "Coi lại lần cuối nờ",
-                text: "Phiếu gửi hàng đúng thông tin hết chưa?",
+                text: "Phiếu gửi hàng đúng thông tin hết chưa và có gửi cho khách xem chưa?",
                 type: "warning",
                 showCancelButton: true,
                 confirmButtonColor: "#DD6B55",
@@ -143,7 +180,11 @@
             });
         }
         function removeDiv() {
+            $("#previewImage").hide();
+            $(".table").show();
             $(".print-it").hide();
+            $(".h2guide").hide();
+            $(".pguide").hide();
             $(".show-transport-info").hide();
             $(".sweet-alert").hide().empty();
             $(".sweet-overlay").hide().empty();
@@ -151,6 +192,8 @@
             window.close();
         }
         function showTransportInfo() {
+            $("#previewImage").html("");
+            $(".table").show();
             if ($(".transport-info").is(":hidden")) {
                 $(".transport-info").show();
                 $(".show-transport-info").html("Ẩn thông tin nhà xe");
@@ -159,6 +202,7 @@
                 $(".transport-info").hide();
                 $(".show-transport-info").html("Hiện thông tin nhà xe");
             }
+            printImage();
         }
     </script> 
 </body>

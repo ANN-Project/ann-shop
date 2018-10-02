@@ -21,7 +21,6 @@
         <EntityTypeShape EntityType="inventorymanagementModel.tbl_MovePro" Width="1.5" PointX="10.75" PointY="5.75" />
         <EntityTypeShape EntityType="inventorymanagementModel.tbl_MoveProdDetail" Width="1.5" PointX="10.75" PointY="10.75" />
         <EntityTypeShape EntityType="inventorymanagementModel.tbl_OrderReturnGood" Width="1.5" PointX="6.75" PointY="12.75" />
-        <EntityTypeShape EntityType="inventorymanagementModel.tbl_Product" Width="1.5" PointX="12.75" PointY="8.75" />
         <EntityTypeShape EntityType="inventorymanagementModel.tbl_ProductImage" Width="1.5" PointX="0.75" PointY="13.75" />
         <EntityTypeShape EntityType="inventorymanagementModel.tbl_ProductVariable" Width="1.5" PointX="2.75" PointY="13.75" />
         <EntityTypeShape EntityType="inventorymanagementModel.tbl_ProductVariableImage" Width="1.5" PointX="14.75" PointY="0.75" />
@@ -42,6 +41,7 @@
         <EntityTypeShape EntityType="inventorymanagementModel.tbl_Order" Width="1.5" PointX="19.375" PointY="6.75" />
         <EntityTypeShape EntityType="inventorymanagementModel.tbl_RefundGoods" Width="1.5" PointX="19.375" PointY="15.75" />
         <EntityTypeShape EntityType="inventorymanagementModel.tbl_Config" Width="1.5" PointX="11.375" PointY="20.75" />
+        <EntityTypeShape EntityType="inventorymanagementModel.tbl_Product" Width="1.5" PointX="13.375" PointY="20.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

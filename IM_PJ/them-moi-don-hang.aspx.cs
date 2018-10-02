@@ -150,7 +150,7 @@ namespace IM_PJ
                     string DisCount = "0";
                     int CustomerID = 0;
 
-                    string CustomerPhone = txtPhone.Text.Trim();
+                    string CustomerPhone = txtPhone.Text.Trim().Replace(" ","");
                     string CustomerName = txtFullname.Text.Trim();
                     string Nick = txtNick.Text.Trim();
                     string CustomerAddress = txtAddress.Text.Trim();

@@ -18,7 +18,7 @@
                     <div class="filter-above-wrap clear">
                         <div class="filter-control">
                             <div class="row">
-                                <div class="col-md-4">
+                                <div class="col-md-2">
                                     <asp:TextBox ID="txtSearchProduct" runat="server" CssClass="form-control sku-input" placeholder="Tìm sản phẩm" autocomplete="off"></asp:TextBox>
                                 </div>
                                 <div class="col-md-3">
@@ -30,6 +30,13 @@
                                         <asp:ListItem Value="1" Text="Còn hàng"></asp:ListItem>
                                         <asp:ListItem Value="2" Text="Hết hàng"></asp:ListItem>
                                         <asp:ListItem Value="3" Text="Nhập hàng"></asp:ListItem>
+                                    </asp:DropDownList>
+                                </div>
+                                <div class="col-md-2">
+                                    <asp:DropDownList ID="ddlShowHomePage" runat="server" CssClass="form-control">
+                                        <asp:ListItem Value="" Text="Trang chủ"></asp:ListItem>
+                                        <asp:ListItem Value="0" Text="Đang ẩn"></asp:ListItem>
+                                        <asp:ListItem Value="1" Text="Đang hiện"></asp:ListItem>
                                     </asp:DropDownList>
                                 </div>
                                 <div class="col-md-2">
@@ -45,8 +52,40 @@
                                     </asp:DropDownList>
                                 </div>
                                 <div class="col-md-1">
-                                    <a href="javascript:;" onclick="searchAgent()" class="btn primary-btn h45-btn"><i class="fa fa-search"></i></a>
+                                    <a href="javascript:;" onclick="searchProduct()" class="btn primary-btn h45-btn"><i class="fa fa-search"></i></a>
                                     <asp:Button ID="btnSearch" runat="server" CssClass="btn primary-btn h45-btn" OnClick="btnSearch_Click" Style="display: none" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="filter-above-wrap clear">
+                        <div class="filter-control">
+                            <div class="row">
+                                <div class="col-md-7">
+                                </div>
+                                <div class="col-md-2">
+                                    <asp:DropDownList ID="ddlQuantityFilter" runat="server" CssClass="form-control" onchange="changeQuantityFilter($(this))">
+                                        <asp:ListItem Value="" Text="Số lượng"></asp:ListItem>
+                                        <asp:ListItem Value="greaterthan" Text="Lớn hơn"></asp:ListItem>
+                                        <asp:ListItem Value="lessthan" Text="Nhỏ hơn"></asp:ListItem>
+                                        <asp:ListItem Value="between" Text="Trong khoảng"></asp:ListItem>
+                                    </asp:DropDownList>
+                                </div>
+                                <div class="col-md-2 greaterthan lessthan">
+                                    <asp:TextBox ID="txtQuantity" runat="server" CssClass="form-control" placeholder="Số lượng" autocomplete="off"></asp:TextBox>
+                                </div>
+                                <div class="col-md-2 between hide">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <asp:TextBox ID="txtQuantityMin" runat="server" CssClass="form-control" placeholder="Min" autocomplete="off"></asp:TextBox>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <asp:TextBox ID="txtQuantityMax" runat="server" CssClass="form-control" placeholder="Max" autocomplete="off"></asp:TextBox>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-1">
+                                    <a href="/tat-ca-san-pham" class="btn primary-btn h45-btn"><i class="fa fa-times" aria-hidden="true"></i></a>
                                 </div>
                             </div>
                         </div>
@@ -80,8 +119,74 @@
 
         
         <script type="text/javascript">
-            function searchAgent() {
+            // Parse URL Queries
+            function url_query(query) {
+                query = query.replace(/[\[]/, "\\\[").replace(/[\]]/, "\\\]");
+                var expr = "[\\?&]" + query + "=([^&#]*)";
+                var regex = new RegExp(expr);
+                var results = regex.exec(window.location.href);
+                if (results !== null) {
+                    return results[1];
+                } else {
+                    return false;
+                }
+            }
+
+            var url_param = url_query('quantityfilter');
+            if (url_param) {
+                if (url_param == "greaterthan" || url_param == "lessthan") {
+                    $(".greaterthan").removeClass("hide");
+                    $(".between").addClass("hide");
+                }
+                else if (url_param == "between") {
+                    $(".between").removeClass("hide");
+                    $(".greaterthan").addClass("hide");
+                }
+            }
+
+            function changeQuantityFilter(obj) {
+                var value = obj.val();
+                if (value == "greaterthan" || value == "lessthan") {
+                    $(".greaterthan").removeClass("hide");
+                    $(".between").addClass("hide");
+                }
+                else if (value == "between") {
+                    $(".between").removeClass("hide");
+                    $(".greaterthan").addClass("hide");
+                }
+            }
+
+            function searchProduct() {
                 $("#<%= btnSearch.ClientID%>").click();
+            }
+            
+            function changeShowHomePage(obj) {
+                var productID = obj.attr("data-product-id");
+                var value = obj.attr("data-value");
+                var update = 1;
+                if (value == 1) {
+                    update = 0;
+                }
+                $.ajax({
+                    type: "POST",
+                    url: "/tat-ca-san-pham.aspx/updateShowHomePage",
+                    data: "{id:'" + productID + "', value: '" + update + "'}",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (msg) {
+                        if (msg.d == "true") {
+                            if (value == 1) {
+                                $('#showHomePage_' + productID).html("<a href='javascript:;' data-product-id='" + productID + "' data-value='0' class='bg-black bg-button' onclick='changeShowHomePage($(this))'>Đang ẩn</a>");
+                            }
+                            else {
+                                $('#showHomePage_' + productID).html("<a href='javascript:;' data-product-id='" + productID + "' data-value='1' class='bg-green bg-button' onclick='changeShowHomePage($(this))'>Đang hiện</a>");
+                            }
+                        }
+                        else {
+                            alert("Lỗi");
+                        }
+                    }
+                });
             }
         </script>
     </main>
