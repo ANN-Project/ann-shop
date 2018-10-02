@@ -169,84 +169,7 @@
                             <h3 class="page-title left not-margin-bot">Thống kê đơn hàng</h3>
                         </div>
                         <div class="panel-body">
-                            <div class="row pad">
-                                <div class="col-md-3">
-                                    <label class="left pad10">Tổng số đơn hàng: </label>
-                                    <div class="ordertype">
-                                        <asp:Literal ID="ltrTotalOrders" runat="server"></asp:Literal>
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <label class="left pad10">Số đơn hàng sỉ: </label>
-                                    <div class="ordercreateby">
-                                        <asp:Literal ID="ltrType2Orders" runat="server"></asp:Literal>
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <label class="left pad10">Số đơn hàng lẻ: </label>
-                                    <div class="ordercreatedate">
-                                        <asp:Literal ID="ltrType1Orders" runat="server"></asp:Literal>
-                                    </div>
-                                </div>
-                                <div class="col-md-3"> 
-                                    <label class="left pad10">Tổng sản phẩm: </label>
-                                    <div class="ordernote">
-                                        <asp:Literal ID="ltrTotalProducts" runat="server"></asp:Literal>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row pad">
-                                <div class="col-md-3">
-                                    <label class="left pad10">Tổng số tiền: </label>
-                                    <div class="orderquantity">
-                                        <asp:Literal ID="ltrTotalMoney" runat="server"></asp:Literal>
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <label class="left pad10">Tổng chiết khấu: </label>
-                                    <div class="ordertotalprice">
-                                        <asp:Literal ID="ltrDiscount" runat="server"></asp:Literal>
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <label class="left pad10">Tổng phí vận chuyển: </label>
-                                    <div class="ordertotalprice">
-                                        <asp:Literal ID="ltrFeeShipping" runat="server"></asp:Literal>
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <label class="left pad10">Tổng phí khác: </label>
-                                    <div class="ordertotalprice">
-                                        <asp:Literal ID="ltrOtherFee" runat="server"></asp:Literal>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row pad">
-                                <div class="col-md-3">
-                                    <label class="left pad10">Số đơn lấy trực tiếp: </label>
-                                    <div class="orderquantity">
-                                        <asp:Literal ID="ltrShippingType1" runat="server"></asp:Literal>
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <label class="left pad10">Số đơn chuyển bưu điện: </label>
-                                    <div class="ordertotalprice">
-                                        <asp:Literal ID="ltrShippingType2" runat="server"></asp:Literal>
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <label class="left pad10">Số đơn gửi dịch vụ: </label>
-                                    <div class="orderstatus">
-                                        <asp:Literal ID="ltrShippingType3" runat="server"></asp:Literal>
-                                    </div>
-                                </div>
-                                <div class="col-md-3"> 
-                                    <label class="left pad10">Số đơn chuyển xe: </label>
-                                    <div class="ordernote">
-                                        <asp:Literal ID="ltrShippingType4" runat="server"></asp:Literal>
-                                    </div>
-                                </div>
-                            </div>
+                            <asp:Literal ID="ltrReport" runat="server" EnableViewState="false"></asp:Literal>
                         </div>
                     </div>
                 </div>
@@ -285,10 +208,12 @@
                 if (value == "greaterthan" || value == "lessthan") {
                     $(".greaterthan").removeClass("hide");
                     $(".between").addClass("hide");
+                    $("#<%=txtQuantity.ClientID%>").focus().select();
                 }
                 else if (value == "between") {
                     $(".between").removeClass("hide");
                     $(".greaterthan").addClass("hide");
+                    $("#<%=txtQuantityMin.ClientID%>").focus().select();
                 }
             }
 

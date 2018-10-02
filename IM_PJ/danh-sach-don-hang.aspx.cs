@@ -272,21 +272,92 @@ namespace IM_PJ
                     OtherFeeValue += item.OtherFeeValue;
                 }
 
-                ltrTotalOrders.Text = TotalOrders.ToString();
-                ltrType2Orders.Text = Type2Orders.ToString();
-                ltrType1Orders.Text = Type1Orders.ToString();
-                ltrTotalProducts.Text = TotalProducts.ToString();
+                StringBuilder htmlReport = new StringBuilder();
 
+                htmlReport.AppendLine(String.Format("<div class='row pad'>"));
+                htmlReport.AppendLine(String.Format("    <div class='col-md-3'>"));
+                htmlReport.AppendLine(String.Format("        <label class='left pad10'>Tổng số đơn hàng: </label>"));
+                htmlReport.AppendLine(String.Format("        <div class='ordertype'>"));
+                htmlReport.AppendLine(String.Format("            {0}", TotalOrders.ToString()));
+                htmlReport.AppendLine(String.Format("        </div>"));
+                htmlReport.AppendLine(String.Format("    </div>"));
+                htmlReport.AppendLine(String.Format("    <div class='col-md-3'>"));
+                htmlReport.AppendLine(String.Format("        <label class='left pad10'>Số đơn hàng sỉ: </label>"));
+                htmlReport.AppendLine(String.Format("        <div class='ordercreateby'>"));
+                htmlReport.AppendLine(String.Format("            {0}", Type2Orders.ToString()));
+                htmlReport.AppendLine(String.Format("        </div>"));
+                htmlReport.AppendLine(String.Format("    </div>"));
+                htmlReport.AppendLine(String.Format("    <div class='col-md-3'>"));
+                htmlReport.AppendLine(String.Format("        <label class='left pad10'>Số đơn hàng lẻ: </label>"));
+                htmlReport.AppendLine(String.Format("        <div class='ordercreatedate'>"));
+                htmlReport.AppendLine(String.Format("            {0}", Type1Orders.ToString()));
+                htmlReport.AppendLine(String.Format("        </div>"));
+                htmlReport.AppendLine(String.Format("    </div>"));
+                htmlReport.AppendLine(String.Format("    <div class='col-md-3'> "));
+                htmlReport.AppendLine(String.Format("        <label class='left pad10'>Tổng sản phẩm: </label>"));
+                htmlReport.AppendLine(String.Format("        <div class='ordernote'>"));
+                htmlReport.AppendLine(String.Format("            {0}", TotalProducts.ToString()));
+                htmlReport.AppendLine(String.Format("        </div>"));
+                htmlReport.AppendLine(String.Format("    </div>"));
+                htmlReport.AppendLine(String.Format("</div>"));
+                if (acc.RoleID == 0)
+                {
+                    htmlReport.AppendLine(String.Format("<div class='row pad'>"));
+                    htmlReport.AppendLine(String.Format("    <div class='col-md-3'>"));
+                    htmlReport.AppendLine(String.Format("        <label class='left pad10'>Tổng số tiền: </label>"));
+                    htmlReport.AppendLine(String.Format("        <div class='orderquantity'>"));
+                    htmlReport.AppendLine(String.Format("            {0}", string.Format("{0:N0}", Convert.ToDouble(TotalMoney)).ToString()));
+                    htmlReport.AppendLine(String.Format("        </div>"));
+                    htmlReport.AppendLine(String.Format("    </div>"));
+                    htmlReport.AppendLine(String.Format("    <div class='col-md-3'>"));
+                    htmlReport.AppendLine(String.Format("        <label class='left pad10'>Tổng chiết khấu: </label>"));
+                    htmlReport.AppendLine(String.Format("        <div class='ordertotalprice'>"));
+                    htmlReport.AppendLine(String.Format("            {0}", string.Format("{0:N0}", Convert.ToDouble(TotalDiscount)).ToString()));
+                    htmlReport.AppendLine(String.Format("        </div>"));
+                    htmlReport.AppendLine(String.Format("    </div>"));
+                    htmlReport.AppendLine(String.Format("    <div class='col-md-3'>"));
+                    htmlReport.AppendLine(String.Format("        <label class='left pad10'>Tổng phí vận chuyển: </label>"));
+                    htmlReport.AppendLine(String.Format("        <div class='ordertotalprice'>"));
+                    htmlReport.AppendLine(String.Format("            {0}", string.Format("{0:N0}", Convert.ToDouble(FeeShipping)).ToString()));
+                    htmlReport.AppendLine(String.Format("        </div>"));
+                    htmlReport.AppendLine(String.Format("    </div>"));
+                    htmlReport.AppendLine(String.Format("    <div class='col-md-3'>"));
+                    htmlReport.AppendLine(String.Format("        <label class='left pad10'>Tổng phí khác: </label>"));
+                    htmlReport.AppendLine(String.Format("        <div class='ordertotalprice'>"));
+                    htmlReport.AppendLine(String.Format("            {0}", string.Format("{0:N0}", Convert.ToDouble(OtherFeeValue)).ToString()));
+                    htmlReport.AppendLine(String.Format("        </div>"));
+                    htmlReport.AppendLine(String.Format("    </div>"));
+                    htmlReport.AppendLine(String.Format("</div>"));
+                }
+                htmlReport.AppendLine(String.Format("<div class='row pad'>"));
+                htmlReport.AppendLine(String.Format("    <div class='col-md-3'>"));
+                htmlReport.AppendLine(String.Format("        <label class='left pad10'>Số đơn lấy trực tiếp: </label>"));
+                htmlReport.AppendLine(String.Format("        <div class='orderquantity'>"));
+                htmlReport.AppendLine(String.Format("            {0}", ShippingType1.ToString()));
+                htmlReport.AppendLine(String.Format("        </div>"));
+                htmlReport.AppendLine(String.Format("    </div>"));
+                htmlReport.AppendLine(String.Format("    <div class='col-md-3'>"));
+                htmlReport.AppendLine(String.Format("        <label class='left pad10'>Số đơn chuyển bưu điện: </label>"));
+                htmlReport.AppendLine(String.Format("        <div class='ordertotalprice'>"));
+                htmlReport.AppendLine(String.Format("            {0}", ShippingType2.ToString()));
+                htmlReport.AppendLine(String.Format("        </div>"));
+                htmlReport.AppendLine(String.Format("    </div>"));
+                htmlReport.AppendLine(String.Format("    <div class='col-md-3'>"));
+                htmlReport.AppendLine(String.Format("        <label class='left pad10'>Số đơn gửi dịch vụ: </label>"));
+                htmlReport.AppendLine(String.Format("        <div class='orderstatus'>"));
+                htmlReport.AppendLine(String.Format("            {0}", ShippingType3.ToString()));
+                htmlReport.AppendLine(String.Format("        </div>"));
+                htmlReport.AppendLine(String.Format("    </div>"));
+                htmlReport.AppendLine(String.Format("    <div class='col-md-3'> "));
+                htmlReport.AppendLine(String.Format("        <label class='left pad10'>Số đơn chuyển xe: </label>"));
+                htmlReport.AppendLine(String.Format("        <div class='ordernote'>"));
+                htmlReport.AppendLine(String.Format("            {0}", ShippingType4.ToString()));
+                htmlReport.AppendLine(String.Format("        </div>"));
+                htmlReport.AppendLine(String.Format("    </div>"));
+                htmlReport.AppendLine(String.Format("</div>"));
 
-                ltrTotalMoney.Text = string.Format("{0:N0}", Convert.ToDouble(TotalMoney)).ToString();
-                ltrDiscount.Text = string.Format("{0:N0}", Convert.ToDouble(TotalDiscount)).ToString();
-                ltrFeeShipping.Text = string.Format("{0:N0}", Convert.ToDouble(FeeShipping)).ToString();
-                ltrOtherFee.Text = string.Format("{0:N0}", Convert.ToDouble(OtherFeeValue)).ToString();
-
-                ltrShippingType1.Text = ShippingType1.ToString();
-                ltrShippingType2.Text = ShippingType2.ToString();
-                ltrShippingType3.Text = ShippingType3.ToString();
-                ltrShippingType4.Text = ShippingType4.ToString();
+                ltrReport.Text = htmlReport.ToString();
+                
             }
         }
 

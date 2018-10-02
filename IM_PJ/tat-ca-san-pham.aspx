@@ -149,10 +149,12 @@
                 if (value == "greaterthan" || value == "lessthan") {
                     $(".greaterthan").removeClass("hide");
                     $(".between").addClass("hide");
+                    $("#<%=txtQuantity.ClientID%>").focus().select();
                 }
                 else if (value == "between") {
                     $(".between").removeClass("hide");
                     $(".greaterthan").addClass("hide");
+                    $("#<%=txtQuantityMin.ClientID%>").focus().select();
                 }
             }
 
