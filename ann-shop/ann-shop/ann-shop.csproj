@@ -250,6 +250,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\HelpPage\HelpPage.css" />
+    <Content Include="Content\ann-shop\bootstrap-customer.css" />
     <Content Include="Content\ann-shop\checkouts.css" />
     <Content Include="Content\ann-shop\font-awesome.min.css" />
     <Content Include="Content\ann-shop\jquery.fancybox.css" />

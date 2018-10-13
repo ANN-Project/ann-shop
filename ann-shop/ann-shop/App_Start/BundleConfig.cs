@@ -21,7 +21,8 @@ namespace ann_shop
                       "~/Scripts/respond.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
-                      "~/Content/bootstrap.css"));
+                      "~/Content/bootstrap.css",
+                      "~/Content/ann-shop/bootstrap-customer.css"));
 
             bundles.Add(new StyleBundle("~/Content/ann-shop/css").Include(
                       "~/Content/ann-shop/jquery.fancybox.css",
