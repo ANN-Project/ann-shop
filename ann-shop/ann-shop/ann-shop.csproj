@@ -81,6 +81,7 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
@@ -240,9 +241,36 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201810131706502_Initial.cs" />
+    <Compile Include="Migrations\201810131706502_Initial.Designer.cs">
+      <DependentUpon>201810131706502_Initial.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\ANNShopModel\tbl_Account.cs" />
+    <Compile Include="Models\ANNShopModel\tbl_Attribute.cs" />
+    <Compile Include="Models\ANNShopModel\tbl_AttributeValue.cs" />
+    <Compile Include="Models\ANNShopModel\tbl_Comment.cs" />
+    <Compile Include="Models\ANNShopModel\tbl_Customer.cs" />
+    <Compile Include="Models\ANNShopModel\tbl_Option.cs" />
+    <Compile Include="Models\ANNShopModel\tbl_Order.cs" />
+    <Compile Include="Models\ANNShopModel\tbl_OrderItem.cs" />
+    <Compile Include="Models\ANNShopModel\tbl_Page.cs" />
+    <Compile Include="Models\ANNShopModel\tbl_Post.cs" />
+    <Compile Include="Models\ANNShopModel\tbl_PostCategory.cs" />
+    <Compile Include="Models\ANNShopModel\tbl_PostInCategory.cs" />
+    <Compile Include="Models\ANNShopModel\tbl_PostInTag.cs" />
+    <Compile Include="Models\ANNShopModel\tbl_PostTag.cs" />
+    <Compile Include="Models\ANNShopModel\tbl_Product.cs" />
+    <Compile Include="Models\ANNShopModel\tbl_ProductCategory.cs" />
+    <Compile Include="Models\ANNShopModel\tbl_ProductImage.cs" />
+    <Compile Include="Models\ANNShopModel\tbl_ProductInCategory.cs" />
+    <Compile Include="Models\ANNShopModel\tbl_ProductInTag.cs" />
+    <Compile Include="Models\ANNShopModel\tbl_ProductTag.cs" />
+    <Compile Include="Models\ANNShopModel\tbl_ProductVariant.cs" />
+    <Compile Include="Models\ANNShopModel\tbl_ProductVariantValue.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\ApplicationOAuthProvider.cs" />
     <Compile Include="Results\ChallengeResult.cs" />
@@ -425,6 +453,14 @@
   <ItemGroup>
     <Content Include="packages.config" />
     <None Include="Project_Readme.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201810131706502_Initial.resx">
+      <DependentUpon>201810131706502_Initial.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
