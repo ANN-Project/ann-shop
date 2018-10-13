@@ -22,7 +22,20 @@ namespace ann_shop
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
-                      "~/Content/site.css"));
+                      "~/Content/ann-shop/bootstrap-customer.css"));
+
+            bundles.Add(new StyleBundle("~/Content/ann-shop/css").Include(
+                      "~/Content/ann-shop/jquery.fancybox.css",
+                      "~/Content/ann-shop/font-awesome.min.css",
+                      "~/Content/ann-shop/style.css"));
+
+            bundles.Add(new ScriptBundle("~/bundles/ann-shop/jquery").Include(
+                        "~/Scripts/ann-shop/option_selection.js",
+                        "~/Scripts/ann-shop/api.jquery.js",
+                        "~/Scripts/ann-shop/minify-js.min.js",
+                        "~/Scripts/ann-shop/jquery.fancybox.js",
+                        "~/Scripts/ann-shop/script.js"));
+
         }
     }
 }

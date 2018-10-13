@@ -10,7 +10,7 @@ namespace ann_shop.Controllers
     {
         public ActionResult Index()
         {
-            ViewBag.Title = "Home Page";
+            ViewBag.Title = "Bikini Beach";
 
             return View();
         }
