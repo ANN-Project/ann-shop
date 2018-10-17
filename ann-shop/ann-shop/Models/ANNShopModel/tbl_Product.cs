@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace ann_shop
+namespace ann_shop.Models
 {
     using System;
     using System.Collections.Generic;
@@ -15,6 +15,7 @@ namespace ann_shop
     public partial class tbl_Product
     {
         public int ID { get; set; }
+        public Nullable<int> SystemID { get; set; }
         public string SKU { get; set; }
         public string Name { get; set; }
         public string ShortDescription { get; set; }
@@ -32,6 +33,7 @@ namespace ann_shop
         public string Image { get; set; }
         public Nullable<int> Featured { get; set; }
         public Nullable<int> ViewCount { get; set; }
+        public Nullable<int> Export { get; set; }
         public Nullable<int> Hidden { get; set; }
         public string MetaTitle { get; set; }
         public string MetaDescription { get; set; }

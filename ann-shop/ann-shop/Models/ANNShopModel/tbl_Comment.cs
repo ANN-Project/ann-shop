@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace ann_shop
+namespace ann_shop.Models
 {
     using System;
     using System.Collections.Generic;
@@ -15,7 +15,7 @@ namespace ann_shop
     public partial class tbl_Comment
     {
         public int ID { get; set; }
-        public Nullable<int> ParentID { get; set; }
+        public int ParentID { get; set; }
         public int PostID { get; set; }
         public string PostType { get; set; }
         public string Author { get; set; }

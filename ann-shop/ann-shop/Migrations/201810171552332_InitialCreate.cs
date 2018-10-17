@@ -3,7 +3,7 @@ namespace ann_shop.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class Initial : DbMigration
+    public partial class InitialCreate : DbMigration
     {
         public override void Up()
         {
@@ -82,7 +82,7 @@ namespace ann_shop.Migrations
                 c => new
                     {
                         ID = c.Int(nullable: false, identity: true),
-                        ParentID = c.Int(),
+                        ParentID = c.Int(nullable: false),
                         PostID = c.Int(nullable: false),
                         PostType = c.String(),
                         Author = c.String(),
@@ -123,6 +123,29 @@ namespace ann_shop.Migrations
                 .PrimaryKey(t => t.ID);
             
             CreateTable(
+                "dbo.tbl_Menu",
+                c => new
+                    {
+                        ID = c.Int(nullable: false, identity: true),
+                        Slug = c.String(),
+                        Name = c.String(),
+                        Location = c.String(),
+                    })
+                .PrimaryKey(t => t.ID);
+            
+            CreateTable(
+                "dbo.tbl_MenuItem",
+                c => new
+                    {
+                        ID = c.Int(nullable: false, identity: true),
+                        MenuID = c.Int(nullable: false),
+                        ParentID = c.Int(nullable: false),
+                        Name = c.String(),
+                        URL = c.String(),
+                    })
+                .PrimaryKey(t => t.ID);
+            
+            CreateTable(
                 "dbo.tbl_Option",
                 c => new
                     {
@@ -137,7 +160,7 @@ namespace ann_shop.Migrations
                 c => new
                     {
                         ID = c.Int(nullable: false, identity: true),
-                        SystemOrderID = c.Int(),
+                        SystemID = c.Int(),
                         SystemUsername = c.String(),
                         Type = c.Int(),
                         CustomerID = c.Int(),
@@ -243,7 +266,7 @@ namespace ann_shop.Migrations
                 c => new
                     {
                         ID = c.Int(nullable: false, identity: true),
-                        ParentID = c.Int(),
+                        ParentID = c.Int(nullable: false),
                         Name = c.String(),
                         Description = c.String(),
                         Slug = c.String(),
@@ -301,6 +324,7 @@ namespace ann_shop.Migrations
                 c => new
                     {
                         ID = c.Int(nullable: false, identity: true),
+                        SystemID = c.Int(),
                         SKU = c.String(),
                         Name = c.String(),
                         ShortDescription = c.String(),
@@ -318,6 +342,7 @@ namespace ann_shop.Migrations
                         Image = c.String(),
                         Featured = c.Int(),
                         ViewCount = c.Int(),
+                        Export = c.Int(),
                         Hidden = c.Int(),
                         MetaTitle = c.String(),
                         MetaDescription = c.String(),
@@ -333,7 +358,7 @@ namespace ann_shop.Migrations
                 c => new
                     {
                         ID = c.Int(nullable: false, identity: true),
-                        ParentID = c.Int(),
+                        ParentID = c.Int(nullable: false),
                         Name = c.String(),
                         Description = c.String(),
                         Slug = c.String(),
@@ -354,8 +379,8 @@ namespace ann_shop.Migrations
                     {
                         ID = c.Int(nullable: false, identity: true),
                         ProductID = c.Int(nullable: false),
-                        Image = c.String(),
-                        Description = c.String(),
+                        Filename = c.String(),
+                        Title = c.String(),
                         CreatedBy = c.Int(),
                         CreatedDate = c.DateTime(),
                     })
@@ -404,7 +429,7 @@ namespace ann_shop.Migrations
                 c => new
                     {
                         ID = c.Int(nullable: false, identity: true),
-                        ProductID = c.Int(nullable: false),
+                        ParentID = c.Int(nullable: false),
                         ParentSKU = c.String(),
                         SKU = c.String(),
                         Name = c.String(),
@@ -517,6 +542,8 @@ namespace ann_shop.Migrations
             DropTable("dbo.tbl_OrderItem");
             DropTable("dbo.tbl_Order");
             DropTable("dbo.tbl_Option");
+            DropTable("dbo.tbl_MenuItem");
+            DropTable("dbo.tbl_Menu");
             DropTable("dbo.tbl_Customer");
             DropTable("dbo.tbl_Comment");
             DropTable("dbo.tbl_AttributeValue");

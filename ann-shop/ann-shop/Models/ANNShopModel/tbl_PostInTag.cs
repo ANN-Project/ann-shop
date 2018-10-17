@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace ann_shop
+namespace ann_shop.Models
 {
     using System;
     using System.Collections.Generic;
