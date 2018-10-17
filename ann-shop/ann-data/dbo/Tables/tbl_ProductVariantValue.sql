@@ -1,7 +1,7 @@
 ﻿CREATE TABLE [dbo].[tbl_ProductVariantValue] (
     [ID]             INT            IDENTITY (1, 1) NOT NULL,
     [VariantID]      INT            NOT NULL,
-    [VariantSKU]     NVARCHAR (30)  NULL,
+    [VariantSKU]     NVARCHAR (30)  NOT NULL,
     [AttributeID]    INT            NOT NULL,
     [AttributeName]  NVARCHAR (50)  NULL,
     [AttributeValue] NVARCHAR (100) NULL,

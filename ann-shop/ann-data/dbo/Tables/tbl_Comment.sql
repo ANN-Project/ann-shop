@@ -1,6 +1,6 @@
 ﻿CREATE TABLE [dbo].[tbl_Comment] (
     [ID]           INT            IDENTITY (1, 1) NOT NULL,
-    [ParentID]     INT            NULL,
+    [ParentID]     INT            NOT NULL DEFAULT 0,
     [PostID]       INT            NOT NULL,
     [PostType]     NVARCHAR (15)  NOT NULL,
     [Author]       NVARCHAR (150) NOT NULL,
