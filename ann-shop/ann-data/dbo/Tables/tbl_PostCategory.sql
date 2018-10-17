@@ -1,6 +1,6 @@
 ﻿CREATE TABLE [dbo].[tbl_PostCategory] (
     [ID]              INT            IDENTITY (1, 1) NOT NULL,
-    [ParentID]        INT            NULL,
+    [ParentID]        INT            NOT NULL DEFAULT 0,
     [Name]            NVARCHAR (250) NOT NULL,
     [Description]     NVARCHAR (MAX) NULL,
     [Slug]            NVARCHAR (250) NOT NULL,

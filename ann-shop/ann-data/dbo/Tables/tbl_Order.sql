@@ -1,6 +1,6 @@
 ﻿CREATE TABLE [dbo].[tbl_Order] (
     [ID]              INT            IDENTITY (1, 1) NOT NULL,
-    [SystemOrderID]   INT            NULL,
+    [SystemID]   INT            NULL,
     [SystemUsername]  NVARCHAR (50)  NULL,
     [Type]            INT            NULL,
     [CustomerID]      INT            NULL,

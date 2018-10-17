@@ -2,7 +2,7 @@
     [ID]           INT            IDENTITY (1, 1) NOT NULL,
     [Username]     NVARCHAR (100) NOT NULL,
     [Password]     NVARCHAR (MAX) NOT NULL,
-    [Name]         NVARCHAR (100) NULL,
+    [Name]         NVARCHAR (100) NOT NULL,
     [Email]        NVARCHAR (200) NOT NULL,
     [Status]       INT            NULL,
     [Role]         NVARCHAR (100) NULL,

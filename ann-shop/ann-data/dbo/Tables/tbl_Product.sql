@@ -1,5 +1,6 @@
 ﻿CREATE TABLE [dbo].[tbl_Product] (
     [ID]               INT            IDENTITY (1, 1) NOT NULL,
+	[SystemID]		   INT      NULL,
     [SKU]              NVARCHAR (25)  NOT NULL,
     [Name]             NVARCHAR (250) NOT NULL,
     [ShortDescription] NVARCHAR (MAX) NULL,
@@ -17,6 +18,7 @@
     [Image]            NVARCHAR (250) NULL,
     [Featured]         INT            NULL,
     [ViewCount]        INT            NULL,
+	[Export]           INT            NULL,
     [Hidden]           INT            NULL,
     [MetaTitle]        NVARCHAR (250) NULL,
     [MetaDescription]  NVARCHAR (MAX) NULL,

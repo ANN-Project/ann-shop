@@ -1,6 +1,6 @@
 ﻿CREATE TABLE [dbo].[tbl_ProductVariant] (
     [ID]             INT            IDENTITY (1, 1) NOT NULL,
-    [ProductID]      INT            NOT NULL,
+    [ParentID]      INT            NOT NULL,
     [ParentSKU]      NVARCHAR (25)  NOT NULL,
     [SKU]            NVARCHAR (30)  NOT NULL,
     [Name]           NVARCHAR (250) NULL,
