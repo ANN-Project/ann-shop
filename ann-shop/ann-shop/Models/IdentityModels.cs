@@ -25,7 +25,7 @@ namespace ann_shop.Models
             : base("DefaultConnection", throwIfV1Schema: false)
         {
         }
-        
+
         public static ApplicationDbContext Create()
         {
             return new ApplicationDbContext();
@@ -53,5 +53,8 @@ namespace ann_shop.Models
         public virtual DbSet<tbl_ProductTag> tbl_ProductTag { get; set; }
         public virtual DbSet<tbl_ProductVariant> tbl_ProductVariant { get; set; }
         public virtual DbSet<tbl_ProductVariantValue> tbl_ProductVariantValue { get; set; }
+        public virtual DbSet<tbl_Menu> tbl_Menu { get; set; }
+        public virtual DbSet<tbl_MenuItem> tbl_MenuItem { get; set; }
+
     }
 }

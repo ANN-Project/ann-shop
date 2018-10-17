@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace ann_shop
+namespace ann_shop.Models
 {
     using System;
     using System.Collections.Generic;
@@ -16,8 +16,8 @@ namespace ann_shop
     {
         public int ID { get; set; }
         public int ProductID { get; set; }
-        public string Image { get; set; }
-        public string Description { get; set; }
+        public string Filename { get; set; }
+        public string Title { get; set; }
         public Nullable<int> CreatedBy { get; set; }
         public Nullable<System.DateTime> CreatedDate { get; set; }
     }

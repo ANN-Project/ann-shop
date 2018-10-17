@@ -241,13 +241,15 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201810131706502_Initial.cs" />
-    <Compile Include="Migrations\201810131706502_Initial.Designer.cs">
-      <DependentUpon>201810131706502_Initial.cs</DependentUpon>
+    <Compile Include="Migrations\201810171552332_InitialCreate.cs" />
+    <Compile Include="Migrations\201810171552332_InitialCreate.Designer.cs">
+      <DependentUpon>201810171552332_InitialCreate.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\ANNShopModel\tbl_Menu.cs" />
+    <Compile Include="Models\ANNShopModel\tbl_MenuItem.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ANNShopModel\tbl_Account.cs" />
     <Compile Include="Models\ANNShopModel\tbl_Attribute.cs" />
@@ -369,19 +371,19 @@
     <Content Include="images\ze_grande.png" />
     <Content Include="Scripts\ai.0.22.9-build00167.js" />
     <Content Include="Scripts\ai.0.22.9-build00167.min.js" />
-    <Content Include="Scripts\ann-shop\api.jquery.js" />
-    <Content Include="Scripts\ann-shop\customer_area.js" />
-    <Content Include="Scripts\ann-shop\haravan_common.js" />
-    <Content Include="Scripts\ann-shop\jgestures.min.js" />
-    <Content Include="Scripts\ann-shop\jquery-1.12.4.min.js" />
-    <Content Include="Scripts\ann-shop\jquery.elevatezoom.js" />
-    <Content Include="Scripts\ann-shop\jquery.fancybox.js" />
-    <Content Include="Scripts\ann-shop\jquery.min.js" />
-    <Content Include="Scripts\ann-shop\jquery.mThumbnailScroller.js" />
-    <Content Include="Scripts\ann-shop\jquery.validate.js" />
-    <Content Include="Scripts\ann-shop\minify-js.min.js" />
-    <Content Include="Scripts\ann-shop\option_selection.js" />
-    <Content Include="Scripts\ann-shop\script.js" />
+    <Content Include="Scripts\ann-shop\common\api.jquery.js" />
+    <Content Include="Scripts\ann-shop\common\customer_area.js" />
+    <Content Include="Scripts\ann-shop\common\haravan_common.js" />
+    <Content Include="Scripts\ann-shop\common\jgestures.min.js" />
+    <Content Include="Scripts\ann-shop\common\jquery-1.12.4.min.js" />
+    <Content Include="Scripts\ann-shop\common\jquery.elevatezoom.js" />
+    <Content Include="Scripts\ann-shop\common\jquery.fancybox.js" />
+    <Content Include="Scripts\ann-shop\common\jquery.min.js" />
+    <Content Include="Scripts\ann-shop\common\jquery.mThumbnailScroller.js" />
+    <Content Include="Scripts\ann-shop\common\jquery.validate.js" />
+    <Content Include="Scripts\ann-shop\common\minify-js.min.js" />
+    <Content Include="Scripts\ann-shop\common\option_selection.js" />
+    <Content Include="Scripts\ann-shop\common\script.js" />
     <Content Include="Areas\HelpPage\Views\Web.config" />
     <Content Include="Areas\HelpPage\Views\Shared\_Layout.cshtml" />
     <Content Include="Areas\HelpPage\Views\Help\ResourceModel.cshtml" />
@@ -404,10 +406,14 @@
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <None Include="Scripts\jquery-1.10.2.intellisense.js" />
-    <Content Include="Scripts\jquery-1.10.2.js" />
-    <Content Include="Scripts\jquery-1.10.2.min.js" />
+    <Content Include="Scripts\ann-shop\index\index.js" />
+    <Content Include="Scripts\jquery-1.12.4.min.map" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\bootstrap.js" />
+    <Content Include="Scripts\bootstrap.min.js" />
+    <None Include="Scripts\jquery-1.12.4.intellisense.js" />
+    <Content Include="Scripts\jquery-1.12.4.js" />
+    <Content Include="Scripts\jquery-1.12.4.min.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
@@ -430,6 +436,9 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Shared\_Menu.cshtml" />
+    <Content Include="Views\Shared\_Header.cshtml" />
+    <Content Include="Views\Shared\_Footer.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -442,8 +451,8 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201810131706502_Initial.resx">
-      <DependentUpon>201810131706502_Initial.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201810171552332_InitialCreate.resx">
+      <DependentUpon>201810171552332_InitialCreate.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace ann_shop
+namespace ann_shop.Models
 {
     using System;
     using System.Collections.Generic;
@@ -15,7 +15,7 @@ namespace ann_shop
     public partial class tbl_ProductVariant
     {
         public int ID { get; set; }
-        public int ProductID { get; set; }
+        public int ParentID { get; set; }
         public string ParentSKU { get; set; }
         public string SKU { get; set; }
         public string Name { get; set; }

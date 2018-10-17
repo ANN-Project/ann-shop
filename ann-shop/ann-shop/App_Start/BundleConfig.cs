@@ -30,11 +30,11 @@ namespace ann_shop
                       "~/Content/ann-shop/style.css"));
 
             bundles.Add(new ScriptBundle("~/bundles/ann-shop/jquery").Include(
-                        "~/Scripts/ann-shop/option_selection.js",
-                        "~/Scripts/ann-shop/api.jquery.js",
-                        "~/Scripts/ann-shop/minify-js.min.js",
-                        "~/Scripts/ann-shop/jquery.fancybox.js",
-                        "~/Scripts/ann-shop/script.js"));
+                        "~/Scripts/ann-shop/common/option_selection.js",
+                        "~/Scripts/ann-shop/common/api.jquery.js",
+                        "~/Scripts/ann-shop/common/minify-js.min.js",
+                        "~/Scripts/ann-shop/common/jquery.fancybox.js",
+                        "~/Scripts/ann-shop/common/script.js"));
 
         }
     }

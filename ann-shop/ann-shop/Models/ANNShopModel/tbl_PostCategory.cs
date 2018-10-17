@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace ann_shop
+namespace ann_shop.Models
 {
     using System;
     using System.Collections.Generic;
@@ -15,7 +15,7 @@ namespace ann_shop
     public partial class tbl_PostCategory
     {
         public int ID { get; set; }
-        public Nullable<int> ParentID { get; set; }
+        public int ParentID { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
         public string Slug { get; set; }

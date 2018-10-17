@@ -12,15 +12,11 @@ namespace ann_shop.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class tbl_ProductVariantValue
+    public partial class tbl_Menu
     {
         public int ID { get; set; }
-        public int VariantID { get; set; }
-        public string VariantSKU { get; set; }
-        public int AttributeID { get; set; }
-        public string AttributeName { get; set; }
-        public string AttributeValue { get; set; }
-        public Nullable<int> CreatedBy { get; set; }
-        public Nullable<System.DateTime> CreatedDate { get; set; }
+        public string Slug { get; set; }
+        public string Name { get; set; }
+        public string Location { get; set; }
     }
 }

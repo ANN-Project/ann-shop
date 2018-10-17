@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace ann_shop
+namespace ann_shop.Models
 {
     using System;
     using System.Collections.Generic;
@@ -15,7 +15,7 @@ namespace ann_shop
     public partial class tbl_Order
     {
         public int ID { get; set; }
-        public Nullable<int> SystemOrderID { get; set; }
+        public Nullable<int> SystemID { get; set; }
         public string SystemUsername { get; set; }
         public Nullable<int> Type { get; set; }
         public Nullable<int> CustomerID { get; set; }
