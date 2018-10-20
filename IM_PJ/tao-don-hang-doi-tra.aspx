@@ -2,7 +2,7 @@
 
 <%@ Register Assembly="Telerik.Web.UI" Namespace="Telerik.Web.UI" TagPrefix="telerik" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
-    <script src="/App_Themes/Ann/js/search-customer.js?v=0607"></script>
+    <script src="/App_Themes/Ann/js/search-customer.js?v=1910"></script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <asp:Panel ID="parent" runat="server">
@@ -77,6 +77,10 @@
                                     </div>
                                 </div>
                                 <div class="form-row view-detail" style="display: none">
+                                </div>
+                                <div class="form-row discount-info" style="display: none">
+                                </div>
+                                <div class="form-row refund-info" style="display: none">
                                 </div>
                                 <div class="form-row result-check">
                                 </div>
@@ -191,7 +195,11 @@
             <asp:Button ID="btnSave" runat="server" OnClick="btnSave_Click" Style="display: none" />
             <asp:HiddenField ID="hdfUsername" runat="server" />
             <asp:HiddenField ID="hdfUsernameCurrent" runat="server" />
+            <asp:HiddenField ID="hdfOrderSaleID" runat="server" />
             <asp:HiddenField ID="hdfPhone" runat="server" />
+            <asp:HiddenField ID="hdfIsDiscount" runat="server" />
+            <asp:HiddenField ID="hdfDiscountAmount" runat="server" />
+            <asp:HiddenField ID="hdfCustomerFeeChange" runat="server" />
             <asp:HiddenField ID="hdfTotalPrice" runat="server" Value="0" />
             <asp:HiddenField ID="hdfTotalQuantity" runat="server" Value="0" />
             <asp:HiddenField ID="hdfTotalRefund" runat="server" Value="0" />
@@ -423,6 +431,7 @@
                 let ProductID = parseInt(row.attr("data-productID"));
                 let ProductVariableID = parseInt(row.attr("data-productVariableID"));
                 let Price = parseFloat(row.find(".Price").html().replace(/,/g, ""));
+                let SoldPrice = parseInt(row.attr("data-sold-price"));
                 let ReducedPrice = parseFloat(row.find(".reducedPrice").val().replace(/,/g, ""));
                 let Quantity = parseFloat(row.find(".quantityRefund").val().replace(/,/g, ""));
                 let ChangeType = row.find(".changeType").val();
@@ -432,8 +441,8 @@
                 // Ruler Price - ReducedPrice >= 10,000 VND
                 if ((Price - ReducedPrice) > 11000) {
                     alert("Giá đã bán không thể giảm hơn 11,000đ..");
-                    row.find(".reducedPrice").val(formatThousands(Price, ","));
-                    return;
+                    row.find(".reducedPrice").val(formatThousands(SoldPrice, ","));
+                    ReducedPrice = SoldPrice;
                 }
 
                 if (ChangeType == 2) {
@@ -489,6 +498,7 @@
                                 + "data-childSKU='" + item.ChildSKU + "' "
                                 + "data-variableValue='" + item.VariableValue + "' "
                                 + "data-price='" + item.Price + "' "
+                                + "data-sold-price='" + item.ReducedPrice + "' "
                                 + "data-feeRefund='" + item.FeeRefund + "' >\n";
                 html += "    <td><img src='" + item.ProductImage + "''></td>\n";
                 html += "    <td>" + item.ProductTitle + variable + "</td>\n";
@@ -728,6 +738,8 @@
                             dataType: "json",
                             success: function (msg) {
                                 let data = JSON.parse(msg.d);
+                                var discount = $("#<%=hdfDiscountAmount.ClientID%>").val();
+                                var feerefund = $("#<%=hdfCustomerFeeChange.ClientID%>").val();
 
                                 if (data != null && data.length > 0) {
                                     if (data.length > 1) {
@@ -745,11 +757,11 @@
                                                 , ChildSKU = item.ChildSKU
                                                 , VariableValue = item.VariableValue
                                                 , Price = item.Price
-                                                , ReducedPrice = item.ReducedPrice
+                                                , ReducedPrice = item.ReducedPrice - ((discount != "") ? discount : 0 )
                                                 , QuantityRefund = item.QuantityRefund
                                                 , ChangeType = item.ChangeType
-                                                , FeeRefund = item.FeeRefund
-                                                , TotalFeeRefund = item.TotalFeeRefund
+                                                , FeeRefund = (feerefund != "") ? feerefund : item.FeeRefund
+                                                , TotalFeeRefund = item.TotalFeeRefund - ((discount != "") ? discount : 0) - ((feerefund != "") ? feerefund : item.FeeRefund)
                                             );
 
                                             productVariableSearch.push(productVariable);
@@ -771,11 +783,11 @@
                                             , ChildSKU = data[0].ChildSKU
                                             , VariableValue = data[0].VariableValue
                                             , Price = data[0].Price
-                                            , ReducedPrice = data[0].ReducedPrice
+                                            , ReducedPrice = data[0].ReducedPrice - ((discount != "") ? discount : 0)
                                             , QuantityRefund = data[0].QuantityRefund
                                             , ChangeType = data[0].ChangeType
-                                            , FeeRefund = data[0].FeeRefund
-                                            , TotalFeeRefund = data[0].TotalFeeRefund - data[0].FeeRefund
+                                            , FeeRefund = (feerefund != "") ? feerefund : data[0].FeeRefund
+                                            , TotalFeeRefund = data[0].TotalFeeRefund - ((discount != "") ? discount : 0) - ((feerefund != "") ? feerefund : data[0].FeeRefund)
                                         );
 
                                         productRefunds.push(product);
@@ -975,6 +987,9 @@
                     $("#<%=hdfTotalPrice.ClientID%>").val(refundGoodModel.TotalPrice);
                     $("#<%=hdfTotalQuantity.ClientID%>").val(refundGoodModel.TotalQuantity);
                     $("#<%=hdfTotalRefund.ClientID%>").val(refundGoodModel.TotalFreeRefund);
+                    $("#<%=hdfUsername.ClientID%>").val(refundGoodModel.CreateBy);
+                    $("#<%=hdfUsernameCurrent.ClientID%>").val(refundGoodModel.CreateBy);
+                    $("#<%=hdfOrderSaleID.ClientID%>").val(refundGoodModel.OrderSaleID);
                 }
             });
         </script>

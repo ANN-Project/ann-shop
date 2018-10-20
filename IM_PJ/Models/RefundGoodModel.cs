@@ -21,5 +21,6 @@ namespace IM_PJ.Models
         public int Status { get; set; }
         public string Note { get; set; }
         public string CreateBy { get; set; }
+        public int OrderSaleID { get; set; }
     }
 }

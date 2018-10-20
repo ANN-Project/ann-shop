@@ -91,7 +91,8 @@ namespace IM_PJ
         {
             try
             {
-                var freeChange = ConfigController.GetByTop1().FeeChangeProduct.Value;
+
+                var feeChange = ConfigController.GetByTop1().FeeChangeProduct.Value;
 
                 using (var con = new inventorymanagementEntities())
                 {
@@ -127,7 +128,7 @@ namespace IM_PJ
                                         ReducedPrice = parent.product.ProductStyle == 2 ? child.Regular_Price.Value : parent.product.Regular_Price.Value,
                                         QuantityRefund = 1,
                                         ChangeType = 2,
-                                        FeeRefund = freeChange,
+                                        FeeRefund = feeChange,
                                         TotalFeeRefund = parent.product.ProductStyle == 2 ? child.Regular_Price.Value : parent.product.Regular_Price.Value
                                     })
                         .Where(x => x.ParentSKU == sku.Trim().ToUpper() || x.ChildSKU == sku.Trim().ToUpper())
@@ -227,6 +228,8 @@ namespace IM_PJ
                             double totalPrice = Convert.ToDouble(hdfTotalPrice.Value);
                             double totalQuantity = Convert.ToDouble(hdfTotalQuantity.Value);
                             double totalRefund = Convert.ToDouble(hdfTotalRefund.Value);
+                            int OrderSaleID = hdfOrderSaleID.Value.ToInt(0);
+                            
                             var agent = AgentController.GetByID(agentID);
                             string agentName = String.Empty;
 
@@ -238,6 +241,13 @@ namespace IM_PJ
                             //insert ddlstatus, refundnote
                             int status = ddlRefundStatus.SelectedValue.ToInt();
                             RefundNote += ". " + txtRefundsNote.Text;
+
+                            if (OrderSaleID != 0)
+                            {
+                                status = 2;
+                                RefundNote += "Đã trừ tiền trong đơn " + OrderSaleID.ToString();
+                            }
+
                             int rID = RefundGoodController.Insert(
                                 new tbl_RefundGoods()
                                 {
@@ -252,11 +262,17 @@ namespace IM_PJ
                                     CustomerName = checkCustomer.CustomerName,
                                     CustomerPhone = checkCustomer.CustomerPhone,
                                     AgentName = agentName,
-                                    RefundNote = RefundNote
+                                    RefundNote = RefundNote,
+                                    OrderSaleID = OrderSaleID
                                 });
 
                             if (rID > 0)
                             {
+                                if (OrderSaleID != 0)
+                                {
+                                    OrderController.UpdateRefund(OrderSaleID, rID, username);
+                                }
+
                                 RefundGoodModel refundModel = JsonConvert.DeserializeObject<RefundGoodModel>(hdfListProduct.Value);
 
                                 int t = 0;

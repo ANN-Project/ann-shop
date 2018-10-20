@@ -7,17 +7,24 @@ function getCustomerDiscount(custID) {
         contentType: "application/json; charset=utf-8",
         dataType: "json",
         success: function (msg) {
-            var data = msg.d;
-            if (data !== 0) {
-                $(".discount-info").html("<strong>Khách hàng được chiết khấu: " + formatThousands(data, ",") + "đ/cái.</strong>").show();
+            if (msg.d !== "null") {
+                var data = JSON.parse(msg.d);
+
+                $(".discount-info").html("<strong>* Chiết khấu của khách: " + formatThousands(data.Discount, ",") + "đ/cái.</strong>").show();
+
+                if (data.FeeRefund == "0") {
+                    $(".refund-info").html("<strong>* Miễn phí đổi hàng</strong>").show();
+                }
+                else {
+                    $(".refund-info").html("<strong>* Phí đổi hàng của khách: " + formatThousands(data.Discount, ",") + "đ/cái.</strong>").show();
+                }
+                
                 $("input[id$='_hdfIsDiscount']").val("1");
-                $("input[id$='_hdfDiscountAmount']").val(data);
-            } else {
-                $(".discount-info").hide();
-                $("input[id$='_hdfIsDiscount']").val("0");
-                $("input[id$='_hdfDiscountAmount']").val("0");
+                $("input[id$='_hdfDiscountAmount']").val(data.Discount);
+                $("input[id$='_hdfCustomerFeeChange']").val(data.FeeRefund);
+
+                getAllPrice();
             }
-            getAllPrice();
         },
         error: function (xmlhttprequest, textstatus, errorthrow) {
             alert('lỗi');
@@ -353,7 +360,7 @@ function selectCustomer(username) {
         var createdby = $(this).closest('tr').find("td.createdby").html();
         if (createdby !== username) {
             swal({
-                title: "Lưu ý",
+                title: 'Lưu ý',
                 text: 'Chọn khách hàng này đồng nghĩa em đang tính tiền giúp nhân viên <strong>' + createdby + '</strong>.<br><br>Đồng ý không???',
                 type: 'warning',
                 showCancelButton: true,

@@ -122,6 +122,21 @@ namespace IM_PJ.Controllers
                 return 0;
             }
         }
+        public static int DeleteOrderRefund(int RefundsGoodsID)
+        {
+            using (var dbe = new inventorymanagementEntities())
+            {
+                var ui = dbe.tbl_Order.Where(x => x.RefundsGoodsID == RefundsGoodsID).FirstOrDefault();
+                if (ui != null)
+                {
+                    ui.RefundsGoodsID = null;
+                    ui.ModifiedDate = DateTime.Now;
+                    int i = dbe.SaveChanges();
+                    return ui.ID;
+                }
+                return 0;
+            }
+        }
         public static string Update(int ID, int OrderType, string AdditionFee, string DisCount, int CustomerID, string CustomerName,
             string CustomerPhone, string CustomerAddress, string CustomerEmail, string TotalPrice, string TotalPriceNotDiscount, int PaymentStatus,
             int ExcuteStatus, DateTime ModifiedDate, string ModifiedBy, double DiscountPerProduct, double TotalDiscount,

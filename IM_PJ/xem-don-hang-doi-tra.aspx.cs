@@ -51,7 +51,6 @@ namespace IM_PJ
             var acc = AccountController.GetByUsername(username);
             if (acc != null)
             {
-                
 
                 int AgentID = Convert.ToInt32(acc.AgentID);
                 int ID = Request.QueryString["id"].ToInt(0);
@@ -161,6 +160,7 @@ namespace IM_PJ
                         _refundGood.TotalFreeRefund = Convert.ToDouble(r.TotalRefundFee);
                         _refundGood.Status = r.Status.Value;
                         _refundGood.Note = txtRefundsNote.Text;
+                        _refundGood.CreateBy = r.CreatedBy;
 
                         var rds = RefundGoodDetailController.GetByRefundGoodsID(ID);
 
@@ -276,8 +276,13 @@ namespace IM_PJ
             {
                 RefundGoodDetailController.DeleteByRefundGoodsID(_refundGood.RefundGoodsID);
                 RefundGoodController.DeleteByID(_refundGood.RefundGoodsID);
+                int OrderSaleID = OrderController.DeleteOrderRefund(_refundGood.RefundGoodsID);
+                if(OrderSaleID > 0)
+                {
+                    _refundGood.OrderSaleID = OrderSaleID;
+                }
 
-                foreach(var product in _refundGood.RefundDetails)
+                foreach (var product in _refundGood.RefundDetails)
                 {
                     if (!string.IsNullOrEmpty(product.ChildSKU))
                     {

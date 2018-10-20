@@ -431,7 +431,7 @@ namespace IM_PJ.Controllers
             reader.Close();
             return list.ToList();
         }
-        public static List<ProductSQL> GetProductAPI(int categoryID, int limit, int showHomePage)
+        public static List<ProductSQL> GetProductAPI(int categoryID, int limit, int showHomePage, int minQuantity)
         {
             var list = new List<ProductSQL>();
             StringBuilder sql = new StringBuilder();
@@ -638,22 +638,59 @@ namespace IM_PJ.Controllers
                 entity.ID = Convert.ToInt32(reader["ID"]);
 
                 bool check = true;
-                if(showHomePage == 1)
+
+                // check min stock
+
+                if (reader["QuantityLeft"] != DBNull.Value)
                 {
-                    if (string.IsNullOrEmpty(reader["ProductImage"].ToString()) || reader["ShowHomePage"].ToString().ToInt(0) == 0)
+                    quantityLeft = Convert.ToDouble(reader["QuantityLeft"]);
+
+                    if (quantityLeft >= minQuantity)
+                    {
+                        // check show homepage
+
+                        if (showHomePage == 1)
+                        {
+                            if (string.IsNullOrEmpty(reader["ProductImage"].ToString()) || reader["ShowHomePage"].ToString().ToInt(0) == 0)
+                            {
+                                check = false;
+                            }
+                        }
+                        else
+                        {
+                            if (string.IsNullOrEmpty(reader["ProductImage"].ToString()))
+                            {
+                                check = false;
+                            }
+                        }
+                    }
+                    else
                     {
                         check = false;
                     }
                 }
                 else
                 {
-                    if (string.IsNullOrEmpty(reader["ProductImage"].ToString()))
+                    // check show homepage
+
+                    if (showHomePage == 1)
                     {
-                        check = false;
+                        if (string.IsNullOrEmpty(reader["ProductImage"].ToString()) || reader["ShowHomePage"].ToString().ToInt(0) == 0)
+                        {
+                            check = false;
+                        }
+                    }
+                    else
+                    {
+                        if (string.IsNullOrEmpty(reader["ProductImage"].ToString()))
+                        {
+                            check = false;
+                        }
                     }
                 }
+                
 
-                if(check == true)
+                if (check == true)
                 {
                     entity.ProductImage = reader["ProductImage"].ToString();
                     if (reader["ProductTitle"] != DBNull.Value)

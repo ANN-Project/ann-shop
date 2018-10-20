@@ -2,8 +2,8 @@
 
 <%@ Register Assembly="Telerik.Web.UI" Namespace="Telerik.Web.UI" TagPrefix="telerik" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
-    <script src="/App_Themes/Ann/js/search-customer.js?v=0907"></script>
-    <script src="/App_Themes/Ann/js/search-product.js?v=2007"></script>
+    <script src="/App_Themes/Ann/js/search-customer.js?v=1910"></script>
+    <script src="/App_Themes/Ann/js/search-product.js?v=1910"></script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <asp:Panel ID="parent" runat="server">

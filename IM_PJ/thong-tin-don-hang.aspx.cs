@@ -149,7 +149,7 @@ namespace IM_PJ
                         var da = d[0].DiscountAmount;
                         hdfIsDiscount.Value = "1";
                         hdfDiscountAmount.Value = da.ToString();
-                        ltrDiscountInfo.Text = "<strong>Khách hàng được chiết khấu: " + string.Format("{0:N0}", Convert.ToDouble(da)) + " vnđ/sản phẩm.</strong>";
+                        ltrDiscountInfo.Text = "<strong>* Chiết khấu của khách: " + string.Format("{0:N0}", Convert.ToDouble(da)) + " đ/cái.</strong>";
                     }
                     else
                     {

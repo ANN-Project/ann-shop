@@ -157,6 +157,15 @@ namespace IM_PJ {
         protected global::System.Web.UI.WebControls.HiddenField hdfUsernameCurrent;
         
         /// <summary>
+        /// hdfOrderSaleID control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hdfOrderSaleID;
+        
+        /// <summary>
         /// hdfPhone control.
         /// </summary>
         /// <remarks>
@@ -164,6 +173,33 @@ namespace IM_PJ {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.HiddenField hdfPhone;
+        
+        /// <summary>
+        /// hdfIsDiscount control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hdfIsDiscount;
+        
+        /// <summary>
+        /// hdfDiscountAmount control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hdfDiscountAmount;
+        
+        /// <summary>
+        /// hdfCustomerFeeChange control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hdfCustomerFeeChange;
         
         /// <summary>
         /// hdfTotalPrice control.

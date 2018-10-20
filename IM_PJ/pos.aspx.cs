@@ -174,12 +174,17 @@ namespace IM_PJ
             var d = DiscountCustomerController.getbyCustID(ID);
             if (d.Count > 0)
             {
-                var da = d[0].DiscountAmount;
-                return da.ToString();
+                var ci = new CustomerGroup();
+
+                ci.Discount = d[0].DiscountAmount.ToString();
+                ci.FeeRefund = d[0].FeeRefund.ToString();
+
+                JavaScriptSerializer serializer = new JavaScriptSerializer();
+                return serializer.Serialize(ci);
             }
             else
             {
-                return "0";
+                return "null";
             }
 
         }
@@ -208,6 +213,12 @@ namespace IM_PJ
         public class ProductPOS
         {
             public List<ProductGetOut> productPOS { get; set; }
+        }
+
+        public class CustomerGroup
+        {
+            public string Discount { get; set; }
+            public string FeeRefund { get; set; }
         }
 
         public class CustomerInfoWithDiscount
