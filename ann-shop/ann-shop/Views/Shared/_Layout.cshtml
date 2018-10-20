@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@model ann_shop.Models.HomeModel
+
+<!DOCTYPE html>
 <html lang="en" style="" class="js csstransforms3d">
 <!--<![endif]-->
 <head>
@@ -21,13 +23,13 @@
 <body class="index">
     <div class="">
         <!-- MAIN MENU -->
-        @Html.Partial("_Menu")
+        @Html.Partial("_Menu", Model)
         <!-- MAIN HEADER -->
-        @Html.Partial("_Header")
+        @Html.Partial("_Header", Model)
         <!-- MAIN CONTENT -->
         @RenderBody()
         <!-- END MAIN CONTENT -->
-        @Html.Partial("_Footer")
+        @Html.Partial("_Footer", Model)
         <div id="myCart" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
