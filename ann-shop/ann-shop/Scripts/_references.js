@@ -14,6 +14,7 @@
 /// <reference path="ann-shop/common/option_selection.js" />
 /// <reference path="ann-shop/common/script.js" />
 /// <reference path="ann-shop/index/index.js" />
+/// <reference path="ann-shop/utils/string_format.js" />
 /// <reference path="bootstrap.js" />
 /// <reference path="bootstrap.min.js" />
 /// <reference path="jquery.validate.js" />

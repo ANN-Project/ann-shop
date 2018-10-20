@@ -1,5 +1,84 @@
 ﻿$(document).ready(function () {
+    Init()
+    HandleControl()
+});
+
+function Init() {
+    // Init Page
+    InitMenu()
+}
+
+function HandleControl() {
     // Handle for device mobile
+    HMobileNav()
+
+    // Handle for desktop
+    HDeskNav();
+
+    // Handle for view
+    HDViewJS()
+}
+
+/*************************************/
+/*          Menu JS                  */
+/*************************************/
+// Get list menu
+function InitMenu() {
+    let _url = $(location).attr("origin") + "/api/MenuItem";
+
+    $.ajax({
+        url: _url,
+        async: false,
+        success: function (data) {
+            var html_menu_mobile = getHTMLMenuMobile(data);
+
+            $("#html-menu").append(html_menu_mobile);
+        }
+    })
+}
+
+// HTML Menu
+function getHTMLMenuMobile(data) {
+    let html = '';
+
+    $.each(data, function (index, value) {
+        let url = value.URL,
+            name = value.Name,
+            is_child = value.Child.length > 0;
+
+        if (is_child) {
+            if (value.Level == 0) {
+                html += '<li class="has-children">';
+                html += String.format('<a href="{0}">{1}</a>', url, name);
+                html += '   <ul class="child count-nav-4">';
+                html += getHTMLMenuMobile(value.Child);
+                html += '   </ul>';
+                html += '</li>';
+            }
+            else if (value.Level == 1) {
+                html += '<li class="has-children">';
+                html += String.format('<a href="{0}">{1}</a>', url, name);
+                html += '   <ul class="child">';
+                html += getHTMLMenuMobile(value.Child);
+                html += '   </ul>';
+                html += '</li>';
+            }
+            else {
+                html = '';
+            }
+        }
+        else {
+            html += '<li>';
+            html += String.format('<a href="{0}">{1}</a>', url, name);
+            html += '</li>';
+        }
+    });
+
+    return html;
+}
+
+// Handle for device mobile
+function HMobileNav() {
     $('nav#menu-mobile').mmenu();
 
     flagg = true;
@@ -10,11 +89,8 @@
             flagg = false;
         })
     }
-
-    // Handle for desktop
-    HDeskNav();
-});
-
+}
+// Handle for desktop
 function HDeskNav() {
     var $nav = $('#main-menu'),
         $allLinks = $nav.find('a'),
@@ -89,8 +165,10 @@ function HDeskNav() {
     }
 }
 
-/* QUICK VIEW JS */
-jQuery(document).ready(function () {
+/*************************************/
+/*          Quick view JS            */
+/*************************************/
+function HDViewJS() {
     var callBack = function (variant, selector) {
         if (variant) {
             item = $('.wrapper-quickview');
@@ -181,7 +259,7 @@ jQuery(document).ready(function () {
                         }, 1500);
                     });
                 }
-                // X? l� variant
+                // Handle variant
                 if ($('#form-quickview select[data-option=option1] option').length > 0) {
                     $('#form-quickview .opt1-quickview').children('label').html(product.options[0]);
                     var checked = $('#form-quickview select[data-option=option1]').val();
@@ -258,7 +336,7 @@ jQuery(document).ready(function () {
             maxQuickWidth = 900;
 
     //open the quick view panel
-    jQuery(document).on("click", ".quickview", function (event) {
+    $(document).on("click", ".quickview", function (event) {
         var selectedImage = $(this).parents('.product-wrapper').find('.product-image img'),
                 slectedImageUrl = selectedImage.attr('src');
         quickViewProduct($(this).attr('data-handle'));
@@ -277,7 +355,7 @@ jQuery(document).ready(function () {
         }, 1800);
     });
 
-    jQuery(document).on('click', '#form-quickview ul.data-opt1-quickview li', function () {
+    $(document).on('click', '#form-quickview ul.data-opt1-quickview li', function () {
         var v_opt1 = jQuery(this).find('span').html();
         jQuery('#form-quickview select[data-option=option1]').val(v_opt1).change();
         if (jQuery('#form-quickview ul.data-opt2-quickview li:visible').length > 0) {
@@ -286,7 +364,7 @@ jQuery(document).ready(function () {
             jQuery('#form-quickview ul.data-opt2-quickview li:visible label')[0].click();
         }
     });
-    jQuery(document).on('click', '#form-quickview ul.data-opt2-quickview li', function () {
+    $(document).on('click', '#form-quickview ul.data-opt2-quickview li', function () {
         var v_opt1 = slug(jQuery('#form-quickview select[data-option=option1]').val());
         var v_opt2 = jQuery(this).find('span').html();
         var both_v_opt = v_opt1 + '-' + slug(v_opt2);
@@ -297,7 +375,7 @@ jQuery(document).ready(function () {
             jQuery('#form-quickview ul.data-opt3-quickview li:visible label')[0].click();
         }
     });
-    jQuery(document).on('click', '#form-quickview ul.data-opt3-quickview li', function () {
+    $(document).on('click', '#form-quickview ul.data-opt3-quickview li', function () {
         var v_opt3 = $(this).find('span').html();
         jQuery('#form-quickview select[data-option=option3]').val(v_opt3).change();
     });
@@ -438,4 +516,4 @@ jQuery(document).ready(function () {
             "width": widthSelected,
         });
     }
-});
+}

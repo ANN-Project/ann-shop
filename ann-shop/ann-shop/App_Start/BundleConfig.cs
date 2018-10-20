@@ -36,6 +36,9 @@ namespace ann_shop
                         "~/Scripts/ann-shop/common/jquery.fancybox.js",
                         "~/Scripts/ann-shop/common/script.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/ann-shop/jquery/utils").Include(
+                        "~/Scripts/ann-shop/utils/string_format.js"));
+
         }
     }
 }
