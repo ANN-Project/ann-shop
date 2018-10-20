@@ -1,4 +1,38 @@
-﻿<footer id="footer">
+﻿@using System.Text
+@using ann_shop.Models
+@model ann_shop.Models.HomeModel
+
+@functions{
+    public static string BottomMenu(List<MenuItemViewModels> bottom_menu)
+    {
+        var html = new StringBuilder();
+
+        foreach (var menu in bottom_menu)
+        {
+            if (menu.Child.Count == 0)
+            {
+                if (menu.Level == 0)
+                {
+                    html.AppendLine("<li class='item'>");
+                    html.AppendLine(String.Format("    <a href='{0}' title='{1}'>{1}</a>", menu.URL, menu.Name));
+                    html.AppendLine("</li>");
+                }
+                else
+                {
+                    html.AppendLine(String.Empty);
+                }
+            }
+            else
+            {
+                html.AppendLine(String.Empty);
+            }
+        }
+
+        return html.ToString();
+    }
+}
+
+<footer id="footer">
     <div class="footer-info">
         <div class="container">
             <div class="footer_info_top">
@@ -44,24 +78,7 @@
                             <h4 class="title_block toggle-mb-title" aria-expanded="false">Thông tin hỗ trợ <i class="fa fa-angle-down hidden-lg hidden-md hidden-sm "></i></h4>
                             <div class="block_content toggle-mb-content">
                                 <ul class="toggle-footer list-group bullet">
-                                    <li class="item">
-                                        <a href="/collections/all" title="Đồ bơi nữ">Đồ bơi nữ</a>
-                                    </li>
-                                    <li class="item">
-                                        <a href="/collections/all" title="Đồ bơi nam">Đồ bơi nam</a>
-                                    </li>
-                                    <li class="item">
-                                        <a href="/collections/all" title="Đồ bơi cặp">Đồ bơi cặp</a>
-                                    </li>
-                                    <li class="item">
-                                        <a href="/pages/about-us" title="Giới thiệu">Giới thiệu</a>
-                                    </li>
-                                    <li class="item">
-                                        <a href="/blogs/news" title="Blog">Blog</a>
-                                    </li>
-                                    <li class="item">
-                                        <a href="/pages/lien-he" title="Liên hệ">Liên hệ</a>
-                                    </li>
+                                    @Html.Raw(BottomMenu(Model.SupportMenu))
                                 </ul>
                             </div>
                         </div>
@@ -71,24 +88,7 @@
                             <h4 class="title_block toggle-mb-title" aria-expanded="false">Dịch vụ khách hàng<i class="fa fa-angle-down hidden-lg hidden-md hidden-sm "></i></h4>
                             <div class="block_content toggle-mb-content">
                                 <ul class="toggle-footer list-group bullet">
-                                    <li class="item">
-                                        <a href="/collections/all" title="Đồ bơi nữ">Đồ bơi nữ</a>
-                                    </li>
-                                    <li class="item">
-                                        <a href="/collections/all" title="Đồ bơi nam">Đồ bơi nam</a>
-                                    </li>
-                                    <li class="item">
-                                        <a href="/collections/all" title="Đồ bơi cặp">Đồ bơi cặp</a>
-                                    </li>
-                                    <li class="item">
-                                        <a href="/pages/about-us" title="Giới thiệu">Giới thiệu</a>
-                                    </li>
-                                    <li class="item">
-                                        <a href="/blogs/news" title="Blog">Blog</a>
-                                    </li>
-                                    <li class="item">
-                                        <a href="/pages/lien-he" title="Liên hệ">Liên hệ</a>
-                                    </li>
+                                    @Html.Raw(BottomMenu(Model.ServiceMenu))
                                 </ul>
                             </div>
                         </div>
@@ -98,24 +98,7 @@
                             <h4 class="title_block toggle-mb-title" aria-expanded="false">Dịch vụ & hỗ trợ<i class="fa fa-angle-down hidden-lg hidden-md hidden-sm "></i></h4>
                             <div class="block_content toggle-mb-content">
                                 <ul class="toggle-footer list-group bullet">
-                                    <li class="item">
-                                        <a href="/collections/all" title="Đồ bơi nữ">Đồ bơi nữ</a>
-                                    </li>
-                                    <li class="item">
-                                        <a href="/collections/all" title="Đồ bơi nam">Đồ bơi nam</a>
-                                    </li>
-                                    <li class="item">
-                                        <a href="/collections/all" title="Đồ bơi cặp">Đồ bơi cặp</a>
-                                    </li>
-                                    <li class="item">
-                                        <a href="/pages/about-us" title="Giới thiệu">Giới thiệu</a>
-                                    </li>
-                                    <li class="item">
-                                        <a href="/blogs/news" title="Blog">Blog</a>
-                                    </li>
-                                    <li class="item">
-                                        <a href="/pages/lien-he" title="Liên hệ">Liên hệ</a>
-                                    </li>
+                                    @Html.Raw(BottomMenu(Model.ServiceSupportMenu))
                                 </ul>
                             </div>
                         </div>

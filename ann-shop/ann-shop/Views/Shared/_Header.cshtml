@@ -1,4 +1,75 @@
-﻿<header class="main-header header-color">
+﻿@using System.Text
+@using ann_shop.Models
+@model ann_shop.Models.HomeModel
+
+@functions{
+    public static string MainMenu(List<MenuItemViewModels> main_menu)
+    {
+        var html = new StringBuilder();
+        var is_first = true;
+
+        foreach (var menu in main_menu)
+        {
+            if (menu.Child.Count > 0)
+            {
+                if (menu.Level == 0)
+                {
+                    if (is_first)
+                    {
+                        is_first = false;
+                        html.AppendLine("<li class='nav-item site-nav-hassub dropdown navigation desknav' aria-haspopup='true'>");
+                    }
+                    else
+                    {
+                        html.AppendLine("<li class='nav-item site-nav-hassub dropdown navigation desknav'>");
+                    }
+                    html.AppendLine(String.Format("    <a href='{0}' class='site-nav-link'>", menu.URL));
+                    html.AppendLine(String.Format("        <span>{0}</span>", menu.Name));
+                    html.AppendLine("        <span class='fa fa-caret-down' aria-hidden='true'></span>");
+                    html.AppendLine("    </a>");
+                    html.AppendLine("   <ul class='site-nav-sub'>");
+                    html.Append(MainMenu(menu.Child));
+                    html.AppendLine("   </ul>");
+                    html.AppendLine("</li>");
+                }
+                else if (menu.Level == 1)
+                {
+                    html.AppendLine("<li class='active dropdown li-sub-mega'>");
+                    html.AppendLine(String.Format("    <a href='{0}'>", menu.URL));
+                    html.AppendLine(String.Format("        <span>{0}</span>", menu.Name));
+                    html.AppendLine("        <i class='fa fa-angle-right'></i>");
+                    html.AppendLine("    </a>");
+                    html.AppendLine("   <ul class='dropdown-menu'>");
+                    html.Append(MainMenu(menu.Child));
+                    html.AppendLine("   </ul>");
+                    html.AppendLine("</li>");
+                }
+                else
+                {
+                    html.AppendLine(String.Empty);
+                }
+            }
+            else
+            {
+                if (menu.Level == 0)
+                {
+                    html.AppendLine("<li>");
+                    html.AppendLine(String.Format("    <a href='{0}' class='site-nav-link'><span>{1}</span></a>", menu.URL, menu.Name));
+                    html.AppendLine("</li>");
+                }
+                else
+                {
+                    html.AppendLine("<li class='active li-sub-mega'>");
+                    html.AppendLine(String.Format("    <a tabindex='-1' href='{0}'><span>{1}</span></a>", menu.URL, menu.Name));
+                    html.AppendLine("</li>");
+                }
+            }
+        }
+        return html.ToString();
+    }
+}
+
+<header class="main-header header-color">
     <div class="container">
         <div class="wrap-header">
             <div class="search-cart hidden-sm hidden-xs">
@@ -68,73 +139,7 @@
             <div class="hh wrapp-nav-bar">
                 <nav class="nav-bar style-1 hidden-xs">
                     <ul class="site-nav  categories-right   col-md-12  col-sm-12 col-xs-12" id="main-menu">
-                        <li class="nav-item site-nav-hassub dropdown navigation desknav" aria-haspopup="true">
-                            <a href="/collections/all" class="site-nav-link">
-                                <span>Đồ bơi nữ</span>
-                                <span class="fa fa-caret-down" aria-hidden="true"></span>
-                            </a>
-                            <ul class="site-nav-sub">
-                                <li class="active li-sub-mega">
-                                    <a tabindex="-1" href="/"><span>Đồ bơi tay dài nữ</span></a>
-                                </li>
-                                <li class="active dropdown li-sub-mega">
-                                    <a href="/">
-                                        <span>Áo bơi nữ</span>
-                                        <i class="fa fa-angle-right"></i>
-                                    </a>
-                                    <ul class="dropdown-menu">
-                                        <li class="active li-sub-mega">
-                                            <a tabindex="-1" href="/"><span>Áo bơi tay dài</span></a>
-                                        </li>
-                                        <li class="active li-sub-mega">
-                                            <a tabindex="-1" href="/"><span>Áo bơi bra top</span></a>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li class="active dropdown li-sub-mega">
-                                    <a href="/">
-                                        <span>Quần bơi nữ</span>
-                                        <i class="fa fa-angle-right"></i>
-                                    </a>
-                                    <ul class="dropdown-menu">
-                                        <li class="active li-sub-mega">
-                                            <a tabindex="-1" href="/"><span>Quần bơi dài</span></a>
-                                        </li>
-                                        <li class="active li-sub-mega">
-                                            <a tabindex="-1" href="/"><span>Quần bơi ngắn</span></a>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li class="active li-sub-mega">
-                                    <a tabindex="-1" href="/"><span>Set đồ bơi nữ</span></a>
-                                </li>
-                            </ul>
-                        </li>
-                        <li>
-                            <a href="/collections/all" class="site-nav-link">
-                                <span>Đồ bơi nam</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="/collections/all" class="site-nav-link">
-                                <span>Đồ bơi cặp</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="/pages/about-us" class="site-nav-link">
-                                <span>Giới thiệu</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="/blogs/news" class="site-nav-link">
-                                <span>Blog</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="/pages/lien-he" class="site-nav-link">
-                                <span>Liên hệ</span>
-                            </a>
-                        </li>
+                        @Html.Raw(MainMenu(Model.MainMenu))
                     </ul>
                 </nav>
             </div>

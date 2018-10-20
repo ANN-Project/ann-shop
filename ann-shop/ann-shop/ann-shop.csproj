@@ -266,6 +266,7 @@
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\ANNShopAPI\HomeModel.cs" />
     <Compile Include="Models\ANNShopAPI\MenuItemViewModels.cs" />
     <Compile Include="Models\ANNShopModel\tbl_Menu.cs" />
     <Compile Include="Models\ANNShopModel\tbl_MenuItem.cs" />
@@ -295,6 +296,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\ApplicationOAuthProvider.cs" />
     <Compile Include="Results\ChallengeResult.cs" />
+    <Compile Include="Services\MenuItemService.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -462,6 +464,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Category\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
