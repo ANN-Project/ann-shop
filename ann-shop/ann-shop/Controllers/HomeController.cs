@@ -10,23 +10,17 @@ namespace ann_shop.Controllers
 {
     public class HomeController : Controller
     {
-        private MenuItemService service;
-        private HomeModel model;
+        private HomeService service;
 
         public HomeController()
         {
-            service = new MenuItemService(new ApplicationDbContext());
-            model = new HomeModel();
+            service = new HomeService();
         }
 
         public ActionResult Index()
         {
             ViewBag.Title = "Bikini Beach";
-            model.TopMenu = service.GetMenu("Top Menu");
-            model.MainMenu = service.GetMenu("Main Menu");
-            model.SupportMenu = service.GetMenu("Support Menu");
-            model.ServiceMenu = service.GetMenu("Service Menu");
-            model.ServiceSupportMenu = service.GetMenu("Service Support Menu");
+            var model = service.getIndex();
 
             return View(model);
         }
