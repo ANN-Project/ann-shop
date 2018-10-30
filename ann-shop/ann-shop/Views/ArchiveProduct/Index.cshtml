@@ -1,0 +1,395 @@
+﻿@model ann_shop.Models.ArchiveProductModel
+
+<div class="container-wrap homepage-page">
+    <div id="content">
+        <main class="padding-top-mobile">
+            <div class="header-navigate">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <ol class="breadcrumb breadcrumb-arrow">
+                                <li><a href="/" target="_self">Trang chủ</a></li>
+                                <li><i class="fa fa-angle-right"></i></li>
+                                <li><span>Danh mục</span></li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <section class="sidebar-col search">
+                <div class="container">
+                    <div class="row clearfix">
+                        <aside class="col-sm-12">
+                            <div class="header-collection">
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        <div class="box-title-collection clearfix">
+                                            <h1>
+                                                Danh mục sản phẩm
+                                            </h1>
+                                            <span class="collection-size">(30 sản phẩm)</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xs-12">
+                                    <div class="row">
+                                        <div class="product-lists box-product-lists clearfix">
+                                            <div class="row">
+                                                @foreach (var product in Model.Products)
+                                                {
+                                                    <div class="col-md-3 col-sm-4 col-xs-6 item product-item product-grid-item h-hover-alt  product-wrapper product-item animated zoomIn">
+                                                        <div class="product-wrapp product-resize">
+                                                            <div class="product-element-top">
+                                                                <div class="product-image image-resize">
+                                                                    <a href="/products/bikini-top-flora-wanabe" title="@product.Name">
+                                                                        @if (product.DiscountRatio > 0)
+                                                                        {
+                                                                            <div class="field-sale">
+                                                                                <span>-@product.DiscountRatio%</span>
+                                                                            </div>
+                                                                        }
+                                                                        <img src="@Url.Content(product.Image)" alt="@product.Name" />
+                                                                    </a>
+                                                                </div>
+                                                            </div>
+                                                            <div class="product-info">
+                                                                <h3 class="product-title">
+                                                                    <a href="/products/bikini-top-flora-wanabe" title="@product.Name"> @product.Name</a>
+                                                                </h3>
+                                                                <div class="wrap-price">
+                                                                    <div class="price-info clearfix">
+                                                                        <div class="price-new-old price">
+                                                                            @if (product.DiscountRatio > 0)
+                                                                            {
+                                                                                <span>@product.DiscountPrice</span>
+                                                                                <small class="price2"><del> @product.Price </del></small>
+                                                                            }
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                }
+                                                @*<div class="col-md-3 col-sm-4 col-xs-6 item product-item product-grid-item h-hover-alt  product-wrapper product-item animated zoomIn">
+                                                    <div class="product-wrapp product-resize">
+                                                        <div class="product-element-top">
+                                                            <div class="product-image image-resize">
+                                                                <a href="/products/flobo-printed-bikini-tank" title="Flobo printed bikini tank">
+                                                                    <img src="~/images/1_8fc331c46d4d4f7a89641e0015f4f74c_large.jpg" alt="Flobo printed bikini tank" />
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                        <div class="product-info">
+                                                            <h3 class="product-title">
+                                                                <a href="/products/flobo-printed-bikini-tank" title="Flobo printed bikini tank"> Flobo printed bikini tank</a>
+                                                            </h3>
+                                                            <div class="wrap-price">
+                                                                <div class="price-info clearfix">
+                                                                    <div class="price-new-old price">
+                                                                        <span>1,200,000</span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3 col-sm-4 col-xs-6 item product-item product-grid-item h-hover-alt  product-wrapper product-item animated zoomIn">
+                                                    <div class="product-wrapp product-resize">
+                                                        <div class="product-element-top">
+                                                            <div class="product-image image-resize">
+                                                                <a href="/products/bikini-top-flora-wanabe" title="Bikini top flora wanabe">
+                                                                    <div class="field-sale">
+                                                                        <span>-7%</span>
+                                                                    </div>
+                                                                    <img src="~/images/1_5fea415d1f4547358cfc53c11cc2d412_large.jpg" alt="Bikini top flora wanabe" />
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                        <div class="product-info">
+                                                            <h3 class="product-title">
+                                                                <a href="/products/bikini-top-flora-wanabe" title="Bikini top flora wanabe"> Bikini top flora wanabe</a>
+                                                            </h3>
+                                                            <div class="wrap-price">
+                                                                <div class="price-info clearfix">
+                                                                    <div class="price-new-old price">
+                                                                        <span>2,900,000</span>
+                                                                        <small class="price2"><del> 3,100,000 </del></small>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3 col-sm-4 col-xs-6 item product-item product-grid-item h-hover-alt  product-wrapper product-item animated zoomIn">
+                                                    <div class="product-wrapp product-resize">
+                                                        <div class="product-element-top">
+                                                            <div class="product-image image-resize">
+                                                                <a href="/products/victory-crochet-bikini" title="Victory Crochet Bikini">
+                                                                    <img src="~/images/13487_shop1_938894_large.jpg" alt="Victory Crochet Bikini" />
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                        <div class="product-info">
+                                                            <h3 class="product-title">
+                                                                <a href="/products/victory-crochet-bikini" title="Victory Crochet Bikini"> Victory Crochet Bikini</a>
+                                                            </h3>
+                                                            <div class="wrap-price">
+                                                                <div class="price-info clearfix">
+                                                                    <div class="price-new-old price">
+                                                                        <span>2,000,000</span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3 col-sm-4 col-xs-6 item product-item product-grid-item h-hover-alt  product-wrapper product-item animated zoomIn">
+                                                    <div class="product-wrapp product-resize">
+                                                        <div class="product-element-top">
+                                                            <div class="product-image image-resize">
+                                                                <a href="/products/fifth-memory-crochet-bikini" title="Fifth memory crochet bikini">
+                                                                    <img src="~/images/160426_11-2_large.jpg" alt="Fifth memory crochet bikini" />
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                        <div class="product-info">
+                                                            <h3 class="product-title">
+                                                                <a href="/products/fifth-memory-crochet-bikini" title="Fifth memory crochet bikini"> Fifth memory crochet bikini</a>
+                                                            </h3>
+                                                            <div class="wrap-price">
+                                                                <div class="price-info clearfix">
+                                                                    <div class="price-new-old price">
+                                                                        <span>1,500,000</span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3 col-sm-4 col-xs-6 item product-item product-grid-item h-hover-alt  product-wrapper product-item animated zoomIn">
+                                                    <div class="product-wrapp product-resize">
+                                                        <div class="product-element-top">
+                                                            <div class="product-image image-resize">
+                                                                <a href="/products/bikini-vay-shining-girls" title="Bikini váy Shining Girls">
+                                                                    <img src="~/images/13_large.jpg" alt="Bikini váy Shining Girls" />
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                        <div class="product-info">
+                                                            <h3 class="product-title">
+                                                                <a href="/products/bikini-vay-shining-girls" title="Bikini váy Shining Girls"> Bikini váy Shining Girls</a>
+                                                            </h3>
+                                                            <div class="wrap-price">
+                                                                <div class="price-info clearfix">
+                                                                    <div class="price-new-old price">
+                                                                        <span>1,900,000</span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3 col-sm-4 col-xs-6 item product-item product-grid-item h-hover-alt  product-wrapper product-item animated zoomIn">
+                                                    <div class="product-wrapp product-resize">
+                                                        <div class="product-element-top">
+                                                            <div class="product-image image-resize">
+                                                                <a href="/products/caroline-bikini-mot-manh" title="Caroline bikini một mảnh">
+                                                                    <div class="field-sale">
+                                                                        <span>-5%</span>
+                                                                    </div>
+                                                                    <img src="~/images/10_large.jpg" alt="Caroline bikini một mảnh" />
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                        <div class="product-info">
+                                                            <h3 class="product-title">
+                                                                <a href="/products/caroline-bikini-mot-manh" title="Caroline bikini một mảnh"> Caroline bikini một mảnh</a>
+                                                            </h3>
+                                                            <div class="wrap-price">
+                                                                <div class="price-info clearfix">
+                                                                    <div class="price-new-old price">
+                                                                        <span>2,390,000</span>
+                                                                        <small class="price2"><del> 2,500,000 </del></small>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3 col-sm-4 col-xs-6 item product-item product-grid-item h-hover-alt  product-wrapper product-item animated zoomIn">
+                                                    <div class="product-wrapp product-resize">
+                                                        <div class="product-element-top">
+                                                            <div class="product-image image-resize">
+                                                                <a href="/products/wanabe-bra-top-bikini" title="Wanabe bra top bikini">
+                                                                    <div class="field-sale">
+                                                                        <span>-8%</span>
+                                                                    </div>
+                                                                    <img src="~/images/8_large.jpg" alt="Wanabe bra top bikini" />
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                        <div class="product-info">
+                                                            <h3 class="product-title">
+                                                                <a href="/products/wanabe-bra-top-bikini" title="Wanabe bra top bikini"> Wanabe bra top bikini</a>
+                                                            </h3>
+                                                            <div class="wrap-price">
+                                                                <div class="price-info clearfix">
+                                                                    <div class="price-new-old price">
+                                                                        <span>1,390,000</span>
+                                                                        <small class="price2"><del> 1,500,000 </del></small>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3 col-sm-4 col-xs-6 item product-item product-grid-item h-hover-alt  product-wrapper product-item animated zoomIn">
+                                                    <div class="product-wrapp product-resize">
+                                                        <div class="product-element-top">
+                                                            <div class="product-image image-resize">
+                                                                <a href="/products/bikini-shining-girls" title="Bikini Shining Girls">
+                                                                    <div class="field-sale">
+                                                                        <span>-7%</span>
+                                                                    </div>
+                                                                    <img src="~/images/5_large.jpg" alt="Bikini Shining Girls" />
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                        <div class="product-info">
+                                                            <h3 class="product-title">
+                                                                <a href="/products/bikini-shining-girls" title="Bikini Shining Girls"> Bikini Shining Girls</a>
+                                                            </h3>
+                                                            <div class="wrap-price">
+                                                                <div class="price-info clearfix">
+                                                                    <div class="price-new-old price">
+                                                                        <span>700,000</span>
+                                                                        <small class="price2"><del> 750,000 </del></small>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3 col-sm-4 col-xs-6 item product-item product-grid-item h-hover-alt  product-wrapper product-item animated zoomIn">
+                                                    <div class="product-wrapp product-resize">
+                                                        <div class="product-element-top">
+                                                            <div class="product-image image-resize">
+                                                                <a href="/products/bikini-tay-dai-juni" title="Bikini tay dài Juni">
+                                                                    <div class="field-sale">
+                                                                        <span>-10%</span>
+                                                                    </div>
+                                                                    <img src="~/images/4_large.jpg" alt="Bikini tay dài Juni" />
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                        <div class="product-info">
+                                                            <h3 class="product-title">
+                                                                <a href="/products/bikini-tay-dai-juni" title="Bikini tay dài Juni"> Bikini tay dài Juni</a>
+                                                            </h3>
+                                                            <div class="wrap-price">
+                                                                <div class="price-info clearfix">
+                                                                    <div class="price-new-old price">
+                                                                        <span>900,000</span>
+                                                                        <small class="price2"><del> 1,000,000 </del></small>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3 col-sm-4 col-xs-6 item product-item product-grid-item h-hover-alt  product-wrapper product-item animated zoomIn">
+                                                    <div class="product-wrapp product-resize">
+                                                        <div class="product-element-top">
+                                                            <div class="product-image image-resize">
+                                                                <a href="/products/crochet-bikini-xanh-navi" title="Crochet Bikini Xanh navi">
+                                                                    <img src="~/images/3_large.jpg" alt="Crochet Bikini Xanh navi" />
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                        <div class="product-info">
+                                                            <h3 class="product-title">
+                                                                <a href="/products/crochet-bikini-xanh-navi" title="Crochet Bikini Xanh navi"> Crochet Bikini Xanh navi</a>
+                                                            </h3>
+                                                            <div class="wrap-price">
+                                                                <div class="price-info clearfix">
+                                                                    <div class="price-new-old price">
+                                                                        <span>390,000</span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3 col-sm-4 col-xs-6 item product-item product-grid-item h-hover-alt  product-wrapper product-item animated zoomIn">
+                                                    <div class="product-wrapp product-resize">
+                                                        <div class="product-element-top">
+                                                            <div class="product-image image-resize">
+                                                                <a href="/products/bikini-wanabe-mau-hong" title="Bikini wanabe màu hồng">
+                                                                    <img src="~/images/2_large.jpg" alt="Bikini wanabe màu hồng" />
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                        <div class="product-info">
+                                                            <h3 class="product-title">
+                                                                <a href="/products/bikini-wanabe-mau-hong" title="Bikini wanabe màu hồng"> Bikini wanabe màu hồng</a>
+                                                            </h3>
+                                                            <div class="wrap-price">
+                                                                <div class="price-info clearfix">
+                                                                    <div class="price-new-old price">
+                                                                        <span>560,000</span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3 col-sm-4 col-xs-6 item product-item product-grid-item h-hover-alt  product-wrapper product-item animated zoomIn">
+                                                    <div class="product-wrapp product-resize">
+                                                        <div class="product-element-top">
+                                                            <div class="product-image image-resize">
+                                                                <a href="/products/bikini-peace-soc" title="Bikini Peace sọc">
+                                                                    <img src="~/images/1_large.jpg" alt="Bikini Peace sọc" />
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                        <div class="product-info">
+                                                            <h3 class="product-title">
+                                                                <a href="/products/bikini-peace-soc" title="Bikini Peace sọc"> Bikini Peace sọc</a>
+                                                            </h3>
+                                                            <div class="wrap-price">
+                                                                <div class="price-info clearfix">
+                                                                    <div class="price-new-old price">
+                                                                        <span>369,000</span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>*@
+                                            </div>
+                                        </div>
+                                        <div class="pagination-default clearfix">
+                                            <div class="clearfix">
+                                                <a class="page-node current">1</a>
+                                                <a class="page-node" href="?page=2">2</a>
+                                                <a class="page-node" href="?page=3">3</a>
+                                                <a class="next fa fa-angle-right" href="?page=2"></a>
+                                                <a class="next-last fa fa-angle-double-right" href="?page=3"></a>
+                                                @*<a class="page-node current">1</a>
+                                                <a class="page-node" href="/search?type=product&q=bikini&page=2">2</a>
+                                                <a class="page-node" href="/search?type=product&q=bikini&page=3">3</a>
+                                                <a class="next fa fa-angle-right" href="/search?type=product&q=bikini&page=2"></a>
+                                                <a class="next-last fa fa-angle-double-right" href="?page=3"></a>*@
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </aside>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+</div>
