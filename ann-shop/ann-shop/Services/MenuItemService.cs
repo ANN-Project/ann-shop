@@ -8,20 +8,20 @@ namespace ann_shop.Services
 {
     public class MenuItemService
     {
-        private ApplicationDbContext db;
+        private ApplicationDbContext _db;
 
         public MenuItemService(ApplicationDbContext database)
         {
-            db = database;
+            this._db = database;
         }
 
-        public List<MenuItemViewModels> GetTreeMenu(List<tbl_MenuItem> menu_items, int parent_tree, int level)
+        public List<MenuItemModel> GetTreeMenuItem(List<tbl_MenuItem> menu_items, int parent_tree, int level)
         {
             // Get list menu by parent tree
             var tree_menu = menu_items.Where(
                 x => x.ParentID == parent_tree
                 ).Select(
-                x => new MenuItemViewModels()
+                x => new MenuItemModel()
                 {
                     ID = x.ID,
                     MenuID = x.MenuID,
@@ -29,22 +29,22 @@ namespace ann_shop.Services
                     Level = level,
                     Name = x.Name,
                     URL = x.URL,
-                    Child = new List<MenuItemViewModels>()
+                    Child = new List<MenuItemModel>()
                 }).ToList();
 
             // Get child of menu
             foreach (var menu in tree_menu)
             {
-                menu.Child = GetTreeMenu(menu_items, menu.ID, ++level);
+                menu.Child = GetTreeMenuItem(menu_items, menu.ID, ++level);
             }
 
             return tree_menu;
         }
 
-        public List<MenuItemViewModels> GetMenu(string name_menu)
+        public List<MenuItemModel> GetMenuItem(string name_menu)
         {
-            var top_menu = db.tbl_MenuItem.Join(
-                db.tbl_Menu,
+            var top_menu = this._db.tbl_MenuItem.Join(
+                this._db.tbl_Menu,
                 item => item.MenuID,
                 menu => menu.ID,
                 (item, menu) => new { item, menu }
@@ -54,7 +54,7 @@ namespace ann_shop.Services
                     x => x.item
                 ).ToList();
 
-            return GetTreeMenu(top_menu, 0, 0);
+            return GetTreeMenuItem(top_menu, 0, 0);
         }
     }
 }

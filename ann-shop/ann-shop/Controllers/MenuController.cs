@@ -15,19 +15,19 @@ namespace ann_shop.Controllers
 {
     public class MenuController : ApiController
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
+        private ApplicationDbContext _db = new ApplicationDbContext();
 
         // GET: api/Menu
         public IQueryable<tbl_Menu> GetMenu()
         {
-            return db.tbl_Menu;
+            return this._db.tbl_Menu;
         }
 
         // GET: api/Menu/5
         [ResponseType(typeof(tbl_Menu))]
         public async Task<IHttpActionResult> GetMenu(int id)
         {
-            tbl_Menu tbl_Menu = await db.tbl_Menu.FindAsync(id);
+            tbl_Menu tbl_Menu = await this._db.tbl_Menu.FindAsync(id);
             if (tbl_Menu == null)
             {
                 return NotFound();
@@ -50,11 +50,11 @@ namespace ann_shop.Controllers
                 return BadRequest();
             }
 
-            db.Entry(tbl_Menu).State = EntityState.Modified;
+            this._db.Entry(tbl_Menu).State = EntityState.Modified;
 
             try
             {
-                await db.SaveChangesAsync();
+                await this._db.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -80,8 +80,8 @@ namespace ann_shop.Controllers
                 return BadRequest(ModelState);
             }
 
-            db.tbl_Menu.Add(tbl_Menu);
-            await db.SaveChangesAsync();
+            this._db.tbl_Menu.Add(tbl_Menu);
+            await this._db.SaveChangesAsync();
 
             return CreatedAtRoute("DefaultApi", new { id = tbl_Menu.ID }, tbl_Menu);
         }
@@ -90,14 +90,14 @@ namespace ann_shop.Controllers
         [ResponseType(typeof(tbl_Menu))]
         public async Task<IHttpActionResult> DeleteMenu(int id)
         {
-            tbl_Menu tbl_Menu = await db.tbl_Menu.FindAsync(id);
+            tbl_Menu tbl_Menu = await this._db.tbl_Menu.FindAsync(id);
             if (tbl_Menu == null)
             {
                 return NotFound();
             }
 
-            db.tbl_Menu.Remove(tbl_Menu);
-            await db.SaveChangesAsync();
+            this._db.tbl_Menu.Remove(tbl_Menu);
+            await this._db.SaveChangesAsync();
 
             return Ok(tbl_Menu);
         }
@@ -106,14 +106,14 @@ namespace ann_shop.Controllers
         {
             if (disposing)
             {
-                db.Dispose();
+                this._db.Dispose();
             }
             base.Dispose(disposing);
         }
 
         private bool tbl_MenuExists(int id)
         {
-            return db.tbl_Menu.Count(e => e.ID == id) > 0;
+            return this._db.tbl_Menu.Count(e => e.ID == id) > 0;
         }
     }
 }

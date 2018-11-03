@@ -8,19 +8,19 @@ using ann_shop.Models;
 
 namespace ann_shop.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : ANNController
     {
         private HomeService service;
 
         public HomeController()
         {
-            service = new HomeService();
+           this.service = new HomeService();
         }
 
         public ActionResult Index()
         {
             ViewBag.Title = "Bikini Beach";
-            var model = service.getIndex();
+            var model = this.service.getIndex();
 
             return View(model);
         }

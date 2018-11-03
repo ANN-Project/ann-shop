@@ -17,7 +17,6 @@ namespace ann_shop.Services
 
         private void Init()
         {
-            base.Init(this.model);
         }
 
         public HomeModel getIndex()

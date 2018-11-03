@@ -1,48 +1,10 @@
-﻿@using System.Text
+﻿
+@using System.Text
 @using ann_shop.Models
-@model ann_shop.Models.ANNModel
+@model List<ann_shop.Models.MenuItemModel>
 
 @functions{
-    public static string MainMenuMobile(List<MenuItemViewModels> main_menu)
-    {
-        var html = new StringBuilder();
-
-        foreach(var menu in main_menu)
-        {
-            if(menu.Child.Count > 0)
-            {
-                if(menu.Level == 0)
-                {
-                    html.AppendLine("<li class='has-children'>");
-                    html.AppendLine(String.Format("    <a href='{0}'>{1}</a>", menu.URL, menu.Name));
-                    html.AppendLine("   <ul class='child count-nav-4'>");
-                    html.Append(MainMenuMobile(menu.Child));
-                    html.AppendLine("   </ul>");
-                    html.AppendLine("</li>");
-                }
-                else if(menu.Level == 1)
-                {
-                    html.AppendLine("<li class='has-children'>");
-                    html.AppendLine(String.Format("    <a href='{0}'>{1}</a>", menu.URL, menu.Name));
-                    html.AppendLine("   <ul class='child'>");
-                    html.Append(MainMenuMobile(menu.Child));
-                    html.AppendLine("   </ul>");
-                    html.AppendLine("</li>");
-                }
-                else
-                {
-                    html.AppendLine(String.Empty);
-                }
-            }
-            else
-            {
-                html.AppendLine(String.Format("<li><a href='{0}'>{1}</a></li>", menu.URL, menu.Name));
-            }
-        }
-        return html.ToString();
-    }
-
-    public static string TopMenu(List<MenuItemViewModels> top_menu)
+    public static string GetTopMenuHTML(List<MenuItemModel> top_menu)
     {
         var html = new StringBuilder();
 
@@ -73,14 +35,7 @@
     }
 }
 
-<!-- MENU MOBILE -->
-<nav id="menu-mobile" class="hidden">
-    <ul>
-        @Html.Raw(MainMenuMobile(Model.MainMenu))
-    </ul>
-</nav>
-
-<!-- MENU MAIN -->
+<!-- TOP MENU MAIN -->
 <div class="topbar">
     <div class="container clearfix">
         <div class="topbar-content row">
@@ -98,7 +53,7 @@
                 <div class="topbar-menu">
                     <div class="topbar-menu-content">
                         <ul class="menu-topbar">
-                            @Html.Raw(MainMenuMobile(Model.TopMenu))
+                            @Html.Raw(GetTopMenuHTML(Model))
                         </ul>
                     </div>
                 </div>

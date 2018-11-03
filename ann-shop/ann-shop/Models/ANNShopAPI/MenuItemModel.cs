@@ -5,7 +5,7 @@ using System.Web;
 
 namespace ann_shop.Models
 {
-    public class MenuItemViewModels
+    public class MenuItemModel
     {
         public int ID { get; set; }
         public int MenuID { get; set; }
@@ -14,6 +14,6 @@ namespace ann_shop.Models
         public string Name { get; set; }
         public string URL { get; set; }
 
-        public List<MenuItemViewModels> Child { get; set; }
+        public List<MenuItemModel> Child { get; set; }
     }
 }

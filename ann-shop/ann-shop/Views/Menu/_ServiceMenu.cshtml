@@ -1,0 +1,44 @@
+﻿@using System.Text
+@using ann_shop.Models
+@model List<ann_shop.Models.MenuItemModel>
+
+@functions{
+    public static string GetServiceMenuHTML(List<MenuItemModel> service_menu)
+    {
+        var html = new StringBuilder();
+
+        foreach (var menu in service_menu)
+        {
+            if (menu.Child.Count == 0)
+            {
+                if (menu.Level == 0)
+                {
+                    html.AppendLine("<li class='item'>");
+                    html.AppendLine(String.Format("    <a href='{0}' title='{1}'>{1}</a>", menu.URL, menu.Name));
+                    html.AppendLine("</li>");
+                }
+                else
+                {
+                    html.AppendLine(String.Empty);
+                }
+            }
+            else
+            {
+                html.AppendLine(String.Empty);
+            }
+        }
+
+        return html.ToString();
+    }
+}
+
+<div class="col-md-3 col-sm-6 col-xs-12 border-right wow animated fadeInUp" data-wow-delay="100ms">
+    <div class="footer-block toggle-mb" id="block_links_footer_2">
+        <h4 class="title_block toggle-mb-title" aria-expanded="false">Dịch vụ khách hàng<i class="fa fa-angle-down hidden-lg hidden-md hidden-sm "></i></h4>
+        <div class="block_content toggle-mb-content">
+            <ul class="toggle-footer list-group bullet">
+                @Html.Raw(GetServiceMenuHTML(Model))
+            </ul>
+        </div>
+    </div>
+</div>

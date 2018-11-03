@@ -7,13 +7,13 @@ using System.Web.Mvc;
 
 namespace ann_shop.Controllers
 {
-    public class ArchiveProductController : Controller
+    public class ArchiveProductController : ANNController
     {
-        private ArchiveProductService service;
+        private ArchiveProductService _service;
 
         public ArchiveProductController()
         {
-            service = new ArchiveProductService();
+            this._service = new ArchiveProductService();
         }
 
         // GET: ArchiveProduct
@@ -21,12 +21,7 @@ namespace ann_shop.Controllers
         {
             ViewBag.Title = "Bikini Beach";
 
-            if (!page.HasValue)
-            {
-                page = 0;
-            }
-
-            var model = service.getIndex(page.Value);
+            var model = this._service.getIndex(page ?? 0);
 
             return View(model);
         }
