@@ -1,0 +1,51 @@
+﻿@using System.Text
+@using ann_shop.Models
+@model List<ann_shop.Models.MenuItemModel>
+
+@functions{
+    public static string GetMobileMenuHTML(List<MenuItemModel> mobile_menu)
+    {
+        var html = new StringBuilder();
+
+        foreach (var menu in mobile_menu)
+        {
+            if (menu.Child.Count > 0)
+            {
+                if (menu.Level == 0)
+                {
+                    html.AppendLine("<li class='has-children'>");
+                    html.AppendLine(String.Format("    <a href='{0}'>{1}</a>", menu.URL, menu.Name));
+                    html.AppendLine("   <ul class='child count-nav-4'>");
+                    html.Append(GetMobileMenuHTML(menu.Child));
+                    html.AppendLine("   </ul>");
+                    html.AppendLine("</li>");
+                }
+                else if (menu.Level == 1)
+                {
+                    html.AppendLine("<li class='has-children'>");
+                    html.AppendLine(String.Format("    <a href='{0}'>{1}</a>", menu.URL, menu.Name));
+                    html.AppendLine("   <ul class='child'>");
+                    html.Append(GetMobileMenuHTML(menu.Child));
+                    html.AppendLine("   </ul>");
+                    html.AppendLine("</li>");
+                }
+                else
+                {
+                    html.AppendLine(String.Empty);
+                }
+            }
+            else
+            {
+                html.AppendLine(String.Format("<li><a href='{0}'>{1}</a></li>", menu.URL, menu.Name));
+            }
+        }
+        return html.ToString();
+    }
+}
+
+<!-- MENU MOBILE -->
+<nav id="menu-mobile" class="hidden">
+    <ul>
+        @Html.Raw(GetMobileMenuHTML(Model))
+    </ul>
+</nav>

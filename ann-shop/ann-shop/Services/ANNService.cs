@@ -8,24 +8,19 @@ namespace ann_shop.Services
 {
     public class ANNService
     {
-        private MenuItemService service;
+        private MenuItemService _service;
 
         protected ApplicationDbContext db;
 
         public ANNService()
         {
             this.db = new ApplicationDbContext();
-            this.service = new MenuItemService(db);
-
+            this._service = new MenuItemService(db);
         }
 
-        public virtual void Init(ANNModel model)
+        public List<MenuItemModel> GetMenu(string name)
         {
-            model.TopMenu = service.GetMenu("Top Menu");
-            model.MainMenu = service.GetMenu("Main Menu");
-            model.SupportMenu = service.GetMenu("Support Menu");
-            model.ServiceMenu = service.GetMenu("Service Menu");
-            model.ServiceSupportMenu = service.GetMenu("Service Support Menu");
+            return this._service.GetMenuItem(name.Trim());
         }
     }
 }

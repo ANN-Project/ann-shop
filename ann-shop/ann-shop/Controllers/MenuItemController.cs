@@ -16,36 +16,36 @@ namespace ann_shop.Controllers
 {
     public class MenuItemController : ApiController
     {
-        private ApplicationDbContext db;
-        private MenuItemService service;
+        private ApplicationDbContext _db;
+        private MenuItemService _service;
 
         public MenuItemController()
         {
-            db = new ApplicationDbContext();
-            service = new MenuItemService(db);
+            this._db = new ApplicationDbContext();
+            this._service = new MenuItemService(this._db);
         }
 
         // GET: api/MenuItem
         public IHttpActionResult GetMenuItem()
         {
 
-            var menu_items = db.tbl_MenuItem.ToList();
+            var menu_items = this._db.tbl_MenuItem.ToList();
 
-            return Ok <List<MenuItemViewModels>>(service.GetTreeMenu(menu_items, 0, 0));
+            return Ok <List<MenuItemModel>>(this._service.GetTreeMenuItem(menu_items, 0, 0));
         }
 
         protected override void Dispose(bool disposing)
         {
             if (disposing)
             {
-                db.Dispose();
+                this._db.Dispose();
             }
             base.Dispose(disposing);
         }
 
         private bool tbl_MenuItemExists(int id)
         {
-            return db.tbl_MenuItem.Count(e => e.ID == id) > 0;
+            return this._db.tbl_MenuItem.Count(e => e.ID == id) > 0;
         }
     }
 }

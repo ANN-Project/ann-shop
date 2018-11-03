@@ -1,14 +1,14 @@
 ﻿@using System.Text
 @using ann_shop.Models
-@model ann_shop.Models.ANNModel
+@model List<ann_shop.Models.MenuItemModel>
 
 @functions{
-    public static string MainMenu(List<MenuItemViewModels> main_menu)
+    public static string GetHeaderMenuHTML(List<MenuItemModel> header_menu)
     {
         var html = new StringBuilder();
         var is_first = true;
 
-        foreach (var menu in main_menu)
+        foreach (var menu in header_menu)
         {
             if (menu.Child.Count > 0)
             {
@@ -28,7 +28,7 @@
                     html.AppendLine("        <span class='fa fa-caret-down' aria-hidden='true'></span>");
                     html.AppendLine("    </a>");
                     html.AppendLine("   <ul class='site-nav-sub'>");
-                    html.Append(MainMenu(menu.Child));
+                    html.Append(GetHeaderMenuHTML(menu.Child));
                     html.AppendLine("   </ul>");
                     html.AppendLine("</li>");
                 }
@@ -40,7 +40,7 @@
                     html.AppendLine("        <i class='fa fa-angle-right'></i>");
                     html.AppendLine("    </a>");
                     html.AppendLine("   <ul class='dropdown-menu'>");
-                    html.Append(MainMenu(menu.Child));
+                    html.Append(GetHeaderMenuHTML(menu.Child));
                     html.AppendLine("   </ul>");
                     html.AppendLine("</li>");
                 }
@@ -139,14 +139,14 @@
             <div class="hh wrapp-nav-bar">
                 <nav class="nav-bar style-1 hidden-xs">
                     <ul class="site-nav  categories-right   col-md-12  col-sm-12 col-xs-12" id="main-menu">
-                        @Html.Raw(MainMenu(Model.MainMenu))
+                        @Html.Raw(GetHeaderMenuHTML(Model))
                     </ul>
                 </nav>
             </div>
             <div class="logo">
                 <!-- LOGO -->
                 <a href="https://bikini-beach.myharavan.com" class="logo-txt">
-                    <img src="./images/logo.png" alt="Bikini Beach" class="img-responsive" />
+                    <img src="@Url.Content("~/images/logo.png")" alt="Bikini Beach" class="img-responsive" />
                 </a>
                 <h1>
                     <a href="/" style="display:none">Bikini Beach</a>
