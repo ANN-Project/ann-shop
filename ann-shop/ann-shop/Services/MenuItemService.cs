@@ -6,15 +6,8 @@ using ann_shop.Models;
 
 namespace ann_shop.Services
 {
-    public class MenuItemService
+    public class MenuItemService: ANNService
     {
-        private ApplicationDbContext _db;
-
-        public MenuItemService(ApplicationDbContext database)
-        {
-            this._db = database;
-        }
-
         public List<MenuItemModel> GetTreeMenuItem(List<tbl_MenuItem> menu_items, int parent_tree, int level)
         {
             // Get list menu by parent tree
@@ -43,8 +36,8 @@ namespace ann_shop.Services
 
         public List<MenuItemModel> GetMenuItem(string name_menu)
         {
-            var top_menu = this._db.tbl_MenuItem.Join(
-                this._db.tbl_Menu,
+            var top_menu = db.tbl_MenuItem.Join(
+                db.tbl_Menu,
                 item => item.MenuID,
                 menu => menu.ID,
                 (item, menu) => new { item, menu }

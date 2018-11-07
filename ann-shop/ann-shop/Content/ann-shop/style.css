@@ -1564,7 +1564,7 @@ background-color: #fcfcfc;
 }
 .style-variant-template input[type=radio]:checked + span {
 	border: 1px solid #e60f1e;
-	background: url(../img/checkbox-product.png) no-repeat right bottom #fff;
+	background: url(../../images/checkbox-product.png) no-repeat right bottom #fff;
 }
 .style-variant-template span img {
 	margin-right: 3px;
@@ -1576,7 +1576,7 @@ background-color: #fcfcfc;
 	border-radius: 3px;
 	height: 48px;
 	width: 200px;
-	background: url(../img/icon_addtocart.png) no-repeat 15px center transparent;
+	background: url(../../images/icon_addtocart.png) no-repeat 15px center transparent;
 	color: #F44F00;
 	font-size: 14px;
 	text-transform: uppercase;
@@ -1586,7 +1586,7 @@ background-color: #fcfcfc;
 	margin-right: 10px;
 }
 .variant-style button.btn-style-add:hover {
-	background: url(../img/icon_addtocart.png) no-repeat 15px center #E8E8E8;
+	background: url(../../images/icon_addtocart.png) no-repeat 15px center #E8E8E8;
 }
 .variant-style button.btn-style-buynow {
 	background: #F44F00;

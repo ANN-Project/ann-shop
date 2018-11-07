@@ -11,6 +11,7 @@ namespace ann_shop.Models
         public int PageSize { get; private set; } = 12;
         public int TotalPage { get; set; }
         public int TotalProduct { get; set; }
+        public string Slug { get; set; }
         public List<ProductModel> Products { get; set; }
     }
 }

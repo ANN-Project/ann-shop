@@ -1,0 +1,242 @@
+﻿@using ann_shop.Utils
+@model ann_shop.Models.ProductModel
+
+@Scripts.Render(Url.Content("/Scripts/ann-shop/product/index.js"))
+
+<div class="container-wrap homepage-page">
+    <div id="content">
+        <main class="padding-top-mobile">
+            <div class="header-navigate">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <ol class="breadcrumb breadcrumb-arrow">
+                                <li><a href="/" target="_self">Trang chủ</a></li>
+                                <li><i class="fa fa-angle-right"></i></li>
+                                <li><a href="/collections/frontpage" target="_self">Trang chủ</a></li>
+                                <li><i class="fa fa-angle-right"></i></li>
+                                <li class="active"><span> Tankini top  swimskirt Juni</span></li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
+                        <div class="row">
+                            <div class="col-lg-6 col-md-5 col-sm-12">
+                                <div id="surround">
+                                    <div class="row">
+                                        <div class="col-lg-10 col-md-12 col-sm-12 col-xs-12 box-image-featured">
+                                            <img class="product-image-feature" style="display:none" src="/images/0530_la_07_1024x1024.jpg" alt="Tankini top  swimskirt Juni">
+                                            <div class="lazy-load-ball lazy-product-featured">
+                                                <div class="uil-ring-css">
+                                                    <div></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-2 col-md-12 col-sm-12 col-xs-12">
+                                            <div class="product-thumb-vertical" id="sliderproduct" style="display:none;">
+                                                <ul>
+                                                    @* Show list image about product *@
+                                                    @foreach (var image in Model.Images)
+                                                    {
+                                                        <li class="product-thumb 0530">
+                                                            <a href="javascript:void(0);" data-image=".@image.large">
+                                                                <img src="@Url.Content(image.small)" />
+                                                            </a>
+                                                        </li>
+                                                    }
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-md-7 col-sm-12 col-xs-12 information-product">
+                                <div class="product-title">
+                                    @* Product Name *@ 
+                                    <h1>@Model.Name</h1>
+                                </div>
+                                <div class="product-price" id="price-preview">
+                                    @* Price *@
+                                    <span>@StringFormat.Money(Model.Price, MoneyType.VND)</span>
+                                </div>
+                                <div id="sku">
+                                    <span>Mã: @Model.SKU</span>
+                                </div>
+                                <form id="add-item-form" action="/cart/add" method="post" class="variants clearfix variant-style">
+                                    <div class="select clearfix">
+                                        <div class="selector-wrapper opt1">
+                                            <label>Size</label>
+                                            <ul class="data-opt1 clearfix style-variant-template"></ul>
+                                        </div>
+                                        <div class="selector-wrapper opt2">
+                                            <label>Màu</label>
+                                            <ul class="data-opt2 clearfix style-variant-template"></ul>
+                                        </div>
+                                        <style>
+                                            .selector-wrapper:not(.opt1):not(.opt1-quickview):not(.opt2):not(.opt2-quickview):not(.opt3):not(.opt3-quickview) {
+                                                display: none;
+                                            }
+                                        </style>
+                                        <select id="product-select" name="id" style="display:none">
+                                            @* Size / Color Price *@
+                                            <option value="1009627901">@Model.Size / @Model.Color - @StringFormat.Money(Model.Price, MoneyType.VND)</option>
+                                        </select>
+                                    </div>
+                                    <div class="select-wrapper clearfix ">
+                                        <label>Số lượng</label>
+                                        <input type="button" value="-" onclick="minusQuantity()" class="qty-btn">
+                                        <input type="text" id="quantity" name="quantity" value="1" min="1" class="quantity-selector">
+                                        <input type="button" value="+" onclick="plusQuantity()" class="qty-btn">
+                                    </div>
+                                    <div class="clearfix">
+                                        <button class="btn-style-add addtocart-modal">Thêm vào giỏ</button>
+                                        <button class="btn-style-buynow addnow">Mua ngay</button>
+                                    </div>
+                                </form>
+                                <div class="information-more">
+                                    <strong>Ưu đãi dành riêng cho khách hàng đặt trước Online:</strong>
+                                    <ul>
+                                        <li><i class="fa fa-check"></i> Giữ hàng tại Shop (không mua không sao).</li>
+                                        <li><i class="fa fa-check"></i> Giao hàng miễn phí toàn quốc trong 60 phút.</li>
+                                        <li><i class="fa fa-check"></i> Tư vấn miễn phí 24/7 (cả dịp Lễ, Tết).</li>
+                                        <li><i class="fa fa-check"></i> Bảo hành nhanh tại hơn 200 Shop trên toàn quốc.</li>
+                                        <li><i class="fa fa-check"></i> Đổi trả thoải mái theo nhu cầu..</li>
+                                    </ul>
+                                </div>
+                                <div class="tag-wrapper">
+                                    <label>
+                                        Danh mục:
+                                    </label>
+                                    <ul class="tags">
+                                        <li class="">
+                                            @* Category *@
+                                            <a href="/collections/all/Bikini">@Model.CategoryName</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="tag-wrapper">
+                                    <label>
+                                        Tags:
+                                    </label>
+                                    <ul class="tags">
+                                        <li class="">
+                                            @* Tag *@
+                                            <a href="/collections/all/Bikini Juni">@Model.Tage</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12 col-xs-12">
+                                <div class="product-comment">
+                                    <!-- Nav tabs -->
+                                    <ul class="product-tablist nav nav-tabs" id="tab-product-template">
+                                        <li class="active">
+                                            <a data-toggle="tab" data-spy="scroll" href="#description">
+                                                <span>Mô tả</span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a data-toggle="tab" data-spy="scroll" href="#additional">
+                                                <span>Hướng dẫn</span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a data-toggle="tab" data-spy="scroll" href="#product-related">
+                                                <span>Sản phẩm tương tự</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                    <!-- Tab panes -->
+                                    <div id="description">
+                                        <div class="container-fluid product-description-wrapper">
+                                            @* Show description *@
+                                            @Html.Raw(Model.Description)
+                                        </div>
+                                    </div>
+                                    <div id="additional">
+                                        <div class="container-fluid product-description-wrapper">
+                                            <p>Hướng dẫn mua hàng</p>
+                                        </div>
+                                    </div>
+                                    @* Show list product same *@
+                                    @{ Html.RenderAction("GetProductSame", new { category_id = Model.CategoryID}); }
+                                </div>
+                            </div>
+                            <div class="btn-position hidden-xs" style="display: none;">
+                                <ul class="btn-items">
+                                    <li class="buy-new-pos addnow">
+                                        <a href="javascript:void(0);" title="Đặt mua ngay">
+                                            <div class="arrow-cirle-btn">
+                                                <img src="/images/arrow-btn-buy.png" />
+                                            </div>
+                                            <span>Mua ngay</span>
+                                        </a>
+                                    </li>
+                                    <li class="cart-pos" id="cart-pos-product">
+                                        <a href="/cart" title="Xem lại giỏ hàng">
+                                            <img src="/images/icon-cart-pos.png" />
+                                            <span>0 sản phẩm</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 product-side">
+                        <div class="box-product">
+                            <div class="sidebar-service marg-10">
+                                <div class="support clearfix">
+                                    <div class="pull-left">
+                                        <div class="box-icon ico-1">
+                                            <i class="fa fa-plane"></i>
+                                        </div>
+                                        <div class="box-body">
+                                            <h4>Giao hàng miễn phí </h4>
+                                            <p>Đơn hàng ≥ 500.000 </p>
+                                        </div>
+                                    </div>
+                                    <div class="pull-left">
+                                        <div class="box-icon ico-2">
+                                            <i class="fa fa-reply"></i>
+                                        </div>
+                                        <div class="box-body">
+                                            <h4>Quà tặng</h4>
+                                            <p>Nhiều quà tặng và ưu đãi hấp dẫn</p>
+                                        </div>
+                                    </div>
+                                    <div class="pull-left">
+                                        <div class="box-icon ico-3">
+                                            <i class="fa fa-star"></i>
+                                        </div>
+                                        <div class="box-body">
+                                            <h4>Thương hiệu số 1</h4>
+                                            <p>Mua sắm trực tuyến  uy tín </p>
+                                        </div>
+                                    </div>
+                                    <div class="pull-left">
+                                        <div class="box-icon ico-4">
+                                            <i class="fa fa-qrcode"></i>
+                                        </div>
+                                        <div class="box-body">
+                                            <h4>Hotline: 1900636099</h4>
+                                            <p>Hỗ trợ nhanh chóng </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        @* Show list product top *@
+                        @{ Html.RenderAction("GetProductTop", new { category_id = Model.CategoryID }); }
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
+

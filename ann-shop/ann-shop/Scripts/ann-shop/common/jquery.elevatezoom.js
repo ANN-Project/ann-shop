@@ -1776,5 +1776,3 @@ if ( typeof Object.create !== 'function' ) {
 	};
 
 })( jQuery, window, document );
-
-$.getScript("./source/js/jgestures.min.js");

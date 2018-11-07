@@ -21,11 +21,11 @@
 <body class="index">
     <div class="">
         <!-- MENU MOBILE -->
-        @{ Html.RenderAction("GetMobileMenu"); }
+        @{ Html.RenderAction("GetMobileMenu", "MenuItem"); }
         <!-- TOP MENU MAIN -->
-        @{ Html.RenderAction("GetTopMenu"); }
+        @{ Html.RenderAction("GetTopMenu", "MenuItem"); }
         <!-- HEADER MENU -->
-        @{ Html.RenderAction("GetHeaderMenu"); }
+        @{ Html.RenderAction("GetHeaderMenu", "MenuItem"); }
         <!-- MAIN CONTENT -->
         @RenderBody()
         <!-- FOOTER MENU -->

@@ -25,6 +25,7 @@ namespace ann_shop
                       "~/Content/ann-shop/bootstrap-customer.css"));
 
             bundles.Add(new StyleBundle("~/Content/ann-shop/css").Include(
+                      "~/Content/ann-shop/jquery.mThumbnailScroller.css",
                       "~/Content/ann-shop/jquery.fancybox.css",
                       "~/Content/ann-shop/font-awesome.min.css",
                       "~/Content/ann-shop/style.css"));
@@ -34,6 +35,9 @@ namespace ann_shop
                         "~/Scripts/ann-shop/common/api.jquery.js",
                         "~/Scripts/ann-shop/common/minify-js.min.js",
                         "~/Scripts/ann-shop/common/jquery.fancybox.js",
+                        "~/Scripts/ann-shop/common/jquery.mThumbnailScroller.js",
+                        "~/Scripts/ann-shop/common/jquery.elevatezoom.js",
+                        "~/Scripts/ann-shop/common/jgestures.min.js",
                         "~/Scripts/ann-shop/common/script.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/ann-shop/jquery/utils").Include(

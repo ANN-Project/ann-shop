@@ -8,11 +8,11 @@ namespace ann_shop.Services
 {
     public class HomeService: ANNService
     {
-        private HomeModel model;
+        private HomeModel _model;
 
         public HomeService()
         {
-            model = new HomeModel();
+            _model = new HomeModel();
         }
 
         private void Init()
@@ -21,9 +21,9 @@ namespace ann_shop.Services
 
         public HomeModel getIndex()
         {
-            this.Init();
+            Init();
 
-            return model;
+            return _model;
         }
     }
 }
