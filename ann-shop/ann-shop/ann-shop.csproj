@@ -255,8 +255,8 @@
     <Compile Include="Controllers\ANNController.cs" />
     <Compile Include="Controllers\ArchiveProductController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\MenuController.cs" />
     <Compile Include="Controllers\MenuItemController.cs" />
+    <Compile Include="Controllers\ProductController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -271,6 +271,7 @@
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ANNShopAPI\ArchiveProductModel.cs" />
     <Compile Include="Models\ANNShopAPI\HomeModel.cs" />
+    <Compile Include="Models\ANNShopAPI\ImageModel.cs" />
     <Compile Include="Models\ANNShopAPI\MenuItemModel.cs" />
     <Compile Include="Models\ANNShopAPI\ANNModel.cs" />
     <Compile Include="Models\ANNShopAPI\ProductModel.cs" />
@@ -306,6 +307,7 @@
     <Compile Include="Services\ArchiveProductService.cs" />
     <Compile Include="Services\HomeService.cs" />
     <Compile Include="Services\MenuItemService.cs" />
+    <Compile Include="Services\ProductService.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="Utils\StringFormat.cs" />
   </ItemGroup>
@@ -438,6 +440,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Scripts\ann-shop\index\index.js" />
+    <Content Include="Scripts\ann-shop\product\index.js" />
     <Content Include="Scripts\ann-shop\utils\string_format.js" />
     <Content Include="Scripts\jquery-1.12.4.min.map" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
@@ -478,6 +481,9 @@
     <Content Include="Views\Menu\_ServiceMenu.cshtml" />
     <Content Include="Views\Menu\_SupportMenu.cshtml" />
     <Content Include="Views\Menu\_ServiceSupportMenu.cshtml" />
+    <Content Include="Views\Product\Index.cshtml" />
+    <Content Include="Views\Product\_ProductTop.cshtml" />
+    <Content Include="Views\Product\_ProductSame.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

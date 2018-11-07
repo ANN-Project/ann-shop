@@ -45,8 +45,8 @@
                                             <div class="clearfix">
                                                 @if (Model.Page > 0)
                                                 {
-                                                    <a class="next-last fa fa-angle-double-left" href="?page=0"></a>
-                                                    <a class="next fa fa-angle-left" href="?page=@(Model.Page - 1)"></a>
+                                                    <a class="next-last fa fa-angle-double-left" href="/category/@Model.Slug/page/0"></a>
+                                                    <a class="next fa fa-angle-left" href="/category/@Model.Slug/page/@(Model.Page - 1)"></a>
                                                 }
                                                 @for (var i = 0; i < Model.TotalPage; i++)
                                                 {
@@ -54,17 +54,17 @@
 
                                                     if (i == Model.Page)
                                                     {
-                                                        <a class="page-node current" href="?page=@i">@page</a>
+                                                        <a class="page-node current" href="/category/@Model.Slug/page/@i">@page</a>
                                                     }
                                                     else
                                                     {
-                                                        <a class="page-node" href="?page=@i">@page</a>
+                                                        <a class="page-node" href="/category/@Model.Slug/page/@i">@page</a>
                                                     }
                                                 }
                                                 @if (Model.Page < Model.TotalPage - 1)
                                                 {
-                                                    <a class="next fa fa-angle-right" href="?page=@(Model.Page + 1)"></a>
-                                                    <a class="next-last fa fa-angle-double-right" href="?page=@(Model.TotalPage - 1)"></a>
+                                                    <a class="next fa fa-angle-right" href="/category/@Model.Slug/page/@(Model.Page + 1)"></a>
+                                                    <a class="next-last fa fa-angle-double-right" href="/category/@Model.Slug/page/@(Model.TotalPage - 1)"></a>
                                                 }
                                             </div>
                                         </div>

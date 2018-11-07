@@ -1,0 +1,47 @@
+﻿@using ann_shop.Utils
+@model List<ann_shop.Models.ProductModel>
+
+<div class="review-pr">
+    <div class="title-decoration">
+        <span>
+            Sản phẩm nổi bật
+        </span>
+        <div class="decoration"></div>
+    </div>
+    <div class="collection-box-related">
+        <div class="product-item ">
+            <div class="clearfix list-border clone-item" id="owl-demo-daxem">
+                <div class="product-item">
+                    @foreach (var product in Model)
+                    {
+                        <div class="item mb10">
+                            <div class="box-product-review clearfix">
+                                <div class="col-xs-4 pd-none-l box-image">
+                                    <a href="/product/@product.Slug" class="url-product" title="@product.Name">
+                                        <img class="image-review" src="@product.Avartar" alt="@product.Name">
+                                    </a>
+                                </div>
+                                <div class="col-xs-8 pd-none-l">
+                                    <a href="/products/@product.Slug" class="url-product" title="@product.Name">
+                                        <h2 class="title-review">@product.Name</h2>
+                                    </a>
+                                    <div class="infor-product-review">
+                                        @if (product.DiscountPrice > 0)
+                                        {
+                                            <span class="price-review">@StringFormat.Money(product.DiscountPrice, MoneyType.VND)</span>
+                                            <del class="price-sale-review">@StringFormat.Money(product.Price, MoneyType.VND)</del>
+                                        }
+                                        else
+                                        {
+                                            <span class="price-review">@StringFormat.Money(product.Price, MoneyType.VND)</span>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

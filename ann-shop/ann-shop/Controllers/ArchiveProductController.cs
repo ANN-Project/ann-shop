@@ -13,15 +13,15 @@ namespace ann_shop.Controllers
 
         public ArchiveProductController()
         {
-            this._service = new ArchiveProductService();
+            _service = new ArchiveProductService();
         }
 
         // GET: ArchiveProduct
-        public ActionResult Index(int? page)
+        public ActionResult Index(string slug, int? page)
         {
             ViewBag.Title = "Bikini Beach";
 
-            var model = this._service.getIndex(page ?? 0);
+            var model = _service.getIndex(page ?? 0);
 
             return View(model);
         }

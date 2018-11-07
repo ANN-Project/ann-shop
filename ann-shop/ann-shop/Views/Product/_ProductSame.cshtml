@@ -1,0 +1,18 @@
+﻿@model List<ann_shop.Models.ProductModel>
+
+<div id="product-related">
+    <div class="title-decoration">
+        <span>Sản phẩm tương tự</span>
+        <div class="decoration"></div>
+    </div>
+    <div class="clearfix">
+        <div class="product-lists box-product-lists clearfix">
+            <div class="row">
+                @foreach (var product in Model)
+                {
+                    @Html.ANNProd(product, new { @class = "col-md-3 col-sm-4 col-xs-6" });
+                }
+            </div>
+        </div>
+    </div>
+</div>

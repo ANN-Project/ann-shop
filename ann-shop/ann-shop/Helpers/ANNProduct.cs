@@ -29,14 +29,14 @@ namespace System.Web.Mvc.Html
             temp.Append(String.Format("    <div class='product-wrapp product-resize'>"));
             temp.Append(String.Format("        <div class='product-element-top'>"));
             temp.Append(String.Format("            <div class='product-image image-resize'>"));
-            temp.Append(String.Format("                <a href='{0}' title='{1}'>", prod.Slug, prod.Name));
+            temp.Append(String.Format("                <a href='/product/{0}' title='{1}'>", prod.Slug, prod.Name));
             if (prod.DiscountPrice > 0)
             {
                 temp.Append(String.Format("                <div class='field-sale'>"));
                 temp.Append(String.Format("                    <span>-{0}%</span>", @prod.DiscountRatio));
                 temp.Append(String.Format("                </div>"));
             }
-            temp.Append(String.Format("                    <img src='{0}' alt='{1}' />", prod.Image, prod.Name));
+            temp.Append(String.Format("                    <img src='{0}' alt='{1}' />", prod.Avartar, prod.Name));
             temp.Append(String.Format("                </a>"));
             temp.Append(String.Format("            </div>"));
             temp.Append(String.Format("        </div>"));
@@ -49,12 +49,12 @@ namespace System.Web.Mvc.Html
             temp.Append(String.Format("                    <div class='price-new-old price'>"));
             if (prod.DiscountPrice > 0)
             {
-                temp.Append(String.Format("                        <span>{0}</span>", StringFormat.Money(@prod.DiscountPrice)));
-                temp.Append(String.Format("                        <small class='price2'><del> {0} </del></small>", StringFormat.Money(@prod.Price)));
+                temp.Append(String.Format("                        <span>{0}</span>", StringFormat.Money(@prod.DiscountPrice, MoneyType.None)));
+                temp.Append(String.Format("                        <small class='price2'><del> {0} </del></small>", StringFormat.Money(@prod.Price, MoneyType.None)));
             }
             else
             {
-                temp.Append(String.Format("                        <span>{0}</span>", StringFormat.Money(@prod.Price)));
+                temp.Append(String.Format("                        <span>{0}</span>", StringFormat.Money(@prod.Price, MoneyType.None)));
             }
             temp.Append(String.Format("                    </div>"));
             temp.Append(String.Format("                </div>"));

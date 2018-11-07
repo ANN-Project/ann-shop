@@ -10,17 +10,17 @@ namespace ann_shop.Controllers
 {
     public class HomeController : ANNController
     {
-        private HomeService service;
+        private HomeService _service;
 
         public HomeController()
         {
-           this.service = new HomeService();
+           _service = new HomeService();
         }
 
         public ActionResult Index()
         {
             ViewBag.Title = "Bikini Beach";
-            var model = this.service.getIndex();
+            var model = _service.getIndex();
 
             return View(model);
         }
