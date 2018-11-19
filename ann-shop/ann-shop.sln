@@ -1,0 +1,30 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ann-shop", "ann-shop\ann-shop.csproj", "{60C5DD10-CAD2-4A75-AB46-803A7FDDBCC6}"
+EndProject
+Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "ann-data", "ann-data\ann-data.sqlproj", "{59EF80B0-6DBD-4FC2-9B89-133E473C978A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{60C5DD10-CAD2-4A75-AB46-803A7FDDBCC6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{60C5DD10-CAD2-4A75-AB46-803A7FDDBCC6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{60C5DD10-CAD2-4A75-AB46-803A7FDDBCC6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{60C5DD10-CAD2-4A75-AB46-803A7FDDBCC6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{59EF80B0-6DBD-4FC2-9B89-133E473C978A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{59EF80B0-6DBD-4FC2-9B89-133E473C978A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{59EF80B0-6DBD-4FC2-9B89-133E473C978A}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{59EF80B0-6DBD-4FC2-9B89-133E473C978A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{59EF80B0-6DBD-4FC2-9B89-133E473C978A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{59EF80B0-6DBD-4FC2-9B89-133E473C978A}.Release|Any CPU.Deploy.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
