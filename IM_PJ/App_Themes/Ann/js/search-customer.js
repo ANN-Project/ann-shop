@@ -157,7 +157,7 @@ function searchCustomer() {
 // show customer list after search
 function showCustomerList() {
     var textsearch = $("#txtSearchCustomer").val();
-    var username = $("input[id$='_hdfUsername']").val();
+    var username = $("input[id$='_hdfUsernameCurrent']").val();
     if (!isBlank(textsearch)) {
         $.ajax({
             type: "POST",

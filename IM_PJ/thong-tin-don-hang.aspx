@@ -2,7 +2,7 @@
 
 <%@ Register Assembly="Telerik.Web.UI" Namespace="Telerik.Web.UI" TagPrefix="telerik" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
-    <script src="/App_Themes/Ann/js/search-customer.js?v=1910"></script>
+    <script src="/App_Themes/Ann/js/search-customer.js?v=2110"></script>
     <script src="/App_Themes/Ann/js/search-product.js?v=1910"></script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
@@ -398,6 +398,7 @@
             <asp:HiddenField ID="notAcceptChangeUser" Value="1" runat="server" />
             <asp:HiddenField ID="hdfDiscountInOrder" runat="server" />
             <asp:HiddenField ID="hdfUsername" runat="server" />
+            <asp:HiddenField ID="hdfUsernameCurrent" runat="server" />
             <asp:HiddenField ID="hdfRoleID" runat="server" />
             <asp:HiddenField ID="hdfOrderType" runat="server" />
             <asp:HiddenField ID="hdfTotalPrice" runat="server" />
@@ -463,7 +464,7 @@
 
         .disable {
             pointer-events: none;
-            opacity: 0.8;
+            opacity: 0.7;
         }
 
     </style>
@@ -994,7 +995,7 @@
                             // Chỉ admin mới được khôi phục đơn hàng hủy
                             if ($("#<%=hdfRoleID.ClientID%>").val() == 0) {
 
-                                $("#<%=txtOrderNote.ClientID %>").val("Đã khôi phục từ trạng thái hủy bởi " + $("#<%=hdfUsername.ClientID%>").val());
+                                $("#<%=txtOrderNote.ClientID %>").val("Đã khôi phục từ trạng thái hủy bởi " + $("#<%=hdfUsernameCurrent.ClientID%>").val());
                                 deleteOrder();
                                 $("#<%=hdfOrderType.ClientID %>").val(ordertype);
                                 $("#<%=hdfListProduct.ClientID%>").val(list);
@@ -1010,7 +1011,7 @@
                             // Chỉ admin mới được đổi trạng thái Đã hoàn tất sang trạng thái Đang xử lý
                             if ($("#<%=hdfRoleID.ClientID%>").val() == 0) {
 
-                                $("#<%=txtOrderNote.ClientID %>").val("Đã đổi trạng thái từ Đã hoàn tất sang Đang xử lý bởi " + $("#<%=hdfUsername.ClientID%>").val());
+                                $("#<%=txtOrderNote.ClientID %>").val("Đã đổi trạng thái từ Đã hoàn tất sang Đang xử lý bởi " + $("#<%=hdfUsernameCurrent.ClientID%>").val());
                                 deleteOrder();
                                 $("#<%=hdfOrderType.ClientID %>").val(ordertype);
                                 $("#<%=hdfListProduct.ClientID%>").val(list);
@@ -1111,11 +1112,6 @@
                 }
             }
 
-            // insert order
-            function addPayAllClicked() {
-                $("#payall").addClass("payall-clicked");
-            }
-
             function checkPrepayTransport(ID, SubID) {
                 var t = 0;
                 $.ajax({
@@ -1142,10 +1138,12 @@
             // insert order
             function insertOrder() {
                 var shippingtype = $(".shipping-type").val();
-                var checkShipFee = true;
+                var checkAllValue = true;
+                var fs = $("#<%=pFeeShip.ClientID%>").val();
+                var feeship = parseFloat(fs.replace(/\,/g, ''));
 
                 if (shippingtype == 2 || shippingtype == 3) {
-                    if ($("#<%=pFeeShip.ClientID%>").val() == 0 && $("#<%=pFeeShip.ClientID%>").is(":disabled") == false) {
+                    if (feeship == 0 && $("#<%=pFeeShip.ClientID%>").is(":disabled") == false) {
 
                         $("#<%=pFeeShip.ClientID%>").focus();
 
@@ -1161,11 +1159,11 @@
                             html: true
                         });
 
-                        checkShipFee = false;
+                        checkAllValue = false;
                     }
                 }
                 else if (shippingtype == 4) {
-                    if ($("#<%=pFeeShip.ClientID%>").val() == 0 && $("#<%=pFeeShip.ClientID%>").is(":disabled") == false) {
+                    if (feeship == 0 && $("#<%=pFeeShip.ClientID%>").is(":disabled") == false) {
 
                         var ID = $("#<%=ddlTransportCompanyID.ClientID%>").val();
                         var SubID = $("#<%=ddlTransportCompanySubID.ClientID%>").val();
@@ -1175,6 +1173,7 @@
                             if (checkPrepay == 1) {
 
                                 $("#<%=pFeeShip.ClientID%>").focus();
+
                                 swal({
                                     title: "Coi nè:",
                                     text: "Chưa nhập phí vận chuyển do nhà xe này <strong>trả cước trước</strong> nè!<br><br>Hay là miễn phí vận chuyển luôn hở?",
@@ -1186,13 +1185,45 @@
                                     cancelButtonText: "Để em coi lại..",
                                     html: true
                                 });
-                                checkShipFee = false;
+                                checkAllValue = false;
                             }
                         }
                     }
                 }
+                
 
-                if(checkShipFee == true)
+                if (feeship > 0 && feeship < 10000) {
+                    checkAllValue = false;
+                    $("#<%=pFeeShip.ClientID%>").focus();
+                    swal({
+                        title: "Lạ vậy:",
+                        text: "Sao phí vận chuyển lại nhỏ hơn <strong>10.000đ</strong> nè?<br><br>Xem lại nha!",
+                        type: "warning",
+                        showCancelButton: false,
+                        confirmButtonColor: "#DD6B55",
+                        confirmButtonText: "Để em xem lại!!",
+                        html: true
+                    });
+                }
+
+                var ds = $("#<%=pDiscount.ClientID%>").val();
+                var discount = parseFloat(ds.replace(/\,/g, ''));
+
+                if (discount > 11000 && $("#<%=hdfRoleID.ClientID%>").val() != 0) {
+                    checkAllValue = false;
+                    $("#<%=pDiscount.ClientID%>").focus();
+                    swal({
+                        title: "Lạ vậy:",
+                        text: "Sao chiết khấu lại lớn hơn <strong>11.000đ</strong> nè?<br><br>Nếu có lý do thì báo chị Ngọc nha!",
+                        type: "warning",
+                        showCancelButton: false,
+                        confirmButtonColor: "#DD6B55",
+                        confirmButtonText: "Để em xem lại!!",
+                        html: true
+                    });
+                }
+
+                if (checkAllValue == true)
                 {
                     HoldOn.open();
                     $("#<%=btnOrder.ClientID%>").click();

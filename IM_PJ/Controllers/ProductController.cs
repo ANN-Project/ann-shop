@@ -431,7 +431,7 @@ namespace IM_PJ.Controllers
             reader.Close();
             return list.ToList();
         }
-        public static List<ProductSQL> GetProductAPI(int categoryID, int limit, int showHomePage, int minQuantity)
+        public static List<ProductSQL> GetProductAPI(int categoryID, int limit, int showHomePage, int minQuantity, int changeProductName)
         {
             var list = new List<ProductSQL>();
             StringBuilder sql = new StringBuilder();
@@ -693,8 +693,31 @@ namespace IM_PJ.Controllers
                 if (check == true)
                 {
                     entity.ProductImage = reader["ProductImage"].ToString();
-                    if (reader["ProductTitle"] != DBNull.Value)
-                        entity.ProductTitle = reader["ProductTitle"].ToString();
+
+                    if(changeProductName == 1)
+                    {
+                        if (reader["CategoryName"] != DBNull.Value)
+                        {
+                            entity.ProductTitle = reader["CategoryName"].ToString() + ' ' + reader["ProductSKU"].ToString();
+                        }
+                        else
+                        {
+                            if (reader["ProductTitle"] != DBNull.Value)
+                            {
+                                entity.ProductTitle = reader["ProductTitle"].ToString() + ' ' + reader["ProductSKU"].ToString();
+                            }
+                        }
+                            
+                    }
+                    else
+                    {
+                        if (reader["ProductTitle"] != DBNull.Value)
+                        {
+                            entity.ProductTitle = reader["ProductTitle"].ToString();
+                        }
+                    }
+                    
+                        
                     if (reader["ProductSKU"] != DBNull.Value)
                         entity.ProductSKU = reader["ProductSKU"].ToString();
 
@@ -1020,6 +1043,8 @@ namespace IM_PJ.Controllers
                     entity.ProductStyle = reader["ProductStyle"].ToString().ToInt(0);
                 if (reader["ShowHomePage"] != DBNull.Value)
                     entity.ShowHomePage = reader["ShowHomePage"].ToString().ToInt(0);
+                if (reader["Materials"] != DBNull.Value)
+                    entity.Materials = reader["Materials"].ToString();
                 list.Add(entity);
             }
             reader.Close();
@@ -1088,6 +1113,7 @@ namespace IM_PJ.Controllers
             public int StockStatus { get; set; }
             public int ProductStyle { get; set; }
             public int ShowHomePage { get; set; }
+            public string Materials { get; set; }
         }
 
         public class ProductStock

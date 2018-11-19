@@ -81,21 +81,11 @@ namespace IM_PJ
                 {
                     var item = acs[i];
                     html.Append("<tr>");
-                    //html.Append("   <td>" + item.ID + "</td>");
                     html.Append("   <td>" + item.DiscountName + "</td>");
                     html.Append("   <td>" + string.Format("{0:N0}", Convert.ToDouble(item.DiscountAmount)) + "</td>");
-                    //html.Append("   <td>" + item.DiscountAmountPercent + "</td>");
-                    string ishidden = "";
-                    if (item.IsHidden != null)
-                    {
-                        bool IsHidden = Convert.ToBoolean(item.IsHidden);
-                        ishidden = PJUtils.IsHiddenStatus(IsHidden);
-                    }
-                    else
-                    {
-                        ishidden = PJUtils.IsHiddenStatus(false);
-                    }
-                    html.Append("   <td>" + ishidden + "</td>");
+                    html.Append("   <td>" + string.Format("{0:N0}", Convert.ToDouble(item.FeeRefund)) + "</td>");
+                    html.Append("   <td>" + item.NumOfDateToChangeProduct + " ngày</td>");
+                    html.Append("   <td>" + item.NumOfProductCanChange + " cái/" + item.NumOfDateToChangeProduct + " ngày</td>");
                     string date = string.Format("{0:dd/MM/yyyy}", item.CreatedDate);
                     html.Append("   <td>" + date + "</td>");
                     html.Append("   <td>");

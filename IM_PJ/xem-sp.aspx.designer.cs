@@ -10,124 +10,124 @@
 namespace IM_PJ {
     
     
-    public partial class xem_san_pham {
+    public partial class xem_sp {
         
         /// <summary>
-        /// ltrEdit1 control.
+        /// form12 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal ltrEdit1;
+        protected global::System.Web.UI.HtmlControls.HtmlForm form12;
         
         /// <summary>
-        /// lblError control.
+        /// scr control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblError;
+        protected global::System.Web.UI.ScriptManager scr;
         
         /// <summary>
-        /// lbProductTitle control.
+        /// ltrProductName control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lbProductTitle;
+        protected global::System.Web.UI.WebControls.Literal ltrProductName;
         
         /// <summary>
-        /// ddlCategory control.
+        /// ltrRegularPrice control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlCategory;
+        protected global::System.Web.UI.WebControls.Literal ltrRegularPrice;
         
         /// <summary>
-        /// lblSKU control.
+        /// ltrRetailPrice control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblSKU;
+        protected global::System.Web.UI.WebControls.Literal ltrRetailPrice;
         
         /// <summary>
-        /// lbMaterials control.
+        /// ltrMaterials control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lbMaterials;
+        protected global::System.Web.UI.WebControls.Literal ltrMaterials;
         
         /// <summary>
-        /// lbProductStock control.
+        /// ltrContent control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lbProductStock;
+        protected global::System.Web.UI.WebControls.Literal ltrContent;
         
         /// <summary>
-        /// ddlSupplier control.
+        /// ltrVariable control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlSupplier;
+        protected global::System.Web.UI.WebControls.Literal ltrVariable;
         
         /// <summary>
-        /// ddlStockStatus control.
+        /// ltrProductStock control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlStockStatus;
+        protected global::System.Web.UI.WebControls.Literal ltrProductStock;
         
         /// <summary>
-        /// lbRegularPrice control.
+        /// ltrCopyProductInfoButton control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lbRegularPrice;
+        protected global::System.Web.UI.WebControls.Literal ltrCopyProductInfoButton;
         
         /// <summary>
-        /// ltrCostOfGood control.
+        /// ltrViewVariableListButton control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal ltrCostOfGood;
+        protected global::System.Web.UI.WebControls.Literal ltrViewVariableListButton;
         
         /// <summary>
-        /// lbRetailPrice control.
+        /// ltrDownloadProductImageButton control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lbRetailPrice;
+        protected global::System.Web.UI.WebControls.Literal ltrDownloadProductImageButton;
         
         /// <summary>
-        /// pContent control.
+        /// ProductThumbnail control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal pContent;
+        protected global::System.Web.UI.WebControls.Literal ProductThumbnail;
         
         /// <summary>
         /// imageGallery control.
@@ -139,13 +139,22 @@ namespace IM_PJ {
         protected global::System.Web.UI.WebControls.Literal imageGallery;
         
         /// <summary>
-        /// ltrEdit2 control.
+        /// pContent control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal ltrEdit2;
+        protected global::System.Web.UI.WebControls.Literal pContent;
+        
+        /// <summary>
+        /// ltrVariableList control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Literal ltrVariableList;
         
         /// <summary>
         /// ltrList control.
@@ -155,32 +164,5 @@ namespace IM_PJ {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Literal ltrList;
-        
-        /// <summary>
-        /// hdfTempVariable control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.HiddenField hdfTempVariable;
-        
-        /// <summary>
-        /// hdfVariableFull control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.HiddenField hdfVariableFull;
-        
-        /// <summary>
-        /// hdfTable control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.HiddenField hdfTable;
     }
 }

@@ -10,7 +10,7 @@
     <meta name="format-detection" content="telephone=no">
     <meta name="robots" content="noindex, nofollow">
     <link rel="stylesheet" href="/App_Themes/Ann/css/style.css?v=0110" media="all">
-    <link rel="stylesheet" href="/App_Themes/Ann/css/style-P.css?v=0110" media="all">
+    <link rel="stylesheet" href="/App_Themes/Ann/css/style-P.css?v=1511" media="all">
     <link href="/App_Themes/NewUI/js/sweet/sweet-alert.css" rel="stylesheet" type="text/css" />
     <link href="/App_Themes/NewUI/js/select2/select2.css" rel="stylesheet" />
     <link href="/App_Themes/Ann/css/HoldOn.css" rel="stylesheet" type="text/css" />
@@ -58,7 +58,7 @@
             <script src="/App_Themes/NewUI/js/sweet/sweet-alert.js?v=3006" type="text/javascript"></script>
             <script src="/App_Themes/NewUI/js/select2/select2.min.js"></script>
             <script src="/App_Themes/Ann/js/master.js?v=0107"></script>
-            <script src="/App_Themes/Ann/js/HoldOn.js"></script>
+            <script src="/App_Themes/Ann/js/HoldOn.js?v=2011"></script>
             <script type="text/javascript">
                 
                 function screenClass() {

@@ -27,7 +27,7 @@
                             </div>
                             <div class="form-row">
                                 <div class="row-left">
-                                    Giá chiết khấu
+                                    Chiết khấu mỗi cái
                                     <asp:RequiredFieldValidator ID="RequiredFieldValidator5" runat="server" ControlToValidate="pDiscountAmount" ForeColor="Red"
                                         ErrorMessage="(*)" Display="Dynamic" SetFocusOnError="true"></asp:RequiredFieldValidator>
                                 </div>
@@ -49,15 +49,15 @@
                                     </telerik:RadNumericTextBox>
                                 </div>
                             </div>
-                            <div class="form-row" style="display: none">
+                            <div class="form-row">
                                 <div class="row-left">
-                                    Phí trả hàng
+                                    Phí đổi hàng mỗi cái
                                     <asp:RequiredFieldValidator ID="RequiredFieldValidator2" runat="server" ControlToValidate="pDiscountAmountPercent" ForeColor="Red"
                                         ErrorMessage="(*)" Display="Dynamic" SetFocusOnError="true"></asp:RequiredFieldValidator>
                                 </div>
                                 <div class="row-right">
                                     <telerik:RadNumericTextBox runat="server" CssClass="form-control width-notfull" Skin="MetroTouch"
-                                        ID="rRefundGoods" MinValue="0" NumberFormat-GroupSizes="3" Width="100%" Value="0">
+                                        ID="rRefundGoods" MinValue="0" NumberFormat-GroupSizes="3" Width="100%" Value="0" NumberFormat-DecimalDigits="0">
                                     </telerik:RadNumericTextBox>
                                 </div>
                             </div>
@@ -69,7 +69,7 @@
                                 </div>
                                 <div class="row-right">
                                     <telerik:RadNumericTextBox runat="server" CssClass="form-control width-notfull" Skin="MetroTouch"
-                                        ID="pNumOfDateToChangeProduct" MinValue="0" NumberFormat-GroupSizes="3" Width="100%" NumberFormat-DecimalDigits="0">
+                                        ID="pNumOfDateToChangeProduct" MinValue="0" NumberFormat-GroupSizes="3" Width="100%" Value="0" NumberFormat-DecimalDigits="0">
                                     </telerik:RadNumericTextBox>
                                 </div>
                             </div>
@@ -81,7 +81,7 @@
                                 </div>
                                 <div class="row-right">
                                     <telerik:RadNumericTextBox runat="server" CssClass="form-control width-notfull" Skin="MetroTouch"
-                                        ID="pNumOfProductCanChange" MinValue="0" NumberFormat-GroupSizes="3" Width="100%" NumberFormat-DecimalDigits="0">
+                                        ID="pNumOfProductCanChange" MinValue="0" NumberFormat-GroupSizes="3" Width="100%" Value="0" NumberFormat-DecimalDigits="0">
                                     </telerik:RadNumericTextBox>
                                 </div>
                             </div>

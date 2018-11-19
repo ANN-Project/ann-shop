@@ -196,6 +196,44 @@ namespace IM_PJ
             ltrNumberOfProduct.Text = a.Count().ToString();
         }
         [WebMethod]
+        public static string getAllProductImage(string sku)
+        {
+            var product = ProductController.GetBySKU(sku);
+            List<string> images = new List<string>();
+            if (product != null)
+            {
+                images.Add(product.ProductImage);
+
+                // lấy ảnh sản phẩm từ thư viện
+
+                var imageProduct = ProductImageController.GetByProductID(product.ID);
+
+                if(imageProduct != null)
+                {
+                    foreach (var img in imageProduct)
+                    {
+                        images.Add(img.ProductImage);
+                    }
+                }
+                
+
+                // lấy ảnh sản phẩm từ biến thể
+
+                var variable = ProductVariableController.GetByParentSKU(product.ProductSKU);
+
+                if(variable != null)
+                {
+                    foreach (var v in variable)
+                    {
+                        images.Add(v.Image);
+                    }
+                }
+
+            }
+            JavaScriptSerializer serializer = new JavaScriptSerializer();
+            return serializer.Serialize(images.Distinct().ToList());
+        }
+        [WebMethod]
         public static string updateShowHomePage(int id, int value)
         {
             string update = ProductController.updateShowHomePage(id, value);
@@ -207,6 +245,105 @@ namespace IM_PJ
             {
                 return "false";
             }
+        }
+        [WebMethod]
+        public static string copyProductInfo(int id)
+        {
+            var product = ProductController.GetByID(id);
+            StringBuilder html = new StringBuilder();
+            if (product != null)
+            {
+                html.Append("<p>" + product.ProductSKU + " - Sỉ " + (product.Regular_Price / 1000).ToString() + "k - " + product.ProductTitle + "</p>\r\n");
+                html.Append("<p></p>\r\n");
+                html.Append("<p>📌 Giá sỉ: " + (product.Regular_Price / 1000).ToString() + "k</p>\r\n");
+                html.Append("<p></p>\r\n");
+                html.Append("<p>📌 Giá lẻ: " + ((product.Retail_Price + 25000) / 1000).ToString() + "k</p>\r\n");
+                html.Append("<p></p>\r\n");
+
+                if (!string.IsNullOrEmpty(product.Materials))
+                {
+                    html.Append("<p>🔖 Chất liệu: " + product.Materials + "</p>\r\n");
+                    html.Append("<p></p>\r\n");
+                }
+
+                if (!string.IsNullOrEmpty(product.ProductContent))
+                {
+                    html.Append("<p>🔖 Mô tả: " + product.ProductContent + "</p>\r\n");
+                    html.Append("<p></p>\r\n");
+                }
+
+                // liệt kê thuộc tính sản phẩm
+
+                List<ProductVariable> variableTemp = new List<ProductVariable>();
+
+                List<tbl_ProductVariable> v = new List<tbl_ProductVariable>();
+
+                v = ProductVariableController.SearchProductID(id, "");
+
+                string Variable = "";
+                if (v.Count > 0)
+                {
+                    for (int i = 0; i < v.Count; i++)
+                    {
+                        var item = v[i];
+                        var value = ProductVariableValueController.GetByProductVariableIDSortByName(item.ID);
+                        if (value != null)
+                        {
+                            for (int j = 0; j < value.Count; j++)
+                            {
+                                variableTemp.Add(new ProductVariable() { VariableName = value[j].VariableName, VariableValue = value[j].VariableValue });
+
+                            }
+                        }
+                    }
+                    var vari = variableTemp.GroupBy(x => new { x.VariableName, x.VariableValue }).Select(x => new { VariableName = x.Key.VariableName, VariableValue = x.Key.VariableValue }).OrderBy(x => x.VariableName).ToList();
+
+                    string stringVariable = vari[0].VariableName;
+
+                    Variable = "<p><strong>📚 " + vari[0].VariableName + "</strong>: ";
+
+                    for (int y = 0; y < vari.Count; y++)
+                    {
+                        if (stringVariable == vari[y].VariableName)
+                        {
+                            Variable += vari[y].VariableValue + "; ";
+                        }
+                        else
+                        {
+                            Variable += "</p>\r\n";
+                            Variable += "<p></p>\r\n";
+                            Variable += "<p><strong>📐 " + vari[y].VariableName + "</strong>: " + vari[y].VariableValue + "; ";
+                            stringVariable = vari[y].VariableName;
+                        }
+                    }
+
+                    html.Append(Variable);
+                }
+
+                // thông tin liên hệ
+                html.Append("<p></p>\r\n");
+                html.Append("<p></p>\r\n");
+                html.Append("<p>-----------------------------------------------------------</p>\r\n");
+                html.Append("<p></p>\r\n");
+                html.Append("<p>⚡⚡ Hàng có sẵn tại KHO HÀNG SỈ ANN ⚡⚡</p>\r\n");
+                html.Append("<p></p>\r\n");
+                html.Append("<p>🏭 68 Đường C12, P.13, Tân Bình, TP.HCM</p>\r\n");
+                html.Append("<p></p>\r\n");
+                html.Append("<p>⭐ Web: ANN.COM.VN</p>\r\n");
+                html.Append("<p></p>\r\n");
+                html.Append("<p>⭐ Zalo đặt hàng: 0936786404 - 0913268406 - 0918567409</p>\r\n");
+                html.Append("<p></p>\r\n");
+                html.Append("<p>⭐ Zalo xem Quần Áo Nam: 0977399405 (Zalo này không trả lời tin nhắn)</p>\r\n");
+                html.Append("<p></p>\r\n");
+
+            }
+
+            return html.ToString();
+        }
+        public class ProductVariable
+        {
+            public string VariableName { get; set; }
+            public string VariableValue { get; set; }
         }
         #region Paging
         public void pagingall(List<ProductSQL> acs)
@@ -257,7 +394,12 @@ namespace IM_PJ
                 {
                     var item = acs[i];
                     html.Append("<tr>");
-                    html.Append("   <td><a href=\"/xem-san-pham.aspx?id=" + item.ID + "\"><img src=\"" + item.ProductImage + "\"/></a></td>");
+
+                    html.Append("<td>");
+                    html.Append("   <a href=\"/xem-san-pham.aspx?id=" + item.ID + "\"><img src=\"" + item.ProductImage + "\"/></a>");
+                    html.Append("   <a href=\"javascript:;\" onclick=\"copyProductInfo(" + item.ID + ")\" class=\"btn download-btn h45-btn\"><i class=\"fa fa-files-o\"></i> Copy</a>");
+                    html.Append("</td>");
+
                     html.Append("   <td class=\"customer-name-link\"><a href=\"/xem-san-pham.aspx?id=" + item.ID + "\">" + item.ProductTitle + "</a></td>");
                     html.Append("   <td class=\"customer-name-link\">" + item.ProductSKU + "</td>");
                     html.Append("   <td>" + string.Format("{0:N0}", item.RegularPrice) + "</td>");
@@ -283,8 +425,10 @@ namespace IM_PJ
                         }
                     }
                     html.Append("   <td>");
-                    html.Append("       <a href=\"/danh-sach-anh-san-pham.aspx?id=" + item.ID + "\" title=\"Xem hình ảnh\" class=\"btn primary-btn h45-btn\"><i class=\"fa fa-file-image-o\" aria-hidden=\"true\"></i></a>");
+                    html.Append("       <a href=\"javascript:;\" title=\"Download tất cả hình sản phẩm này\" class=\"btn primary-btn h45-btn\" onclick=\"getAllProductImage('" + item.ProductSKU + "');\"><i class=\"fa fa-file-image-o\" aria-hidden=\"true\"></i></a>");
                     html.Append("       <a target=\"_blank\" href=\"https://www.facebook.com/search/posts/?q=" + item.ProductSKU + "&filters_rp_author=%7B%22name%22%3A%22author%22%2C%22args%22%3A%22100012594165130%22%7D&filters_rp_chrono_sort=%7B%22name%22%3A%22chronosort%22%2C%22args%22%3A%22%22%7D\" title=\"Tìm trên facebook\" class=\"btn primary-btn btn-black h45-btn\"><i class=\"fa fa-facebook-official\" aria-hidden=\"true\"></i></a>");
+                    html.Append("       <a href=\"javascript:;\" title=\"Up sản phẩm lên web chính\" class=\"up-product-" + item.ID + " btn primary-btn h45-btn " + (item.ShowHomePage == 1 ? "" : "hide") + "\" onclick=\"ShowUpProductToWeb('" + item.ProductSKU + "', '" + item.ID + "', 'false', 'false');\"><i class=\"fa fa-upload\" aria-hidden=\"true\"></i></a>");
+                    
                     html.Append("  </td>");
                     html.Append("</tr>");
 

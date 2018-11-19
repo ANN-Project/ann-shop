@@ -2,7 +2,7 @@
 
 <%@ Register Assembly="Telerik.Web.UI" Namespace="Telerik.Web.UI" TagPrefix="telerik" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
-    <script src="/App_Themes/Ann/js/search-customer.js?v=1910"></script>
+    <script src="/App_Themes/Ann/js/search-customer.js?v=2110"></script>
     <script src="/App_Themes/Ann/js/search-product.js?v=1910"></script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
@@ -204,6 +204,7 @@
             </div>
             <asp:HiddenField ID="notAcceptChangeUser" Value="1" runat="server" />
             <asp:HiddenField ID="hdfUsername" runat="server" />
+            <asp:HiddenField ID="hdfUsernameCurrent" runat="server" />
             <asp:HiddenField ID="hdfOrderType" runat="server" />
             <asp:HiddenField ID="hdfTotalPrice" runat="server" />
             <asp:HiddenField ID="hdfTotalPriceNotDiscount" runat="server" />
@@ -272,6 +273,7 @@
 var orderItem = 0;
 
 function redirectTo(ID) {
+    HoldOn.open();
     $("#payall").addClass("payall-clicked");
     window.location.href = "/thong-tin-don-hang.aspx?id=" + ID;
 }
@@ -288,8 +290,6 @@ $("#txtSearch").keydown(function(event) {
 // focus to searchProduct input when page on ready
 $(document).ready(function() {
     $("#txtSearch").focus();
-
-    
 
     $("#<%=txtPhone.ClientID%>").keyup(function (e) {
         if (/\D/g.test(this.value)) {

@@ -321,12 +321,15 @@
     <Content Include="App_Themes\Ann\js\bootstrap-table\bootstrap-table.js" />
     <Content Include="App_Themes\Ann\js\bootstrap.min.js" />
     <Content Include="App_Themes\Ann\js\chartjs.min.js" />
+    <Content Include="App_Themes\Ann\js\download-product-image.js" />
+    <Content Include="App_Themes\Ann\js\sync-product.js" />
     <Content Include="App_Themes\Ann\js\HoldOn.js" />
     <Content Include="App_Themes\Ann\js\html2canvas.js" />
     <Content Include="App_Themes\Ann\js\jquery-2.1.3.min.js" />
     <Content Include="App_Themes\Ann\js\master.js" />
     <Content Include="App_Themes\Ann\js\popup.js" />
     <Content Include="App_Themes\Ann\js\search-customer.js" />
+    <Content Include="App_Themes\Ann\js\copy-product-info.js" />
     <Content Include="App_Themes\Ann\js\search-product.js" />
     <Content Include="App_Themes\Ann\scss\style.css" />
     <Content Include="App_Themes\Ann\scss\style.min.css" />
@@ -464,6 +467,7 @@
     <Content Include="SQL\05CREATE_STORE_PROCEDURE_GetReceiveProduct.sql" />
     <Content Include="SQL\IndexStockManager.sql" />
     <Content Include="SQL\TriggerStockManager.sql" />
+    <Content Include="sp.aspx" />
     <Content Include="them-chiet-khau.aspx" />
     <Content Include="them-danh-muc.aspx" />
     <Content Include="tao-don-hang-doi-tra.aspx" />
@@ -474,6 +478,7 @@
     <Content Include="thong-ke-phi-van-chuyen.aspx" />
     <Content Include="thong-tin-don-hang-chuyen-hoan.aspx" />
     <Content Include="xem-don-hang-doi-tra.aspx" />
+    <Content Include="xem-sp.aspx" />
     <Content Include="xem-san-pham.aspx" />
     <EntityDeploy Include="Models\IMModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
@@ -1304,6 +1309,13 @@
     <Compile Include="tat-ca-nhan-vien.aspx.designer.cs">
       <DependentUpon>tat-ca-nhan-vien.aspx</DependentUpon>
     </Compile>
+    <Compile Include="sp.aspx.cs">
+      <DependentUpon>sp.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="sp.aspx.designer.cs">
+      <DependentUpon>sp.aspx</DependentUpon>
+    </Compile>
     <Compile Include="tat-ca-san-pham.aspx.cs">
       <DependentUpon>tat-ca-san-pham.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -1597,6 +1609,13 @@
     </Compile>
     <Compile Include="ViewSwitcher.ascx.designer.cs">
       <DependentUpon>ViewSwitcher.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="xem-sp.aspx.cs">
+      <DependentUpon>xem-sp.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="xem-sp.aspx.designer.cs">
+      <DependentUpon>xem-sp.aspx</DependentUpon>
     </Compile>
     <Compile Include="xem-san-pham.aspx.cs">
       <DependentUpon>xem-san-pham.aspx</DependentUpon>

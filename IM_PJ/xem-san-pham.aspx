@@ -2,6 +2,20 @@
 
 <%@ Register Assembly="Telerik.Web.UI" Namespace="Telerik.Web.UI" TagPrefix="telerik" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
+    <style>
+        .btn.download-btn {
+            background-color: #000;
+            color: #fff;
+            border-radius: 0;
+            font-size: 16px;
+            text-transform: uppercase;
+            width: 100%;
+        }
+        .btn.down-btn {
+            background-color: #E91E63;
+            color: #fff;
+        }
+    </style>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <main id="main-wrap">
@@ -62,22 +76,6 @@
                             </div>
                             <div class="form-row">
                                 <div class="row-left">
-                                    Tồn kho ít nhất
-                                </div>
-                                <div class="row-right">
-                                    <asp:Label ID="lbpMinimumInventoryLevel" runat="server" CssClass="form-control"></asp:Label>
-                                </div>
-                            </div>
-                            <div class="form-row">
-                                <div class="row-left">
-                                    Tồn kho nhiều nhất
-                                </div>
-                                <div class="row-right">
-                                    <asp:Label ID="lbpMaximumInventoryLevel" runat="server" CssClass="form-control"></asp:Label>
-                                </div>
-                            </div>
-                            <div class="form-row">
-                                <div class="row-left">
                                     Nhà cung cấp
                                 </div>
                                 <div class="row-right">
@@ -116,14 +114,6 @@
                             </div>
                             <div class="form-row">
                                 <div class="row-left">
-                                    Ảnh đại diện
-                                </div>
-                                <div class="row-right">
-                                    <asp:Image runat="server" ID="ProductThumbnail" Width="200" />
-                                </div>
-                            </div>
-                            <div class="form-row">
-                                <div class="row-left">
                                     Nội dung
                                 </div>
                                 <div class="row-right">
@@ -147,7 +137,7 @@
                     </div>
                 </div>
             </div>
-            <div class="row tableview hide">
+            <div class="row tableview">
                 <div class="col-md-12">
                     <div class="panel-table clear">
                         <div class="responsive-table">
@@ -166,17 +156,13 @@
                 </div>
             </div>
         </div>
+
         <asp:HiddenField ID="hdfTempVariable" runat="server" />
         <asp:HiddenField ID="hdfVariableFull" runat="server" />
         <asp:HiddenField ID="hdfTable" runat="server" />
     </main>
 
-    <telerik:RadCodeBlock runat="server">
-        <script>
-            var bt = document.getElementById('<%= hdfTable.ClientID%>').defaultValue;
-            if (bt == "2") {
-                $(".tableview").removeClass('hide').add('show');
-            }
-        </script>
-    </telerik:RadCodeBlock>
+    <script src="/App_Themes/Ann/js/copy-product-info.js?v=2011"></script>
+    <script src="/App_Themes/Ann/js/sync-product.js?v=2111"></script>
+    <script src="/App_Themes/Ann/js/download-product-image.js?v=2011"></script>
 </asp:Content>

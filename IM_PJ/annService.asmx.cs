@@ -118,12 +118,64 @@ namespace IM_PJ
 
         [WebMethod]
         [ScriptMethod(UseHttpGet = false, ResponseFormat = ResponseFormat.Json)]
-        public void GetProductByCategory(int CategoryID, int limit, string username, string password, int showHomePage, int minQuantity)
+        public void GetProductBySKU(string SKU, string username, string password)
         {
             var rs = new ResponseClass();
             if (Login(username, password))
             {
-                var Product = ProductController.GetProductAPI(CategoryID, limit, showHomePage, minQuantity);
+                var Product = ProductController.GetAllSql(0, SKU);
+
+                if (Product.Count > 0)
+                {
+                    rs.Code = APIUtils.GetResponseCode(APIUtils.ResponseCode.SUCCESS);
+                    rs.Status = APIUtils.ResponseMessage.Success.ToString();
+
+                    foreach (var item in Product)
+                    {
+                        if (!string.IsNullOrEmpty(item.ProductImage))
+                        {
+                            item.ProductContent += String.Format("<p><img src='/wp-content/uploads/{0}' alt='{1}'/></p>", item.ProductImage.Split('/')[3], item.ProductTitle);
+                        }
+
+                        var productImage = ProductImageController.GetByProductID(item.ID);
+
+                        if (productImage.Count() > 0)
+                        {
+                            foreach (var image in productImage)
+                            {
+                                item.ProductImage += "|" + image.ProductImage;
+                                item.ProductContent += String.Format("<p><img src='/wp-content/uploads/{0}' alt='{1}'/></p>", image.ProductImage.Split('/')[3], item.ProductTitle);
+                            }
+                        }
+                    }
+                    rs.Product = Product;
+                }
+                else
+                {
+                    rs.Code = APIUtils.GetResponseCode(APIUtils.ResponseCode.NotFound);
+                    rs.Status = APIUtils.ResponseMessage.Error.ToString();
+                    rs.Message = APIUtils.OBJ_DNTEXIST;
+                }
+            }
+            else
+            {
+                rs.Code = APIUtils.GetResponseCode(APIUtils.ResponseCode.FAILED);
+                rs.Status = APIUtils.ResponseMessage.Fail.ToString();
+            }
+
+            Context.Response.ContentType = "application/json";
+            Context.Response.Write(JsonConvert.SerializeObject(rs, Formatting.Indented));
+            Context.Response.Flush();
+            Context.Response.End();
+        }
+        [WebMethod]
+        [ScriptMethod(UseHttpGet = false, ResponseFormat = ResponseFormat.Json)]
+        public void GetProductByCategory(int CategoryID, int limit, string username, string password, int showHomePage, int minQuantity, int changeProductName)
+        {
+            var rs = new ResponseClass();
+            if (Login(username, password))
+            {
+                var Product = ProductController.GetProductAPI(CategoryID, limit, showHomePage, minQuantity, changeProductName);
 
                 if (Product.Count > 0)
                 {

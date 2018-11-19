@@ -1,4 +1,8 @@
-﻿a.bg-button {
+﻿.disabled {
+    pointer-events: none;
+    opacity: 0.6;
+}
+a.bg-button {
     color:#fff!important;
 }
 a.bg-button:hover {
@@ -448,10 +452,10 @@ ul.image-gallery li {
     width: inherit;
 }
 .all-product-table .image-column {
-    width: 13%;
+    width: 11%;
 }
 .all-product-table .name-column {
-    width: 21%;
+    width: 19%;
 }
 .all-product-table .sku-column {
     width: 6%;
@@ -478,10 +482,10 @@ ul.image-gallery li {
     width: 7%;
 }
 .all-product-table .show-homepage-column {
-    width: 7%;
+    width: 6%;
 }
 .all-product-table .action-column {
-    width: 7%;
+    width: 12%;
 }
 .all-product-table .variable-column {
     width: 20%;

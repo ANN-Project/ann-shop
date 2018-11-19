@@ -50,6 +50,9 @@ namespace IM_PJ
         }
         public void LoadData()
         {
+            string username = Request.Cookies["userLoginSystem"].Value;
+            var acc = AccountController.GetByUsername(username);
+
             string error = "";
             
             int ID = Request.QueryString["id"].ToInt(0);
@@ -97,7 +100,7 @@ namespace IM_PJ
                     }
                     else
                     {
-                        error += "Không tìm thấy đơn hàng đổi trả " + order.RefundsGoodsID.ToString();
+                        error += "<p>Không tìm thấy đơn hàng đổi trả " + order.RefundsGoodsID.ToString() + " (có thể đã bị xóa khi làm lại đơn đổi trả). Thêm lại đơn hàng đổi trả nhé!</p>";
                     }
                 }
 
@@ -156,7 +159,7 @@ namespace IM_PJ
                     }
                     else
                     {
-                        error += "- Đơn hàng này gửi chành xe " + transportCompany + " nhưng <strong>chưa chọn Nơi nhận</strong>!";
+                        error += "<p>- Đơn hàng này gửi chành xe " + transportCompany + " nhưng <strong>chưa chọn Nơi nhận</strong>!</p>";
                     }
                 }
 
@@ -174,7 +177,12 @@ namespace IM_PJ
                     }
                     else
                     {
-                        error += "- Đơn hàng này <strong>gửi Bưu điện</strong> nhưng <strong>chưa nhập</strong> MÃ VẬN ĐƠN!";
+                        error += "<p>- Đơn hàng này <strong>gửi Bưu điện</strong> nhưng <strong>chưa nhập</strong> MÃ VẬN ĐƠN!</p>";
+                    }
+
+                    if(order.PaymentType != 3 && acc.RoleID != 0)
+                    {
+                        error += "<p>- Đơn hàng này <strong>gửi Bưu điện</strong> nhưng <strong>Không gửi thu hộ</strong>. Nếu có lý do thì báo chị Ngọc xử lý nhé!</p>";
                     }
                 }
                 else if (order.ShippingType == 3)
@@ -186,14 +194,14 @@ namespace IM_PJ
                     }
                     else
                     {
-                        error += "- Đơn hàng này <strong>gửi Dịch vụ ship</strong> nhưng <strong>chưa nhập</strong> MÃ VẬN ĐƠN!";
+                        error += "<p>- Đơn hàng này <strong>gửi Dịch vụ ship</strong> nhưng <strong>chưa nhập</strong> MÃ VẬN ĐƠN!</p>";
                     }
                 }
                 else if (order.ShippingType == 4)
                 {
                     if (transportCompany == "")
                     {
-                        error += "- Đơn hàng này <strong>gửi xe</strong> nhưng <strong>chưa chọn Chành xe</strong> nào!";
+                        error += "<p>- Đơn hàng này <strong>gửi xe</strong> nhưng <strong>chưa chọn Chành xe</strong> nào!</p>";
                     }
                     else
                     {

@@ -31,11 +31,12 @@ namespace IM_PJ
                     {
                         if (acc.RoleID == 0)
                         {
-
+                            hdfUsernameCurrent.Value = acc.Username;
                         }
                         else if (acc.RoleID == 2)
                         {
                             hdfUsername.Value = acc.Username;
+                            hdfUsernameCurrent.Value = acc.Username;
                         }
                         else
                         {

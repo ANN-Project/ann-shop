@@ -98,8 +98,12 @@ namespace IM_PJ
 
                     if(Convert.ToInt32(ViewState["role"]) == 0 || Convert.ToInt32(ViewState["role"]) == 1)
                     {
-                        ltrEdit1.Text = "<a href=\"/thong-tin-san-pham.aspx?id=" + p.ID + "\" class=\"btn primary-btn fw-btn not-fullwidth\">Chỉnh sửa</a>";
-                        ltrEdit2.Text = "<a href=\"/thong-tin-san-pham.aspx?id=" + p.ID + "\" class=\"btn primary-btn fw-btn not-fullwidth\">Chỉnh sửa</a>";
+                        ltrEdit1.Text = "<a href=\"/thong-tin-san-pham.aspx?id=" + p.ID + "\" class=\"btn primary-btn fw-btn not-fullwidth\"><i class=\"fa fa-pencil-square-o\" aria-hidden=\"true\"></i> Chỉnh sửa</a>";
+                        ltrEdit1.Text += "<a href=\"/tao-san-pham\" class=\"btn primary-btn fw-btn not-fullwidth print-invoice-merged\"><i class=\"fa fa-file-text-o\" aria-hidden=\"true\"></i> Thêm mới</a>";
+                        ltrEdit1.Text += "<a href=\"javascript:;\" onclick=\"copyProductInfo(" + p.ID + ")\" class=\"btn primary-btn not-fullwidth print-invoice-merged\"><i class=\"fa fa-files-o\"></i> Copy thông tin</a>";
+                        ltrEdit1.Text += "<a href=\"javascript:;\" onclick=\"ShowUpProductToWeb('" + p.ProductSKU + "', '" + p.ID + "', 'false', 'false');\" class=\"up-product-" + p.ID + " btn primary-btn not-fullwidth print-invoice-merged " + (p.ShowHomePage == 1 ? "" : "hide") + "\"><i class=\"fa fa-upload\" aria-hidden=\"true\"></i> Đồng bộ</a>";
+                        ltrEdit1.Text += "<a href=\"javascript:;\" onclick=\"getAllProductImage('" + p.ProductSKU + "');\" class=\"btn primary-btn not-fullwidth print-invoice-merged\"><i class=\"fa fa-cloud-download\"></i> Tải tất cả hình ảnh</a>";
+                        ltrEdit2.Text = ltrEdit1.Text;
                     }
 
                     lbProductTitle.Text = p.ProductTitle;
@@ -138,32 +142,25 @@ namespace IM_PJ
                     ddlSupplier.SelectedValue = p.SupplierID.ToString();
                     ddlCategory.SelectedValue = p.CategoryID.ToString();
                     lbMaterials.Text = p.Materials;
-                    lbpMinimumInventoryLevel.Text = p.MinimumInventoryLevel.ToString();
-                    lbpMaximumInventoryLevel.Text = p.MaximumInventoryLevel.ToString();
 
+                    // thư viện ảnh
                     var image = ProductImageController.GetByProductID(id);
-
                     imageGallery.Text = "<ul class=\"image-gallery\">";
+                    imageGallery.Text += "<li><img src=\"" + p.ProductImage + "\" /><a href='" + p.ProductImage + "' download class='btn download-btn download-image h45-btn'><i class='fa fa-cloud-download'></i> Tải hình này</a></li>";
                     if (image != null)
                     {
                         foreach(var img in image)
                         {
-                            imageGallery.Text +="<li><img src=\"" + img.ProductImage + "\" /></li>";
+                            if(img.ProductImage != p.ProductImage)
+                            {
+                                imageGallery.Text += "<li><img src=\"" + img.ProductImage + "\" /><a href='" + img.ProductImage + "' download class='btn download-btn download-image h45-btn'><i class='fa fa-cloud-download'></i> Tải hình này</a></li>";
+                            }
                         }
                     }
                     imageGallery.Text += "</ul>";
-
-                    if (p.ProductImage != null)
-                    {
-                        ProductThumbnail.ImageUrl = p.ProductImage;
-                    }
+                    
 
                     hdfTable.Value = p.ProductStyle.ToString();
-                    var ka = ProductVariableController.SearchProductID(p.ID, "");
-                    if (ka != null)
-                    {
-                        //var value = ProductVariableValueController.GetByProductVariableID(a.ID);
-                    }
                 }
 
                 List<tbl_ProductVariable> b = new List<tbl_ProductVariable>();
@@ -175,7 +172,7 @@ namespace IM_PJ
         #region Paging
         public void pagingall(List<tbl_ProductVariable> acs, int userRole)
         {
-            int PageSize = 20;
+            int PageSize = 40;
             StringBuilder html = new StringBuilder();
             if (acs.Count > 0)
             {

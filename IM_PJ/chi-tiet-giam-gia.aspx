@@ -27,13 +27,13 @@
                             </div>
                             <div class="form-row">
                                 <div class="row-left">
-                                    Giá chiết khấu
+                                    Chiết khấu mỗi cái
                                     <asp:RequiredFieldValidator ID="RequiredFieldValidator5" runat="server" ControlToValidate="pDiscountAmount" ForeColor="Red"
                                         ErrorMessage="(*)" Display="Dynamic" SetFocusOnError="true"></asp:RequiredFieldValidator>
                                 </div>
                                 <div class="row-right">
                                     <telerik:RadNumericTextBox runat="server" CssClass="form-control width-notfull" Skin="MetroTouch"
-                                        ID="pDiscountAmount" MinValue="0" NumberFormat-GroupSizes="3" Width="100%" Value="0">
+                                        ID="pDiscountAmount" MinValue="0" NumberFormat-GroupSizes="3" Width="100%" Value="0" NumberFormat-DecimalDigits="0">
                                     </telerik:RadNumericTextBox>
                                 </div>
                             </div>
@@ -45,19 +45,19 @@
                                 </div>
                                 <div class="row-right">
                                     <telerik:RadNumericTextBox runat="server" CssClass="form-control width-notfull" Skin="MetroTouch"
-                                        ID="pDiscountAmountPercent" MinValue="0" NumberFormat-GroupSizes="3" Width="100%" Value="0">
+                                        ID="pDiscountAmountPercent" MinValue="0" Width="100%" Value="0" NumberFormat-DecimalDigits="0">
                                     </telerik:RadNumericTextBox>
                                 </div>
                             </div>
                             <div class="form-row" >
                                 <div class="row-left">
-                                    Phí trả hàng
+                                    Phí đổi hàng mỗi cái
                                     <asp:RequiredFieldValidator ID="RequiredFieldValidator2" runat="server" ControlToValidate="pDiscountAmountPercent" ForeColor="Red"
                                         ErrorMessage="(*)" Display="Dynamic" SetFocusOnError="true"></asp:RequiredFieldValidator>
                                 </div>
                                 <div class="row-right">
                                     <telerik:RadNumericTextBox runat="server" CssClass="form-control width-notfull" Skin="MetroTouch"
-                                        ID="rRefundGoods" MinValue="0" NumberFormat-GroupSizes="3" Width="100%" Value="0">
+                                        ID="rRefundGoods" MinValue="0" NumberFormat-GroupSizes="3" Width="100%" Value="0" NumberFormat-DecimalDigits="0">
                                     </telerik:RadNumericTextBox>
                                 </div>
                             </div>

@@ -1,6 +1,20 @@
 ﻿<%@ Page Title="Tất cả sản phẩm" Language="C#" MasterPageFile="~/MasterPage.Master" AutoEventWireup="true" CodeBehind="tat-ca-san-pham.aspx.cs" Inherits="IM_PJ.tat_ca_san_pham" EnableSessionState="ReadOnly" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
+    <style>
+        .btn.download-btn {
+            background-color: #000;
+            color: #fff;
+            border-radius: 0;
+            text-transform: uppercase;
+            width: 100%;
+            height: 35px;
+            line-height: 8px;
+        }
+        .btn.download-btn:hover {
+            color: #ff8400;
+        }
+    </style>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <main id="main-wrap">
@@ -117,8 +131,12 @@
             </div>
         </div>
 
+        <script src="/App_Themes/Ann/js/copy-product-info.js?v=2011"></script>
+        <script src="/App_Themes/Ann/js/sync-product.js?v=2111"></script>
+        <script src="/App_Themes/Ann/js/download-product-image.js?v=2011"></script>
         
         <script type="text/javascript">
+
             // Parse URL Queries
             function url_query(query) {
                 query = query.replace(/[\[]/, "\\\[").replace(/[\]]/, "\\\]");
@@ -172,16 +190,18 @@
                 $.ajax({
                     type: "POST",
                     url: "/tat-ca-san-pham.aspx/updateShowHomePage",
-                    data: "{id:'" + productID + "', value: '" + update + "'}",
+                    data: "{id: '" + productID + "', value: '" + update + "'}",
                     contentType: "application/json; charset=utf-8",
                     dataType: "json",
                     success: function (msg) {
                         if (msg.d == "true") {
                             if (value == 1) {
                                 $('#showHomePage_' + productID).html("<a href='javascript:;' data-product-id='" + productID + "' data-value='0' class='bg-black bg-button' onclick='changeShowHomePage($(this))'>Đang ẩn</a>");
+                                $(".up-product-" + productID).addClass("hide");
                             }
                             else {
                                 $('#showHomePage_' + productID).html("<a href='javascript:;' data-product-id='" + productID + "' data-value='1' class='bg-green bg-button' onclick='changeShowHomePage($(this))'>Đang hiện</a>");
+                                $(".up-product-" + productID).removeClass("hide");
                             }
                         }
                         else {
@@ -190,6 +210,7 @@
                     }
                 });
             }
+
         </script>
     </main>
 </asp:Content>

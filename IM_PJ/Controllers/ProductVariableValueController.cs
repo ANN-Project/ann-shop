@@ -103,6 +103,16 @@ namespace IM_PJ.Controllers
             }
         }
 
+        public static List<tbl_ProductVariableValue> GetByProductVariableIDSortByName(int ProductVariableID)
+        {
+            using (var dbe = new inventorymanagementEntities())
+            {
+                List<tbl_ProductVariableValue> ags = new List<tbl_ProductVariableValue>();
+                ags = dbe.tbl_ProductVariableValue.Where(p => p.ProductVariableID == ProductVariableID).OrderBy(o => o.VariableName).ToList();
+                return ags;
+            }
+        }
+
         public static List<tbl_ProductVariableValue> GetByProductVariableSKU(string ProductVariableSKU)
         {
             using (var dbe = new inventorymanagementEntities())

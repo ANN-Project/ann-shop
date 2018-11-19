@@ -2,7 +2,7 @@
 
 <%@ Register Assembly="Telerik.Web.UI" Namespace="Telerik.Web.UI" TagPrefix="telerik" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
-    <script src="/App_Themes/Ann/js/search-customer.js?v=1910"></script>
+    <script src="/App_Themes/Ann/js/search-customer.js?v=2110"></script>
     <script src="/App_Themes/Ann/js/search-product.js?v=1910"></script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
@@ -45,7 +45,7 @@
                             </div>
                         </div>
                         <div class="panel-post">
-                            <div class="post-row clear">
+                            <div class="post-row clear totalquantity">
                                 <div class="left">Số lượng</div>
                                 <div class="right totalproductQuantity"></div>
                             </div>
@@ -520,7 +520,7 @@
                 getAllPrice();
             }
 
-            function showChangeMoney() {
+            function showConfirmOrder() {
                 var totalpriceorderall = $(".totalpricedetail").html();
                 var html = "";
                 html += "<div class=\"change-money\">";
@@ -529,40 +529,45 @@
                 html += "<input ID=\"totalMoney\" disabled class=\"form-control total-money\" value=\"" + totalpriceorderall + "\"></input>";
                 html += "</div>";
                 html += "<div class=\"form-group\">";
-                html += "<label>Khách hàng trả: </label>";
-                html += "<input ID=\"guestPaid\" class=\"form-control\"></input>";
+                html += "<label>Hãy kiểm tra lại số lượng và nhập vào đây: </label>";
+                html += "<input ID=\"SoldQuantity\" class=\"form-control\"></input>";
                 html += "</div>";
-                html += "<div class=\"form-group\">";
-                html += "<label>Tiền thối lại: </label>";
-                html += "<input ID=\"guestChange\" disabled class=\"form-control\"></input>";
-                html += "</div>";
-                html += "<a href=\"javascript:;\" class=\"btn link-btn\" style=\"background-color:#f87703;float:right;color:#fff;\" onclick=\"clickSubmit()\">Xác nhận</a>";
+                html += "<a href=\"javascript:;\" class=\"submit-order btn link-btn\" style=\"background-color:#f87703;float:right;color:#fff;\" onclick=\"clickSubmit()\">Xác nhận</a>";
                 html += "</div>";
                 html += "</div>";
                 showPopup(html, 5);
-                $("#guestPaid").focus();
-                $("#guestPaid").keydown(function (e) {
+                $("#SoldQuantity").focus();
+                $("#SoldQuantity").keydown(function (e) {
                     if (e.which == 13) {
-                        var value = parseInt($("#guestPaid").val()) * 1000;
-                        $("#guestPaid").val(formatThousands(value, ','));
-
-                        var total = $("#<%=hdfTongTienConLai.ClientID%>").val();
-                        var change = value - total;
-                        $("#guestChange").val(formatThousands(change, ','));
-
-                        $("#<%=pGuestPaid.ClientID%>").val(value);
-                        getAllPrice();
-
-                        $("#guestPaid").blur();
+                        clickSubmit();
+                        event.preventDefault();
                         return false;
                     }
                 });
             }
 
             function clickSubmit() {
-                closePopup();
-                HoldOn.open();
-                $("#<%=btnOrder.ClientID%>").click();
+                var totalquantity = $("#<%=hdfTotalQuantity.ClientID%>").val();
+                var inputquantity = $("#SoldQuantity").val();
+
+                if (totalquantity == inputquantity) {
+                    closePopup();
+                    HoldOn.open();
+                    $("#<%=btnOrder.ClientID%>").click();
+                }
+                else {
+                    $("#SoldQuantity").focus();
+                    swal({
+                        title: "Sai số lượng rồi...", text: "Đếm kỹ lại nha...",
+                        type: "error",
+                        showCancelButton: false,
+                        confirmButtonText: "OK Sếp!!",
+                        closeOnConfirm: true,
+                        html: false
+                    }, function () {
+                        $("#SoldQuantity").focus();
+                    });
+                }
             }
 
             // print invoice after submit order
@@ -662,7 +667,8 @@
 
                         $("#<%=hdfOrderType.ClientID %>").val(ordertype);
                         $("#<%=hdfListProduct.ClientID%>").val(orderDetails);
-                        showChangeMoney();
+                        $(".totalquantity").addClass("hide");
+                        showConfirmOrder();
                     } else {
                         $("#txtSearch").focus();
                         swal("Thông báo", "Hãy nhập sản phẩm!", "error");

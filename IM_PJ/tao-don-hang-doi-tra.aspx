@@ -2,7 +2,7 @@
 
 <%@ Register Assembly="Telerik.Web.UI" Namespace="Telerik.Web.UI" TagPrefix="telerik" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
-    <script src="/App_Themes/Ann/js/search-customer.js?v=1910"></script>
+    <script src="/App_Themes/Ann/js/search-customer.js?v=2110"></script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <asp:Panel ID="parent" runat="server">
@@ -163,7 +163,7 @@
                                 </div>
                                 <div class="panel-post">
                                     <div class="post-table-links clear">
-                                        <a href="javascript:;" class="btn link-btn" style="background-color: #f87703; float: right;" onclick="payall()"><i class="fa fa-floppy-o"></i> Xác nhận</a>
+                                        <a href="javascript:;" class="btn link-btn" style="background-color: #f87703; float: right;" onclick="payall()" id="payall"><i class="fa fa-floppy-o"></i> Xác nhận</a>
                                         <a href="javascript:;" class="btn link-btn" style="background-color: #F44336; float: right;" onclick="deleteProduct()"><i class="fa fa-times" aria-hidden="true"></i> Làm lại</a>
                                         <a href="javascript:;" class="btn link-btn minus-discount" style="background-color: #009688; float: right;" onclick="minusDiscount()"><i class="fa fa-arrow-down" aria-hidden="true"></i> Trừ chiết khấu</a>
                                         <a href="javascript:;" class="btn link-btn restore-discount hide" style="background-color: #009688; float: right;" onclick="restoreDiscount()"><i class="fa fa-arrow-up" aria-hidden="true"></i> Khôi phục giá bán cũ</a>
@@ -224,6 +224,28 @@
     <telerik:RadScriptBlock ID="sc" runat="server">
         <script type="text/javascript">
 
+            function redirectTo(ID) {
+                HoldOn.open();
+                $("#payall").addClass("payall-clicked");
+                window.location.href = "/xem-don-hang-doi-tra?id=" + ID;
+            }
+
+            // check data before close page or refresh page
+            function stopNavigate(event) {
+                $(window).off('beforeunload');
+            }
+
+            $(window).bind('beforeunload', function(e) {
+                if ($("#payall").hasClass("payall-clicked")) {
+                    e = null;
+                } else {
+                    if ($(".product-result").length > 0 || $("#<%=txtPhone.ClientID%>").val() != "" || $("#<%= txtFullname.ClientID%>").val() != "")
+                        return true;
+                    else
+                        e = null;
+                }
+            });
+
             //disable input
             $("#<%= txtPhone.ClientID%>").prop('readonly', true);
             $("#<%= txtFullname.ClientID%>").prop('readonly', true);
@@ -281,10 +303,7 @@
             // Create model
             var productRefunds = [];
             var productDeleteRefunds = [];
-
-            function redirectTo(ID) {
-                window.location.href = "/xem-don-hang-doi-tra?id=" + ID;
-            }
+            
 
             function minusDiscount() {
                 swal({
@@ -861,6 +880,8 @@
             }
 
             function payall() {
+                $("#payall").addClass("payall-clicked");
+
                 var phone = $("#<%=txtPhone.ClientID%>").val();
                 var name = $("#<%= txtFullname.ClientID%>").val();
                 var nick = $("#<%= txtNick.ClientID%>").val();
@@ -878,6 +899,7 @@
                         HoldOn.open();
                         $("#<%=hdfListProduct.ClientID%>").val(dataJSON);
                         $("#<%=btnSave.ClientID%>").click();
+                        
                     }
                     else {
                         $("#txtSearch").focus();
