@@ -21,11 +21,11 @@
 <body class="index">
     <div class="">
         <!-- MENU MOBILE -->
-        @{ Html.RenderAction("GetMobileMenu", "MenuItem"); }
+        @{ Html.RenderAction("GetPartialMenuItem", "MenuItem", new { menu_name = "Main Menu", view_name = "~/Views/Menu/_MobileMenu.cshtml" }); }
         <!-- TOP MENU MAIN -->
-        @{ Html.RenderAction("GetTopMenu", "MenuItem"); }
+        @{ Html.RenderAction("GetPartialMenuItem", "MenuItem", new { menu_name = "Top Menu", view_name = "~/Views/Menu/_TopMenu.cshtml" }); }
         <!-- HEADER MENU -->
-        @{ Html.RenderAction("GetHeaderMenu", "MenuItem"); }
+        @{ Html.RenderAction("GetPartialMenuItem", "MenuItem", new { menu_name = "Main Menu", view_name = "~/Views/Menu/_HeaderMenu.cshtml" }); }
         <!-- MAIN CONTENT -->
         @RenderBody()
         <!-- FOOTER MENU -->
@@ -161,7 +161,7 @@
         </div>
     </div>
 
-    @Scripts.Render(Url.Content("/Scripts/ann-shop/index/index.js"))
+    @Scripts.Render(Url.Content("~/Scripts/ann-shop/index/index.js"))
     @RenderSection("scripts", required: false)
 </body>
 </html>

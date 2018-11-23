@@ -1,7 +1,7 @@
 ﻿@using ann_shop.Utils
 @model ann_shop.Models.ProductModel
 
-@Scripts.Render(Url.Content("/Scripts/ann-shop/product/index.js"))
+@Scripts.Render(Url.Content("~/Scripts/ann-shop/product/index.js"))
 
 <div class="container-wrap homepage-page">
     <div id="content">
@@ -29,7 +29,7 @@
                                 <div id="surround">
                                     <div class="row">
                                         <div class="col-lg-10 col-md-12 col-sm-12 col-xs-12 box-image-featured">
-                                            <img class="product-image-feature" style="display:none" src="/images/0530_la_07_1024x1024.jpg" alt="Tankini top  swimskirt Juni">
+                                            <img class="product-image-feature" style="display:none" src="@Url.Content(Model.Avartar)" alt="Tankini top  swimskirt Juni">
                                             <div class="lazy-load-ball lazy-product-featured">
                                                 <div class="uil-ring-css">
                                                     <div></div>
@@ -43,7 +43,7 @@
                                                     @foreach (var image in Model.Images)
                                                     {
                                                         <li class="product-thumb 0530">
-                                                            <a href="javascript:void(0);" data-image=".@image.large">
+                                                            <a href="javascript:void(0);" data-image="@Url.Content(image.large)">
                                                                 <img src="@Url.Content(image.small)" />
                                                             </a>
                                                         </li>
@@ -165,7 +165,7 @@
                                         </div>
                                     </div>
                                     @* Show list product same *@
-                                    @{ Html.RenderAction("GetProductSame", new { category_id = Model.CategoryID}); }
+                                    @{ Html.RenderAction("GetPartialProductSame", new { view_name = "~/Views/Product/_ProductSame.cshtml", category_id = Model.CategoryID}); }
                                 </div>
                             </div>
                             <div class="btn-position hidden-xs" style="display: none;">
@@ -173,14 +173,14 @@
                                     <li class="buy-new-pos addnow">
                                         <a href="javascript:void(0);" title="Đặt mua ngay">
                                             <div class="arrow-cirle-btn">
-                                                <img src="/images/arrow-btn-buy.png" />
+                                                <img src="@Url.Content("~/images/arrow-btn-buy.png")" />
                                             </div>
                                             <span>Mua ngay</span>
                                         </a>
                                     </li>
                                     <li class="cart-pos" id="cart-pos-product">
                                         <a href="/cart" title="Xem lại giỏ hàng">
-                                            <img src="/images/icon-cart-pos.png" />
+                                            <img src="@Url.Content("~/images/icon-cart-pos.png")" />
                                             <span>0 sản phẩm</span>
                                         </a>
                                     </li>
@@ -232,7 +232,7 @@
                             </div>
                         </div>
                         @* Show list product top *@
-                        @{ Html.RenderAction("GetProductTop", new { category_id = Model.CategoryID }); }
+                        @{ Html.RenderAction("GetPartialProductTop", new { view_name = "~/Views/Product/_ProductTop.cshtml", category_id = Model.CategoryID }); }
                     </div>
                 </div>
             </div>

@@ -1,0 +1,8 @@
+﻿@using ann_shop.Utils
+
+@model List<ann_shop.Models.ProductModel>
+
+@foreach (var product in Model)
+{
+    @Html.ANNProd(product, MoneyType.VND, new { @class = "item product-item product-grid-item h-hover-alt product-wrapper col-lg-6 col-md-3 col-sm-6 col-xs-6" });
+}

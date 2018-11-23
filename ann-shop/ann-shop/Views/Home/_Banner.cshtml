@@ -1,0 +1,152 @@
+﻿@using System.Text
+@using ann_shop.Models
+
+@{
+    #region Create data banner 1
+    var banner_horizontal = new List<BannerModel>(){
+        new BannerModel()
+        {
+            url = "#01",
+            image = new ImageModel()
+            {
+                small = "~/images/img_bn_01.jpg"
+            }
+        },
+        new BannerModel()
+        {
+            url = "#02",
+            image = new ImageModel()
+            {
+                small = "~/images/img_bn_02.jpg"
+            }
+        }
+    };
+    #endregion
+
+    #region Create data banner 2
+    var banner_vertical = new List<BannerModel>(){
+        new BannerModel()
+        {
+            url = "#01",
+            image = new ImageModel()
+            {
+                small = "~/images/img_static_01.jpg"
+            },
+            banner_text_1 = "Đồ bơi một mảnh đẹp",
+            banner_text_2 = "Mua ngay"
+        },
+        new BannerModel()
+        {
+            url = "#02",
+            image = new ImageModel()
+            {
+                small = "~/images/img_static_02.jpg"
+            },
+            banner_text_1 = "Bikini cho mùa hè",
+            banner_text_2 = "Zanzea swimwear"
+        },
+        new BannerModel()
+        {
+            url = "#03",
+            image = new ImageModel()
+            {
+                small = "~/images/img_static_03.jpg"
+            },
+            banner_text_1 = "Phụ kiện đồ bơi nữ",
+            banner_text_2 = "Xem ngay"
+        }
+    };
+    #endregion
+}
+
+@functions{
+    public static string GetBannerHorizontalHTML(List<BannerModel> banners)
+    {
+        var html = new StringBuilder();
+        var url = new UrlHelper(HttpContext.Current.Request.RequestContext);
+
+        foreach(var item in banners)
+        {
+            html.Append("<li class='col-xs-01 col-sm-6 col-xs-6'>");
+            html.Append(String.Format("    <a class='areaBox areaBoximg' title='{0}' href='{1}'>", item.image.title, item.url));
+            html.Append(String.Format("        <img src='{0}'>", url.Content(item.image.small)));
+            html.Append("    </a>");
+            html.Append("</li>");
+        }
+
+        return html.ToString();
+    }
+
+    public static string GetBannerVerticalHTML(List<BannerModel> banners)
+    {
+        var html = new StringBuilder();
+        var url = new UrlHelper(HttpContext.Current.Request.RequestContext);
+        var index = 0;
+
+        foreach (var item in banners)
+        {
+            html.Append("<div class='col-sm-4 col-xs-4'>");
+            html.Append("    <div class='banner-image banner-image1'>");
+
+            if (index % 2 == 0)
+            {
+                html.Append("        <div class='banner-text banner-topt text-center'>");
+                html.Append(String.Format("            <h2>{0}</h2>", item.banner_text_1));
+                html.Append(String.Format("            <h3>Mua ngay</h3>", item.banner_text_2));
+                html.Append("        </div>");
+
+                html.Append("        <div class='banner-image'>");
+                html.Append(String.Format("            <a href='{0}' class='areaBoximg'>", item.url));
+                html.Append(String.Format("                <img alt='' src='{0}'>", url.Content(item.image.small)));
+                html.Append("            </a>");
+                html.Append("        </div>");
+            }
+            else
+            {
+                html.Append("        <div class='banner-image'>");
+                html.Append(String.Format("            <a href='{0}' class='areaBoximg'>", item.url));
+                html.Append(String.Format("                <img alt='' src='{0}'>", url.Content(item.image.small)));
+                html.Append("            </a>");
+                html.Append("        </div>");
+
+                html.Append("        <div class='banner-text banner-topt text-center'>");
+                html.Append(String.Format("            <h2>{0}</h2>", item.banner_text_1));
+                html.Append(String.Format("            <h3>Mua ngay</h3>", item.banner_text_2));
+                html.Append("        </div>");
+            }
+
+            html.Append("    </div>");
+            html.Append("</div>");
+
+            index += 1;
+        }
+
+        return html.ToString();
+    }
+}
+
+<!-- banner new slide bottom  -->
+<div class="f-fix mg10">
+    <div class="promoBox f-fix">
+        <div class="container">
+            <ul class="staticBlock row">
+                @Html.Raw(GetBannerHorizontalHTML(banner_horizontal))
+            </ul>
+        </div>
+    </div>
+</div>
+<section class="f-fix content-wrapper oneCol mg10 col-xs-hide">
+    <div class="container zero padTop">
+        <div class="oneBox">
+            <div class="columnOne areaBox proArea">
+                <div class="std">
+                    <div class="container zeroNine">
+                        <div class="row oneBox">
+                            @Html.Raw(GetBannerVerticalHTML(banner_vertical))
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

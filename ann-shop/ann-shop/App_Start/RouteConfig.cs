@@ -14,20 +14,20 @@ namespace ann_shop
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
             routes.MapRoute(
-                name: "Categoroy Page",
-                url: "category/{slug}/page/{page}",
+                name: "CategoroyPage",
+                url: "danh-muc/{slug}/page/{page}",
                 defaults: new { controller = "ArchiveProduct", action = "Index", slug=UrlParameter.Optional, page = UrlParameter.Optional }
             );
 
             routes.MapRoute(
                 name: "Categoroy",
-                url: "category/{slug:string}",
-                defaults: new { controller = "ArchiveProduct", action = "Index", slug = UrlParameter.Optional }
+                url: "danh-muc/{slug}",
+                defaults: new { controller = "ArchiveProduct", action = "Index", slug = "" }
             );
 
             routes.MapRoute(
                 name: "Product",
-                url: "Product/{slug:string}",
+                url: "san-pham/{slug}",
                 defaults: new { controller = "Product", action = "Index", slug = UrlParameter.Optional }
             );
 

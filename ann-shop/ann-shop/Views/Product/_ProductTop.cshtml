@@ -17,12 +17,12 @@
                         <div class="item mb10">
                             <div class="box-product-review clearfix">
                                 <div class="col-xs-4 pd-none-l box-image">
-                                    <a href="/product/@product.Slug" class="url-product" title="@product.Name">
-                                        <img class="image-review" src="@product.Avartar" alt="@product.Name">
+                                    <a href="@Url.RouteUrl("Product", new { slug = product.Slug })" class="url-product" title="@product.Name">
+                                        <img class="image-review" src="@Url.Content(product.Avartar)" alt="@product.Name">
                                     </a>
                                 </div>
                                 <div class="col-xs-8 pd-none-l">
-                                    <a href="/products/@product.Slug" class="url-product" title="@product.Name">
+                                    <a href="@Url.RouteUrl("Product", new { slug = product.Slug })" class="url-product" title="@product.Name">
                                         <h2 class="title-review">@product.Name</h2>
                                     </a>
                                     <div class="infor-product-review">
