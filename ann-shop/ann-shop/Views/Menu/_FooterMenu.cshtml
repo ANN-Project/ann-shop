@@ -40,11 +40,11 @@
             <div class="footer-center-wrap">
                 <div class="row">
                     <!-- SUPPORT MENU -->
-                    @{ Html.RenderAction("GetSupportMenu", "MenuItem"); }
+                    @{ Html.RenderAction("GetPartialMenuItem", "MenuItem", new { menu_name = "Support Menu", view_name = "~/Views/Menu/_SupportMenu.cshtml" }); }
                     <!-- SERVICE MENU -->
-                    @{ Html.RenderAction("GetServiceMenu", "MenuItem"); }
+                    @{ Html.RenderAction("GetPartialMenuItem", "MenuItem", new { menu_name = "Service Menu", view_name = "~/Views/Menu/_ServiceMenu.cshtml" }); }
                     <!-- SERVICE SUPPORT MENU -->
-                    @{ Html.RenderAction("GetServiceSupportMenu", "MenuItem"); }
+                    @{ Html.RenderAction("GetPartialMenuItem", "MenuItem", new { menu_name = "Service Support Menu", view_name = "~/Views/Menu/_ServiceSupportMenu.cshtml" }); }
                     <div class="col-md-3 col-sm-6 col-xs-12 wow animated fadeInUp">
                         <div id="newsletter_block" class="footer-block toggle-mb">
                             <h4 class="title_block toggle-mb-title" aria-expanded="false">

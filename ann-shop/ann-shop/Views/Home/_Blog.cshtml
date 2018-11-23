@@ -1,0 +1,186 @@
+﻿@using System.Text
+@using ann_shop.Models
+
+@{ 
+    #region Create data blog
+    var blogs = new List<BlogModel>()
+    {
+        #region Create data blog1
+        new BlogModel() {
+            url = "/blogs/news/bong-mat-voi-nhung-phan-thi-bikini-cua-cac-hoa-hau-viet",
+            image = new ImageModel()
+            {
+                title = "Bỏng mắt với những phần thi bikini của các hoa hậu Việt",
+                small = "~/images/xx_large.jpg"
+            },
+            container = new StringBuilder()
+                .Append("<p class='new-info'><b class='day-time'>28</b> THÁNG 08/2017</p>")
+                .Append("<h3 class='new-name'><a href='/blogs/news/bong-mat-voi-nhung-phan-thi-bikini-cua-cac-hoa-hau-viet'>Bỏng mắt với những phần thi bikini của các hoa hậu Việt</a></h3>")
+                .Append("<p class='new-description'>")
+                .Append("    Trong các phần thi hoa hậu, Bikini được xem là phần thi được mong chờ nhiều nhất. Những thân hình gợi cảm, cùng những đưỡng...<br>")
+                .Append("    <a class='home_blog_view_more' href='/blogs/news/bong-mat-voi-nhung-phan-thi-bikini-cua-cac-hoa-hau-viet'>Xem thêm <i class='fa fa-angle-double-right'></i></a>")
+                .Append("</p>")
+                .ToString()
+        },
+        #endregion
+        #region Create data blog2
+        new BlogModel() {
+            url = "/blogs/news/4-chieu-tao-dang-voi-bikini-khien-ai-cung-phat-hon",
+            image = new ImageModel()
+            {
+                title = @"4 chiêu tạo dáng với bikini khiến ai cũng "" phát hờn"" ",
+                small = "~/images/1aa_large.jpg"
+            },
+            container = new StringBuilder()
+                .Append("<p class='new-info'><b class='day-time'>28</b> THÁNG 08/2017</p>")
+                .Append("<h3 class='new-name'><a href='/blogs/news/4-chieu-tao-dang-voi-bikini-khien-ai-cung-phat-hon'>4 chiêu tạo dáng với bikini khiến ai cũng 'phát hờn'</a></h3>")
+                .Append("<p class='new-description'>")
+                .Append("    Mùa hè là mùa của những chuyến đi chơi, là cơ hội để chị em thỏa sức tung hoành với đồ bơi nữ. Mùa hè là...<br>")
+                .Append("    <a class='home_blog_view_more' href='/blogs/news/4-chieu-tao-dang-voi-bikini-khien-ai-cung-phat-hon'>Xem thêm <i class='fa fa-angle-double-right'></i></a>")
+                .Append("</p>")
+                .ToString()
+        },
+        #endregion
+        #region Create data blog3
+        new BlogModel() {
+            url = "/blogs/news/them-nhung-bi-quyet-hay-cho-ban-nu-dien-bikini-that-dep",
+            image = new ImageModel()
+            {
+                title = "Thêm những bí quyết hay cho bạn nữ diện bikini thật đẹp",
+                small = "~/images/6f_large.jpg"
+            },
+            container = new StringBuilder()
+                .Append("<p class='new-info'><b class='day-time'>28</b> THÁNG 08/2017</p>")
+                .Append("<h3 class='new-name'><a href='/blogs/news/them-nhung-bi-quyet-hay-cho-ban-nu-dien-bikini-that-dep'>Thêm những bí quyết hay cho bạn nữ diện bikini thật đẹp</a></h3>")
+                .Append("<p class='new-description'>")
+                .Append("    Diện bikini thật đẹp với những bí quyết không phải bạn gái nào cũng biết giúp bạn thêm tự tin tỏa sáng vào những ngày...<br>")
+                .Append("    <a class='home_blog_view_more' href='/blogs/news/them-nhung-bi-quyet-hay-cho-ban-nu-dien-bikini-that-dep'>Xem thêm <i class='fa fa-angle-double-right'></i></a>")
+                .Append("</p>")
+                .ToString()
+        },
+        #endregion
+        #region Create data blog4
+        new BlogModel() {
+            url = "/blogs/news/4-sai-lam-ban-thuong-mac-phai-moi-khi-he-den",
+            image = new ImageModel()
+            {
+                title = "4 sai lầm bạn thường mắc phải mỗi khi hè đến",
+                small = "~/images/7bb_large.jpg"
+            },
+            container = new StringBuilder()
+                .Append("<p class='new-info'><b class='day-time'>28</b> THÁNG 08/2017</p>")
+                .Append("<h3 class='new-name'><a href='/blogs/news/4-sai-lam-ban-thuong-mac-phai-moi-khi-he-den'>4 sai lầm bạn thường mắc phải mỗi khi hè đến</a></h3>")
+                .Append("<p class='new-description'>")
+                .Append("    Những ngày hè đến khiến suy nghĩ của bạn không thể rời khỏi những chuyến du lịch biển đầy nắng, gió và cát. Bạn luôn...<br>")
+                .Append("    <a class='home_blog_view_more' href='/blogs/news/4-sai-lam-ban-thuong-mac-phai-moi-khi-he-den'>Xem thêm <i class='fa fa-angle-double-right'></i></a>")
+                .Append("</p>")
+                .ToString()
+        }
+        #endregion
+    };
+    #endregion
+}
+
+@functions{ 
+    public static string GetBlogHTML(List<BlogModel> blogs)
+    {
+        var html = new StringBuilder();
+        var url = new UrlHelper(HttpContext.Current.Request.RequestContext);
+
+        foreach(var item in blogs)
+        {
+            html.Append("<div class='item'>");
+            html.Append("    <div class='new-item'>");
+            html.Append("        <div class='col-xs-6 no-padding-r home-blog-content-left'>");
+            html.Append("            <div class='new-img'>");
+            html.Append(String.Format("                <a href='{0}' class='banner-img'>", item.url));
+            html.Append(String.Format("                    <img class='blog-r-image-feature imgboxdv' src='{0}' alt='{1}' />", url.Content(item.image.small), item.image.title));
+            html.Append("                </a>");
+            html.Append("            </div>");
+            html.Append("        </div>");
+            html.Append("        <div class='col-xs-6 no-padding-l home-blog-content-right'>");
+            html.Append("            <div class='home-blog-content-right-div'>");
+            html.Append(item.container);
+            html.Append("            </div>");
+            html.Append("        </div>");
+            html.Append("    </div>");
+            html.Append("</div>");
+        }
+
+        return html.ToString();
+    }
+}
+
+<div class="mg-10  home-blogs">
+    <div class="container ">
+        <div class="coll-index-title title-home">
+            <div class="line-wrap">
+                <span class="left-line"></span>
+                <span class="title">
+                    XU HƯỚNG ĐỒ BƠI
+                    <span class="title-separator">
+                        <span>
+                        </span>
+                    </span>
+                </span>
+                <span class="right-line"></span>
+                <span class="title-after_title">Khám phá những xu hướng và thông tin làm đẹp mới nhất.</span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <div id="owl-home-blogs" class="home-section-posts">
+                    @Html.Raw(GetBlogHTML(blogs))
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- /section -->
+<script>
+    if (!$(".noo_testimonial2").length > 0) {
+        $(".noo_testimonial").each(function () {
+            $(this).owlCarousel({
+                autoPlay: true,
+                navigation: true,
+                slideSpeed: 400,
+                pagination: false,
+                paginationSpeed: 400,
+                addClassActive: true,
+                singleItem: true
+            });
+        });
+    }
+
+    if (!$(".home-section-postss").length > 0) {
+        $(".home-section-posts").each(function () {
+            $(this).owlCarousel({
+                autoPlay: true,
+                responsive: {
+                    0: {
+                        items: 1
+                    },
+                    480: {
+                        items: 1
+                    },
+                    768: {
+                        items: 1
+                    },
+                    992: {
+                        items: 2
+                    },
+                    1200: {
+                        items: 2
+                    }
+                },
+                navigation: false,
+                slideSpeed: 400,
+                pagination: false,
+                paginationSpeed: 400,
+                addClassActive: true
+
+            });
+        });
+    }
+</script>

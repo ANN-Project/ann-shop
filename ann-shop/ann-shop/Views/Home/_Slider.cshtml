@@ -1,0 +1,77 @@
+﻿@using System.Text
+@using ann_shop.Models
+
+@{
+    #region Create data sliders
+    var sliders = new List<SliderModel>()
+    {
+        new SliderModel() {
+            url = "//haravan.com/?ref=nobita-1",
+            image = new ImageModel()
+            {
+                title = "Bộ sản phẩm NovAge Ultimate",
+                large = "http://localhost/ann-shop/images/slider_item_1_image_large.jpg",
+                small = "http://localhost/ann-shop/images/slider_item_1_image.jpg"
+            },
+            container = new StringBuilder()
+                .Append("<p>Chọn bikini xinh tự tin khoe dáng</p>")
+                .Append("<h3>Ưu đãi đến 50%++</h3>")
+                .ToString()
+        },
+        new SliderModel() {
+            url = "//haravan.com/?ref=nobita-1",
+            image = new ImageModel()
+            {
+                title = "Nền tảng khoa học",
+                large = "http://localhost/ann-shop/images/slider_item_2_image_large.jpg",
+                small = "http://localhost/ann-shop/images/slider_item_2_image.jpg"
+            },
+            container = new StringBuilder()
+                .Append("<p>Mua sắm thả ga</p>")
+                .Append("<h3>Tại Bikini Beach</h3>")
+                .ToString()
+        },
+    };
+    #endregion
+}
+
+@functions{
+    public static string GetSliderHTML(List<SliderModel> sliders)
+    {
+        var html = new StringBuilder();
+
+        foreach(var item in sliders)
+        {
+            html.Append("<div class='item'>");
+            html.Append(String.Format("    <a href='{0}'>", item.url));
+            html.Append("        <picture>");
+            html.Append(String.Format("            <source media='(max-width: 767px)' srcset='{0}'>", item.image.large));
+            html.Append(String.Format("            <source media='(min-width: 768px) and (max-width: 991px)' srcset='{0}'>", item.image.small));
+            html.Append(String.Format("            <source media='(min-width: 992px) and (max-width: 1199px)' srcset='{0}'>", item.image.small));
+            html.Append(String.Format("            <source media='(min-width: 1200px)' srcset='{0}'>", item.image.small));
+            html.Append(String.Format("            <img src='{0}' alt='{1}'>", item.image.small, item.image.title));
+            html.Append("        </picture>");
+            html.Append("    </a>");
+            html.Append("    <div class='container'>");
+            html.Append("        <div class='text-desc'>");
+            html.Append(item.container);
+            html.Append("        </div>");
+            html.Append("    </div>");
+            html.Append("</div>");
+        }
+
+        return html.ToString();
+    }
+}
+
+<div class="section-01">
+    <div class="banner-silder">
+        <div id="home-banner-slider">
+            <div class="list-carousel">
+                <div id="slider-01" class="babyhouse-owl hide-nav owl-carousel">
+                    @Html.Raw(GetSliderHTML(sliders))
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

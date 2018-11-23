@@ -7,8 +7,8 @@ namespace ann_shop.Models
 {
     public class ImageModel
     {
-        public string small { get; set; }
-        public string normal { get; set; }
+        public string title { get; set; }
         public string large { get; set; }
+        public string small { get; set; }
     }
 }
