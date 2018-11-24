@@ -9,7 +9,7 @@ using ann_shop.Models;
 
 namespace ann_shop.Services
 {
-    public class ShortCodeService: ANNService
+    public class ShortCodeService : ANNService
     {
         public ShortCodeModel GetShortCode(string name)
         {
@@ -22,7 +22,7 @@ namespace ann_shop.Services
                 new ShortCodeModel()
                 {
                     name = "home-service",
-                    content = new StringBuilder()
+                    container = new StringBuilder()
                         .Append("<div class='home-service mg10'>")
                         .Append("    <div class='container clearfix'>")
                         .Append("        <div class='row'>")
@@ -72,7 +72,7 @@ namespace ann_shop.Services
                 new ShortCodeModel()
                 {
                     name = "home-banner-about",
-                    content = new StringBuilder()
+                    container = new StringBuilder()
                         .Append("<div class='banner-about mg-10'>")
                         .Append("    <div class='container'>")
                         .Append("        <div class='row'>")
@@ -112,9 +112,17 @@ namespace ann_shop.Services
             };
             #endregion
 
-            return short_codes
-                .Where(x => x.name == name)
-                .FirstOrDefault();
+            var result = db.tbl_ShortCode.Where(
+                    x => x.Name == name.Trim()
+                ).Select(
+                    x => new ShortCodeModel()
+                    {
+                        name = x.Name,
+                        container = x.Container
+                    }
+                ).FirstOrDefault();
+
+            return result;
         }
     }
 }

@@ -88,6 +88,7 @@
     <Build Include="dbo\Tables\tbl_Customer.sql" />
     <Build Include="dbo\Tables\tbl_Menu.sql" />
     <Build Include="dbo\Tables\tbl_MenuItem.sql" />
+    <Build Include="dbo\Tables\tbl_ShortCode.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="ann-data.refactorlog" />
@@ -95,5 +96,10 @@
   <ItemGroup>
     <None Include="scripts\dbo.tbl_Menu.data.sql" />
     <None Include="scripts\dbo.tbl_MenuItem.data.sql" />
+    <None Include="scripts\dbo.tbl_Product.data.sql" />
+    <None Include="scripts\dbo.tbl_ProductCategory.data.sql" />
+    <None Include="scripts\dbo.tbl_ProductImage.data.sql" />
+    <None Include="scripts\dbo.tbl_ProductInCategory.data.sql" />
+    <None Include="scripts\dbo.tbl_ShortCode.data.sql" />
   </ItemGroup>
 </Project>

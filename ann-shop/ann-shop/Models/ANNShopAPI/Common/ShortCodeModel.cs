@@ -8,6 +8,6 @@ namespace ann_shop.Models
     public class ShortCodeModel
     {
         public string name { get; set; }
-        public string content { get; set; }
+        public string container { get; set; }
     }
 }

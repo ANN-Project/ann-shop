@@ -282,6 +282,7 @@
     <Compile Include="Models\ANNShopAPI\Product\ProductModel.cs" />
     <Compile Include="Models\ANNShopModel\tbl_Menu.cs" />
     <Compile Include="Models\ANNShopModel\tbl_MenuItem.cs" />
+    <Compile Include="Models\ANNShopModel\tbl_ShortCode.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ANNShopModel\tbl_Account.cs" />
     <Compile Include="Models\ANNShopModel\tbl_Attribute.cs" />
@@ -496,6 +497,11 @@
     <Content Include="Views\Product\Index.cshtml" />
     <Content Include="Views\Product\_ProductTop.cshtml" />
     <Content Include="Views\Product\_ProductSame.cshtml" />
+    <Content Include="Views\Home\_Banner.cshtml" />
+    <Content Include="Views\Home\_BlockProduct.cshtml" />
+    <Content Include="Views\Home\_Blog.cshtml" />
+    <Content Include="Views\Home\_Product.cshtml" />
+    <Content Include="Views\Home\_Slider.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -12,13 +12,13 @@ namespace ann_shop.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class tbl_ProductInCategory
+    public partial class tbl_ShortCode
     {
         public int ID { get; set; }
-        public int ProductID { get; set; }
-        public int CategoryID { get; set; }
-        public Nullable<int> CreatedBy { get; set; }
-        public Nullable<System.DateTime> CreatedDate { get; set; }
+        public string Name { get; set; }
+        public string Container { get; set; }
+        public Nullable<int> CreateBy { get; set; }
+        public Nullable<System.DateTime> CreateDate { get; set; }
         public Nullable<int> ModifiedBy { get; set; }
         public Nullable<System.DateTime> ModifiedDate { get; set; }
     }

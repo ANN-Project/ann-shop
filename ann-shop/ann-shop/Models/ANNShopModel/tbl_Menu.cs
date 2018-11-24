@@ -18,5 +18,10 @@ namespace ann_shop.Models
         public string Slug { get; set; }
         public string Name { get; set; }
         public string Location { get; set; }
+        public int Order { get; set; }
+        public Nullable<int> CreateBy { get; set; }
+        public Nullable<System.DateTime> CreateDate { get; set; }
+        public Nullable<int> ModifiedBy { get; set; }
+        public Nullable<System.DateTime> ModifiedDate { get; set; }
     }
 }

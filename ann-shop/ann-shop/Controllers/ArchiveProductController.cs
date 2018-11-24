@@ -21,7 +21,7 @@ namespace ann_shop.Controllers
         {
             ViewBag.Title = "Bikini Beach";
 
-            var model = _service.getIndex(page ?? 0);
+            var model = _service.getIndex(slug, page ?? 0);
 
             return View(model);
         }

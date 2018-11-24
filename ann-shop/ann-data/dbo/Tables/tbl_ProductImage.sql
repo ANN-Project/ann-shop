@@ -5,6 +5,8 @@
     [Title] NVARCHAR (MAX) NULL,
     [CreatedBy]   INT            NULL,
     [CreatedDate] DATETIME       NULL,
+    [ModifiedBy]       INT            NULL,
+    [ModifiedDate]     DATETIME       NULL,
     CONSTRAINT [PK_tbl_ProductImage] PRIMARY KEY CLUSTERED ([ID] ASC)
 );
 
