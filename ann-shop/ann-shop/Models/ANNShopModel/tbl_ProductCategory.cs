@@ -23,6 +23,7 @@ namespace ann_shop.Models
         public string MetaTitle { get; set; }
         public string MetaDescription { get; set; }
         public Nullable<int> Hidden { get; set; }
+        public int Order { get; set; }
         public Nullable<int> CreatedBy { get; set; }
         public Nullable<System.DateTime> CreatedDate { get; set; }
         public Nullable<int> ModifiedBy { get; set; }

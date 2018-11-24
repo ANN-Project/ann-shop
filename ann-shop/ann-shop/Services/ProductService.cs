@@ -7,7 +7,7 @@ using System.Web;
 
 namespace ann_shop.Services
 {
-    public class ProductService
+    public class ProductService: ANNService
     {
         private ProductModel _model;
 
@@ -181,13 +181,60 @@ namespace ann_shop.Services
             }
             #endregion
 
-            return products;
+            var result = db.tbl_ProductCategory.Where(
+                    x => x.Slug == category_slug.Trim()
+                ).Join(
+                    db.tbl_ProductInCategory,
+                    category => category.ID,
+                    product => product.CategoryID,
+                    (category, product) => product
+                ).Join(
+                    db.tbl_Product,
+                    product => product.ProductID,
+                    info => info.ID,
+                    (product, info) => info
+                ).Select(
+                    x => new ProductModel()
+                    {
+                        ID = x.ID,
+                        Name = x.Name,
+                        Price = x.CostOfGoods,
+                        Avartar = x.Image,
+                        Slug = x.Slug
+                    }
+                ).ToList();
+
+            return result;
         }
 
         public List<ProductModel> GetProductInCategories(List<string> category_slugs)
         {
-            var products = new List<ProductModel>();
-            return new List<ProductModel>();
+            category_slugs = category_slugs.Select(x => x.Trim()).ToList();
+
+            var result = db.tbl_ProductCategory.Where(
+                    x => category_slugs.Contains(x.Slug)
+                ).Join(
+                    db.tbl_ProductInCategory,
+                    category => category.ID,
+                    product => product.CategoryID,
+                    (category, product) => product
+                ).Join(
+                    db.tbl_Product,
+                    product => product.ProductID,
+                    info => info.ID,
+                    (product, info) => info
+                ).Select(
+                    x => new ProductModel()
+                    {
+                        ID = x.ID,
+                        Name = x.Name,
+                        Price = x.CostOfGoods,
+                        Avartar = x.Image,
+                        Slug = x.Slug
+                    }
+                ).ToList();
+
+            return result;
         }
     }
 }

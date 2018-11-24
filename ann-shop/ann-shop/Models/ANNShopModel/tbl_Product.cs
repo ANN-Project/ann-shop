@@ -23,9 +23,9 @@ namespace ann_shop.Models
         public string Materials { get; set; }
         public string Type { get; set; }
         public string Slug { get; set; }
-        public Nullable<double> WholesalePrice { get; set; }
-        public Nullable<double> RetailPrice { get; set; }
-        public Nullable<double> CostOfGoods { get; set; }
+        public decimal WholesalePrice { get; set; }
+        public decimal RetailPrice { get; set; }
+        public decimal CostOfGoods { get; set; }
         public Nullable<int> ManageStock { get; set; }
         public Nullable<int> StockStatus { get; set; }
         public Nullable<int> Status { get; set; }

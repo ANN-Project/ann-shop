@@ -19,7 +19,7 @@ namespace ann_shop.Services
         {
         }
 
-        private void GetProductPage(int page)
+        private void GetProductPage(string slug, int page)
         {
             #region Create data product at category page
             var products = new List<ProductModel>()
@@ -63,20 +63,43 @@ namespace ann_shop.Services
             };
             #endregion
 
+            products = db.tbl_ProductCategory.Where(
+                    x => x.Slug == slug.Trim()
+                ).Join(
+                    db.tbl_ProductInCategory,
+                    category => category.ID,
+                    product => product.CategoryID,
+                    (category, product) => product
+                ).Join(
+                    db.tbl_Product,
+                    product => product.ProductID,
+                    info => info.ID,
+                    (product, info) => info
+                ).Select(
+                    x => new ProductModel()
+                    {
+                        ID = x.ID,
+                        Name = x.Name,
+                        Price = x.CostOfGoods,
+                        Avartar = x.Image,
+                        Slug = x.Slug
+                    }
+                ).ToList();
+
             _model.Page = page;
             _model.TotalProduct = products.Count;
             _model.TotalPage = Convert.ToInt32(Math.Ceiling(_model.TotalProduct * 1.0 / _model.PageSize));
-            _model.Slug = "bikini";
+            _model.Slug = slug;
             _model.Products = products
                 .Skip(page * _model.PageSize)
                 .Take(_model.PageSize)
                 .ToList();
         }
 
-        public ArchiveProductModel getIndex(int page)
+        public ArchiveProductModel getIndex(string slug, int page)
         {
             Init();
-            GetProductPage(page);
+            GetProductPage(slug, page);
 
             return _model;
         }

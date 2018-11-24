@@ -21,7 +21,7 @@ namespace ann_shop.Controllers
         {
             var model = _service.GetShortCode(name);
 
-            return new MvcHtmlString(model == null ? null : model.content);
+            return new MvcHtmlString(model == null ? null : model.container);
         }
     }
 }

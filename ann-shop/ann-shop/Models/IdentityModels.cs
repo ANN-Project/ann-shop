@@ -55,6 +55,7 @@ namespace ann_shop.Models
         public virtual DbSet<tbl_ProductVariantValue> tbl_ProductVariantValue { get; set; }
         public virtual DbSet<tbl_Menu> tbl_Menu { get; set; }
         public virtual DbSet<tbl_MenuItem> tbl_MenuItem { get; set; }
+        public virtual DbSet<tbl_ShortCode> tbl_ShortCode { get; set; }
 
     }
 }

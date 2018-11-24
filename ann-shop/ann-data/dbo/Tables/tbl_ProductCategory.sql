@@ -8,6 +8,7 @@
     [MetaTitle]       NVARCHAR (250) NULL,
     [MetaDescription] NVARCHAR (MAX) NULL,
     [Hidden]          INT            NULL,
+    [Order]           INT NULL DEFAULT 0,
     [CreatedBy]       INT            NULL,
     [CreatedDate]     DATETIME       NULL,
     [ModifiedBy]      INT            NULL,
