@@ -225,9 +225,7 @@
                                     Nội dung
                                 </div>
                                 <div class="row-right">
-                                    <telerik:RadEditor runat="server" ID="pContent" Width="100%"
-                                        Height="600px" ToolsFile="~/FilesResources/ToolContent.xml" Skin="Metro"
-                                        DialogHandlerUrl="~/Telerik.Web.UI.DialogHandler.axd" AutoResizeHeight="True">
+                                    <telerik:RadEditor runat="server" ID="pContent" Width="100%" Height="500px" ToolsFile="~/FilesResources/ToolContent.xml" Skin="Metro" DialogHandlerUrl="~/Telerik.Web.UI.DialogHandler.axd" AutoResizeHeight="False" EnableResize="False">
                                         <ImageManager ViewPaths="~/uploads/images" UploadPaths="~/uploads/images" DeletePaths="~/uploads/images" />
                                     </telerik:RadEditor>
                                 </div>
@@ -941,6 +939,7 @@
                     showThumbnail(file, args);
                 }
             }
+
             function DelRow(that, link) {
 
                 $(that).parent().parent().remove();

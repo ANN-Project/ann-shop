@@ -573,7 +573,7 @@ textarea.form-control {
           width: 100%;
           background-color: #f87703;
           position: absolute;
-          left: 0;
+          left: 1px;
           bottom: 0;
           -webkit-transition: all 0.6s ease-in-out;
           -moz-transition: all 0.6s ease-in-out;
@@ -1450,4 +1450,3 @@ textarea.form-control {
     background-color: #f8f8f8 !important; }
   .table-collapse tbody > tr.collapse-heading.in + tr {
     display: table-row; }
-

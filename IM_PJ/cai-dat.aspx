@@ -66,7 +66,7 @@
                                     Nội quy đổi trả hàng mua sỉ
                                 </div>
                                 <div class="row-right">
-                                    <telerik:RadEditor runat="server" ID="pReturnRule1" Width="100%" Height="500px" ToolsFile="~/FilesResources/ToolContent.xml" Skin="Metro" DialogHandlerUrl="~/Telerik.Web.UI.DialogHandler.axd" AutoResizeHeight="True">
+                                    <telerik:RadEditor runat="server" ID="pReturnRule1" Width="100%" Height="500px" ToolsFile="~/FilesResources/ToolContent.xml" Skin="Metro" DialogHandlerUrl="~/Telerik.Web.UI.DialogHandler.axd" AutoResizeHeight="False">
                                         <ImageManager ViewPaths="~/uploads/images" UploadPaths="~/uploads/images" DeletePaths="~/uploads/images" />
                                     </telerik:RadEditor>
                                 </div>
@@ -76,7 +76,7 @@
                                     Nội quy đổi trả hàng mua lẻ
                                 </div>
                                 <div class="row-right">
-                                    <telerik:RadEditor runat="server" ID="pReturnRule2" Width="100%" Height="500px" ToolsFile="~/FilesResources/ToolContent.xml" Skin="Metro" DialogHandlerUrl="~/Telerik.Web.UI.DialogHandler.axd" AutoResizeHeight="True">
+                                    <telerik:RadEditor runat="server" ID="pReturnRule2" Width="100%" Height="500px" ToolsFile="~/FilesResources/ToolContent.xml" Skin="Metro" DialogHandlerUrl="~/Telerik.Web.UI.DialogHandler.axd" AutoResizeHeight="False">
                                         <ImageManager ViewPaths="~/uploads/images" UploadPaths="~/uploads/images" DeletePaths="~/uploads/images" />
                                     </telerik:RadEditor>
                                 </div>

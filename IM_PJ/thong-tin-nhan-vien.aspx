@@ -121,6 +121,18 @@
                             </div>
                             <div class="form-row">
                                 <div class="row-left">
+                                    Ghi chú
+                                </div>
+                                <div class="row-right">
+                                    <telerik:RadEditor runat="server" ID="txtNote" Width="100%"
+                                        Height="600px" ToolsFile="~/FilesResources/ToolContentAccount.xml" Skin="Metro"
+                                        DialogHandlerUrl="~/Telerik.Web.UI.DialogHandler.axd" AutoResizeHeight="False">
+                                        <ImageManager ViewPaths="~/uploads/images" UploadPaths="~/uploads/images" DeletePaths="~/uploads/images" />
+                                    </telerik:RadEditor>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="row-left">
                                 </div>
                                 <div class="row-right">
                                     <asp:Button ID="btnSubmit" runat="server" CssClass="btn primary-btn fw-btn not-fullwidth" Text="Cập nhật" OnClick="btnSubmit_Click" />

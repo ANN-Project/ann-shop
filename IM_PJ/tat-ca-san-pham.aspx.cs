@@ -42,7 +42,7 @@ namespace IM_PJ
         {
             var category = CategoryController.GetAllWithIsHidden(false);
             ddlCategory.Items.Clear();
-            ddlCategory.Items.Insert(0, new ListItem("Danh mục sản phẩm", "0"));
+            ddlCategory.Items.Insert(0, new ListItem("Danh mục", "0"));
             if (category.Count > 0)
             {
                 addItemCategory(0, "");
@@ -333,7 +333,13 @@ namespace IM_PJ
                 html.Append("<p></p>\r\n");
                 html.Append("<p>⭐ Zalo đặt hàng: 0936786404 - 0913268406 - 0918567409</p>\r\n");
                 html.Append("<p></p>\r\n");
+                html.Append("<p>⭐ Facebook: https://facebook.com/bosiquanao.net </p>\r\n");
+                html.Append("<p></p>\r\n");
                 html.Append("<p>⭐ Zalo xem Quần Áo Nam: 0977399405 (Zalo này không trả lời tin nhắn)</p>\r\n");
+                html.Append("<p></p>\r\n");
+                html.Append("<p>⭐ Zalo xem Đồ Bộ Nữ: 0975442402 (Zalo này không trả lời tin nhắn)</p>\r\n");
+                html.Append("<p></p>\r\n");
+                html.Append("<p>⭐ Zalo xem Váy Đầm - Áo Nữ - Quần Nữ: 0987409403 (Zalo này không trả lời tin nhắn)</p>\r\n");
                 html.Append("<p></p>\r\n");
 
             }
@@ -413,7 +419,8 @@ namespace IM_PJ
                     html.Append("   <td>" + item.CategoryName + "</td>");
                     string date = string.Format("{0:dd/MM/yyyy}", item.CreatedDate);
                     html.Append("   <td>" + date + "</td>");
-                    if (acc.RoleID == 0)
+
+                    if (acc.RoleID == 0 || acc.RoleID == 1)
                     {
                         if (item.ShowHomePage == 0)
                         {
@@ -424,11 +431,16 @@ namespace IM_PJ
                             html.Append("   <td><span id='showHomePage_" + item.ID + "'><a href='javascript:;' data-product-id='" + item.ID + "' data-value='1' class='bg-green bg-button' onclick='changeShowHomePage($(this))'>Đang hiện</a></span></td>");
                         }
                     }
+
                     html.Append("   <td>");
                     html.Append("       <a href=\"javascript:;\" title=\"Download tất cả hình sản phẩm này\" class=\"btn primary-btn h45-btn\" onclick=\"getAllProductImage('" + item.ProductSKU + "');\"><i class=\"fa fa-file-image-o\" aria-hidden=\"true\"></i></a>");
                     html.Append("       <a target=\"_blank\" href=\"https://www.facebook.com/search/posts/?q=" + item.ProductSKU + "&filters_rp_author=%7B%22name%22%3A%22author%22%2C%22args%22%3A%22100012594165130%22%7D&filters_rp_chrono_sort=%7B%22name%22%3A%22chronosort%22%2C%22args%22%3A%22%22%7D\" title=\"Tìm trên facebook\" class=\"btn primary-btn btn-black h45-btn\"><i class=\"fa fa-facebook-official\" aria-hidden=\"true\"></i></a>");
-                    html.Append("       <a href=\"javascript:;\" title=\"Up sản phẩm lên web chính\" class=\"up-product-" + item.ID + " btn primary-btn h45-btn " + (item.ShowHomePage == 1 ? "" : "hide") + "\" onclick=\"ShowUpProductToWeb('" + item.ProductSKU + "', '" + item.ID + "', 'false', 'false');\"><i class=\"fa fa-upload\" aria-hidden=\"true\"></i></a>");
-                    
+
+                    if (acc.RoleID == 0 || acc.RoleID == 1)
+                    {
+                        html.Append("       <a href=\"javascript:;\" title=\"Đồng bộ sản phẩm\" class=\"up-product-" + item.ID + " btn primary-btn h45-btn " + (item.ShowHomePage == 1 ? "" : "hide") + "\" onclick=\"ShowUpProductToWeb('" + item.ProductSKU + "', '" + item.ID + "', 'false', 'false');\"><i class=\"fa fa-upload\" aria-hidden=\"true\"></i></a>");
+                    }
+
                     html.Append("  </td>");
                     html.Append("</tr>");
 

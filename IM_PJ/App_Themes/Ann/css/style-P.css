@@ -1,4 +1,52 @@
-﻿.disabled {
+﻿.account-note {
+    background: #fff;
+    position: fixed;
+    right: 85px;
+    bottom: 50px;
+    width: 200px;
+    height: 50px;
+    border: rgba(248, 119, 3, 0.5) 5px solid;
+}
+.account-note .button-note {
+    height: 40px;
+    line-height: 20px;
+    text-align: center;
+    padding: 10px 15px;
+    border-radius: inherit;
+    width: 33.33333%;
+    float: left;
+    background-color: #ff8400;
+    color: #fff;
+}
+.account-note .close-note-popup.button-note {
+    background-color: #000;
+    width: 100%;
+}
+.account-note .zoom-in-note-popup.button-note {
+    background-color: #F44336;
+    display: none;
+}
+.account-note .save-note.button-note {
+    background-color: #ff8400;
+    display: none;
+}
+.table-new-product.table > tbody > tr:nth-of-type(2n + 1) td {
+    border-top: none;
+    background-color: #fff;
+}
+.tr-more-info {
+    height: 52px;
+}
+.order-info {
+    margin-right: 45px;
+    font-size: 13px;
+    border-bottom: 1px dashed #d3d3d3;
+    padding-bottom: 5px;
+}
+.col-customer {
+    width: 250px;
+}
+.disabled {
     pointer-events: none;
     opacity: 0.6;
 }
@@ -165,7 +213,7 @@ a.bg-button:hover {
     font-size: 22px;
 }
 .div-product-list {
-    max-height: 450px;
+    max-height: 400px;
     overflow-x: auto;
 }
 .table-popup-product .check-column {
@@ -314,8 +362,10 @@ a.bg-button:hover {
 .table-pos-order .image-item img {
     width: 100%;
 }
-
-
+.col-customer-name-link {
+    font-weight: bold;
+    font-size: 18px;
+}
 .customer-name-link {
     font-weight: bold;
 }

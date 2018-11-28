@@ -167,6 +167,20 @@ namespace IM_PJ.Controllers
 
             }
         }
+        public static tbl_Product GetByVariableID(int ID)
+        {
+            using (var dbe = new inventorymanagementEntities())
+            {
+                tbl_ProductVariable variable = dbe.tbl_ProductVariable.Where(a => a.ID == ID).SingleOrDefault();
+                tbl_Product ai = dbe.tbl_Product.Where(a => a.ID == variable.ProductID).SingleOrDefault();
+                if (ai != null)
+                {
+                    return ai;
+                }
+                else return null;
+
+            }
+        }
         public static tbl_Product GetBySKU(string SKU)
         {
             using (var dbe = new inventorymanagementEntities())

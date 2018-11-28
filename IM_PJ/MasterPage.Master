@@ -9,12 +9,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=yes">
     <meta name="format-detection" content="telephone=no">
     <meta name="robots" content="noindex, nofollow">
-    <link rel="stylesheet" href="/App_Themes/Ann/css/style.css?v=0110" media="all">
-    <link rel="stylesheet" href="/App_Themes/Ann/css/style-P.css?v=1511" media="all">
-    <link href="/App_Themes/NewUI/js/sweet/sweet-alert.css" rel="stylesheet" type="text/css" />
+    <link href="/App_Themes/Ann/css/style.css?v=2411" rel="stylesheet" media="all">
+    <link href="/App_Themes/Ann/css/style-P.css?v=2811" rel="stylesheet" media="all">
+    <link href="/App_Themes/NewUI/js/sweet/sweet-alert.css" rel="stylesheet" />
     <link href="/App_Themes/NewUI/js/select2/select2.css" rel="stylesheet" />
     <link href="/App_Themes/Ann/css/HoldOn.css" rel="stylesheet" type="text/css" />
     <script type="text/javascript" src="/App_Themes/Ann/js/jquery-2.1.3.min.js"></script>
+    <script type="text/javascript" src="/App_Themes/Ann/js/jquery.cookie.js"></script>
     <script type="text/javascript" src="/App_Themes/Ann/js/popup.js?v=0110"></script>
     <asp:ContentPlaceHolder ID="head" runat="server">
     </asp:ContentPlaceHolder>
@@ -49,6 +50,17 @@
             <footer id="footer">
             </footer>
 
+            <asp:HiddenField ID="hdfUserID" runat="server" />
+            <div class="account-note">
+                <telerik:RadEditor CssClass="hide" runat="server" ID="txtNote" Width="100%" Height="350" ToolsFile="~/FilesResources/ToolContentAccount.xml" Skin="Metro" DialogHandlerUrl="~/Telerik.Web.UI.DialogHandler.axd" AutoResizeHeight="False" EnableResize="False" EditModes="Design">
+                    <ImageManager ViewPaths="~/uploads/images" UploadPaths="~/uploads/images" DeletePaths="~/uploads/images" />
+                </telerik:RadEditor>
+                <div>
+                    <a onclick="zoomInNotePopup();" href="javascript:;" class="button-note primary-btn zoom-in-note-popup">Phóng to</a>
+                    <a onclick="saveNote();" href="javascript:;" class="button-note primary-btn save-note">Lưu</a>
+                    <a onclick="toggleNotePopup();" href="javascript:;" class="button-note primary-btn close-note-popup">Mở ghi chú</a>
+                </div>
+            </div>
             <a href="javascript:;" class="scroll-top-link" id="scroll-top"><i class="fa fa-angle-up"></i></a>
             <a href="javascript:;" class="scroll-bottom-link" id="scroll-bottom"><i class="fa fa-angle-down"></i></a>
             
@@ -60,7 +72,88 @@
             <script src="/App_Themes/Ann/js/master.js?v=0107"></script>
             <script src="/App_Themes/Ann/js/HoldOn.js?v=2011"></script>
             <script type="text/javascript">
-                
+                if (!$.cookie('showNotePopup5')) {
+                    openNotePopup();
+                }
+                else {
+                    closeNotePopup();
+                }
+
+                function zoomInNotePopup() {
+                    var noteEditor = $find("<%=txtNote.ClientID%>");
+                    var windowHeight = $(window).height();
+                    var windowWidth = windowHeight - 100;
+
+                    if ($('#<%=txtNote.ClientID%>').hasClass('zoom-in')) {
+                        noteEditor.setSize('390px', '350px');
+                        $('.account-note').attr('style', '');
+                        $('#<%=txtNote.ClientID%>').removeClass('zoom-in');
+                        $('.zoom-in-note-popup').html('Phóng to');
+                    }
+                    else {
+                        noteEditor.setSize(windowWidth - 10, windowHeight - 150);
+                        $('.account-note').attr('style', 'height: ' + (windowHeight - 100) + 'px; width: ' + windowWidth + 'px;');
+                        $('#<%=txtNote.ClientID%>').addClass('zoom-in');
+                        $('.zoom-in-note-popup').html('Thu nhỏ');
+                    }
+                }
+
+                function openNotePopup() {
+                    $('.account-note').attr('style', 'height: 400px; width: 400px;');
+                    $('#<%=txtNote.ClientID%>').removeClass('hide');
+                    $('.save-note').attr('style', 'display: block;');
+                    $('.zoom-in-note-popup').attr('style', 'display: block;');
+                    $('.close-note-popup').html('Đóng').attr('style', 'width: 33.33333%;');
+                    var noteEditor = $find("<%=txtNote.ClientID%>");
+                    noteEditor.setSize('390px', '350px');
+                }
+
+                function closeNotePopup() {
+                    $('.account-note').attr('style', 'height: 50px; width: 200px;');
+                    $('#<%=txtNote.ClientID%>').addClass('hide');
+                    $('.save-note').attr('style', 'display: none;');
+                    $('.zoom-in-note-popup').attr('style', 'display: none;');
+                    $('.zoom-in-note-popup').html("Phóng to");
+                    $('#<%=txtNote.ClientID%>').removeClass('zoom-in');
+                    $('.close-note-popup').html('Mở ghi chú').attr('style', 'width: 100%;');
+                }
+
+                function toggleNotePopup() {
+                    if ($('#<%=txtNote.ClientID%>').is(":hidden")) {
+                        openNotePopup();
+                    }
+                    else {
+                        closeNotePopup();
+                        // cookie
+                        var date = new Date();
+                        date.setTime(date.getTime() + 60 * 60 * 1000);
+                        $.cookie('showNotePopup5', true, { expires: date });
+                    }
+                }
+
+                function saveNote() {
+                    var id = $('#<%=hdfUserID.ClientID%>').val();
+                    var noteEditor = $find("<%=txtNote.ClientID%>");    
+                    var content = noteEditor.get_html();
+
+                    var dataToSend = JSON.stringify({ 'id': id, 'note': content });
+
+                    $.ajax({
+                        type: "POST",
+                        url: "/tat-ca-nhan-vien.aspx/saveNote",
+                        data: dataToSend,
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        success: function (data) {
+                            
+                        }
+                    });
+                }
+
+                $('#<%=txtNote.ClientID%>').mouseleave(function () {
+                    saveNote();
+                });
+
                 function screenClass() {
                     if ($(window).innerWidth() < 769) {
                         $('.nav-toggle').removeClass('open');

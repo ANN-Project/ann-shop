@@ -65,7 +65,7 @@
                                 <div class="row-right">
                                     <telerik:RadEditor runat="server" ID="pDiscountNote" Width="100%"
                                         Height="600px" ToolsFile="~/FilesResources/ToolContent.xml" Skin="Metro"
-                                        DialogHandlerUrl="~/Telerik.Web.UI.DialogHandler.axd" AutoResizeHeight="True">
+                                        DialogHandlerUrl="~/Telerik.Web.UI.DialogHandler.axd" AutoResizeHeight="False">
                                         <ImageManager ViewPaths="~/uploads/images" UploadPaths="~/uploads/images" DeletePaths="~/uploads/images" />
                                     </telerik:RadEditor>
                                 </div>

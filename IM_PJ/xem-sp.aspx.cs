@@ -19,7 +19,14 @@ namespace IM_PJ
         {
             if (!IsPostBack)
             {
-                LoadData();
+                if (Request.Cookies["loginHiddenPage"] != null)
+                {
+                    LoadData();
+                }
+                else
+                {
+                    Response.Redirect("/login-hidden-page");
+                }
             }
         }
 
@@ -40,7 +47,6 @@ namespace IM_PJ
                     ViewState["SKU"] = p.ProductSKU;
 
                     ltrProductName.Text = p.ProductSKU + " - " + p.ProductTitle;
-                    pContent.Text = p.ProductContent;
                     var a = ProductController.GetAllSql(0, p.ProductSKU);
                     if(a.Count() > 0)
                     {
@@ -95,14 +101,14 @@ namespace IM_PJ
                         }
                     }
 
-                    ltrCopyProductInfoButton.Text = "<p><a href=\"javascript:;\" class=\"btn primary-btn copy-btn h45-btn\" onclick=\"copyProduct(" + p.ID + ")\"><i class=\"fa fa-files-o\" aria-hidden=\"true\"></i> Copy thông tin</a></p>";
-                    ltrDownloadProductImageButton.Text = "<a href =\"javascript:;\" class=\"btn primary-btn h45-btn\" onclick=\"getAllProductImage('" + p.ProductSKU + "');\"><i class=\"fa fa-cloud-download\" aria-hidden=\"true\"></i> Tải tất cả hình ảnh</a>";
+                    ltrCopyProductInfoButton.Text = "<p><a href=\"javascript:;\" class=\"btn primary-btn copy-btn h45-btn\" onclick=\"copyProduct(" + p.ID + ")\"><i class=\"fa fa-files-o\" aria-hidden=\"true\"></i> Copy</a></p>";
+                    ltrDownloadProductImageButton.Text = "<a href =\"javascript:;\" class=\"btn primary-btn h45-btn\" onclick=\"getAllProductImage('" + p.ProductSKU + "');\"><i class=\"fa fa-cloud-download\" aria-hidden=\"true\"></i> Tải hình</a>";
 
                     var v = ProductVariableController.SearchProductID(id, "");
 
                     if (v.Count > 0)
                     {
-                        ltrViewVariableListButton.Text = "<p><a href='#variableTable' class='btn download-btn h45-btn'><i class='fa fa-list-ul' aria-hidden='true'></i> Xem biến thể</a></p>";
+                        ltrViewVariableListButton.Text = "<p><a href='#variableTable' class='btn download-btn h45-btn'><i class='fa fa-list-ul' aria-hidden='true'></i> Biến thể</a></p>";
                         ltrVariableList.Text = "<h3><i class='fa fa-list-ul' aria-hidden='true'></i> Danh sách biến thể</h3>";
 
                         pagingall(v);

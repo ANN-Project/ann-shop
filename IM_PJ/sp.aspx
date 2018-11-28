@@ -37,6 +37,12 @@
             width: 100%;
             margin-bottom: 10px;
         }
+        .btn.btn-product {
+            background-color: #F44336;
+        }
+        .btn.btn-post {
+            background-color: #009688;
+        }
         .btn.download-btn {
             background-color: #000;
             color: #fff;
@@ -64,8 +70,6 @@
         .product-name a {
             font-size: 18px;
             line-height: 1.5;
-        }.product-name a {
-            font-size: 20px;
         }
         .product-sku {
             font-size: 18px;
@@ -85,8 +89,15 @@
             <main>
                 <div class="container">
                     <div class="row">
-                        <div class="col-md-12">
-                            <h3 class="page-title left">Sản phẩm <span>(tìm thấy <asp:Literal ID="ltrNumberOfProduct" runat="server" EnableViewState="false"></asp:Literal> sản phẩm)</span></h3>
+                        <div class="col-xs-6">
+                            <div class="row">
+                                <a href="/sp" class="btn primary-btn h45-btn btn-product"><i class="fa fa-sign-in" aria-hidden="true"></i> Sản phẩm</a>
+                            </div>
+                        </div>
+                        <div class="col-xs-6">
+                            <div class="row">
+                                <a href="/bv" class="btn primary-btn h45-btn btn-post"><i class="fa fa-sign-in" aria-hidden="true"></i> Bài viết</a>
+                            </div>
                         </div>
                     </div>
                     <div class="row">
@@ -121,9 +132,17 @@
                                             </asp:DropDownList>
                                         </div>
                                         <div class="col-md-2">
-                                            <a href="javascript:;" onclick="searchProduct()" class="btn primary-btn h45-btn"><i class="fa fa-search"></i> Tìm kiếm</a>
-                                            <asp:Button ID="btnSearch" runat="server" CssClass="btn primary-btn h45-btn" OnClick="btnSearch_Click" Style="display: none" />
-                                            <a href="/sp" class="btn primary-btn h45-btn"><i class="fa fa-times" aria-hidden="true"></i> Làm lại</a>
+                                            <div class="col-xs-6">
+                                                <div class="row">
+                                                    <a href="javascript:;" onclick="searchProduct()" class="btn primary-btn h45-btn"><i class="fa fa-search"></i> Tìm kiếm</a>
+                                                    <asp:Button ID="btnSearch" runat="server" CssClass="btn primary-btn h45-btn" OnClick="btnSearch_Click" Style="display: none" />
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-6">
+                                                <div class="row">
+                                                    <a href="/sp" class="btn primary-btn h45-btn download-btn"><i class="fa fa-times" aria-hidden="true"></i> Làm lại</a>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -152,7 +171,6 @@
                 </div>
         
                 <script type="text/javascript">
-
                     function searchProduct() {
                         $("#<%= btnSearch.ClientID%>").click();
                     }

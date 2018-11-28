@@ -34,7 +34,7 @@ namespace IM_PJ.Controllers
             }
         }
         public static string Update(int UID, string Fullname, int Gender, DateTime BirthDay,
-            string Email, string Phone, string Address, DateTime ModifiedDate, string ModifiedBy)
+            string Email, string Phone, string Address, DateTime ModifiedDate, string ModifiedBy, string Note)
         {
             using (var dbe = new inventorymanagementEntities())
             {
@@ -50,6 +50,23 @@ namespace IM_PJ.Controllers
                     ui.Address = Address;
                     ui.ModifiedBy = ModifiedBy;
                     ui.ModifiedDate = ModifiedDate;
+                    ui.Note = Note;
+                    int kq = dbe.SaveChanges();
+                    return kq.ToString();
+                }
+                else
+                    return null;
+            }
+        }
+        public static string updateNote(int UID, string Note)
+        {
+            using (var dbe = new inventorymanagementEntities())
+            {
+                dbe.Configuration.ValidateOnSaveEnabled = false;
+                tbl_AccountInfo ui = dbe.tbl_AccountInfo.Where(a => a.UID == UID).SingleOrDefault();
+                if (ui != null)
+                {
+                    ui.Note = Note;
                     int kq = dbe.SaveChanges();
                     return kq.ToString();
                 }

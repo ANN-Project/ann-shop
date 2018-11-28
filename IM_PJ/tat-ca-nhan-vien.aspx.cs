@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Web;
+using System.Web.Services;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using static IM_PJ.Controllers.AccountController;
@@ -38,6 +39,19 @@ namespace IM_PJ
                 }
                 LoadData();
                 LoadDLL();
+            }
+        }
+        [WebMethod]
+        public static string saveNote(int id, string note)
+        {
+            string update = AccountInfoController.updateNote(id, note);
+            if (update != null)
+            {
+                return "true";
+            }
+            else
+            {
+                return "false";
             }
         }
         public void LoadDLL()

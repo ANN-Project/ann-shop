@@ -358,7 +358,7 @@ namespace IM_PJ.Controllers
             var list = new List<OrderList>();
             var sql = new StringBuilder();
 
-            sql.AppendLine(String.Format("SELECT Ord.ID, Ord.CustomerName, Ord.CustomerPhone, Customer.Nick, Ord.CustomerID, Ord.OrderType, Ord.ExcuteStatus, Ord.PaymentStatus, Ord.PaymentType, Ord.ShippingType, Ord.TotalPrice, Ord.TotalDiscount, Ord.FeeShipping, Ord.OtherFeeName, Ord.OtherFeeValue, Ord.CreatedBy, Ord.CreatedDate, Ord.DateDone, Ord.OrderNote, Ord.RefundsGoodsID,  SUM(ISNULL(OrdDetail.Quantity, 0)) AS Quantity "));
+            sql.AppendLine(String.Format("SELECT Ord.ID, Ord.CustomerName, Ord.CustomerPhone, Customer.Nick, Ord.CustomerID, Ord.OrderType, Ord.ExcuteStatus, Ord.PaymentStatus, Ord.PaymentType, Ord.ShippingType, Ord.TotalPrice, Ord.TotalDiscount, Ord.FeeShipping, Ord.OtherFeeName, Ord.OtherFeeValue, Ord.CreatedBy, Ord.CreatedDate, Ord.DateDone, Ord.OrderNote, Ord.RefundsGoodsID,  SUM(ISNULL(OrdDetail.Quantity, 0)) AS Quantity, Ord.ShippingCode, Ord.TransportCompanyID, Ord.TransportCompanySubID, Ord.OrderNote, Ord.PostalDeliveryType "));
             sql.AppendLine(String.Format("FROM tbl_Order AS Ord"));
             sql.AppendLine(String.Format("INNER JOIN tbl_OrderDetail AS OrdDetail"));
             sql.AppendLine(String.Format("ON 	Ord.ID = OrdDetail.OrderID"));
@@ -482,7 +482,7 @@ namespace IM_PJ.Controllers
             }
 
 
-            sql.AppendLine(String.Format("GROUP BY Ord.ID, Ord.CustomerName, Ord.CustomerPhone, Customer.Nick, Ord.CustomerID, Ord.OrderType, Ord.ExcuteStatus, Ord.PaymentStatus, Ord.PaymentType, Ord.ShippingType, Ord.TotalPrice, Ord.TotalDiscount, Ord.FeeShipping, Ord.OtherFeeName, Ord.OtherFeeValue, Ord.CreatedBy, Ord.CreatedDate, Ord.DateDone, Ord.OrderNote, Ord.RefundsGoodsID"));
+            sql.AppendLine(String.Format("GROUP BY Ord.ID, Ord.CustomerName, Ord.CustomerPhone, Customer.Nick, Ord.CustomerID, Ord.OrderType, Ord.ExcuteStatus, Ord.PaymentStatus, Ord.PaymentType, Ord.ShippingType, Ord.TotalPrice, Ord.TotalDiscount, Ord.FeeShipping, Ord.OtherFeeName, Ord.OtherFeeValue, Ord.CreatedBy, Ord.CreatedDate, Ord.DateDone, Ord.OrderNote, Ord.RefundsGoodsID , Ord.ShippingCode, Ord.TransportCompanyID, Ord.TransportCompanySubID, Ord.OrderNote, Ord.PostalDeliveryType"));
             sql.AppendLine(String.Format("ORDER BY Ord.ID DESC"));
 
             var reader = (IDataReader)SqlHelper.ExecuteDataReader(sql.ToString());
@@ -515,7 +515,14 @@ namespace IM_PJ.Controllers
                 if (reader["RefundsGoodsID"] != DBNull.Value)
                     entity.RefundsGoodsID = Convert.ToInt32(reader["RefundsGoodsID"]);
                 entity.Quantity = Convert.ToInt32(reader["Quantity"]);
-
+                entity.ShippingCode = reader["ShippingCode"].ToString();
+                if (reader["TransportCompanyID"] != DBNull.Value)
+                    entity.TransportCompanyID = Convert.ToInt32(reader["TransportCompanyID"]);
+                if (reader["TransportCompanySubID"] != DBNull.Value)
+                    entity.TransportCompanySubID = Convert.ToInt32(reader["TransportCompanySubID"]);
+                entity.OrderNote = reader["OrderNote"].ToString();
+                if (reader["PostalDeliveryType"] != DBNull.Value)
+                    entity.PostalDeliveryType = Convert.ToInt32(reader["PostalDeliveryType"]);
                 list.Add(entity);
             }
             reader.Close();
@@ -1315,6 +1322,11 @@ namespace IM_PJ.Controllers
             public int ShippingType { get; set; }
             public Nullable<int> RefundsGoodsID { get; set; }
             public int Quantity { get; set; }
+            public string ShippingCode { get; set; }
+            public Nullable<int> TransportCompanyID { get; set; }
+            public Nullable<int> TransportCompanySubID { get; set; }
+            public string OrderNote { get; set; }
+            public int PostalDeliveryType { get; set; }
         }
 
         public class OrderSQL

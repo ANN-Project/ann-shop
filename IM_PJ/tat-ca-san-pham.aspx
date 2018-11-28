@@ -21,7 +21,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
-                    <h3 class="page-title left">Danh sách sản phẩm <span>(<asp:Literal ID="ltrNumberOfProduct" runat="server" EnableViewState="false"></asp:Literal> sản phẩm)</span></h3>
+                    <h3 class="page-title left">Danh sách sản phẩm <span>(<asp:Literal ID="ltrNumberOfProduct" runat="server" EnableViewState="false"></asp:Literal> sản phẩm) <a href="/sp" target="_blank" class="btn primary-btn h45-btn">Xem mở rộng</a></span></h3>
                     <div class="right above-list-btn">
                         <asp:Literal ID="ltrAddProduct" runat="server"></asp:Literal>
                     </div>
@@ -32,10 +32,10 @@
                     <div class="filter-above-wrap clear">
                         <div class="filter-control">
                             <div class="row">
-                                <div class="col-md-2">
+                                <div class="col-md-3">
                                     <asp:TextBox ID="txtSearchProduct" runat="server" CssClass="form-control sku-input" placeholder="Tìm sản phẩm" autocomplete="off"></asp:TextBox>
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-md-2">
                                     <asp:DropDownList ID="ddlCategory" runat="server" CssClass="form-control"></asp:DropDownList>
                                 </div>
                                 <div class="col-md-2">
@@ -132,7 +132,7 @@
         </div>
 
         <script src="/App_Themes/Ann/js/copy-product-info.js?v=2011"></script>
-        <script src="/App_Themes/Ann/js/sync-product.js?v=2111"></script>
+        <script src="/App_Themes/Ann/js/sync-product.js?v=2211"></script>
         <script src="/App_Themes/Ann/js/download-product-image.js?v=2011"></script>
         
         <script type="text/javascript">

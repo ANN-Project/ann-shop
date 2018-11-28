@@ -52,7 +52,7 @@ function showProductVariable(productVariables) {
 
     // Footer Popup
     html += "<div class='footer-list'>";
-    html += "   <a href='javascript: ;' class='btn link-btn' style='background-color:#f87703;float:right;color:#fff;' onclick='selectProduct()'>Chọn</a>";
+    html += "   <a href='javascript: ;' class='btn link-btn' style='background-color:#f87703;float:right;color:#fff;' onclick='selectProduct()'>Chọn sản phẩm</a>";
     html += "</div >";
 
     showPopup(html);
@@ -71,7 +71,7 @@ function check(row) {
     let productCount = $(".search-popup").length;
     let productCheckNumber = $(".search-popup > .order-item > .check-popup:checked").length;
 
-    if (productCheckNumber == productCount) {
+    if (productCheckNumber === productCount) {
         $("#search-product-header > .order-item > #check-all").prop('checked', true);
     }
     else {
@@ -82,7 +82,7 @@ function check(row) {
 function changeQuantityPopup(obj) {
     var current = obj.val();
 
-    if (current == 0 || current == "" || current == null) {
+    if (current === 0 || current === "" || current === null) {
         obj.val("1");
     }
 }
@@ -93,11 +93,11 @@ function pressKeyQuantityPopup(obj) {
             // Filter non-digits from input value.
             this.value = this.value.replace(/\D/g, '');
         }
-        else if (e.which == 40) {
+        else if (e.which === 40) {
             // press down 
             $(this).closest('tr').next().find('td:eq(' + $(this).closest('td').index() + ')').find(".in-quantity").focus().select();
         }
-        else if (e.which == 38) {
+        else if (e.which === 38) {
             // press up
             $(this).closest('tr').prev().find('td:eq(' + $(this).closest('td').index() + ')').find(".in-quantity").focus().select();
         }
@@ -134,14 +134,14 @@ function addHtmlProductResult(item) {
     let ProductVariableValue = "";
     let ProductVariableSave = "";
 
-    if (item.ProductStyle == 1) {
+    if (item.ProductStyle === 1) {
         SKU = item.ParentSKU;
     }
     else {
         SKU = item.ChildSKU;
     }
 
-    if (item.VariableValue != null && !isBlank(item.VariableValue)) {
+    if (item.VariableValue !== null && !isBlank(item.VariableValue)) {
         item.VariableValue.split(/:\s|<br\/>/).forEach(function (item, index) {
             if (index % 2) {
                 ProductVariableValue += item + "|";
@@ -193,12 +193,12 @@ function addHtmlProductResult(item) {
         html += "   <td class='order-item'>" + orderItem + "</td>";
     }
 
-    html += "   <td class='image-item'><img src='" + item.ProductImage + "'></td>";
-    html += "   <td class='name-item'>" + item.ProductTitle + "</td>";
+    html += "   <td class='image-item'><a href='/xem-san-pham?id=" + item.ProductID + "&variableid=" + item.ProductVariableID + "' target='_blank'><img src='" + item.ProductImage + "'></a></td>";
+    html += "   <td class='name-item'><a href='/xem-san-pham?id=" + item.ProductID + "&variableid=" + item.ProductVariableID + "' target='_blank'>" + item.ProductTitle + "</a></td>";
     html += "   <td class='sku-item'>" + SKU + "</td>";
     html += "   <td class='variable-item'>" + item.VariableValue + "</td>";
 
-    if (customerType == 1) {
+    if (customerType === 1) {
         if (item.RetailPrice > 0) {
             html += "   <td class='price-item gia-san-pham' data-price='" + item.RetailPrice + "'>" + formatThousands(item.RetailPrice, ',') + "</td>";
         }
@@ -252,7 +252,7 @@ function reIndex() {
 function checkQuantiy(obj) {
     var current = obj.val();
 
-    if (current == 0 || current == "" || current == null) {
+    if (current === 0 || current === "" || current === null) {
         obj.val("1");
     }
 
@@ -274,11 +274,11 @@ function pressKeyQuantity(obj) {
             // Filter non-digits from input value.
             this.value = this.value.replace(/\D/g, '');
         }
-        else if (e.which == 40) {
+        else if (e.which === 40) {
             // press down 
             $(this).closest('tr').next().find('td:eq(' + $(this).closest('td').index() + ')').find(".in-quantity").focus().select();
         }
-        else if (e.which == 38) {
+        else if (e.which === 38) {
             // press up
             $(this).closest('tr').prev().find('td:eq(' + $(this).closest('td').index() + ')').find(".in-quantity").focus().select();
         }
@@ -308,7 +308,7 @@ function deleteRow(obj) {
                 id = row.attr("data-orderdetailid");
                 sku = row.attr("data-sku");
 
-                if (row.attr("data-producttype") == 1) {
+                if (row.attr("data-producttype") === 1) {
                     productID = row.attr("data-productid");
                 }
                 else {
@@ -389,7 +389,7 @@ function searchProductMaster(textsearch, isStock) {
                 success: function (msg) {
                     let data = JSON.parse(msg.d);
 
-                    if (data != null && data.length > 0) {
+                    if (data !== null && data.length > 0) {
                         if (data.length > 1) {
                             // init value array product variable
                             _productVariable = data;

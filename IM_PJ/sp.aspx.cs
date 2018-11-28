@@ -22,8 +22,15 @@ namespace IM_PJ
         {
             if (!IsPostBack)
             {
-                LoadData();
-                LoadCategory();
+                if (Request.Cookies["loginHiddenPage"] != null)
+                {
+                    LoadData();
+                    LoadCategory();
+                }
+                else
+                {
+                    Response.Redirect("/login-hidden-page");
+                }
             }
         }
         public void LoadCategory()
@@ -121,7 +128,6 @@ namespace IM_PJ
 
             pagingall(a);
 
-            ltrNumberOfProduct.Text = a.Count().ToString();
         }
         [WebMethod]
         #region Paging
@@ -150,11 +156,12 @@ namespace IM_PJ
                 for (int i = FromRow; i < ToRow + 1; i++)
                 {
                     var item = acs[i];
-                    html.Append("<div class='col-md-3 product-item'>");
-                    html.Append("   <p><a href='/xem-sp.aspx?id=" + item.ID + "'><img src='" + item.ProductImage + "'></a><a href='" + item.ProductImage + "' download class='btn download-btn h45-btn'><i class='fa fa-cloud-download'></i> Tải hình này</a></p>");
+                    html.Append("<div class='col-md-3 item-" + i + " product-item'>");
+                    html.Append("<div class='row'>");
+                    html.Append("     <div class='col-xs-12'>");
+                    html.Append("   <p><a href='/xem-sp.aspx?id=" + item.ID + "'><img src='" + item.ProductImage + "'></a></p>");
                     html.Append("   <h3 class='product-name'><a href='/xem-sp.aspx?id=" + item.ID + "'>" + item.ProductSKU + " - " + item.ProductTitle + "</a></h3>");
-                    html.Append("   <h3 class='product-price'>📌 Giá sỉ: " + string.Format("{0:N0}", item.RegularPrice) + "</h3>");
-                    html.Append("   <p class='product-sku'>📍 Mã: " + item.ProductSKU + "</p>");
+                    html.Append("   <h3 class='product-price'>📌 " + string.Format("{0:N0}", item.RegularPrice) + "</h3>");
 
                     if (!string.IsNullOrEmpty(item.Materials))
                     {
@@ -163,16 +170,35 @@ namespace IM_PJ
 
                     if (!string.IsNullOrEmpty(item.ProductContent))
                     {
-                        html.Append("   <p>🔖 Mô tả: " + item.ProductContent + "</p>");
+                        html.Append("   <p>🔖 " + item.ProductContent + "</p>");
                     }
 
-                    html.Append("   <p>🔖 Kho: " + item.ProductInstockStatus + " (" + string.Format("{0:N0}", item.TotalProductInstockQuantityLeft) + " cái)</p>");
-                    html.Append("   <p>🔖 Danh mục: " + item.CategoryName + "</p>");
-                    string date = string.Format("{0:dd/MM/yyyy}", item.CreatedDate);
-                    html.Append("   <p>🔖 Ngày tạo: " + date + "</p>");
-                    html.Append("   <p><a href=\"javascript:;\" class=\"btn primary-btn copy-btn h45-btn\" onclick=\"copyProductInfo(" + item.ID + ")\"><i class=\"fa fa-files-o\" aria-hidden=\"true\"></i> Copy thông tin</a></p>");
-                    html.Append("   <p><a href =\"javascript:;\" class=\"btn primary-btn h45-btn\" onclick=\"getAllProductImage('" + item.ProductSKU + "');\"><i class=\"fa fa-cloud-download\" aria-hidden=\"true\"></i> Tải tất cả hình ảnh</a></p>");
+                    html.Append("   <p>🔖 " + item.ProductInstockStatus + " (" + string.Format("{0:N0}", item.TotalProductInstockQuantityLeft) + " cái)</p>");
+                    html.Append("   <p>🔖 " + string.Format("{0:dd/MM/yyyy}", item.CreatedDate) + "</p>");
+                    html.Append("     </div>");
                     html.Append("</div>");
+
+                    html.Append("<div class='row'>");
+                    html.Append("     <div class='col-xs-12'>");
+                    html.Append("          <div class='col-xs-6'>");
+                    html.Append("               <div class='row'>");
+                    html.Append("                  <a href=\"javascript:;\" class=\"btn primary-btn copy-btn h45-btn\" onclick=\"copyProductInfo(" + item.ID + ")\"><i class=\"fa fa-files-o\" aria-hidden=\"true\"></i> Copy</a>");
+                    html.Append("               </div>");
+                    html.Append("          </div>");
+                    html.Append("          <div class='col-xs-6'>");
+                    html.Append("               <div class='row'>");
+                    html.Append("                  <a href =\"javascript:;\" class=\"btn primary-btn h45-btn\" onclick=\"getAllProductImage('" + item.ProductSKU + "');\"><i class=\"fa fa-cloud-download\" aria-hidden=\"true\"></i> Tải hình</a>");
+                    html.Append("               </div>");
+                    html.Append("          </div>");
+                    html.Append("     </div>");
+                    html.Append("</div>");
+
+                    html.Append("</div>");
+
+                    if((i + 1) % 4 == 0)
+                    {
+                        html.Append("<div class='clear'></div>");
+                    }
                 }
             }
             else

@@ -709,7 +709,7 @@ textarea.form-control{
                     width: 100%;
                     background-color: $primary-color;
                     position: absolute;
-                    left: 0;
+                    left: 1px;
                     bottom: 0;
                     @include transition(.6s);
                     transform: translate(100%,0);

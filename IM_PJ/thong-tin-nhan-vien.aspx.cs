@@ -69,6 +69,7 @@ namespace IM_PJ
                         ddlGender.SelectedValue = ai.Gender.ToString();
                         if (ai.Birthday != null)
                             rBirthday.SelectedDate = ai.Birthday;
+                        txtNote.Content = ai.Note;
                     }
                 }
             }
@@ -118,7 +119,7 @@ namespace IM_PJ
 
                             string r = AccountInfoController.Update(UID, txtFullname.Text.Trim(), ddlGender.SelectedValue.ToInt(),
                                 Convert.ToDateTime(rBirthday.SelectedDate), lblEmail.Text, txtPhone.Text, txtAddress.Text.Trim(),
-                                currentDate, username_current);
+                                currentDate, username_current, txtNote.Text);
                             if (r == "1" && rp == "1")
                             {
                                 PJUtils.ShowMessageBoxSwAlert("Cập nhật thành công", "s", true, Page);
@@ -150,7 +151,7 @@ namespace IM_PJ
                     AccountController.updatestatus(UID, Status, currentDate, username_current);
                     AccountController.UpdateRole(UID, roleID, currentDate, username_current);
                     string r = AccountInfoController.Update(UID, txtFullname.Text.Trim(), ddlGender.SelectedValue.ToInt(),
-                        Convert.ToDateTime(rBirthday.SelectedDate), lblEmail.Text, txtPhone.Text, txtAddress.Text.Trim(), currentDate, username_current);
+                        Convert.ToDateTime(rBirthday.SelectedDate), lblEmail.Text, txtPhone.Text, txtAddress.Text.Trim(), currentDate, username_current, txtNote.Text);
                     if (r == "1")
                     {
                         PJUtils.ShowMessageBoxSwAlert("Cập nhật thành công", "s", true, Page);

@@ -1327,7 +1327,7 @@ textarea.form-control {
   color: #000; }
 
 .table > tbody > tr:nth-of-type(2n + 1) td {
-  background-color: #f8f8f8; }
+  border-top: none; }
 
 .product-thumb .img {
   display: inline-block;

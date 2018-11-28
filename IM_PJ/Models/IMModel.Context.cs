@@ -25,7 +25,6 @@ namespace IM_PJ.Models
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<tbl_Account> tbl_Account { get; set; }
         public virtual DbSet<tbl_AccountInfo> tbl_AccountInfo { get; set; }
         public virtual DbSet<tbl_Agent> tbl_Agent { get; set; }
         public virtual DbSet<tbl_AgentProduct> tbl_AgentProduct { get; set; }
@@ -62,5 +61,9 @@ namespace IM_PJ.Models
         public virtual DbSet<tbl_RefundGoods> tbl_RefundGoods { get; set; }
         public virtual DbSet<tbl_Config> tbl_Config { get; set; }
         public virtual DbSet<tbl_Product> tbl_Product { get; set; }
+        public virtual DbSet<tbl_Post> tbl_Post { get; set; }
+        public virtual DbSet<tbl_PostCategory> tbl_PostCategory { get; set; }
+        public virtual DbSet<tbl_PostImage> tbl_PostImage { get; set; }
+        public virtual DbSet<tbl_Account> tbl_Account { get; set; }
     }
 }

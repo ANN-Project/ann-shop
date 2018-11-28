@@ -281,6 +281,7 @@
     <Content Include="App_Themes\Ann\css\print-order-image.css" />
     <Content Include="App_Themes\Ann\css\reset.css" />
     <Content Include="App_Themes\Ann\css\responsive.css" />
+    <Content Include="App_Themes\Ann\css\style-editor.css" />
     <Content Include="App_Themes\Ann\css\style-P.css" />
     <Content Include="App_Themes\Ann\css\style.css" />
     <Content Include="App_Themes\Ann\css\style.min.css" />
@@ -321,7 +322,10 @@
     <Content Include="App_Themes\Ann\js\bootstrap-table\bootstrap-table.js" />
     <Content Include="App_Themes\Ann\js\bootstrap.min.js" />
     <Content Include="App_Themes\Ann\js\chartjs.min.js" />
+    <Content Include="App_Themes\Ann\js\copy-post-info.js" />
+    <Content Include="App_Themes\Ann\js\download-post-image.js" />
     <Content Include="App_Themes\Ann\js\download-product-image.js" />
+    <Content Include="App_Themes\Ann\js\jquery.cookie.js" />
     <Content Include="App_Themes\Ann\js\sync-product.js" />
     <Content Include="App_Themes\Ann\js\HoldOn.js" />
     <Content Include="App_Themes\Ann\js\html2canvas.js" />
@@ -410,6 +414,9 @@
     <Content Include="App_Themes\NewUI\js\waves\waves.js" />
     <Content Include="App_Themes\NewUI\js\waves\waves.min.js" />
     <Content Include="bao-cao.aspx" />
+    <Content Include="bv.aspx" />
+    <Content Include="FilesResources\ToolContentAccount.xml" />
+    <Content Include="login-hidden-page.aspx" />
     <Content Include="sua-thong-tin-nha-xe.aspx" />
     <Content Include="chi-tiet-nha-xe.aspx" />
     <Content Include="chi-tiet-noi-den-nha-xe.aspx" />
@@ -468,6 +475,8 @@
     <Content Include="SQL\IndexStockManager.sql" />
     <Content Include="SQL\TriggerStockManager.sql" />
     <Content Include="sp.aspx" />
+    <Content Include="danh-sach-bai-viet.aspx" />
+    <Content Include="tao-bai-viet.aspx" />
     <Content Include="them-chiet-khau.aspx" />
     <Content Include="them-danh-muc.aspx" />
     <Content Include="tao-don-hang-doi-tra.aspx" />
@@ -477,7 +486,10 @@
     <Content Include="thong-ke-nhan-vien.aspx" />
     <Content Include="thong-ke-phi-van-chuyen.aspx" />
     <Content Include="thong-tin-don-hang-chuyen-hoan.aspx" />
+    <Content Include="sua-bai-viet.aspx" />
     <Content Include="xem-don-hang-doi-tra.aspx" />
+    <Content Include="xem-bai-viet.aspx" />
+    <Content Include="xem-bv.aspx" />
     <Content Include="xem-sp.aspx" />
     <Content Include="xem-san-pham.aspx" />
     <EntityDeploy Include="Models\IMModel.edmx">
@@ -764,6 +776,32 @@
     </Compile>
     <Compile Include="bao-cao.aspx.designer.cs">
       <DependentUpon>bao-cao.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Controllers\PostCategoryController.cs" />
+    <Compile Include="Controllers\PostController.cs" />
+    <Compile Include="Controllers\PostImageController.cs" />
+    <Compile Include="login-hidden-page.aspx.cs">
+      <DependentUpon>login-hidden-page.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="login-hidden-page.aspx.designer.cs">
+      <DependentUpon>login-hidden-page.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\tbl_Post.cs">
+      <DependentUpon>IMModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\tbl_PostCategory.cs">
+      <DependentUpon>IMModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\tbl_PostImage.cs">
+      <DependentUpon>IMModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="bv.aspx.cs">
+      <DependentUpon>bv.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="bv.aspx.designer.cs">
+      <DependentUpon>bv.aspx</DependentUpon>
     </Compile>
     <Compile Include="sua-thong-tin-nha-xe.aspx.cs">
       <DependentUpon>sua-thong-tin-nha-xe.aspx</DependentUpon>
@@ -1295,6 +1333,13 @@
     <Compile Include="tao-ma-vach.aspx.designer.cs">
       <DependentUpon>tao-ma-vach.aspx</DependentUpon>
     </Compile>
+    <Compile Include="tao-bai-viet.aspx.cs">
+      <DependentUpon>tao-bai-viet.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="tao-bai-viet.aspx.designer.cs">
+      <DependentUpon>tao-bai-viet.aspx</DependentUpon>
+    </Compile>
     <Compile Include="tao-san-pham.aspx.cs">
       <DependentUpon>tao-san-pham.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -1315,6 +1360,13 @@
     </Compile>
     <Compile Include="sp.aspx.designer.cs">
       <DependentUpon>sp.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="danh-sach-bai-viet.aspx.cs">
+      <DependentUpon>danh-sach-bai-viet.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="danh-sach-bai-viet.aspx.designer.cs">
+      <DependentUpon>danh-sach-bai-viet.aspx</DependentUpon>
     </Compile>
     <Compile Include="tat-ca-san-pham.aspx.cs">
       <DependentUpon>tat-ca-san-pham.aspx</DependentUpon>
@@ -1561,6 +1613,13 @@
     <Compile Include="thong-tin-nhan-vien.aspx.designer.cs">
       <DependentUpon>thong-tin-nhan-vien.aspx</DependentUpon>
     </Compile>
+    <Compile Include="sua-bai-viet.aspx.cs">
+      <DependentUpon>sua-bai-viet.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="sua-bai-viet.aspx.designer.cs">
+      <DependentUpon>sua-bai-viet.aspx</DependentUpon>
+    </Compile>
     <Compile Include="thong-tin-san-pham.aspx.cs">
       <DependentUpon>thong-tin-san-pham.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -1609,6 +1668,20 @@
     </Compile>
     <Compile Include="ViewSwitcher.ascx.designer.cs">
       <DependentUpon>ViewSwitcher.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="xem-bai-viet.aspx.cs">
+      <DependentUpon>xem-bai-viet.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="xem-bai-viet.aspx.designer.cs">
+      <DependentUpon>xem-bai-viet.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="xem-bv.aspx.cs">
+      <DependentUpon>xem-bv.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="xem-bv.aspx.designer.cs">
+      <DependentUpon>xem-bv.aspx</DependentUpon>
     </Compile>
     <Compile Include="xem-sp.aspx.cs">
       <DependentUpon>xem-sp.aspx</DependentUpon>
@@ -1665,9 +1738,9 @@
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props'))" />
     <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
-    <Error Condition="!Exists('..\packages\BuildWebCompiler.1.11.326\build\BuildWebCompiler.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\BuildWebCompiler.1.11.326\build\BuildWebCompiler.targets'))" />
+    <Error Condition="!Exists('..\packages\BuildWebCompiler.1.12.394\build\BuildWebCompiler.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\BuildWebCompiler.1.12.394\build\BuildWebCompiler.targets'))" />
   </Target>
-  <Import Project="..\packages\BuildWebCompiler.1.11.326\build\BuildWebCompiler.targets" Condition="Exists('..\packages\BuildWebCompiler.1.11.326\build\BuildWebCompiler.targets')" />
+  <Import Project="..\packages\BuildWebCompiler.1.12.394\build\BuildWebCompiler.targets" Condition="Exists('..\packages\BuildWebCompiler.1.12.394\build\BuildWebCompiler.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

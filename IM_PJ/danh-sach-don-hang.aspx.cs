@@ -374,7 +374,7 @@ namespace IM_PJ
             html.Append("<tr>");
             html.Append("    <th>Mã</th>");
             html.Append("    <th>Loại</th>");
-            html.Append("    <th>Khách hàng</th>");
+            html.Append("    <th class='col-customer'>Khách hàng</th>");
             html.Append("    <th>Mua</th>");
             html.Append("    <th>Xử lý</th>");
             html.Append("    <th>Thanh toán</th>");
@@ -416,11 +416,11 @@ namespace IM_PJ
 
                     if (!string.IsNullOrEmpty(item.Nick))
                     {
-                        html.Append("   <td><a class=\"customer-name-link capitalize\" href=\"/thong-tin-don-hang.aspx?id=" + item.ID + "\">" + item.Nick + "</a><br><span class=\"name-bottom-nick\">(" + item.CustomerName + ")</span></td>");
+                        html.Append("   <td><a class=\"col-customer-name-link capitalize\" href=\"/thong-tin-don-hang.aspx?id=" + item.ID + "\">" + item.Nick + "</a><br><span class=\"name-bottom-nick\">(" + item.CustomerName + ")</span></td>");
                     }
                     else
                     {
-                        html.Append("   <td><a class=\"customer-name-link capitalize\" href=\"/thong-tin-don-hang.aspx?id=" + item.ID + "\">" + item.CustomerName + "</a></td>");
+                        html.Append("   <td><a class=\"col-customer-name-link capitalize\" href=\"/thong-tin-don-hang.aspx?id=" + item.ID + "\">" + item.CustomerName + "</a></td>");
                     }
 
                     html.Append("   <td>" + item.Quantity + "</td>");
@@ -451,8 +451,63 @@ namespace IM_PJ
                     html.Append("       <a href=\"/chi-tiet-khach-hang.aspx?id=" + item.CustomerID + "\" title=\"Thông tin khách hàng " + item.CustomerName + "\" target=\"_blank\" class=\"btn primary-btn btn-black h45-btn\"><i class=\"fa fa-user-circle\" aria-hidden=\"true\"></i></a>");
                     html.Append("   </td>");
                     html.Append("</tr>");
-                }
 
+                    // thông tin thêm
+
+                    html.Append("<tr class='tr-more-info'>");
+                    html.Append("   <td colspan='2'>");
+                    html.Append("   </td>");
+                    html.Append("   <td colspan='11'>");
+
+                    if(item.RefundsGoodsID != null)
+                    {
+                        var refund = RefundGoodController.GetByID(Convert.ToInt32(item.RefundsGoodsID));
+                        if(refund != null)
+                        {
+                            html.Append("<span class='order-info'><strong>Trừ hàng trả:</strong> " + string.Format("{0:N0}", Convert.ToDouble(refund.TotalPrice)) + " (<a href='xem-don-hang-doi-tra.aspx?id=" + item.RefundsGoodsID + "' target='_blank'>Xem đơn " + item.RefundsGoodsID + "</a>)</span>");
+                        }
+                    }
+                    if (item.TotalDiscount > 0)
+                    {
+                        html.Append("<span class='order-info'><strong>Chiết khấu:</strong> " + string.Format("{0:N0}", Convert.ToDouble(item.TotalDiscount)) + "</span>");
+                    }
+                    if (item.OtherFeeValue != 0)
+                    {
+                        html.Append("<span class='order-info'><strong>Phí khác:</strong> " + string.Format("{0:N0}", Convert.ToDouble(item.OtherFeeValue)) + " (" + item.OtherFeeName.Trim() + ")</span>");
+                    }
+                    if (item.FeeShipping > 0)
+                    {
+                        html.Append("<span class='order-info'><strong>Phí vận chuyển:</strong> " + string.Format("{0:N0}", Convert.ToDouble(item.FeeShipping)) + "</span>");
+                    }
+                    if (!string.IsNullOrEmpty(item.ShippingCode))
+                    {
+                        string moreInfo = "";
+                        if (item.ShippingType == 3)
+                        {
+                            moreInfo = " (<a href='https://proship.vn/quan-ly-van-don/?isInvoiceFilter=1&amp;generalInfo=" + item.ShippingCode + "' target='_blank'>Xem</a>)";
+                        }
+                        if (item.ShippingType == 2)
+                        {
+                            moreInfo = " (Chuyển " + ((item.PostalDeliveryType == 1) ? "thường" : "nhanh") + ")";
+                        }
+                        html.Append("<span class='order-info'><strong>Mã vận đơn:</strong> " + item.ShippingCode + moreInfo + "</span>");
+                    }
+                    if(item.ShippingType == 4)
+                    {
+                        if (item.TransportCompanyID != 0)
+                        {
+                            var transport = TransportCompanyController.GetTransportCompanyByID(Convert.ToInt32(item.TransportCompanyID));
+                            var transportsub = TransportCompanyController.GetReceivePlaceByID(Convert.ToInt32(item.TransportCompanyID), Convert.ToInt32(item.TransportCompanySubID));
+                            html.Append("<span class='order-info'><strong>Gửi xe: </strong> " + transport.CompanyName + " (" + transportsub.ShipTo + ")</span>");
+                        }
+                    }
+                    if (!string.IsNullOrEmpty(item.OrderNote))
+                    {
+                        html.Append("<span class='order-info'><strong>Ghi chú:</strong> " + item.OrderNote + "</span>");
+                    }
+                    html.Append("   </td>");
+                    html.Append("</tr>");
+                }
                 
             }
             else

@@ -280,7 +280,6 @@ namespace IM_PJ
                                     }
                                     ProductVariable = variable;
                                     ProductName = product.ProductTitle;
-
                                     QuantityMainInstock = mainstock;
                                     QuantityMainInstockString = string.Format("{0:N0}", mainstock);
                                     ProductVariableSave = item.ProductVariableDescrition;
@@ -334,7 +333,10 @@ namespace IM_PJ
                                     var _product = ProductController.GetByID(Convert.ToInt32(productvariable.ProductID));
 
                                     if (_product != null)
+                                    {
                                         ProductName = _product.ProductTitle;
+                                    }
+                                        
 
                                     if (!string.IsNullOrEmpty(productvariable.Image))
                                     {
@@ -362,6 +364,7 @@ namespace IM_PJ
                                     ProductVariableValue = variablevalue;
                                 }
                             }
+
                             orderitem++;
                             int k = Convert.ToInt32(ItemPrice) * Convert.ToInt32(item.Quantity);
 
@@ -382,8 +385,8 @@ namespace IM_PJ
                             html.AppendLine(String.Format("        data-productvariablesave ='{0}'", ProductVariableSave));
                             html.AppendLine(String.Format("        data-quantitymaininstock='{0}'>", QuantityMainInstock));
                             html.AppendLine(String.Format("    <td class='order-item'>{0}</td>", orderitem));
-                            html.AppendLine(String.Format("    <td class='image-item'>{0}</td>", ProductImage));
-                            html.AppendLine(String.Format("    <td class='name-item'>{0}</td>", ProductName));
+                            html.AppendLine(String.Format("    <td class='image-item'>{0}</td>", "<a href='/xem-san-pham?id=" + item.ProductID + "&variableid=" + item.ProductVariableID + "' target='_blank'>" + ProductImage + "</a>"));
+                            html.AppendLine(String.Format("    <td class='name-item'>{0}</td>", "<a href='/xem-san-pham?id=" + item.ProductID + "&variableid=" + item.ProductVariableID + "' target='_blank'>" + ProductName + "</a>"));
                             html.AppendLine(String.Format("    <td class='sku-item'>{0}</td>", SKU));
                             html.AppendLine(String.Format("    <td class='variable-item'>{0}</td>", ProductVariable));
                             html.AppendLine(String.Format("    <td class='price-item gia-san-pham' data-price='{0}'>{0:N0}</td>", ItemPrice));

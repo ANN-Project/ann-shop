@@ -83,91 +83,101 @@ namespace IM_PJ
         public void LoadData(int userRole)
         {
             int id = Request.QueryString["id"].ToInt(0);
+            
+            var p = new tbl_Product();
+
             if (id > 0)
             {
-                var p = ProductController.GetByID(id);
-                if (p == null)
+                p = ProductController.GetByID(id);
+            }
+            else if (id == 0)
+            {
+                int variableid = Request.QueryString["variableid"].ToInt(0);
+                p = ProductController.GetByVariableID(variableid);
+            }
+
+            if (p == null)
+            {
+                PJUtils.ShowMessageBoxSwAlertError("Không tìm thấy sản phẩm " + id, "e", true, "/tat-ca-san-pham", Page);
+            }
+            else
+            {
+                ViewState["ID"] = id;
+                ViewState["cateID"] = p.CategoryID;
+                ViewState["SKU"] = p.ProductSKU;
+
+                ltrEdit1.Text = "";
+                if (Convert.ToInt32(ViewState["role"]) == 0 || Convert.ToInt32(ViewState["role"]) == 1)
                 {
-                    PJUtils.ShowMessageBoxSwAlertError("Không tìm thấy sản phẩm " + id, "e", true, "/tat-ca-san-pham", Page);
+                    ltrEdit1.Text += "<a href=\"/thong-tin-san-pham.aspx?id=" + p.ID + "\" class=\"btn primary-btn fw-btn not-fullwidth\"><i class=\"fa fa-pencil-square-o\" aria-hidden=\"true\"></i> Chỉnh sửa</a>";
+                    ltrEdit1.Text += "<a href=\"/tao-san-pham\" class=\"btn primary-btn fw-btn not-fullwidth print-invoice-merged\"><i class=\"fa fa-file-text-o\" aria-hidden=\"true\"></i> Thêm mới</a>";
+                    ltrEdit1.Text += "<a href=\"javascript:;\" onclick=\"ShowUpProductToWeb('" + p.ProductSKU + "', '" + p.ID + "', 'false', 'false');\" class=\"up-product-" + p.ID + " btn primary-btn not-fullwidth print-invoice-merged " + (p.ShowHomePage == 1 ? "" : "hide") + "\"><i class=\"fa fa-upload\" aria-hidden=\"true\"></i> Đồng bộ</a>";
+                }
+                ltrEdit1.Text += "<a href=\"javascript:;\" onclick=\"copyProductInfo(" + p.ID + ")\" class=\"btn primary-btn not-fullwidth print-invoice-merged\"><i class=\"fa fa-files-o\"></i> Copy thông tin</a>";
+                ltrEdit1.Text += "<a href=\"javascript:;\" onclick=\"getAllProductImage('" + p.ProductSKU + "');\" class=\"btn primary-btn not-fullwidth print-invoice-merged\"><i class=\"fa fa-cloud-download\"></i> Tải tất cả hình ảnh</a>";
+                ltrEdit2.Text = ltrEdit1.Text;
+
+                lbProductTitle.Text = p.ProductTitle;
+                pContent.Text = p.ProductContent;
+                lblSKU.Text = p.ProductSKU;
+                var a = ProductController.GetAllSql(0, p.ProductSKU);
+                if (a.Count() > 0)
+                {
+                    foreach (var item in a)
+                    {
+                        lbProductStock.Text = item.TotalProductInstockQuantityLeft.ToString();
+                        ddlStockStatus.SelectedValue = item.StockStatus.ToString();
+                    }
                 }
                 else
                 {
-                    ViewState["ID"] = id;
-                    ViewState["cateID"] = p.CategoryID;
-                    ViewState["SKU"] = p.ProductSKU;
-
-                    if(Convert.ToInt32(ViewState["role"]) == 0 || Convert.ToInt32(ViewState["role"]) == 1)
-                    {
-                        ltrEdit1.Text = "<a href=\"/thong-tin-san-pham.aspx?id=" + p.ID + "\" class=\"btn primary-btn fw-btn not-fullwidth\"><i class=\"fa fa-pencil-square-o\" aria-hidden=\"true\"></i> Chỉnh sửa</a>";
-                        ltrEdit1.Text += "<a href=\"/tao-san-pham\" class=\"btn primary-btn fw-btn not-fullwidth print-invoice-merged\"><i class=\"fa fa-file-text-o\" aria-hidden=\"true\"></i> Thêm mới</a>";
-                        ltrEdit1.Text += "<a href=\"javascript:;\" onclick=\"copyProductInfo(" + p.ID + ")\" class=\"btn primary-btn not-fullwidth print-invoice-merged\"><i class=\"fa fa-files-o\"></i> Copy thông tin</a>";
-                        ltrEdit1.Text += "<a href=\"javascript:;\" onclick=\"ShowUpProductToWeb('" + p.ProductSKU + "', '" + p.ID + "', 'false', 'false');\" class=\"up-product-" + p.ID + " btn primary-btn not-fullwidth print-invoice-merged " + (p.ShowHomePage == 1 ? "" : "hide") + "\"><i class=\"fa fa-upload\" aria-hidden=\"true\"></i> Đồng bộ</a>";
-                        ltrEdit1.Text += "<a href=\"javascript:;\" onclick=\"getAllProductImage('" + p.ProductSKU + "');\" class=\"btn primary-btn not-fullwidth print-invoice-merged\"><i class=\"fa fa-cloud-download\"></i> Tải tất cả hình ảnh</a>";
-                        ltrEdit2.Text = ltrEdit1.Text;
-                    }
-
-                    lbProductTitle.Text = p.ProductTitle;
-                    pContent.Text = p.ProductContent;
-                    lblSKU.Text = p.ProductSKU;
-                    var a = ProductController.GetAllSql(0, p.ProductSKU);
-                    if(a.Count() > 0)
-                    {
-                        foreach (var item in a)
-                        {
-                            lbProductStock.Text = item.TotalProductInstockQuantityLeft.ToString();
-                            ddlStockStatus.SelectedValue = item.StockStatus.ToString();
-                        }
-                    }
-                    else
-                    {
-                        lbProductStock.Text = "0";
-                    }
-
-                    lbRegularPrice.Text = string.Format("{0:N0}", p.Regular_Price);
-
-                    ltrCostOfGood.Text = "";
-                    if (userRole == 0)
-                    {
-                        ltrCostOfGood.Text += "<div class='form-row'>";
-                        ltrCostOfGood.Text += "    <div class='row-left'>";
-                        ltrCostOfGood.Text += "        Giá vốn";
-                        ltrCostOfGood.Text += "    </div>";
-                        ltrCostOfGood.Text += "    <div class='row-right'>";
-                        ltrCostOfGood.Text += "        <span class='form-control'>" + string.Format("{0:N0}", p.CostOfGood) + "</span>";
-                        ltrCostOfGood.Text += "    </div>";
-                        ltrCostOfGood.Text += "</div>";
-                    }
-                    
-                    lbRetailPrice.Text = string.Format("{0:N0}", p.Retail_Price);
-                    ddlSupplier.SelectedValue = p.SupplierID.ToString();
-                    ddlCategory.SelectedValue = p.CategoryID.ToString();
-                    lbMaterials.Text = p.Materials;
-
-                    // thư viện ảnh
-                    var image = ProductImageController.GetByProductID(id);
-                    imageGallery.Text = "<ul class=\"image-gallery\">";
-                    imageGallery.Text += "<li><img src=\"" + p.ProductImage + "\" /><a href='" + p.ProductImage + "' download class='btn download-btn download-image h45-btn'><i class='fa fa-cloud-download'></i> Tải hình này</a></li>";
-                    if (image != null)
-                    {
-                        foreach(var img in image)
-                        {
-                            if(img.ProductImage != p.ProductImage)
-                            {
-                                imageGallery.Text += "<li><img src=\"" + img.ProductImage + "\" /><a href='" + img.ProductImage + "' download class='btn download-btn download-image h45-btn'><i class='fa fa-cloud-download'></i> Tải hình này</a></li>";
-                            }
-                        }
-                    }
-                    imageGallery.Text += "</ul>";
-                    
-
-                    hdfTable.Value = p.ProductStyle.ToString();
+                    lbProductStock.Text = "0";
                 }
 
-                List<tbl_ProductVariable> b = new List<tbl_ProductVariable>();
+                lbRegularPrice.Text = string.Format("{0:N0}", p.Regular_Price);
 
-                b = ProductVariableController.SearchProductID(id, "");
-                pagingall(b, userRole);
+                ltrCostOfGood.Text = "";
+                if (userRole == 0)
+                {
+                    ltrCostOfGood.Text += "<div class='form-row'>";
+                    ltrCostOfGood.Text += "    <div class='row-left'>";
+                    ltrCostOfGood.Text += "        Giá vốn";
+                    ltrCostOfGood.Text += "    </div>";
+                    ltrCostOfGood.Text += "    <div class='row-right'>";
+                    ltrCostOfGood.Text += "        <span class='form-control'>" + string.Format("{0:N0}", p.CostOfGood) + "</span>";
+                    ltrCostOfGood.Text += "    </div>";
+                    ltrCostOfGood.Text += "</div>";
+                }
+
+                lbRetailPrice.Text = string.Format("{0:N0}", p.Retail_Price);
+                ddlSupplier.SelectedValue = p.SupplierID.ToString();
+                ddlCategory.SelectedValue = p.CategoryID.ToString();
+                lbMaterials.Text = p.Materials;
+
+                // thư viện ảnh
+                var image = ProductImageController.GetByProductID(id);
+                imageGallery.Text = "<ul class=\"image-gallery\">";
+                imageGallery.Text += "<li><img src=\"" + p.ProductImage + "\" /><a href='" + p.ProductImage + "' download class='btn download-btn download-image h45-btn'><i class='fa fa-cloud-download'></i> Tải hình này</a></li>";
+                if (image != null)
+                {
+                    foreach (var img in image)
+                    {
+                        if (img.ProductImage != p.ProductImage)
+                        {
+                            imageGallery.Text += "<li><img src=\"" + img.ProductImage + "\" /><a href='" + img.ProductImage + "' download class='btn download-btn download-image h45-btn'><i class='fa fa-cloud-download'></i> Tải hình này</a></li>";
+                        }
+                    }
+                }
+                imageGallery.Text += "</ul>";
+
+
+                hdfTable.Value = p.ProductStyle.ToString();
             }
+
+            List<tbl_ProductVariable> b = new List<tbl_ProductVariable>();
+
+            b = ProductVariableController.SearchProductID(p.ID, "");
+            pagingall(b, userRole);
         }
         #region Paging
         public void pagingall(List<tbl_ProductVariable> acs, int userRole)

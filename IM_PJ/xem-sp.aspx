@@ -71,8 +71,6 @@
         .product-name a {
             font-size: 18px;
             line-height: 1.5;
-        }.product-name a {
-            font-size: 20px;
         }
         .product-sku {
             font-size: 18px;
@@ -94,28 +92,47 @@
             <main>
                 <div class="container">
                     <div class="row">
-                        <div class="col-md-12">
-                            <p><a href="javascript:;" onclick="goBack()" class="btn primary-btn h45-btn"><i class="fa fa-angle-left"></i><i class="fa fa-angle-left"></i> Trở về</a></p>
-                        </div>
+                        <a href="javascript:;" onclick="goBack()" class="btn primary-btn h45-btn"><i class="fa fa-angle-left"></i><i class="fa fa-angle-left"></i> Trở về</a>
                     </div>
                     <div class="row">
                         <div class="col-md-12 product-item">
-                            <div class="product-info">
-                                <h3 class="product-name"><asp:Literal ID="ltrProductName" runat="server"></asp:Literal></h3>
-                                <asp:Literal ID="ltrRegularPrice" runat="server"></asp:Literal>
-                                <asp:Literal ID="ltrRetailPrice" runat="server"></asp:Literal>
-                                <asp:Literal ID="ltrMaterials" runat="server"></asp:Literal>
-                                <asp:Literal ID="ltrContent" runat="server"></asp:Literal>
-                                <asp:Literal ID="ltrVariable" runat="server"></asp:Literal>
-                                <asp:Literal ID="ltrProductStock" runat="server"></asp:Literal>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="product-info">
+                                        <h3 class="product-name"><asp:Literal ID="ltrProductName" runat="server"></asp:Literal></h3>
+                                        <asp:Literal ID="ltrRegularPrice" runat="server"></asp:Literal>
+                                        <asp:Literal ID="ltrRetailPrice" runat="server"></asp:Literal>
+                                        <asp:Literal ID="ltrMaterials" runat="server"></asp:Literal>
+                                        <asp:Literal ID="ltrContent" runat="server"></asp:Literal>
+                                        <asp:Literal ID="ltrVariable" runat="server"></asp:Literal>
+                                        <asp:Literal ID="ltrProductStock" runat="server"></asp:Literal>
+                                    </div>
+                                </div>
                             </div>
-                            <asp:Literal ID="ltrCopyProductInfoButton" runat="server"></asp:Literal>
-                            <asp:Literal ID="ltrViewVariableListButton" runat="server"></asp:Literal>
-                            <asp:Literal ID="ltrDownloadProductImageButton" runat="server"></asp:Literal>
-                            <asp:Literal ID="ProductThumbnail" runat="server"></asp:Literal>
-                            <asp:Literal ID="imageGallery" runat="server"></asp:Literal>
-                            <div class="content-box">
-                                <asp:Literal ID="pContent" runat="server"></asp:Literal>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="col-xs-4">
+                                        <div class="row">
+                                            <asp:Literal ID="ltrCopyProductInfoButton" runat="server"></asp:Literal>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-4">
+                                        <div class="row">
+                                            <asp:Literal ID="ltrViewVariableListButton" runat="server"></asp:Literal>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-4">
+                                        <div class="row">
+                                            <asp:Literal ID="ltrDownloadProductImageButton" runat="server"></asp:Literal>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <asp:Literal ID="ProductThumbnail" runat="server"></asp:Literal>
+                                    <asp:Literal ID="imageGallery" runat="server"></asp:Literal>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -141,9 +158,7 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-12">
-                        <a href="javascript:;" onclick="goBack()" class="btn primary-btn h45-btn"><i class="fa fa-angle-left"></i><i class="fa fa-angle-left"></i> Trở về</a>
-                    </div>
+                    <a href="javascript:;" onclick="goBack()" class="btn primary-btn h45-btn"><i class="fa fa-angle-left"></i><i class="fa fa-angle-left"></i> Trở về</a>
                 </div>
             </main>
 

@@ -341,8 +341,10 @@ namespace IM_PJ
                         var img = ProductImageController.GetByID(Convert.ToInt32(deletelist[i]));
                         if(img != null)
                         {
+                            var product = ProductController.GetByID(ProductID);
+
                             // Delete image
-                            if (!string.IsNullOrEmpty(img.ProductImage))
+                            if (!string.IsNullOrEmpty(img.ProductImage) && img.ProductImage != product.ProductImage)
                             {
                                 string fileImage = Server.MapPath(img.ProductImage);
                                 File.Delete(fileImage);
