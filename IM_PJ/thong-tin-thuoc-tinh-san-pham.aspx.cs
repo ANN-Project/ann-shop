@@ -80,7 +80,7 @@ namespace IM_PJ
                         {
                             ViewState["productid"] = productid;
                             ViewState["productsku"] = product.ProductSKU;
-                            ltrBack.Text = "<a href=\"/thuoc-tinh-san-pham.aspx?id=" + product.ID + "\" class=\"btn primary-btn fw-btn not-fullwidth\">Trở về</a>";
+                            ltrBack.Text = "<a href=\"/thuoc-tinh-san-pham?id=" + product.ID + "\" class=\"btn primary-btn fw-btn not-fullwidth\">Trở về</a>";
                         }
                     }
                 }

@@ -77,7 +77,7 @@ namespace IM_PJ
                         ltrOrderStatus.Text = PJUtils.RefundStatus(Convert.ToInt32(r.Status));
                         if(r.OrderSaleID > 0)
                         {
-                            ltrOrderSaleID.Text = "<td><a class=\"customer-name-link\" target=\"_blank\" title=\"Bấm vào xem đơn hàng trừ tiền\" href=\"/thong-tin-don-hang.aspx?id=" + r.OrderSaleID + "\">" + r.OrderSaleID + " (Xem đơn)</a>";
+                            ltrOrderSaleID.Text = "<td><a class=\"customer-name-link\" target=\"_blank\" title=\"Bấm vào xem đơn hàng trừ tiền\" href=\"/thong-tin-don-hang?id=" + r.OrderSaleID + "\">" + r.OrderSaleID + " (Xem đơn)</a>";
                         }
                         else
                         {
@@ -244,8 +244,8 @@ namespace IM_PJ
                             txtRefundsNote.Text = r.RefundNote;
                             ltrList.Text = html;
                         }
-                        ltrPrint.Text = "<a href=\"/print-invoice-return.aspx?id=" + ID + "\" target=\"_blank\" class=\"btn primary-btn fw-btn not-fullwidth\"><i class=\"fa fa-print\" aria-hidden=\"true\"></i> In hóa đơn</a>";
-                        ltrPrint.Text += "<a href=\"/print-return-order-image.aspx?id=" + ID + "\" target=\"_blank\" class=\"btn primary-btn fw-btn not-fullwidth print-invoice-merged\"><i class=\"fa fa-picture-o\" aria-hidden=\"true\"></i> Lấy ảnh đơn hàng</a>";
+                        ltrPrint.Text = "<a href=\"/print-invoice-return?id=" + ID + "\" target=\"_blank\" class=\"btn primary-btn fw-btn not-fullwidth\"><i class=\"fa fa-print\" aria-hidden=\"true\"></i> In hóa đơn</a>";
+                        ltrPrint.Text += "<a href=\"/print-return-order-image?id=" + ID + "\" target=\"_blank\" class=\"btn primary-btn fw-btn not-fullwidth print-invoice-merged\"><i class=\"fa fa-picture-o\" aria-hidden=\"true\"></i> Lấy ảnh đơn hàng</a>";
                     }
                 }
             }

@@ -60,7 +60,7 @@
     </main>
     <script type="text/javascript">
         function redirectTo(ID) {
-            window.location.href = "thong-tin-danh-muc-san-pham.aspx?id=" + ID;
+            window.location.href = "thong-tin-danh-muc-san-pham?id=" + ID;
         }
     </script>
 </asp:Content>

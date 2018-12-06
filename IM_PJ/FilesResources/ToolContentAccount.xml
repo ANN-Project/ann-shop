@@ -6,8 +6,12 @@
     <tool name="ForeColor" />
     <tool name="BackColor"/>
     <tool name="RealFontSize"/>
+    <tool name="InsertOrderedList" />
+    <tool name="InsertUnorderedList"/>
   </tools>
-
+  <cssFiles>
+    <item name="~/App_Themes/Ann/css/style-editor.css?v=01122019" />
+  </cssFiles>
 	<symbols>
 	</symbols>
 	<fontNames>

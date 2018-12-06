@@ -135,9 +135,9 @@ namespace IM_PJ
                     html.Append("   <td>" + date + "</td>");
                     html.Append("   <td>" + ishidden + "</td>");
                     html.Append("   <td>");
-                    html.Append("       <a href=\"/thong-tin-danh-muc-san-pham.aspx?id=" + item.ID + "\" class=\"btn primary-btn h45-btn\">Chi tiết</a>");
-                    html.Append("       <a href=\"/danh-muc-con-level-1.aspx?pid=" + item.ID + "\" class=\"btn primary-btn h45-btn\">Danh mục con</a>");
-                    html.Append("       <a href=\"/danh-sach-san-pham.aspx?categoryid=" + item.ID + "\" class=\"btn primary-btn h45-btn\">Sản phẩm</a>");
+                    html.Append("       <a href=\"/thong-tin-danh-muc-san-pham?id=" + item.ID + "\" class=\"btn primary-btn h45-btn\">Chi tiết</a>");
+                    html.Append("       <a href=\"/danh-muc-con-level-1?pid=" + item.ID + "\" class=\"btn primary-btn h45-btn\">Danh mục con</a>");
+                    html.Append("       <a href=\"/danh-sach-san-pham?categoryid=" + item.ID + "\" class=\"btn primary-btn h45-btn\">Sản phẩm</a>");
                     html.Append("   </td>");
                     html.Append("</tr>");
                 }

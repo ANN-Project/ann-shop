@@ -60,7 +60,7 @@ namespace IM_PJ
                         if (product != null)
                         {
                             ViewState["productid"] = productid;
-                            ltrBack.Text = "<a href=\"/danh-sach-anh-san-pham.aspx?id=" + product.ID + "\" class=\"btn primary-btn fw-btn not-fullwidth\">Trở về</a>";
+                            ltrBack.Text = "<a href=\"/danh-sach-anh-san-pham?id=" + product.ID + "\" class=\"btn primary-btn fw-btn not-fullwidth\">Trở về</a>";
                         }
                     }
                 }

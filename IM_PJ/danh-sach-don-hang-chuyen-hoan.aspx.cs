@@ -181,7 +181,7 @@ namespace IM_PJ
                 {
                     var item = acs[i];
                     html.Append("<tr>");
-                    html.Append("   <td><a href=\"/thong-tin-don-hang.aspx?id=" + item.ID + "\">" + item.ID + "</a></td>");
+                    html.Append("   <td><a href=\"/thong-tin-don-hang?id=" + item.ID + "\">" + item.ID + "</a></td>");
                     html.Append("   <td>" + PJUtils.OrderTypeStatus(Convert.ToInt32(item.OrderType)) + "</td>");
                     html.Append("   <td>" + item.CustomerPhone + "</td>");
                     var customer = CustomerController.GetByID(Convert.ToInt32(item.CustomerID));
@@ -189,16 +189,16 @@ namespace IM_PJ
                     {
                         if (!string.IsNullOrEmpty(customer.Nick))
                         {
-                            html.Append("   <td><a class=\"customer-name-link capitalize\" href=\"/thong-tin-don-hang-chuyen-hoan.aspx?id=" + item.ID + "\">" + customer.Nick + "</a><br><span class=\"name-bottom-nick\">(" + item.CustomerName + ")</span></td>");
+                            html.Append("   <td><a class=\"customer-name-link capitalize\" href=\"/thong-tin-don-hang-chuyen-hoan?id=" + item.ID + "\">" + customer.Nick + "</a><br><span class=\"name-bottom-nick\">(" + item.CustomerName + ")</span></td>");
                         }
                         else
                         {
-                            html.Append("   <td><a class=\"customer-name-link capitalize\" href=\"/thong-tin-don-hang-chuyen-hoan.aspx?id=" + item.ID + "\">" + item.CustomerName + "</a></td>");
+                            html.Append("   <td><a class=\"customer-name-link capitalize\" href=\"/thong-tin-don-hang-chuyen-hoan?id=" + item.ID + "\">" + item.CustomerName + "</a></td>");
                         }
                     }
                     else
                     {
-                        html.Append("   <td><a class=\"customer-name-link capitalize\" href=\"/thong-tin-don-hang-chuyen-hoan.aspx?id=" + item.ID + "\">" + item.CustomerName + "</a></td>");
+                        html.Append("   <td><a class=\"customer-name-link capitalize\" href=\"/thong-tin-don-hang-chuyen-hoan?id=" + item.ID + "\">" + item.CustomerName + "</a></td>");
                     }
                     
                     var orderdetails = OrderDetailController.GetByOrderID(item.ID);
@@ -222,7 +222,7 @@ namespace IM_PJ
                     html.Append("   <td>" + string.Format("{0:dd/MM}", item.ModifiedDate) + "</td>");
 
                     html.Append("   <td>");
-                    html.Append("       <a href=\"/chi-tiet-khach-hang.aspx?id=" + item.CustomerID + "\" title=\"Thông tin khách hàng " + item.CustomerName + "\" target=\"_blank\" class=\"btn primary-btn btn-black h45-btn\"><i class=\"fa fa-user-circle\" aria-hidden=\"true\"></i></a>");
+                    html.Append("       <a href=\"/chi-tiet-khach-hang?id=" + item.CustomerID + "\" title=\"Thông tin khách hàng " + item.CustomerName + "\" target=\"_blank\" class=\"btn primary-btn btn-black h45-btn\"><i class=\"fa fa-user-circle\" aria-hidden=\"true\"></i></a>");
                     html.Append("   </td>");
                     html.Append("</tr>");
                 }

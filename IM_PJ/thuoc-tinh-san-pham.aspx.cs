@@ -153,8 +153,8 @@ namespace IM_PJ
                     html.Append("   <td>" + date + "</td>");
                     html.Append("   <td>" + ishidden + "</td>");
                     html.Append("   <td>");
-                    html.Append("       <a href=\"/thong-tin-thuoc-tinh-san-pham.aspx?id=" + item.ID + "\" title=\"Xem chi tiết\" class=\"btn primary-btn h45-btn\"><i class=\"fa fa-info-circle\" aria-hidden=\"true\"></i></a>");
-                    html.Append("       <a href=\"/gia-tri-thuoc-tinh-san-pham.aspx?productvariableid=" + item.ID + "\" title=\"Xem thuộc tính\" class=\"btn primary-btn h45-btn\"><i class=\"fa fa-file-text-o\" aria-hidden=\"true\"></i></a>");
+                    html.Append("       <a href=\"/thong-tin-thuoc-tinh-san-pham?id=" + item.ID + "\" title=\"Xem chi tiết\" class=\"btn primary-btn h45-btn\"><i class=\"fa fa-info-circle\" aria-hidden=\"true\"></i></a>");
+                    html.Append("       <a href=\"/gia-tri-thuoc-tinh-san-pham?productvariableid=" + item.ID + "\" title=\"Xem thuộc tính\" class=\"btn primary-btn h45-btn\"><i class=\"fa fa-file-text-o\" aria-hidden=\"true\"></i></a>");
                     html.Append("   </td>");
                     html.Append("</tr>");
                 }

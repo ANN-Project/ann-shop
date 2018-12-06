@@ -81,7 +81,7 @@ namespace IM_PJ
             string fromdate = rFromDate.SelectedDate.ToString();
             string todate = rToDate.SelectedDate.ToString();
 
-            Response.Redirect("/thong-ke-phi-van-chuyen.aspx?fromdate=" + fromdate + "&todate=" + todate + "");
+            Response.Redirect("/thong-ke-phi-van-chuyen?fromdate=" + fromdate + "&todate=" + todate + "");
         }
     }
 }

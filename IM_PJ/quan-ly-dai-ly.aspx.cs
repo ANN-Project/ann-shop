@@ -83,7 +83,7 @@ namespace IM_PJ
                 //html.Append("   <td></td>");
                 //html.Append("   <td></td>");
                 //html.Append("   <td>");                
-                //html.Append("       <a href=\"/quan-ly-nhan-vien.aspx?agentid=0\" class=\"btn primary-btn h45-btn\">Danh sách nhân viên</a>");
+                //html.Append("       <a href=\"/quan-ly-nhan-vien?agentid=0\" class=\"btn primary-btn h45-btn\">Danh sách nhân viên</a>");
                 //html.Append("   </td>");
                 //html.Append("</tr>");
                 for (int i = FromRow; i < ToRow + 1; i++)
@@ -111,8 +111,8 @@ namespace IM_PJ
                     html.Append("   <td>" + date + "</td>");
                     html.Append("   <td>" + ishidden + "</td>");
                     html.Append("   <td>");
-                    html.Append("       <a href=\"/thong-tin-dai-ly.aspx?id=" + item.ID + "\" class=\"btn primary-btn h45-btn\">Chi tiết</a>");
-                    html.Append("       <a href=\"/tat-ca-nhan-vien.aspx?agentid=" + item.ID + "\" class=\"btn primary-btn h45-btn\">Nhân viên</a>");
+                    html.Append("       <a href=\"/thong-tin-dai-ly?id=" + item.ID + "\" class=\"btn primary-btn h45-btn\">Chi tiết</a>");
+                    html.Append("       <a href=\"/tat-ca-nhan-vien?agentid=" + item.ID + "\" class=\"btn primary-btn h45-btn\">Nhân viên</a>");
                     html.Append("   </td>");
                     html.Append("</tr>");
                 }

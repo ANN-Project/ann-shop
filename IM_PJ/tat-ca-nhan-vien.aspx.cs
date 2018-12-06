@@ -42,9 +42,9 @@ namespace IM_PJ
             }
         }
         [WebMethod]
-        public static string saveNote(int id, string note)
+        public static string saveNote(string id, string note)
         {
-            string update = AccountInfoController.updateNote(id, note);
+            string update = AccountInfoController.updateNote(id.ToInt(), note);
             if (update != null)
             {
                 return "true";
@@ -140,7 +140,7 @@ namespace IM_PJ
                     html.Append("   <td>" + status + "</td>");
                     html.Append("   <td>" + date + "</td>");
                     html.Append("   <td>");
-                    html.Append("       <a href=\"/thong-tin-nhan-vien.aspx?uid=" + item.ID + "\" class=\"btn primary-btn h45-btn\">Chi tiết</a>");
+                    html.Append("       <a href=\"/thong-tin-nhan-vien?uid=" + item.ID + "\" class=\"btn primary-btn h45-btn\">Chi tiết</a>");
                     html.Append("   </td>");
                     html.Append("</tr>");
                 }

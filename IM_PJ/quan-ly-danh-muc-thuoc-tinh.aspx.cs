@@ -100,7 +100,7 @@ namespace IM_PJ
                     html.Append("   <td>" + date + "</td>");
                     html.Append("   <td>");
                     html.Append("       <a href=\"/chi-tiet-danh-muc-thuoc-tinh?id=" + item.ID + "\" class=\"btn primary-btn h45-btn\">Chi tiết</a>");
-                    html.Append("       <a href=\"/quan-ly-thuoc-tinh-san-pham.aspx?id=" + item.ID + "\" class=\"btn primary-btn h45-btn\">Thuộc tính</a>");
+                    html.Append("       <a href=\"/quan-ly-thuoc-tinh-san-pham?id=" + item.ID + "\" class=\"btn primary-btn h45-btn\">Thuộc tính</a>");
                     html.Append("   </td>");
                     html.Append("</tr>");
                 }

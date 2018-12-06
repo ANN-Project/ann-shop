@@ -536,7 +536,7 @@
 
             // view return order by click button
             function viewReturnOrder(ID) {
-                var win = window.open("/thong-tin-tra-hang.aspx?id=" + ID + "", '_blank');
+                var win = window.open("/thong-tin-tra-hang?id=" + ID + "", '_blank');
                 win.focus();
             }
 

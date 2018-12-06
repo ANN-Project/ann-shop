@@ -106,7 +106,7 @@ namespace IM_PJ
             string fromdate = rFromDate.SelectedDate.ToString();
             string todate = rToDate.SelectedDate.ToString();
 
-            Response.Redirect("/thong-ke-so-luong-hang-doi-tra.aspx?fromdate=" + fromdate + "&todate=" + todate + "");
+            Response.Redirect("/thong-ke-so-luong-hang-doi-tra?fromdate=" + fromdate + "&todate=" + todate + "");
         }
 
         protected void btnReset_Click(object sender, EventArgs e)

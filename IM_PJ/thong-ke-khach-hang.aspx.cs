@@ -91,7 +91,7 @@ namespace IM_PJ
             string fromdate = rFromDate.SelectedDate.ToString();
             string todate = rToDate.SelectedDate.ToString();
 
-            Response.Redirect("/thong-ke-khach-hang.aspx?fromdate=" + fromdate + "&todate=" + todate + "");
+            Response.Redirect("/thong-ke-khach-hang?fromdate=" + fromdate + "&todate=" + todate + "");
         }
 
        

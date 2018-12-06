@@ -83,7 +83,7 @@ namespace IM_PJ
             string fromdate = rFromDate.SelectedDate.ToString();
             string todate = rToDate.SelectedDate.ToString();
 
-            Response.Redirect("/thong-ke-chiet-khau.aspx?fromdate=" + fromdate + "&todate=" + todate + "");
+            Response.Redirect("/thong-ke-chiet-khau?fromdate=" + fromdate + "&todate=" + todate + "");
         }
 
         protected void btnReset_Click(object sender, EventArgs e)

@@ -9,8 +9,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=yes">
     <meta name="format-detection" content="telephone=no">
     <meta name="robots" content="noindex, nofollow">
-    <link href="/App_Themes/Ann/css/style.css?v=2411" rel="stylesheet" media="all">
-    <link href="/App_Themes/Ann/css/style-P.css?v=2811" rel="stylesheet" media="all">
+    <link href="/App_Themes/Ann/css/style.css?v=02122019" rel="stylesheet" media="all">
+    <link href="/App_Themes/Ann/css/style-P.css?v=02122019" rel="stylesheet" media="all">
     <link href="/App_Themes/NewUI/js/sweet/sweet-alert.css" rel="stylesheet" />
     <link href="/App_Themes/NewUI/js/select2/select2.css" rel="stylesheet" />
     <link href="/App_Themes/Ann/css/HoldOn.css" rel="stylesheet" type="text/css" />
@@ -52,9 +52,11 @@
 
             <asp:HiddenField ID="hdfUserID" runat="server" />
             <div class="account-note">
-                <telerik:RadEditor CssClass="hide" runat="server" ID="txtNote" Width="100%" Height="350" ToolsFile="~/FilesResources/ToolContentAccount.xml" Skin="Metro" DialogHandlerUrl="~/Telerik.Web.UI.DialogHandler.axd" AutoResizeHeight="False" EnableResize="False" EditModes="Design">
-                    <ImageManager ViewPaths="~/uploads/images" UploadPaths="~/uploads/images" DeletePaths="~/uploads/images" />
-                </telerik:RadEditor>
+                <div onmouseleave="saveNote()">
+                    <telerik:RadEditor CssClass="hide" runat="server" ID="txtNote" Width="100%" Height="450" ToolsFile="~/FilesResources/ToolContentAccount.xml" Skin="Metro" DialogHandlerUrl="~/Telerik.Web.UI.DialogHandler.axd" AutoResizeHeight="False" EnableResize="False" EditModes="Design">
+                        <ImageManager ViewPaths="~/uploads/images" UploadPaths="~/uploads/images" DeletePaths="~/uploads/images" />
+                    </telerik:RadEditor>
+                </div>
                 <div>
                     <a onclick="zoomInNotePopup();" href="javascript:;" class="button-note primary-btn zoom-in-note-popup">Phóng to</a>
                     <a onclick="saveNote();" href="javascript:;" class="button-note primary-btn save-note">Lưu</a>
@@ -72,7 +74,8 @@
             <script src="/App_Themes/Ann/js/master.js?v=0107"></script>
             <script src="/App_Themes/Ann/js/HoldOn.js?v=2011"></script>
             <script type="text/javascript">
-                if (!$.cookie('showNotePopup5')) {
+
+                if (!$.cookie('showNotePopup11')) {
                     openNotePopup();
                 }
                 else {
@@ -85,55 +88,85 @@
                     var windowWidth = windowHeight - 100;
 
                     if ($('#<%=txtNote.ClientID%>').hasClass('zoom-in')) {
-                        noteEditor.setSize('390px', '350px');
-                        $('.account-note').attr('style', '');
+                        if ($(window).width() < 480) {
+                            noteEditor.setSize('350px', '450px');
+                            $('.account-note').attr('style', 'width: 360px; height: 500px;');
+                        }
+                        else {
+                            noteEditor.setSize('390px', '450px');
+                            $('.account-note').attr('style', 'width: 400px; height: 500px;');
+                        }
+                        
                         $('#<%=txtNote.ClientID%>').removeClass('zoom-in');
                         $('.zoom-in-note-popup').html('Phóng to');
                     }
                     else {
-                        noteEditor.setSize(windowWidth - 10, windowHeight - 150);
-                        $('.account-note').attr('style', 'height: ' + (windowHeight - 100) + 'px; width: ' + windowWidth + 'px;');
+                        if ($(window).width() < 480) {
+                            noteEditor.setSize('350px', '450px');
+                            $('.account-note').attr('style', 'width: 360px; height: 500px;');
+                        }
+                        else {
+                            noteEditor.setSize(windowWidth - 10, windowHeight - 150);
+                            $('.account-note').attr('style', 'height: ' + (windowHeight - 100) + 'px; width: ' + windowWidth + 'px;');
+                        }
                         $('#<%=txtNote.ClientID%>').addClass('zoom-in');
                         $('.zoom-in-note-popup').html('Thu nhỏ');
                     }
                 }
 
                 function openNotePopup() {
-                    $('.account-note').attr('style', 'height: 400px; width: 400px;');
                     $('#<%=txtNote.ClientID%>').removeClass('hide');
+
+                    if ($(window).width() < 480) {
+                        $('.account-note').attr('style', 'width: 360px; height: 500px;');
+                    }
+                    else {
+                        $('.account-note').attr('style', 'width: 400px; height: 500px;');
+                    }
+                    
                     $('.save-note').attr('style', 'display: block;');
                     $('.zoom-in-note-popup').attr('style', 'display: block;');
                     $('.close-note-popup').html('Đóng').attr('style', 'width: 33.33333%;');
-                    var noteEditor = $find("<%=txtNote.ClientID%>");
-                    noteEditor.setSize('390px', '350px');
+
                 }
 
                 function closeNotePopup() {
-                    $('.account-note').attr('style', 'height: 50px; width: 200px;');
                     $('#<%=txtNote.ClientID%>').addClass('hide');
+                    $('.account-note').attr('style', 'width: 200px; height: 50px;');
                     $('.save-note').attr('style', 'display: none;');
                     $('.zoom-in-note-popup').attr('style', 'display: none;');
                     $('.zoom-in-note-popup').html("Phóng to");
+
                     $('#<%=txtNote.ClientID%>').removeClass('zoom-in');
                     $('.close-note-popup').html('Mở ghi chú').attr('style', 'width: 100%;');
                 }
 
                 function toggleNotePopup() {
-                    if ($('#<%=txtNote.ClientID%>').is(":hidden")) {
+                    if ($("#<%=txtNote.ClientID%>").is(":hidden")) {
                         openNotePopup();
+
+                        var noteEditor = $find("<%=txtNote.ClientID%>");
+
+                        if ($(window).width() < 480) {
+                            noteEditor.setSize('350px', '450px');
+                        }
+                        else {
+                            noteEditor.setSize('390px', '450px');
+                        }
+                        
                     }
                     else {
                         closeNotePopup();
                         // cookie
                         var date = new Date();
-                        date.setTime(date.getTime() + 60 * 60 * 1000);
-                        $.cookie('showNotePopup5', true, { expires: date });
+                        date.setTime(date.getTime() + 30 * 60 * 1000);
+                        $.cookie('showNotePopup11', true, { expires: date });
                     }
                 }
 
                 function saveNote() {
                     var id = $('#<%=hdfUserID.ClientID%>').val();
-                    var noteEditor = $find("<%=txtNote.ClientID%>");    
+                    var noteEditor = $find("<%=txtNote.ClientID%>");
                     var content = noteEditor.get_html();
 
                     var dataToSend = JSON.stringify({ 'id': id, 'note': content });
@@ -149,10 +182,6 @@
                         }
                     });
                 }
-
-                $('#<%=txtNote.ClientID%>').mouseleave(function () {
-                    saveNote();
-                });
 
                 function screenClass() {
                     if ($(window).innerWidth() < 769) {

@@ -180,7 +180,7 @@
         <script type="text/javascript">
             
             function redirectTo(ID) {
-                window.location.href = "/xem-bai-viet.aspx?id=" +ID;
+                window.location.href = "/xem-bai-viet?id=" +ID;
             }
 
             function selectCategory(obj) {

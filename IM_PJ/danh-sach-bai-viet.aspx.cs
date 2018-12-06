@@ -289,11 +289,11 @@ namespace IM_PJ
                     html.Append("<tr class='item-" + item.ID + "'>");
 
                     html.Append("<td>");
-                    html.Append("   <a href=\"/xem-bai-viet.aspx?id=" + item.ID + "\"><img src=\"" + item.Image + "\"/></a>");
+                    html.Append("   <a href=\"/xem-bai-viet?id=" + item.ID + "\"><img src=\"" + item.Image + "\"/></a>");
                     html.Append("   <a href=\"javascript:;\" onclick=\"copyPostInfo(" + item.ID + ")\" class=\"btn download-btn h45-btn\"><i class=\"fa fa-files-o\"></i> Copy</a>");
                     html.Append("</td>");
 
-                    html.Append("   <td class=\"customer-name-link\"><a href=\"/xem-bai-viet.aspx?id=" + item.ID + "\">" + item.Title + "</a></td>");
+                    html.Append("   <td class=\"customer-name-link\"><a href=\"/xem-bai-viet?id=" + item.ID + "\">" + item.Title + "</a></td>");
 
                     if (item.Featured == 1)
                     {

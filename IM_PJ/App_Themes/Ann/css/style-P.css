@@ -1144,13 +1144,20 @@ body {
     }
 }
 @media (max-width: 769px) {
+    .account-note {
+        position: fixed;
+        right: 0;
+        bottom: 70px;
+    }
     #header .hd-left {
         margin-left: 25px;
     }
+
 }
-#header {
-    padding: 0 10px;
-}
+
+    #header {
+        padding: 0 10px;
+    }
 
     #header:before {
         background-color: #32373c;

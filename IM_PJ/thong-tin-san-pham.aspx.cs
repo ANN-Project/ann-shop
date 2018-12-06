@@ -136,7 +136,7 @@ namespace IM_PJ
                     ViewState["SKU"] = p.ProductSKU;
                     hdfParentID.Value = p.CategoryID.ToString();
                     hdfsetStyle.Value = p.ProductStyle.ToString();
-                    ltrBack.Text = "<a href=\"/xem-san-pham.aspx?id=" + p.ID + "\" class=\"btn primary-btn fw-btn not-fullwidth\">Trở về</a>";
+                    ltrBack.Text = "<a href=\"/xem-san-pham?id=" + p.ID + "\" class=\"btn primary-btn fw-btn not-fullwidth\">Trở về</a>";
                     txtProductTitle.Text = p.ProductTitle;
                     pContent.Content = p.ProductContent;
                     txtProductSKU.Text = p.ProductSKU;

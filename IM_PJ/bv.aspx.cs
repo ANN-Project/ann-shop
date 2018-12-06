@@ -153,8 +153,8 @@ namespace IM_PJ
 
                     html.Append("<div class='row'>");
                     html.Append("     <div class='col-xs-12'>");
-                    html.Append("   <p><a href='/xem-bv.aspx?id=" + item.ID + "'><img src='" + item.Image + "'></a></p>");
-                    html.Append("   <h3 class='product-name'><a href='/xem-bv.aspx?id=" + item.ID + "'>" + item.Title + "</a></h3>");
+                    html.Append("   <p><a href='/xem-bv?id=" + item.ID + "'><img src='" + item.Image + "'></a></p>");
+                    html.Append("   <h3 class='product-name'><a href='/xem-bv?id=" + item.ID + "'>" + item.Title + "</a></h3>");
                     html.Append("   <p>🔖 " + string.Format("{0:dd/MM/yyyy}", item.CreatedDate) + "</p>");
                     html.Append("     </div>");
                     html.Append("</div>");

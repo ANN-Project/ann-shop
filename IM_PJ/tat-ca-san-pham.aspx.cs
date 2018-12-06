@@ -402,11 +402,11 @@ namespace IM_PJ
                     html.Append("<tr>");
 
                     html.Append("<td>");
-                    html.Append("   <a href=\"/xem-san-pham.aspx?id=" + item.ID + "\"><img src=\"" + item.ProductImage + "\"/></a>");
+                    html.Append("   <a href=\"/xem-san-pham?id=" + item.ID + "\"><img src=\"" + item.ProductImage + "\"/></a>");
                     html.Append("   <a href=\"javascript:;\" onclick=\"copyProductInfo(" + item.ID + ")\" class=\"btn download-btn h45-btn\"><i class=\"fa fa-files-o\"></i> Copy</a>");
                     html.Append("</td>");
 
-                    html.Append("   <td class=\"customer-name-link\"><a href=\"/xem-san-pham.aspx?id=" + item.ID + "\">" + item.ProductTitle + "</a></td>");
+                    html.Append("   <td class=\"customer-name-link\"><a href=\"/xem-san-pham?id=" + item.ID + "\">" + item.ProductTitle + "</a></td>");
                     html.Append("   <td class=\"customer-name-link\">" + item.ProductSKU + "</td>");
                     html.Append("   <td>" + string.Format("{0:N0}", item.RegularPrice) + "</td>");
                     if (acc.RoleID == 0)

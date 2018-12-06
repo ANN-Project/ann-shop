@@ -109,7 +109,7 @@ namespace IM_PJ
                 ltrEdit1.Text = "";
                 if (Convert.ToInt32(ViewState["role"]) == 0 || Convert.ToInt32(ViewState["role"]) == 1)
                 {
-                    ltrEdit1.Text += "<a href=\"/thong-tin-san-pham.aspx?id=" + p.ID + "\" class=\"btn primary-btn fw-btn not-fullwidth\"><i class=\"fa fa-pencil-square-o\" aria-hidden=\"true\"></i> Chỉnh sửa</a>";
+                    ltrEdit1.Text += "<a href=\"/thong-tin-san-pham?id=" + p.ID + "\" class=\"btn primary-btn fw-btn not-fullwidth\"><i class=\"fa fa-pencil-square-o\" aria-hidden=\"true\"></i> Chỉnh sửa</a>";
                     ltrEdit1.Text += "<a href=\"/tao-san-pham\" class=\"btn primary-btn fw-btn not-fullwidth print-invoice-merged\"><i class=\"fa fa-file-text-o\" aria-hidden=\"true\"></i> Thêm mới</a>";
                     ltrEdit1.Text += "<a href=\"javascript:;\" onclick=\"ShowUpProductToWeb('" + p.ProductSKU + "', '" + p.ID + "', 'false', 'false');\" class=\"up-product-" + p.ID + " btn primary-btn not-fullwidth print-invoice-merged " + (p.ShowHomePage == 1 ? "" : "hide") + "\"><i class=\"fa fa-upload\" aria-hidden=\"true\"></i> Đồng bộ</a>";
                 }
@@ -270,8 +270,8 @@ namespace IM_PJ
                     html.Append("   <td>" + date + "</td>");
                     html.Append("   <td>" + ishidden + "</td>");
                     html.Append("   <td>");
-                    html.Append("       <a href=\"/thong-tin-thuoc-tinh-san-pham.aspx?id=" + item.ID + "\" title=\"Xem chi tiết\" class=\"btn primary-btn h45-btn\"><i class=\"fa fa-info-circle\" aria-hidden=\"true\"></i></a>");
-                    html.Append("       <a href=\"/gia-tri-thuoc-tinh-san-pham.aspx?productvariableid=" + item.ID + "\" title=\"Xem thuộc tính\" class=\"btn primary-btn h45-btn\"><i class=\"fa fa-file-text-o\" aria-hidden=\"true\"></i></a>");
+                    html.Append("       <a href=\"/thong-tin-thuoc-tinh-san-pham?id=" + item.ID + "\" title=\"Xem chi tiết\" class=\"btn primary-btn h45-btn\"><i class=\"fa fa-info-circle\" aria-hidden=\"true\"></i></a>");
+                    html.Append("       <a href=\"/gia-tri-thuoc-tinh-san-pham?productvariableid=" + item.ID + "\" title=\"Xem thuộc tính\" class=\"btn primary-btn h45-btn\"><i class=\"fa fa-file-text-o\" aria-hidden=\"true\"></i></a>");
                     html.Append("   </td>");
                     html.Append("</tr>");
                 }

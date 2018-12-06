@@ -348,7 +348,7 @@
             });
             
             function redirectTo(ID) {
-                window.location.href = "/xem-san-pham.aspx?id=" +ID;
+                window.location.href = "/xem-san-pham?id=" +ID;
             }
 
             function chooseVariable() {

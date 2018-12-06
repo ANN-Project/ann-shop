@@ -3,7 +3,7 @@
 <%@ Register Assembly="Telerik.Web.UI" Namespace="Telerik.Web.UI" TagPrefix="telerik" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
     <script src="/App_Themes/Ann/js/search-customer.js?v=2110"></script>
-    <script src="/App_Themes/Ann/js/search-product.js?v=01122018"></script>
+    <script src="/App_Themes/Ann/js/search-product.js?v=02122018"></script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <asp:Panel ID="parent" runat="server">
@@ -595,19 +595,19 @@
                                 }, function (isConfirm) {
                                     if (isConfirm) {
                                         sweetAlert.close();
-                                        window.open("/print-shipping-note.aspx?id=" + ID, "_blank");
+                                        window.open("/print-shipping-note?id=" + ID, "_blank");
                                     }
                                 });
                             }
                             else {
                                 sweetAlert.close();
-                                window.open("/print-shipping-note.aspx?id=" + ID, "_blank");
+                                window.open("/print-shipping-note?id=" + ID, "_blank");
                             }
                         }
                     });
                 }
                 else {
-                    window.open("/print-shipping-note.aspx?id=" + ID, "_blank");
+                    window.open("/print-shipping-note?id=" + ID, "_blank");
                 }
             }
 
@@ -626,12 +626,12 @@
                     }, function (isConfirm) {
                         if (isConfirm) {
                             sweetAlert.close();
-                            window.open("/print-invoice.aspx?id=" + ID, "_blank");
+                            window.open("/print-invoice?id=" + ID, "_blank");
                         }
                     });
                 }
                 else {
-                    window.open("/print-invoice.aspx?id=" + ID, "_blank");
+                    window.open("/print-invoice?id=" + ID, "_blank");
                 }
             }
 
@@ -862,7 +862,7 @@
 
             // view return order by click button
             function viewReturnOrder(ID) {
-                var win = window.open("/thong-tin-tra-hang.aspx?id=" + ID + "", '_blank');
+                var win = window.open("/thong-tin-tra-hang?id=" + ID + "", '_blank');
                 win.focus();
             }
 

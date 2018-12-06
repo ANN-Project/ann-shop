@@ -122,7 +122,7 @@ namespace IM_PJ
             string fromdate = rFromDate.SelectedDate.ToString();
             string todate = rToDate.SelectedDate.ToString();
 
-            Response.Redirect(String.Format("/thong-ke-nhan-vien.aspx?accountName={0}&fromdate={1}&todate={2}", accountName,fromdate, todate));
+            Response.Redirect(String.Format("/thong-ke-nhan-vien?accountName={0}&fromdate={1}&todate={2}", accountName,fromdate, todate));
         }
     }
 }

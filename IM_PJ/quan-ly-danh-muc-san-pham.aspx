@@ -33,7 +33,7 @@
         <script src="/App_Themes/NewUI/js/ui-tree.js"></script>
         <script type="text/javascript">
             function editCategory(ID) {
-                window.location.href = "/thong-tin-danh-muc-san-pham.aspx?id=" + ID;
+                window.location.href = "/thong-tin-danh-muc-san-pham?id=" + ID;
             }
             function AddChildCategory(ID) {
                 var win = window.open("/tat-ca-san-pham?categoryid=" + ID + "", '_blank');

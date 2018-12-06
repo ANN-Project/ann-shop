@@ -49,7 +49,7 @@ namespace IM_PJ
                     txtSKUText.Text = d.SKUText;
                     int ID = Convert.ToInt32(d.VariableID);
                     chkIsHidden.Checked = Convert.ToBoolean(d.IsHidden);
-                    ltrBack.Text = "<a href=\"/quan-ly-thuoc-tinh-san-pham.aspx?id=" + ID + "\" class=\"btn primary-btn fw-btn not-fullwidth\">Trở về</a>";
+                    ltrBack.Text = "<a href=\"/quan-ly-thuoc-tinh-san-pham?id=" + ID + "\" class=\"btn primary-btn fw-btn not-fullwidth\">Trở về</a>";
                 }
             }
         }

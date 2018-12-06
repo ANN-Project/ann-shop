@@ -97,7 +97,7 @@ namespace IM_PJ
                     html.Append("   <td>" + date + "</td>");
                     html.Append("   <td>" + ishidden + "</td>");
                     html.Append("   <td>");
-                    html.Append("       <a href=\"/thong-tin-gia-tri-thuoc-tinh.aspx?id=" + item.ID + "\" class=\"btn primary-btn h45-btn\">Chi tiết</a>");
+                    html.Append("       <a href=\"/thong-tin-gia-tri-thuoc-tinh?id=" + item.ID + "\" class=\"btn primary-btn h45-btn\">Chi tiết</a>");
                     html.Append("   </td>");
                     html.Append("</tr>");
                 }

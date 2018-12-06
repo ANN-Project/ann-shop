@@ -94,7 +94,7 @@ namespace IM_PJ
                     ViewState["ID"] = id;
                     ViewState["cateID"] = p.CategoryID;
                     hdfParentID.Value = p.CategoryID.ToString();
-                    ltrBack.Text = "<a href=\"/xem-bai-viet.aspx?id=" + p.ID + "\" class=\"btn primary-btn fw-btn not-fullwidth\">Trở về</a>";
+                    ltrBack.Text = "<a href=\"/xem-bai-viet?id=" + p.ID + "\" class=\"btn primary-btn fw-btn not-fullwidth\">Trở về</a>";
                     txtPostTitle.Text = p.Title;
                     pContent.Content = p.Content;
                     ddlCategory.SelectedValue = p.CategoryID.ToString();

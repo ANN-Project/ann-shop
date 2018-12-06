@@ -90,7 +90,7 @@ namespace IM_PJ
             string fromdate = rFromDate.SelectedDate.ToString();
             string todate = rToDate.SelectedDate.ToString();
 
-            Response.Redirect("/thong-ke-so-luong-san-pham-ban-ra.aspx?fromdate=" + fromdate + "&todate=" + todate + "");
+            Response.Redirect("/thong-ke-so-luong-san-pham-ban-ra?fromdate=" + fromdate + "&todate=" + todate + "");
         }
     }
 }
