@@ -76,7 +76,12 @@
             <script type="text/javascript">
 
                 if (!$.cookie('showNotePopup11')) {
-                    openNotePopup();
+                    if ($(window).width() < 480) {
+                        closeNotePopup();
+                    }
+                    else {
+                        openNotePopup();
+                    }
                 }
                 else {
                     closeNotePopup();
@@ -127,7 +132,6 @@
                     $('.save-note').attr('style', 'display: block;');
                     $('.zoom-in-note-popup').attr('style', 'display: block;');
                     $('.close-note-popup').html('Đóng').attr('style', 'width: 33.33333%;');
-
                 }
 
                 function closeNotePopup() {
@@ -153,13 +157,12 @@
                         else {
                             noteEditor.setSize('390px', '450px');
                         }
-                        
                     }
                     else {
                         closeNotePopup();
                         // cookie
                         var date = new Date();
-                        date.setTime(date.getTime() + 30 * 60 * 1000);
+                        date.setTime(date.getTime() + 45 * 60 * 1000);
                         $.cookie('showNotePopup11', true, { expires: date });
                     }
                 }

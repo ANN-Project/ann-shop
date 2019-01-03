@@ -3,7 +3,7 @@
 <%@ Register Assembly="Telerik.Web.UI" Namespace="Telerik.Web.UI" TagPrefix="telerik" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
     <script src="/App_Themes/Ann/js/search-customer.js?v=2110"></script>
-    <script src="/App_Themes/Ann/js/search-product.js?v=02122018"></script>
+    <script src="/App_Themes/Ann/js/search-product.js?v=07122018"></script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <asp:Panel ID="parent" runat="server">
@@ -545,12 +545,17 @@
                         confirmButtonText: "OK nè..",
                     }, function (otherFeeValue) {
                         if (otherFeeValue != false) {
-                            $(".otherfee-name").html(otherFeeName);
-                            $("#<%=txtOtherFeeName.ClientID%>").val(otherFeeName);
-                            $("#<%=pOtherFee.ClientID%>").val(otherFeeValue).focus();
-                            $(".otherfee").removeClass("hide");
+                            if (!isNaN(otherFeeValue)) {
+                                $(".otherfee-name").html(otherFeeName);
+                                $("#<%=txtOtherFeeName.ClientID%>").val(otherFeeName);
+                                $("#<%=pOtherFee.ClientID%>").val(otherFeeValue).focus();
+                                $(".otherfee").removeClass("hide");
 
-                            getAllPrice();
+                                getAllPrice();
+                            }
+                            else {
+                                alert("Sai rồi! Phải nhập phí khác là số (ví dụ: 10000 hoặc -10000)");
+                            }
                         }
                     });
                 });

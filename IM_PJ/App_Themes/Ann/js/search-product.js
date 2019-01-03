@@ -82,7 +82,7 @@ function check(row) {
 function changeQuantityPopup(obj) {
     var current = obj.val();
 
-    if (current === 0 || current === "" || current === null) {
+    if (current == 0 || current === "" || current === null) {
         obj.val("1");
     }
 }
@@ -93,11 +93,11 @@ function pressKeyQuantityPopup(obj) {
             // Filter non-digits from input value.
             this.value = this.value.replace(/\D/g, '');
         }
-        else if (e.which === 40) {
+        else if (e.which == 40) {
             // press down 
             $(this).closest('tr').next().find('td:eq(' + $(this).closest('td').index() + ')').find(".in-quantity").focus().select();
         }
-        else if (e.which === 38) {
+        else if (e.which == 38) {
             // press up
             $(this).closest('tr').prev().find('td:eq(' + $(this).closest('td').index() + ')').find(".in-quantity").focus().select();
         }
@@ -118,9 +118,9 @@ function selectProduct() {
         productTarget.Quantity = quantity;
 
         productChecked.push(productTarget);
-    })
+    });
 
-    addProduct(productChecked)
+    addProduct(productChecked);
 
     closePopup();
     $("#txtSearch").focus();
@@ -134,7 +134,7 @@ function addHtmlProductResult(item) {
     let ProductVariableValue = "";
     let ProductVariableSave = "";
 
-    if (item.ProductStyle === 1) {
+    if (item.ProductStyle == 1) {
         SKU = item.ParentSKU;
     }
     else {
@@ -198,7 +198,7 @@ function addHtmlProductResult(item) {
     html += "   <td class='sku-item'>" + SKU + "</td>";
     html += "   <td class='variable-item'>" + item.VariableValue + "</td>";
 
-    if (customerType === 1) {
+    if (customerType == 1) {
         if (item.RetailPrice > 0) {
             html += "   <td class='price-item gia-san-pham' data-price='" + item.RetailPrice + "'>" + formatThousands(item.RetailPrice, ',') + "</td>";
         }
@@ -252,7 +252,7 @@ function reIndex() {
 function checkQuantiy(obj) {
     var current = obj.val();
 
-    if (current === 0 || current === "" || current === null) {
+    if (current == 0 || current === "" || current === null) {
         obj.val("1");
     }
 
@@ -274,11 +274,11 @@ function pressKeyQuantity(obj) {
             // Filter non-digits from input value.
             this.value = this.value.replace(/\D/g, '');
         }
-        else if (e.which === 40) {
+        else if (e.which == 40) {
             // press down 
             $(this).closest('tr').next().find('td:eq(' + $(this).closest('td').index() + ')').find(".in-quantity").focus().select();
         }
-        else if (e.which === 38) {
+        else if (e.which == 38) {
             // press up
             $(this).closest('tr').prev().find('td:eq(' + $(this).closest('td').index() + ')').find(".in-quantity").focus().select();
         }
@@ -308,7 +308,7 @@ function deleteRow(obj) {
                 id = row.attr("data-orderdetailid");
                 sku = row.attr("data-sku");
 
-                if (row.attr("data-producttype") === 1) {
+                if (row.attr("data-producttype") == 1) {
                     productID = row.attr("data-productid");
                 }
                 else {
@@ -360,7 +360,7 @@ function addProduct(products) {
             target.find(".totalprice-view").html(formatThousands(price, ','));
         }
         else {
-            addHtmlProductResult(item)
+            addHtmlProductResult(item);
         }
     });
 
